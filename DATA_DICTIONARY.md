@@ -26,6 +26,9 @@ data/{SYMBOL}/
       trades/                         .zip → .csv (NO header row)
       aggTrades/                      .zip → .csv (NO header row)
       klines/{interval}/              .zip → .csv (NO header row)
+  okx/
+    futures/                          .zip → .csv (has header row)
+    spot/                             .zip → .csv (has header row)
 ```
 
 > **Note:** Binance spot CSVs have **no header row**. Column names listed below must be
@@ -260,6 +263,59 @@ Same 12-column schema as [Klines](#klines-ohlcv-candlesticks), but OHLC values r
 
 ---
 
+## OKX
+
+All files sourced from `https://static.okx.com/cdn/okex/traderecords/trades/daily/`.
+
+### OKX Futures (Perpetual Swap Trades)
+
+**Source:** `https://static.okx.com/cdn/okex/traderecords/trades/daily/{YYYYMMDD}/`
+**File format:** `.zip` → `.csv` with header
+**Filename pattern:** `{BASE}-{QUOTE}-SWAP-trades-{YYYY-MM-DD}.zip`
+
+| Column            | Type   | Description                                          |
+|-------------------|--------|------------------------------------------------------|
+| `instrument_name` | string | Instrument identifier (e.g. `BTC-USDT-SWAP`)        |
+| `trade_id`        | int    | Trade ID                                             |
+| `side`            | string | Trade direction: `buy` or `sell` (lowercase)         |
+| `price`           | float  | Execution price                                      |
+| `size`            | float  | Trade quantity in contracts (base asset)             |
+| `created_time`    | int    | Unix timestamp in milliseconds                       |
+
+**Example:**
+```
+instrument_name,trade_id,side,price,size,created_time
+BTC-USDT-SWAP,1566502282,sell,104503.0,30.14,1748707200008
+```
+
+---
+
+### OKX Spot (Trades)
+
+**Source:** `https://static.okx.com/cdn/okex/traderecords/trades/daily/{YYYYMMDD}/`
+**File format:** `.zip` → `.csv` with header
+**Filename pattern:** `{BASE}-{QUOTE}-trades-{YYYY-MM-DD}.zip`
+
+| Column            | Type   | Description                                          |
+|-------------------|--------|------------------------------------------------------|
+| `instrument_name` | string | Instrument identifier (e.g. `BTC-USDT`)             |
+| `trade_id`        | int    | Trade ID                                             |
+| `side`            | string | Trade direction: `buy` or `sell` (lowercase)         |
+| `price`           | float  | Execution price                                      |
+| `size`            | float  | Trade quantity in base asset                         |
+| `created_time`    | int    | Unix timestamp in milliseconds                       |
+
+**Example:**
+```
+instrument_name,trade_id,side,price,size,created_time
+BTC-USDT,747835547,buy,104554.2,1.912e-05,1748707200531
+```
+
+> **Note:** OKX spot `size` for BTC pairs can be very small (scientific notation).
+> The `quote_quantity` (price × size) is not provided and must be computed.
+
+---
+
 ## Binance Spot
 
 All files sourced from `https://data.binance.vision/data/spot/daily/`.
@@ -355,6 +411,8 @@ pd.read_csv("SOLUSDT-trades-2026-01-01.zip",
 | Binance spot        | **Microseconds** (int)              | Since 2025-01-01 per Binance docs  |
 | Binance bookDepth   | UTC datetime string                 | `YYYY-MM-DD HH:MM:SS`             |
 | Binance metrics     | UTC datetime string                 | `YYYY-MM-DD HH:MM:SS`             |
+| OKX futures         | Milliseconds (int)                  | All data types                     |
+| OKX spot            | Milliseconds (int)                  | All data types                     |
 
 ---
 

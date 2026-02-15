@@ -1,41 +1,32 @@
 #!/usr/bin/env python3
 """
-Convert raw downloaded market data into analysis-ready parquet files.
+Convert raw downloaded market data into daily-partitioned parquet files.
 
 Reads from:  data/{SYMBOL}/  (output of download_market_data.py)
 Writes to:   parquet/{SYMBOL}/
 
-Output structure:
+Output structure (one file per day per source):
   parquet/{SYMBOL}/
-    trades/
-      bybit_futures.parquet       # normalized raw trades
-      bybit_spot.parquet
-      binance_futures.parquet
-      binance_spot.parquet
-    ohlcv/
-      {interval}/                 # 1m, 5m, 15m, 1h  (computed from raw trades)
-        bybit_futures.parquet
-        bybit_spot.parquet
-        binance_futures.parquet
-        binance_spot.parquet
+    trades/{source}/{YYYY-MM-DD}.parquet
+    ohlcv/{interval}/{source}/{YYYY-MM-DD}.parquet
     binance/
-      metrics.parquet             # open interest, funding, long/short ratios
-      book_depth.parquet          # order book depth snapshots
-      agg_trades_futures.parquet  # aggregate trades (futures)
-      agg_trades_spot.parquet     # aggregate trades (spot)
-      klines_futures/             # pre-computed klines from Binance (for cross-check)
-        {interval}.parquet
-      klines_spot/
-        {interval}.parquet
-      index_price_klines/
-        {interval}.parquet
-      mark_price_klines/
-        {interval}.parquet
-      premium_index_klines/
-        {interval}.parquet
+      metrics/{YYYY-MM-DD}.parquet
+      book_depth/{YYYY-MM-DD}.parquet
+      agg_trades_futures/{YYYY-MM-DD}.parquet
+      agg_trades_spot/{YYYY-MM-DD}.parquet
+      klines_futures/{interval}/{YYYY-MM-DD}.parquet
+      klines_spot/{interval}/{YYYY-MM-DD}.parquet
+      index_price_klines_futures/{interval}/{YYYY-MM-DD}.parquet
+      mark_price_klines_futures/{interval}/{YYYY-MM-DD}.parquet
+      premium_index_klines_futures/{interval}/{YYYY-MM-DD}.parquet
+
+Sources for trades/ohlcv:
+  bybit_futures, bybit_spot, binance_futures, binance_spot,
+  okx_futures, okx_spot
 
 All timestamps are normalized to microseconds (int64, UTC).
 All parquet files are sorted by timestamp and use snappy compression.
+Existing parquet files are skipped (incremental builds).
 
 Usage:
   python build_parquet.py SOLUSDT
@@ -44,17 +35,12 @@ Usage:
 """
 
 import argparse
-import glob
-import gzip
-import io
+import re
 import sys
-import zipfile
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import pyarrow as pa
-import pyarrow.parquet as pq
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -64,28 +50,14 @@ DEFAULT_OHLCV_INTERVALS = ["1m", "5m", "15m", "1h"]
 
 PARQUET_WRITE_OPTS = dict(compression="snappy", use_dictionary=True)
 
-# Unified trades schema: all sources normalize to these columns
+# Unified trades schema
 TRADES_COLUMNS = [
-    "timestamp_us",   # int64, microseconds since epoch (UTC)
-    "price",          # float64
-    "quantity",       # float64, base asset
+    "timestamp_us",    # int64, microseconds since epoch (UTC)
+    "price",           # float64
+    "quantity",        # float64, base asset
     "quote_quantity",  # float64, quote asset (price * quantity)
-    "side",           # int8: 1 = buy, -1 = sell
-    "trade_id",       # string, source-specific ID
-]
-
-OHLCV_COLUMNS = [
-    "timestamp_us",        # int64, bar open time (microseconds)
-    "open",                # float64
-    "high",                # float64
-    "low",                 # float64
-    "close",               # float64
-    "volume",              # float64, base asset
-    "quote_volume",        # float64, quote asset
-    "trade_count",         # int64
-    "buy_volume",          # float64, taker buy volume (base)
-    "sell_volume",         # float64, taker sell volume (base)
-    "vwap",                # float64, volume-weighted average price
+    "side",            # int8: 1 = buy, -1 = sell
+    "trade_id",        # string, source-specific ID
 ]
 
 # ---------------------------------------------------------------------------
@@ -99,17 +71,20 @@ def find_files(directory: Path, pattern: str) -> list[Path]:
 
 
 def read_csv_gz(path: Path, **kwargs) -> pd.DataFrame:
-    """Read a gzip-compressed CSV."""
     return pd.read_csv(path, compression="gzip", **kwargs)
 
 
 def read_csv_zip(path: Path, **kwargs) -> pd.DataFrame:
-    """Read a zip-compressed CSV (first file in archive)."""
     return pd.read_csv(path, compression="zip", **kwargs)
 
 
+def extract_date_from_filename(fname: str) -> str | None:
+    """Extract YYYY-MM-DD date from a filename."""
+    m = re.search(r"(\d{4}-\d{2}-\d{2})", fname)
+    return m.group(1) if m else None
+
+
 def interval_to_us(interval: str) -> int:
-    """Convert interval string to microseconds."""
     unit = interval[-1]
     val = int(interval[:-1])
     multipliers = {"s": 1_000_000, "m": 60_000_000, "h": 3_600_000_000, "d": 86_400_000_000}
@@ -117,138 +92,129 @@ def interval_to_us(interval: str) -> int:
 
 
 def write_parquet(df: pd.DataFrame, path: Path, sort_col: str = "timestamp_us"):
-    """Write a DataFrame to parquet, sorted by timestamp."""
     if df.empty:
-        print(f"    SKIP (empty): {path}")
-        return
+        return False
     df = df.sort_values(sort_col).reset_index(drop=True)
     path.parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(path, index=False, **PARQUET_WRITE_OPTS)
-    rows = len(df)
-    size_mb = path.stat().st_size / (1024 * 1024)
-    print(f"    WROTE: {path}  ({rows:,} rows, {size_mb:.1f} MB)")
+    return True
 
 
 # ---------------------------------------------------------------------------
-# Trade parsers — one per source, all return unified schema
+# Trade parsers — each returns (date_str, DataFrame) for a single file
 # ---------------------------------------------------------------------------
 
 
-def parse_bybit_futures_trades(data_dir: Path) -> pd.DataFrame:
-    """Parse Bybit futures trade CSVs into unified format."""
-    files = find_files(data_dir / "bybit" / "futures", "*.csv.gz")
-    if not files:
-        return pd.DataFrame()
-
-    dfs = []
-    for f in files:
-        df = read_csv_gz(f)
-        # timestamp is seconds float → convert to microseconds int
-        parsed = pd.DataFrame({
-            "timestamp_us": (df["timestamp"] * 1_000_000).astype(np.int64),
-            "price": df["price"].astype(np.float64),
-            "quantity": df["size"].astype(np.float64),
-            "quote_quantity": df["foreignNotional"].astype(np.float64),
-            "side": np.where(df["side"] == "Buy", np.int8(1), np.int8(-1)),
-            "trade_id": df["trdMatchID"].astype(str),
-        })
-        dfs.append(parsed)
-
-    return pd.concat(dfs, ignore_index=True)
+def parse_bybit_futures_trade_file(path: Path) -> tuple[str, pd.DataFrame]:
+    """Parse one Bybit futures trade CSV. Filename: {SYMBOL}{YYYY-MM-DD}.csv.gz"""
+    date = extract_date_from_filename(path.name)
+    df = read_csv_gz(path)
+    parsed = pd.DataFrame({
+        "timestamp_us": (df["timestamp"] * 1_000_000).astype(np.int64),
+        "price": df["price"].astype(np.float64),
+        "quantity": df["size"].astype(np.float64),
+        "quote_quantity": df["foreignNotional"].astype(np.float64),
+        "side": np.where(df["side"] == "Buy", np.int8(1), np.int8(-1)),
+        "trade_id": df["trdMatchID"].astype(str),
+    })
+    return date, parsed
 
 
-def parse_bybit_spot_trades(data_dir: Path) -> pd.DataFrame:
-    """Parse Bybit spot trade CSVs into unified format."""
-    files = find_files(data_dir / "bybit" / "spot", "*.csv.gz")
-    if not files:
-        return pd.DataFrame()
-
-    dfs = []
-    for f in files:
-        df = read_csv_gz(f)
-        # timestamp is milliseconds int → convert to microseconds
-        parsed = pd.DataFrame({
-            "timestamp_us": (df["timestamp"] * 1_000).astype(np.int64),
-            "price": df["price"].astype(np.float64),
-            "quantity": df["volume"].astype(np.float64),
-            "quote_quantity": (df["price"].astype(np.float64) * df["volume"].astype(np.float64)),
-            "side": np.where(df["side"] == "buy", np.int8(1), np.int8(-1)),
-            "trade_id": df["id"].astype(str),
-        })
-        dfs.append(parsed)
-
-    return pd.concat(dfs, ignore_index=True)
+def parse_bybit_spot_trade_file(path: Path) -> tuple[str, pd.DataFrame]:
+    """Parse one Bybit spot trade CSV. Filename: {SYMBOL}_{YYYY-MM-DD}.csv.gz"""
+    date = extract_date_from_filename(path.name)
+    df = read_csv_gz(path)
+    parsed = pd.DataFrame({
+        "timestamp_us": (df["timestamp"] * 1_000).astype(np.int64),
+        "price": df["price"].astype(np.float64),
+        "quantity": df["volume"].astype(np.float64),
+        "quote_quantity": (df["price"].astype(np.float64) * df["volume"].astype(np.float64)),
+        "side": np.where(df["side"] == "buy", np.int8(1), np.int8(-1)),
+        "trade_id": df["id"].astype(str),
+    })
+    return date, parsed
 
 
-def parse_binance_futures_trades(data_dir: Path) -> pd.DataFrame:
-    """Parse Binance futures trade CSVs into unified format."""
-    files = find_files(data_dir / "binance" / "futures" / "trades", "*.zip")
-    if not files:
-        return pd.DataFrame()
-
-    dfs = []
-    for f in files:
-        df = read_csv_zip(f)
-        # time is milliseconds → convert to microseconds
-        parsed = pd.DataFrame({
-            "timestamp_us": (df["time"] * 1_000).astype(np.int64),
-            "price": df["price"].astype(np.float64),
-            "quantity": df["qty"].astype(np.float64),
-            "quote_quantity": df["quote_qty"].astype(np.float64),
-            "side": np.where(df["is_buyer_maker"].astype(str).str.lower() == "true",
-                             np.int8(-1), np.int8(1)),
-            "trade_id": df["id"].astype(str),
-        })
-        dfs.append(parsed)
-
-    return pd.concat(dfs, ignore_index=True)
+def parse_binance_futures_trade_file(path: Path) -> tuple[str, pd.DataFrame]:
+    """Parse one Binance futures trade ZIP. Filename: {SYMBOL}-trades-{YYYY-MM-DD}.zip"""
+    date = extract_date_from_filename(path.name)
+    df = read_csv_zip(path)
+    parsed = pd.DataFrame({
+        "timestamp_us": (df["time"] * 1_000).astype(np.int64),
+        "price": df["price"].astype(np.float64),
+        "quantity": df["qty"].astype(np.float64),
+        "quote_quantity": df["quote_qty"].astype(np.float64),
+        "side": np.where(df["is_buyer_maker"].astype(str).str.lower() == "true",
+                         np.int8(-1), np.int8(1)),
+        "trade_id": df["id"].astype(str),
+    })
+    return date, parsed
 
 
-def parse_binance_spot_trades(data_dir: Path) -> pd.DataFrame:
-    """Parse Binance spot trade CSVs (no header) into unified format."""
-    files = find_files(data_dir / "binance" / "spot" / "trades", "*.zip")
-    if not files:
-        return pd.DataFrame()
-
+def parse_binance_spot_trade_file(path: Path) -> tuple[str, pd.DataFrame]:
+    """Parse one Binance spot trade ZIP (no header)."""
+    date = extract_date_from_filename(path.name)
     col_names = ["trade_id", "price", "qty", "quote_qty", "time",
                  "is_buyer_maker", "is_best_match"]
-    dfs = []
-    for f in files:
-        df = read_csv_zip(f, header=None, names=col_names)
-        # time is microseconds since 2025-01-01
-        parsed = pd.DataFrame({
-            "timestamp_us": df["time"].astype(np.int64),
-            "price": df["price"].astype(np.float64),
-            "quantity": df["qty"].astype(np.float64),
-            "quote_quantity": df["quote_qty"].astype(np.float64),
-            "side": np.where(df["is_buyer_maker"].astype(str).str.strip() == "True",
-                             np.int8(-1), np.int8(1)),
-            "trade_id": df["trade_id"].astype(str),
-        })
-        dfs.append(parsed)
+    df = read_csv_zip(path, header=None, names=col_names)
+    parsed = pd.DataFrame({
+        "timestamp_us": df["time"].astype(np.int64),
+        "price": df["price"].astype(np.float64),
+        "quantity": df["qty"].astype(np.float64),
+        "quote_quantity": df["quote_qty"].astype(np.float64),
+        "side": np.where(df["is_buyer_maker"].astype(str).str.strip() == "True",
+                         np.int8(-1), np.int8(1)),
+        "trade_id": df["trade_id"].astype(str),
+    })
+    return date, parsed
 
-    return pd.concat(dfs, ignore_index=True)
+
+def parse_okx_trade_file(path: Path) -> tuple[str, pd.DataFrame]:
+    """Parse one OKX trade ZIP. Filename: {INSTRUMENT}-trades-{YYYY-MM-DD}.zip"""
+    date = extract_date_from_filename(path.name)
+    df = read_csv_zip(path)
+    price = df["price"].astype(np.float64)
+    quantity = df["size"].astype(np.float64)
+    parsed = pd.DataFrame({
+        "timestamp_us": (df["created_time"] * 1_000).astype(np.int64),
+        "price": price,
+        "quantity": quantity,
+        "quote_quantity": (price * quantity).astype(np.float64),
+        "side": np.where(df["side"].str.lower() == "buy", np.int8(1), np.int8(-1)),
+        "trade_id": df["trade_id"].astype(str),
+    })
+    return date, parsed
 
 
 # ---------------------------------------------------------------------------
-# OHLCV aggregation from trades
+# OHLCV from trades (vectorized)
 # ---------------------------------------------------------------------------
 
 
-def trades_to_ohlcv(trades_df: pd.DataFrame, interval_us: int) -> pd.DataFrame:
-    """Aggregate trades into OHLCV bars at the given interval (microseconds)."""
+def trades_to_ohlcv_1m(trades_df: pd.DataFrame) -> pd.DataFrame:
+    """Aggregate trades into 1-minute OHLCV bars. Fully vectorized."""
     if trades_df.empty:
         return pd.DataFrame()
 
-    df = trades_df.sort_values("timestamp_us").copy()
+    INTERVAL_1M = 60_000_000
+    df = trades_df.sort_values("timestamp_us")
+    bar_ts = (df["timestamp_us"].values // INTERVAL_1M) * INTERVAL_1M
+    qty = df["quantity"].values
+    side = df["side"].values
 
-    # Compute bar open timestamp (floor to interval boundary)
-    df["bar_ts"] = (df["timestamp_us"] // interval_us) * interval_us
+    agg_df = pd.DataFrame({
+        "bar_ts": bar_ts,
+        "price": df["price"].values,
+        "quantity": qty,
+        "quote_quantity": df["quote_quantity"].values,
+        "buy_qty": np.where(side == 1, qty, 0.0),
+        "sell_qty": np.where(side == -1, qty, 0.0),
+    })
 
-    grouped = df.groupby("bar_ts", sort=True)
+    grouped = agg_df.groupby("bar_ts", sort=True)
 
     ohlcv = pd.DataFrame({
-        "timestamp_us": grouped["timestamp_us"].first().index.astype(np.int64),
+        "timestamp_us": grouped["bar_ts"].first().index.astype(np.int64),
         "open": grouped["price"].first().values,
         "high": grouped["price"].max().values,
         "low": grouped["price"].min().values,
@@ -256,12 +222,8 @@ def trades_to_ohlcv(trades_df: pd.DataFrame, interval_us: int) -> pd.DataFrame:
         "volume": grouped["quantity"].sum().values,
         "quote_volume": grouped["quote_quantity"].sum().values,
         "trade_count": grouped["price"].count().values.astype(np.int64),
-        "buy_volume": grouped.apply(
-            lambda g: g.loc[g["side"] == 1, "quantity"].sum(), include_groups=False
-        ).values,
-        "sell_volume": grouped.apply(
-            lambda g: g.loc[g["side"] == -1, "quantity"].sum(), include_groups=False
-        ).values,
+        "buy_volume": grouped["buy_qty"].sum().values,
+        "sell_volume": grouped["sell_qty"].sum().values,
     })
 
     ohlcv["vwap"] = np.where(
@@ -269,40 +231,72 @@ def trades_to_ohlcv(trades_df: pd.DataFrame, interval_us: int) -> pd.DataFrame:
         ohlcv["quote_volume"] / ohlcv["volume"],
         ohlcv["close"],
     )
-
     return ohlcv
 
 
-# ---------------------------------------------------------------------------
-# Binance extras parsers
-# ---------------------------------------------------------------------------
-
-
-def parse_binance_agg_trades(data_dir: Path, market: str) -> pd.DataFrame:
-    """Parse Binance aggregate trades. market = 'futures' or 'spot'."""
-    files = find_files(data_dir / "binance" / market / "aggTrades", "*.zip")
-    if not files:
+def resample_ohlcv(ohlcv_1m: pd.DataFrame, interval_us: int) -> pd.DataFrame:
+    """Resample 1m OHLCV bars to a larger interval. Fully vectorized."""
+    if ohlcv_1m.empty:
         return pd.DataFrame()
 
+    df = ohlcv_1m.sort_values("timestamp_us")
+    bar_ts = (df["timestamp_us"].values // interval_us) * interval_us
+
+    agg_df = pd.DataFrame({
+        "bar_ts": bar_ts,
+        "open": df["open"].values,
+        "high": df["high"].values,
+        "low": df["low"].values,
+        "close": df["close"].values,
+        "volume": df["volume"].values,
+        "quote_volume": df["quote_volume"].values,
+        "trade_count": df["trade_count"].values,
+        "buy_volume": df["buy_volume"].values,
+        "sell_volume": df["sell_volume"].values,
+    })
+
+    grouped = agg_df.groupby("bar_ts", sort=True)
+
+    result = pd.DataFrame({
+        "timestamp_us": grouped["bar_ts"].first().index.astype(np.int64),
+        "open": grouped["open"].first().values,
+        "high": grouped["high"].max().values,
+        "low": grouped["low"].min().values,
+        "close": grouped["close"].last().values,
+        "volume": grouped["volume"].sum().values,
+        "quote_volume": grouped["quote_volume"].sum().values,
+        "trade_count": grouped["trade_count"].sum().values,
+        "buy_volume": grouped["buy_volume"].sum().values,
+        "sell_volume": grouped["sell_volume"].sum().values,
+    })
+
+    result["vwap"] = np.where(
+        result["volume"] > 0,
+        result["quote_volume"] / result["volume"],
+        result["close"],
+    )
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Binance extras parsers (single-file)
+# ---------------------------------------------------------------------------
+
+
+def parse_binance_agg_trade_file(path: Path, market: str) -> tuple[str, pd.DataFrame]:
+    """Parse one Binance aggregate trades file."""
+    date = extract_date_from_filename(path.name)
     if market == "spot":
         col_names = ["agg_trade_id", "price", "quantity", "first_trade_id",
                      "last_trade_id", "transact_time", "is_buyer_maker", "is_best_match"]
-        dfs = []
-        for f in files:
-            df = read_csv_zip(f, header=None, names=col_names)
-            dfs.append(df)
+        df = read_csv_zip(path, header=None, names=col_names)
     else:
-        dfs = [read_csv_zip(f) for f in files]
+        df = read_csv_zip(path)
 
-    df = pd.concat(dfs, ignore_index=True)
-
-    # Normalize timestamp
     time_col = "transact_time"
     if market == "futures":
-        # milliseconds → microseconds
         df["timestamp_us"] = (df[time_col] * 1_000).astype(np.int64)
     else:
-        # already microseconds
         df["timestamp_us"] = df[time_col].astype(np.int64)
 
     df["price"] = df["price"].astype(np.float64)
@@ -311,22 +305,17 @@ def parse_binance_agg_trades(data_dir: Path, market: str) -> pd.DataFrame:
 
     keep = ["timestamp_us", "agg_trade_id", "price", "quantity",
             "first_trade_id", "last_trade_id", "is_buyer_maker"]
-    return df[keep].sort_values("timestamp_us").reset_index(drop=True)
+    return date, df[keep].sort_values("timestamp_us").reset_index(drop=True)
 
 
-def parse_binance_metrics(data_dir: Path) -> pd.DataFrame:
-    """Parse Binance futures metrics."""
-    files = find_files(data_dir / "binance" / "futures" / "metrics", "*.zip")
-    if not files:
-        return pd.DataFrame()
+def parse_binance_metrics_file(path: Path) -> tuple[str, pd.DataFrame]:
+    """Parse one Binance futures metrics file."""
+    date = extract_date_from_filename(path.name)
+    df = read_csv_zip(path)
 
-    dfs = [read_csv_zip(f) for f in files]
-    df = pd.concat(dfs, ignore_index=True)
-
-    # create_time is UTC datetime string → microseconds
     df["timestamp_us"] = (
         pd.to_datetime(df["create_time"], utc=True)
-        .astype(np.int64) // 1_000  # ns → us
+        .astype(np.int64) // 1_000
     )
 
     df = df.rename(columns={
@@ -345,17 +334,13 @@ def parse_binance_metrics(data_dir: Path) -> pd.DataFrame:
     for c in keep[1:]:
         df[c] = df[c].astype(np.float64)
 
-    return df[keep].sort_values("timestamp_us").reset_index(drop=True)
+    return date, df[keep].sort_values("timestamp_us").reset_index(drop=True)
 
 
-def parse_binance_book_depth(data_dir: Path) -> pd.DataFrame:
-    """Parse Binance futures book depth."""
-    files = find_files(data_dir / "binance" / "futures" / "bookDepth", "*.zip")
-    if not files:
-        return pd.DataFrame()
-
-    dfs = [read_csv_zip(f) for f in files]
-    df = pd.concat(dfs, ignore_index=True)
+def parse_binance_book_depth_file(path: Path) -> tuple[str, pd.DataFrame]:
+    """Parse one Binance futures book depth file."""
+    date = extract_date_from_filename(path.name)
+    df = read_csv_zip(path)
 
     df["timestamp_us"] = (
         pd.to_datetime(df["timestamp"], utc=True)
@@ -366,97 +351,397 @@ def parse_binance_book_depth(data_dir: Path) -> pd.DataFrame:
     df["notional"] = df["notional"].astype(np.float64)
 
     keep = ["timestamp_us", "percentage", "depth", "notional"]
-    return df[keep].sort_values(["timestamp_us", "percentage"]).reset_index(drop=True)
+    return date, df[keep].sort_values(["timestamp_us", "percentage"]).reset_index(drop=True)
 
 
-def parse_binance_klines(data_dir: Path, market: str, dtype: str) -> dict[str, pd.DataFrame]:
-    """Parse Binance kline-type data. Returns {interval: DataFrame}."""
-    base = data_dir / "binance" / market / dtype
-    if not base.exists():
-        return {}
+def parse_binance_kline_file(path: Path, market: str) -> tuple[str, pd.DataFrame]:
+    """Parse one Binance kline file."""
+    date = extract_date_from_filename(path.name)
 
-    # Kline column names (same schema for all kline types)
     kline_cols = [
         "open_time", "open", "high", "low", "close", "volume",
         "close_time", "quote_volume", "count",
         "taker_buy_volume", "taker_buy_quote_volume", "ignore",
     ]
 
-    result = {}
-    for interval_dir in sorted(base.iterdir()):
-        if not interval_dir.is_dir():
-            continue
-        interval = interval_dir.name
-        files = find_files(interval_dir, "*.zip")
-        if not files:
-            continue
+    if market == "spot":
+        df = read_csv_zip(path, header=None, names=kline_cols)
+    else:
+        df = read_csv_zip(path)
+        df.columns = kline_cols
 
-        dfs = []
-        for f in files:
-            if market == "spot":
-                df = read_csv_zip(f, header=None, names=kline_cols)
-            else:
-                df = read_csv_zip(f)
-                df.columns = kline_cols
+    if market == "spot":
+        df["timestamp_us"] = df["open_time"].astype(np.int64)
+    else:
+        df["timestamp_us"] = (df["open_time"] * 1_000).astype(np.int64)
 
-            dfs.append(df)
+    for c in ["open", "high", "low", "close", "volume", "quote_volume",
+               "taker_buy_volume", "taker_buy_quote_volume"]:
+        df[c] = df[c].astype(np.float64)
+    df["count"] = df["count"].astype(np.int64)
 
-        df = pd.concat(dfs, ignore_index=True)
-
-        # Normalize open_time to microseconds
-        if market == "spot":
-            # already microseconds
-            df["timestamp_us"] = df["open_time"].astype(np.int64)
-        else:
-            # milliseconds → microseconds
-            df["timestamp_us"] = (df["open_time"] * 1_000).astype(np.int64)
-
-        for c in ["open", "high", "low", "close", "volume", "quote_volume",
-                   "taker_buy_volume", "taker_buy_quote_volume"]:
-            df[c] = df[c].astype(np.float64)
-        df["count"] = df["count"].astype(np.int64)
-
-        keep = ["timestamp_us", "open", "high", "low", "close", "volume",
-                "quote_volume", "count", "taker_buy_volume", "taker_buy_quote_volume"]
-        result[interval] = df[keep].sort_values("timestamp_us").reset_index(drop=True)
-
-    return result
+    keep = ["timestamp_us", "open", "high", "low", "close", "volume",
+            "quote_volume", "count", "taker_buy_volume", "taker_buy_quote_volume"]
+    return date, df[keep].sort_values("timestamp_us").reset_index(drop=True)
 
 
 # ---------------------------------------------------------------------------
-# Validation
+# Source file discovery
 # ---------------------------------------------------------------------------
 
+TRADE_SOURCES = {
+    "bybit_futures": {
+        "subdir": "bybit/futures",
+        "pattern": "*.csv.gz",
+        "parser": parse_bybit_futures_trade_file,
+        "utc_aligned": True,
+    },
+    "bybit_spot": {
+        "subdir": "bybit/spot",
+        "pattern": "*.csv.gz",
+        "parser": parse_bybit_spot_trade_file,
+        "utc_aligned": True,
+    },
+    "binance_futures": {
+        "subdir": "binance/futures/trades",
+        "pattern": "*.zip",
+        "parser": parse_binance_futures_trade_file,
+        "utc_aligned": True,
+    },
+    "binance_spot": {
+        "subdir": "binance/spot/trades",
+        "pattern": "*.zip",
+        "parser": parse_binance_spot_trade_file,
+        "utc_aligned": True,
+    },
+    "okx_futures": {
+        "subdir": "okx/futures",
+        "pattern": "*-SWAP-trades-*.zip",
+        "parser": parse_okx_trade_file,
+        "utc_aligned": False,  # OKX uses UTC+8 day boundaries
+    },
+    "okx_spot": {
+        "subdir": "okx/spot",
+        "pattern": "*-trades-*.zip",
+        "parser": parse_okx_trade_file,
+        "utc_aligned": False,  # OKX uses UTC+8 day boundaries
+    },
+}
 
-def validate_ohlcv_alignment(ohlcv_dict: dict[str, pd.DataFrame], interval: str):
-    """Check that OHLCV bars across sources cover the same time range."""
-    sources = {k: v for k, v in ohlcv_dict.items() if not v.empty}
-    if len(sources) < 2:
-        return
-
-    print(f"\n  Alignment check ({interval}):")
-    for name, df in sources.items():
-        ts_min = pd.Timestamp(df["timestamp_us"].min(), unit="us", tz="UTC")
-        ts_max = pd.Timestamp(df["timestamp_us"].max(), unit="us", tz="UTC")
-        print(f"    {name:25s}  bars={len(df):>8,}  "
-              f"from={ts_min.strftime('%Y-%m-%d %H:%M')}  "
-              f"to={ts_max.strftime('%Y-%m-%d %H:%M')}")
-
-    # Check for gaps: find timestamps present in one source but not another
-    all_ts = set()
-    for df in sources.values():
-        all_ts.update(df["timestamp_us"].values)
-
-    for name, df in sources.items():
-        source_ts = set(df["timestamp_us"].values)
-        missing = len(all_ts - source_ts)
-        if missing > 0:
-            print(f"    ⚠ {name}: {missing} bars missing vs union of all sources")
+ONE_DAY_US = 86_400_000_000  # 24h in microseconds
 
 
 # ---------------------------------------------------------------------------
 # Main pipeline
 # ---------------------------------------------------------------------------
+
+
+def _write_day_trades_and_ohlcv(
+    trades_df: pd.DataFrame, date: str, source: str,
+    out_dir: Path, intervals: list[str],
+) -> tuple[bool, bool]:
+    """Write trades + OHLCV parquet for one UTC day. Returns (wrote_trades, skipped)."""
+    trades_path = out_dir / "trades" / source / f"{date}.parquet"
+    wrote = False
+    skip = False
+
+    if trades_path.exists():
+        skip = True
+    else:
+        write_parquet(trades_df, trades_path)
+        wrote = True
+
+    # Build OHLCV
+    ohlcv_1m = trades_to_ohlcv_1m(trades_df)
+    for iv in intervals:
+        ohlcv_path = out_dir / "ohlcv" / iv / source / f"{date}.parquet"
+        if ohlcv_path.exists():
+            continue
+        if iv == "1m":
+            write_parquet(ohlcv_1m, ohlcv_path)
+        else:
+            write_parquet(resample_ohlcv(ohlcv_1m, interval_to_us(iv)), ohlcv_path)
+
+    return wrote, skip
+
+
+def _process_utc_aligned(source, cfg, data_dir, out_dir, intervals):
+    """Process a UTC-aligned source (Bybit, Binance): 1 file = 1 UTC day."""
+    src_dir = data_dir / cfg["subdir"]
+    files = find_files(src_dir, cfg["pattern"])
+    if not files:
+        print(f"  {source}: no files found")
+        return 0, 0
+
+    parser = cfg["parser"]
+    written = 0
+    skipped = 0
+    n = len(files)
+
+    print(f"  {source} ({n} files)...")
+    for i, f in enumerate(files, 1):
+        # Early skip: check if output already exists before parsing raw file
+        date_from_name = extract_date_from_filename(f.name)
+        if date_from_name:
+            trades_path = out_dir / "trades" / source / f"{date_from_name}.parquet"
+            ohlcv_paths = [out_dir / "ohlcv" / iv / source / f"{date_from_name}.parquet"
+                           for iv in intervals]
+            if trades_path.exists() and all(p.exists() for p in ohlcv_paths):
+                skipped += 1
+                continue
+
+        try:
+            date, trades_df = parser(f)
+        except Exception as exc:
+            print(f"    [{i}/{n}] ⚠ {f.name}: {exc}")
+            continue
+
+        if date is None or trades_df.empty:
+            print(f"    [{i}/{n}] - {f.name} (empty)")
+            continue
+
+        wrote, skip = _write_day_trades_and_ohlcv(
+            trades_df, date, source, out_dir, intervals)
+
+        if skip:
+            skipped += 1
+            print(f"    [{i}/{n}] ⊘ {date}  (exists)")
+        elif wrote:
+            written += 1
+            print(f"    [{i}/{n}] ✓ {date}  trades={len(trades_df):,}")
+
+        del trades_df
+
+    print(f"  {source}: {written} written, {skipped} skipped")
+    return written, skipped
+
+
+def _process_non_utc_aligned(source, cfg, data_dir, out_dir, intervals):
+    """Process a non-UTC-aligned source (OKX: UTC+8 day boundaries).
+
+    OKX files cover 16:00 UTC (prev day) → 15:59 UTC (file date).
+    Each file contributes to exactly 2 UTC days.
+
+    Strategy: process files one at a time, split each into UTC days,
+    and use a carry-over buffer for the partial day that spans into
+    the next file. Only 1 file + small buffer in memory at a time.
+    """
+    src_dir = data_dir / cfg["subdir"]
+    files = find_files(src_dir, cfg["pattern"])
+    if not files:
+        print(f"  {source}: no files found")
+        return 0, 0
+
+    parser = cfg["parser"]
+    n = len(files)
+    print(f"  {source} ({n} files, re-partitioning to UTC days)...")
+
+    written = 0
+    skipped = 0
+    # Buffer: trades from the latter part of the previous file (16:00→23:59 UTC)
+    # that belong to the same UTC day as the early part of the next file
+    carry: dict[str, list[pd.DataFrame]] = {}
+
+    for i, f in enumerate(files, 1):
+        try:
+            _, trades_df = parser(f)
+        except Exception as exc:
+            print(f"    [{i}/{n}] ⚠ {f.name}: {exc}")
+            continue
+
+        if trades_df.empty:
+            continue
+
+        # Split trades by UTC day
+        utc_day_ts = (trades_df["timestamp_us"].values // ONE_DAY_US) * ONE_DAY_US
+        trades_df["_utc_date"] = pd.to_datetime(utc_day_ts, unit="us", utc=True).strftime("%Y-%m-%d")
+
+        day_groups = {}
+        for utc_date, grp in trades_df.groupby("_utc_date"):
+            day_groups[utc_date] = grp.drop(columns=["_utc_date"])
+
+        del trades_df
+
+        # Merge carry-over into day_groups
+        for d, chunks in carry.items():
+            if d in day_groups:
+                chunks.append(day_groups[d])
+                day_groups[d] = pd.concat(chunks, ignore_index=True)
+            else:
+                day_groups[d] = pd.concat(chunks, ignore_index=True)
+        carry.clear()
+
+        # The latest UTC day in this file is incomplete (continues in next file)
+        # unless this is the last file
+        sorted_days = sorted(day_groups.keys())
+
+        if i < n and len(sorted_days) > 1:
+            # Keep the latest day as carry-over
+            latest = sorted_days[-1]
+            carry[latest] = [day_groups.pop(latest)]
+
+        # Write all complete UTC days
+        for utc_date in sorted(day_groups.keys()):
+            df = day_groups[utc_date]
+            wrote, skip = _write_day_trades_and_ohlcv(
+                df, utc_date, source, out_dir, intervals)
+
+            if skip:
+                skipped += 1
+                print(f"    [{i}/{n}] ⊘ {utc_date}  (exists)")
+            elif wrote:
+                written += 1
+                print(f"    [{i}/{n}] ✓ {utc_date}  trades={len(df):,}")
+
+        del day_groups
+
+    # Flush any remaining carry-over (last file's latest day)
+    for utc_date, chunks in carry.items():
+        df = pd.concat(chunks, ignore_index=True)
+        wrote, skip = _write_day_trades_and_ohlcv(
+            df, utc_date, source, out_dir, intervals)
+        if skip:
+            skipped += 1
+            print(f"    ⊘ {utc_date}  (exists)")
+        elif wrote:
+            written += 1
+            print(f"    ✓ {utc_date}  trades={len(df):,}")
+
+    print(f"  {source}: {written} written, {skipped} skipped")
+    return written, skipped
+
+
+def process_trades_and_ohlcv(data_dir: Path, out_dir: Path, intervals: list[str]):
+    """Process all trade sources: write daily trades + OHLCV parquet files."""
+    total_written = 0
+    total_skipped = 0
+
+    for source, cfg in TRADE_SOURCES.items():
+        if cfg["utc_aligned"]:
+            w, s = _process_utc_aligned(source, cfg, data_dir, out_dir, intervals)
+        else:
+            w, s = _process_non_utc_aligned(source, cfg, data_dir, out_dir, intervals)
+        total_written += w
+        total_skipped += s
+
+    return total_written, total_skipped
+
+
+def process_binance_extras(data_dir: Path, out_dir: Path):
+    """Process Binance non-trade data types (metrics, bookDepth, aggTrades, klines)."""
+    total_written = 0
+
+    # --- Aggregate trades ---
+    for market in ["futures", "spot"]:
+        agg_dir = data_dir / "binance" / market / "aggTrades"
+        files = find_files(agg_dir, "*.zip")
+        if not files:
+            continue
+        written = 0
+        n = len(files)
+        print(f"  agg_trades_{market} ({n} files)...")
+        for i, f in enumerate(files, 1):
+            try:
+                date, df = parse_binance_agg_trade_file(f, market)
+            except Exception as exc:
+                print(f"    [{i}/{n}] ⚠ {f.name}: {exc}")
+                continue
+            dest = out_dir / "binance" / f"agg_trades_{market}" / f"{date}.parquet"
+            if dest.exists():
+                print(f"    [{i}/{n}] ⊘ {date}  (exists)")
+            elif write_parquet(df, dest):
+                written += 1
+                print(f"    [{i}/{n}] ✓ {date}  rows={len(df):,}")
+        print(f"  agg_trades_{market}: {written} written")
+        total_written += written
+
+    # --- Metrics ---
+    metrics_files = find_files(data_dir / "binance" / "futures" / "metrics", "*.zip")
+    if metrics_files:
+        written = 0
+        n = len(metrics_files)
+        print(f"  metrics ({n} files)...")
+        for i, f in enumerate(metrics_files, 1):
+            try:
+                date, df = parse_binance_metrics_file(f)
+            except Exception as exc:
+                print(f"    [{i}/{n}] ⚠ {f.name}: {exc}")
+                continue
+            dest = out_dir / "binance" / "metrics" / f"{date}.parquet"
+            if dest.exists():
+                print(f"    [{i}/{n}] ⊘ {date}  (exists)")
+            elif write_parquet(df, dest):
+                written += 1
+                print(f"    [{i}/{n}] ✓ {date}  rows={len(df):,}")
+        print(f"  metrics: {written} written")
+        total_written += written
+
+    # --- Book depth ---
+    bd_files = find_files(data_dir / "binance" / "futures" / "bookDepth", "*.zip")
+    if bd_files:
+        written = 0
+        n = len(bd_files)
+        print(f"  book_depth ({n} files)...")
+        for i, f in enumerate(bd_files, 1):
+            try:
+                date, df = parse_binance_book_depth_file(f)
+            except Exception as exc:
+                print(f"    [{i}/{n}] ⚠ {f.name}: {exc}")
+                continue
+            dest = out_dir / "binance" / "book_depth" / f"{date}.parquet"
+            if dest.exists():
+                print(f"    [{i}/{n}] ⊘ {date}  (exists)")
+            elif write_parquet(df, dest):
+                written += 1
+                print(f"    [{i}/{n}] ✓ {date}  rows={len(df):,}")
+        print(f"  book_depth: {written} written")
+        total_written += written
+
+    # --- Klines (all types) ---
+    kline_types = {
+        "futures": ["klines", "indexPriceKlines", "markPriceKlines", "premiumIndexKlines"],
+        "spot": ["klines"],
+    }
+    dir_name_map = {
+        "klines": "klines",
+        "indexPriceKlines": "index_price_klines",
+        "markPriceKlines": "mark_price_klines",
+        "premiumIndexKlines": "premium_index_klines",
+    }
+
+    for market, dtypes in kline_types.items():
+        for dtype in dtypes:
+            clean_name = dir_name_map[dtype]
+            base = data_dir / "binance" / market / dtype
+            if not base.exists():
+                continue
+
+            for interval_dir in sorted(base.iterdir()):
+                if not interval_dir.is_dir():
+                    continue
+                interval = interval_dir.name
+                files = find_files(interval_dir, "*.zip")
+                if not files:
+                    continue
+                written = 0
+                n = len(files)
+                print(f"  {clean_name}_{market}/{interval} ({n} files)...")
+                for i, f in enumerate(files, 1):
+                    try:
+                        date, df = parse_binance_kline_file(f, market)
+                    except Exception as exc:
+                        print(f"    [{i}/{n}] ⚠ {f.name}: {exc}")
+                        continue
+                    dest = out_dir / "binance" / f"{clean_name}_{market}" / interval / f"{date}.parquet"
+                    if dest.exists():
+                        print(f"    [{i}/{n}] ⊘ {date}  (exists)")
+                    elif write_parquet(df, dest):
+                        written += 1
+                        print(f"    [{i}/{n}] ✓ {date}  rows={len(df):,}")
+                print(f"  {clean_name}_{market}/{interval}: {written} written")
+                total_written += written
+
+    return total_written
 
 
 def run(args):
@@ -475,113 +760,24 @@ def run(args):
     print(f"Intervals:   {', '.join(intervals)}")
     print("=" * 60)
 
-    # ------------------------------------------------------------------
-    # Step 1: Parse raw trades from all sources
-    # ------------------------------------------------------------------
-    print("\n[1/5] Parsing raw trades...")
+    # Step 1: Trades + OHLCV
+    print("\n[1/3] Processing trades & OHLCV...")
+    t_written, t_skipped = process_trades_and_ohlcv(data_dir, out_dir, intervals)
+    print(f"  → {t_written} trade files written, {t_skipped} skipped")
 
-    trade_parsers = {
-        "bybit_futures": parse_bybit_futures_trades,
-        "bybit_spot": parse_bybit_spot_trades,
-        "binance_futures": parse_binance_futures_trades,
-        "binance_spot": parse_binance_spot_trades,
-    }
+    # Step 2: Binance extras
+    print("\n[2/3] Processing Binance extras...")
+    b_written = process_binance_extras(data_dir, out_dir)
+    print(f"  → {b_written} extra files written")
 
-    trades = {}
-    for source, parser in trade_parsers.items():
-        print(f"  Parsing {source}...")
-        df = parser(data_dir)
-        trades[source] = df
-        if not df.empty:
-            print(f"    {len(df):,} trades, "
-                  f"ts range: {pd.Timestamp(df['timestamp_us'].min(), unit='us', tz='UTC')} → "
-                  f"{pd.Timestamp(df['timestamp_us'].max(), unit='us', tz='UTC')}")
-        else:
-            print(f"    (no data)")
-
-    # Write trades parquet
-    print("\n  Writing trades parquet...")
-    for source, df in trades.items():
-        write_parquet(df, out_dir / "trades" / f"{source}.parquet")
-
-    # ------------------------------------------------------------------
-    # Step 2: Build OHLCV bars from trades
-    # ------------------------------------------------------------------
-    print(f"\n[2/5] Building OHLCV bars...")
-
-    for interval in intervals:
-        interval_us = interval_to_us(interval)
-        print(f"\n  Interval: {interval} ({interval_us:,} μs)")
-
-        ohlcv_dict = {}
-        for source, df in trades.items():
-            print(f"    Aggregating {source}...")
-            ohlcv = trades_to_ohlcv(df, interval_us)
-            ohlcv_dict[source] = ohlcv
-            write_parquet(ohlcv, out_dir / "ohlcv" / interval / f"{source}.parquet")
-
-        validate_ohlcv_alignment(ohlcv_dict, interval)
-
-    # ------------------------------------------------------------------
-    # Step 3: Binance aggregate trades
-    # ------------------------------------------------------------------
-    print(f"\n[3/5] Parsing Binance aggregate trades...")
-
-    for market in ["futures", "spot"]:
-        print(f"  Parsing {market}...")
-        df = parse_binance_agg_trades(data_dir, market)
-        write_parquet(df, out_dir / "binance" / f"agg_trades_{market}.parquet")
-
-    # ------------------------------------------------------------------
-    # Step 4: Binance extras (metrics, book depth)
-    # ------------------------------------------------------------------
-    print(f"\n[4/5] Parsing Binance extras...")
-
-    print("  Parsing metrics...")
-    metrics = parse_binance_metrics(data_dir)
-    write_parquet(metrics, out_dir / "binance" / "metrics.parquet")
-
-    print("  Parsing book depth...")
-    book_depth = parse_binance_book_depth(data_dir)
-    write_parquet(book_depth, out_dir / "binance" / "book_depth.parquet")
-
-    # ------------------------------------------------------------------
-    # Step 5: Binance pre-computed klines (all types)
-    # ------------------------------------------------------------------
-    print(f"\n[5/5] Parsing Binance klines...")
-
-    kline_types = {
-        "futures": ["klines", "indexPriceKlines", "markPriceKlines", "premiumIndexKlines"],
-        "spot": ["klines"],
-    }
-
-    # Map original dir names to clean parquet dir names
-    dir_name_map = {
-        "klines": "klines",
-        "indexPriceKlines": "index_price_klines",
-        "markPriceKlines": "mark_price_klines",
-        "premiumIndexKlines": "premium_index_klines",
-    }
-
-    for market, dtypes in kline_types.items():
-        for dtype in dtypes:
-            clean_name = dir_name_map[dtype]
-            print(f"  Parsing {market}/{dtype}...")
-            klines_by_interval = parse_binance_klines(data_dir, market, dtype)
-            for interval, df in klines_by_interval.items():
-                write_parquet(
-                    df,
-                    out_dir / "binance" / f"{clean_name}_{market}" / f"{interval}.parquet",
-                )
-
-    # ------------------------------------------------------------------
-    # Summary
-    # ------------------------------------------------------------------
-    print("\n" + "=" * 60)
+    # Step 3: Summary
+    print("\n[3/3] Summary")
     total_files = len(list(out_dir.rglob("*.parquet")))
     total_size = sum(f.stat().st_size for f in out_dir.rglob("*.parquet"))
-    print(f"Done. {total_files} parquet files, {total_size / (1024*1024):.1f} MB total")
-    print(f"Output: {out_dir.resolve()}")
+    print(f"  Total: {total_files} parquet files, {total_size / (1024*1024):.1f} MB")
+    print(f"  Output: {out_dir.resolve()}")
+    print("=" * 60)
+    print("Done.")
 
 
 # ---------------------------------------------------------------------------
@@ -591,7 +787,7 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Convert raw market data to analysis-ready parquet files.",
+        description="Convert raw market data to daily-partitioned parquet files.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )

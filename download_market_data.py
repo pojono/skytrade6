@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """
-Download historical market data from Bybit and Binance public endpoints.
+Download historical market data from Bybit, Binance, and OKX public endpoints.
 
 Sources:
   - Bybit Futures:   https://public.bybit.com/trading/{SYMBOL}/
   - Bybit Spot:      https://public.bybit.com/spot/{SYMBOL}/
   - Binance Futures:  https://data.binance.vision/data/futures/um/daily/
   - Binance Spot:     https://data.binance.vision/data/spot/daily/
+  - OKX Futures:      https://static.okx.com/cdn/okex/traderecords/trades/daily/
+  - OKX Spot:         https://static.okx.com/cdn/okex/traderecords/trades/daily/
 
 Usage:
   python download_market_data.py BTCUSDT 2026-01-01 2026-01-07
   python download_market_data.py ETHUSDT 2025-12-01 2025-12-31 --output ./data
-  python download_market_data.py BTCUSDT 2026-01-01 2026-01-07 --sources bybit_futures binance_futures
+  python download_market_data.py BTCUSDT 2026-01-01 2026-01-07 --sources bybit_futures binance_futures okx_futures
+  python download_market_data.py BTCUSDT 2026-01-01 2026-01-07 --sources okx_futures okx_spot
   python download_market_data.py BTCUSDT 2026-01-01 2026-01-07 --binance-data-types trades aggTrades klines metrics
   python download_market_data.py BTCUSDT 2026-01-01 2026-01-07 --kline-intervals 1m 5m 1h
 
@@ -36,6 +39,9 @@ Output structure (archives kept compressed for direct ingestion via pandas/pyarr
           trades/         (.zip)
           aggTrades/      (.zip)
           klines/{interval}/
+      okx/
+        futures/          # perpetual swap trades (.zip)
+        spot/             # spot trades (.zip)
 """
 
 import argparse
@@ -62,11 +68,21 @@ BINANCE_SPOT_URL = (
     "{symbol}-{dtype}-{date}.zip"
 )
 
+# OKX static download URLs
+# SWAP (perpetual futures): instrument = e.g. BTC-USDT-SWAP
+# SPOT: instrument = e.g. BTC-USDT
+OKX_TRADES_URL = (
+    "https://static.okx.com/cdn/okex/traderecords/trades/daily/"
+    "{date_compact}/{instrument}-trades-{date}.zip"
+)
+
 ALL_SOURCES = [
     "bybit_futures",
     "bybit_spot",
     "binance_futures",
     "binance_spot",
+    "okx_futures",
+    "okx_spot",
 ]
 
 # Binance data types that require an interval subpath
@@ -95,6 +111,16 @@ RETRY_BACKOFF = 2  # seconds
 # ---------------------------------------------------------------------------
 
 
+def symbol_to_okx_pair(symbol: str) -> str:
+    """Convert e.g. BTCUSDT -> BTC-USDT for OKX instrument naming."""
+    for quote in ("USDT", "USDC", "USD", "BTC", "ETH"):
+        if symbol.endswith(quote):
+            base = symbol[: -len(quote)]
+            return f"{base}-{quote}"
+    # Fallback: assume last 4 chars are quote
+    return f"{symbol[:-4]}-{symbol[-4:]}"
+
+
 def date_range(start: str, end: str):
     """Yield date strings YYYY-MM-DD from start to end inclusive."""
     s = datetime.strptime(start, "%Y-%m-%d")
@@ -119,7 +145,17 @@ async def download_file(
     dest: Path,
     semaphore: asyncio.Semaphore,
 ):
-    """Download a file with retries. Returns (url, success, message)."""
+    """Download a file with retries. Returns (url, success, message).
+
+    Uses atomic write: data is saved to a .tmp file first, then renamed
+    to the final path only after the full content is received and verified.
+    If dest already exists (without a .tmp), it is known to be complete.
+    """
+    if dest.exists() and dest.stat().st_size > 0:
+        return (url, True, "exists")
+
+    tmp = dest.with_suffix(dest.suffix + ".tmp")
+
     for attempt in range(1, RETRY_ATTEMPTS + 1):
         try:
             async with semaphore:
@@ -128,10 +164,16 @@ async def download_file(
                         return (url, False, "not found (404)")
                     if resp.status != 200:
                         raise aiohttp.ClientError(f"HTTP {resp.status}")
+                    expected = resp.content_length
                     data = await resp.read()
 
+            if expected is not None and len(data) != expected:
+                raise aiohttp.ClientError(
+                    f"size mismatch: got {len(data)}, expected {expected}")
+
             ensure_dir(dest.parent)
-            dest.write_bytes(data)
+            tmp.write_bytes(data)
+            tmp.rename(dest)
 
             return (url, True, "ok")
 
@@ -139,6 +181,9 @@ async def download_file(
             msg = f"timeout (attempt {attempt}/{RETRY_ATTEMPTS})"
         except (aiohttp.ClientError, OSError) as exc:
             msg = f"{exc} (attempt {attempt}/{RETRY_ATTEMPTS})"
+
+        # Clean up partial temp file
+        tmp.unlink(missing_ok=True)
 
         if attempt < RETRY_ATTEMPTS:
             await asyncio.sleep(RETRY_BACKOFF * attempt)
@@ -211,6 +256,29 @@ def binance_spot_tasks(symbol: str, dates, output_dir: Path, data_types, kline_i
                 yield url, base / fname
 
 
+def okx_futures_tasks(symbol: str, dates, output_dir: Path):
+    """Build (url, dest) pairs for OKX perpetual swap trades."""
+    pair = symbol_to_okx_pair(symbol)
+    instrument = f"{pair}-SWAP"
+    base = output_dir / symbol / "okx" / "futures"
+    for d in dates:
+        date_compact = d.replace("-", "")
+        fname = f"{instrument}-trades-{d}.zip"
+        url = OKX_TRADES_URL.format(instrument=instrument, date=d, date_compact=date_compact)
+        yield url, base / fname
+
+
+def okx_spot_tasks(symbol: str, dates, output_dir: Path):
+    """Build (url, dest) pairs for OKX spot trades."""
+    instrument = symbol_to_okx_pair(symbol)
+    base = output_dir / symbol / "okx" / "spot"
+    for d in dates:
+        date_compact = d.replace("-", "")
+        fname = f"{instrument}-trades-{d}.zip"
+        url = OKX_TRADES_URL.format(instrument=instrument, date=d, date_compact=date_compact)
+        yield url, base / fname
+
+
 # ---------------------------------------------------------------------------
 # Main orchestrator
 # ---------------------------------------------------------------------------
@@ -245,6 +313,10 @@ async def run(args):
     if "binance_spot" in sources:
         all_tasks.extend(binance_spot_tasks(
             symbol, dates, output_dir, args.binance_spot_data_types, kline_intervals))
+    if "okx_futures" in sources:
+        all_tasks.extend(okx_futures_tasks(symbol, dates, output_dir))
+    if "okx_spot" in sources:
+        all_tasks.extend(okx_spot_tasks(symbol, dates, output_dir))
 
     total = len(all_tasks)
     print(f"Total files to download: {total}")
@@ -252,6 +324,7 @@ async def run(args):
 
     semaphore = asyncio.Semaphore(MAX_CONCURRENT)
     success_count = 0
+    skip_count = 0
     fail_count = 0
     not_found_count = 0
 
@@ -265,7 +338,9 @@ async def run(args):
         for i, coro in enumerate(asyncio.as_completed(coros), 1):
             url, ok, msg = await coro
             short = url.split("/")[-1]
-            if ok:
+            if ok and msg == "exists":
+                skip_count += 1
+            elif ok:
                 success_count += 1
                 print(f"  [{i}/{total}] ✓ {short}")
             elif "404" in msg:
@@ -277,7 +352,7 @@ async def run(args):
 
     print()
     print("=" * 60)
-    print(f"Done.  success={success_count}  not_found={not_found_count}  failed={fail_count}")
+    print(f"Done.  downloaded={success_count}  skipped={skip_count}  not_found={not_found_count}  failed={fail_count}")
     print(f"Data saved to: {output_dir.resolve() / symbol}")
 
     if fail_count > 0:
@@ -291,7 +366,7 @@ async def run(args):
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Download historical market data from Bybit and Binance.",
+        description="Download historical market data from Bybit, Binance, and OKX.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
