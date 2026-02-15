@@ -37,6 +37,7 @@ Usage:
 import argparse
 import re
 import sys
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import numpy as np
@@ -535,6 +536,24 @@ def _process_non_utc_aligned(source, cfg, data_dir, out_dir, intervals):
     parser = cfg["parser"]
     n = len(files)
     print(f"  {source} ({n} files, re-partitioning to UTC days)...")
+
+    # Fast pre-check: estimate expected UTC dates from raw file date range.
+    # OKX files are UTC+8, so raw date D covers UTC days D-1 and D.
+    # If ALL expected trades parquet files exist, skip entirely.
+    first_date = extract_date_from_filename(files[0].name)
+    last_date = extract_date_from_filename(files[-1].name)
+    if first_date and last_date:
+        expected_start = datetime.strptime(first_date, "%Y-%m-%d") - timedelta(days=1)
+        expected_end = datetime.strptime(last_date, "%Y-%m-%d")
+        expected_dates = pd.date_range(expected_start, expected_end)
+        trades_out = out_dir / "trades" / source
+        all_exist = all(
+            (trades_out / f"{d.strftime('%Y-%m-%d')}.parquet").exists()
+            for d in expected_dates
+        )
+        if all_exist:
+            print(f"  {source}: all {len(expected_dates)} output files exist, skipping")
+            return 0, len(expected_dates)
 
     written = 0
     skipped = 0
