@@ -6,6 +6,10 @@ Tick-level grid backtester with **correct mechanics** — processing every indiv
 
 **Fee model:** Bybit VIP0 maker 2 bps per fill (entry + exit = 4 bps round-trip per completed trade).
 
+> **⚠️ IMPORTANT: PnL numbers below are raw summed per-trade bps, NOT portfolio returns.**
+> Each trade is 1 unit of the asset. To get actual return on capital, you must account for
+> capital required (margin + drawdown buffer) and realistic fill rates (see analysis below).
+
 ## How the Grid Works
 
 1. Fixed price levels are placed symmetrically around a center price, spaced by `cell_width`.
@@ -99,6 +103,22 @@ The grid's Achilles heel is **inventory accumulation in trending markets:**
 
 The grid **always recovers if price returns to the grid range**, but there's no guarantee it will. In a sustained trend, the unrealized loss can exceed all realized profits.
 
+## Realistic Return on Capital
+
+The raw bps numbers are misleading. Here's what the returns actually look like:
+
+| Asset | Config | Trades | Per-Trade USD | Total USD | Capital Needed | Raw Return | Adj Return (30% fills) |
+|-------|--------|--------|--------------|-----------|----------------|------------|------------------------|
+| ETH | 50bps_3lvl | 170 | $13.80 | $2,346 | $11,705 | 20.0%/30d | **6.0%/30d** |
+| BTC | 50bps_3lvl | 92 | $414.00 | $38,088 | $305,640 | 12.5%/30d | **3.7%/30d** |
+| SOL | 50bps_3lvl | 122 | $0.61 | $75 | $512 | 14.6%/30d | **4.3%/30d** |
+
+**Capital needed** = margin for max inventory (3 units at 10x) + buffer for peak unrealized loss.
+
+**Adjusted return** assumes only 30% of backtested fills would actually execute due to queue position. This is a rough but conservative estimate.
+
+Even adjusted, 4-6%/month is attractive — but comes with significant tail risk from inventory blowup in sustained trends.
+
 ## Honest Assessment
 
 ### What's real:
@@ -117,6 +137,12 @@ The grid **always recovers if price returns to the grid range**, but there's no 
 
 ### The queue position problem is significant:
 On a liquid market like BTC, there are thousands of orders at each price level. Our grid order would be at the back of the queue. Many of our "fills" would not actually execute because other orders ahead of us would absorb the volume. This likely reduces actual fill rate by 50-80%.
+
+### Multi-level same-tick fills are NOT a problem:
+We verified that tick-to-tick price jumps never exceed even 1 cell width (max jump ~197 USD vs smallest cell 181 USD for BTC 20bps). So the concern about multiple levels filling unrealistically on the same tick does not apply to this data.
+
+### The PnL metric is misleading:
+Raw summed bps overstates the attractiveness. Proper return on capital (accounting for margin + drawdown buffer) is 12-20%/30d raw, or **4-6%/30d adjusted for queue position**. Still good, but not the 78x implied by raw bps.
 
 ## Conclusions
 
