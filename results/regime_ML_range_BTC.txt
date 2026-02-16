@@ -1,0 +1,409 @@
+======================================================================
+  ML RANGE PREDICTION EXPERIMENT
+  Symbol:   BTCUSDT
+  Period:   2025-01-01 → 2026-01-31
+  Horizons: 1h (12 bars), 4h (48 bars)
+  Phase 1:  Direct range prediction (Ridge, LGBM)
+  Phase 2:  Quantile regression (LGBM, Linear)
+======================================================================
+
+
+======================================================================
+  RANGE PREDICTION EXPERIMENTS: BTCUSDT
+  2025-01-01 → 2026-01-31
+  Horizons: 1h (12 bars), 4h (48 bars)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=9.5GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=9.5GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=9.5GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=9.5GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=9.5GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=9.5GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=9.5GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=9.5GB cache=160 new=0
+  [180/396] 2025-06-29 | 1s ETA=1s RAM=9.5GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=9.5GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=1s RAM=9.5GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=9.5GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=9.5GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=9.5GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=9.5GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=9.5GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=9.5GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=9.5GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=9.5GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=9.5GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded 114,048 bars in 1s
+
+  Step 2: Computing features...
+  60 features in 67s
+
+  Step 3: Computing range targets...
+      1h ( 12 bars): range mean=0.006289 median=0.004894 | asymmetry mean=0.499 (0.5=symmetric)
+      4h ( 48 bars): range mean=0.012984 median=0.010271 | asymmetry mean=0.496 (0.5=symmetric)
+  Targets computed in 4s
+
+######################################################################
+  PHASE 1: Direct Range Prediction
+######################################################################
+
+  ============================================================
+  Horizon: 12 bars (1h)
+  ============================================================
+  Samples: 113,749
+  fwd_range: mean=0.006292 std=0.005182 median=0.004895
+  fwd_vol:   mean=0.001071 std=0.000825
+  range/vol ratio: 5.87x
+  Correlation(range, vol): 0.8936
+  Walk-forward splits: 5
+
+  A) Direct range prediction:
+    Ridge fold 1/5: r2=0.409 corr=0.646 mae=0.002430 coverage=0.553 [train=18,959 test=18,958]
+    Ridge fold 2/5: r2=0.279 corr=0.544 mae=0.001877 coverage=0.565 [train=37,917 test=18,958]
+    Ridge fold 3/5: r2=0.229 corr=0.507 mae=0.001706 coverage=0.650 [train=56,875 test=18,958]
+    Ridge fold 4/5: r2=0.333 corr=0.578 mae=0.002455 coverage=0.600 [train=75,833 test=18,958]
+    Ridge fold 5/5: r2=0.380 corr=0.618 mae=0.002273 coverage=0.627 [train=94,791 test=18,958]
+  → Ridge: r2=0.326±0.066 corr=0.579±0.050 mae=0.002148 coverage=0.599 (0.9s)
+    LGBM fold 1/5: r2=0.375 corr=0.623 mae=0.002587 coverage=0.649 [train=18,959 test=18,958]
+    LGBM fold 2/5: r2=0.275 corr=0.534 mae=0.001960 coverage=0.670 [train=37,917 test=18,958]
+    LGBM fold 3/5: r2=0.253 corr=0.517 mae=0.001707 coverage=0.665 [train=56,875 test=18,958]
+    LGBM fold 4/5: r2=0.269 corr=0.522 mae=0.002525 coverage=0.586 [train=75,833 test=18,958]
+    LGBM fold 5/5: r2=0.341 corr=0.588 mae=0.002345 coverage=0.650 [train=94,791 test=18,958]
+  → LGBM: r2=0.303±0.047 corr=0.557±0.042 mae=0.002225 coverage=0.644 (16.0s)
+
+  B) Vol-derived range estimate (baseline):
+    Vol→Range fold 1/5: r2=0.411 corr=0.650 mae=0.002345 coverage=0.529 k=5.61 [train=18,959 test=18,958]
+    Vol→Range fold 2/5: r2=0.281 corr=0.545 mae=0.001824 coverage=0.544 k=5.64 [train=37,917 test=18,958]
+    Vol→Range fold 3/5: r2=0.246 corr=0.507 mae=0.001644 coverage=0.619 k=5.61 [train=56,875 test=18,958]
+    Vol→Range fold 4/5: r2=0.314 corr=0.571 mae=0.002402 coverage=0.540 k=5.58 [train=75,833 test=18,958]
+    Vol→Range fold 5/5: r2=0.367 corr=0.615 mae=0.002212 coverage=0.589 k=5.59 [train=94,791 test=18,958]
+  → Vol→Range: r2=0.324±0.059 corr=0.578±0.051 mae=0.002086 coverage=0.564 k=5.61 (0.7s)
+
+  C) Upside vs Downside prediction (Ridge):
+    upside fold 1/5: r2=0.139 corr=0.393 mae=0.002316 [train=18,959 test=18,958]
+    upside fold 2/5: r2=0.079 corr=0.306 mae=0.001785 [train=37,917 test=18,958]
+    upside fold 3/5: r2=0.083 corr=0.320 mae=0.001496 [train=56,875 test=18,958]
+    upside fold 4/5: r2=0.175 corr=0.423 mae=0.002229 [train=75,833 test=18,958]
+    upside fold 5/5: r2=0.169 corr=0.413 mae=0.001894 [train=94,791 test=18,958]
+  → upside: r2=0.129±0.041 corr=0.371±0.048 mae=0.001944 (0.8s)
+    downside fold 1/5: r2=0.183 corr=0.436 mae=0.002276 [train=18,959 test=18,958]
+    downside fold 2/5: r2=0.110 corr=0.346 mae=0.001713 [train=37,917 test=18,958]
+    downside fold 3/5: r2=0.085 corr=0.308 mae=0.001600 [train=56,875 test=18,958]
+    downside fold 4/5: r2=0.121 corr=0.350 mae=0.002480 [train=75,833 test=18,958]
+    downside fold 5/5: r2=0.151 corr=0.388 mae=0.002138 [train=94,791 test=18,958]
+  → downside: r2=0.130±0.034 corr=0.366±0.043 mae=0.002041 (0.6s)
+
+  D) Asymmetry prediction (upside/range ratio, Ridge):
+    asymmetry fold 1/5: r2=-0.018 corr=0.001 dir_acc=0.495 [train=18,959 test=18,958]
+    asymmetry fold 2/5: r2=-0.011 corr=-0.013 dir_acc=0.504 [train=37,917 test=18,958]
+    asymmetry fold 3/5: r2=-0.005 corr=0.012 dir_acc=0.505 [train=56,875 test=18,958]
+    asymmetry fold 4/5: r2=-0.001 corr=0.034 dir_acc=0.501 [train=75,833 test=18,958]
+    asymmetry fold 5/5: r2=-0.001 corr=0.026 dir_acc=0.506 [train=94,791 test=18,958]
+  → asymmetry: r2=-0.007±0.007 corr=0.012±0.017 dir_acc=0.502 (0.8s)
+
+  E) Feature importance (LGBM, range target):
+  Top 15 features for range prediction:
+     1. parkvol_24h                      5.5% (cum   5.5%)
+     2. parkvol_8h                       4.9% (cum  10.4%)
+     3. vol_sma_24h                      4.6% (cum  15.0%)
+     4. parkvol_1h                       4.0% (cum  19.0%)
+     5. price_vs_sma_24h                 3.8% (cum  22.7%)
+     6. rvol_24h                         3.7% (cum  26.4%)
+     7. vol_accel_4h                     3.7% (cum  30.1%)
+     8. adx_4h                           3.6% (cum  33.7%)
+     9. bar_eff_4h                       3.6% (cum  37.3%)
+    10. rvol_8h                          3.5% (cum  40.9%)
+    11. iti_cv_1h                        3.5% (cum  44.3%)
+    12. adx_2h                           3.2% (cum  47.5%)
+    13. large_trade_1h                   3.1% (cum  50.6%)
+    14. vol_ratio_2h_24h                 2.9% (cum  53.5%)
+    15. bar_eff_1h                       2.8% (cum  56.3%)
+
+  ============================================================
+  PHASE 1 SUMMARY — 1h horizon
+  ============================================================
+  Method                          R²     Corr        MAE   Coverage
+  -----------------------------------------------------------------
+  Range (Ridge)                0.326    0.579   0.002148      0.599
+  Range (LGBM)                 0.303    0.557   0.002225      0.644
+  Vol→Range (Ridge)            0.324    0.578   0.002086      0.564
+  Upside (Ridge)               0.129    0.371   0.001944        nan
+  Downside (Ridge)             0.130    0.366   0.002041        nan
+  Asymmetry (Ridge)           -0.007    0.012   0.278088      0.502
+
+  ============================================================
+  Horizon: 48 bars (4h)
+  ============================================================
+  Samples: 113,713
+  fwd_range: mean=0.012991 std=0.009819 median=0.010273
+  fwd_vol:   mean=0.001162 std=0.000770
+  range/vol ratio: 11.18x
+  Correlation(range, vol): 0.8986
+  Walk-forward splits: 5
+
+  A) Direct range prediction:
+    Ridge fold 1/5: r2=0.287 corr=0.564 mae=0.005544 coverage=0.506 [train=18,953 test=18,952]
+    Ridge fold 2/5: r2=0.138 corr=0.434 mae=0.004104 coverage=0.525 [train=37,905 test=18,952]
+    Ridge fold 3/5: r2=0.082 corr=0.374 mae=0.003797 coverage=0.630 [train=56,857 test=18,952]
+    Ridge fold 4/5: r2=0.202 corr=0.463 mae=0.005472 coverage=0.565 [train=75,809 test=18,952]
+    Ridge fold 5/5: r2=0.243 corr=0.500 mae=0.005243 coverage=0.597 [train=94,761 test=18,952]
+  → Ridge: r2=0.190±0.073 corr=0.467±0.064 mae=0.004832 coverage=0.564 (0.6s)
+    LGBM fold 1/5: r2=0.192 corr=0.505 mae=0.005882 coverage=0.603 [train=18,953 test=18,952]
+    LGBM fold 2/5: r2=0.083 corr=0.365 mae=0.004397 coverage=0.639 [train=37,905 test=18,952]
+    LGBM fold 3/5: r2=0.098 corr=0.373 mae=0.003775 coverage=0.651 [train=56,857 test=18,952]
+    LGBM fold 4/5: r2=0.095 corr=0.362 mae=0.006034 coverage=0.592 [train=75,809 test=18,952]
+    LGBM fold 5/5: r2=0.206 corr=0.466 mae=0.005411 coverage=0.624 [train=94,761 test=18,952]
+  → LGBM: r2=0.135±0.053 corr=0.414±0.059 mae=0.005100 coverage=0.622 (21.2s)
+
+  B) Vol-derived range estimate (baseline):
+    Vol→Range fold 1/5: r2=0.316 corr=0.586 mae=0.005232 coverage=0.505 k=10.58 [train=18,953 test=18,952]
+    Vol→Range fold 2/5: r2=0.147 corr=0.445 mae=0.003982 coverage=0.502 k=10.69 [train=37,905 test=18,952]
+    Vol→Range fold 3/5: r2=0.110 corr=0.383 mae=0.003658 coverage=0.602 k=10.64 [train=56,857 test=18,952]
+    Vol→Range fold 4/5: r2=0.189 corr=0.467 mae=0.005403 coverage=0.510 k=10.54 [train=75,809 test=18,952]
+    Vol→Range fold 5/5: r2=0.221 corr=0.495 mae=0.005172 coverage=0.555 k=10.51 [train=94,761 test=18,952]
+  → Vol→Range: r2=0.196±0.071 corr=0.475±0.067 mae=0.004689 coverage=0.535 k=10.59 (0.5s)
+
+  C) Upside vs Downside prediction (Ridge):
+    upside fold 1/5: r2=0.044 corr=0.328 mae=0.004934 [train=18,953 test=18,952]
+    upside fold 2/5: r2=0.007 corr=0.222 mae=0.003788 [train=37,905 test=18,952]
+    upside fold 3/5: r2=0.005 corr=0.215 mae=0.003057 [train=56,857 test=18,952]
+    upside fold 4/5: r2=0.038 corr=0.285 mae=0.004421 [train=75,809 test=18,952]
+    upside fold 5/5: r2=0.090 corr=0.315 mae=0.003923 [train=94,761 test=18,952]
+  → upside: r2=0.037±0.031 corr=0.273±0.047 mae=0.004025 (0.7s)
+    downside fold 1/5: r2=0.120 corr=0.364 mae=0.004824 [train=18,953 test=18,952]
+    downside fold 2/5: r2=0.033 corr=0.255 mae=0.003525 [train=37,905 test=18,952]
+    downside fold 3/5: r2=0.037 corr=0.236 mae=0.003331 [train=56,857 test=18,952]
+    downside fold 4/5: r2=0.064 corr=0.268 mae=0.005368 [train=75,809 test=18,952]
+    downside fold 5/5: r2=0.094 corr=0.310 mae=0.004686 [train=94,761 test=18,952]
+  → downside: r2=0.070±0.034 corr=0.286±0.046 mae=0.004347 (0.5s)
+
+  D) Asymmetry prediction (upside/range ratio, Ridge):
+    asymmetry fold 1/5: r2=-0.044 corr=-0.025 dir_acc=0.498 [train=18,953 test=18,952]
+    asymmetry fold 2/5: r2=-0.028 corr=-0.045 dir_acc=0.495 [train=37,905 test=18,952]
+    asymmetry fold 3/5: r2=-0.001 corr=0.049 dir_acc=0.520 [train=56,857 test=18,952]
+    asymmetry fold 4/5: r2=-0.012 corr=0.042 dir_acc=0.506 [train=75,809 test=18,952]
+    asymmetry fold 5/5: r2=-0.005 corr=0.021 dir_acc=0.495 [train=94,761 test=18,952]
+  → asymmetry: r2=-0.018±0.016 corr=0.008±0.037 dir_acc=0.503 (0.7s)
+
+  E) Feature importance (LGBM, range target):
+  Top 15 features for range prediction:
+     1. vol_sma_24h                      8.7% (cum   8.7%)
+     2. parkvol_24h                      7.0% (cum  15.7%)
+     3. rvol_24h                         5.9% (cum  21.6%)
+     4. rvol_8h                          5.2% (cum  26.8%)
+     5. price_vs_sma_24h                 5.1% (cum  31.9%)
+     6. parkvol_8h                       5.1% (cum  37.0%)
+     7. large_trade_1h                   4.3% (cum  41.3%)
+     8. adx_4h                           4.0% (cum  45.3%)
+     9. bar_eff_4h                       3.9% (cum  49.2%)
+    10. iti_cv_1h                        3.7% (cum  52.9%)
+    11. vol_accel_4h                     3.3% (cum  56.2%)
+    12. ret_autocorr_4h                  2.9% (cum  59.1%)
+    13. parkvol_4h                       2.7% (cum  61.8%)
+    14. vol_ratio_2h_24h                 2.7% (cum  64.4%)
+    15. adx_2h                           2.5% (cum  67.0%)
+
+  ============================================================
+  PHASE 1 SUMMARY — 4h horizon
+  ============================================================
+  Method                          R²     Corr        MAE   Coverage
+  -----------------------------------------------------------------
+  Range (Ridge)                0.190    0.467   0.004832      0.564
+  Range (LGBM)                 0.135    0.414   0.005100      0.622
+  Vol→Range (Ridge)            0.196    0.475   0.004689      0.535
+  Upside (Ridge)               0.037    0.273   0.004025        nan
+  Downside (Ridge)             0.070    0.286   0.004347        nan
+  Asymmetry (Ridge)           -0.018    0.008   0.273477      0.503
+
+
+######################################################################
+  PHASE 2: Quantile Regression
+######################################################################
+
+  ============================================================
+  Horizon: 12 bars (1h)
+  ============================================================
+  Samples: 113,749 | Splits: 5
+
+  A) LGBM Quantile Regression:
+    Q0.10 fold 1/5: actual_below=0.154 (target=0.10) cal_err=0.054 mae=0.002915 [train=18,959 test=18,958]
+    Q0.10 fold 2/5: actual_below=0.201 (target=0.10) cal_err=0.101 mae=0.002143 [train=37,917 test=18,958]
+    Q0.10 fold 3/5: actual_below=0.173 (target=0.10) cal_err=0.073 mae=0.001946 [train=56,875 test=18,958]
+    Q0.10 fold 4/5: actual_below=0.103 (target=0.10) cal_err=0.003 mae=0.003331 [train=75,833 test=18,958]
+    Q0.10 fold 5/5: actual_below=0.144 (target=0.10) cal_err=0.044 mae=0.002714 [train=94,791 test=18,958]
+  → Q0.10: actual_below=0.155 cal_error=0.055 pred_mean=0.003441 (19.3s)
+    Q0.25 fold 1/5: actual_below=0.308 (target=0.25) cal_err=0.058 mae=0.002490 [train=18,959 test=18,958]
+    Q0.25 fold 2/5: actual_below=0.341 (target=0.25) cal_err=0.091 mae=0.001887 [train=37,917 test=18,958]
+    Q0.25 fold 3/5: actual_below=0.323 (target=0.25) cal_err=0.073 mae=0.001666 [train=56,875 test=18,958]
+    Q0.25 fold 4/5: actual_below=0.234 (target=0.25) cal_err=0.016 mae=0.002777 [train=75,833 test=18,958]
+    Q0.25 fold 5/5: actual_below=0.303 (target=0.25) cal_err=0.053 mae=0.002310 [train=94,791 test=18,958]
+  → Q0.25: actual_below=0.302 cal_error=0.058 pred_mean=0.004124 (18.1s)
+    Q0.50 fold 1/5: actual_below=0.537 (target=0.50) cal_err=0.037 mae=0.002339 [train=18,959 test=18,958]
+    Q0.50 fold 2/5: actual_below=0.545 (target=0.50) cal_err=0.045 mae=0.001781 [train=37,917 test=18,958]
+    Q0.50 fold 3/5: actual_below=0.551 (target=0.50) cal_err=0.051 mae=0.001563 [train=56,875 test=18,958]
+    Q0.50 fold 4/5: actual_below=0.465 (target=0.50) cal_err=0.035 mae=0.002381 [train=75,833 test=18,958]
+    Q0.50 fold 5/5: actual_below=0.538 (target=0.50) cal_err=0.038 mae=0.002144 [train=94,791 test=18,958]
+  → Q0.50: actual_below=0.527 cal_error=0.041 pred_mean=0.005210 (21.2s)
+    Q0.75 fold 1/5: actual_below=0.736 (target=0.75) cal_err=0.014 mae=0.002903 [train=18,959 test=18,958]
+    Q0.75 fold 2/5: actual_below=0.761 (target=0.75) cal_err=0.011 mae=0.002358 [train=37,917 test=18,958]
+    Q0.75 fold 3/5: actual_below=0.766 (target=0.75) cal_err=0.016 mae=0.002021 [train=56,875 test=18,958]
+    Q0.75 fold 4/5: actual_below=0.692 (target=0.75) cal_err=0.058 mae=0.002699 [train=75,833 test=18,958]
+    Q0.75 fold 5/5: actual_below=0.745 (target=0.75) cal_err=0.005 mae=0.002624 [train=94,791 test=18,958]
+  → Q0.75: actual_below=0.740 cal_error=0.021 pred_mean=0.006774 (19.8s)
+    Q0.90 fold 1/5: actual_below=0.857 (target=0.90) cal_err=0.043 mae=0.004342 [train=18,959 test=18,958]
+    Q0.90 fold 2/5: actual_below=0.888 (target=0.90) cal_err=0.012 mae=0.003752 [train=37,917 test=18,958]
+    Q0.90 fold 3/5: actual_below=0.900 (target=0.90) cal_err=0.000 mae=0.003288 [train=56,875 test=18,958]
+    Q0.90 fold 4/5: actual_below=0.867 (target=0.90) cal_err=0.033 mae=0.004238 [train=75,833 test=18,958]
+    Q0.90 fold 5/5: actual_below=0.868 (target=0.90) cal_err=0.032 mae=0.003943 [train=94,791 test=18,958]
+  → Q0.90: actual_below=0.876 cal_error=0.024 pred_mean=0.008893 (21.2s)
+
+  B) Linear Quantile Regression (sklearn):
+    LinQ0.10 fold 1/5: actual_below=0.088 (target=0.10) cal_err=0.012 [train=18,959 test=18,958]
+    LinQ0.10 fold 2/5: actual_below=0.118 (target=0.10) cal_err=0.018 [train=20,000 test=18,958]
+    LinQ0.10 fold 3/5: actual_below=0.148 (target=0.10) cal_err=0.048 [train=20,000 test=18,958]
+    LinQ0.10 fold 4/5: actual_below=0.108 (target=0.10) cal_err=0.008 [train=20,000 test=18,958]
+    LinQ0.10 fold 5/5: actual_below=0.139 (target=0.10) cal_err=0.039 [train=20,000 test=18,958]
+  → LinQ0.10: actual_below=0.120 cal_error=0.025 (88.7s)
+    LinQ0.50 fold 1/5: actual_below=0.510 (target=0.50) cal_err=0.010 [train=18,959 test=18,958]
+    LinQ0.50 fold 2/5: actual_below=0.524 (target=0.50) cal_err=0.024 [train=20,000 test=18,958]
+    LinQ0.50 fold 3/5: actual_below=0.556 (target=0.50) cal_err=0.056 [train=20,000 test=18,958]
+    LinQ0.50 fold 4/5: actual_below=0.488 (target=0.50) cal_err=0.012 [train=20,000 test=18,958]
+    LinQ0.50 fold 5/5: actual_below=0.539 (target=0.50) cal_err=0.039 [train=20,000 test=18,958]
+  → LinQ0.50: actual_below=0.524 cal_error=0.028 (107.5s)
+    LinQ0.90 fold 1/5: actual_below=0.905 (target=0.90) cal_err=0.005 [train=18,959 test=18,958]
+    LinQ0.90 fold 2/5: actual_below=0.907 (target=0.90) cal_err=0.007 [train=20,000 test=18,958]
+    LinQ0.90 fold 3/5: actual_below=0.931 (target=0.90) cal_err=0.031 [train=20,000 test=18,958]
+    LinQ0.90 fold 4/5: actual_below=0.895 (target=0.90) cal_err=0.005 [train=20,000 test=18,958]
+    LinQ0.90 fold 5/5: actual_below=0.888 (target=0.90) cal_err=0.012 [train=20,000 test=18,958]
+  → LinQ0.90: actual_below=0.905 cal_error=0.012 (69.7s)
+
+  C) Band Coverage Analysis (LGBM quantiles):
+  P10-P90: coverage=0.724 (expected=0.80) avg_width=0.005434 (91.9% of mean range)
+  P25-P75: coverage=0.442 (expected=0.50) avg_width=0.002670 (45.2% of mean range)
+
+  D) Practical Grid Sizing (last fold, 18,958 bars):
+  Grid width = P50 prediction:
+    Coverage: 0.538 (range stays within grid 53.8% of time)
+    Avg predicted range: $460
+    Avg actual range:    $529
+  Grid width = P90 prediction:
+    Coverage: 0.868 (range stays within grid 86.8% of time)
+    Avg predicted range: $786
+
+  Fixed grid (overall median range):
+    Coverage: 0.546
+    Fixed width: $440
+
+  Adaptive grid efficiency:
+    During low-vol:  adaptive P50=$277 vs fixed=$441 (saves $164)
+    During high-vol: adaptive P50=$697 vs fixed=$437 (wider by $260)
+
+  ============================================================
+  PHASE 2 SUMMARY — 1h horizon
+  ============================================================
+    Quantile   LGBM cal Linear cal     Target
+  ---------------------------------------------
+  P  10           0.155      0.120       0.10
+  P  25           0.302        nan       0.25
+  P  50           0.527      0.524       0.50
+  P  75           0.740        nan       0.75
+  P  90           0.876      0.905       0.90
+
+  ============================================================
+  Horizon: 48 bars (4h)
+  ============================================================
+  Samples: 113,713 | Splits: 5
+
+  A) LGBM Quantile Regression:
+    Q0.10 fold 1/5: actual_below=0.203 (target=0.10) cal_err=0.103 mae=0.006212 [train=18,953 test=18,952]
+    Q0.10 fold 2/5: actual_below=0.196 (target=0.10) cal_err=0.096 mae=0.004690 [train=37,905 test=18,952]
+    Q0.10 fold 3/5: actual_below=0.196 (target=0.10) cal_err=0.096 mae=0.004105 [train=56,857 test=18,952]
+    Q0.10 fold 4/5: actual_below=0.131 (target=0.10) cal_err=0.031 mae=0.007097 [train=75,809 test=18,952]
+    Q0.10 fold 5/5: actual_below=0.182 (target=0.10) cal_err=0.082 mae=0.006189 [train=94,761 test=18,952]
+  → Q0.10: actual_below=0.181 cal_error=0.081 pred_mean=0.006983 (16.1s)
+    Q0.25 fold 1/5: actual_below=0.344 (target=0.25) cal_err=0.094 mae=0.005501 [train=18,953 test=18,952]
+    Q0.25 fold 2/5: actual_below=0.343 (target=0.25) cal_err=0.093 mae=0.004086 [train=37,905 test=18,952]
+    Q0.25 fold 3/5: actual_below=0.353 (target=0.25) cal_err=0.103 mae=0.003601 [train=56,857 test=18,952]
+    Q0.25 fold 4/5: actual_below=0.246 (target=0.25) cal_err=0.004 mae=0.006271 [train=75,809 test=18,952]
+    Q0.25 fold 5/5: actual_below=0.317 (target=0.25) cal_err=0.067 mae=0.005519 [train=94,761 test=18,952]
+  → Q0.25: actual_below=0.321 cal_error=0.072 pred_mean=0.008386 (18.7s)
+    Q0.50 fold 1/5: actual_below=0.528 (target=0.50) cal_err=0.028 mae=0.005237 [train=18,953 test=18,952]
+    Q0.50 fold 2/5: actual_below=0.560 (target=0.50) cal_err=0.060 mae=0.004055 [train=37,905 test=18,952]
+    Q0.50 fold 3/5: actual_below=0.569 (target=0.50) cal_err=0.069 mae=0.003540 [train=56,857 test=18,952]
+    Q0.50 fold 4/5: actual_below=0.446 (target=0.50) cal_err=0.054 mae=0.005580 [train=75,809 test=18,952]
+    Q0.50 fold 5/5: actual_below=0.506 (target=0.50) cal_err=0.006 mae=0.005083 [train=94,761 test=18,952]
+  → Q0.50: actual_below=0.522 cal_error=0.043 pred_mean=0.010620 (25.4s)
+    Q0.75 fold 1/5: actual_below=0.704 (target=0.75) cal_err=0.046 mae=0.006441 [train=18,953 test=18,952]
+    Q0.75 fold 2/5: actual_below=0.744 (target=0.75) cal_err=0.006 mae=0.005124 [train=37,905 test=18,952]
+    Q0.75 fold 3/5: actual_below=0.743 (target=0.75) cal_err=0.007 mae=0.004405 [train=56,857 test=18,952]
+    Q0.75 fold 4/5: actual_below=0.695 (target=0.75) cal_err=0.055 mae=0.006462 [train=75,809 test=18,952]
+    Q0.75 fold 5/5: actual_below=0.721 (target=0.75) cal_err=0.029 mae=0.005961 [train=94,761 test=18,952]
+  → Q0.75: actual_below=0.722 cal_error=0.028 pred_mean=0.014039 (20.4s)
+    Q0.90 fold 1/5: actual_below=0.815 (target=0.90) cal_err=0.085 mae=0.008775 [train=18,953 test=18,952]
+    Q0.90 fold 2/5: actual_below=0.860 (target=0.90) cal_err=0.040 mae=0.007427 [train=37,905 test=18,952]
+    Q0.90 fold 3/5: actual_below=0.876 (target=0.90) cal_err=0.024 mae=0.006808 [train=56,857 test=18,952]
+    Q0.90 fold 4/5: actual_below=0.846 (target=0.90) cal_err=0.054 mae=0.009748 [train=75,809 test=18,952]
+    Q0.90 fold 5/5: actual_below=0.846 (target=0.90) cal_err=0.054 mae=0.008801 [train=94,761 test=18,952]
+  → Q0.90: actual_below=0.848 cal_error=0.052 pred_mean=0.018284 (19.3s)
+
+  B) Linear Quantile Regression (sklearn):
+    LinQ0.10 fold 1/5: actual_below=0.100 (target=0.10) cal_err=0.000 [train=18,953 test=18,952]
+    LinQ0.10 fold 2/5: actual_below=0.118 (target=0.10) cal_err=0.018 [train=20,000 test=18,952]
+    LinQ0.10 fold 3/5: actual_below=0.140 (target=0.10) cal_err=0.040 [train=20,000 test=18,952]
+    LinQ0.10 fold 4/5: actual_below=0.099 (target=0.10) cal_err=0.001 [train=20,000 test=18,952]
+    LinQ0.10 fold 5/5: actual_below=0.157 (target=0.10) cal_err=0.057 [train=20,000 test=18,952]
+  → LinQ0.10: actual_below=0.123 cal_error=0.023 (96.2s)
+    LinQ0.50 fold 1/5: actual_below=0.487 (target=0.50) cal_err=0.013 [train=18,953 test=18,952]
+    LinQ0.50 fold 2/5: actual_below=0.503 (target=0.50) cal_err=0.003 [train=20,000 test=18,952]
+    LinQ0.50 fold 3/5: actual_below=0.561 (target=0.50) cal_err=0.061 [train=20,000 test=18,952]
+    LinQ0.50 fold 4/5: actual_below=0.451 (target=0.50) cal_err=0.049 [train=20,000 test=18,952]
+    LinQ0.50 fold 5/5: actual_below=0.508 (target=0.50) cal_err=0.008 [train=20,000 test=18,952]
+  → LinQ0.50: actual_below=0.502 cal_error=0.027 (123.0s)
+    LinQ0.90 fold 1/5: actual_below=0.907 (target=0.90) cal_err=0.007 [train=18,953 test=18,952]
+    LinQ0.90 fold 2/5: actual_below=0.913 (target=0.90) cal_err=0.013 [train=20,000 test=18,952]
+    LinQ0.90 fold 3/5: actual_below=0.942 (target=0.90) cal_err=0.042 [train=20,000 test=18,952]
+    LinQ0.90 fold 4/5: actual_below=0.879 (target=0.90) cal_err=0.021 [train=20,000 test=18,952]
+    LinQ0.90 fold 5/5: actual_below=0.879 (target=0.90) cal_err=0.021 [train=20,000 test=18,952]
+  → LinQ0.90: actual_below=0.904 cal_error=0.021 (91.3s)
+
+  C) Band Coverage Analysis (LGBM quantiles):
+  P10-P90: coverage=0.666 (expected=0.80) avg_width=0.012054 (97.9% of mean range)
+  P25-P75: coverage=0.405 (expected=0.50) avg_width=0.005873 (47.7% of mean range)
+
+  D) Practical Grid Sizing (last fold, 18,952 bars):
+  Grid width = P50 prediction:
+    Coverage: 0.506 (range stays within grid 50.6% of time)
+    Avg predicted range: $911
+    Avg actual range:    $1103
+  Grid width = P90 prediction:
+    Coverage: 0.846 (range stays within grid 84.6% of time)
+    Avg predicted range: $1670
+
+  Fixed grid (overall median range):
+    Coverage: 0.537
+    Fixed width: $924
+
+  Adaptive grid efficiency:
+    During low-vol:  adaptive P50=$638 vs fixed=$926 (saves $288)
+    During high-vol: adaptive P50=$1159 vs fixed=$920 (wider by $239)
+
+  ============================================================
+  PHASE 2 SUMMARY — 4h horizon
+  ============================================================
+    Quantile   LGBM cal Linear cal     Target
+  ---------------------------------------------
+  P  10           0.181      0.123       0.10
+  P  25           0.321        nan       0.25
+  P  50           0.522      0.502       0.50
+  P  75           0.722        nan       0.75
+  P  90           0.848      0.904       0.90
+
+✅ BTCUSDT range prediction experiments complete in 1096s (18.3min)
+
+
+======================================================================
+  ALL DONE — BTCUSDT in 1096s (18.3 min)
+======================================================================
