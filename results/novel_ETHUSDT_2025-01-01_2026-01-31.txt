@@ -1,0 +1,284 @@
+# Experiment: novel
+# Symbol: ETHUSDT
+# Exchange: bybit_futures
+# Period: 2025-01-01 → 2026-01-31
+# Started: 2026-02-16 20:50:36 UTC
+
+
+======================================================================
+  NOVEL EXPERIMENTS (N01-N16)
+  ETHUSDT on bybit_futures | 2025-01-01 → 2026-01-31 (396 days)
+  Fee: 7.0 bps RT
+  Experiments: 16
+======================================================================
+
+  Loading & computing features...
+    [ 5/396] 2025-01-05  elapsed=5s  ETA=362s  RAM=6.9GB
+    [10/396] 2025-01-10  elapsed=12s  ETA=474s  RAM=7.2GB
+    [15/396] 2025-01-15  elapsed=18s  ETA=464s  RAM=7.2GB
+    [20/396] 2025-01-20  elapsed=30s  ETA=566s  RAM=6.4GB
+    [25/396] 2025-01-25  elapsed=37s  ETA=552s  RAM=7.0GB
+    [30/396] 2025-01-30  elapsed=44s  ETA=538s  RAM=7.4GB
+    [35/396] 2025-02-04  elapsed=58s  ETA=594s  RAM=6.8GB
+    [40/396] 2025-02-09  elapsed=65s  ETA=580s  RAM=7.0GB
+    [45/396] 2025-02-14  elapsed=72s  ETA=560s  RAM=7.3GB
+    [50/396] 2025-02-19  elapsed=77s  ETA=535s  RAM=6.9GB
+    [55/396] 2025-02-24  elapsed=84s  ETA=522s  RAM=6.8GB
+    [60/396] 2025-03-01  elapsed=95s  ETA=531s  RAM=6.8GB
+    [65/396] 2025-03-06  elapsed=106s  ETA=539s  RAM=6.9GB
+    [70/396] 2025-03-11  elapsed=115s  ETA=535s  RAM=6.5GB
+    [75/396] 2025-03-16  elapsed=120s  ETA=516s  RAM=6.8GB
+    [80/396] 2025-03-21  elapsed=126s  ETA=497s  RAM=6.8GB
+    [85/396] 2025-03-26  elapsed=130s  ETA=475s  RAM=6.8GB
+    [90/396] 2025-03-31  elapsed=136s  ETA=462s  RAM=6.7GB
+    [95/396] 2025-04-05  elapsed=142s  ETA=450s  RAM=6.8GB
+    [100/396] 2025-04-10  elapsed=155s  ETA=458s  RAM=7.2GB
+    [105/396] 2025-04-15  elapsed=162s  ETA=449s  RAM=7.2GB
+    [110/396] 2025-04-20  elapsed=166s  ETA=433s  RAM=7.0GB
+    [115/396] 2025-04-25  elapsed=173s  ETA=424s  RAM=7.2GB
+    [120/396] 2025-04-30  elapsed=179s  ETA=411s  RAM=7.2GB
+    [125/396] 2025-05-05  elapsed=183s  ETA=397s  RAM=7.0GB
+    [130/396] 2025-05-10  elapsed=193s  ETA=395s  RAM=6.5GB
+    [135/396] 2025-05-15  elapsed=203s  ETA=393s  RAM=6.6GB
+    [140/396] 2025-05-20  elapsed=212s  ETA=388s  RAM=6.7GB
+    [145/396] 2025-05-25  elapsed=221s  ETA=382s  RAM=6.6GB
+    [150/396] 2025-05-30  elapsed=229s  ETA=375s  RAM=6.7GB
+    [155/396] 2025-06-04  elapsed=235s  ETA=366s  RAM=6.8GB
+    [160/396] 2025-06-09  elapsed=242s  ETA=356s  RAM=6.7GB
+    [165/396] 2025-06-14  elapsed=251s  ETA=351s  RAM=6.5GB
+    [170/396] 2025-06-19  elapsed=258s  ETA=343s  RAM=6.9GB
+    [175/396] 2025-06-24  elapsed=267s  ETA=337s  RAM=6.7GB
+    [180/396] 2025-06-29  elapsed=272s  ETA=326s  RAM=6.9GB
+    [185/396] 2025-07-04  elapsed=279s  ETA=318s  RAM=6.9GB
+    [190/396] 2025-07-09  elapsed=284s  ETA=308s  RAM=7.0GB
+    [195/396] 2025-07-14  elapsed=292s  ETA=301s  RAM=6.8GB
+    [200/396] 2025-07-19  elapsed=303s  ETA=297s  RAM=6.8GB
+    [205/396] 2025-07-24  elapsed=313s  ETA=291s  RAM=6.7GB
+    [210/396] 2025-07-29  elapsed=321s  ETA=284s  RAM=6.6GB
+    [215/396] 2025-08-03  elapsed=329s  ETA=277s  RAM=7.1GB
+    [220/396] 2025-08-08  elapsed=337s  ETA=270s  RAM=6.4GB
+    [225/396] 2025-08-13  elapsed=348s  ETA=265s  RAM=6.4GB
+    [230/396] 2025-08-18  elapsed=359s  ETA=259s  RAM=6.5GB
+    [235/396] 2025-08-23  elapsed=371s  ETA=254s  RAM=6.9GB
+    [240/396] 2025-08-28  elapsed=381s  ETA=247s  RAM=7.4GB
+    [245/396] 2025-09-02  elapsed=389s  ETA=240s  RAM=6.8GB
+    [250/396] 2025-09-07  elapsed=395s  ETA=231s  RAM=6.8GB
+    [255/396] 2025-09-12  elapsed=403s  ETA=223s  RAM=6.6GB
+    [260/396] 2025-09-17  elapsed=409s  ETA=214s  RAM=6.6GB
+    [265/396] 2025-09-22  elapsed=415s  ETA=205s  RAM=6.7GB
+    [270/396] 2025-09-27  elapsed=423s  ETA=198s  RAM=6.8GB
+    [275/396] 2025-10-02  elapsed=430s  ETA=189s  RAM=7.0GB
+    [280/396] 2025-10-07  elapsed=438s  ETA=181s  RAM=6.7GB
+    [285/396] 2025-10-12  elapsed=452s  ETA=176s  RAM=7.2GB
+    [290/396] 2025-10-17  elapsed=466s  ETA=170s  RAM=7.6GB
+    [295/396] 2025-10-22  elapsed=475s  ETA=163s  RAM=7.2GB
+    [300/396] 2025-10-27  elapsed=482s  ETA=154s  RAM=6.7GB
+    [305/396] 2025-11-01  elapsed=491s  ETA=147s  RAM=6.9GB
+    [310/396] 2025-11-06  elapsed=505s  ETA=140s  RAM=7.5GB
+    [315/396] 2025-11-11  elapsed=514s  ETA=132s  RAM=7.3GB
+    [320/396] 2025-11-16  elapsed=526s  ETA=125s  RAM=7.5GB
+    [325/396] 2025-11-21  elapsed=542s  ETA=118s  RAM=6.8GB
+    [330/396] 2025-11-26  elapsed=551s  ETA=110s  RAM=7.6GB
+    [335/396] 2025-12-01  elapsed=558s  ETA=102s  RAM=7.0GB
+    [340/396] 2025-12-06  elapsed=567s  ETA=93s  RAM=7.0GB
+    [345/396] 2025-12-11  elapsed=577s  ETA=85s  RAM=7.1GB
+    [350/396] 2025-12-16  elapsed=585s  ETA=77s  RAM=7.2GB
+    [355/396] 2025-12-21  elapsed=593s  ETA=68s  RAM=7.1GB
+    [360/396] 2025-12-26  elapsed=600s  ETA=60s  RAM=7.3GB
+    [365/396] 2025-12-31  elapsed=605s  ETA=51s  RAM=7.3GB
+    [370/396] 2026-01-05  elapsed=610s  ETA=43s  RAM=6.8GB
+    [375/396] 2026-01-10  elapsed=617s  ETA=35s  RAM=7.2GB
+    [380/396] 2026-01-15  elapsed=624s  ETA=26s  RAM=7.1GB
+    [385/396] 2026-01-20  elapsed=629s  ETA=18s  RAM=6.9GB
+    [390/396] 2026-01-25  elapsed=636s  ETA=10s  RAM=7.2GB
+    [395/396] 2026-01-30  elapsed=645s  ETA=2s  RAM=6.8GB
+    [396/396] 2026-01-31  elapsed=649s  ETA=0s  RAM=6.8GB
+  114,048 bars, adding derived features...
+
+  📋 N01_vpin_toxicity: VPIN: high toxicity predicts adverse selection → fade it
+    - thresh=1.0, hold=1h_c, trades=8110, avg=-7.00, total=-56735.6, WR=44%, sharpe=-0.09
+    - thresh=1.0, hold=1h_m, trades=8110, avg=-7.00, total=-56804.4, WR=43%, sharpe=-0.09
+    - thresh=1.0, hold=2h_c, trades=4373, avg=-6.36, total=-27802.1, WR=46%, sharpe=-0.06
+    - thresh=1.0, hold=2h_m, trades=4373, avg=-7.64, total=-33419.9, WR=45%, sharpe=-0.07
+    - thresh=1.0, hold=4h_c, trades=2273, avg=-7.20, total=-16367.2, WR=48%, sharpe=-0.05
+    - thresh=1.0, hold=4h_m, trades=2273, avg=-6.80, total=-15454.8, WR=46%, sharpe=-0.04
+    - thresh=1.5, hold=1h_c, trades=6162, avg=-6.96, total=-42868.0, WR=44%, sharpe=-0.09
+    - thresh=1.5, hold=1h_m, trades=6162, avg=-7.04, total=-43400.0, WR=44%, sharpe=-0.09
+    - thresh=1.5, hold=2h_c, trades=3721, avg=-8.05, total=-29965.3, WR=45%, sharpe=-0.08
+    - thresh=1.5, hold=2h_m, trades=3721, avg=-5.95, total=-22128.7, WR=46%, sharpe=-0.06
+    - thresh=1.5, hold=4h_c, trades=2095, avg=-8.36, total=-17523.1, WR=47%, sharpe=-0.05
+    - thresh=1.5, hold=4h_m, trades=2095, avg=-5.64, total=-11806.9, WR=46%, sharpe=-0.04
+    - thresh=2.0, hold=1h_c, trades=3203, avg=-7.33, total=-23463.9, WR=44%, sharpe=-0.10
+    - thresh=2.0, hold=1h_m, trades=3203, avg=-6.67, total=-21378.1, WR=43%, sharpe=-0.10
+    - thresh=2.0, hold=2h_c, trades=2350, avg=-9.69, total=-22765.5, WR=44%, sharpe=-0.10
+    - thresh=2.0, hold=2h_m, trades=2350, avg=-4.31, total=-10134.5, WR=46%, sharpe=-0.04
+    - thresh=2.0, hold=4h_c, trades=1549, avg=-7.82, total=-12110.7, WR=47%, sharpe=-0.05
+    - thresh=2.0, hold=4h_m, trades=1549, avg=-6.18, total=-9575.3, WR=45%, sharpe=-0.04
+       BEST: thresh=2.0, hold=2h_m, trades=2350, avg=-4.31 bps, total=-10134.5, WR=46%, sharpe=-0.04
+
+  📋 N02_hurst_regime: Hurst exponent: H>0.5 = trending, H<0.5 = mean-reverting → adapt
+    - thresh=1.0, hold=1h, trades=7278, avg=-7.36, total=-53562.8, WR=43%, sharpe=-0.10
+    - thresh=1.0, hold=2h, trades=4095, avg=-8.88, total=-36344.4, WR=44%, sharpe=-0.08
+    - thresh=1.0, hold=4h, trades=2200, avg=-9.00, total=-19809.5, WR=46%, sharpe=-0.06
+    - thresh=1.5, hold=1h, trades=4454, avg=-4.90, total=-21828.0, WR=42%, sharpe=-0.06
+    - thresh=1.5, hold=2h, trades=2939, avg=-2.16, total=-6349.0, WR=46%, sharpe=-0.02
+    - thresh=1.5, hold=4h, trades=1800, avg=-3.45, total=-6215.4, WR=47%, sharpe=-0.02
+       BEST: thresh=1.5, hold=2h, trades=2939, avg=-2.16 bps, total=-6349.0, WR=46%, sharpe=-0.02
+
+  📋 N03_sign_persistence: Order flow autocorrelation: persistent flow = informed → follow
+    - thresh=1.0, hold=1h, trades=8473, avg=-6.90, total=-58495.5, WR=44%, sharpe=-0.09
+    - thresh=1.0, hold=2h, trades=4457, avg=-4.85, total=-21627.9, WR=46%, sharpe=-0.04
+    - thresh=1.0, hold=4h, trades=2294, avg=-7.98, total=-18316.6, WR=47%, sharpe=-0.05
+       BEST: thresh=1.0, hold=2h, trades=4457, avg=-4.85 bps, total=-21627.9, WR=46%, sharpe=-0.04
+
+  📋 N04_info_decay: Trade informativeness: first-half flow predicts second-half price
+    - thresh=1.0, hold=1h, trades=5735, avg=-6.96, total=-39930.2, WR=44%, sharpe=-0.09
+    - thresh=1.0, hold=2h, trades=3569, avg=-9.84, total=-35136.5, WR=46%, sharpe=-0.09
+    - thresh=1.0, hold=4h, trades=2029, avg=-10.16, total=-20606.7, WR=46%, sharpe=-0.07
+    - thresh=1.5, hold=1h, trades=3272, avg=-6.83, total=-22363.1, WR=43%, sharpe=-0.08
+    - thresh=1.5, hold=2h, trades=2416, avg=-9.09, total=-21964.5, WR=45%, sharpe=-0.08
+    - thresh=1.5, hold=4h, trades=1592, avg=-8.26, total=-13156.6, WR=47%, sharpe=-0.05
+       BEST: thresh=1.5, hold=1h, trades=3272, avg=-6.83 bps, total=-22363.1, WR=43%, sharpe=-0.08
+
+  📋 N05_entropy_regime: Low size entropy = concentrated (informed) trading → follow direction
+    - thresh=1.0, hold=1h, trades=7843, avg=-4.51, total=-35404.8, WR=45%, sharpe=-0.06
+    - thresh=1.0, hold=2h, trades=4286, avg=-4.48, total=-19205.1, WR=45%, sharpe=-0.04
+    - thresh=1.0, hold=4h, trades=2237, avg=-6.65, total=-14880.7, WR=47%, sharpe=-0.04
+    - thresh=1.5, hold=1h, trades=4505, avg=-6.66, total=-30021.2, WR=43%, sharpe=-0.10
+    - thresh=1.5, hold=2h, trades=2902, avg=-7.07, total=-20515.9, WR=45%, sharpe=-0.07
+    - thresh=1.5, hold=4h, trades=1739, avg=-5.25, total=-9135.3, WR=47%, sharpe=-0.04
+       BEST: thresh=1.0, hold=2h, trades=4286, avg=-4.48 bps, total=-19205.1, WR=45%, sharpe=-0.04
+
+  📋 N06_toxic_flow_cumulative: Cumulative toxic flow: sustained toxicity = big move coming
+    - thresh=1.0, hold=1h_c, trades=6015, avg=-7.96, total=-47908.6, WR=43%, sharpe=-0.11
+    - thresh=1.0, hold=1h_m, trades=6015, avg=-6.04, total=-36301.4, WR=44%, sharpe=-0.08
+    - thresh=1.0, hold=2h_c, trades=3650, avg=-6.35, total=-23160.3, WR=45%, sharpe=-0.06
+    - thresh=1.0, hold=2h_m, trades=3650, avg=-7.65, total=-27939.7, WR=46%, sharpe=-0.07
+    - thresh=1.0, hold=4h_c, trades=2057, avg=-9.29, total=-19119.7, WR=47%, sharpe=-0.06
+    - thresh=1.0, hold=4h_m, trades=2057, avg=-4.71, total=-9678.3, WR=47%, sharpe=-0.03
+    - thresh=1.5, hold=1h_c, trades=3333, avg=-8.38, total=-27941.5, WR=42%, sharpe=-0.13
+    - thresh=1.5, hold=1h_m, trades=3333, avg=-5.62, total=-18720.5, WR=44%, sharpe=-0.09
+    - thresh=1.5, hold=2h_c, trades=2396, avg=-7.91, total=-18942.5, WR=45%, sharpe=-0.08
+    - thresh=1.5, hold=2h_m, trades=2396, avg=-6.09, total=-14601.5, WR=45%, sharpe=-0.06
+    - thresh=1.5, hold=4h_c, trades=1577, avg=-9.98, total=-15733.0, WR=48%, sharpe=-0.07
+    - thresh=1.5, hold=4h_m, trades=1577, avg=-4.02, total=-6345.0, WR=47%, sharpe=-0.03
+       BEST: thresh=1.5, hold=4h_m, trades=1577, avg=-4.02 bps, total=-6345.0, WR=47%, sharpe=-0.03
+
+  📋 N07_illiquidity_shock: Illiquidity asymmetry: one side dries up → price moves to that side
+    - thresh=1.0, hold=1h_c, trades=8148, avg=-7.15, total=-58271.6, WR=42%, sharpe=-0.10
+    - thresh=1.0, hold=1h_m, trades=8148, avg=-6.85, total=-55800.4, WR=45%, sharpe=-0.09
+    - thresh=1.0, hold=2h_c, trades=4373, avg=-8.49, total=-37130.7, WR=45%, sharpe=-0.08
+    - thresh=1.0, hold=2h_m, trades=4373, avg=-5.51, total=-24091.3, WR=46%, sharpe=-0.05
+    - thresh=1.0, hold=4h_c, trades=2280, avg=-9.01, total=-20550.8, WR=46%, sharpe=-0.06
+    - thresh=1.0, hold=4h_m, trades=2280, avg=-4.99, total=-11369.2, WR=48%, sharpe=-0.03
+    - thresh=1.5, hold=1h_c, trades=5857, avg=-8.86, total=-51913.1, WR=41%, sharpe=-0.13
+    - thresh=1.5, hold=1h_m, trades=5857, avg=-5.14, total=-30084.9, WR=46%, sharpe=-0.08
+    - thresh=1.5, hold=2h_c, trades=3573, avg=-9.30, total=-33219.0, WR=43%, sharpe=-0.09
+    - thresh=1.5, hold=2h_m, trades=3573, avg=-4.70, total=-16803.0, WR=47%, sharpe=-0.05
+    - thresh=1.5, hold=4h_c, trades=2030, avg=-12.45, total=-25265.7, WR=45%, sharpe=-0.08
+    - thresh=1.5, hold=4h_m, trades=2030, avg=-1.55, total=-3154.3, WR=48%, sharpe=-0.01
+       BEST: thresh=1.5, hold=4h_m, trades=2030, avg=-1.55 bps, total=-3154.3, WR=48%, sharpe=-0.01
+
+  📋 N08_efficiency_regime: Price efficiency: low efficiency = noisy → mean-revert; high = trending → follow
+    - thresh=1.0, hold=1h, trades=6587, avg=-7.08, total=-46665.2, WR=44%, sharpe=-0.09
+    - thresh=1.0, hold=2h, trades=3789, avg=-7.94, total=-30074.8, WR=44%, sharpe=-0.07
+    - thresh=1.0, hold=4h, trades=2081, avg=-5.54, total=-11522.9, WR=48%, sharpe=-0.04
+    - thresh=1.5, hold=1h, trades=3966, avg=-7.12, total=-28254.6, WR=43%, sharpe=-0.12
+    - thresh=1.5, hold=2h, trades=2615, avg=-6.53, total=-17066.7, WR=44%, sharpe=-0.07
+    - thresh=1.5, hold=4h, trades=1627, avg=-4.15, total=-6759.1, WR=47%, sharpe=-0.03
+       BEST: thresh=1.5, hold=4h, trades=1627, avg=-4.15 bps, total=-6759.1, WR=47%, sharpe=-0.03
+
+  📋 N09_aggressive_flow: Aggressive volume ratio: more price-moving trades = informed
+    - thresh=1.0, hold=1h, trades=7891, avg=-6.35, total=-50124.3, WR=43%, sharpe=-0.08
+    - thresh=1.0, hold=2h, trades=4296, avg=-4.89, total=-21004.3, WR=46%, sharpe=-0.05
+    - thresh=1.0, hold=4h, trades=2249, avg=-8.02, total=-18035.2, WR=47%, sharpe=-0.05
+    - thresh=1.5, hold=1h, trades=5672, avg=-4.92, total=-27910.8, WR=44%, sharpe=-0.06
+    - thresh=1.5, hold=2h, trades=3490, avg=-5.81, total=-20289.9, WR=45%, sharpe=-0.06
+    - thresh=1.5, hold=4h, trades=2019, avg=-1.29, total=-2609.9, WR=48%, sharpe=-0.01
+       BEST: thresh=1.5, hold=4h, trades=2019, avg=-1.29 bps, total=-2609.9, WR=48%, sharpe=-0.01
+
+  📋 N10_herding_runs: Herding: long same-side runs = herding behavior → contrarian fade
+    - thresh=1.0, hold=1h_c, trades=8012, avg=-6.42, total=-51424.1, WR=45%, sharpe=-0.09
+    - thresh=1.0, hold=1h_m, trades=8012, avg=-7.58, total=-60743.9, WR=42%, sharpe=-0.11
+    - thresh=1.0, hold=2h_c, trades=4327, avg=-5.62, total=-24314.1, WR=46%, sharpe=-0.05
+    - thresh=1.0, hold=2h_m, trades=4327, avg=-8.38, total=-36263.9, WR=45%, sharpe=-0.08
+    - thresh=1.0, hold=4h_c, trades=2256, avg=-7.38, total=-16650.4, WR=46%, sharpe=-0.05
+    - thresh=1.0, hold=4h_m, trades=2256, avg=-6.62, total=-14933.6, WR=46%, sharpe=-0.04
+    - thresh=1.5, hold=1h_c, trades=5747, avg=-6.01, total=-34559.4, WR=45%, sharpe=-0.09
+    - thresh=1.5, hold=1h_m, trades=5747, avg=-7.99, total=-45898.6, WR=41%, sharpe=-0.12
+    - thresh=1.5, hold=2h_c, trades=3501, avg=-4.61, total=-16140.4, WR=47%, sharpe=-0.05
+    - thresh=1.5, hold=2h_m, trades=3501, avg=-9.39, total=-32873.6, WR=44%, sharpe=-0.10
+    - thresh=1.5, hold=4h_c, trades=1993, avg=-4.47, total=-8910.6, WR=47%, sharpe=-0.03
+    - thresh=1.5, hold=4h_m, trades=1993, avg=-9.53, total=-18991.4, WR=46%, sharpe=-0.07
+       BEST: thresh=1.5, hold=4h_c, trades=1993, avg=-4.47 bps, total=-8910.6, WR=47%, sharpe=-0.03
+
+  📋 N11_multifractal_vol: Multifractal: high ratio = turbulent regime → expect big move, follow direction
+    - thresh=1.0, hold=1h, trades=7860, avg=-7.83, total=-61510.4, WR=42%, sharpe=-0.10
+    - thresh=1.0, hold=2h, trades=4292, avg=-7.70, total=-33060.3, WR=45%, sharpe=-0.07
+    - thresh=1.0, hold=4h, trades=2249, avg=-7.27, total=-16339.0, WR=45%, sharpe=-0.05
+    - thresh=1.5, hold=1h, trades=5669, avg=-8.09, total=-45853.8, WR=42%, sharpe=-0.10
+    - thresh=1.5, hold=2h, trades=3524, avg=-10.15, total=-35785.3, WR=44%, sharpe=-0.09
+    - thresh=1.5, hold=4h, trades=2005, avg=-9.62, total=-19293.8, WR=45%, sharpe=-0.06
+       BEST: thresh=1.0, hold=4h, trades=2249, avg=-7.27 bps, total=-16339.0, WR=45%, sharpe=-0.05
+
+  📋 N12_vw_momentum: Volume-weighted momentum: large-trade-weighted price direction
+    - thresh=1.0, hold=1h_c, trades=6518, avg=-7.52, total=-49022.7, WR=44%, sharpe=-0.10
+    - thresh=1.0, hold=1h_m, trades=6518, avg=-6.48, total=-42229.3, WR=43%, sharpe=-0.09
+    - thresh=1.0, hold=2h_c, trades=3801, avg=-9.25, total=-35165.2, WR=46%, sharpe=-0.09
+    - thresh=1.0, hold=2h_m, trades=3801, avg=-4.75, total=-18048.8, WR=46%, sharpe=-0.04
+    - thresh=1.0, hold=4h_c, trades=2098, avg=-9.41, total=-19741.5, WR=48%, sharpe=-0.06
+    - thresh=1.0, hold=4h_m, trades=2098, avg=-4.59, total=-9630.5, WR=46%, sharpe=-0.03
+    - thresh=1.5, hold=1h_c, trades=4519, avg=-6.98, total=-31530.5, WR=44%, sharpe=-0.09
+    - thresh=1.5, hold=1h_m, trades=4519, avg=-7.02, total=-31735.5, WR=43%, sharpe=-0.09
+    - thresh=1.5, hold=2h_c, trades=2983, avg=-7.87, total=-23472.9, WR=46%, sharpe=-0.07
+    - thresh=1.5, hold=2h_m, trades=2983, avg=-6.13, total=-18289.1, WR=45%, sharpe=-0.06
+    - thresh=1.5, hold=4h_c, trades=1803, avg=-13.59, total=-24508.8, WR=45%, sharpe=-0.09
+    - thresh=1.5, hold=4h_m, trades=1803, avg=-0.41, total=-733.2, WR=48%, sharpe=-0.00
+       BEST: thresh=1.5, hold=4h_m, trades=1803, avg=-0.41 bps, total=-733.2, WR=48%, sharpe=-0.00
+
+  📋 N13_surprise_contrarian: Surprise index: unusual activity bars tend to revert
+    - thresh=1.0, hold=1h, trades=2813, avg=-6.76, total=-19025.6, WR=49%, sharpe=-0.07
+    - thresh=1.0, hold=2h, trades=2014, avg=-7.03, total=-14166.6, WR=50%, sharpe=-0.05
+    - thresh=1.0, hold=4h, trades=1351, avg=-12.17, total=-16443.4, WR=51%, sharpe=-0.07
+    - thresh=1.5, hold=1h, trades=2185, avg=-6.03, total=-13167.2, WR=50%, sharpe=-0.06
+    - thresh=1.5, hold=2h, trades=1653, avg=-5.75, total=-9504.8, WR=51%, sharpe=-0.04
+    - thresh=1.5, hold=4h, trades=1150, avg=-8.34, total=-9586.2, WR=52%, sharpe=-0.05
+    - thresh=2.0, hold=1h, trades=1752, avg=-7.93, total=-13885.6, WR=49%, sharpe=-0.08
+    - thresh=2.0, hold=2h, trades=1364, avg=-10.62, total=-14483.6, WR=50%, sharpe=-0.08
+    - thresh=2.0, hold=4h, trades=995, avg=-11.69, total=-11632.8, WR=52%, sharpe=-0.06
+       BEST: thresh=1.5, hold=2h, trades=1653, avg=-5.75 bps, total=-9504.8, WR=51%, sharpe=-0.04
+
+  📋 N14_vol_speed_informed: Volume clock speed: fast volume = informed activity → follow direction
+    - thresh=1.0, hold=1h, trades=3323, avg=-2.95, total=-9809.6, WR=43%, sharpe=-0.03
+    - thresh=1.0, hold=2h, trades=2275, avg=-4.55, total=-10348.1, WR=45%, sharpe=-0.04
+    - thresh=1.0, hold=4h, trades=1458, avg=-6.03, total=-8793.3, WR=43%, sharpe=-0.04
+    - thresh=1.5, hold=1h, trades=2508, avg=-3.91, total=-9808.3, WR=42%, sharpe=-0.04
+    - thresh=1.5, hold=2h, trades=1815, avg=-0.44, total=-796.3, WR=45%, sharpe=-0.00
+    + thresh=1.5, hold=4h, trades=1234, avg=+0.37, total=+460.5, WR=46%, sharpe=0.00
+    ✅ BEST: thresh=1.5, hold=4h, trades=1234, avg=+0.37 bps, total=+460.5, WR=46%, sharpe=0.00
+
+  📋 N15_composite_informed: Composite informed flow: VPIN + entropy + persistence + aggression
+    - thresh=1.0, hold=1h_c, trades=8084, avg=-6.45, total=-52171.4, WR=43%, sharpe=-0.09
+    - thresh=1.0, hold=1h_m, trades=8084, avg=-7.55, total=-61004.6, WR=44%, sharpe=-0.10
+    - thresh=1.0, hold=2h_c, trades=4348, avg=-7.64, total=-33235.8, WR=44%, sharpe=-0.07
+    - thresh=1.0, hold=2h_m, trades=4348, avg=-6.36, total=-27636.2, WR=47%, sharpe=-0.06
+    - thresh=1.0, hold=4h_c, trades=2264, avg=-11.49, total=-26010.2, WR=46%, sharpe=-0.07
+    - thresh=1.0, hold=4h_m, trades=2264, avg=-2.51, total=-5685.8, WR=49%, sharpe=-0.02
+    - thresh=1.5, hold=1h_c, trades=5900, avg=-6.68, total=-39400.3, WR=43%, sharpe=-0.10
+    - thresh=1.5, hold=1h_m, trades=5900, avg=-7.32, total=-43199.7, WR=44%, sharpe=-0.10
+    - thresh=1.5, hold=2h_c, trades=3612, avg=-7.62, total=-27526.3, WR=44%, sharpe=-0.08
+    - thresh=1.5, hold=2h_m, trades=3612, avg=-6.38, total=-23041.7, WR=47%, sharpe=-0.06
+    - thresh=1.5, hold=4h_c, trades=2039, avg=-6.74, total=-13740.5, WR=45%, sharpe=-0.05
+    - thresh=1.5, hold=4h_m, trades=2039, avg=-7.26, total=-14805.5, WR=48%, sharpe=-0.05
+       BEST: thresh=1.0, hold=4h_m, trades=2264, avg=-2.51 bps, total=-5685.8, WR=49%, sharpe=-0.02
+
+  📋 N16_time_entropy_regime: Time entropy: low = algorithmic (regular), high = organic → different edges
+    - thresh=1.0, hold=1h, trades=7824, avg=-5.95, total=-46584.7, WR=43%, sharpe=-0.08
+    - thresh=1.0, hold=2h, trades=4272, avg=-6.84, total=-29221.7, WR=45%, sharpe=-0.06
+    - thresh=1.0, hold=4h, trades=2243, avg=-5.61, total=-12576.7, WR=47%, sharpe=-0.04
+    - thresh=1.5, hold=1h, trades=5653, avg=-7.08, total=-40009.5, WR=43%, sharpe=-0.09
+    - thresh=1.5, hold=2h, trades=3502, avg=-6.23, total=-21834.3, WR=44%, sharpe=-0.06
+    - thresh=1.5, hold=4h, trades=2003, avg=-5.86, total=-11735.2, WR=46%, sharpe=-0.04
+       BEST: thresh=1.0, hold=4h, trades=2243, avg=-5.61 bps, total=-12576.7, WR=47%, sharpe=-0.04
+
+# Completed in 659s
