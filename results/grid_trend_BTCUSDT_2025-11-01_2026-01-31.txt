@@ -1,0 +1,32 @@
+======================================================================
+  GRID + TREND COMBINED EXPERIMENTS
+  BTCUSDT on bybit_futures | 2025-11-01 → 2026-01-31
+  Grid fee: 2.0 bps maker (=4.0 bps RT)
+  Trend fee: 5.5 bps taker (=11.0 bps RT)
+======================================================================
+
+  BASELINE: PURE GRID — pure_grid_30bps_3lvl
+  Center: 109546.70, Cell: 328.64
+  [1/92] 2025-11-01: 701,041 ticks | grid_t=+5 | grid_real=+129.1 grid_unrl=-15.5 | inv=-1 | 2s RAM=6.9GB
+  [2/92] 2025-11-02: 985,169 ticks | grid_t=+5 | grid_real=+258.1 grid_unrl=-79.0 | inv=-3 | 5s RAM=6.9GB
+  [3/92] 2025-11-03: 3,280,850 ticks | grid_t=+3 | grid_real=+335.6 grid_unrl=-648.1 | inv=3 | 14s RAM=7.5GB
+  [4/92] 2025-11-04: 4,878,673 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-2051.7 | inv=3 | 28s RAM=7.3GB
+  [5/92] 2025-11-05: 3,242,511 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-1391.9 | inv=3 | 37s RAM=7.7GB
+  [6/92] 2025-11-06: 2,845,163 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-2091.8 | inv=3 | 45s RAM=7.5GB
+  [7/92] 2025-11-07: 2,954,174 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-1539.6 | inv=3 | 53s RAM=7.9GB
+  [8/92] 2025-11-08: 1,231,476 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-1823.9 | inv=3 | 56s RAM=7.9GB
+  [9/92] 2025-11-09: 1,823,070 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-1163.7 | inv=3 | 61s RAM=7.9GB
+  [10/92] 2025-11-10: 1,995,443 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-804.3 | inv=3 | 67s RAM=8.0GB
+  [11/92] 2025-11-11: 2,105,320 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-1621.2 | inv=3 | 73s RAM=7.7GB
+  [12/92] 2025-11-12: 2,099,423 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-2009.3 | inv=3 | 79s RAM=7.5GB
+  [13/92] 2025-11-13: 3,244,502 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-2551.2 | inv=3 | 88s RAM=7.5GB
+  [14/92] 2025-11-14: 4,426,194 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-3955.1 | inv=3 | 100s RAM=7.5GB
+  [15/92] 2025-11-15: 1,505,743 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-3672.5 | inv=3 | 104s RAM=7.7GB
+  [16/92] 2025-11-16: 2,121,109 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-4042.5 | inv=3 | 110s RAM=7.8GB
+  [17/92] 2025-11-17: 3,328,866 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-4605.8 | inv=3 | 119s RAM=7.8GB
+  [18/92] 2025-11-18: 3,767,771 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-4398.2 | inv=3 | 129s RAM=7.7GB
+  [19/92] 2025-11-19: 3,224,030 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-4788.3 | inv=3 | 138s RAM=7.7GB
+  [20/92] 2025-11-20: 4,028,956 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-6145.5 | inv=3 | 148s RAM=7.8GB
+  [21/92] 2025-11-21: 6,345,524 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-6554.9 | inv=3 | 168s RAM=7.8GB
+  [22/92] 2025-11-22: 1,849,356 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-6663.8 | inv=3 | 173s RAM=7.7GB
+  [23/92] 2025-11-23: 2,305,761 ticks | grid_t=+0 | grid_real=+335.6 grid_unrl=-6084.9 | inv=3 | 180s RAM=7.6GB
