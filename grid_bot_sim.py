@@ -110,38 +110,50 @@ class GridBotSimulator:
     """
     Simulates a symmetric grid bot on historical OHLC data.
 
-    Grid mechanics:
-    - N_LEVELS buy orders below center, N_LEVELS sell orders above
-    - When price crosses a buy level → fill buy, position += 1 unit
-    - When price crosses a sell level → fill sell, position -= 1 unit
-    - Each completed round-trip (buy+sell or sell+buy) captures 1 grid spacing
-    - Fees deducted per fill
+    Clean mechanics:
+    - Grid has N levels above and N levels below center price.
+    - Each level is a pending order: buy below, sell above.
+    - A level can only fill ONCE until the grid is reset.
+    - When a buy fills, the corresponding sell level (one step up) becomes active.
+    - When a sell fills, the corresponding buy level (one step down) becomes active.
+    - This captures the spread between adjacent levels on each round-trip.
+    - Grid resets (recenters) every rebalance_interval bars.
+    - At reset, any open inventory is closed at market (realized PnL).
 
-    Position limits prevent unlimited accumulation.
+    PnL tracking:
+    - Each fill is tracked with its price.
+    - Inventory is valued at cost basis (FIFO).
+    - Equity = cash + unrealized (inventory × current price - cost basis).
+
+    Position sizing:
+    - Fixed USD per grid level (capital / n_levels / 2 per side).
     """
 
-    def __init__(self, n_levels=5, max_position=5, fee_bps=7.0,
-                 capital_usd=10000, rebalance_interval=12,
-                 pause_vol_mult=3.0):
+    def __init__(self, n_levels=5, fee_bps=7.0,
+                 capital_usd=10000, rebalance_interval=12):
         self.n_levels = n_levels
-        self.max_position = max_position
         self.fee_bps = fee_bps
         self.capital_usd = capital_usd
-        self.rebalance_interval = rebalance_interval  # bars between grid recentering
-        self.pause_vol_mult = pause_vol_mult
+        self.rebalance_interval = rebalance_interval
+
+    def _setup_grid(self, center, spacing):
+        """Create grid levels and pending order state."""
+        levels = {}
+        for i in range(1, self.n_levels + 1):
+            levels[f"buy_{i}"] = {"price": center - i * spacing, "active": True, "type": "buy"}
+            levels[f"sell_{i}"] = {"price": center + i * spacing, "active": True, "type": "sell"}
+        return levels
 
     def run(self, prices_close, prices_high, prices_low,
-            grid_spacings, strategy_name="fixed", paused=None):
+            grid_spacings_pct, strategy_name="fixed", paused=None):
         """
         Run grid bot simulation.
 
         Args:
-            prices_close: array of close prices
-            prices_high: array of high prices
-            prices_low: array of low prices
-            grid_spacings: array of grid spacing (in price units) per bar
-            strategy_name: label for logging
-            paused: optional boolean array, True = don't trade this bar
+            prices_close/high/low: price arrays
+            grid_spacings_pct: array of grid spacing as FRACTION of price (e.g., 0.005 = 0.5%)
+            strategy_name: label
+            paused: optional boolean array
 
         Returns: dict of metrics
         """
@@ -149,97 +161,132 @@ class GridBotSimulator:
         if paused is None:
             paused = np.zeros(n, dtype=bool)
 
+        # Per-level USD size
+        size_usd = self.capital_usd / (self.n_levels * 2)
+
         # State
-        position = 0  # in grid units (-max to +max)
-        cash = 0.0  # realized PnL in USD
+        inventory = []  # list of (quantity, cost_price) for longs; negative qty for shorts
+        cash = 0.0
         total_fees = 0.0
         fills = 0
-        round_trips = 0
+        grid_profits = 0.0  # profit from completed grid round-trips
 
         # Grid state
         grid_center = prices_close[0]
-        grid_spacing = grid_spacings[0]
+        grid_spacing = grid_spacings_pct[0] * grid_center
+        levels = self._setup_grid(grid_center, grid_spacing)
         last_rebalance = 0
 
         # Tracking
         equity_curve = np.zeros(n)
         position_history = np.zeros(n)
         spacing_history = np.zeros(n)
-        fill_bars = []
 
         for i in range(n):
             price = prices_close[i]
             high = prices_high[i]
             low = prices_low[i]
-            spacing = grid_spacings[i]
 
-            # Rebalance grid center periodically
-            if i - last_rebalance >= self.rebalance_interval:
+            # Rebalance: close inventory at market, recenter grid
+            if i - last_rebalance >= self.rebalance_interval and i > 0:
+                # Close all inventory at current price
+                for qty, cost_p in inventory:
+                    pnl = qty * (price - cost_p)
+                    cash += pnl
+                    fee = abs(qty) * price * self.fee_bps / 10000
+                    cash -= fee
+                    total_fees += fee
+                    fills += 1
+                inventory = []
+
+                # Recenter grid with current spacing
                 grid_center = price
-                grid_spacing = spacing
+                grid_spacing = grid_spacings_pct[i] * price
+                levels = self._setup_grid(grid_center, grid_spacing)
                 last_rebalance = i
 
             spacing_history[i] = grid_spacing
 
             if paused[i]:
-                # Still track equity but don't trade
-                unrealized = position * (price - grid_center) * (self.capital_usd / price / self.n_levels)
+                net_qty = sum(q for q, _ in inventory)
+                cost_basis = sum(q * p for q, p in inventory)
+                unrealized = net_qty * price - cost_basis
                 equity_curve[i] = cash + unrealized
-                position_history[i] = position
+                position_history[i] = net_qty * price  # in USD
                 continue
 
-            # Check each grid level for fills using high/low
-            # Buy levels below center, sell levels above
-            for level_idx in range(1, self.n_levels + 1):
-                buy_level = grid_center - level_idx * grid_spacing
-                sell_level = grid_center + level_idx * grid_spacing
+            # Check fills against grid levels
+            for key, level in levels.items():
+                if not level["active"]:
+                    continue
 
-                # Size per grid level: spread capital across levels
-                size_usd = self.capital_usd / self.n_levels
-                size_units = size_usd / price
+                lp = level["price"]
+                qty = size_usd / lp  # units to trade
 
-                # Buy fill: low touched buy level
-                if low <= buy_level and position < self.max_position:
-                    fill_price = buy_level
+                if level["type"] == "buy" and low <= lp:
+                    # Buy fill
                     fee = size_usd * self.fee_bps / 10000
                     cash -= fee
                     total_fees += fee
-                    # Track the buy: we'll profit when we sell higher
-                    cash -= size_units * fill_price  # pay for units
-                    position += 1
+                    inventory.append((qty, lp))
                     fills += 1
-                    fill_bars.append(i)
+                    level["active"] = False
 
-                # Sell fill: high touched sell level
-                if high >= sell_level and position > -self.max_position:
-                    fill_price = sell_level
+                    # Activate corresponding sell level (one step up)
+                    sell_key = key.replace("buy", "sell")
+                    if sell_key in levels:
+                        levels[sell_key]["active"] = True
+
+                elif level["type"] == "sell" and high >= lp:
+                    # Sell fill — close oldest long inventory (FIFO) or open short
                     fee = size_usd * self.fee_bps / 10000
                     cash -= fee
                     total_fees += fee
-                    cash += size_units * fill_price  # receive for units
-                    position -= 1
+
+                    if inventory and inventory[0][0] > 0:
+                        # Close long position
+                        old_qty, old_price = inventory.pop(0)
+                        profit = old_qty * (lp - old_price)
+                        cash += profit
+                        grid_profits += profit
+                    else:
+                        # Open short
+                        inventory.append((-qty, lp))
+
                     fills += 1
-                    fill_bars.append(i)
+                    level["active"] = False
 
-                    # Count round trips (simplified: each sell after buy or vice versa)
-                    if position >= 0:
-                        round_trips += 1
+                    # Activate corresponding buy level (one step down)
+                    buy_key = key.replace("sell", "buy")
+                    if buy_key in levels:
+                        levels[buy_key]["active"] = True
 
-            # Mark-to-market equity
-            size_usd = self.capital_usd / self.n_levels
-            unrealized = position * (price - grid_center) * (size_usd / price)
+            # Mark-to-market
+            net_qty = sum(q for q, _ in inventory)
+            cost_basis = sum(q * p for q, p in inventory)
+            unrealized = net_qty * price - cost_basis
             equity_curve[i] = cash + unrealized
-            position_history[i] = position
+            position_history[i] = net_qty * price  # inventory in USD
 
-        # Final metrics
-        final_equity = equity_curve[-1]
+        # Close remaining inventory at final price
+        final_price = prices_close[-1]
+        for qty, cost_p in inventory:
+            pnl = qty * (final_price - cost_p)
+            cash += pnl
+            fee = abs(qty) * final_price * self.fee_bps / 10000
+            cash -= fee
+            total_fees += fee
+        equity_curve[-1] = cash
+
+        # Metrics
+        final_equity = cash
         max_equity = np.maximum.accumulate(equity_curve)
         drawdowns = equity_curve - max_equity
         max_drawdown = np.min(drawdowns)
 
-        # Annualized metrics
-        n_days = n / 288  # 5m bars
-        daily_returns = np.diff(equity_curve[::288]) if n > 288 else np.array([0])
+        n_days = n / 288
+        daily_eq = equity_curve[::288]
+        daily_returns = np.diff(daily_eq)
         daily_returns = daily_returns[~np.isnan(daily_returns)]
         if len(daily_returns) > 1 and daily_returns.std() > 0:
             sharpe = daily_returns.mean() / daily_returns.std() * np.sqrt(365)
@@ -251,14 +298,14 @@ class GridBotSimulator:
         return {
             "strategy": strategy_name,
             "total_pnl": final_equity,
+            "grid_profits": grid_profits,
             "total_fees": total_fees,
             "fills": fills,
-            "round_trips": round_trips,
             "max_drawdown": max_drawdown,
             "sharpe": sharpe,
             "avg_spacing_pct": avg_spacing_pct,
-            "avg_position": np.mean(np.abs(position_history)),
-            "max_position": np.max(np.abs(position_history)),
+            "avg_inventory_usd": np.mean(np.abs(position_history)),
+            "max_inventory_usd": np.max(np.abs(position_history)),
             "n_days": n_days,
             "pnl_per_day": final_equity / max(n_days, 1),
             "fills_per_day": fills / max(n_days, 1),
@@ -273,15 +320,16 @@ class GridBotSimulator:
 # ---------------------------------------------------------------------------
 
 def run_grid_experiment(symbol, start_date, end_date):
-    """Run grid bot comparison: fixed vs adaptive vs adaptive+pause."""
+    """Run grid bot comparison: fixed vs adaptive."""
     t_total = time.time()
 
     print("=" * 70)
-    print(f"  GRID BOT SIMULATOR")
+    print(f"  GRID BOT SIMULATOR (v2 — proper mechanics)")
     print(f"  Symbol:   {symbol}")
     print(f"  Period:   {start_date} → {end_date}")
-    print(f"  Fee:      {ROUND_TRIP_FEE_BPS} bps RT")
+    print(f"  Fee:      {ROUND_TRIP_FEE_BPS} bps RT (per fill)")
     print(f"  Capital:  $10,000")
+    print(f"  Levels:   5 buy + 5 sell")
     print("=" * 70)
 
     # --- Load data ---
@@ -312,8 +360,7 @@ def run_grid_experiment(symbol, start_date, end_date):
     print(f"  {valid:,} valid predictions ({100*valid/n:.0f}%) in {time.time()-t2:.0f}s")
 
     # --- Prepare simulation data ---
-    # Skip warmup period (need features + training data)
-    warmup = 2500  # ~8.7 days
+    warmup = 2500  # ~8.7 days for features + training
     df_sim = df.iloc[warmup:].copy().reset_index(drop=True)
     pred_vol_sim = predicted_vol[warmup:]
     n_sim = len(df_sim)
@@ -322,119 +369,144 @@ def run_grid_experiment(symbol, start_date, end_date):
     prices_high = df_sim["high"].values.astype(float)
     prices_low = df_sim["low"].values.astype(float)
 
-    # Range scaling factor (from v11: range/vol ≈ 5.6 for 1h)
-    K_RANGE = 5.6
+    # Compute actual 1h range as % of price (for calibration)
+    actual_1h_range_pct = []
+    for i in range(0, n_sim - 12, 12):
+        h = prices_high[i:i+12].max()
+        l = prices_low[i:i+12].min()
+        actual_1h_range_pct.append((h - l) / prices_close[i])
+    median_1h_range_pct = np.median(actual_1h_range_pct)
 
-    # --- Strategy 1: Fixed grid ---
-    # Use historical median range as fixed spacing
-    actual_ranges = np.abs(prices_high - prices_low)
-    median_range = np.nanmedian(actual_ranges)
-    fixed_spacings = np.full(n_sim, median_range)
+    # Range scaling factor (from v11: range ≈ vol × 5.6 for 1h)
+    K_RANGE = 5.6
 
     print(f"\n  Simulation period: {n_sim:,} bars ({n_sim/288:.0f} days)")
     print(f"  Price range: ${prices_close.min():.0f} - ${prices_close.max():.0f}")
-    print(f"  Median bar range: ${median_range:.2f}")
-    print(f"  Median 1h range: ${median_range * 12:.0f} (approx)")
+    print(f"  Median 1h range: {median_1h_range_pct*100:.3f}% (${median_1h_range_pct*np.mean(prices_close):.0f})")
 
-    # --- Strategy 2: Adaptive grid ---
-    # Grid spacing = predicted_vol × K × price
-    adaptive_spacings = np.full(n_sim, median_range)  # default to fixed
+    # --- Build spacing arrays (as fraction of price) ---
+    #
+    # KEY INSIGHT: Fee per round-trip = 2 × 7 bps = 0.14%.
+    # Grid profit per round-trip = spacing between levels.
+    # BREAKEVEN: spacing > 0.14%. Need ~2x margin → spacing ≥ 0.25%.
+    #
+    # With 5 levels each side and spacing S:
+    #   Total grid width = 5 × S × 2 = 10S
+    #   At S=0.25%, total grid = 2.5% of price
+    #   At S=0.50%, total grid = 5.0% of price
+    #
+    # Median 1h range is ~0.5%, so 0.25% spacing = 2 levels per 1h range.
+    # This means ~2 fills per hour in ranging markets.
+
+    fee_per_rt = 2 * ROUND_TRIP_FEE_BPS / 10000  # 0.0014
+
+    # Fixed spacings at different widths
+    fixed_025 = np.full(n_sim, 0.0025)  # 0.25% — minimum profitable
+    fixed_050 = np.full(n_sim, 0.0050)  # 0.50% — comfortable margin
+    fixed_100 = np.full(n_sim, 0.0100)  # 1.00% — wide, fewer fills
+
+    # Adaptive: predicted_vol × K_RANGE / n_levels
+    # This sizes the grid so total width ≈ predicted 1h range
+    # Each level spacing = predicted_range / (2 × n_levels)
+    median_pred_vol = np.nanmedian(pred_vol_sim[~np.isnan(pred_vol_sim)])
+    adaptive_spacings = np.full(n_sim, 0.0050)  # default 0.50%
     for i in range(n_sim):
         if not np.isnan(pred_vol_sim[i]) and pred_vol_sim[i] > 0:
-            # predicted_vol is in return units, convert to price
-            adaptive_spacings[i] = pred_vol_sim[i] * K_RANGE * prices_close[i]
-    # Clip to reasonable range (0.2x to 5x of median)
-    adaptive_spacings = np.clip(adaptive_spacings, median_range * 0.2, median_range * 5.0)
+            predicted_range_pct = pred_vol_sim[i] * K_RANGE
+            # Spacing = predicted_range / (2 * n_levels)
+            # But floor at 2× fee to ensure profitability
+            adaptive_spacings[i] = max(predicted_range_pct / 10.0, fee_per_rt * 2)
+    # Clip to reasonable range
+    adaptive_spacings = np.clip(adaptive_spacings, 0.0015, 0.0200)
 
-    # --- Strategy 3: Adaptive + pause during extreme vol ---
-    median_pred_vol = np.nanmedian(pred_vol_sim[~np.isnan(pred_vol_sim)])
+    # Adaptive + pause during extreme vol
     paused = np.zeros(n_sim, dtype=bool)
     for i in range(n_sim):
         if not np.isnan(pred_vol_sim[i]) and pred_vol_sim[i] > 3.0 * median_pred_vol:
             paused[i] = True
     pct_paused = 100 * paused.sum() / n_sim
 
-    # --- Strategy 4: Wider adaptive (P90-like, 1.7x safety factor) ---
-    wide_spacings = adaptive_spacings * 1.7
+    # Wide adaptive (2x spacing — more conservative, higher profit per RT)
+    wide_adaptive = np.clip(adaptive_spacings * 2.0, 0.0025, 0.0300)
 
-    print(f"\n  Adaptive spacing stats:")
-    print(f"    Mean: ${np.mean(adaptive_spacings):.2f} ({np.mean(adaptive_spacings)/np.mean(prices_close)*100:.3f}%)")
-    print(f"    Fixed: ${median_range:.2f} ({median_range/np.mean(prices_close)*100:.3f}%)")
-    print(f"    Ratio adaptive/fixed: {np.mean(adaptive_spacings)/median_range:.2f}x")
-    print(f"    Paused bars: {paused.sum():,} ({pct_paused:.1f}%)")
+    print(f"  Fee per round-trip: {fee_per_rt*100:.3f}%")
+    print(f"  Adaptive spacing: mean={np.mean(adaptive_spacings)*100:.3f}%, "
+          f"min={np.min(adaptive_spacings)*100:.3f}%, max={np.max(adaptive_spacings)*100:.3f}%")
+    print(f"  Paused bars (vol>3×median): {paused.sum():,} ({pct_paused:.1f}%)")
 
     # --- Run simulations ---
     configs = [
-        ("Fixed", fixed_spacings, None, 12),
-        ("Adaptive (P50)", adaptive_spacings, None, 12),
-        ("Adaptive + Pause", adaptive_spacings, paused, 12),
-        ("Adaptive Wide (P90)", wide_spacings, None, 12),
-        ("Fixed (rebal 1h)", fixed_spacings, None, 12),
-        ("Fixed (rebal 4h)", fixed_spacings, None, 48),
-        ("Adaptive (rebal 4h)", adaptive_spacings, None, 48),
+        # (name, spacings_pct, paused, rebalance_bars)
+        # Fixed spacings at different widths
+        ("Fix 0.25% (4h)", fixed_025, None, 48),
+        ("Fix 0.25% (8h)", fixed_025, None, 96),
+        ("Fix 0.50% (4h)", fixed_050, None, 48),
+        ("Fix 0.50% (8h)", fixed_050, None, 96),
+        ("Fix 1.00% (8h)", fixed_100, None, 96),
+        ("Fix 1.00% (24h)", fixed_100, None, 288),
+        # Adaptive spacings
+        ("Adaptive (4h)", adaptive_spacings, None, 48),
+        ("Adaptive (8h)", adaptive_spacings, None, 96),
+        ("Adaptive+Pause (8h)", adaptive_spacings, paused, 96),
+        ("Wide adapt (8h)", wide_adaptive, None, 96),
+        ("Wide adapt (24h)", wide_adaptive, None, 288),
     ]
 
-    print(f"\n  Running {len(configs)} strategies...")
+    print(f"\n  Running {len(configs)} strategies...\n")
     results = []
 
     for name, spacings, pause_mask, rebal_interval in configs:
         t_s = time.time()
         bot = GridBotSimulator(
-            n_levels=5, max_position=5, fee_bps=ROUND_TRIP_FEE_BPS,
+            n_levels=5, fee_bps=ROUND_TRIP_FEE_BPS,
             capital_usd=10000, rebalance_interval=rebal_interval,
-            pause_vol_mult=3.0
         )
         r = bot.run(prices_close, prices_high, prices_low,
                      spacings, strategy_name=name, paused=pause_mask)
         results.append(r)
         elapsed = time.time() - t_s
 
-        print(f"\n  {name}:")
-        print(f"    PnL: ${r['total_pnl']:+.2f} | Fees: ${r['total_fees']:.2f} | "
-              f"Fills: {r['fills']:,} | RTs: {r['round_trips']:,}")
-        print(f"    PnL/day: ${r['pnl_per_day']:+.2f} | Fills/day: {r['fills_per_day']:.1f} | "
+        print(f"  {name}:")
+        print(f"    PnL: ${r['total_pnl']:+.2f} (grid: ${r['grid_profits']:+.2f}, fees: -${r['total_fees']:.2f})")
+        print(f"    PnL/day: ${r['pnl_per_day']:+.2f} | Fills: {r['fills']:,} ({r['fills_per_day']:.1f}/day) | "
               f"Sharpe: {r['sharpe']:.2f}")
-        print(f"    Max DD: ${r['max_drawdown']:.2f} | Avg pos: {r['avg_position']:.1f} | "
-              f"Max pos: {r['max_position']:.0f}")
-        print(f"    Avg spacing: {r['avg_spacing_pct']:.3f}% | ({elapsed:.1f}s)")
+        print(f"    Max DD: ${r['max_drawdown']:.2f} | Avg inv: ${r['avg_inventory_usd']:.0f} | "
+              f"Max inv: ${r['max_inventory_usd']:.0f}")
+        print(f"    Avg spacing: {r['avg_spacing_pct']:.4f}% ({elapsed:.1f}s)\n")
 
     # --- Summary table ---
-    print(f"\n  {'='*70}")
-    print(f"  SUMMARY — {symbol} ({n_sim/288:.0f} days)")
-    print(f"  {'='*70}")
-    print(f"  {'Strategy':<25s} {'PnL':>10s} {'PnL/day':>10s} {'Fills':>8s} {'Sharpe':>8s} {'MaxDD':>10s} {'Spacing':>8s}")
-    print(f"  {'-'*80}")
+    print(f"  {'='*90}")
+    print(f"  SUMMARY — {symbol} ({n_sim/288:.0f} days, ${prices_close[0]:.0f}→${prices_close[-1]:.0f})")
+    print(f"  {'='*90}")
+    print(f"  {'Strategy':<25s} {'PnL':>10s} {'Grid$':>10s} {'Fees':>8s} {'PnL/d':>8s} "
+          f"{'Fills':>7s} {'Sharpe':>7s} {'MaxDD':>10s} {'Spc%':>7s}")
+    print(f"  {'-'*92}")
     for r in results:
-        print(f"  {r['strategy']:<25s} ${r['total_pnl']:>+9.2f} ${r['pnl_per_day']:>+8.2f} "
-              f"{r['fills']:>7,d} {r['sharpe']:>8.2f} ${r['max_drawdown']:>9.2f} "
-              f"{r['avg_spacing_pct']:>7.3f}%")
+        print(f"  {r['strategy']:<25s} ${r['total_pnl']:>+9.2f} ${r['grid_profits']:>+9.2f} "
+              f"${r['total_fees']:>7.0f} ${r['pnl_per_day']:>+7.2f} "
+              f"{r['fills']:>6,d} {r['sharpe']:>7.2f} ${r['max_drawdown']:>9.2f} "
+              f"{r['avg_spacing_pct']:>6.4f}%")
 
     # --- Regime analysis ---
     print(f"\n  {'='*70}")
     print(f"  REGIME ANALYSIS")
     print(f"  {'='*70}")
 
-    # Split into calm vs volatile periods
-    if median_pred_vol > 0:
-        calm_mask = pred_vol_sim[~np.isnan(pred_vol_sim)] < median_pred_vol
-        vol_mask = pred_vol_sim[~np.isnan(pred_vol_sim)] >= median_pred_vol
+    valid_mask = ~np.isnan(pred_vol_sim[:n_sim])
+    if valid_mask.sum() > 0:
+        calm_idx = valid_mask & (pred_vol_sim[:n_sim] < median_pred_vol)
+        vol_idx = valid_mask & (pred_vol_sim[:n_sim] >= median_pred_vol)
 
-        # Compare adaptive vs fixed spacing in each regime
-        valid_mask = ~np.isnan(pred_vol_sim)
-        calm_idx = valid_mask & (pred_vol_sim < median_pred_vol)
-        vol_idx = valid_mask & (pred_vol_sim >= median_pred_vol)
+        calm_adapt = np.mean(adaptive_spacings[calm_idx]) * 100
+        vol_adapt = np.mean(adaptive_spacings[vol_idx]) * 100
+        fixed_pct = 0.50  # reference: 0.50% fixed
 
-        calm_adaptive = np.mean(adaptive_spacings[calm_idx[:n_sim]])
-        calm_fixed = median_range
-        vol_adaptive = np.mean(adaptive_spacings[vol_idx[:n_sim]])
-        vol_fixed = median_range
-
-        print(f"  Calm periods ({calm_idx.sum():,} bars):")
-        print(f"    Adaptive spacing: ${calm_adaptive:.2f} | Fixed: ${calm_fixed:.2f} | "
-              f"Savings: ${calm_fixed - calm_adaptive:.2f} ({(1-calm_adaptive/calm_fixed)*100:.0f}% tighter)")
-        print(f"  Volatile periods ({vol_idx.sum():,} bars):")
-        print(f"    Adaptive spacing: ${vol_adaptive:.2f} | Fixed: ${vol_fixed:.2f} | "
-              f"Wider by: ${vol_adaptive - vol_fixed:.2f} ({(vol_adaptive/vol_fixed-1)*100:.0f}% wider)")
+        print(f"  Calm periods ({calm_idx.sum():,} bars, {calm_idx.sum()/288:.0f} days):")
+        print(f"    Adaptive: {calm_adapt:.4f}% | Fixed: {fixed_pct:.4f}% | "
+              f"{(1-calm_adapt/fixed_pct)*100:+.0f}% vs fixed")
+        print(f"  Volatile periods ({vol_idx.sum():,} bars, {vol_idx.sum()/288:.0f} days):")
+        print(f"    Adaptive: {vol_adapt:.4f}% | Fixed: {fixed_pct:.4f}% | "
+              f"{(vol_adapt/fixed_pct-1)*100:+.0f}% vs fixed")
 
     elapsed_total = time.time() - t_total
     print(f"\n✅ {symbol} grid bot simulation complete in {elapsed_total:.0f}s ({elapsed_total/60:.1f}min)")

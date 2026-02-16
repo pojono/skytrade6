@@ -1,0 +1,129 @@
+======================================================================
+  GRID BOT SIMULATOR (v2 — proper mechanics)
+  Symbol:   BTCUSDT
+  Period:   2025-07-01 → 2025-09-30
+  Fee:      7.0 bps RT (per fill)
+  Capital:  $10,000
+  Levels:   5 buy + 5 sell
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/92] 2025-07-20 | 0s ETA=0s RAM=9.1GB cache=20 new=0
+  [40/92] 2025-08-09 | 0s ETA=0s RAM=9.1GB cache=40 new=0
+  [60/92] 2025-08-29 | 0s ETA=0s RAM=9.1GB cache=60 new=0
+  [80/92] 2025-09-18 | 0s ETA=0s RAM=9.1GB cache=80 new=0
+  [92/92] 2025-09-30 | 0s ETA=0s RAM=9.1GB cache=92 new=0
+  Loaded 26,496 bars (92 days, 92 cached, 0 new)
+  Loaded 26,496 bars in 0s
+
+  Step 2: Computing regime features...
+  Features in 16s
+
+  Step 3: Computing forward vol target...
+
+  Step 4: Walk-forward vol prediction...
+  24,496 valid predictions (92%) in 5s
+
+  Simulation period: 23,996 bars (83 days)
+  Price range: $107267 - $124308
+  Median 1h range: 0.381% ($438)
+  Fee per round-trip: 0.140%
+  Adaptive spacing: mean=0.280%, min=0.280%, max=0.317%
+  Paused bars (vol>3×median): 18 (0.1%)
+
+  Running 11 strategies...
+
+  Fix 0.25% (4h):
+    PnL: $-1710.93 (grid: $+692.34, fees: -$1807.06)
+    PnL/day: $-20.53 | Fills: 2,579 (31.0/day) | Sharpe: -10.24
+    Max DD: $-1717.05 | Avg inv: $1219 | Max inv: $5098
+    Avg spacing: 0.2500% (0.1s)
+
+  Fix 0.25% (8h):
+    PnL: $-1688.58 (grid: $+768.27, fees: -$1339.54)
+    PnL/day: $-20.27 | Fills: 1,910 (22.9/day) | Sharpe: -8.48
+    Max DD: $-1719.23 | Avg inv: $1712 | Max inv: $5092
+    Avg spacing: 0.2500% (0.1s)
+
+  Fix 0.50% (4h):
+    PnL: $-720.05 (grid: $+160.80, fees: -$701.38)
+    PnL/day: $-8.64 | Fills: 1,001 (12.0/day) | Sharpe: -7.26
+    Max DD: $-721.89 | Avg inv: $490 | Max inv: $5147
+    Avg spacing: 0.5000% (0.1s)
+
+  Fix 0.50% (8h):
+    PnL: $-862.90 (grid: $+251.36, fees: -$599.19)
+    PnL/day: $-10.36 | Fills: 854 (10.2/day) | Sharpe: -7.31
+    Max DD: $-878.59 | Avg inv: $832 | Max inv: $5079
+    Avg spacing: 0.5000% (0.1s)
+
+  Fix 1.00% (8h):
+    PnL: $-280.82 (grid: $+40.40, fees: -$195.98)
+    PnL/day: $-3.37 | Fills: 279 (3.3/day) | Sharpe: -5.63
+    Max DD: $-287.46 | Avg inv: $236 | Max inv: $5040
+    Avg spacing: 1.0001% (0.1s)
+
+  Fix 1.00% (24h):
+    PnL: $-166.73 (grid: $+101.01, fees: -$170.70)
+    PnL/day: $-2.00 | Fills: 243 (2.9/day) | Sharpe: -2.20
+    Max DD: $-176.89 | Avg inv: $725 | Max inv: $5137
+    Avg spacing: 0.9994% (0.1s)
+
+  Adaptive (4h):
+    PnL: $-1508.14 (grid: $+615.44, fees: -$1566.32)
+    PnL/day: $-18.10 | Fills: 2,235 (26.8/day) | Sharpe: -9.68
+    Max DD: $-1515.46 | Avg inv: $1081 | Max inv: $5094
+    Avg spacing: 0.2800% (0.1s)
+
+  Adaptive (8h):
+    PnL: $-1493.93 (grid: $+683.32, fees: -$1179.99)
+    PnL/day: $-17.93 | Fills: 1,682 (20.2/day) | Sharpe: -7.83
+    Max DD: $-1527.68 | Avg inv: $1571 | Max inv: $5087
+    Avg spacing: 0.2800% (0.1s)
+
+  Adaptive+Pause (8h):
+    PnL: $-1489.98 (grid: $+660.84, fees: -$1177.17)
+    PnL/day: $-17.88 | Fills: 1,678 (20.1/day) | Sharpe: -7.85
+    Max DD: $-1523.73 | Avg inv: $1569 | Max inv: $5087
+    Avg spacing: 0.2800% (0.1s)
+
+  Wide adapt (8h):
+    PnL: $-689.13 (grid: $+225.52, fees: -$516.54)
+    PnL/day: $-8.27 | Fills: 736 (8.8/day) | Sharpe: -6.25
+    Max DD: $-702.93 | Avg inv: $723 | Max inv: $5104
+    Avg spacing: 0.5600% (0.1s)
+
+  Wide adapt (24h):
+    PnL: $-415.48 (grid: $+253.77, fees: -$367.94)
+    PnL/day: $-4.99 | Fills: 524 (6.3/day) | Sharpe: -2.88
+    Max DD: $-431.67 | Avg inv: $1528 | Max inv: $5204
+    Avg spacing: 0.5597% (0.1s)
+
+  ==========================================================================================
+  SUMMARY — BTCUSDT (83 days, $109101→$114014)
+  ==========================================================================================
+  Strategy                         PnL      Grid$     Fees    PnL/d   Fills  Sharpe      MaxDD    Spc%
+  --------------------------------------------------------------------------------------------
+  Fix 0.25% (4h)            $ -1710.93 $  +692.34 $   1807 $ -20.53  2,579  -10.24 $ -1717.05 0.2500%
+  Fix 0.25% (8h)            $ -1688.58 $  +768.27 $   1340 $ -20.27  1,910   -8.48 $ -1719.23 0.2500%
+  Fix 0.50% (4h)            $  -720.05 $  +160.80 $    701 $  -8.64  1,001   -7.26 $  -721.89 0.5000%
+  Fix 0.50% (8h)            $  -862.90 $  +251.36 $    599 $ -10.36    854   -7.31 $  -878.59 0.5000%
+  Fix 1.00% (8h)            $  -280.82 $   +40.40 $    196 $  -3.37    279   -5.63 $  -287.46 1.0001%
+  Fix 1.00% (24h)           $  -166.73 $  +101.01 $    171 $  -2.00    243   -2.20 $  -176.89 0.9994%
+  Adaptive (4h)             $ -1508.14 $  +615.44 $   1566 $ -18.10  2,235   -9.68 $ -1515.46 0.2800%
+  Adaptive (8h)             $ -1493.93 $  +683.32 $   1180 $ -17.93  1,682   -7.83 $ -1527.68 0.2800%
+  Adaptive+Pause (8h)       $ -1489.98 $  +660.84 $   1177 $ -17.88  1,678   -7.85 $ -1523.73 0.2800%
+  Wide adapt (8h)           $  -689.13 $  +225.52 $    517 $  -8.27    736   -6.25 $  -702.93 0.5600%
+  Wide adapt (24h)          $  -415.48 $  +253.77 $    368 $  -4.99    524   -2.88 $  -431.67 0.5597%
+
+  ======================================================================
+  REGIME ANALYSIS
+  ======================================================================
+Traceback (most recent call last):
+  File "/home/ubuntu/Projects/skytrade6/grid_bot_sim.py", line 531, in <module>
+    main()
+  File "/home/ubuntu/Projects/skytrade6/grid_bot_sim.py", line 527, in main
+    run_grid_experiment(args.symbol, args.start, args.end)
+  File "/home/ubuntu/Projects/skytrade6/grid_bot_sim.py", line 502, in run_grid_experiment
+    fixed_pct = fixed_spacing_pct * 100
+NameError: name 'fixed_spacing_pct' is not defined
