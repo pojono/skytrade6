@@ -1,0 +1,474 @@
+======================================================================
+  ML BREAKOUT PREDICTION EXPERIMENT
+  Symbol:   BTCUSDT
+  Period:   2025-01-01 → 2026-01-31
+  Phase 1:  Breakout occurrence (binary classification)
+  Phase 2:  S/R level break vs reject
+  Candidate features: 102
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=9.8GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=9.8GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=9.8GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=9.8GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=9.8GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=9.8GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=9.8GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=9.8GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=1s RAM=9.8GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=9.8GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=0s RAM=9.8GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=9.8GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=9.8GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=9.8GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=9.8GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=9.8GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=9.9GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=9.9GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=9.9GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=9.9GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded 114,048 bars in 1s
+
+  Step 2: Computing regime features...
+  Regime features in 88s
+
+  Step 3: Computing breakout-specific features...
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:186: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["range_trend_1h"] = pd.Series(hl_range).rolling(12).mean().values / \
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:188: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["range_trend_4h"] = pd.Series(hl_range).rolling(48).mean().values / \
+  102 features available (of 102 candidates) in 1s
+
+######################################################################
+  PHASE 1: Breakout Occurrence Prediction
+######################################################################
+
+  ============================================================
+  Horizon: 12 bars (1h)
+  ============================================================
+  ATR multiplier: 5.0x
+  Samples: 113,472 | Breakouts: 24,828 (21.9%) | Non-breakouts: 88,644
+
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:419: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  r, _ = stats.pearsonr(X[col].values[valid], y[valid])
+  Feature selection: 102 candidates
+    Dropped 35 with |target_corr| < 0.02
+    Dropped 19 with inter-corr > 0.9
+    Final: 48 features
+      atr_1h                              target_corr=0.1553
+      range_compression_1h                target_corr=0.1491
+      bb_pctile_2h                        target_corr=0.1467
+      bb_width_2h                         target_corr=0.1438
+      bar_eff_1h                          target_corr=0.1425
+      atr_4h                              target_corr=0.1379
+      vol_ratio_2h_24h                    target_corr=0.1376
+      bar_eff_4h                          target_corr=0.1340
+      iti_cv_1h                           target_corr=0.1340
+      bb_width_4h                         target_corr=0.1329
+
+  Walk-forward splits:
+  5 splits, 113,472 samples
+
+  A) Logistic Regression:
+    LR fold 1/5: AUC=0.638 F1=0.367 P=0.291 R=0.497 Brier=0.2152 [train=18,912 test=18,912]
+    LR fold 2/5: AUC=0.670 F1=0.458 P=0.340 R=0.700 Brier=0.2368 [train=37,824 test=18,912]
+    LR fold 3/5: AUC=0.661 F1=0.416 P=0.312 R=0.622 Brier=0.2302 [train=56,736 test=18,912]
+    LR fold 4/5: AUC=0.635 F1=0.329 P=0.316 R=0.343 Brier=0.1943 [train=75,648 test=18,912]
+    LR fold 5/5: AUC=0.664 F1=0.415 P=0.324 R=0.578 Brier=0.2177 [train=94,560 test=18,912]
+  → LR: AUC=0.654±0.015 F1=0.397±0.045 P=0.317 R=0.548 Brier=0.2189 (12.2s)
+
+  B) LightGBM:
+    LGBM fold 1/5: AUC=0.615 F1=0.312 P=0.313 R=0.310 Brier=0.1926 [train=18,912 test=18,912]
+    LGBM fold 2/5: AUC=0.638 F1=0.411 P=0.369 R=0.463 Brier=0.2149 [train=37,824 test=18,912]
+    LGBM fold 3/5: AUC=0.656 F1=0.411 P=0.330 R=0.547 Brier=0.2212 [train=56,736 test=18,912]
+    LGBM fold 4/5: AUC=0.631 F1=0.343 P=0.316 R=0.375 Brier=0.1945 [train=75,648 test=18,912]
+    LGBM fold 5/5: AUC=0.664 F1=0.409 P=0.319 R=0.569 Brier=0.2205 [train=94,560 test=18,912]
+  → LGBM: AUC=0.641±0.018 F1=0.377±0.042 P=0.329 R=0.453 Brier=0.2087 (175.4s)
+
+  C) Feature importance (LGBM):
+  Top 15 features for breakout prediction:
+      1. ret_kurtosis_8h                       4.0% (cum   4.0%)
+      2. vol_trend_4h                          3.8% (cum   7.8%)
+      3. adx_4h                                3.5% (cum  11.4%)
+      4. vol_sma_24h                           3.4% (cum  14.7%)
+      5. atr_24h                               3.0% (cum  17.7%)
+      6. iti_cv_1h                             2.9% (cum  20.7%)
+      7. vol_accel_4h                          2.9% (cum  23.6%)
+      8. bar_eff_4h                            2.8% (cum  26.4%)
+      9. consolidation_4h_vs_24h               2.7% (cum  29.1%)
+     10. touches_low_24h                       2.7% (cum  31.8%)
+     11. adx_2h                                2.6% (cum  34.4%)
+     12. atr_4h                                2.6% (cum  37.0%)
+     13. touches_high_24h                      2.6% (cum  39.6%)
+     14. touches_high_8h                       2.5% (cum  42.1%)
+     15. range_compression_4h                  2.4% (cum  44.5%)
+
+  D) Breakout magnitude prediction (Ridge, breakout bars only):
+    fold 1/5: r2=-0.073 corr=-0.015 [train=4,138 test=4,138]
+    fold 2/5: r2=0.046 corr=0.221 [train=8,276 test=4,138]
+    fold 3/5: r2=-0.024 corr=0.070 [train=12,414 test=4,138]
+    fold 4/5: r2=-0.011 corr=0.100 [train=16,552 test=4,138]
+    fold 5/5: r2=-0.036 corr=0.116 [train=20,690 test=4,138]
+  → Magnitude: r2=-0.020±0.039 corr=0.099±0.076
+
+  ============================================================
+  PHASE 1 SUMMARY — 1h horizon
+  ============================================================
+  Model                     AUC       F1     Prec      Rec    Brier
+  ------------------------------------------------------------
+  Logistic Reg            0.654    0.397    0.317    0.548   0.2189
+  LGBM                    0.641    0.377    0.329    0.453   0.2087
+  Breakout rate: 21.9%
+  Features used: 48
+  Time: 187.7s
+
+  ============================================================
+  Horizon: 48 bars (4h)
+  ============================================================
+  ATR multiplier: 10.0x
+  Samples: 113,472 | Breakouts: 30,160 (26.6%) | Non-breakouts: 83,312
+
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:419: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  r, _ = stats.pearsonr(X[col].values[valid], y[valid])
+  Feature selection: 102 candidates
+    Dropped 32 with |target_corr| < 0.02
+    Dropped 21 with inter-corr > 0.9
+    Final: 49 features
+      atr_8h                              target_corr=0.2057
+      range_compression_4h                target_corr=0.1819
+      bb_width_8h                         target_corr=0.1728
+      bar_eff_4h                          target_corr=0.1656
+      bb_width_4h                         target_corr=0.1631
+      vol_trend_1h                        target_corr=0.1445
+      range_trend_1h                      target_corr=0.1433
+      bb_pctile_8h                        target_corr=0.1353
+      iti_cv_1h                           target_corr=0.1317
+      dist_to_high_8h                     target_corr=0.1289
+
+  Walk-forward splits:
+  5 splits, 113,472 samples
+
+  A) Logistic Regression:
+    LR fold 1/5: AUC=0.698 F1=0.429 P=0.430 R=0.427 Brier=0.1913 [train=18,912 test=18,912]
+    LR fold 2/5: AUC=0.702 F1=0.526 P=0.439 R=0.658 Brier=0.2182 [train=37,824 test=18,912]
+    LR fold 3/5: AUC=0.637 F1=0.434 P=0.369 R=0.526 Brier=0.2278 [train=56,736 test=18,912]
+    LR fold 4/5: AUC=0.674 F1=0.384 P=0.439 R=0.341 Brier=0.1887 [train=75,648 test=18,912]
+    LR fold 5/5: AUC=0.724 F1=0.505 P=0.447 R=0.582 Brier=0.1996 [train=94,560 test=18,912]
+  → LR: AUC=0.687±0.030 F1=0.456±0.053 P=0.425 R=0.507 Brier=0.2051 (12.7s)
+
+  B) LightGBM:
+    LGBM fold 1/5: AUC=0.673 F1=0.372 P=0.448 R=0.319 Brier=0.1960 [train=18,912 test=18,912]
+    LGBM fold 2/5: AUC=0.655 F1=0.441 P=0.447 R=0.435 Brier=0.2135 [train=37,824 test=18,912]
+    LGBM fold 3/5: AUC=0.648 F1=0.433 P=0.385 R=0.495 Brier=0.2211 [train=56,736 test=18,912]
+    LGBM fold 4/5: AUC=0.666 F1=0.389 P=0.402 R=0.377 Brier=0.1909 [train=75,648 test=18,912]
+    LGBM fold 5/5: AUC=0.713 F1=0.485 P=0.471 R=0.500 Brier=0.1921 [train=94,560 test=18,912]
+  → LGBM: AUC=0.671±0.023 F1=0.424±0.040 P=0.431 R=0.425 Brier=0.2027 (180.2s)
+
+  C) Feature importance (LGBM):
+  Top 15 features for breakout prediction:
+      1. vol_sma_24h                           6.8% (cum   6.8%)
+      2. atr_24h                               5.6% (cum  12.4%)
+      3. atr_8h                                4.8% (cum  17.3%)
+      4. touches_high_24h                      4.6% (cum  21.8%)
+      5. vol_trend_4h                          4.6% (cum  26.4%)
+      6. ret_kurtosis_8h                       4.5% (cum  30.9%)
+      7. touches_low_24h                       4.4% (cum  35.3%)
+      8. range_compression_4h                  3.8% (cum  39.1%)
+      9. bar_eff_4h                            3.6% (cum  42.7%)
+     10. consolidation_4h_vs_24h               3.4% (cum  46.1%)
+     11. bb_width_8h                           3.2% (cum  49.4%)
+     12. adx_4h                                3.0% (cum  52.4%)
+     13. vol_accel_4h                          2.7% (cum  55.1%)
+     14. touches_low_8h                        2.7% (cum  57.8%)
+     15. large_trade_1h                        2.5% (cum  60.3%)
+
+  D) Breakout magnitude prediction (Ridge, breakout bars only):
+    fold 1/5: r2=-0.263 corr=0.085 [train=5,030 test=5,026]
+    fold 2/5: r2=0.069 corr=0.287 [train=10,056 test=5,026]
+    fold 3/5: r2=-0.148 corr=0.030 [train=15,082 test=5,026]
+    fold 4/5: r2=-0.097 corr=0.163 [train=20,108 test=5,026]
+    fold 5/5: r2=-0.066 corr=0.107 [train=25,134 test=5,026]
+  → Magnitude: r2=-0.101±0.108 corr=0.134±0.087
+
+  ============================================================
+  PHASE 1 SUMMARY — 4h horizon
+  ============================================================
+  Model                     AUC       F1     Prec      Rec    Brier
+  ------------------------------------------------------------
+  Logistic Reg            0.687    0.456    0.425    0.507   0.2051
+  LGBM                    0.671    0.424    0.431    0.425   0.2027
+  Breakout rate: 26.6%
+  Features used: 49
+  Time: 193.0s
+
+######################################################################
+  PHASE 2: Support/Resistance Level Strength
+######################################################################
+
+  ============================================================
+  S/R lookback: 8h | Forward: 1h
+  ============================================================
+  S/R events: 10,688 | Breaks: 8,356 (78.2%) | Rejects: 2,332
+  Near resistance: 5,624 | Near support: 5,064
+
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:419: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  r, _ = stats.pearsonr(X[col].values[valid], y[valid])
+  Feature selection: 104 candidates
+    Dropped 23 with |target_corr| < 0.02
+    Dropped 22 with inter-corr > 0.9
+    Final: 59 features
+      consolidation_1h_vs_8h              target_corr=0.2580
+      approach_speed_30m                  target_corr=0.2129
+      approach_speed_1h                   target_corr=0.1871
+      vol_ratio_1h_8h                     target_corr=0.1841
+      vol_ratio_bar                       target_corr=0.1793
+      vol_trend_1h                        target_corr=0.1786
+      bb_width_8h                         target_corr=0.1718
+      range_trend_1h                      target_corr=0.1692
+      adx_4h                              target_corr=0.1545
+      efficiency_1h                       target_corr=0.1530
+  Walk-forward: 5 splits
+
+  A) Logistic Regression:
+    LR fold 1/5: AUC=0.693 F1=0.711 P=0.879 R=0.596 [train=1,783 test=1,781]
+    LR fold 2/5: AUC=0.678 F1=0.720 P=0.869 R=0.615 [train=3,564 test=1,781]
+    LR fold 3/5: AUC=0.682 F1=0.709 P=0.837 R=0.614 [train=5,345 test=1,781]
+    LR fold 4/5: AUC=0.733 F1=0.738 P=0.868 R=0.642 [train=7,126 test=1,781]
+    LR fold 5/5: AUC=0.766 F1=0.781 P=0.897 R=0.691 [train=8,907 test=1,781]
+  → LR: AUC=0.711±0.034 F1=0.732 P=0.870 R=0.632
+
+  B) LightGBM:
+    LGBM fold 1/5: AUC=0.651 F1=0.838 P=0.827 R=0.848 [train=1,783 test=1,781]
+    LGBM fold 2/5: AUC=0.661 F1=0.839 P=0.826 R=0.852 [train=3,564 test=1,781]
+    LGBM fold 3/5: AUC=0.646 F1=0.801 P=0.787 R=0.816 [train=5,345 test=1,781]
+    LGBM fold 4/5: AUC=0.712 F1=0.808 P=0.827 R=0.789 [train=7,126 test=1,781]
+    LGBM fold 5/5: AUC=0.759 F1=0.835 P=0.871 R=0.802 [train=8,907 test=1,781]
+  → LGBM: AUC=0.686±0.044 F1=0.824 P=0.828 R=0.822 (84.2s)
+
+  C) Feature importance (LGBM):
+  Top 10 features for S/R break prediction:
+      1. vol_ratio_bar                         3.6% (cum   3.6%)
+      2. vol_accel_4h                          3.0% (cum   6.6%)
+      3. upper_wick_ratio_4h                   2.9% (cum   9.5%)
+      4. adx_4h                                2.9% (cum  12.3%)
+      5. ret_autocorr_4h                       2.8% (cum  15.1%)
+      6. efficiency_8h                         2.3% (cum  17.5%)
+      7. vol_trend_4h                          2.3% (cum  19.8%)
+      8. imbalance_1h                          2.3% (cum  22.2%)
+      9. body_ratio_avg_1h                     2.3% (cum  24.5%)
+     10. ret_skew_8h                           2.2% (cum  26.7%)
+
+  Baseline (majority class): accuracy=0.782
+
+  ============================================================
+  PHASE 2 SUMMARY — S/R 8h lookback, 1h forward
+  ============================================================
+  Model                     AUC       F1     Prec      Rec
+  ----------------------------------------------------
+  Logistic Reg            0.711    0.732    0.870    0.632
+  LGBM                    0.686    0.824    0.828    0.822
+  Break rate: 78.2% | Events: 10,688
+  Features: 59 | Time: 88.6s
+
+  ============================================================
+  S/R lookback: 8h | Forward: 4h
+  ============================================================
+  S/R events: 10,688 | Breaks: 9,479 (88.7%) | Rejects: 1,209
+  Near resistance: 5,624 | Near support: 5,064
+
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:419: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  r, _ = stats.pearsonr(X[col].values[valid], y[valid])
+  Feature selection: 104 candidates
+    Dropped 35 with |target_corr| < 0.02
+    Dropped 17 with inter-corr > 0.9
+    Final: 52 features
+      consolidation_1h_vs_8h              target_corr=0.1645
+      bb_width_8h                         target_corr=0.1624
+      approach_speed_30m                  target_corr=0.1230
+      vol_ratio_1h_8h                     target_corr=0.1208
+      vol_trend_1h                        target_corr=0.1107
+      vol_ratio_bar                       target_corr=0.1096
+      approach_speed_1h                   target_corr=0.1093
+      adx_4h                              target_corr=0.1070
+      atr_8h                              target_corr=0.1001
+      range_trend_1h                      target_corr=0.0989
+  Walk-forward: 5 splits
+
+  A) Logistic Regression:
+    LR fold 1/5: AUC=0.639 F1=0.708 P=0.927 R=0.572 [train=1,783 test=1,781]
+    LR fold 2/5: AUC=0.587 F1=0.748 P=0.913 R=0.634 [train=3,564 test=1,781]
+    LR fold 3/5: AUC=0.631 F1=0.747 P=0.917 R=0.631 [train=5,345 test=1,781]
+    LR fold 4/5: AUC=0.708 F1=0.745 P=0.930 R=0.621 [train=7,126 test=1,781]
+    LR fold 5/5: AUC=0.733 F1=0.768 P=0.936 R=0.651 [train=8,907 test=1,781]
+  → LR: AUC=0.659±0.054 F1=0.743 P=0.925 R=0.622
+
+  B) LightGBM:
+    LGBM fold 1/5: AUC=0.618 F1=0.915 P=0.908 R=0.923 [train=1,783 test=1,781]
+    LGBM fold 2/5: AUC=0.598 F1=0.930 P=0.906 R=0.956 [train=3,564 test=1,781]
+    LGBM fold 3/5: AUC=0.591 F1=0.924 P=0.891 R=0.960 [train=5,345 test=1,781]
+    LGBM fold 4/5: AUC=0.657 F1=0.901 P=0.881 R=0.921 [train=7,126 test=1,781]
+    LGBM fold 5/5: AUC=0.717 F1=0.905 P=0.901 R=0.908 [train=8,907 test=1,781]
+  → LGBM: AUC=0.636±0.046 F1=0.915 P=0.897 R=0.934 (65.2s)
+
+  C) Feature importance (LGBM):
+  Top 10 features for S/R break prediction:
+      1. vol_ratio_bar                         3.2% (cum   3.2%)
+      2. ret_kurtosis_4h                       3.1% (cum   6.3%)
+      3. vol_accel_4h                          2.8% (cum   9.2%)
+      4. upper_wick_ratio_1h                   2.7% (cum  11.8%)
+      5. efficiency_8h                         2.6% (cum  14.5%)
+      6. body_ratio_avg_4h                     2.6% (cum  17.0%)
+      7. ret_autocorr_2h                       2.5% (cum  19.5%)
+      8. range_trend_1h                        2.4% (cum  22.0%)
+      9. dist_to_high_8h                       2.4% (cum  24.4%)
+     10. ret_autocorr_1h                       2.4% (cum  26.7%)
+
+  Baseline (majority class): accuracy=0.887
+
+  ============================================================
+  PHASE 2 SUMMARY — S/R 8h lookback, 4h forward
+  ============================================================
+  Model                     AUC       F1     Prec      Rec
+  ----------------------------------------------------
+  Logistic Reg            0.659    0.743    0.925    0.622
+  LGBM                    0.636    0.915    0.897    0.934
+  Break rate: 88.7% | Events: 10,688
+  Features: 52 | Time: 68.7s
+
+  ============================================================
+  S/R lookback: 24h | Forward: 1h
+  ============================================================
+  S/R events: 7,263 | Breaks: 4,478 (61.7%) | Rejects: 2,785
+  Near resistance: 3,895 | Near support: 3,368
+
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:419: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  r, _ = stats.pearsonr(X[col].values[valid], y[valid])
+  Feature selection: 104 candidates
+    Dropped 18 with |target_corr| < 0.02
+    Dropped 26 with inter-corr > 0.9
+    Final: 60 features
+      consolidation_2h_vs_24h             target_corr=0.2974
+      approach_speed_30m                  target_corr=0.2739
+      consolidation_4h_vs_24h             target_corr=0.2680
+      vol_ratio_bar                       target_corr=0.2615
+      approach_speed_1h                   target_corr=0.2600
+      consolidation_1h_vs_8h              target_corr=0.2412
+      efficiency_1h                       target_corr=0.2388
+      vol_ratio_1h_24h                    target_corr=0.2312
+      range_compression_1h                target_corr=0.2264
+      approach_speed_2h                   target_corr=0.2166
+  Walk-forward: 5 splits
+
+  A) Logistic Regression:
+    LR fold 1/5: AUC=0.674 F1=0.595 P=0.780 R=0.481 [train=1,213 test=1,210]
+    LR fold 2/5: AUC=0.689 F1=0.685 P=0.738 R=0.639 [train=2,423 test=1,210]
+    LR fold 3/5: AUC=0.699 F1=0.702 P=0.699 R=0.704 [train=3,633 test=1,210]
+    LR fold 4/5: AUC=0.706 F1=0.655 P=0.748 R=0.583 [train=4,843 test=1,210]
+    LR fold 5/5: AUC=0.748 F1=0.701 P=0.821 R=0.611 [train=6,053 test=1,210]
+  → LR: AUC=0.703±0.025 F1=0.667 P=0.757 R=0.604
+
+  B) LightGBM:
+    LGBM fold 1/5: AUC=0.663 F1=0.675 P=0.708 R=0.644 [train=1,213 test=1,210]
+    LGBM fold 2/5: AUC=0.645 F1=0.683 P=0.656 R=0.713 [train=2,423 test=1,210]
+    LGBM fold 3/5: AUC=0.667 F1=0.707 P=0.662 R=0.759 [train=3,633 test=1,210]
+    LGBM fold 4/5: AUC=0.728 F1=0.730 P=0.732 R=0.728 [train=4,843 test=1,210]
+    LGBM fold 5/5: AUC=0.714 F1=0.710 P=0.771 R=0.658 [train=6,053 test=1,210]
+  → LGBM: AUC=0.683±0.032 F1=0.701 P=0.706 R=0.700 (28.1s)
+
+  C) Feature importance (LGBM):
+  Top 10 features for S/R break prediction:
+      1. vol_ratio_bar                         3.0% (cum   3.0%)
+      2. vol_trend_4h                          3.0% (cum   5.9%)
+      3. ret_kurtosis_8h                       2.7% (cum   8.7%)
+      4. adx_4h                                2.6% (cum  11.3%)
+      5. upper_wick_ratio_4h                   2.6% (cum  13.8%)
+      6. consolidation_4h_vs_24h               2.5% (cum  16.4%)
+      7. ret_skew_8h                           2.5% (cum  18.8%)
+      8. consolidation_2h_vs_24h               2.4% (cum  21.2%)
+      9. vol_accel_4h                          2.3% (cum  23.5%)
+     10. dist_to_high_4h                       2.3% (cum  25.8%)
+
+  Baseline (majority class): accuracy=0.617
+
+  ============================================================
+  PHASE 2 SUMMARY — S/R 24h lookback, 1h forward
+  ============================================================
+  Model                     AUC       F1     Prec      Rec
+  ----------------------------------------------------
+  Logistic Reg            0.703    0.667    0.757    0.604
+  LGBM                    0.683    0.701    0.706    0.700
+  Break rate: 61.7% | Events: 7,263
+  Features: 60 | Time: 30.7s
+
+  ============================================================
+  S/R lookback: 24h | Forward: 4h
+  ============================================================
+  S/R events: 7,263 | Breaks: 5,568 (76.7%) | Rejects: 1,695
+  Near resistance: 3,895 | Near support: 3,368
+
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:419: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  r, _ = stats.pearsonr(X[col].values[valid], y[valid])
+  Feature selection: 104 candidates
+    Dropped 19 with |target_corr| < 0.02
+    Dropped 25 with inter-corr > 0.9
+    Final: 60 features
+      consolidation_2h_vs_24h             target_corr=0.2235
+      consolidation_4h_vs_24h             target_corr=0.2057
+      approach_speed_30m                  target_corr=0.1814
+      vol_ratio_bar                       target_corr=0.1802
+      approach_speed_1h                   target_corr=0.1733
+      approach_speed_2h                   target_corr=0.1670
+      vol_ratio_1h_24h                    target_corr=0.1613
+      vol_ratio_1h_8h                     target_corr=0.1590
+      efficiency_1h                       target_corr=0.1584
+      range_compression_1h                target_corr=0.1576
+  Walk-forward: 5 splits
+
+  A) Logistic Regression:
+    LR fold 1/5: AUC=0.576 F1=0.660 P=0.785 R=0.569 [train=1,213 test=1,210]
+    LR fold 2/5: AUC=0.645 F1=0.699 P=0.829 R=0.605 [train=2,423 test=1,210]
+    LR fold 3/5: AUC=0.663 F1=0.741 P=0.815 R=0.678 [train=3,633 test=1,210]
+    LR fold 4/5: AUC=0.737 F1=0.644 P=0.900 R=0.501 [train=4,843 test=1,210]
+    LR fold 5/5: AUC=0.691 F1=0.676 P=0.871 R=0.552 [train=6,053 test=1,210]
+  → LR: AUC=0.662±0.053 F1=0.684 P=0.840 R=0.581
+
+  B) LightGBM:
+    LGBM fold 1/5: AUC=0.592 F1=0.782 P=0.787 R=0.777 [train=1,213 test=1,210]
+    LGBM fold 2/5: AUC=0.564 F1=0.834 P=0.793 R=0.879 [train=2,423 test=1,210]
+    LGBM fold 3/5: AUC=0.614 F1=0.813 P=0.744 R=0.897 [train=3,633 test=1,210]
+    LGBM fold 4/5: AUC=0.660 F1=0.803 P=0.774 R=0.836 [train=4,843 test=1,210]
+    LGBM fold 5/5: AUC=0.655 F1=0.810 P=0.798 R=0.823 [train=6,053 test=1,210]
+  → LGBM: AUC=0.617±0.037 F1=0.808 P=0.779 R=0.842 (44.8s)
+
+  C) Feature importance (LGBM):
+  Top 10 features for S/R break prediction:
+      1. adx_4h                                2.9% (cum   2.9%)
+      2. ret_kurtosis_8h                       2.9% (cum   5.8%)
+      3. ret_skew_4h                           2.7% (cum   8.5%)
+      4. touches_high_24h                      2.6% (cum  11.1%)
+      5. vol_ratio_bar                         2.6% (cum  13.7%)
+      6. vol_accel_4h                          2.6% (cum  16.3%)
+      7. consolidation_4h_vs_24h               2.6% (cum  18.8%)
+      8. vol_trend_4h                          2.5% (cum  21.4%)
+      9. ret_skew_8h                           2.4% (cum  23.8%)
+     10. ret_autocorr_4h                       2.4% (cum  26.2%)
+
+  Baseline (majority class): accuracy=0.767
+
+  ============================================================
+  PHASE 2 SUMMARY — S/R 24h lookback, 4h forward
+  ============================================================
+  Model                     AUC       F1     Prec      Rec
+  ----------------------------------------------------
+  Logistic Reg            0.662    0.684    0.840    0.581
+  LGBM                    0.617    0.808    0.779    0.842
+  Break rate: 76.7% | Events: 7,263
+  Features: 60 | Time: 48.1s
+
+✅ BTCUSDT breakout experiments complete in 707s (11.8min)
+
+======================================================================
+  ALL DONE — BTCUSDT in 707s (11.8 min)
+======================================================================

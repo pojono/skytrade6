@@ -125,9 +125,11 @@ def compute_breakout_features(df):
         # Volume when near high vs average
         vol_at_high = np.where(near_high, v, np.nan)
         vol_avg = pd.Series(v).rolling(w).mean().values
-        df[f"vol_at_high_{label}"] = pd.Series(vol_at_high).rolling(w).mean().values / np.maximum(vol_avg, 1e-10)
+        val = pd.Series(vol_at_high).rolling(w).mean().values / np.maximum(vol_avg, 1e-10)
+        df[f"vol_at_high_{label}"] = np.nan_to_num(val, nan=1.0)  # 1.0 = neutral ratio
         vol_at_low = np.where(near_low, v, np.nan)
-        df[f"vol_at_low_{label}"] = pd.Series(vol_at_low).rolling(w).mean().values / np.maximum(vol_avg, 1e-10)
+        val2 = pd.Series(vol_at_low).rolling(w).mean().values / np.maximum(vol_avg, 1e-10)
+        df[f"vol_at_low_{label}"] = np.nan_to_num(val2, nan=1.0)
 
     # --- Approach speed (momentum toward boundary) ---
     for w, label in [(6, "30m"), (12, "1h"), (24, "2h")]:
@@ -485,23 +487,31 @@ def phase1_breakout_occurrence(df, horizons, all_features, verbose=True):
         print(f"  {'='*60}")
 
         # Label breakouts for this horizon
+        # ATR multiplier scales with horizon: normal range/vol ratio is ~5.6x (1h) and ~11x (4h)
+        # We want breakout = significantly above normal, targeting ~20-30% breakout rate
+        atr_mult = {12: 5.0, 48: 10.0}.get(fw, 5.0)
         df_h = df.copy()
-        df_h = label_breakouts(df_h, forward_window=fw, atr_multiplier=2.0)
+        df_h = label_breakouts(df_h, forward_window=fw, atr_multiplier=atr_mult)
+        print(f"  ATR multiplier: {atr_mult}x")
 
-        # Get valid rows
-        valid = df_h["is_breakout"].notna() & ~df_h["is_breakout"].isna()
-        for f in all_features:
-            if f in df_h.columns:
-                valid = valid & df_h[f].notna()
+        # Get valid rows: drop warmup period, require target
+        available = [f for f in all_features if f in df_h.columns]
+        warmup = 576  # 2 days of 5m bars for longest rolling windows
+        df_h = df_h.iloc[warmup:].copy()
+        valid = df_h["is_breakout"].notna()
         df_valid = df_h[valid].reset_index(drop=True)
+        # Fill residual NaN in features with 0 (after warmup, very few remain)
+        df_valid[available] = df_valid[available].fillna(0)
 
         y = df_valid["is_breakout"].values
         n_pos = int(y.sum())
         n_neg = len(y) - n_pos
+        if len(y) == 0:
+            print(f"  No valid samples — skipping")
+            continue
         print(f"  Samples: {len(y):,} | Breakouts: {n_pos:,} ({100*n_pos/len(y):.1f}%) | Non-breakouts: {n_neg:,}")
 
         # Get feature matrix
-        available = [f for f in all_features if f in df_valid.columns]
         X_raw = df_valid[available].copy()
 
         # Feature selection
@@ -674,16 +684,17 @@ def phase2_sr_prediction(df, all_features, verbose=True):
             print(f"  {'='*60}")
 
             df_sr = df.copy()
-            df_sr = label_sr_events(df_sr, lookback=lookback, touch_zone_pct=0.02, forward_window=fw)
+            df_sr = label_sr_events(df_sr, lookback=lookback, touch_zone_pct=0.05, forward_window=fw)
 
             # Filter to bars near S/R levels
             near_sr = (df_sr["near_resistance"] == 1) | (df_sr["near_support"] == 1)
             valid = near_sr & df_sr["sr_break"].notna()
-            for f in all_features:
-                if f in df_sr.columns:
-                    valid = valid & df_sr[f].notna()
 
             df_events = df_sr[valid].reset_index(drop=True)
+
+            # Fill residual NaN in features
+            avail_feats = [f for f in all_features if f in df_events.columns]
+            df_events[avail_feats] = df_events[avail_feats].fillna(0)
 
             if len(df_events) < 500:
                 print(f"  Only {len(df_events)} S/R events — skipping")
@@ -860,7 +871,7 @@ def main():
 
     # --- Load data ---
     print(f"\n  Step 1: Loading 5m bars...")
-    df = load_bars(symbol, start_date, end_date, PARQUET_DIR)
+    df = load_bars(symbol, start_date, end_date)
     print(f"  Loaded {len(df):,} bars in {time.time()-t_total:.0f}s")
 
     # --- Compute existing regime features ---
