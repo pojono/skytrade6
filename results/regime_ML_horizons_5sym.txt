@@ -1,0 +1,1770 @@
+======================================================================
+  MULTI-HORIZON VOLATILITY PREDICTION EXPERIMENT
+  Symbols: BTCUSDT, ETHUSDT, SOLUSDT, DOGEUSDT, XRPUSDT
+  Period:  2025-01-01 → 2026-01-31
+  Horizons: 1h (12 bars), 4h (48 bars), 12h (144 bars), 24h (288 bars)
+  Models:  Ridge, LGBM (regression) + LogReg (classification)
+======================================================================
+
+
+**********************************************************************
+  SYMBOL 1/5: BTCUSDT
+**********************************************************************
+
+
+======================================================================
+  MULTI-HORIZON VOL PREDICTION: BTCUSDT
+  2025-01-01 → 2026-01-31
+  Horizons: 1h (12 bars), 4h (48 bars), 12h (144 bars), 24h (288 bars)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=8.0GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=8.0GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=8.0GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=8.0GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=8.0GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=0s RAM=8.0GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=0s RAM=8.0GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=0s RAM=8.0GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=0s RAM=8.0GB cache=180 new=0
+  [200/396] 2025-07-19 | 0s ETA=0s RAM=8.0GB cache=200 new=0
+  [220/396] 2025-08-08 | 0s ETA=0s RAM=8.0GB cache=220 new=0
+  [240/396] 2025-08-28 | 0s ETA=0s RAM=8.0GB cache=240 new=0
+  [260/396] 2025-09-17 | 0s ETA=0s RAM=8.0GB cache=260 new=0
+  [280/396] 2025-10-07 | 0s ETA=0s RAM=8.0GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=8.0GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=8.0GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=8.0GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.0GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=8.0GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=8.0GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded 114,048 bars in 1s
+
+  Step 2: Computing features...
+  60 features in 64s
+
+  Step 3: Labeling regimes for 4 horizons...
+      1h ( 12 bars): high_vol rate = 0.241
+      4h ( 48 bars): high_vol rate = 0.220
+     12h (144 bars): high_vol rate = 0.165
+     24h (288 bars): high_vol rate = 0.095
+  Labeled in 5s
+
+######################################################################
+  EXPERIMENT A: Regression Across Forward Horizons
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | fwd_vol mean=0.001071 std=0.000825 | high_vol rate=0.241
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.491 corr=0.706 rmse=0.000567 bin_f1=0.719 bin_auc=0.862 [train=18,959 test=18,958]
+    Ridge fold 2/5: r2=0.364 corr=0.616 rmse=0.000417 bin_f1=0.636 bin_auc=0.828 [train=37,917 test=18,958]
+    Ridge fold 3/5: r2=0.333 corr=0.595 rmse=0.000374 bin_f1=0.630 bin_auc=0.830 [train=56,875 test=18,958]
+    Ridge fold 4/5: r2=0.275 corr=0.529 rmse=0.000861 bin_f1=0.849 bin_auc=0.876 [train=75,833 test=18,958]
+    Ridge fold 5/5: r2=0.468 corr=0.685 rmse=0.000512 bin_f1=0.760 bin_auc=0.869 [train=94,791 test=18,958]
+  → Ridge: r2=0.386±0.082 corr=0.626±0.064 bin_f1=0.719±0.082 bin_auc=0.853 (0.5s)
+    LGBM_reg fold 1/5: r2=0.452 corr=0.684 rmse=0.000588 bin_f1=0.720 bin_auc=0.861 [train=18,959 test=18,958]
+    LGBM_reg fold 2/5: r2=0.330 corr=0.597 rmse=0.000428 bin_f1=0.625 bin_auc=0.812 [train=37,917 test=18,958]
+    LGBM_reg fold 3/5: r2=0.345 corr=0.597 rmse=0.000371 bin_f1=0.621 bin_auc=0.829 [train=56,875 test=18,958]
+    LGBM_reg fold 4/5: r2=0.256 corr=0.509 rmse=0.000872 bin_f1=0.846 bin_auc=0.865 [train=75,833 test=18,958]
+    LGBM_reg fold 5/5: r2=0.401 corr=0.641 rmse=0.000543 bin_f1=0.761 bin_auc=0.866 [train=94,791 test=18,958]
+  → LGBM_reg: r2=0.357±0.066 corr=0.606±0.058 bin_f1=0.714±0.085 bin_auc=0.847 (22.6s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | fwd_vol mean=0.001162 std=0.000770 | high_vol rate=0.220
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.437 corr=0.675 rmse=0.000549 bin_f1=0.683 bin_auc=0.827 [train=18,953 test=18,952]
+    Ridge fold 2/5: r2=0.285 corr=0.579 rmse=0.000389 bin_f1=0.522 bin_auc=0.776 [train=37,905 test=18,952]
+    Ridge fold 3/5: r2=0.263 corr=0.554 rmse=0.000341 bin_f1=0.568 bin_auc=0.797 [train=56,857 test=18,952]
+    Ridge fold 4/5: r2=0.232 corr=0.496 rmse=0.000825 bin_f1=0.848 bin_auc=0.874 [train=75,809 test=18,952]
+    Ridge fold 5/5: r2=0.374 corr=0.619 rmse=0.000505 bin_f1=0.723 bin_auc=0.829 [train=94,761 test=18,952]
+  → Ridge: r2=0.318±0.076 corr=0.585±0.060 bin_f1=0.669±0.116 bin_auc=0.821 (0.5s)
+    LGBM_reg fold 1/5: r2=0.329 corr=0.617 rmse=0.000599 bin_f1=0.691 bin_auc=0.829 [train=18,953 test=18,952]
+    LGBM_reg fold 2/5: r2=0.226 corr=0.519 rmse=0.000404 bin_f1=0.561 bin_auc=0.768 [train=37,905 test=18,952]
+    LGBM_reg fold 3/5: r2=0.266 corr=0.542 rmse=0.000341 bin_f1=0.539 bin_auc=0.787 [train=56,857 test=18,952]
+    LGBM_reg fold 4/5: r2=0.194 corr=0.455 rmse=0.000845 bin_f1=0.844 bin_auc=0.855 [train=75,809 test=18,952]
+    LGBM_reg fold 5/5: r2=0.278 corr=0.561 rmse=0.000543 bin_f1=0.703 bin_auc=0.817 [train=94,761 test=18,952]
+  → LGBM_reg: r2=0.259±0.046 corr=0.539±0.053 bin_f1=0.667±0.110 bin_auc=0.811 (63.5s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | fwd_vol mean=0.001219 std=0.000693 | high_vol rate=0.165
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.408 corr=0.651 rmse=0.000495 bin_f1=0.617 bin_auc=0.802 [train=18,937 test=18,936]
+    Ridge fold 2/5: r2=0.129 corr=0.466 rmse=0.000361 bin_f1=0.419 bin_auc=0.740 [train=37,873 test=18,936]
+    Ridge fold 3/5: r2=0.103 corr=0.491 rmse=0.000314 bin_f1=0.421 bin_auc=0.715 [train=56,809 test=18,936]
+    Ridge fold 4/5: r2=0.132 corr=0.413 rmse=0.000799 bin_f1=0.827 bin_auc=0.856 [train=75,745 test=18,936]
+    Ridge fold 5/5: r2=0.305 corr=0.569 rmse=0.000438 bin_f1=0.703 bin_auc=0.757 [train=94,681 test=18,936]
+  → Ridge: r2=0.216±0.120 corr=0.518±0.083 bin_f1=0.597±0.159 bin_auc=0.774 (0.6s)
+    LGBM_reg fold 1/5: r2=0.277 corr=0.579 rmse=0.000548 bin_f1=0.599 bin_auc=0.769 [train=18,937 test=18,936]
+    LGBM_reg fold 2/5: r2=0.132 corr=0.456 rmse=0.000360 bin_f1=0.434 bin_auc=0.730 [train=37,873 test=18,936]
+    LGBM_reg fold 3/5: r2=0.209 corr=0.506 rmse=0.000295 bin_f1=0.360 bin_auc=0.721 [train=56,809 test=18,936]
+    LGBM_reg fold 4/5: r2=-0.015 corr=0.322 rmse=0.000864 bin_f1=0.842 bin_auc=0.841 [train=75,745 test=18,936]
+    LGBM_reg fold 5/5: r2=0.060 corr=0.499 rmse=0.000510 bin_f1=0.693 bin_auc=0.741 [train=94,681 test=18,936]
+  → LGBM_reg: r2=0.133±0.103 corr=0.473±0.085 bin_f1=0.586±0.174 bin_auc=0.761 (57.8s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | fwd_vol mean=0.001253 std=0.000634 | high_vol rate=0.096
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.381 corr=0.627 rmse=0.000456 bin_f1=0.592 bin_auc=0.774 [train=18,913 test=18,912]
+    Ridge fold 2/5: r2=-0.169 corr=0.291 rmse=0.000359 bin_f1=0.281 bin_auc=0.576 [train=37,825 test=18,912]
+    Ridge fold 3/5: r2=-0.180 corr=0.463 rmse=0.000308 bin_f1=0.293 bin_auc=0.657 [train=56,737 test=18,912]
+    Ridge fold 4/5: r2=0.035 corr=0.313 rmse=0.000776 bin_f1=0.843 bin_auc=0.839 [train=75,649 test=18,912]
+    Ridge fold 5/5: r2=0.282 corr=0.555 rmse=0.000367 bin_f1=0.767 bin_auc=0.773 [train=94,561 test=18,912]
+  → Ridge: r2=0.070±0.229 corr=0.450±0.131 bin_f1=0.555±0.233 bin_auc=0.724 (0.4s)
+    LGBM_reg fold 1/5: r2=0.334 corr=0.600 rmse=0.000473 bin_f1=0.587 bin_auc=0.756 [train=18,913 test=18,912]
+    LGBM_reg fold 2/5: r2=-0.106 corr=0.308 rmse=0.000349 bin_f1=0.320 bin_auc=0.620 [train=37,825 test=18,912]
+    LGBM_reg fold 3/5: r2=0.028 corr=0.435 rmse=0.000280 bin_f1=0.263 bin_auc=0.681 [train=56,737 test=18,912]
+    LGBM_reg fold 4/5: r2=-0.144 corr=0.260 rmse=0.000844 bin_f1=0.823 bin_auc=0.812 [train=75,649 test=18,912]
+    LGBM_reg fold 5/5: r2=0.137 corr=0.562 rmse=0.000402 bin_f1=0.783 bin_auc=0.799 [train=94,561 test=18,912]
+  → LGBM_reg: r2=0.050±0.173 corr=0.433±0.134 bin_f1=0.555±0.230 bin_auc=0.734 (27.8s)
+
+  ======================================================================
+  REGRESSION SUMMARY — Ridge (best model from v9)
+  ======================================================================
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+          1h    0.386    0.626   0.000546    0.785    0.719    0.853
+          4h    0.318    0.585   0.000522    0.768    0.669    0.821
+         12h    0.216    0.518   0.000482    0.754    0.597    0.774
+         24h    0.070    0.450   0.000453    0.743    0.555    0.724
+
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+  LGBM Regressor:
+          1h    0.357    0.606   0.000561    0.767    0.714    0.847
+          4h    0.259    0.539   0.000546    0.751    0.667    0.811
+         12h    0.133    0.473   0.000515    0.747    0.586    0.761
+         24h    0.050    0.433   0.000470    0.762    0.555    0.734
+
+######################################################################
+  EXPERIMENT B: Binary Classification Across Horizons (LogReg)
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | Positive rate: 0.242
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.755 f1=0.569 auc=0.821 [train=18,959 test=18,958]
+    LogReg fold 2/5: acc=0.765 f1=0.556 auc=0.793 [train=37,917 test=18,958]
+    LogReg fold 3/5: acc=0.785 f1=0.506 auc=0.786 [train=56,875 test=18,958]
+    LogReg fold 4/5: acc=0.758 f1=0.550 auc=0.794 [train=75,833 test=18,958]
+    LogReg fold 5/5: acc=0.809 f1=0.627 auc=0.833 [train=94,791 test=18,958]
+  → LogReg: acc=0.774±0.020 f1=0.561±0.039 auc=0.805±0.018 prec=0.526 rec=0.614 (6.1s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | Positive rate: 0.220
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.724 f1=0.458 auc=0.729 [train=18,953 test=18,952]
+    LogReg fold 2/5: acc=0.745 f1=0.442 auc=0.728 [train=37,905 test=18,952]
+    LogReg fold 3/5: acc=0.783 f1=0.381 auc=0.692 [train=56,857 test=18,952]
+    LogReg fold 4/5: acc=0.738 f1=0.428 auc=0.710 [train=75,809 test=18,952]
+    LogReg fold 5/5: acc=0.754 f1=0.477 auc=0.759 [train=94,761 test=18,952]
+  → LogReg: acc=0.749±0.020 f1=0.437±0.032 auc=0.724±0.022 prec=0.426 rec=0.468 (2.9s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | Positive rate: 0.166
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.711 f1=0.323 auc=0.688 [train=18,937 test=18,936]
+    LogReg fold 2/5: acc=0.781 f1=0.278 auc=0.642 [train=37,873 test=18,936]
+    LogReg fold 3/5: acc=0.763 f1=0.297 auc=0.641 [train=56,809 test=18,936]
+    LogReg fold 4/5: acc=0.769 f1=0.304 auc=0.697 [train=75,745 test=18,936]
+    LogReg fold 5/5: acc=0.761 f1=0.401 auc=0.725 [train=94,681 test=18,936]
+  → LogReg: acc=0.757±0.024 f1=0.321±0.043 auc=0.679±0.032 prec=0.291 rec=0.384 (3.0s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | Positive rate: 0.096
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.798 f1=0.207 auc=0.627 [train=18,913 test=18,912]
+    LogReg fold 2/5: acc=0.799 f1=0.227 auc=0.649 [train=37,825 test=18,912]
+    LogReg fold 3/5: acc=0.647 f1=0.106 auc=0.597 [train=56,737 test=18,912]
+    LogReg fold 4/5: acc=0.797 f1=0.199 auc=0.606 [train=75,649 test=18,912]
+    LogReg fold 5/5: acc=0.630 f1=0.299 auc=0.740 [train=94,561 test=18,912]
+  → LogReg: acc=0.734±0.078 f1=0.208±0.062 auc=0.644±0.051 prec=0.153 rec=0.434 (3.3s)
+
+  ======================================================================
+  CLASSIFICATION SUMMARY — LogReg (balanced)
+  ======================================================================
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+          1h    0.774    0.561    0.805    0.526    0.614
+          4h    0.749    0.437    0.724    0.426    0.468
+         12h    0.757    0.321    0.679    0.291    0.384
+         24h    0.734    0.208    0.644    0.153    0.434
+
+######################################################################
+  EXPERIMENT C: Feature Importance by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Top 10 features:
+     1. parkvol_24h                      7.0% (cum   7.0%)
+     2. vol_sma_24h                      6.0% (cum  13.0%)
+     3. price_vs_sma_24h                 5.3% (cum  18.3%)
+     4. rvol_24h                         4.8% (cum  23.2%)
+     5. adx_4h                           3.8% (cum  27.0%)
+     6. rvol_8h                          3.8% (cum  30.8%)
+     7. bar_eff_4h                       3.7% (cum  34.4%)
+     8. parkvol_8h                       3.5% (cum  38.0%)
+     9. large_trade_1h                   3.5% (cum  41.5%)
+    10. iti_cv_1h                        3.2% (cum  44.7%)
+
+  --- Horizon: 48 bars (4h) ---
+  Top 10 features:
+     1. vol_sma_24h                      7.0% (cum   7.0%)
+     2. parkvol_24h                      6.8% (cum  13.8%)
+     3. rvol_24h                         6.4% (cum  20.3%)
+     4. price_vs_sma_24h                 6.1% (cum  26.3%)
+     5. rvol_8h                          5.7% (cum  32.0%)
+     6. large_trade_1h                   4.7% (cum  36.7%)
+     7. parkvol_8h                       4.5% (cum  41.2%)
+     8. bar_eff_4h                       4.1% (cum  45.2%)
+     9. adx_4h                           4.0% (cum  49.2%)
+    10. iti_cv_1h                        3.7% (cum  52.9%)
+
+  --- Horizon: 144 bars (12h) ---
+  Top 10 features:
+     1. parkvol_24h                      9.9% (cum   9.9%)
+     2. rvol_24h                         9.8% (cum  19.6%)
+     3. vol_sma_24h                      8.2% (cum  27.8%)
+     4. rvol_8h                          6.0% (cum  33.8%)
+     5. price_vs_sma_24h                 5.9% (cum  39.7%)
+     6. parkvol_8h                       5.0% (cum  44.7%)
+     7. adx_4h                           4.1% (cum  48.8%)
+     8. large_trade_1h                   4.1% (cum  52.9%)
+     9. bar_eff_4h                       4.0% (cum  56.9%)
+    10. vol_accel_4h                     3.1% (cum  60.0%)
+
+  --- Horizon: 288 bars (24h) ---
+  Top 10 features:
+     1. vol_sma_24h                     10.8% (cum  10.8%)
+     2. parkvol_24h                      9.3% (cum  20.1%)
+     3. rvol_24h                         9.0% (cum  29.1%)
+     4. price_vs_sma_24h                 6.9% (cum  36.0%)
+     5. parkvol_8h                       5.1% (cum  41.0%)
+     6. rvol_8h                          4.9% (cum  45.9%)
+     7. bar_eff_4h                       4.8% (cum  50.7%)
+     8. adx_4h                           4.5% (cum  55.2%)
+     9. large_trade_1h                   4.2% (cum  59.4%)
+    10. ret_autocorr_4h                  3.3% (cum  62.7%)
+
+  ======================================================================
+  FEATURE RANK COMPARISON ACROSS HORIZONS
+  ======================================================================
+
+  Feature                            1h     4h    12h    24h  Shift
+  ----------------------------------------------------------------------
+  parkvol_24h                         1      2      1      2    +1=
+  vol_sma_24h                         2      1      3      1    -1=
+  rvol_24h                            4      3      2      3    -1=
+  price_vs_sma_24h                    3      4      5      4    +1=
+  rvol_8h                             6      5      4      6    +0=
+  parkvol_8h                          8      7      6      5    -3=
+  adx_4h                              5      9      7      8    +3=
+  bar_eff_4h                          7      8      9      7    +0=
+  large_trade_1h                      9      6      8      9    +0=
+  vol_accel_4h                       12     11     10     14    +2=
+  iti_cv_1h                          10     10     12     16    +6↓
+  imbalance_4h                       13     14     11     12    -1=
+  ret_autocorr_4h                    11     16     15     10    -1=
+  vol_ratio_2h_24h                   16     12     14     11    -5↑
+  adx_2h                             14     13     16     15    +1=
+  rvol_4h                            18     17     13     17    -1=
+  parkvol_4h                         20     18     18     13    -7↑
+  efficiency_8h                      21     15     19     18    -3=
+  trade_intensity_ratio              15     21     29     29   +14↓
+
+######################################################################
+  EXPERIMENT D: Cross-Horizon Correlation
+######################################################################
+
+  Forward Vol Correlation Matrix:
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.744    0.562    0.497
+          4h    0.744    1.000    0.772    0.649
+         12h    0.562    0.772    1.000    0.849
+         24h    0.497    0.649    0.849    1.000
+
+  High-Vol Agreement Matrix (% of bars where both agree):
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.823    0.755    0.754
+          4h    0.823    1.000    0.823    0.788
+         12h    0.755    0.823    1.000    0.873
+         24h    0.754    0.788    0.873    1.000
+
+  Predictive Power: P(high_vol@longer | high_vol@shorter)
+      Given HV at       1h       4h      12h      24h
+  --------------------------------------------------
+               1h    1.000    0.590    0.334    0.187
+               4h    0.647    1.000    0.474    0.234
+              12h    0.486    0.628    1.000    0.404
+              24h    0.472    0.538    0.699    1.000
+
+######################################################################
+  EXPERIMENT E: Position Sizing Effectiveness by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Test set: 22,750 bars | high_vol: 5,922 (0.260)
+  Avg size during high_vol:  0.662
+  Avg size during normal:    0.860
+  Size reduction:            22.9%
+  % of high_vol bars < 0.5x: 28.5%
+
+  --- Horizon: 48 bars (4h) ---
+  Test set: 22,743 bars | high_vol: 5,848 (0.257)
+  Avg size during high_vol:  0.758
+  Avg size during normal:    0.849
+  Size reduction:            10.7%
+  % of high_vol bars < 0.5x: 13.0%
+
+  --- Horizon: 144 bars (12h) ---
+  Test set: 22,724 bars | high_vol: 4,432 (0.195)
+  Avg size during high_vol:  0.844
+  Avg size during normal:    0.844
+  Size reduction:            0.0%
+  % of high_vol bars < 0.5x: 5.5%
+
+  --- Horizon: 288 bars (24h) ---
+  Test set: 22,695 bars | high_vol: 2,423 (0.107)
+  Avg size during high_vol:  0.803
+  Avg size during normal:    0.834
+  Size reduction:            3.7%
+  % of high_vol bars < 0.5x: 4.3%
+
+  ======================================================================
+  POSITION SIZING SUMMARY
+  ======================================================================
+     Horizon   SizeHV   SizeNV  Reduction   %<0.5x
+  --------------------------------------------------
+          1h    0.662    0.860      22.9%    28.5%
+          4h    0.758    0.849      10.7%    13.0%
+         12h    0.844    0.844       0.0%     5.5%
+         24h    0.803    0.834       3.7%     4.3%
+
+✅ BTCUSDT multi-horizon experiments complete in 352s (5.9min)
+
+  ⏱ Total: 352s | ~352s/symbol | ETA: 1408s
+
+
+**********************************************************************
+  SYMBOL 2/5: ETHUSDT
+**********************************************************************
+
+
+======================================================================
+  MULTI-HORIZON VOL PREDICTION: ETHUSDT
+  2025-01-01 → 2026-01-31
+  Horizons: 1h (12 bars), 4h (48 bars), 12h (144 bars), 24h (288 bars)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=9.6GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=9.6GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=9.6GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=9.6GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=9.6GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=9.2GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=9.1GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=9.0GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=0s RAM=8.6GB cache=180 new=0
+  [200/396] 2025-07-19 | 0s ETA=0s RAM=8.6GB cache=200 new=0
+  [220/396] 2025-08-08 | 0s ETA=0s RAM=8.6GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=8.6GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=8.6GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=8.6GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=8.6GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=8.6GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=8.6GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.6GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=8.6GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=8.6GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded 114,048 bars in 1s
+
+  Step 2: Computing features...
+  60 features in 69s
+
+  Step 3: Labeling regimes for 4 horizons...
+      1h ( 12 bars): high_vol rate = 0.225
+      4h ( 48 bars): high_vol rate = 0.197
+     12h (144 bars): high_vol rate = 0.135
+     24h (288 bars): high_vol rate = 0.104
+  Labeled in 5s
+
+######################################################################
+  EXPERIMENT A: Regression Across Forward Horizons
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | fwd_vol mean=0.001749 std=0.001234 | high_vol rate=0.225
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.371 corr=0.630 rmse=0.001014 bin_f1=0.716 bin_auc=0.847 [train=18,959 test=18,958]
+    Ridge fold 2/5: r2=0.319 corr=0.573 rmse=0.000830 bin_f1=0.731 bin_auc=0.834 [train=37,917 test=18,958]
+    Ridge fold 3/5: r2=0.294 corr=0.560 rmse=0.000759 bin_f1=0.720 bin_auc=0.821 [train=56,875 test=18,958]
+    Ridge fold 4/5: r2=0.350 corr=0.593 rmse=0.001117 bin_f1=0.792 bin_auc=0.850 [train=75,833 test=18,958]
+    Ridge fold 5/5: r2=0.416 corr=0.646 rmse=0.000765 bin_f1=0.668 bin_auc=0.848 [train=94,791 test=18,958]
+  → Ridge: r2=0.350±0.042 corr=0.601±0.033 bin_f1=0.725±0.040 bin_auc=0.840 (0.5s)
+    LGBM_reg fold 1/5: r2=0.348 corr=0.627 rmse=0.001033 bin_f1=0.734 bin_auc=0.846 [train=18,959 test=18,958]
+    LGBM_reg fold 2/5: r2=0.260 corr=0.553 rmse=0.000865 bin_f1=0.723 bin_auc=0.825 [train=37,917 test=18,958]
+    LGBM_reg fold 3/5: r2=0.279 corr=0.545 rmse=0.000766 bin_f1=0.717 bin_auc=0.814 [train=56,875 test=18,958]
+    LGBM_reg fold 4/5: r2=0.314 corr=0.561 rmse=0.001148 bin_f1=0.791 bin_auc=0.845 [train=75,833 test=18,958]
+    LGBM_reg fold 5/5: r2=0.345 corr=0.626 rmse=0.000810 bin_f1=0.662 bin_auc=0.846 [train=94,791 test=18,958]
+  → LGBM_reg: r2=0.309±0.035 corr=0.582±0.036 bin_f1=0.725±0.041 bin_auc=0.835 (25.4s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | fwd_vol mean=0.001901 std=0.001124 | high_vol rate=0.197
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.317 corr=0.592 rmse=0.000960 bin_f1=0.677 bin_auc=0.813 [train=18,953 test=18,952]
+    Ridge fold 2/5: r2=0.296 corr=0.565 rmse=0.000738 bin_f1=0.706 bin_auc=0.810 [train=37,905 test=18,952]
+    Ridge fold 3/5: r2=0.249 corr=0.543 rmse=0.000673 bin_f1=0.697 bin_auc=0.794 [train=56,857 test=18,952]
+    Ridge fold 4/5: r2=0.298 corr=0.552 rmse=0.001055 bin_f1=0.749 bin_auc=0.808 [train=75,809 test=18,952]
+    Ridge fold 5/5: r2=0.356 corr=0.603 rmse=0.000725 bin_f1=0.589 bin_auc=0.791 [train=94,761 test=18,952]
+  → Ridge: r2=0.303±0.035 corr=0.571±0.023 bin_f1=0.684±0.053 bin_auc=0.803 (0.4s)
+    LGBM_reg fold 1/5: r2=0.200 corr=0.587 rmse=0.001039 bin_f1=0.705 bin_auc=0.817 [train=18,953 test=18,952]
+    LGBM_reg fold 2/5: r2=-0.092 corr=0.498 rmse=0.000919 bin_f1=0.703 bin_auc=0.793 [train=37,905 test=18,952]
+    LGBM_reg fold 3/5: r2=0.172 corr=0.510 rmse=0.000707 bin_f1=0.692 bin_auc=0.778 [train=56,857 test=18,952]
+    LGBM_reg fold 4/5: r2=0.251 corr=0.511 rmse=0.001090 bin_f1=0.760 bin_auc=0.810 [train=75,809 test=18,952]
+    LGBM_reg fold 5/5: r2=0.162 corr=0.525 rmse=0.000827 bin_f1=0.589 bin_auc=0.788 [train=94,761 test=18,952]
+  → LGBM_reg: r2=0.139±0.120 corr=0.526±0.031 bin_f1=0.690±0.056 bin_auc=0.797 (76.7s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | fwd_vol mean=0.001988 std=0.000992 | high_vol rate=0.135
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.231 corr=0.518 rmse=0.000906 bin_f1=0.596 bin_auc=0.739 [train=18,937 test=18,936]
+    Ridge fold 2/5: r2=0.206 corr=0.496 rmse=0.000666 bin_f1=0.711 bin_auc=0.809 [train=37,873 test=18,936]
+    Ridge fold 3/5: r2=0.200 corr=0.511 rmse=0.000576 bin_f1=0.687 bin_auc=0.777 [train=56,809 test=18,936]
+    Ridge fold 4/5: r2=0.155 corr=0.450 rmse=0.001021 bin_f1=0.707 bin_auc=0.786 [train=75,745 test=18,936]
+    Ridge fold 5/5: r2=0.277 corr=0.537 rmse=0.000632 bin_f1=0.516 bin_auc=0.760 [train=94,681 test=18,936]
+  → Ridge: r2=0.214±0.040 corr=0.502±0.029 bin_f1=0.643±0.076 bin_auc=0.774 (0.7s)
+    LGBM_reg fold 1/5: r2=0.218 corr=0.596 rmse=0.000914 bin_f1=0.676 bin_auc=0.793 [train=18,937 test=18,936]
+    LGBM_reg fold 2/5: r2=-0.348 corr=0.421 rmse=0.000867 bin_f1=0.709 bin_auc=0.798 [train=37,873 test=18,936]
+    LGBM_reg fold 3/5: r2=0.087 corr=0.478 rmse=0.000616 bin_f1=0.659 bin_auc=0.748 [train=56,809 test=18,936]
+    LGBM_reg fold 4/5: r2=0.123 corr=0.421 rmse=0.001040 bin_f1=0.749 bin_auc=0.797 [train=75,745 test=18,936]
+    LGBM_reg fold 5/5: r2=0.035 corr=0.444 rmse=0.000729 bin_f1=0.530 bin_auc=0.721 [train=94,681 test=18,936]
+  → LGBM_reg: r2=0.023±0.195 corr=0.472±0.066 bin_f1=0.665±0.074 bin_auc=0.771 (42.2s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | fwd_vol mean=0.002037 std=0.000897 | high_vol rate=0.105
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.265 corr=0.525 rmse=0.000814 bin_f1=0.614 bin_auc=0.721 [train=18,913 test=18,912]
+    Ridge fold 2/5: r2=0.097 corr=0.414 rmse=0.000623 bin_f1=0.641 bin_auc=0.726 [train=37,825 test=18,912]
+    Ridge fold 3/5: r2=0.192 corr=0.480 rmse=0.000502 bin_f1=0.620 bin_auc=0.726 [train=56,737 test=18,912]
+    Ridge fold 4/5: r2=0.115 corr=0.391 rmse=0.000940 bin_f1=0.775 bin_auc=0.810 [train=75,649 test=18,912]
+    Ridge fold 5/5: r2=0.190 corr=0.546 rmse=0.000557 bin_f1=0.618 bin_auc=0.802 [train=94,561 test=18,912]
+  → Ridge: r2=0.172±0.060 corr=0.471±0.060 bin_f1=0.654±0.061 bin_auc=0.757 (0.5s)
+    LGBM_reg fold 1/5: r2=0.156 corr=0.555 rmse=0.000872 bin_f1=0.616 bin_auc=0.754 [train=18,913 test=18,912]
+    LGBM_reg fold 2/5: r2=-0.567 corr=0.387 rmse=0.000820 bin_f1=0.700 bin_auc=0.750 [train=37,825 test=18,912]
+    LGBM_reg fold 3/5: r2=0.114 corr=0.460 rmse=0.000526 bin_f1=0.648 bin_auc=0.729 [train=56,737 test=18,912]
+    LGBM_reg fold 4/5: r2=0.062 corr=0.367 rmse=0.000968 bin_f1=0.763 bin_auc=0.790 [train=75,649 test=18,912]
+    LGBM_reg fold 5/5: r2=-0.048 corr=0.518 rmse=0.000633 bin_f1=0.608 bin_auc=0.788 [train=94,561 test=18,912]
+  → LGBM_reg: r2=-0.057±0.264 corr=0.457±0.073 bin_f1=0.667±0.058 bin_auc=0.762 (42.0s)
+
+  ======================================================================
+  REGRESSION SUMMARY — Ridge (best model from v9)
+  ======================================================================
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+          1h    0.350    0.601   0.000897    0.752    0.725    0.840
+          4h    0.303    0.571   0.000830    0.719    0.684    0.803
+         12h    0.214    0.502   0.000760    0.709    0.643    0.774
+         24h    0.172    0.471   0.000687    0.698    0.654    0.757
+
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+  LGBM Regressor:
+          1h    0.309    0.582   0.000924    0.740    0.725    0.835
+          4h    0.139    0.526   0.000916    0.707    0.690    0.797
+         12h    0.023    0.472   0.000833    0.696    0.665    0.771
+         24h   -0.057    0.457   0.000764    0.681    0.667    0.762
+
+######################################################################
+  EXPERIMENT B: Binary Classification Across Horizons (LogReg)
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | Positive rate: 0.225
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.504 f1=0.432 auc=0.758 [train=18,959 test=18,958]
+    LogReg fold 2/5: acc=0.625 f1=0.465 auc=0.745 [train=37,917 test=18,958]
+    LogReg fold 3/5: acc=0.657 f1=0.428 auc=0.754 [train=56,875 test=18,958]
+    LogReg fold 4/5: acc=0.760 f1=0.558 auc=0.798 [train=75,833 test=18,958]
+    LogReg fold 5/5: acc=0.788 f1=0.608 auc=0.811 [train=94,791 test=18,958]
+  → LogReg: acc=0.667±0.102 f1=0.499±0.072 auc=0.773±0.026 prec=0.408 rec=0.722 (5.6s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | Positive rate: 0.197
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.552 f1=0.417 auc=0.701 [train=18,953 test=18,952]
+    LogReg fold 2/5: acc=0.578 f1=0.366 auc=0.695 [train=37,905 test=18,952]
+    LogReg fold 3/5: acc=0.639 f1=0.269 auc=0.667 [train=56,857 test=18,952]
+    LogReg fold 4/5: acc=0.720 f1=0.407 auc=0.702 [train=75,809 test=18,952]
+    LogReg fold 5/5: acc=0.711 f1=0.492 auc=0.742 [train=94,761 test=18,952]
+  → LogReg: acc=0.640±0.068 f1=0.390±0.073 auc=0.701±0.024 prec=0.309 rec=0.612 (3.4s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | Positive rate: 0.136
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.747 f1=0.222 auc=0.563 [train=18,937 test=18,936]
+    LogReg fold 2/5: acc=0.733 f1=0.318 auc=0.699 [train=37,873 test=18,936]
+    LogReg fold 3/5: acc=0.684 f1=0.101 auc=0.529 [train=56,809 test=18,936]
+    LogReg fold 4/5: acc=0.814 f1=0.253 auc=0.645 [train=75,745 test=18,936]
+    LogReg fold 5/5: acc=0.709 f1=0.391 auc=0.655 [train=94,681 test=18,936]
+  → LogReg: acc=0.737±0.044 f1=0.257±0.097 auc=0.618±0.063 prec=0.215 rec=0.362 (4.6s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | Positive rate: 0.105
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.478 f1=0.255 auc=0.628 [train=18,913 test=18,912]
+    LogReg fold 2/5: acc=0.594 f1=0.223 auc=0.677 [train=37,825 test=18,912]
+    LogReg fold 3/5: acc=0.665 f1=0.083 auc=0.505 [train=56,737 test=18,912]
+    LogReg fold 4/5: acc=0.797 f1=0.238 auc=0.641 [train=75,649 test=18,912]
+    LogReg fold 5/5: acc=0.599 f1=0.245 auc=0.711 [train=94,561 test=18,912]
+  → LogReg: acc=0.627±0.104 f1=0.209±0.064 auc=0.632±0.070 prec=0.139 rec=0.534 (3.8s)
+
+  ======================================================================
+  CLASSIFICATION SUMMARY — LogReg (balanced)
+  ======================================================================
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+          1h    0.667    0.499    0.773    0.408    0.722
+          4h    0.640    0.390    0.701    0.309    0.612
+         12h    0.737    0.257    0.618    0.215    0.362
+         24h    0.627    0.209    0.632    0.139    0.534
+
+######################################################################
+  EXPERIMENT C: Feature Importance by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Top 10 features:
+     1. vol_sma_24h                      6.8% (cum   6.8%)
+     2. parkvol_24h                      6.3% (cum  13.1%)
+     3. price_vs_sma_24h                 5.8% (cum  19.0%)
+     4. rvol_24h                         5.1% (cum  24.0%)
+     5. rvol_8h                          4.3% (cum  28.3%)
+     6. large_trade_1h                   4.1% (cum  32.4%)
+     7. adx_4h                           4.0% (cum  36.5%)
+     8. bar_eff_4h                       3.6% (cum  40.1%)
+     9. iti_cv_1h                        3.5% (cum  43.5%)
+    10. parkvol_8h                       3.3% (cum  46.8%)
+
+  --- Horizon: 48 bars (4h) ---
+  Top 10 features:
+     1. vol_sma_24h                      8.9% (cum   8.9%)
+     2. parkvol_24h                      8.3% (cum  17.2%)
+     3. rvol_24h                         7.3% (cum  24.5%)
+     4. price_vs_sma_24h                 6.6% (cum  31.1%)
+     5. rvol_8h                          5.3% (cum  36.4%)
+     6. parkvol_8h                       4.8% (cum  41.2%)
+     7. adx_4h                           4.3% (cum  45.6%)
+     8. bar_eff_4h                       4.0% (cum  49.5%)
+     9. large_trade_1h                   3.7% (cum  53.3%)
+    10. iti_cv_1h                        3.4% (cum  56.7%)
+
+  --- Horizon: 144 bars (12h) ---
+  Top 10 features:
+     1. vol_sma_24h                     10.7% (cum  10.7%)
+     2. parkvol_24h                     10.4% (cum  21.1%)
+     3. rvol_24h                         9.3% (cum  30.4%)
+     4. price_vs_sma_24h                 7.4% (cum  37.8%)
+     5. large_trade_1h                   4.8% (cum  42.6%)
+     6. rvol_8h                          4.7% (cum  47.3%)
+     7. bar_eff_4h                       4.5% (cum  51.8%)
+     8. parkvol_8h                       4.4% (cum  56.2%)
+     9. adx_4h                           4.1% (cum  60.3%)
+    10. iti_cv_1h                        3.2% (cum  63.5%)
+
+  --- Horizon: 288 bars (24h) ---
+  Top 10 features:
+     1. vol_sma_24h                     12.0% (cum  12.0%)
+     2. parkvol_24h                     10.3% (cum  22.3%)
+     3. rvol_24h                         8.5% (cum  30.8%)
+     4. price_vs_sma_24h                 8.4% (cum  39.2%)
+     5. bar_eff_4h                       6.2% (cum  45.4%)
+     6. rvol_8h                          5.1% (cum  50.5%)
+     7. large_trade_1h                   4.8% (cum  55.3%)
+     8. adx_4h                           4.3% (cum  59.6%)
+     9. parkvol_8h                       4.1% (cum  63.7%)
+    10. ret_autocorr_4h                  3.0% (cum  66.7%)
+
+  ======================================================================
+  FEATURE RANK COMPARISON ACROSS HORIZONS
+  ======================================================================
+
+  Feature                            1h     4h    12h    24h  Shift
+  ----------------------------------------------------------------------
+  vol_sma_24h                         1      1      1      1    +0=
+  parkvol_24h                         2      2      2      2    +0=
+  rvol_24h                            4      3      3      3    -1=
+  price_vs_sma_24h                    3      4      4      4    +1=
+  rvol_8h                             5      5      6      6    +1=
+  large_trade_1h                      6      9      5      7    +1=
+  bar_eff_4h                          8      8      7      5    -3=
+  adx_4h                              7      7      9      8    +1=
+  parkvol_8h                         10      6      8      9    -1=
+  iti_cv_1h                           9     10     10     12    +3=
+  ret_autocorr_4h                    14     11     12     10    -4↑
+  vol_accel_4h                       15     14     11     11    -4↑
+  adx_2h                             13     13     13     14    +1=
+  imbalance_4h                       18     12     14     18    +0=
+  rvol_4h                            17     15     18     15    -2=
+  vol_ratio_2h_24h                   19     17     17     13    -6↑
+  parkvol_4h                         21     16     15     19    -2=
+  trade_intensity_ratio              12     21     25     25   +13↓
+  parkvol_1h                         11     18     31     32   +21↓
+
+######################################################################
+  EXPERIMENT D: Cross-Horizon Correlation
+######################################################################
+
+  Forward Vol Correlation Matrix:
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.731    0.539    0.466
+          4h    0.731    1.000    0.763    0.628
+         12h    0.539    0.763    1.000    0.839
+         24h    0.466    0.628    0.839    1.000
+
+  High-Vol Agreement Matrix (% of bars where both agree):
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.824    0.771    0.756
+          4h    0.824    1.000    0.838    0.799
+         12h    0.771    0.838    1.000    0.905
+         24h    0.756    0.799    0.905    1.000
+
+  Predictive Power: P(high_vol@longer | high_vol@shorter)
+      Given HV at       1h       4h      12h      24h
+  --------------------------------------------------
+               1h    1.000    0.546    0.291    0.190
+               4h    0.624    1.000    0.432    0.254
+              12h    0.482    0.626    1.000    0.536
+              24h    0.407    0.477    0.690    1.000
+
+######################################################################
+  EXPERIMENT E: Position Sizing Effectiveness by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Test set: 22,750 bars | high_vol: 6,035 (0.265)
+  Avg size during high_vol:  0.777
+  Avg size during normal:    0.919
+  Size reduction:            15.4%
+  % of high_vol bars < 0.5x: 13.8%
+
+  --- Horizon: 48 bars (4h) ---
+  Test set: 22,743 bars | high_vol: 5,696 (0.250)
+  Avg size during high_vol:  0.862
+  Avg size during normal:    0.922
+  Size reduction:            6.6%
+  % of high_vol bars < 0.5x: 3.9%
+
+  --- Horizon: 144 bars (12h) ---
+  Test set: 22,724 bars | high_vol: 4,226 (0.186)
+  Avg size during high_vol:  0.932
+  Avg size during normal:    0.934
+  Size reduction:            0.2%
+  % of high_vol bars < 0.5x: 0.3%
+
+  --- Horizon: 288 bars (24h) ---
+  Test set: 22,695 bars | high_vol: 1,919 (0.085)
+  Avg size during high_vol:  0.932
+  Avg size during normal:    0.924
+  Size reduction:            -0.9%
+  % of high_vol bars < 0.5x: 0.0%
+
+  ======================================================================
+  POSITION SIZING SUMMARY
+  ======================================================================
+     Horizon   SizeHV   SizeNV  Reduction   %<0.5x
+  --------------------------------------------------
+          1h    0.777    0.919      15.4%    13.8%
+          4h    0.862    0.922       6.6%     3.9%
+         12h    0.932    0.934       0.2%     0.3%
+         24h    0.932    0.924      -0.9%     0.0%
+
+✅ ETHUSDT multi-horizon experiments complete in 366s (6.1min)
+
+  ⏱ Total: 718s | ~359s/symbol | ETA: 1077s
+
+
+**********************************************************************
+  SYMBOL 3/5: SOLUSDT
+**********************************************************************
+
+
+======================================================================
+  MULTI-HORIZON VOL PREDICTION: SOLUSDT
+  2025-01-01 → 2026-01-31
+  Horizons: 1h (12 bars), 4h (48 bars), 12h (144 bars), 24h (288 bars)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=9.2GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=9.2GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=9.1GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=9.1GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=9.1GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=9.1GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=9.1GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=9.1GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=1s RAM=9.1GB cache=180 new=0
+  [200/396] 2025-07-19 | 0s ETA=0s RAM=9.1GB cache=200 new=0
+  [220/396] 2025-08-08 | 0s ETA=0s RAM=9.1GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=9.2GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=9.2GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=9.2GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=9.2GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=9.2GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=9.2GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=9.2GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=9.2GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=9.2GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded 114,048 bars in 1s
+
+  Step 2: Computing features...
+  60 features in 69s
+
+  Step 3: Labeling regimes for 4 horizons...
+      1h ( 12 bars): high_vol rate = 0.197
+      4h ( 48 bars): high_vol rate = 0.171
+     12h (144 bars): high_vol rate = 0.117
+     24h (288 bars): high_vol rate = 0.071
+  Labeled in 5s
+
+######################################################################
+  EXPERIMENT A: Regression Across Forward Horizons
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | fwd_vol mean=0.002100 std=0.001553 | high_vol rate=0.197
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.357 corr=0.640 rmse=0.000994 bin_f1=0.644 bin_auc=0.815 [train=18,959 test=18,958]
+    Ridge fold 2/5: r2=0.304 corr=0.566 rmse=0.000759 bin_f1=0.626 bin_auc=0.808 [train=37,917 test=18,958]
+    Ridge fold 3/5: r2=0.292 corr=0.549 rmse=0.000902 bin_f1=0.705 bin_auc=0.821 [train=56,875 test=18,958]
+    Ridge fold 4/5: r2=0.219 corr=0.479 rmse=0.001902 bin_f1=0.775 bin_auc=0.829 [train=75,833 test=18,958]
+    Ridge fold 5/5: r2=0.380 corr=0.625 rmse=0.000802 bin_f1=0.623 bin_auc=0.843 [train=94,791 test=18,958]
+  → Ridge: r2=0.310±0.056 corr=0.572±0.057 bin_f1=0.675±0.058 bin_auc=0.823 (0.5s)
+    LGBM_reg fold 1/5: r2=0.282 corr=0.607 rmse=0.001051 bin_f1=0.635 bin_auc=0.801 [train=18,959 test=18,958]
+    LGBM_reg fold 2/5: r2=0.303 corr=0.553 rmse=0.000760 bin_f1=0.604 bin_auc=0.802 [train=37,917 test=18,958]
+    LGBM_reg fold 3/5: r2=0.245 corr=0.525 rmse=0.000931 bin_f1=0.702 bin_auc=0.816 [train=56,875 test=18,958]
+    LGBM_reg fold 4/5: r2=0.194 corr=0.441 rmse=0.001933 bin_f1=0.778 bin_auc=0.830 [train=75,833 test=18,958]
+    LGBM_reg fold 5/5: r2=0.302 corr=0.577 rmse=0.000851 bin_f1=0.617 bin_auc=0.832 [train=94,791 test=18,958]
+  → LGBM_reg: r2=0.265±0.042 corr=0.541±0.057 bin_f1=0.667±0.065 bin_auc=0.816 (28.6s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | fwd_vol mean=0.002267 std=0.001452 | high_vol rate=0.171
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.143 corr=0.612 rmse=0.001024 bin_f1=0.570 bin_auc=0.775 [train=18,953 test=18,952]
+    Ridge fold 2/5: r2=0.299 corr=0.576 rmse=0.000646 bin_f1=0.599 bin_auc=0.808 [train=37,905 test=18,952]
+    Ridge fold 3/5: r2=0.286 corr=0.542 rmse=0.000783 bin_f1=0.703 bin_auc=0.819 [train=56,857 test=18,952]
+    Ridge fold 4/5: r2=0.145 corr=0.392 rmse=0.001886 bin_f1=0.770 bin_auc=0.831 [train=75,809 test=18,952]
+    Ridge fold 5/5: r2=0.276 corr=0.548 rmse=0.000773 bin_f1=0.491 bin_auc=0.746 [train=94,761 test=18,952]
+  → Ridge: r2=0.230±0.071 corr=0.534±0.075 bin_f1=0.627±0.099 bin_auc=0.796 (0.4s)
+    LGBM_reg fold 1/5: r2=0.028 corr=0.552 rmse=0.001090 bin_f1=0.550 bin_auc=0.739 [train=18,953 test=18,952]
+    LGBM_reg fold 2/5: r2=0.182 corr=0.474 rmse=0.000698 bin_f1=0.530 bin_auc=0.769 [train=37,905 test=18,952]
+    LGBM_reg fold 3/5: r2=0.157 corr=0.453 rmse=0.000851 bin_f1=0.694 bin_auc=0.797 [train=56,857 test=18,952]
+    LGBM_reg fold 4/5: r2=0.104 corr=0.341 rmse=0.001931 bin_f1=0.764 bin_auc=0.826 [train=75,809 test=18,952]
+    LGBM_reg fold 5/5: r2=0.021 corr=0.429 rmse=0.000899 bin_f1=0.504 bin_auc=0.746 [train=94,761 test=18,952]
+  → LGBM_reg: r2=0.098±0.065 corr=0.450±0.068 bin_f1=0.608±0.102 bin_auc=0.776 (34.4s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | fwd_vol mean=0.002359 std=0.001329 | high_vol rate=0.118
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=-0.382 corr=0.548 rmse=0.001136 bin_f1=0.550 bin_auc=0.746 [train=18,937 test=18,936]
+    Ridge fold 2/5: r2=0.201 corr=0.493 rmse=0.000567 bin_f1=0.501 bin_auc=0.764 [train=37,873 test=18,936]
+    Ridge fold 3/5: r2=0.257 corr=0.523 rmse=0.000672 bin_f1=0.636 bin_auc=0.790 [train=56,809 test=18,936]
+    Ridge fold 4/5: r2=0.038 corr=0.285 rmse=0.001864 bin_f1=0.708 bin_auc=0.797 [train=75,745 test=18,936]
+    Ridge fold 5/5: r2=0.105 corr=0.401 rmse=0.000697 bin_f1=0.320 bin_auc=0.678 [train=94,681 test=18,936]
+  → Ridge: r2=0.044±0.226 corr=0.450±0.097 bin_f1=0.543±0.132 bin_auc=0.755 (0.4s)
+    LGBM_reg fold 1/5: r2=-0.102 corr=0.489 rmse=0.001015 bin_f1=0.539 bin_auc=0.703 [train=18,937 test=18,936]
+    LGBM_reg fold 2/5: r2=0.031 corr=0.379 rmse=0.000625 bin_f1=0.466 bin_auc=0.707 [train=37,873 test=18,936]
+    LGBM_reg fold 3/5: r2=0.017 corr=0.358 rmse=0.000773 bin_f1=0.598 bin_auc=0.753 [train=56,809 test=18,936]
+    LGBM_reg fold 4/5: r2=-0.001 corr=0.219 rmse=0.001901 bin_f1=0.716 bin_auc=0.781 [train=75,745 test=18,936]
+    LGBM_reg fold 5/5: r2=-0.366 corr=0.290 rmse=0.000861 bin_f1=0.414 bin_auc=0.700 [train=94,681 test=18,936]
+  → LGBM_reg: r2=-0.084±0.148 corr=0.347±0.090 bin_f1=0.546±0.105 bin_auc=0.729 (37.2s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | fwd_vol mean=0.002411 std=0.001239 | high_vol rate=0.071
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=-1.232 corr=0.478 rmse=0.001291 bin_f1=0.447 bin_auc=0.744 [train=18,913 test=18,912]
+    Ridge fold 2/5: r2=0.067 corr=0.417 rmse=0.000519 bin_f1=0.426 bin_auc=0.694 [train=37,825 test=18,912]
+    Ridge fold 3/5: r2=0.250 corr=0.519 rmse=0.000594 bin_f1=0.615 bin_auc=0.764 [train=56,737 test=18,912]
+    Ridge fold 4/5: r2=-0.049 corr=0.194 rmse=0.001832 bin_f1=0.682 bin_auc=0.793 [train=75,649 test=18,912]
+    Ridge fold 5/5: r2=0.093 corr=0.446 rmse=0.000570 bin_f1=0.449 bin_auc=0.736 [train=94,561 test=18,912]
+  → Ridge: r2=-0.174±0.537 corr=0.411±0.113 bin_f1=0.524±0.104 bin_auc=0.746 (0.6s)
+    LGBM_reg fold 1/5: r2=-1.003 corr=0.354 rmse=0.001223 bin_f1=0.461 bin_auc=0.690 [train=18,913 test=18,912]
+    LGBM_reg fold 2/5: r2=-0.061 corr=0.393 rmse=0.000553 bin_f1=0.396 bin_auc=0.679 [train=37,825 test=18,912]
+    LGBM_reg fold 3/5: r2=-0.130 corr=0.320 rmse=0.000729 bin_f1=0.559 bin_auc=0.741 [train=56,737 test=18,912]
+    LGBM_reg fold 4/5: r2=-0.063 corr=0.154 rmse=0.001844 bin_f1=0.671 bin_auc=0.743 [train=75,649 test=18,912]
+    LGBM_reg fold 5/5: r2=-0.409 corr=0.362 rmse=0.000711 bin_f1=0.455 bin_auc=0.711 [train=94,561 test=18,912]
+  → LGBM_reg: r2=-0.333±0.358 corr=0.317±0.085 bin_f1=0.508±0.097 bin_auc=0.713 (56.8s)
+
+  ======================================================================
+  REGRESSION SUMMARY — Ridge (best model from v9)
+  ======================================================================
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+          1h    0.310    0.572   0.001072    0.755    0.675    0.823
+          4h    0.230    0.534   0.001023    0.724    0.627    0.796
+         12h    0.044    0.450   0.000987    0.689    0.543    0.755
+         24h   -0.174    0.411   0.000961    0.678    0.524    0.746
+
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+  LGBM Regressor:
+          1h    0.265    0.541   0.001105    0.755    0.667    0.816
+          4h    0.098    0.450   0.001094    0.715    0.608    0.776
+         12h   -0.084    0.347   0.001035    0.689    0.546    0.729
+         24h   -0.333    0.317   0.001012    0.662    0.508    0.713
+
+######################################################################
+  EXPERIMENT B: Binary Classification Across Horizons (LogReg)
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | Positive rate: 0.198
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.552 f1=0.387 auc=0.747 [train=18,959 test=18,958]
+    LogReg fold 2/5: acc=0.757 f1=0.462 auc=0.767 [train=37,917 test=18,958]
+    LogReg fold 3/5: acc=0.653 f1=0.413 auc=0.745 [train=56,875 test=18,958]
+    LogReg fold 4/5: acc=0.758 f1=0.516 auc=0.801 [train=75,833 test=18,958]
+    LogReg fold 5/5: acc=0.799 f1=0.569 auc=0.811 [train=94,791 test=18,958]
+  → LogReg: acc=0.704±0.090 f1=0.469±0.067 auc=0.774±0.027 prec=0.391 rec=0.661 (5.9s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | Positive rate: 0.172
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.361 f1=0.307 auc=0.669 [train=18,953 test=18,952]
+    LogReg fold 2/5: acc=0.749 f1=0.323 auc=0.702 [train=37,905 test=18,952]
+    LogReg fold 3/5: acc=0.666 f1=0.265 auc=0.673 [train=56,857 test=18,952]
+    LogReg fold 4/5: acc=0.759 f1=0.368 auc=0.707 [train=75,809 test=18,952]
+    LogReg fold 5/5: acc=0.746 f1=0.414 auc=0.722 [train=94,761 test=18,952]
+  → LogReg: acc=0.656±0.151 f1=0.336±0.051 auc=0.695±0.020 prec=0.281 rec=0.533 (3.0s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | Positive rate: 0.118
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.225 f1=0.163 auc=0.608 [train=18,937 test=18,936]
+    LogReg fold 2/5: acc=0.810 f1=0.170 auc=0.550 [train=37,873 test=18,936]
+    LogReg fold 3/5: acc=0.773 f1=0.162 auc=0.606 [train=56,809 test=18,936]
+    LogReg fold 4/5: acc=0.844 f1=0.244 auc=0.651 [train=75,745 test=18,936]
+    LogReg fold 5/5: acc=0.755 f1=0.258 auc=0.599 [train=94,681 test=18,936]
+  → LogReg: acc=0.682±0.230 f1=0.199±0.043 auc=0.603±0.032 prec=0.172 rec=0.378 (3.6s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | Positive rate: 0.071
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.257 f1=0.116 auc=0.785 [train=18,913 test=18,912]
+    LogReg fold 2/5: acc=0.815 f1=0.135 auc=0.588 [train=37,825 test=18,912]
+    LogReg fold 3/5: acc=0.780 f1=0.241 auc=0.851 [train=56,737 test=18,912]
+    LogReg fold 4/5: acc=0.907 f1=0.059 auc=0.599 [train=75,649 test=18,912]
+    LogReg fold 5/5: acc=0.783 f1=0.126 auc=0.585 [train=94,561 test=18,912]
+  → LogReg: acc=0.708±0.230 f1=0.135±0.059 auc=0.681±0.113 prec=0.121 rec=0.480 (3.9s)
+
+  ======================================================================
+  CLASSIFICATION SUMMARY — LogReg (balanced)
+  ======================================================================
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+          1h    0.704    0.469    0.774    0.391    0.661
+          4h    0.656    0.336    0.695    0.281    0.533
+         12h    0.682    0.199    0.603    0.172    0.378
+         24h    0.708    0.135    0.681    0.121    0.480
+
+######################################################################
+  EXPERIMENT C: Feature Importance by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Top 10 features:
+     1. vol_sma_24h                      7.4% (cum   7.4%)
+     2. parkvol_24h                      7.4% (cum  14.8%)
+     3. rvol_24h                         4.9% (cum  19.7%)
+     4. price_vs_sma_24h                 4.7% (cum  24.5%)
+     5. adx_4h                           4.2% (cum  28.7%)
+     6. iti_cv_1h                        4.1% (cum  32.8%)
+     7. parkvol_8h                       3.6% (cum  36.4%)
+     8. large_trade_1h                   3.6% (cum  40.0%)
+     9. bar_eff_4h                       3.2% (cum  43.2%)
+    10. adx_2h                           3.1% (cum  46.3%)
+
+  --- Horizon: 48 bars (4h) ---
+  Top 10 features:
+     1. parkvol_24h                      8.4% (cum   8.4%)
+     2. vol_sma_24h                      8.3% (cum  16.7%)
+     3. rvol_24h                         6.6% (cum  23.4%)
+     4. large_trade_1h                   5.2% (cum  28.5%)
+     5. price_vs_sma_24h                 5.1% (cum  33.6%)
+     6. adx_4h                           5.0% (cum  38.6%)
+     7. iti_cv_1h                        4.9% (cum  43.5%)
+     8. rvol_8h                          4.8% (cum  48.3%)
+     9. bar_eff_4h                       4.8% (cum  53.1%)
+    10. vol_accel_4h                     3.3% (cum  56.4%)
+
+  --- Horizon: 144 bars (12h) ---
+  Top 10 features:
+     1. vol_sma_24h                     10.3% (cum  10.3%)
+     2. parkvol_24h                      9.3% (cum  19.7%)
+     3. rvol_24h                         9.1% (cum  28.8%)
+     4. price_vs_sma_24h                 6.6% (cum  35.3%)
+     5. large_trade_1h                   4.9% (cum  40.2%)
+     6. bar_eff_4h                       4.8% (cum  45.1%)
+     7. parkvol_8h                       4.8% (cum  49.8%)
+     8. adx_4h                           4.1% (cum  53.9%)
+     9. rvol_8h                          4.0% (cum  57.9%)
+    10. iti_cv_1h                        3.8% (cum  61.7%)
+
+  --- Horizon: 288 bars (24h) ---
+  Top 10 features:
+     1. vol_sma_24h                     11.6% (cum  11.6%)
+     2. parkvol_24h                      9.4% (cum  21.0%)
+     3. rvol_24h                         8.8% (cum  29.8%)
+     4. price_vs_sma_24h                 7.4% (cum  37.3%)
+     5. rvol_8h                          6.2% (cum  43.5%)
+     6. large_trade_1h                   5.4% (cum  48.8%)
+     7. bar_eff_4h                       5.3% (cum  54.1%)
+     8. parkvol_8h                       4.9% (cum  59.0%)
+     9. iti_cv_1h                        4.2% (cum  63.2%)
+    10. adx_4h                           4.1% (cum  67.3%)
+
+  ======================================================================
+  FEATURE RANK COMPARISON ACROSS HORIZONS
+  ======================================================================
+
+  Feature                            1h     4h    12h    24h  Shift
+  ----------------------------------------------------------------------
+  vol_sma_24h                         1      2      1      1    +0=
+  parkvol_24h                         2      1      2      2    +0=
+  rvol_24h                            3      3      3      3    +0=
+  price_vs_sma_24h                    4      5      4      4    +0=
+  large_trade_1h                      8      4      5      6    -2=
+  adx_4h                              5      6      8     10    +5↓
+  bar_eff_4h                          9      9      6      7    -2=
+  iti_cv_1h                           6      7     10      9    +3=
+  parkvol_8h                          7     11      7      8    +1=
+  rvol_8h                            11      8      9      5    -6↑
+  vol_accel_4h                       16     10     11     12    -4↑
+  adx_2h                             10     12     17     14    +4↓
+  vol_ratio_2h_24h                   14     16     12     11    -3=
+  imbalance_4h                       12     15     13     16    +4↓
+  parkvol_4h                         20     14     14     13    -7↑
+  ret_autocorr_4h                    19     13     15     15    -4↑
+  parkvol_1h                         15     20     25     26   +11↓
+  trade_intensity_ratio              13     24     30     35   +22↓
+
+######################################################################
+  EXPERIMENT D: Cross-Horizon Correlation
+######################################################################
+
+  Forward Vol Correlation Matrix:
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.727    0.554    0.474
+          4h    0.727    1.000    0.765    0.631
+         12h    0.554    0.765    1.000    0.837
+         24h    0.474    0.631    0.837    1.000
+
+  High-Vol Agreement Matrix (% of bars where both agree):
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.845    0.794    0.793
+          4h    0.845    1.000    0.857    0.834
+         12h    0.794    0.857    1.000    0.911
+         24h    0.793    0.834    0.911    1.000
+
+  Predictive Power: P(high_vol@longer | high_vol@shorter)
+      Given HV at       1h       4h      12h      24h
+  --------------------------------------------------
+               1h    1.000    0.541    0.275    0.156
+               4h    0.623    1.000    0.425    0.221
+              12h    0.460    0.616    1.000    0.426
+              24h    0.431    0.529    0.699    1.000
+
+######################################################################
+  EXPERIMENT E: Position Sizing Effectiveness by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Test set: 22,750 bars | high_vol: 5,386 (0.237)
+  Avg size during high_vol:  0.821
+  Avg size during normal:    0.949
+  Size reduction:            13.5%
+  % of high_vol bars < 0.5x: 9.2%
+
+  --- Horizon: 48 bars (4h) ---
+  Test set: 22,743 bars | high_vol: 5,122 (0.225)
+  Avg size during high_vol:  0.892
+  Avg size during normal:    0.948
+  Size reduction:            6.0%
+  % of high_vol bars < 0.5x: 3.0%
+
+  --- Horizon: 144 bars (12h) ---
+  Test set: 22,724 bars | high_vol: 3,540 (0.156)
+  Avg size during high_vol:  0.942
+  Avg size during normal:    0.952
+  Size reduction:            1.0%
+  % of high_vol bars < 0.5x: 0.1%
+
+  --- Horizon: 288 bars (24h) ---
+  Test set: 22,695 bars | high_vol: 1,253 (0.055)
+  Avg size during high_vol:  0.918
+  Avg size during normal:    0.952
+  Size reduction:            3.5%
+  % of high_vol bars < 0.5x: 0.0%
+
+  ======================================================================
+  POSITION SIZING SUMMARY
+  ======================================================================
+     Horizon   SizeHV   SizeNV  Reduction   %<0.5x
+  --------------------------------------------------
+          1h    0.821    0.949      13.5%     9.2%
+          4h    0.892    0.948       6.0%     3.0%
+         12h    0.942    0.952       1.0%     0.1%
+         24h    0.918    0.952       3.5%     0.0%
+
+✅ SOLUSDT multi-horizon experiments complete in 301s (5.0min)
+
+  ⏱ Total: 1019s | ~340s/symbol | ETA: 679s
+
+
+**********************************************************************
+  SYMBOL 4/5: DOGEUSDT
+**********************************************************************
+
+
+======================================================================
+  MULTI-HORIZON VOL PREDICTION: DOGEUSDT
+  2025-01-01 → 2026-01-31
+  Horizons: 1h (12 bars), 4h (48 bars), 12h (144 bars), 24h (288 bars)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=8.9GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=8.9GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=8.9GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=8.9GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=8.9GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=9.0GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=9.0GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=9.0GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=1s RAM=9.0GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=0s RAM=9.0GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=0s RAM=9.1GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=9.1GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=9.2GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=9.2GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=9.2GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=9.2GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=9.1GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.9GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=8.9GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=8.9GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded 114,048 bars in 1s
+
+  Step 2: Computing features...
+  60 features in 77s
+
+  Step 3: Labeling regimes for 4 horizons...
+      1h ( 12 bars): high_vol rate = 0.202
+      4h ( 48 bars): high_vol rate = 0.175
+     12h (144 bars): high_vol rate = 0.131
+     24h (288 bars): high_vol rate = 0.079
+  Labeled in 5s
+
+######################################################################
+  EXPERIMENT A: Regression Across Forward Horizons
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | fwd_vol mean=0.002278 std=0.002228 | high_vol rate=0.202
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.426 corr=0.680 rmse=0.001062 bin_f1=0.709 bin_auc=0.849 [train=18,959 test=18,958]
+    Ridge fold 2/5: r2=0.399 corr=0.637 rmse=0.000927 bin_f1=0.724 bin_auc=0.839 [train=37,917 test=18,958]
+    Ridge fold 3/5: r2=0.314 corr=0.569 rmse=0.001176 bin_f1=0.755 bin_auc=0.831 [train=56,875 test=18,958]
+    Ridge fold 4/5: r2=0.115 corr=0.342 rmse=0.004069 bin_f1=0.714 bin_auc=0.816 [train=75,833 test=18,958]
+    Ridge fold 5/5: r2=0.224 corr=0.540 rmse=0.000940 bin_f1=0.576 bin_auc=0.831 [train=94,791 test=18,958]
+  → Ridge: r2=0.296±0.115 corr=0.554±0.117 bin_f1=0.696±0.062 bin_auc=0.833 (0.4s)
+    LGBM_reg fold 1/5: r2=0.367 corr=0.631 rmse=0.001115 bin_f1=0.708 bin_auc=0.825 [train=18,959 test=18,958]
+    LGBM_reg fold 2/5: r2=0.379 corr=0.622 rmse=0.000942 bin_f1=0.720 bin_auc=0.834 [train=37,917 test=18,958]
+    LGBM_reg fold 3/5: r2=0.282 corr=0.547 rmse=0.001202 bin_f1=0.749 bin_auc=0.826 [train=56,875 test=18,958]
+    LGBM_reg fold 4/5: r2=0.072 corr=0.270 rmse=0.004167 bin_f1=0.715 bin_auc=0.817 [train=75,833 test=18,958]
+    LGBM_reg fold 5/5: r2=-0.115 corr=0.417 rmse=0.001127 bin_f1=0.583 bin_auc=0.833 [train=94,791 test=18,958]
+  → LGBM_reg: r2=0.197±0.191 corr=0.497±0.137 bin_f1=0.695±0.058 bin_auc=0.827 (48.2s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | fwd_vol mean=0.002475 std=0.002136 | high_vol rate=0.175
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.375 corr=0.678 rmse=0.001000 bin_f1=0.670 bin_auc=0.826 [train=18,953 test=18,952]
+    Ridge fold 2/5: r2=0.386 corr=0.637 rmse=0.000822 bin_f1=0.722 bin_auc=0.839 [train=37,905 test=18,952]
+    Ridge fold 3/5: r2=0.295 corr=0.565 rmse=0.001044 bin_f1=0.751 bin_auc=0.813 [train=56,857 test=18,952]
+    Ridge fold 4/5: r2=0.059 corr=0.245 rmse=0.004135 bin_f1=0.665 bin_auc=0.765 [train=75,809 test=18,952]
+    Ridge fold 5/5: r2=0.058 corr=0.443 rmse=0.000908 bin_f1=0.428 bin_auc=0.720 [train=94,761 test=18,952]
+  → Ridge: r2=0.235±0.147 corr=0.514±0.156 bin_f1=0.647±0.114 bin_auc=0.792 (0.5s)
+    LGBM_reg fold 1/5: r2=0.250 corr=0.597 rmse=0.001096 bin_f1=0.672 bin_auc=0.799 [train=18,953 test=18,952]
+    LGBM_reg fold 2/5: r2=0.336 corr=0.602 rmse=0.000854 bin_f1=0.708 bin_auc=0.834 [train=37,905 test=18,952]
+    LGBM_reg fold 3/5: r2=0.170 corr=0.499 rmse=0.001133 bin_f1=0.738 bin_auc=0.783 [train=56,857 test=18,952]
+    LGBM_reg fold 4/5: r2=0.058 corr=0.244 rmse=0.004137 bin_f1=0.656 bin_auc=0.768 [train=75,809 test=18,952]
+    LGBM_reg fold 5/5: r2=-1.092 corr=0.210 rmse=0.001354 bin_f1=0.421 bin_auc=0.704 [train=94,761 test=18,952]
+  → LGBM_reg: r2=-0.055±0.526 corr=0.430±0.171 bin_f1=0.639±0.113 bin_auc=0.778 (83.6s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | fwd_vol mean=0.002594 std=0.002016 | high_vol rate=0.131
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.414 corr=0.659 rmse=0.000863 bin_f1=0.648 bin_auc=0.796 [train=18,937 test=18,936]
+    Ridge fold 2/5: r2=0.290 corr=0.582 rmse=0.000761 bin_f1=0.694 bin_auc=0.808 [train=37,873 test=18,936]
+    Ridge fold 3/5: r2=0.284 corr=0.567 rmse=0.000890 bin_f1=0.727 bin_auc=0.782 [train=56,809 test=18,936]
+    Ridge fold 4/5: r2=0.021 corr=0.166 rmse=0.004088 bin_f1=0.623 bin_auc=0.715 [train=75,745 test=18,936]
+    Ridge fold 5/5: r2=-0.224 corr=0.329 rmse=0.000827 bin_f1=0.315 bin_auc=0.651 [train=94,681 test=18,936]
+  → Ridge: r2=0.157±0.229 corr=0.461±0.184 bin_f1=0.602±0.148 bin_auc=0.750 (0.6s)
+    LGBM_reg fold 1/5: r2=0.130 corr=0.534 rmse=0.001051 bin_f1=0.597 bin_auc=0.732 [train=18,937 test=18,936]
+    LGBM_reg fold 2/5: r2=0.258 corr=0.574 rmse=0.000778 bin_f1=0.707 bin_auc=0.810 [train=37,873 test=18,936]
+    LGBM_reg fold 3/5: r2=0.211 corr=0.512 rmse=0.000934 bin_f1=0.741 bin_auc=0.789 [train=56,809 test=18,936]
+    LGBM_reg fold 4/5: r2=0.013 corr=0.147 rmse=0.004105 bin_f1=0.637 bin_auc=0.729 [train=75,745 test=18,936]
+    LGBM_reg fold 5/5: r2=-1.357 corr=0.171 rmse=0.001148 bin_f1=0.331 bin_auc=0.638 [train=94,681 test=18,936]
+  → LGBM_reg: r2=-0.149±0.610 corr=0.388±0.188 bin_f1=0.603±0.145 bin_auc=0.740 (141.0s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | fwd_vol mean=0.002666 std=0.001929 | high_vol rate=0.079
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.101 corr=0.587 rmse=0.000986 bin_f1=0.511 bin_auc=0.772 [train=18,913 test=18,912]
+    Ridge fold 2/5: r2=0.173 corr=0.543 rmse=0.000731 bin_f1=0.678 bin_auc=0.792 [train=37,825 test=18,912]
+    Ridge fold 3/5: r2=0.300 corr=0.568 rmse=0.000781 bin_f1=0.719 bin_auc=0.789 [train=56,737 test=18,912]
+    Ridge fold 4/5: r2=-0.028 corr=0.072 rmse=0.004070 bin_f1=0.597 bin_auc=0.699 [train=75,649 test=18,912]
+    Ridge fold 5/5: r2=-0.338 corr=0.360 rmse=0.000689 bin_f1=0.353 bin_auc=0.640 [train=94,561 test=18,912]
+  → Ridge: r2=0.041±0.217 corr=0.426±0.195 bin_f1=0.572±0.131 bin_auc=0.739 (0.6s)
+    LGBM_reg fold 1/5: r2=0.118 corr=0.541 rmse=0.000977 bin_f1=0.553 bin_auc=0.787 [train=18,913 test=18,912]
+    LGBM_reg fold 2/5: r2=0.069 corr=0.502 rmse=0.000776 bin_f1=0.643 bin_auc=0.765 [train=37,825 test=18,912]
+    LGBM_reg fold 3/5: r2=0.159 corr=0.491 rmse=0.000856 bin_f1=0.717 bin_auc=0.777 [train=56,737 test=18,912]
+    LGBM_reg fold 4/5: r2=-0.006 corr=0.107 rmse=0.004027 bin_f1=0.605 bin_auc=0.707 [train=75,649 test=18,912]
+    LGBM_reg fold 5/5: r2=-1.010 corr=0.249 rmse=0.000844 bin_f1=0.328 bin_auc=0.608 [train=94,561 test=18,912]
+  → LGBM_reg: r2=-0.134±0.441 corr=0.378±0.170 bin_f1=0.569±0.132 bin_auc=0.729 (112.7s)
+
+  ======================================================================
+  REGRESSION SUMMARY — Ridge (best model from v9)
+  ======================================================================
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+          1h    0.296    0.554   0.001635    0.757    0.696    0.833
+          4h    0.235    0.514   0.001582    0.732    0.647    0.792
+         12h    0.157    0.461   0.001486    0.701    0.602    0.750
+         24h    0.041    0.426   0.001451    0.664    0.572    0.739
+
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+  LGBM Regressor:
+          1h    0.197    0.497   0.001711    0.741    0.695    0.827
+          4h   -0.055    0.430   0.001715    0.710    0.639    0.778
+         12h   -0.149    0.388   0.001603    0.698    0.603    0.740
+         24h   -0.134    0.378   0.001496    0.690    0.569    0.729
+
+######################################################################
+  EXPERIMENT B: Binary Classification Across Horizons (LogReg)
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | Positive rate: 0.202
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.779 f1=0.474 auc=0.750 [train=18,959 test=18,958]
+    LogReg fold 2/5: acc=0.735 f1=0.478 auc=0.779 [train=37,917 test=18,958]
+    LogReg fold 3/5: acc=0.626 f1=0.392 auc=0.734 [train=56,875 test=18,958]
+    LogReg fold 4/5: acc=0.729 f1=0.501 auc=0.784 [train=75,833 test=18,958]
+    LogReg fold 5/5: acc=0.797 f1=0.559 auc=0.799 [train=94,791 test=18,958]
+  → LogReg: acc=0.733±0.060 f1=0.481±0.054 auc=0.769±0.024 prec=0.416 rec=0.619 (6.4s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | Positive rate: 0.175
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.733 f1=0.351 auc=0.666 [train=18,953 test=18,952]
+    LogReg fold 2/5: acc=0.715 f1=0.364 auc=0.739 [train=37,905 test=18,952]
+    LogReg fold 3/5: acc=0.553 f1=0.253 auc=0.654 [train=56,857 test=18,952]
+    LogReg fold 4/5: acc=0.678 f1=0.404 auc=0.697 [train=75,809 test=18,952]
+    LogReg fold 5/5: acc=0.734 f1=0.447 auc=0.702 [train=94,761 test=18,952]
+  → LogReg: acc=0.683±0.068 f1=0.364±0.065 auc=0.692±0.030 prec=0.293 rec=0.544 (2.9s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | Positive rate: 0.132
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.458 f1=0.211 auc=0.552 [train=18,937 test=18,936]
+    LogReg fold 2/5: acc=0.592 f1=0.254 auc=0.558 [train=37,873 test=18,936]
+    LogReg fold 3/5: acc=0.559 f1=0.192 auc=0.641 [train=56,809 test=18,936]
+    LogReg fold 4/5: acc=0.650 f1=0.273 auc=0.690 [train=75,745 test=18,936]
+    LogReg fold 5/5: acc=0.503 f1=0.305 auc=0.605 [train=94,681 test=18,936]
+  → LogReg: acc=0.553±0.067 f1=0.247±0.041 auc=0.609±0.052 prec=0.157 rec=0.595 (2.7s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | Positive rate: 0.080
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.433 f1=0.139 auc=0.566 [train=18,913 test=18,912]
+    LogReg fold 2/5: acc=0.570 f1=0.203 auc=0.648 [train=37,825 test=18,912]
+    LogReg fold 3/5: acc=0.559 f1=0.141 auc=0.631 [train=56,737 test=18,912]
+    LogReg fold 4/5: acc=0.618 f1=0.227 auc=0.694 [train=75,649 test=18,912]
+    LogReg fold 5/5: acc=0.524 f1=0.126 auc=0.642 [train=94,561 test=18,912]
+  → LogReg: acc=0.541±0.062 f1=0.167±0.040 auc=0.636±0.041 prec=0.097 rec=0.647 (3.1s)
+
+  ======================================================================
+  CLASSIFICATION SUMMARY — LogReg (balanced)
+  ======================================================================
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+          1h    0.733    0.481    0.769    0.416    0.619
+          4h    0.683    0.364    0.692    0.293    0.544
+         12h    0.553    0.247    0.609    0.157    0.595
+         24h    0.541    0.167    0.636    0.097    0.647
+
+######################################################################
+  EXPERIMENT C: Feature Importance by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Top 10 features:
+     1. vol_sma_24h                      7.2% (cum   7.2%)
+     2. parkvol_24h                      6.3% (cum  13.4%)
+     3. price_vs_sma_24h                 5.8% (cum  19.2%)
+     4. rvol_24h                         4.3% (cum  23.5%)
+     5. iti_cv_1h                        4.2% (cum  27.7%)
+     6. parkvol_8h                       4.1% (cum  31.8%)
+     7. rvol_8h                          3.9% (cum  35.7%)
+     8. vol_accel_4h                     3.7% (cum  39.3%)
+     9. adx_4h                           3.5% (cum  42.9%)
+    10. vol_ratio_2h_24h                 3.4% (cum  46.3%)
+
+  --- Horizon: 48 bars (4h) ---
+  Top 10 features:
+     1. vol_sma_24h                      9.6% (cum   9.6%)
+     2. parkvol_24h                      8.1% (cum  17.7%)
+     3. rvol_24h                         7.3% (cum  25.0%)
+     4. price_vs_sma_24h                 6.1% (cum  31.1%)
+     5. bar_eff_4h                       5.7% (cum  36.9%)
+     6. rvol_8h                          4.7% (cum  41.6%)
+     7. parkvol_8h                       4.7% (cum  46.3%)
+     8. adx_4h                           4.5% (cum  50.9%)
+     9. vol_accel_4h                     3.7% (cum  54.5%)
+    10. iti_cv_1h                        3.5% (cum  58.1%)
+
+  --- Horizon: 144 bars (12h) ---
+  Top 10 features:
+     1. vol_sma_24h                     12.1% (cum  12.1%)
+     2. parkvol_24h                      9.4% (cum  21.5%)
+     3. rvol_24h                         8.5% (cum  30.0%)
+     4. price_vs_sma_24h                 7.6% (cum  37.6%)
+     5. rvol_8h                          5.7% (cum  43.3%)
+     6. bar_eff_4h                       5.5% (cum  48.8%)
+     7. adx_4h                           5.1% (cum  53.9%)
+     8. parkvol_8h                       4.6% (cum  58.6%)
+     9. ret_autocorr_4h                  3.2% (cum  61.8%)
+    10. large_trade_1h                   2.7% (cum  64.5%)
+
+  --- Horizon: 288 bars (24h) ---
+  Top 10 features:
+     1. vol_sma_24h                     10.5% (cum  10.5%)
+     2. parkvol_24h                      9.8% (cum  20.3%)
+     3. rvol_24h                         9.4% (cum  29.7%)
+     4. price_vs_sma_24h                 8.8% (cum  38.5%)
+     5. bar_eff_4h                       6.9% (cum  45.4%)
+     6. parkvol_8h                       5.3% (cum  50.7%)
+     7. adx_4h                           4.5% (cum  55.1%)
+     8. rvol_8h                          4.0% (cum  59.1%)
+     9. vol_accel_4h                     3.7% (cum  62.7%)
+    10. large_trade_1h                   3.1% (cum  65.9%)
+
+  ======================================================================
+  FEATURE RANK COMPARISON ACROSS HORIZONS
+  ======================================================================
+
+  Feature                            1h     4h    12h    24h  Shift
+  ----------------------------------------------------------------------
+  vol_sma_24h                         1      1      1      1    +0=
+  parkvol_24h                         2      2      2      2    +0=
+  rvol_24h                            4      3      3      3    -1=
+  price_vs_sma_24h                    3      4      4      4    +1=
+  rvol_8h                             7      6      5      8    +1=
+  bar_eff_4h                         11      5      6      5    -6↑
+  parkvol_8h                          6      7      8      6    +0=
+  adx_4h                              9      8      7      7    -2=
+  vol_accel_4h                        8      9     14      9    +1=
+  iti_cv_1h                           5     10     12     16   +11↓
+  large_trade_1h                     12     13     10     10    -2=
+  vol_ratio_2h_24h                   10     14     13     13    +3=
+  ret_autocorr_4h                    16     15      9     11    -5↑
+  imbalance_4h                       19     11     11     12    -7↑
+  adx_2h                             13     12     16     17    +4↓
+  rvol_4h                            22     17     15     15    -7↑
+  parkvol_1h                         14     18     23     26   +12↓
+  parkvol_2h                         15     21     25     23    +8↓
+  price_vs_sma_8h                    33     20     19     14   -19↑
+
+######################################################################
+  EXPERIMENT D: Cross-Horizon Correlation
+######################################################################
+
+  Forward Vol Correlation Matrix:
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.627    0.423    0.331
+          4h    0.627    1.000    0.671    0.509
+         12h    0.423    0.671    1.000    0.765
+         24h    0.331    0.509    0.765    1.000
+
+  High-Vol Agreement Matrix (% of bars where both agree):
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.840    0.787    0.790
+          4h    0.840    1.000    0.850    0.831
+         12h    0.787    0.850    1.000    0.908
+         24h    0.790    0.831    0.908    1.000
+
+  Predictive Power: P(high_vol@longer | high_vol@shorter)
+      Given HV at       1h       4h      12h      24h
+  --------------------------------------------------
+               1h    1.000    0.538    0.298    0.176
+               4h    0.618    1.000    0.446    0.243
+              12h    0.456    0.593    1.000    0.453
+              24h    0.446    0.535    0.747    1.000
+
+######################################################################
+  EXPERIMENT E: Position Sizing Effectiveness by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Test set: 22,750 bars | high_vol: 5,339 (0.235)
+  Avg size during high_vol:  0.842
+  Avg size during normal:    0.958
+  Size reduction:            12.2%
+  % of high_vol bars < 0.5x: 6.0%
+
+  --- Horizon: 48 bars (4h) ---
+  Test set: 22,743 bars | high_vol: 5,206 (0.229)
+  Avg size during high_vol:  0.907
+  Avg size during normal:    0.959
+  Size reduction:            5.4%
+  % of high_vol bars < 0.5x: 1.8%
+
+  --- Horizon: 144 bars (12h) ---
+  Test set: 22,724 bars | high_vol: 3,358 (0.148)
+  Avg size during high_vol:  0.953
+  Avg size during normal:    0.955
+  Size reduction:            0.2%
+  % of high_vol bars < 0.5x: 0.4%
+
+  --- Horizon: 288 bars (24h) ---
+  Test set: 22,695 bars | high_vol: 1,166 (0.051)
+  Avg size during high_vol:  0.943
+  Avg size during normal:    0.952
+  Size reduction:            1.0%
+  % of high_vol bars < 0.5x: 0.0%
+
+  ======================================================================
+  POSITION SIZING SUMMARY
+  ======================================================================
+     Horizon   SizeHV   SizeNV  Reduction   %<0.5x
+  --------------------------------------------------
+          1h    0.842    0.958      12.2%     6.0%
+          4h    0.907    0.959       5.4%     1.8%
+         12h    0.953    0.955       0.2%     0.4%
+         24h    0.943    0.952       1.0%     0.0%
+
+✅ DOGEUSDT multi-horizon experiments complete in 554s (9.2min)
+
+  ⏱ Total: 1573s | ~393s/symbol | ETA: 393s
+
+
+**********************************************************************
+  SYMBOL 5/5: XRPUSDT
+**********************************************************************
+
+
+======================================================================
+  MULTI-HORIZON VOL PREDICTION: XRPUSDT
+  2025-01-01 → 2026-01-31
+  Horizons: 1h (12 bars), 4h (48 bars), 12h (144 bars), 24h (288 bars)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=8.9GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=2s RAM=8.9GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=8.9GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=8.9GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=8.9GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=8.9GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=8.9GB cache=140 new=0
+  [160/396] 2025-06-09 | 1s ETA=1s RAM=8.9GB cache=160 new=0
+  [180/396] 2025-06-29 | 1s ETA=1s RAM=8.9GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=8.9GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=1s RAM=8.9GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=8.9GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=8.9GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=8.9GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=8.9GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=8.9GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=8.9GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.9GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=8.9GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=8.9GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded 114,048 bars in 1s
+
+  Step 2: Computing features...
+  60 features in 82s
+
+  Step 3: Labeling regimes for 4 horizons...
+      1h ( 12 bars): high_vol rate = 0.207
+      4h ( 48 bars): high_vol rate = 0.179
+     12h (144 bars): high_vol rate = 0.135
+     24h (288 bars): high_vol rate = 0.105
+  Labeled in 6s
+
+######################################################################
+  EXPERIMENT A: Regression Across Forward Horizons
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | fwd_vol mean=0.002001 std=0.001983 | high_vol rate=0.207
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.436 corr=0.680 rmse=0.001150 bin_f1=0.686 bin_auc=0.873 [train=18,959 test=18,958]
+    Ridge fold 2/5: r2=0.485 corr=0.707 rmse=0.000740 bin_f1=0.653 bin_auc=0.875 [train=37,917 test=18,958]
+    Ridge fold 3/5: r2=0.350 corr=0.606 rmse=0.000862 bin_f1=0.687 bin_auc=0.845 [train=56,875 test=18,958]
+    Ridge fold 4/5: r2=0.148 corr=0.396 rmse=0.003124 bin_f1=0.779 bin_auc=0.862 [train=75,833 test=18,958]
+    Ridge fold 5/5: r2=0.312 corr=0.619 rmse=0.000756 bin_f1=0.648 bin_auc=0.845 [train=94,791 test=18,958]
+  → Ridge: r2=0.346±0.117 corr=0.601±0.109 bin_f1=0.691±0.047 bin_auc=0.860 (0.5s)
+    LGBM_reg fold 1/5: r2=0.407 corr=0.655 rmse=0.001179 bin_f1=0.683 bin_auc=0.862 [train=18,959 test=18,958]
+    LGBM_reg fold 2/5: r2=0.468 corr=0.687 rmse=0.000752 bin_f1=0.664 bin_auc=0.876 [train=37,917 test=18,958]
+    LGBM_reg fold 3/5: r2=0.336 corr=0.595 rmse=0.000871 bin_f1=0.683 bin_auc=0.843 [train=56,875 test=18,958]
+    LGBM_reg fold 4/5: r2=0.135 corr=0.372 rmse=0.003147 bin_f1=0.782 bin_auc=0.859 [train=75,833 test=18,958]
+    LGBM_reg fold 5/5: r2=0.066 corr=0.525 rmse=0.000881 bin_f1=0.654 bin_auc=0.846 [train=94,791 test=18,958]
+  → LGBM_reg: r2=0.282±0.156 corr=0.567±0.112 bin_f1=0.693±0.046 bin_auc=0.857 (40.6s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | fwd_vol mean=0.002168 std=0.001918 | high_vol rate=0.179
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.407 corr=0.664 rmse=0.001096 bin_f1=0.650 bin_auc=0.849 [train=18,953 test=18,952]
+    Ridge fold 2/5: r2=0.437 corr=0.678 rmse=0.000709 bin_f1=0.628 bin_auc=0.860 [train=37,905 test=18,952]
+    Ridge fold 3/5: r2=0.353 corr=0.610 rmse=0.000762 bin_f1=0.657 bin_auc=0.832 [train=56,857 test=18,952]
+    Ridge fold 4/5: r2=0.065 corr=0.277 rmse=0.003225 bin_f1=0.763 bin_auc=0.855 [train=75,809 test=18,952]
+    Ridge fold 5/5: r2=0.237 corr=0.575 rmse=0.000713 bin_f1=0.587 bin_auc=0.799 [train=94,761 test=18,952]
+  → Ridge: r2=0.300±0.136 corr=0.561±0.147 bin_f1=0.657±0.058 bin_auc=0.839 (0.4s)
+    LGBM_reg fold 1/5: r2=0.358 corr=0.619 rmse=0.001141 bin_f1=0.609 bin_auc=0.824 [train=18,953 test=18,952]
+    LGBM_reg fold 2/5: r2=0.351 corr=0.619 rmse=0.000761 bin_f1=0.614 bin_auc=0.832 [train=37,905 test=18,952]
+    LGBM_reg fold 3/5: r2=0.316 corr=0.588 rmse=0.000783 bin_f1=0.635 bin_auc=0.816 [train=56,857 test=18,952]
+    LGBM_reg fold 4/5: r2=0.051 corr=0.247 rmse=0.003248 bin_f1=0.770 bin_auc=0.842 [train=75,809 test=18,952]
+    LGBM_reg fold 5/5: r2=-4.328 corr=0.243 rmse=0.001883 bin_f1=0.565 bin_auc=0.798 [train=94,761 test=18,952]
+  → LGBM_reg: r2=-0.650±1.842 corr=0.463±0.179 bin_f1=0.639±0.069 bin_auc=0.822 (15.9s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | fwd_vol mean=0.002270 std=0.001819 | high_vol rate=0.135
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.359 corr=0.618 rmse=0.001043 bin_f1=0.586 bin_auc=0.821 [train=18,937 test=18,936]
+    Ridge fold 2/5: r2=0.278 corr=0.556 rmse=0.000717 bin_f1=0.513 bin_auc=0.777 [train=37,873 test=18,936]
+    Ridge fold 3/5: r2=0.314 corr=0.580 rmse=0.000678 bin_f1=0.567 bin_auc=0.792 [train=56,809 test=18,936]
+    Ridge fold 4/5: r2=-0.017 corr=0.150 rmse=0.003255 bin_f1=0.710 bin_auc=0.831 [train=75,745 test=18,936]
+    Ridge fold 5/5: r2=0.060 corr=0.466 rmse=0.000656 bin_f1=0.470 bin_auc=0.718 [train=94,681 test=18,936]
+  → Ridge: r2=0.199±0.149 corr=0.474±0.169 bin_f1=0.569±0.081 bin_auc=0.788 (0.5s)
+    LGBM_reg fold 1/5: r2=0.207 corr=0.535 rmse=0.001159 bin_f1=0.570 bin_auc=0.798 [train=18,937 test=18,936]
+    LGBM_reg fold 2/5: r2=0.196 corr=0.554 rmse=0.000757 bin_f1=0.529 bin_auc=0.744 [train=37,873 test=18,936]
+    LGBM_reg fold 3/5: r2=0.212 corr=0.539 rmse=0.000726 bin_f1=0.563 bin_auc=0.778 [train=56,809 test=18,936]
+    LGBM_reg fold 4/5: r2=-0.055 corr=0.117 rmse=0.003315 bin_f1=0.758 bin_auc=0.840 [train=75,745 test=18,936]
+    LGBM_reg fold 5/5: r2=-7.425 corr=0.153 rmse=0.001963 bin_f1=0.487 bin_auc=0.682 [train=94,681 test=18,936]
+  → LGBM_reg: r2=-1.373±3.028 corr=0.379±0.200 bin_f1=0.582±0.093 bin_auc=0.769 (16.3s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | fwd_vol mean=0.002336 std=0.001740 | high_vol rate=0.105
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=-0.193 corr=0.463 rmse=0.001314 bin_f1=0.428 bin_auc=0.692 [train=18,913 test=18,912]
+    Ridge fold 2/5: r2=0.074 corr=0.481 rmse=0.000730 bin_f1=0.512 bin_auc=0.810 [train=37,825 test=18,912]
+    Ridge fold 3/5: r2=0.273 corr=0.558 rmse=0.000620 bin_f1=0.530 bin_auc=0.779 [train=56,737 test=18,912]
+    Ridge fold 4/5: r2=-0.060 corr=0.069 rmse=0.003220 bin_f1=0.736 bin_auc=0.839 [train=75,649 test=18,912]
+    Ridge fold 5/5: r2=-0.046 corr=0.506 rmse=0.000583 bin_f1=0.488 bin_auc=0.749 [train=94,561 test=18,912]
+  → Ridge: r2=0.010±0.157 corr=0.415±0.176 bin_f1=0.539±0.104 bin_auc=0.774 (0.5s)
+    LGBM_reg fold 1/5: r2=-0.107 corr=0.415 rmse=0.001266 bin_f1=0.504 bin_auc=0.735 [train=18,913 test=18,912]
+    LGBM_reg fold 2/5: r2=-0.061 corr=0.527 rmse=0.000782 bin_f1=0.546 bin_auc=0.842 [train=37,825 test=18,912]
+    LGBM_reg fold 3/5: r2=0.089 corr=0.490 rmse=0.000694 bin_f1=0.488 bin_auc=0.727 [train=56,737 test=18,912]
+    LGBM_reg fold 4/5: r2=-0.111 corr=0.061 rmse=0.003297 bin_f1=0.779 bin_auc=0.843 [train=75,649 test=18,912]
+    LGBM_reg fold 5/5: r2=-6.281 corr=0.187 rmse=0.001538 bin_f1=0.415 bin_auc=0.656 [train=94,561 test=18,912]
+  → LGBM_reg: r2=-1.294±2.494 corr=0.336±0.181 bin_f1=0.546±0.124 bin_auc=0.761 (16.3s)
+
+  ======================================================================
+  REGRESSION SUMMARY — Ridge (best model from v9)
+  ======================================================================
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+          1h    0.346    0.601   0.001326    0.803    0.691    0.860
+          4h    0.300    0.561   0.001301    0.795    0.657    0.839
+         12h    0.199    0.474   0.001270    0.752    0.569    0.788
+         24h    0.010    0.415   0.001294    0.697    0.539    0.774
+
+     Horizon       R²     Corr       RMSE   BinAcc    BinF1   BinAUC
+  ------------------------------------------------------------
+  LGBM Regressor:
+          1h    0.282    0.567   0.001366    0.797    0.693    0.857
+          4h   -0.650    0.463   0.001563    0.777    0.639    0.822
+         12h   -1.373    0.379   0.001584    0.746    0.582    0.769
+         24h   -1.294    0.336   0.001515    0.720    0.546    0.761
+
+######################################################################
+  EXPERIMENT B: Binary Classification Across Horizons (LogReg)
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Samples: 113,749 | Positive rate: 0.206
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.797 f1=0.471 auc=0.768 [train=18,959 test=18,958]
+    LogReg fold 2/5: acc=0.813 f1=0.555 auc=0.831 [train=37,917 test=18,958]
+    LogReg fold 3/5: acc=0.756 f1=0.459 auc=0.757 [train=56,875 test=18,958]
+    LogReg fold 4/5: acc=0.772 f1=0.520 auc=0.793 [train=75,833 test=18,958]
+    LogReg fold 5/5: acc=0.791 f1=0.575 auc=0.810 [train=94,791 test=18,958]
+  → LogReg: acc=0.786±0.020 f1=0.516±0.045 auc=0.792±0.027 prec=0.476 rec=0.570 (2.5s)
+
+  --- Horizon: 48 bars (4h) ---
+  Samples: 113,713 | Positive rate: 0.178
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.771 f1=0.376 auc=0.700 [train=18,953 test=18,952]
+    LogReg fold 2/5: acc=0.804 f1=0.409 auc=0.760 [train=37,905 test=18,952]
+    LogReg fold 3/5: acc=0.737 f1=0.333 auc=0.701 [train=56,857 test=18,952]
+    LogReg fold 4/5: acc=0.746 f1=0.385 auc=0.725 [train=75,809 test=18,952]
+    LogReg fold 5/5: acc=0.756 f1=0.484 auc=0.741 [train=94,761 test=18,952]
+  → LogReg: acc=0.763±0.024 f1=0.398±0.050 auc=0.725±0.023 prec=0.357 rec=0.461 (2.6s)
+
+  --- Horizon: 144 bars (12h) ---
+  Samples: 113,617 | Positive rate: 0.133
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.586 f1=0.214 auc=0.632 [train=18,937 test=18,936]
+    LogReg fold 2/5: acc=0.739 f1=0.288 auc=0.628 [train=37,873 test=18,936]
+    LogReg fold 3/5: acc=0.714 f1=0.220 auc=0.680 [train=56,809 test=18,936]
+    LogReg fold 4/5: acc=0.845 f1=0.322 auc=0.703 [train=75,745 test=18,936]
+    LogReg fold 5/5: acc=0.781 f1=0.385 auc=0.660 [train=94,681 test=18,936]
+  → LogReg: acc=0.733±0.086 f1=0.286±0.064 auc=0.661±0.029 prec=0.241 rec=0.422 (3.1s)
+
+  --- Horizon: 288 bars (24h) ---
+  Samples: 113,473 | Positive rate: 0.103
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.391 f1=0.204 auc=0.586 [train=18,913 test=18,912]
+    LogReg fold 2/5: acc=0.601 f1=0.287 auc=0.676 [train=37,825 test=18,912]
+    LogReg fold 3/5: acc=0.597 f1=0.116 auc=0.529 [train=56,737 test=18,912]
+    LogReg fold 4/5: acc=0.797 f1=0.272 auc=0.654 [train=75,649 test=18,912]
+    LogReg fold 5/5: acc=0.680 f1=0.209 auc=0.658 [train=94,561 test=18,912]
+  → LogReg: acc=0.613±0.133 f1=0.218±0.060 auc=0.621±0.055 prec=0.142 rec=0.544 (2.8s)
+
+  ======================================================================
+  CLASSIFICATION SUMMARY — LogReg (balanced)
+  ======================================================================
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+          1h    0.786    0.516    0.792    0.476    0.570
+          4h    0.763    0.398    0.725    0.357    0.461
+         12h    0.733    0.286    0.661    0.241    0.422
+         24h    0.613    0.218    0.621    0.142    0.544
+
+######################################################################
+  EXPERIMENT C: Feature Importance by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Top 10 features:
+     1. parkvol_24h                      7.8% (cum   7.8%)
+     2. price_vs_sma_24h                 5.9% (cum  13.7%)
+     3. vol_sma_24h                      5.6% (cum  19.4%)
+     4. rvol_24h                         5.0% (cum  24.4%)
+     5. large_trade_1h                   4.5% (cum  28.8%)
+     6. adx_4h                           4.0% (cum  32.8%)
+     7. rvol_8h                          3.9% (cum  36.7%)
+     8. bar_eff_4h                       3.7% (cum  40.5%)
+     9. parkvol_1h                       3.2% (cum  43.7%)
+    10. parkvol_8h                       3.1% (cum  46.7%)
+
+  --- Horizon: 48 bars (4h) ---
+  Top 10 features:
+     1. parkvol_24h                      9.1% (cum   9.1%)
+     2. rvol_24h                         8.0% (cum  17.1%)
+     3. vol_sma_24h                      7.8% (cum  24.9%)
+     4. price_vs_sma_24h                 6.3% (cum  31.2%)
+     5. rvol_8h                          4.8% (cum  36.1%)
+     6. parkvol_8h                       4.7% (cum  40.7%)
+     7. bar_eff_4h                       4.7% (cum  45.4%)
+     8. adx_4h                           4.2% (cum  49.6%)
+     9. large_trade_1h                   3.9% (cum  53.5%)
+    10. ret_autocorr_4h                  3.6% (cum  57.2%)
+
+  --- Horizon: 144 bars (12h) ---
+  Top 10 features:
+     1. vol_sma_24h                     10.2% (cum  10.2%)
+     2. rvol_24h                         9.2% (cum  19.4%)
+     3. parkvol_24h                      8.8% (cum  28.2%)
+     4. price_vs_sma_24h                 7.1% (cum  35.4%)
+     5. rvol_8h                          5.9% (cum  41.2%)
+     6. adx_4h                           4.6% (cum  45.9%)
+     7. bar_eff_4h                       4.5% (cum  50.4%)
+     8. parkvol_8h                       4.5% (cum  54.8%)
+     9. large_trade_1h                   4.2% (cum  59.1%)
+    10. imbalance_4h                     3.6% (cum  62.7%)
+
+  --- Horizon: 288 bars (24h) ---
+  Top 10 features:
+     1. vol_sma_24h                     11.4% (cum  11.4%)
+     2. parkvol_24h                      9.8% (cum  21.2%)
+     3. rvol_24h                         8.7% (cum  29.9%)
+     4. price_vs_sma_24h                 6.2% (cum  36.1%)
+     5. rvol_8h                          5.5% (cum  41.6%)
+     6. parkvol_8h                       5.2% (cum  46.8%)
+     7. bar_eff_4h                       5.1% (cum  51.9%)
+     8. large_trade_1h                   4.3% (cum  56.2%)
+     9. adx_4h                           3.6% (cum  59.8%)
+    10. ret_autocorr_4h                  3.0% (cum  62.9%)
+
+  ======================================================================
+  FEATURE RANK COMPARISON ACROSS HORIZONS
+  ======================================================================
+
+  Feature                            1h     4h    12h    24h  Shift
+  ----------------------------------------------------------------------
+  parkvol_24h                         1      1      3      2    +1=
+  vol_sma_24h                         3      3      1      1    -2=
+  rvol_24h                            4      2      2      3    -1=
+  price_vs_sma_24h                    2      4      4      4    +2=
+  rvol_8h                             7      5      5      5    -2=
+  adx_4h                              6      8      6      9    +3=
+  bar_eff_4h                          8      7      7      7    -1=
+  parkvol_8h                         10      6      8      6    -4↑
+  large_trade_1h                      5      9      9      8    +3=
+  iti_cv_1h                          11     12     12     12    +1=
+  ret_autocorr_4h                    18     10     11     10    -8↑
+  vol_accel_4h                       12     11     13     15    +3=
+  imbalance_4h                       14     15     10     13    -1=
+  vol_ratio_2h_24h                   15     13     16     11    -4↑
+  parkvol_4h                         17     14     15     14    -3=
+  adx_2h                             13     16     19     17    +4↓
+  price_vs_sma_8h                    19     18     14     16    -3=
+  parkvol_1h                          9     23     24     27   +18↓
+
+######################################################################
+  EXPERIMENT D: Cross-Horizon Correlation
+######################################################################
+
+  Forward Vol Correlation Matrix:
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.686    0.494    0.401
+          4h    0.686    1.000    0.717    0.564
+         12h    0.494    0.717    1.000    0.794
+         24h    0.401    0.564    0.794    1.000
+
+  High-Vol Agreement Matrix (% of bars where both agree):
+                   1h       4h      12h      24h
+  ---------------------------------------------
+          1h    1.000    0.848    0.796    0.778
+          4h    0.848    1.000    0.859    0.817
+         12h    0.796    0.859    1.000    0.901
+         24h    0.778    0.817    0.901    1.000
+
+  Predictive Power: P(high_vol@longer | high_vol@shorter)
+      Given HV at       1h       4h      12h      24h
+  --------------------------------------------------
+               1h    1.000    0.564    0.332    0.217
+               4h    0.654    1.000    0.482    0.283
+              12h    0.508    0.637    1.000    0.525
+              24h    0.427    0.479    0.671    1.000
+
+######################################################################
+  EXPERIMENT E: Position Sizing Effectiveness by Horizon
+######################################################################
+
+  --- Horizon: 12 bars (1h) ---
+  Test set: 22,750 bars | high_vol: 5,092 (0.224)
+  Avg size during high_vol:  0.782
+  Avg size during normal:    0.928
+  Size reduction:            15.8%
+  % of high_vol bars < 0.5x: 12.9%
+
+  --- Horizon: 48 bars (4h) ---
+  Test set: 22,743 bars | high_vol: 4,844 (0.213)
+  Avg size during high_vol:  0.846
+  Avg size during normal:    0.925
+  Size reduction:            8.6%
+  % of high_vol bars < 0.5x: 5.2%
+
+  --- Horizon: 144 bars (12h) ---
+  Test set: 22,724 bars | high_vol: 3,783 (0.166)
+  Avg size during high_vol:  0.896
+  Avg size during normal:    0.921
+  Size reduction:            2.7%
+  % of high_vol bars < 0.5x: 1.4%
+
+  --- Horizon: 288 bars (24h) ---
+  Test set: 22,695 bars | high_vol: 1,845 (0.081)
+  Avg size during high_vol:  0.880
+  Avg size during normal:    0.919
+  Size reduction:            4.2%
+  % of high_vol bars < 0.5x: 0.4%
+
+  ======================================================================
+  POSITION SIZING SUMMARY
+  ======================================================================
+     Horizon   SizeHV   SizeNV  Reduction   %<0.5x
+  --------------------------------------------------
+          1h    0.782    0.928      15.8%    12.9%
+          4h    0.846    0.925       8.6%     5.2%
+         12h    0.896    0.921       2.7%     1.4%
+         24h    0.880    0.919       4.2%     0.4%
+
+✅ XRPUSDT multi-horizon experiments complete in 212s (3.5min)
+
+  ⏱ Total: 1785s | ~357s/symbol | ETA: 0s
+
+
+######################################################################
+  CROSS-SYMBOL MULTI-HORIZON SUMMARY
+######################################################################
+
+  Ridge Regression R² by Symbol × Horizon:
+  Symbol             1h       4h      12h      24h
+  ---------------------------------------------
+  BTCUSDT         0.386    0.318    0.216    0.070
+  ETHUSDT         0.350    0.303    0.214    0.172
+  SOLUSDT         0.310    0.230    0.044   -0.174
+  DOGEUSDT        0.296    0.235    0.157    0.041
+  XRPUSDT         0.346    0.300    0.199    0.010
+
+  Ridge Correlation by Symbol × Horizon:
+  Symbol             1h       4h      12h      24h
+  ---------------------------------------------
+  BTCUSDT         0.626    0.585    0.518    0.450
+  ETHUSDT         0.601    0.571    0.502    0.471
+  SOLUSDT         0.572    0.534    0.450    0.411
+  DOGEUSDT        0.554    0.514    0.461    0.426
+  XRPUSDT         0.601    0.561    0.474    0.415
+
+  Ridge Binary F1 (thresholded) by Symbol × Horizon:
+  Symbol             1h       4h      12h      24h
+  ---------------------------------------------
+  BTCUSDT         0.719    0.669    0.597    0.555
+  ETHUSDT         0.725    0.684    0.643    0.654
+  SOLUSDT         0.675    0.627    0.543    0.524
+  DOGEUSDT        0.696    0.647    0.602    0.572
+  XRPUSDT         0.691    0.657    0.569    0.539
+
+  LogReg Classification F1 by Symbol × Horizon:
+  Symbol             1h       4h      12h      24h
+  ---------------------------------------------
+  BTCUSDT         0.561    0.437    0.321    0.208
+  ETHUSDT         0.499    0.390    0.257    0.209
+  SOLUSDT         0.469    0.336    0.199    0.135
+  DOGEUSDT        0.481    0.364    0.247    0.167
+  XRPUSDT         0.516    0.398    0.286    0.218
+
+  Position Size Reduction (%) by Symbol × Horizon:
+  Symbol             1h       4h      12h      24h
+  ---------------------------------------------
+  BTCUSDT         22.9%    10.7%     0.0%     3.7%
+  ETHUSDT         15.4%     6.6%     0.2%    -0.9%
+  SOLUSDT         13.5%     6.0%     1.0%     3.5%
+  DOGEUSDT        12.2%     5.4%     0.2%     1.0%
+  XRPUSDT         15.8%     8.6%     2.7%     4.2%
+
+
+======================================================================
+  ALL DONE — 5 symbols in 1785s (29.7 min)
+======================================================================
