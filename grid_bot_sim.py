@@ -41,7 +41,10 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 from regime_detection import load_bars, compute_regime_features
 
 PARQUET_DIR = Path("./parquet")
-ROUND_TRIP_FEE_BPS = 7.0  # Bybit VIP0
+MAKER_FEE_BPS = 2.0   # Bybit VIP0 maker: 0.0200% per fill
+TAKER_FEE_BPS = 5.5   # Bybit VIP0 taker: 0.0550% per fill
+# Grid bot uses limit orders → maker fee applies
+ROUND_TRIP_FEE_BPS = MAKER_FEE_BPS  # per fill (not per RT)
 
 VOL_FEATURES = [
     "parkvol_1h", "parkvol_2h", "parkvol_4h", "parkvol_8h", "parkvol_24h",
@@ -327,7 +330,7 @@ def run_grid_experiment(symbol, start_date, end_date):
     print(f"  GRID BOT SIMULATOR (v2 — proper mechanics)")
     print(f"  Symbol:   {symbol}")
     print(f"  Period:   {start_date} → {end_date}")
-    print(f"  Fee:      {ROUND_TRIP_FEE_BPS} bps RT (per fill)")
+    print(f"  Fee:      {MAKER_FEE_BPS} bps maker per fill ({MAKER_FEE_BPS*2} bps RT)")
     print(f"  Capital:  $10,000")
     print(f"  Levels:   5 buy + 5 sell")
     print("=" * 70)
@@ -398,26 +401,42 @@ def run_grid_experiment(symbol, start_date, end_date):
     # Median 1h range is ~0.5%, so 0.25% spacing = 2 levels per 1h range.
     # This means ~2 fills per hour in ranging markets.
 
-    fee_per_rt = 2 * ROUND_TRIP_FEE_BPS / 10000  # 0.0014
+    fee_per_rt = 2 * MAKER_FEE_BPS / 10000  # 0.0004 at 2 bps maker
 
     # Fixed spacings at different widths
     fixed_025 = np.full(n_sim, 0.0025)  # 0.25% — minimum profitable
     fixed_050 = np.full(n_sim, 0.0050)  # 0.50% — comfortable margin
     fixed_100 = np.full(n_sim, 0.0100)  # 1.00% — wide, fewer fills
 
-    # Adaptive: predicted_vol × K_RANGE / n_levels
-    # This sizes the grid so total width ≈ predicted 1h range
-    # Each level spacing = predicted_range / (2 × n_levels)
+    # Adaptive: predicted_vol × K_RANGE gives predicted 1h range
+    # Grid spacing = predicted_range / (2 × n_levels)
+    # But floor at a minimum to prevent inventory blowup during trends
     median_pred_vol = np.nanmedian(pred_vol_sim[~np.isnan(pred_vol_sim)])
-    adaptive_spacings = np.full(n_sim, 0.0050)  # default 0.50%
-    for i in range(n_sim):
-        if not np.isnan(pred_vol_sim[i]) and pred_vol_sim[i] > 0:
-            predicted_range_pct = pred_vol_sim[i] * K_RANGE
-            # Spacing = predicted_range / (2 * n_levels)
-            # But floor at 2× fee to ensure profitability
-            adaptive_spacings[i] = max(predicted_range_pct / 10.0, fee_per_rt * 2)
-    # Clip to reasonable range
-    adaptive_spacings = np.clip(adaptive_spacings, 0.0015, 0.0200)
+
+    def build_adaptive(floor_pct, divisor=2.0):
+        """
+        Build adaptive spacing array.
+        spacing = predicted_1h_range / divisor, floored at floor_pct.
+
+        divisor=2: each level = half the predicted 1h range
+          → 5 levels cover 2.5× the 1h range each side
+        divisor=5: each level = 1/5 of predicted 1h range
+          → 5 levels cover exactly the 1h range each side
+        """
+        spacings = np.full(n_sim, floor_pct)
+        for i in range(n_sim):
+            if not np.isnan(pred_vol_sim[i]) and pred_vol_sim[i] > 0:
+                predicted_range_pct = pred_vol_sim[i] * K_RANGE
+                spacings[i] = max(predicted_range_pct / divisor, floor_pct)
+        return np.clip(spacings, floor_pct, 0.0500)
+
+    # Adaptive variants: spacing = predicted_range / divisor
+    # divisor=2 → wide grid (each level = half the 1h range)
+    # divisor=5 → medium grid (5 levels = 1h range per side)
+    adapt_d2 = build_adaptive(0.0010, divisor=2)   # wide: ~0.24% avg
+    adapt_d5 = build_adaptive(0.0010, divisor=5)   # medium: ~0.10% avg
+    adapt_d2_f025 = build_adaptive(0.0025, divisor=2)  # wide, floor 0.25%
+    adapt_d2_f050 = build_adaptive(0.0050, divisor=2)  # wide, floor 0.50%
 
     # Adaptive + pause during extreme vol
     paused = np.zeros(n_sim, dtype=bool)
@@ -426,30 +445,34 @@ def run_grid_experiment(symbol, start_date, end_date):
             paused[i] = True
     pct_paused = 100 * paused.sum() / n_sim
 
-    # Wide adaptive (2x spacing — more conservative, higher profit per RT)
-    wide_adaptive = np.clip(adaptive_spacings * 2.0, 0.0025, 0.0300)
-
     print(f"  Fee per round-trip: {fee_per_rt*100:.3f}%")
-    print(f"  Adaptive spacing: mean={np.mean(adaptive_spacings)*100:.3f}%, "
-          f"min={np.min(adaptive_spacings)*100:.3f}%, max={np.max(adaptive_spacings)*100:.3f}%")
+    print(f"  Adapt /2: mean={np.mean(adapt_d2)*100:.3f}%, min={np.min(adapt_d2)*100:.3f}%, max={np.max(adapt_d2)*100:.3f}%")
+    print(f"  Adapt /5: mean={np.mean(adapt_d5)*100:.3f}%")
+    print(f"  Adapt /2 f025: mean={np.mean(adapt_d2_f025)*100:.3f}%")
+    print(f"  Adapt /2 f050: mean={np.mean(adapt_d2_f050)*100:.3f}%")
     print(f"  Paused bars (vol>3×median): {paused.sum():,} ({pct_paused:.1f}%)")
 
     # --- Run simulations ---
     configs = [
         # (name, spacings_pct, paused, rebalance_bars)
-        # Fixed spacings at different widths
-        ("Fix 0.25% (4h)", fixed_025, None, 48),
+        # Fixed baselines
         ("Fix 0.25% (8h)", fixed_025, None, 96),
-        ("Fix 0.50% (4h)", fixed_050, None, 48),
+        ("Fix 0.25% (24h)", fixed_025, None, 288),
         ("Fix 0.50% (8h)", fixed_050, None, 96),
-        ("Fix 1.00% (8h)", fixed_100, None, 96),
+        ("Fix 0.50% (24h)", fixed_050, None, 288),
         ("Fix 1.00% (24h)", fixed_100, None, 288),
-        # Adaptive spacings
-        ("Adaptive (4h)", adaptive_spacings, None, 48),
-        ("Adaptive (8h)", adaptive_spacings, None, 96),
-        ("Adaptive+Pause (8h)", adaptive_spacings, paused, 96),
-        ("Wide adapt (8h)", wide_adaptive, None, 96),
-        ("Wide adapt (24h)", wide_adaptive, None, 288),
+        # Adaptive /2 (each level = half predicted 1h range)
+        ("Adapt /2 (8h)", adapt_d2, None, 96),
+        ("Adapt /2 (24h)", adapt_d2, None, 288),
+        # Adaptive /5 (5 levels = 1h range per side)
+        ("Adapt /5 (8h)", adapt_d5, None, 96),
+        ("Adapt /5 (24h)", adapt_d5, None, 288),
+        # Adaptive /2 with floors
+        ("Adapt /2 f025 (8h)", adapt_d2_f025, None, 96),
+        ("Adapt /2 f025 (24h)", adapt_d2_f025, None, 288),
+        ("Adapt /2 f050 (24h)", adapt_d2_f050, None, 288),
+        # Adaptive + pause
+        ("Adapt /2 +P (24h)", adapt_d2, paused, 288),
     ]
 
     print(f"\n  Running {len(configs)} strategies...\n")
@@ -497,8 +520,8 @@ def run_grid_experiment(symbol, start_date, end_date):
         calm_idx = valid_mask & (pred_vol_sim[:n_sim] < median_pred_vol)
         vol_idx = valid_mask & (pred_vol_sim[:n_sim] >= median_pred_vol)
 
-        calm_adapt = np.mean(adaptive_spacings[calm_idx]) * 100
-        vol_adapt = np.mean(adaptive_spacings[vol_idx]) * 100
+        calm_adapt = np.mean(adapt_d2[calm_idx]) * 100
+        vol_adapt = np.mean(adapt_d2[vol_idx]) * 100
         fixed_pct = 0.50  # reference: 0.50% fixed
 
         print(f"  Calm periods ({calm_idx.sum():,} bars, {calm_idx.sum()/288:.0f} days):")

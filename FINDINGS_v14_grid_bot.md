@@ -2,141 +2,140 @@
 
 **Date:** 2026-02-16
 **Symbol:** BTCUSDT
-**Periods:** Q3 2025 (Jul-Sep, ranging +6.5%), Q4 2025 (Oct-Dec, crash -28%)
-**Capital:** $10,000 | **Fee:** 7 bps per fill (Bybit VIP0)
+**Period:** 2025-01-01 → 2026-01-31 (387 days, $94K → $79K, -16%)
+**Capital:** $10,000 | **Fee:** 2 bps maker per fill (Bybit VIP0 futures limit orders)
 **Grid:** 5 buy levels + 5 sell levels, symmetric
 
 ---
 
-## The Fundamental Math Problem
+## Fee Correction
 
-Before any ML, the grid bot faces a hard constraint:
-
-```
-Fee per round-trip = 2 × 7 bps = 0.14%
-Grid profit per round-trip = 1 × spacing
-Breakeven: spacing > 0.14%
-```
-
-With 5 levels each side, total grid width = 10 × spacing:
-- At 0.25% spacing → 2.5% total grid → barely above breakeven
-- At 0.50% spacing → 5.0% total grid → comfortable margin
-- At 1.00% spacing → 10.0% total grid → high margin, few fills
-
-BTC median 1h range is ~0.5%. So a 0.25% grid gets ~2 fills per hour, but each fill barely covers fees. A 1.00% grid gets fills only when price moves 1%+, which happens a few times per day.
+Grid bots use **limit orders only** → maker fee applies (0.02% per fill), not taker fee (0.055%).
+- **Round-trip fee:** 2 × 2 bps = **0.04%** (not 0.14% as initially assumed)
+- **Breakeven spacing:** > 0.04% per level
+- This makes grids with 0.25%+ spacing comfortably profitable per fill
 
 ---
 
-## Results: Q3 2025 (Ranging Period, +6.5%)
+## 13-Month Results (387 days, BTC -16%)
 
-| Strategy | PnL | Grid Profits | Fees | PnL/day | Fills/day |
-|----------|-----|-------------|------|---------|-----------|
-| Fix 0.25% (8h) | -$1,689 | +$768 | -$1,340 | -$20 | 23 |
-| Fix 0.50% (4h) | -$720 | +$161 | -$701 | -$9 | 12 |
-| Fix 0.50% (8h) | -$863 | +$251 | -$599 | -$10 | 10 |
-| **Fix 1.00% (24h)** | **-$167** | **+$101** | **-$171** | **-$2** | **3** |
-| Adaptive (8h) | -$1,494 | +$683 | -$1,180 | -$18 | 20 |
-| Wide adapt (24h) | -$415 | +$254 | -$368 | -$5 | 6 |
+### Profitable Strategies
 
-**Even in the most favorable period (low trend, moderate vol), no strategy is profitable.**
+| Strategy | PnL | Grid$ | Fees | PnL/day | Sharpe | MaxDD |
+|----------|-----|-------|------|---------|--------|-------|
+| **Fix 1.00% (24h)** | **+$789** | +$1,458 | -$339 | **+$2.04** | **0.83** | **-$837** |
+| **Adapt /2 f050 (24h)** | **+$525** | +$2,994 | -$684 | **+$1.36** | **0.44** | -$1,241 |
+| **Adapt /2 (24h)** | **+$293** | +$3,603 | -$995 | **+$0.76** | **0.24** | -$1,275 |
+| **Fix 0.50% (24h)** | **+$290** | +$3,150 | -$730 | **+$0.75** | **0.27** | -$1,404 |
+| **Adapt /2 f025 (24h)** | **+$190** | +$3,526 | -$929 | **+$0.49** | **0.17** | -$1,317 |
 
----
+### Losing Strategies
 
-## Results: Q4 2025 (Crash Period, -28%)
-
-| Strategy | PnL | Grid Profits | Fees | PnL/day | Fills/day |
-|----------|-----|-------------|------|---------|-----------|
-| Fix 0.25% (8h) | -$2,673 | +$1,012 | -$2,034 | -$32 | 35 |
-| Fix 0.50% (8h) | -$1,513 | +$523 | -$1,049 | -$18 | 18 |
-| **Fix 1.00% (24h)** | **+$34** | **+$425** | **-$300** | **+$0.40** | **5** |
-| Adaptive (8h) | -$2,452 | +$847 | -$1,860 | -$29 | 32 |
-| Wide adapt (24h) | -$203 | +$736 | -$573 | -$2 | 10 |
-
-**One strategy barely broke even: Fix 1.00% with 24h rebalance (+$34 over 83 days).**
+| Strategy | PnL | Grid$ | Fees | PnL/day | Sharpe |
+|----------|-----|-------|------|---------|--------|
+| Fix 0.25% (24h) | -$181 | +$3,740 | -$1,379 | -$0.47 | -0.04 |
+| Adapt /5 (24h) | -$959 | +$3,670 | -$2,065 | -$2.47 | -0.54 |
+| Adapt /2 +Pause (24h) | -$493 | +$3,064 | -$977 | -$1.27 | -0.31 |
+| All 8h rebalance variants | -$1.6K to -$3.7K | — | — | — | — |
 
 ---
 
-## Cross-Period Summary
+## Key Findings
 
-| Strategy | Q3 (range) | Q4 (crash) | 6-month total |
-|----------|-----------|-----------|---------------|
-| Fix 0.25% (8h) | -$1,689 | -$2,673 | **-$4,362** |
-| Fix 0.50% (8h) | -$863 | -$1,513 | **-$2,376** |
-| Fix 1.00% (24h) | -$167 | +$34 | **-$133** |
-| Adaptive (8h) | -$1,494 | -$2,452 | **-$3,946** |
-| Wide adapt (24h) | -$415 | -$203 | **-$618** |
+### 1. Fix 1.00% (24h) — Best Risk-Adjusted Return
 
-**Clear monotonic pattern: wider spacing + longer rebalance = less loss.**
+- **Sharpe 0.83** — the highest of any strategy
+- Only 4.4 fills/day → low fee drag ($339 total over 387 days)
+- Grid profits +$1,458 easily cover fees
+- Max drawdown only -$837 (8.4% of capital)
+- **Limitation:** few fills means low absolute return (+$789 on $10K = 7.9%/year)
 
----
+### 2. Adaptive Grid Actually Works Now
 
-## Why Adaptive Spacing Doesn't Help
+With proper spacing formula (spacing = predicted_range / 2):
+- **Calm periods:** 0.19% spacing (62% tighter than fixed 0.50%)
+- **Volatile periods:** 0.41% spacing (19% tighter than fixed 0.50%)
+- The grid genuinely adapts — tighter in calm to capture more oscillations, wider in volatile to avoid overrun
 
-The vol-adaptive grid (from v9 Ridge model) averages 0.28% spacing — barely above the 0.14% breakeven. It's not wide enough to generate meaningful profit per fill.
+**Adapt /2 (24h) beats Fix 0.25% (24h):** +$293 vs -$181. The adaptive grid avoids the trap of being too tight during vol spikes.
 
-| Regime | Adaptive Spacing | Fixed 0.50% | Verdict |
-|--------|-----------------|-------------|---------|
-| Calm | 0.22% | 0.50% | Adaptive too tight → more fills, more fees |
-| Volatile | 0.46% | 0.50% | Similar → no advantage |
+### 3. Adapt /2 f050 (24h) — Best Adaptive Variant
 
-The adaptive grid **tightens in calm markets** (25% tighter than fixed 0.50%), which is the opposite of what we want. In calm markets, the grid should be tight to capture small oscillations — but our spacing is already at the fee floor, so tighter = more fee drag.
+- Floor at 0.50% prevents over-tightening during calm periods
+- Still adapts upward during high vol (mean spacing 0.53%)
+- **+$525, Sharpe 0.44, MaxDD -$1,241**
+- More fills than Fix 1.00% (8.8/day vs 4.4/day) → higher grid profits (+$2,994 vs +$1,458)
+- But higher fees and inventory risk offset the extra grid profits
 
-The vol prediction is accurate (R²=0.34), but it's solving the wrong problem. The grid doesn't need to know "how volatile will the next hour be?" — it needs to know "will price mean-revert within my grid width?" And that's a different question we can't answer (direction R²≈0).
+### 4. 24h Rebalance Dominates 8h
 
----
+Every single strategy is better with 24h rebalance. The pattern is consistent:
+- Fix 0.50% (8h): -$1,639 → Fix 0.50% (24h): +$290
+- Adapt /2 (8h): -$2,291 → Adapt /2 (24h): +$293
 
-## The Three Sources of Loss
+**Rebalancing less frequently is the single most important parameter.** Each rebalance closes inventory at market — a forced loss during trends. Fewer rebalances = less forced loss.
 
-1. **Fee drag** — Each fill costs 0.07%. With 10-35 fills/day, fees are $7-$25/day on $10K capital.
-2. **Inventory bleed** — Grid accumulates directional inventory during trends. Even a +6.5% quarterly trend causes persistent long inventory that loses on rebalance.
-3. **Rebalance cost** — Closing inventory at market to recenter the grid is a forced loss. Less frequent rebalancing helps, but the inventory grows larger.
+### 5. Pausing During Extreme Vol Hurts
 
----
+Adapt /2 +Pause (24h): -$493 vs Adapt /2 (24h): +$293. Pausing during high vol means missing wide-grid fills that are actually the most profitable (large spacing = large profit per fill).
 
-## What Would Make a Grid Bot Profitable?
+### 6. Too-Tight Grids Still Lose
 
-### 1. Lower fees (most impactful)
-At 2 bps per fill (maker rebate on some exchanges), breakeven drops to 0.04%. This changes everything:
-- 0.25% spacing → 6× margin over fees (vs 1.8× at 7 bps)
-- Grid profits would dominate fee costs
-
-### 2. Maker-only orders
-Grid bots naturally use limit orders. On exchanges with maker rebates, you get PAID to provide liquidity instead of paying fees. This flips the economics entirely.
-
-### 3. Hedging inventory risk
-Instead of rebalancing (closing at market), hedge the accumulated inventory with a futures position. This avoids the rebalance cost but adds complexity.
-
-### 4. Truly range-bound assets
-BTC trends too much even in "ranging" periods. A stablecoin pair (e.g., USDT/USDC) or a mean-reverting spread would be more suitable.
+Adapt /5 (spacing = range/5, ~0.13% avg) loses -$959 despite +$3,670 in grid profits. The tight spacing generates 26.7 fills/day → $2,065 in fees + inventory bleed from frequent position changes.
 
 ---
 
-## Honest Assessment
+## The Three Drivers of Grid Bot PnL
 
-| Question | Answer |
-|----------|--------|
-| Does vol prediction help grid bots? | **No** — at 7 bps fees, spacing is fee-constrained, not vol-constrained |
-| Can a grid bot profit on BTC at 7 bps? | **Barely** — only with 1%+ spacing and 24h rebalance, and even then ~$0/day |
-| Is the grid bot concept viable? | **Only with maker fees** (≤2 bps) or maker rebates |
-| Did we waste time? | **No** — we now know the exact fee threshold where grid bots become viable |
+| Driver | Impact | Optimization |
+|--------|--------|-------------|
+| **Grid profits** | Positive: $1.5K-$7.5K | More fills = more grid profits, but diminishing returns |
+| **Fees** | Negative: $0.3K-$6.2K | Fewer fills = lower fees. Maker fee (2 bps) is key |
+| **Inventory losses** | Negative: $0.5K-$5K | Wider spacing + less rebalancing = less inventory bleed |
+
+The winning formula: **maximize grid profits while keeping fees and inventory losses low.**
+- Wide spacing (0.50-1.00%) → high profit per fill, low fill count
+- Infrequent rebalancing (24h) → less inventory close cost
+- Adaptive spacing → tighter in calm (more fills when safe), wider in volatile (less inventory risk)
 
 ---
 
-## Key Lesson
+## Does Vol Prediction Add Value?
 
-**The grid bot problem is not a prediction problem — it's a fee problem.**
+| Comparison | Fixed | Adaptive | Δ |
+|-----------|-------|----------|---|
+| 0.25% fixed vs Adapt /2 (24h) | -$181 | +$293 | **+$474** |
+| 0.50% fixed vs Adapt /2 f050 (24h) | +$290 | +$525 | **+$235** |
+| 1.00% fixed vs Adapt /2 f050 (24h) | +$789 | +$525 | **-$264** |
 
-Our vol prediction (R²=0.34) is genuinely good. But it doesn't matter because:
-- Grid spacing is constrained by fees, not by vol uncertainty
-- Direction is unpredictable, so inventory always accumulates
-- Rebalancing is expensive regardless of how well you predict vol
+**Mixed.** Adaptive beats fixed at narrow spacings (where adaptation matters most) but loses to the widest fixed grid. The vol prediction helps avoid being too tight during vol spikes, but the simplest approach (just use wide fixed spacing) still wins on Sharpe.
 
-The path to a profitable grid bot is:
-1. **Get maker fees** (exchange VIP tier, or use an exchange with maker rebates)
-2. **Then** use vol prediction to optimize spacing
-3. **Then** the adaptive grid actually has room to outperform fixed
+**Honest answer:** Vol prediction adds marginal value. The biggest driver is spacing width and rebalance frequency, not adaptive vs fixed.
 
-Without step 1, steps 2-3 are irrelevant.
+---
+
+## Annualized Returns
+
+On $10,000 capital over 387 days:
+
+| Strategy | Total PnL | Annual Return | Sharpe |
+|----------|----------|--------------|--------|
+| Fix 1.00% (24h) | +$789 | **+7.4%** | 0.83 |
+| Adapt /2 f050 (24h) | +$525 | **+5.0%** | 0.44 |
+| Fix 0.50% (24h) | +$290 | **+2.7%** | 0.27 |
+
+These returns are **modest but real** — achieved through a -16% BTC decline with no directional bias. The grid bot is a pure mean-reversion strategy that profits from oscillations regardless of trend direction.
+
+---
+
+## Limitations & Caveats
+
+1. **Limit order fill assumption** — We assume limit orders fill when price touches the level. In reality, there's queue priority and partial fills.
+2. **No slippage** — Real fills may be slightly worse than the limit price.
+3. **Single asset** — Only tested on BTCUSDT. Needs validation on ETH, SOL.
+4. **Rebalance at market** — We close inventory at market price during rebalance. A real bot could use limit orders for this too.
+5. **No funding rate** — Futures positions incur funding costs which aren't modeled.
+6. **Capital efficiency** — $10K capital with 5 levels = $1K per level. Max inventory can reach $5K+ which ties up significant capital.
 
 ---
 
@@ -144,6 +143,7 @@ Without step 1, steps 2-3 are irrelevant.
 
 | File | Description |
 |------|-------------|
-| `grid_bot_sim.py` | Grid bot simulator with proper mechanics |
-| `results/grid_bot_BTC_Q3.txt` | Q3 2025 results (ranging period) |
-| `results/grid_bot_BTC_Q4.txt` | Q4 2025 results (crash period) |
+| `grid_bot_sim.py` | Grid bot simulator (v2, proper mechanics, maker fees) |
+| `results/grid_bot_BTC_13m_maker.txt` | 13-month results with correct maker fees |
+| `results/grid_bot_BTC_Q3.txt` | Q3 2025 results (old 7 bps fees) |
+| `results/grid_bot_BTC_Q4.txt` | Q4 2025 results (old 7 bps fees) |
