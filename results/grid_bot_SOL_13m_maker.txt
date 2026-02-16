@@ -1,0 +1,163 @@
+======================================================================
+  GRID BOT SIMULATOR (v2 — proper mechanics)
+  Symbol:   SOLUSDT
+  Period:   2025-01-01 → 2026-01-31
+  Fee:      2.0 bps maker per fill (4.0 bps RT)
+  Capital:  $10,000
+  Levels:   5 buy + 5 sell
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=8.8GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=8.8GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=8.8GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=8.8GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=8.9GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=8.9GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=8.9GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=8.9GB cache=160 new=0
+  [180/396] 2025-06-29 | 1s ETA=1s RAM=8.9GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=8.9GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=1s RAM=8.9GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=8.9GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=8.9GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=8.9GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=8.9GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=8.9GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=8.9GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.9GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=9.0GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=9.0GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded 114,048 bars in 1s
+
+  Step 2: Computing regime features...
+  Features in 74s
+
+  Step 3: Computing forward vol target...
+
+  Step 4: Walk-forward vol prediction...
+  112,048 valid predictions (98%) in 79s
+
+  Simulation period: 111,548 bars (387 days)
+  Price range: $96 - $294
+  Median 1h range: 1.019% ($2)
+  Fee per round-trip: 0.040%
+  Adapt /2: mean=0.588%, min=0.100%, max=5.000%
+  Adapt /5: mean=0.236%
+  Adapt /2 f025: mean=0.590%
+  Adapt /2 f050: mean=0.640%
+  Paused bars (vol>3×median): 1,535 (1.4%)
+
+  Running 13 strategies...
+
+  Fix 0.25% (8h):
+    PnL: $-2379.27 (grid: $+13817.55, fees: -$4511.39)
+    PnL/day: $-6.14 | Fills: 22,570 (58.3/day) | Sharpe: -0.78
+    Max DD: $-5229.54 | Avg inv: $2880 | Max inv: $5585
+    Avg spacing: 0.2500% (0.3s)
+
+  Fix 0.25% (24h):
+    PnL: $-852.11 (grid: $+9252.70, fees: -$2327.38)
+    PnL/day: $-2.20 | Fills: 11,660 (30.1/day) | Sharpe: -0.26
+    Max DD: $-4209.85 | Avg inv: $3066 | Max inv: $5585
+    Avg spacing: 0.2502% (0.4s)
+
+  Fix 0.50% (8h):
+    PnL: $+50.52 (grid: $+9690.05, fees: -$2458.95)
+    PnL/day: $+0.13 | Fills: 12,298 (31.8/day) | Sharpe: 0.04
+    Max DD: $-2892.24 | Avg inv: $2185 | Max inv: $5618
+    Avg spacing: 0.5001% (0.3s)
+
+  Fix 0.50% (24h):
+    PnL: $+499.44 (grid: $+8044.83, fees: -$1292.57)
+    PnL/day: $+1.29 | Fills: 6,474 (16.7/day) | Sharpe: 0.19
+    Max DD: $-3263.86 | Avg inv: $2981 | Max inv: $5544
+    Avg spacing: 0.5003% (0.3s)
+
+  Fix 1.00% (24h):
+    PnL: $+2150.55 (grid: $+5876.88, fees: -$718.48)
+    PnL/day: $+5.55 | Fills: 3,597 (9.3/day) | Sharpe: 0.85
+    Max DD: $-2424.20 | Avg inv: $2136 | Max inv: $5464
+    Avg spacing: 1.0007% (0.3s)
+
+  Adapt /2 (8h):
+    PnL: $-227.11 (grid: $+8714.01, fees: -$2116.13)
+    PnL/day: $-0.59 | Fills: 10,585 (27.3/day) | Sharpe: -0.09
+    Max DD: $-2647.61 | Avg inv: $2051 | Max inv: $5516
+    Avg spacing: 0.6171% (0.3s)
+
+  Adapt /2 (24h):
+    PnL: $+686.33 (grid: $+7370.51, fees: -$998.72)
+    PnL/day: $+1.77 | Fills: 4,999 (12.9/day) | Sharpe: 0.25
+    Max DD: $-2817.03 | Avg inv: $2748 | Max inv: $5531
+    Avg spacing: 0.7186% (0.4s)
+
+  Adapt /5 (8h):
+    PnL: $-708.86 (grid: $+13058.86, fees: -$4756.08)
+    PnL/day: $-1.83 | Fills: 23,796 (61.4/day) | Sharpe: -0.22
+    Max DD: $-3484.86 | Avg inv: $2993 | Max inv: $5626
+    Avg spacing: 0.2472% (0.5s)
+
+  Adapt /5 (24h):
+    PnL: $+716.54 (grid: $+8647.24, fees: -$2102.65)
+    PnL/day: $+1.85 | Fills: 10,534 (27.2/day) | Sharpe: 0.28
+    Max DD: $-3555.32 | Avg inv: $3069 | Max inv: $5579
+    Avg spacing: 0.2875% (0.6s)
+
+  Adapt /2 f025 (8h):
+    PnL: $-174.39 (grid: $+8768.24, fees: -$2102.04)
+    PnL/day: $-0.45 | Fills: 10,515 (27.1/day) | Sharpe: -0.07
+    Max DD: $-2657.47 | Avg inv: $2045 | Max inv: $5516
+    Avg spacing: 0.6180% (0.4s)
+
+  Adapt /2 f025 (24h):
+    PnL: $+698.08 (grid: $+7370.51, fees: -$998.72)
+    PnL/day: $+1.80 | Fills: 4,999 (12.9/day) | Sharpe: 0.25
+    Max DD: $-2817.03 | Avg inv: $2747 | Max inv: $5531
+    Avg spacing: 0.7187% (0.3s)
+
+  Adapt /2 f050 (24h):
+    PnL: $+529.19 (grid: $+7188.52, fees: -$961.59)
+    PnL/day: $+1.37 | Fills: 4,813 (12.4/day) | Sharpe: 0.19
+    Max DD: $-2796.15 | Avg inv: $2695 | Max inv: $5531
+    Avg spacing: 0.7361% (0.3s)
+
+  Adapt /2 +P (24h):
+    PnL: $-618.75 (grid: $+7139.24, fees: -$983.84)
+    PnL/day: $-1.60 | Fills: 4,923 (12.7/day) | Sharpe: -0.22
+    Max DD: $-3437.18 | Avg inv: $2730 | Max inv: $5531
+    Avg spacing: 0.7186% (0.5s)
+
+  ==========================================================================================
+  SUMMARY — SOLUSDT (387 days, $191→$105)
+  ==========================================================================================
+  Strategy                         PnL      Grid$     Fees    PnL/d   Fills  Sharpe      MaxDD    Spc%
+  --------------------------------------------------------------------------------------------
+  Fix 0.25% (8h)            $ -2379.27 $+13817.55 $   4511 $  -6.14 22,570   -0.78 $ -5229.54 0.2500%
+  Fix 0.25% (24h)           $  -852.11 $ +9252.70 $   2327 $  -2.20 11,660   -0.26 $ -4209.85 0.2502%
+  Fix 0.50% (8h)            $   +50.52 $ +9690.05 $   2459 $  +0.13 12,298    0.04 $ -2892.24 0.5001%
+  Fix 0.50% (24h)           $  +499.44 $ +8044.83 $   1293 $  +1.29  6,474    0.19 $ -3263.86 0.5003%
+  Fix 1.00% (24h)           $ +2150.55 $ +5876.88 $    718 $  +5.55  3,597    0.85 $ -2424.20 1.0007%
+  Adapt /2 (8h)             $  -227.11 $ +8714.01 $   2116 $  -0.59 10,585   -0.09 $ -2647.61 0.6171%
+  Adapt /2 (24h)            $  +686.33 $ +7370.51 $    999 $  +1.77  4,999    0.25 $ -2817.03 0.7186%
+  Adapt /5 (8h)             $  -708.86 $+13058.86 $   4756 $  -1.83 23,796   -0.22 $ -3484.86 0.2472%
+  Adapt /5 (24h)            $  +716.54 $ +8647.24 $   2103 $  +1.85 10,534    0.28 $ -3555.32 0.2875%
+  Adapt /2 f025 (8h)        $  -174.39 $ +8768.24 $   2102 $  -0.45 10,515   -0.07 $ -2657.47 0.6180%
+  Adapt /2 f025 (24h)       $  +698.08 $ +7370.51 $    999 $  +1.80  4,999    0.25 $ -2817.03 0.7187%
+  Adapt /2 f050 (24h)       $  +529.19 $ +7188.52 $    962 $  +1.37  4,813    0.19 $ -2796.15 0.7361%
+  Adapt /2 +P (24h)         $  -618.75 $ +7139.24 $    984 $  -1.60  4,923   -0.22 $ -3437.18 0.7186%
+
+  ======================================================================
+  REGIME ANALYSIS
+  ======================================================================
+  Calm periods (55,774 bars, 194 days):
+    Adaptive: 0.3981% | Fixed: 0.5000% | +20% vs fixed
+  Volatile periods (55,774 bars, 194 days):
+    Adaptive: 0.7782% | Fixed: 0.5000% | +56% vs fixed
+
+✅ SOLUSDT grid bot simulation complete in 161s (2.7min)
+
+======================================================================
+  ALL DONE — SOLUSDT in 161s (2.7 min)
+======================================================================
