@@ -1,0 +1,227 @@
+
+======================================================================
+  v18 1-Minute Experiment: SOLUSDT
+  Period: 2025-12-01 → 2025-12-30
+  RAM: 6.9GB
+======================================================================
+
+[Phase 0] Building 1m bars from tick data...
+    [ 1/30] 2025-12-01  elapsed=1s  ETA=40s  RAM=7.1GB  new=1 cached=0
+    [ 5/30] 2025-12-05  elapsed=6s  ETA=30s  RAM=7.0GB  new=5 cached=0
+    [10/30] 2025-12-10  elapsed=11s  ETA=23s  RAM=6.8GB  new=10 cached=0
+    [15/30] 2025-12-15  elapsed=17s  ETA=17s  RAM=6.9GB  new=15 cached=0
+    [20/30] 2025-12-20  elapsed=22s  ETA=11s  RAM=6.9GB  new=20 cached=0
+    [25/30] 2025-12-25  elapsed=26s  ETA=5s  RAM=6.9GB  new=25 cached=0
+    [30/30] 2025-12-30  elapsed=30s  ETA=0s  RAM=6.8GB  new=30 cached=0
+  → 43200 bars loaded (1m), RAM=6.8GB
+
+[Phase 0] Building 5m bars from tick data...
+    [ 1/30] 2025-12-01  elapsed=1s  ETA=24s  RAM=6.9GB  new=1 cached=0
+    [ 5/30] 2025-12-05  elapsed=4s  ETA=18s  RAM=6.9GB  new=5 cached=0
+    [10/30] 2025-12-10  elapsed=7s  ETA=14s  RAM=7.1GB  new=10 cached=0
+    [15/30] 2025-12-15  elapsed=10s  ETA=10s  RAM=7.1GB  new=15 cached=0
+    [20/30] 2025-12-20  elapsed=13s  ETA=7s  RAM=7.2GB  new=20 cached=0
+    [25/30] 2025-12-25  elapsed=15s  ETA=3s  RAM=7.1GB  new=25 cached=0
+    [30/30] 2025-12-30  elapsed=17s  ETA=0s  RAM=7.1GB  new=30 cached=0
+  → 8640 bars loaded (5m), RAM=7.1GB
+
+  1m bars: 43,200  |  5m bars: 8,640  |  ratio: 5.0x
+
+[Phase 0b] Computing derived features...
+  1m features done in 6s, RAM=6.8GB
+  5m features done in 1s, RAM=6.8GB
+
+======================================================================
+[Phase 1] Signal experiments: 1m vs 5m
+======================================================================
+
+  === 5m bars (baseline, 7 bps taker fees) ===
+
+  --- E01: Contrarian Imbalance (5m) ---
+  E01 t=1.0 hold=1h: trades= 591  avg=-6.27bps  total=-3703bps  WR=46%  sharpe=-0.086
+  E01 t=1.0 hold=2h: trades= 313  avg=-12.42bps  total=-3888bps  WR=45%  sharpe=-0.125
+  E01 t=1.0 hold=4h: trades= 162  avg=+3.40bps  total=+550bps  WR=56%  sharpe=0.021
+  E01 t=1.5 hold=1h: trades= 424  avg=-5.18bps  total=-2198bps  WR=48%  sharpe=-0.075
+  E01 t=1.5 hold=2h: trades= 258  avg=-12.70bps  total=-3277bps  WR=48%  sharpe=-0.113
+  E01 t=1.5 hold=4h: trades= 143  avg=-25.61bps  total=-3662bps  WR=48%  sharpe=-0.168
+
+  --- E03: Vol Breakout (5m) ---
+  E03 t=1.0 hold=1h: trades= 406  avg=-10.31bps  total=-4185bps  WR=43%  sharpe=-0.118
+  E03 t=1.0 hold=2h: trades= 245  avg=-15.25bps  total=-3735bps  WR=46%  sharpe=-0.122
+  E03 t=1.0 hold=4h: trades= 140  avg=+8.66bps  total=+1212bps  WR=52%  sharpe=0.053
+  E03 t=1.5 hold=1h: trades= 207  avg=-1.77bps  total=-367bps  WR=52%  sharpe=-0.018
+  E03 t=1.5 hold=2h: trades= 143  avg=-8.83bps  total=-1263bps  WR=44%  sharpe=-0.060
+  E03 t=1.5 hold=4h: trades=  92  avg=-10.58bps  total=-974bps  WR=45%  sharpe=-0.058
+
+  --- E09: Cumulative Imbalance Momentum (5m) ---
+  E09 t=1.0 hold=1h: trades= 429  avg=-2.53bps  total=-1085bps  WR=44%  sharpe=-0.037
+  E09 t=1.0 hold=2h: trades= 261  avg=-6.64bps  total=-1734bps  WR=44%  sharpe=-0.074
+  E09 t=1.0 hold=4h: trades= 148  avg=+19.95bps  total=+2953bps  WR=46%  sharpe=0.115
+  E09 t=1.5 hold=1h: trades= 256  avg=-4.85bps  total=-1242bps  WR=41%  sharpe=-0.080
+  E09 t=1.5 hold=2h: trades= 187  avg=-2.28bps  total=-426bps  WR=42%  sharpe=-0.024
+  E09 t=1.5 hold=4h: trades= 118  avg=+22.38bps  total=+2641bps  WR=51%  sharpe=0.157
+
+  === 1m bars (7 bps taker fees) ===
+
+  --- E01: Contrarian Imbalance (1m) ---
+  E01 t=1.0 hold=1h: trades= 654  avg=-10.31bps  total=-6743bps  WR=45%  sharpe=-0.142
+  E01 t=1.0 hold=2h: trades= 330  avg=-13.99bps  total=-4616bps  WR=45%  sharpe=-0.135
+  E01 t=1.0 hold=4h: trades= 165  avg=-14.15bps  total=-2335bps  WR=49%  sharpe=-0.092
+  E01 t=1.5 hold=1h: trades= 597  avg=-9.61bps  total=-5740bps  WR=45%  sharpe=-0.144
+  E01 t=1.5 hold=2h: trades= 316  avg=-12.20bps  total=-3856bps  WR=45%  sharpe=-0.116
+  E01 t=1.5 hold=4h: trades= 162  avg=-0.81bps  total=-132bps  WR=49%  sharpe=-0.006
+
+  --- E03: Vol Breakout (1m) ---
+  E03 t=1.0 hold=1h: trades= 585  avg=-8.69bps  total=-5083bps  WR=46%  sharpe=-0.112
+  E03 t=1.0 hold=2h: trades= 314  avg=-6.56bps  total=-2061bps  WR=44%  sharpe=-0.056
+  E03 t=1.0 hold=4h: trades= 164  avg=-16.98bps  total=-2786bps  WR=50%  sharpe=-0.107
+  E03 t=1.5 hold=1h: trades= 373  avg=-11.10bps  total=-4142bps  WR=47%  sharpe=-0.136
+  E03 t=1.5 hold=2h: trades= 229  avg=-8.18bps  total=-1872bps  WR=50%  sharpe=-0.067
+  E03 t=1.5 hold=4h: trades= 132  avg=-8.91bps  total=-1176bps  WR=48%  sharpe=-0.050
+
+  --- E09: Cumulative Imbalance Momentum (1m) ---
+  E09 t=1.0 hold=1h: trades= 460  avg=-1.19bps  total=-546bps  WR=48%  sharpe=-0.018
+  E09 t=1.0 hold=2h: trades= 274  avg=+3.01bps  total=+823bps  WR=46%  sharpe=0.029
+  E09 t=1.0 hold=4h: trades= 151  avg=+17.10bps  total=+2582bps  WR=54%  sharpe=0.105
+  E09 t=1.5 hold=1h: trades= 257  avg=-6.51bps  total=-1673bps  WR=40%  sharpe=-0.110
+  E09 t=1.5 hold=2h: trades= 186  avg=-6.34bps  total=-1180bps  WR=38%  sharpe=-0.070
+  E09 t=1.5 hold=4h: trades= 118  avg=-4.92bps  total=-580bps  WR=46%  sharpe=-0.042
+
+  === 1m bars (4 bps maker fees) ===
+
+  --- E01: Contrarian Imbalance (1m_maker) ---
+  E01 t=1.0 hold=1h: trades= 654  avg=-7.31bps  total=-4781bps  WR=47%  sharpe=-0.101
+  E01 t=1.0 hold=2h: trades= 330  avg=-10.99bps  total=-3626bps  WR=45%  sharpe=-0.106
+  E01 t=1.0 hold=4h: trades= 165  avg=-11.15bps  total=-1840bps  WR=50%  sharpe=-0.073
+  E01 t=1.5 hold=1h: trades= 597  avg=-6.61bps  total=-3949bps  WR=47%  sharpe=-0.099
+  E01 t=1.5 hold=2h: trades= 316  avg=-9.20bps  total=-2908bps  WR=47%  sharpe=-0.087
+  E01 t=1.5 hold=4h: trades= 162  avg=+2.19bps  total=+354bps  WR=51%  sharpe=0.015
+
+  --- E03: Vol Breakout (1m_maker) ---
+  E03 t=1.0 hold=1h: trades= 585  avg=-5.69bps  total=-3328bps  WR=48%  sharpe=-0.073
+  E03 t=1.0 hold=2h: trades= 314  avg=-3.56bps  total=-1119bps  WR=47%  sharpe=-0.031
+  E03 t=1.0 hold=4h: trades= 164  avg=-13.98bps  total=-2294bps  WR=51%  sharpe=-0.088
+  E03 t=1.5 hold=1h: trades= 373  avg=-8.10bps  total=-3023bps  WR=49%  sharpe=-0.099
+  E03 t=1.5 hold=2h: trades= 229  avg=-5.18bps  total=-1185bps  WR=52%  sharpe=-0.042
+  E03 t=1.5 hold=4h: trades= 132  avg=-5.91bps  total=-780bps  WR=52%  sharpe=-0.033
+
+  --- E09: Cumulative Imbalance Momentum (1m_maker) ---
+  E09 t=1.0 hold=1h: trades= 460  avg=+1.81bps  total=+834bps  WR=51%  sharpe=0.027
+  E09 t=1.0 hold=2h: trades= 274  avg=+6.01bps  total=+1645bps  WR=48%  sharpe=0.058
+  E09 t=1.0 hold=4h: trades= 151  avg=+20.10bps  total=+3035bps  WR=55%  sharpe=0.124
+  E09 t=1.5 hold=1h: trades= 257  avg=-3.51bps  total=-902bps  WR=43%  sharpe=-0.060
+  E09 t=1.5 hold=2h: trades= 186  avg=-3.34bps  total=-622bps  WR=40%  sharpe=-0.037
+  E09 t=1.5 hold=4h: trades= 118  avg=-1.92bps  total=-226bps  WR=48%  sharpe=-0.016
+
+  --- Phase 1 Summary: 1m vs 5m ---
+  E01 t=1.0 4h [5m/taker  ]: avg=+3.40bps  n=162
+  E01 t=1.0 4h [1m/taker  ]: avg=-14.15bps  n=165
+  E01 t=1.0 4h [1m/maker  ]: avg=-11.15bps  n=165
+  E01 t=1.5 4h [5m/taker  ]: avg=-25.61bps  n=143
+  E01 t=1.5 4h [1m/taker  ]: avg=-0.81bps  n=162
+  E01 t=1.5 4h [1m/maker  ]: avg=+2.19bps  n=162
+  E03 t=1.0 4h [5m/taker  ]: avg=+8.66bps  n=140
+  E03 t=1.0 4h [1m/taker  ]: avg=-16.98bps  n=164
+  E03 t=1.0 4h [1m/maker  ]: avg=-13.98bps  n=164
+  E03 t=1.5 4h [5m/taker  ]: avg=-10.58bps  n=92
+  E03 t=1.5 4h [1m/taker  ]: avg=-8.91bps  n=132
+  E03 t=1.5 4h [1m/maker  ]: avg=-5.91bps  n=132
+  E09 t=1.0 4h [5m/taker  ]: avg=+19.95bps  n=148
+  E09 t=1.0 4h [1m/taker  ]: avg=+17.10bps  n=151
+  E09 t=1.0 4h [1m/maker  ]: avg=+20.10bps  n=151
+  E09 t=1.5 4h [5m/taker  ]: avg=+22.38bps  n=118
+  E09 t=1.5 4h [1m/taker  ]: avg=-4.92bps  n=118
+  E09 t=1.5 4h [1m/maker  ]: avg=-1.92bps  n=118
+
+======================================================================
+[Phase 2] Precision Entry (1m timing within 5m window)
+======================================================================
+
+  --- Phase 2: Precision Entry ---
+  E01 baseline (5m close): trades= 162  avg=+3.40bps  total=+550bps  WR=56%  sharpe=0.021
+  E01 best 1m entry (oracle): trades= 162  avg=+3.41bps  total=+553bps  WR=56%  sharpe=0.021
+  E01 worst 1m entry: trades= 162  avg=-15.30bps  total=-2478bps  WR=50%  sharpe=-0.095
+  E01 imbalance-timed 1m entry: trades= 162  avg=-3.04bps  total=-493bps  WR=55%  sharpe=-0.018
+  → Imbalance timing delta: -6.44 bps/trade
+  → Oracle (best possible) delta: +0.01 bps/trade
+  E09 baseline (5m close): trades= 118  avg=+22.38bps  total=+2641bps  WR=51%  sharpe=0.157
+  E09 best 1m entry (oracle): trades= 118  avg=+29.92bps  total=+3530bps  WR=56%  sharpe=0.211
+  E09 worst 1m entry: trades= 118  avg=+13.62bps  total=+1607bps  WR=50%  sharpe=0.096
+  E09 imbalance-timed 1m entry: trades= 118  avg=+19.47bps  total=+2298bps  WR=53%  sharpe=0.136
+  → Imbalance timing delta: -2.91 bps/trade
+  → Oracle (best possible) delta: +7.53 bps/trade
+
+======================================================================
+[Phase 3] Short-Horizon Mean Reversion (1m, maker fees)
+======================================================================
+
+  --- Phase 3: Short-Horizon Mean Reversion (1m, maker fees) ---
+
+  A: Short-term contrarian imbalance
+  A t=1.0 hold=5m: trades=6561  avg=-3.86bps  total=-25337bps  WR=40%  sharpe=-0.181
+  A t=1.0 hold=15m: trades=2601  avg=-3.38bps  total=-8788bps  WR=43%  sharpe=-0.095
+  A t=1.0 hold=30m: trades=1367  avg=-2.49bps  total=-3403bps  WR=46%  sharpe=-0.049
+  A t=1.0 hold=1h: trades= 699  avg=-2.73bps  total=-1910bps  WR=49%  sharpe=-0.037
+  A t=1.5 hold=5m: trades=3801  avg=-3.51bps  total=-13347bps  WR=40%  sharpe=-0.166
+  A t=1.5 hold=15m: trades=2019  avg=-3.00bps  total=-6065bps  WR=45%  sharpe=-0.089
+  A t=1.5 hold=30m: trades=1192  avg=-5.55bps  total=-6613bps  WR=46%  sharpe=-0.109
+  A t=1.5 hold=1h: trades= 651  avg=-3.43bps  total=-2232bps  WR=49%  sharpe=-0.046
+  A t=2.0 hold=5m: trades= 427  avg=-4.72bps  total=-2014bps  WR=41%  sharpe=-0.192
+  A t=2.0 hold=15m: trades= 363  avg=-2.02bps  total=-735bps  WR=45%  sharpe=-0.059
+  A t=2.0 hold=30m: trades= 320  avg=-5.06bps  total=-1618bps  WR=46%  sharpe=-0.102
+  A t=2.0 hold=1h: trades= 267  avg=-0.33bps  total=-88bps  WR=47%  sharpe=-0.004
+
+  B: Short-term VWAP reversion
+  B t=1.0 hold=5m: trades=5335  avg=-3.42bps  total=-18231bps  WR=40%  sharpe=-0.151
+  B t=1.0 hold=15m: trades=2380  avg=-4.21bps  total=-10020bps  WR=43%  sharpe=-0.117
+  B t=1.0 hold=30m: trades=1301  avg=-3.40bps  total=-4426bps  WR=46%  sharpe=-0.066
+  B t=1.0 hold=1h: trades= 684  avg=-1.65bps  total=-1130bps  WR=48%  sharpe=-0.023
+  B t=1.5 hold=5m: trades=3208  avg=-3.66bps  total=-11738bps  WR=41%  sharpe=-0.158
+  B t=1.5 hold=15m: trades=1810  avg=-4.94bps  total=-8944bps  WR=43%  sharpe=-0.140
+  B t=1.5 hold=30m: trades=1102  avg=-3.87bps  total=-4266bps  WR=46%  sharpe=-0.075
+  B t=1.5 hold=1h: trades= 626  avg=-4.90bps  total=-3069bps  WR=48%  sharpe=-0.066
+  B t=2.0 hold=5m: trades=1710  avg=-4.66bps  total=-7967bps  WR=39%  sharpe=-0.201
+  B t=2.0 hold=15m: trades=1199  avg=-4.11bps  total=-4934bps  WR=44%  sharpe=-0.114
+  B t=2.0 hold=30m: trades= 839  avg=-2.69bps  total=-2257bps  WR=48%  sharpe=-0.053
+  B t=2.0 hold=1h: trades= 537  avg=-2.74bps  total=-1474bps  WR=44%  sharpe=-0.037
+
+  C: Short-term price mean-reversion (vs 1h MA)
+  C t=1.5 hold=5m: trades=3564  avg=-3.40bps  total=-12133bps  WR=43%  sharpe=-0.141
+  C t=1.5 hold=15m: trades=1688  avg=-4.41bps  total=-7451bps  WR=46%  sharpe=-0.121
+  C t=1.5 hold=30m: trades=1036  avg=-6.08bps  total=-6296bps  WR=48%  sharpe=-0.116
+  C t=1.5 hold=1h: trades= 599  avg=-10.57bps  total=-6333bps  WR=48%  sharpe=-0.144
+  C t=2.0 hold=5m: trades=1826  avg=-3.45bps  total=-6300bps  WR=45%  sharpe=-0.127
+  C t=2.0 hold=15m: trades=1023  avg=-5.00bps  total=-5116bps  WR=46%  sharpe=-0.132
+  C t=2.0 hold=30m: trades= 744  avg=-6.20bps  total=-4613bps  WR=48%  sharpe=-0.113
+  C t=2.0 hold=1h: trades= 516  avg=-11.28bps  total=-5819bps  WR=47%  sharpe=-0.150
+  C t=2.5 hold=5m: trades= 841  avg=-1.84bps  total=-1545bps  WR=49%  sharpe=-0.062
+  C t=2.5 hold=15m: trades= 562  avg=-3.80bps  total=-2133bps  WR=47%  sharpe=-0.092
+  C t=2.5 hold=30m: trades= 475  avg=-6.47bps  total=-3074bps  WR=49%  sharpe=-0.104
+  C t=2.5 hold=1h: trades= 390  avg=-9.01bps  total=-3515bps  WR=48%  sharpe=-0.122
+
+  D: Range compression breakout (momentum)
+  D t=1.5 hold=5m: trades=1458  avg=-4.64bps  total=-6760bps  WR=41%  sharpe=-0.134
+  D t=1.5 hold=15m: trades= 840  avg=-4.73bps  total=-3975bps  WR=46%  sharpe=-0.094
+  D t=1.5 hold=30m: trades= 573  avg=-5.41bps  total=-3101bps  WR=47%  sharpe=-0.081
+  D t=1.5 hold=1h: trades= 373  avg=-8.10bps  total=-3023bps  WR=49%  sharpe=-0.099
+  D t=2.0 hold=5m: trades= 985  avg=-4.53bps  total=-4459bps  WR=41%  sharpe=-0.124
+  D t=2.0 hold=15m: trades= 609  avg=-4.97bps  total=-3026bps  WR=47%  sharpe=-0.096
+  D t=2.0 hold=30m: trades= 433  avg=-2.04bps  total=-884bps  WR=48%  sharpe=-0.028
+  D t=2.0 hold=1h: trades= 308  avg=-6.17bps  total=-1902bps  WR=45%  sharpe=-0.067
+
+======================================================================
+[Phase 4] Vol Prediction Comparison
+======================================================================
+
+  --- Phase 4: Vol Prediction (5m) ---
+  5m → 1h: R²=-6.218  corr=0.564  n_train=5831  n_test=2500  features=12
+  5m → 4h: R²=-9.723  corr=0.396  n_train=5806  n_test=2489  features=12
+
+  --- Phase 4: Vol Prediction (1m) ---
+  1m → 1h: R²=-6.761  corr=0.655  n_train=29189  n_test=12511  features=12
+  1m → 4h: R²=-9.545  corr=0.428  n_train=29063  n_test=12457  features=12
+
+======================================================================
+  SOLUSDT COMPLETE in 56s (0.9min)
+  RAM: 6.7GB
+======================================================================
