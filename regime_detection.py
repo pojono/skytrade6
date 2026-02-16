@@ -77,33 +77,53 @@ INTERVAL_5M_US = 300_000_000
 # ---------------------------------------------------------------------------
 
 def load_bars(symbol, start_date, end_date):
-    """Load tick data, aggregate to 5m bars with microstructure features."""
+    """Load tick data, aggregate to 5m bars with microstructure features.
+    Caches aggregated bars to parquet for fast re-runs."""
+    cache_dir = PARQUET_DIR / symbol / "regime_5m_cache" / SOURCE
+    cache_dir.mkdir(parents=True, exist_ok=True)
+
     dates = pd.date_range(start_date, end_date)
     all_bars = []
     t0 = time.time()
+    processed = 0
+    cached_hits = 0
 
     for i, date in enumerate(dates, 1):
         ds = date.strftime("%Y-%m-%d")
-        path = PARQUET_DIR / symbol / "trades" / SOURCE / f"{ds}.parquet"
-        if not path.exists():
-            continue
+        cache_path = cache_dir / f"{ds}.parquet"
 
-        trades = pd.read_parquet(path)
-        bars = _aggregate_5m(trades)
-        del trades
-        all_bars.append(bars)
+        # Try cache first
+        if cache_path.exists():
+            bars = pd.read_parquet(cache_path)
+            all_bars.append(bars)
+            cached_hits += 1
+        else:
+            # Aggregate from tick data
+            tick_path = PARQUET_DIR / symbol / "trades" / SOURCE / f"{ds}.parquet"
+            if not tick_path.exists():
+                continue
+            trades = pd.read_parquet(tick_path)
+            bars = _aggregate_5m(trades)
+            del trades
+            if not bars.empty:
+                bars.to_parquet(cache_path, index=False, compression="snappy")
+                all_bars.append(bars)
+            processed += 1
 
-        if i % 10 == 0 or i == len(dates):
+        if i % 20 == 0 or i == len(dates):
             elapsed = time.time() - t0
+            rate = i / max(elapsed, 0.1)
+            eta = (len(dates) - i) / max(rate, 0.01)
             mem = psutil.virtual_memory().used / (1024**3)
-            print(f"  [{i}/{len(dates)}] {ds} | {elapsed:.0f}s RAM={mem:.1f}GB", flush=True)
+            print(f"  [{i}/{len(dates)}] {ds} | {elapsed:.0f}s ETA={eta:.0f}s "
+                  f"RAM={mem:.1f}GB cache={cached_hits} new={processed}", flush=True)
 
     if not all_bars:
         return pd.DataFrame()
 
     df = pd.concat(all_bars, ignore_index=True).sort_values("timestamp_us").reset_index(drop=True)
     df["datetime"] = pd.to_datetime(df["timestamp_us"], unit="us", utc=True)
-    print(f"  Loaded {len(df)} bars ({len(dates)} days)")
+    print(f"  Loaded {len(df):,} bars ({len(dates)} days, {cached_hits} cached, {processed} new)")
     return df
 
 
@@ -917,50 +937,185 @@ def _evaluate_transition_detection(df, results):
 
 
 # ---------------------------------------------------------------------------
+# Single-symbol runner
+# ---------------------------------------------------------------------------
+
+def run_symbol(symbol, start, end, forward_window, results_dir):
+    """Run full regime detection pipeline for one symbol. Returns results list."""
+    print(f"\n{'='*70}")
+    print(f"  {symbol} | {start} → {end} | fwd={forward_window} bars ({forward_window*5}min)")
+    print(f"{'='*70}")
+
+    t0 = time.time()
+
+    # Step 1: Load data
+    print(f"\n  Step 1: Loading 5m bars from tick data...")
+    df = load_bars(symbol, start, end)
+    if df.empty:
+        print("  No data!")
+        return []
+    load_time = time.time() - t0
+
+    # Step 2: Compute features
+    print(f"\n  Step 2: Computing features...")
+    t1 = time.time()
+    df = compute_regime_features(df)
+    n_features = len([c for c in df.columns if c not in ['timestamp_us', 'datetime']])
+    print(f"  {n_features} features computed in {time.time()-t1:.0f}s")
+
+    # Step 3: Label regimes
+    print(f"\n  Step 3: Labeling regimes (forward-looking)...")
+    t2 = time.time()
+    df = label_regimes(df, forward_window=forward_window)
+    print(f"  Labeled in {time.time()-t2:.0f}s")
+
+    # Step 4: Run experiments
+    print(f"\n  Step 4: Running experiments...")
+    results = run_experiments(df, forward_window=forward_window)
+
+    elapsed = time.time() - t0
+    print(f"\n✅ {symbol} complete in {elapsed:.0f}s "
+          f"(load={load_time:.0f}s, {len(df):,} bars, {n_features} features)")
+
+    # Save per-symbol results
+    out_path = Path(results_dir) / f"regime_{symbol}_{start}_{end}.txt"
+    # results already printed to stdout which is tee'd to file
+    return results
+
+
+# ---------------------------------------------------------------------------
+# Cross-symbol summary
+# ---------------------------------------------------------------------------
+
+def print_cross_symbol_summary(all_results):
+    """Print a comparison table across all symbols."""
+    print(f"\n\n{'#'*70}")
+    print(f"  CROSS-SYMBOL COMPARISON")
+    print(f"{'#'*70}")
+
+    # Collect best vol and trend detectors per symbol
+    print(f"\n  Best VOLATILITY detectors (is_high_vol):")
+    print(f"  {'Symbol':12s} {'Feature':30s} {'Acc':>7s} {'F1':>7s} {'Prec':>7s} {'Rec':>7s} {'Runs':>6s}")
+    print(f"  {'-'*75}")
+    for sym, results in all_results.items():
+        vol_results = [r for r in results if r.get("target") == "is_high_vol" and "feature" in r]
+        if vol_results:
+            best = max(vol_results, key=lambda x: x.get("f1", 0))
+            print(f"  {sym:12s} {best['feature']:30s} {best['accuracy']:7.3f} "
+                  f"{best['f1']:7.3f} {best['precision']:7.3f} {best['recall']:7.3f} "
+                  f"{best['avg_run_length']:6.0f}")
+
+    print(f"\n  Best TREND detectors (is_trending):")
+    print(f"  {'Symbol':12s} {'Feature':30s} {'Acc':>7s} {'F1':>7s} {'Prec':>7s} {'Rec':>7s} {'Runs':>6s}")
+    print(f"  {'-'*75}")
+    for sym, results in all_results.items():
+        trend_results = [r for r in results if r.get("target") == "is_trending" and "feature" in r]
+        if trend_results:
+            best = max(trend_results, key=lambda x: x.get("f1", 0))
+            print(f"  {sym:12s} {best['feature']:30s} {best['accuracy']:7.3f} "
+                  f"{best['f1']:7.3f} {best['precision']:7.3f} {best['recall']:7.3f} "
+                  f"{best['avg_run_length']:6.0f}")
+
+    # Feature consistency: which features pass across ALL symbols?
+    print(f"\n  Feature consistency (passing >60% acc across symbols):")
+    feature_scores = {}
+    for sym, results in all_results.items():
+        for r in results:
+            feat = r.get("feature", "")
+            target = r.get("target", "")
+            key = (feat, target)
+            if key not in feature_scores:
+                feature_scores[key] = {}
+            feature_scores[key][sym] = r
+
+    print(f"  {'Feature':30s} {'Target':15s} {'Symbols':>8s} " +
+          " ".join(f"{s:>10s}" for s in all_results.keys()))
+    print(f"  {'-'*100}")
+
+    consistent = []
+    for (feat, target), sym_results in feature_scores.items():
+        if not feat:
+            continue
+        n_pass = sum(1 for r in sym_results.values() if r.get("accuracy", 0) > 0.60)
+        if n_pass >= 3:  # passes on at least 3 symbols
+            avg_f1 = np.mean([r.get("f1", 0) for r in sym_results.values()])
+            consistent.append((feat, target, n_pass, avg_f1, sym_results))
+
+    consistent.sort(key=lambda x: (-x[2], -x[3]))
+    for feat, target, n_pass, avg_f1, sym_results in consistent[:20]:
+        acc_strs = []
+        for sym in all_results.keys():
+            if sym in sym_results:
+                a = sym_results[sym].get("accuracy", 0)
+                f = sym_results[sym].get("f1", 0)
+                acc_strs.append(f"{a:.2f}/{f:.2f}")
+            else:
+                acc_strs.append("     -    ")
+        print(f"  {feat:30s} {target:15s} {n_pass:>5d}/5  " +
+              " ".join(f"{s:>10s}" for s in acc_strs))
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
+ALL_SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "DOGEUSDT", "XRPUSDT"]
 
 def main():
     parser = argparse.ArgumentParser(description="Regime Detection Experiments")
     parser.add_argument("--exchange", default="bybit_futures")
-    parser.add_argument("--symbol", default="ETHUSDT")
-    parser.add_argument("--start", default="2025-11-01")
+    parser.add_argument("--symbol", default="all",
+                        help="Symbol or 'all' for all 5 currencies")
+    parser.add_argument("--start", default="2025-01-01")
     parser.add_argument("--end", default="2026-01-31")
     parser.add_argument("--forward-window", type=int, default=48,
                         help="Forward-looking window for regime labeling (bars)")
     args = parser.parse_args()
 
+    if args.symbol.lower() == "all":
+        symbols = ALL_SYMBOLS
+    else:
+        symbols = [s.strip().upper() for s in args.symbol.split(",")]
+
+    results_dir = Path("results")
+    results_dir.mkdir(exist_ok=True)
+
     print("=" * 70)
     print("  REGIME DETECTION EXPERIMENT SUITE")
-    print(f"  {args.symbol} on {args.exchange}")
-    print(f"  Period: {args.start} → {args.end}")
-    print(f"  Forward window: {args.forward_window} bars ({args.forward_window * 5} min)")
+    print(f"  Symbols: {', '.join(symbols)}")
+    print(f"  Period:  {args.start} → {args.end}")
+    print(f"  Forward: {args.forward_window} bars ({args.forward_window * 5} min)")
     print("=" * 70)
 
-    t0 = time.time()
+    grand_t0 = time.time()
+    all_results = {}
 
-    # Step 1: Load data
-    print(f"\n  Step 1: Loading bars...")
-    df = load_bars(args.symbol, args.start, args.end)
-    if df.empty:
-        print("  No data!")
-        return
+    for idx, symbol in enumerate(symbols, 1):
+        print(f"\n\n{'*'*70}")
+        print(f"  SYMBOL {idx}/{len(symbols)}: {symbol}")
+        print(f"{'*'*70}")
 
-    # Step 2: Compute features
-    print(f"\n  Step 2: Computing features...")
-    df = compute_regime_features(df)
-    print(f"  Features: {len([c for c in df.columns if c not in ['timestamp_us', 'datetime']])}")
+        sym_results = run_symbol(symbol, args.start, args.end,
+                                 args.forward_window, results_dir)
+        all_results[symbol] = sym_results
 
-    # Step 3: Label regimes
-    print(f"\n  Step 3: Labeling regimes (forward-looking)...")
-    df = label_regimes(df, forward_window=args.forward_window)
+        elapsed = time.time() - grand_t0
+        remaining = len(symbols) - idx
+        if idx > 0:
+            per_sym = elapsed / idx
+            eta = remaining * per_sym
+            print(f"\n  ⏱ Total elapsed: {elapsed:.0f}s | "
+                  f"~{per_sym:.0f}s/symbol | ETA remaining: {eta:.0f}s")
 
-    # Step 4: Run experiments
-    print(f"\n  Step 4: Running experiments...")
-    results = run_experiments(df, forward_window=args.forward_window)
+    # Cross-symbol summary
+    if len(all_results) > 1:
+        print_cross_symbol_summary(all_results)
 
-    elapsed = time.time() - t0
-    print(f"\n✅ Complete in {elapsed:.0f}s")
+    total_elapsed = time.time() - grand_t0
+    print(f"\n\n{'='*70}")
+    print(f"  ALL DONE — {len(symbols)} symbols in {total_elapsed:.0f}s "
+          f"({total_elapsed/60:.1f} min)")
+    print(f"{'='*70}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,1209 @@
+======================================================================
+  REGIME DETECTION EXPERIMENT SUITE
+  Symbols: BTCUSDT, ETHUSDT, SOLUSDT, DOGEUSDT, XRPUSDT
+  Period:  2025-01-01 → 2026-01-31
+  Forward: 48 bars (240 min)
+======================================================================
+
+
+**********************************************************************
+  SYMBOL 1/5: BTCUSDT
+**********************************************************************
+
+======================================================================
+  BTCUSDT | 2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars from tick data...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=7.1GB cache=20 new=0
+  [40/396] 2025-02-09 | 11s ETA=102s RAM=8.2GB cache=33 new=7
+  [60/396] 2025-03-01 | 40s ETA=223s RAM=8.0GB cache=33 new=27
+  [80/396] 2025-03-21 | 81s ETA=319s RAM=8.5GB cache=33 new=47
+  [100/396] 2025-04-10 | 113s ETA=334s RAM=8.5GB cache=33 new=67
+  [120/396] 2025-04-30 | 134s ETA=308s RAM=8.3GB cache=33 new=87
+  [140/396] 2025-05-20 | 156s ETA=285s RAM=8.2GB cache=33 new=107
+  [160/396] 2025-06-09 | 178s ETA=263s RAM=8.4GB cache=33 new=127
+  [180/396] 2025-06-29 | 198s ETA=238s RAM=8.6GB cache=33 new=147
+  [200/396] 2025-07-19 | 217s ETA=212s RAM=8.5GB cache=33 new=167
+  [220/396] 2025-08-08 | 234s ETA=187s RAM=8.7GB cache=33 new=187
+  [240/396] 2025-08-28 | 253s ETA=165s RAM=8.9GB cache=33 new=207
+  [260/396] 2025-09-17 | 269s ETA=141s RAM=8.6GB cache=33 new=227
+  [280/396] 2025-10-07 | 287s ETA=119s RAM=8.3GB cache=33 new=247
+  [300/396] 2025-10-27 | 319s ETA=102s RAM=8.8GB cache=33 new=267
+  [320/396] 2025-11-16 | 351s ETA=83s RAM=8.9GB cache=33 new=287
+  [340/396] 2025-12-06 | 382s ETA=63s RAM=8.5GB cache=33 new=307
+  [360/396] 2025-12-26 | 406s ETA=41s RAM=8.8GB cache=33 new=327
+  [380/396] 2026-01-15 | 425s ETA=18s RAM=8.5GB cache=33 new=347
+  [396/396] 2026-01-31 | 445s ETA=0s RAM=8.4GB cache=33 new=363
+  Loaded 114,048 bars (396 days, 33 cached, 363 new)
+
+  Step 2: Computing features...
+  60 features computed in 63s
+
+  Step 3: Labeling regimes (forward-looking)...
+  Labeled in 1s
+
+  Step 4: Running experiments...
+
+======================================================================
+  REGIME DETECTION EXPERIMENTS
+  Bars: 114048, Forward window: 48 bars (240 min)
+======================================================================
+
+  Regime distribution:
+    active_range        :  92669 (81.3%)
+    quiet_range         :  14068 (12.3%)
+    chaos               :   4845 (4.2%)
+    smooth_trend        :   1230 (1.1%)
+    volatile_trend      :   1188 (1.0%)
+    unknown             :     48 (0.0%)
+
+  Binary: trending=2.1%, high_vol=22.0%
+  Random baseline: 20.0% (5-class), 50% (binary)
+
+######################################################################
+  GROUP 1: VOLATILITY DETECTION (is_high_vol)
+######################################################################
+  rvol_1h                        acc=0.635 f1=0.411 prec=0.318 rec=0.579 runs=23 thresh_pct=60 ✅ PASS
+  rvol_2h                        acc=0.570 f1=0.402 prec=0.290 rec=0.659 runs=41 thresh_pct=50 ❌ FAIL
+  rvol_4h                        acc=0.561 f1=0.390 prec=0.281 rec=0.639 runs=74 thresh_pct=50 ❌ FAIL
+  rvol_8h                        acc=0.533 f1=0.352 prec=0.253 rec=0.576 runs=125 thresh_pct=50 ❌ FAIL
+  rvol_24h                       acc=0.512 f1=0.323 prec=0.233 rec=0.528 runs=329 thresh_pct=50 ❌ FAIL
+  parkvol_1h                     acc=0.640 f1=0.419 prec=0.325 rec=0.591 runs=35 thresh_pct=60 ✅ PASS
+  parkvol_4h                     acc=0.560 f1=0.389 prec=0.280 rec=0.636 runs=99 thresh_pct=50 ❌ FAIL
+  vol_ratio_1h_24h               acc=0.635 f1=0.411 prec=0.319 rec=0.579 runs=19 thresh_pct=60 ✅ PASS
+  vol_ratio_2h_24h               acc=0.633 f1=0.408 prec=0.317 rec=0.575 runs=34 thresh_pct=60 ✅ PASS
+  vol_ratio_1h_8h                acc=0.558 f1=0.386 prec=0.278 rec=0.631 runs=14 thresh_pct=50 ❌ FAIL
+  vol_accel_1h                   acc=0.526 f1=0.341 prec=0.245 rec=0.558 runs=9 thresh_pct=50 ❌ FAIL
+  vol_accel_4h                   acc=0.565 f1=0.396 prec=0.285 rec=0.648 runs=32 thresh_pct=50 ❌ FAIL
+  vol_ratio_bar                  acc=0.640 f1=0.419 prec=0.325 rec=0.590 runs=4 thresh_pct=60 ✅ PASS
+  trade_intensity_ratio          acc=0.644 f1=0.426 prec=0.330 rec=0.599 runs=5 thresh_pct=60 ✅ PASS
+  iti_cv_1h                      acc=0.534 f1=0.353 prec=0.254 rec=0.578 runs=26 thresh_pct=50 ❌ FAIL
+  large_trade_1h                 acc=0.522 f1=0.337 prec=0.242 rec=0.551 runs=30 thresh_pct=50 ❌ FAIL
+
+######################################################################
+  GROUP 2: TREND DETECTION (is_trending)
+######################################################################
+  efficiency_1h                  acc=0.500 f1=0.041 prec=0.021 rec=0.499 runs=4 thresh_pct=50 ❌ FAIL
+  efficiency_2h                  acc=0.549 f1=0.043 prec=0.022 rec=0.474 runs=7 thresh_pct=55 ❌ FAIL
+  efficiency_4h                  acc=0.500 f1=0.041 prec=0.021 rec=0.498 runs=9 thresh_pct=50 ❌ FAIL
+  efficiency_8h                  acc=0.498 f1=0.037 prec=0.019 rec=0.456 runs=12 thresh_pct=50 ❌ FAIL
+  ret_autocorr_1h                acc=0.644 f1=0.041 prec=0.022 rec=0.361 runs=7 thresh_pct=65 ✅ PASS
+  ret_autocorr_2h                acc=0.548 f1=0.042 prec=0.022 rec=0.461 runs=10 thresh_pct=55 ❌ FAIL
+  ret_autocorr_4h                acc=0.500 f1=0.041 prec=0.021 rec=0.507 runs=16 thresh_pct=50 ❌ FAIL
+  adx_2h                         acc=0.502 f1=0.045 prec=0.023 rec=0.547 runs=37 thresh_pct=50 ❌ FAIL
+  adx_4h                         acc=0.499 f1=0.038 prec=0.020 rec=0.467 runs=73 thresh_pct=50 ❌ FAIL
+  sign_persist_1h                acc=0.636 f1=0.037 prec=0.020 rec=0.330 runs=6 thresh_pct=50 ✅ PASS
+  sign_persist_2h                acc=0.720 f1=0.039 prec=0.021 rec=0.270 runs=10 thresh_pct=50 ✅ PASS
+  bar_eff_1h                     acc=0.741 f1=0.045 prec=0.025 rec=0.289 runs=25 thresh_pct=75 ✅ PASS
+  bar_eff_4h                     acc=0.790 f1=0.049 prec=0.027 rec=0.255 runs=113 thresh_pct=80 ✅ PASS
+  imbalance_persistence          acc=0.885 f1=0.054 prec=0.033 rec=0.155 runs=25 thresh_pct=90 ✅ PASS
+  momentum_1h                    acc=0.498 f1=0.037 prec=0.019 rec=0.450 runs=5 thresh_pct=50 ❌ FAIL
+  momentum_2h                    acc=0.499 f1=0.038 prec=0.020 rec=0.473 runs=7 thresh_pct=50 ❌ FAIL
+  momentum_4h                    acc=0.499 f1=0.039 prec=0.020 rec=0.477 runs=10 thresh_pct=50 ❌ FAIL
+  price_vs_sma_2h                acc=0.499 f1=0.039 prec=0.020 rec=0.481 runs=6 thresh_pct=50 ❌ FAIL
+  price_vs_sma_4h                acc=0.499 f1=0.039 prec=0.020 rec=0.473 runs=8 thresh_pct=50 ❌ FAIL
+  price_vs_sma_8h                acc=0.498 f1=0.037 prec=0.019 rec=0.452 runs=12 thresh_pct=50 ❌ FAIL
+
+######################################################################
+  GROUP 3: LEAD-LAG CORRELATION ANALYSIS
+######################################################################
+
+  Correlation with FUTURE VOLATILITY (fwd_vol):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+  parkvol_2h                     +0.5826 +0.5697 +0.5531 +0.5257 +0.4849 +0.4133
+  parkvol_1h                     +0.5813 +0.5654 +0.5457 +0.5150 +0.4701 +0.4064
+  parkvol_4h                     +0.5748 +0.5648 +0.5512 +0.5273 +0.4850 +0.4098
+  parkvol_8h                     +0.5374 +0.5288 +0.5168 +0.4957 +0.4608 +0.4057
+  rvol_4h                        +0.5329 +0.5217 +0.5073 +0.4833 +0.4421 +0.3689
+  rvol_2h                        +0.5301 +0.5163 +0.4992 +0.4724 +0.4342 +0.3677
+  parkvol_24h                    +0.5298 +0.5265 +0.5219 +0.5133 +0.4977 +0.4693
+  rvol_1h                        +0.5180 +0.5015 +0.4816 +0.4520 +0.4114 +0.3556
+  rvol_8h                        +0.5023 +0.4926 +0.4796 +0.4577 +0.4229 +0.3669
+  parkinson_vol                  +0.4934 +0.4744 +0.4515 +0.4209 +0.3798 +0.3293
+  rvol_24h                       +0.4874 +0.4832 +0.4777 +0.4683 +0.4519 +0.4239
+  vol_sma_24h                    +0.4573 +0.4530 +0.4471 +0.4365 +0.4173 +0.3828
+  bar_eff_4h                     -0.4281 -0.4235 -0.4170 -0.4049 -0.3829 -0.3403
+  bar_eff_1h                     -0.4031 -0.3972 -0.3890 -0.3747 -0.3523 -0.3188
+  vol_ratio_2h_24h               +0.2319 +0.2200 +0.2048 +0.1810 +0.1490 +0.0928
+  bar_efficiency                 -0.2316 -0.2277 -0.2223 -0.2132 -0.1989 -0.1798
+  vol_ratio_1h_24h               +0.2314 +0.2176 +0.2003 +0.1741 +0.1409 +0.0983
+  iti_cv_1h                      +0.2213 +0.2121 +0.1997 +0.1789 +0.1474 +0.1105
+  vol_accel_4h                   +0.2077 +0.2012 +0.1931 +0.1800 +0.1553 +0.0963
+  trade_intensity_ratio          +0.1959 +0.1811 +0.1624 +0.1403 +0.1156 +0.0879
+
+  Correlation with FUTURE TREND (fwd_efficiency):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+
+######################################################################
+  GROUP 4: COMPOSITE DETECTORS
+######################################################################
+
+  Composite is_high_vol detector using: ['parkvol_2h', 'parkvol_1h', 'parkvol_4h', 'parkvol_8h', 'rvol_4h']
+/home/ubuntu/Projects/skytrade6/regime_detection.py:818: RuntimeWarning: Mean of empty slice
+  composite = np.nanmean(z_scores, axis=0)
+  Result: acc=0.563 f1=0.393 prec=0.283 rec=0.643 runs=76 ❌ FAIL
+  Not enough features for composite is_trending detector
+
+######################################################################
+  GROUP 5: REGIME TRANSITION DETECTION
+######################################################################
+  Total regime transitions: 3913
+  Average regime duration: 29.1 bars (146 min)
+
+  Transition matrix (top 10):
+    chaos                → active_range        :  748
+    active_range         → chaos               :  711
+    active_range         → quiet_range         :  703
+    quiet_range          → active_range        :  702
+    active_range         → smooth_trend        :  297
+    smooth_trend         → active_range        :  284
+    volatile_trend       → chaos               :  223
+    chaos                → volatile_trend      :  190
+    active_range         → volatile_trend      :   25
+    smooth_trend         → volatile_trend      :   12
+
+  Feature behavior BEFORE transitions (avg z-score in 12 bars before):
+
+  → trending (531 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+
+  → high_vol (1170 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+  vol_ratio_1h_24h               +0.388   +0.420   +0.438   +0.453
+  vol_ratio_2h_24h               +0.379   +0.411   +0.431   +0.442
+  parkinson_vol                  +0.274   +0.319   +0.336   +0.367
+  parkvol_1h                     +0.292   +0.321   +0.339   +0.353
+  trade_intensity_ratio          +0.295   +0.329   +0.337   +0.348
+  vol_accel_4h                   +0.312   +0.327   +0.339   +0.342
+  rvol_1h                        +0.264   +0.295   +0.315   +0.329
+  vol_ratio_1h_8h                +0.269   +0.292   +0.306   +0.319
+  parkvol_2h                     +0.265   +0.291   +0.306   +0.318
+  vol_ratio_bar                  +0.266   +0.297   +0.306   +0.315
+  rvol_2h                        +0.241   +0.269   +0.286   +0.295
+  parkvol_4h                     +0.230   +0.250   +0.262   +0.271
+  rvol_4h                        +0.222   +0.243   +0.258   +0.267
+  bar_eff_1h                     -0.241   -0.252   -0.263   -0.264
+  bar_eff_4h                     -0.233   -0.245   -0.252   -0.254
+
+  → ranging (2439 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+/home/ubuntu/Projects/skytrade6/regime_detection.py:920: RuntimeWarning: Mean of empty slice
+  pre_signals[lookback].append(np.nanmean(z_vals[start:bar]))
+  bar_eff_4h                     +0.289   +0.294   +0.295   +0.295
+  bar_eff_1h                     +0.275   +0.272   +0.267   +0.263
+
+
+======================================================================
+  SUMMARY
+======================================================================
+
+  PASSING experiments (12):
+    trade_intensity_ratio          → is_high_vol     acc=0.644 f1=0.426
+    vol_ratio_bar                  → is_high_vol     acc=0.640 f1=0.419
+    parkvol_1h                     → is_high_vol     acc=0.640 f1=0.419
+    vol_ratio_1h_24h               → is_high_vol     acc=0.635 f1=0.411
+    rvol_1h                        → is_high_vol     acc=0.635 f1=0.411
+    vol_ratio_2h_24h               → is_high_vol     acc=0.633 f1=0.408
+    imbalance_persistence          → is_trending     acc=0.885 f1=0.054
+    bar_eff_4h                     → is_trending     acc=0.790 f1=0.049
+    bar_eff_1h                     → is_trending     acc=0.741 f1=0.045
+    ret_autocorr_1h                → is_trending     acc=0.644 f1=0.041
+    sign_persist_2h                → is_trending     acc=0.720 f1=0.039
+    sign_persist_1h                → is_trending     acc=0.636 f1=0.037
+
+  FAILING experiments (25):
+    rvol_2h                        → is_high_vol     acc=0.570 f1=0.402
+    vol_accel_4h                   → is_high_vol     acc=0.565 f1=0.396
+    composite_is_high_vol          → is_high_vol     acc=0.563 f1=0.393
+    rvol_4h                        → is_high_vol     acc=0.561 f1=0.390
+    parkvol_4h                     → is_high_vol     acc=0.560 f1=0.389
+    vol_ratio_1h_8h                → is_high_vol     acc=0.558 f1=0.386
+    efficiency_2h                  → is_trending     acc=0.549 f1=0.043
+    ret_autocorr_2h                → is_trending     acc=0.548 f1=0.042
+    iti_cv_1h                      → is_high_vol     acc=0.534 f1=0.353
+    rvol_8h                        → is_high_vol     acc=0.533 f1=0.352
+
+✅ BTCUSDT complete in 520s (load=445s, 114,048 bars, 60 features)
+
+  ⏱ Total elapsed: 520s | ~520s/symbol | ETA remaining: 2082s
+
+
+**********************************************************************
+  SYMBOL 2/5: ETHUSDT
+**********************************************************************
+
+======================================================================
+  ETHUSDT | 2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars from tick data...
+  [20/396] 2025-01-20 | 21s ETA=387s RAM=8.3GB cache=0 new=20
+  [40/396] 2025-02-09 | 47s ETA=416s RAM=9.0GB cache=0 new=40
+  [60/396] 2025-03-01 | 67s ETA=376s RAM=8.7GB cache=0 new=60
+  [80/396] 2025-03-21 | 89s ETA=350s RAM=8.6GB cache=0 new=80
+  [100/396] 2025-04-10 | 109s ETA=323s RAM=9.0GB cache=0 new=100
+  [120/396] 2025-04-30 | 127s ETA=291s RAM=8.8GB cache=0 new=120
+  [140/396] 2025-05-20 | 151s ETA=276s RAM=8.8GB cache=0 new=140
+  [160/396] 2025-06-09 | 172s ETA=253s RAM=8.8GB cache=0 new=160
+  [180/396] 2025-06-29 | 194s ETA=233s RAM=9.0GB cache=0 new=180
+  [200/396] 2025-07-19 | 215s ETA=211s RAM=8.7GB cache=0 new=200
+  [220/396] 2025-08-08 | 240s ETA=192s RAM=8.4GB cache=0 new=220
+  [240/396] 2025-08-28 | 272s ETA=177s RAM=9.3GB cache=0 new=240
+  [260/396] 2025-09-17 | 292s ETA=153s RAM=8.6GB cache=0 new=260
+  [280/396] 2025-10-07 | 312s ETA=129s RAM=8.5GB cache=0 new=280
+  [300/396] 2025-10-27 | 346s ETA=111s RAM=9.1GB cache=0 new=300
+  [320/396] 2025-11-16 | 379s ETA=90s RAM=9.1GB cache=0 new=320
+  [340/396] 2025-12-06 | 411s ETA=68s RAM=8.7GB cache=0 new=340
+  [360/396] 2025-12-26 | 434s ETA=43s RAM=9.0GB cache=0 new=360
+  [380/396] 2026-01-15 | 451s ETA=19s RAM=8.9GB cache=0 new=380
+  [396/396] 2026-01-31 | 471s ETA=0s RAM=8.5GB cache=0 new=396
+  Loaded 114,048 bars (396 days, 0 cached, 396 new)
+
+  Step 2: Computing features...
+  60 features computed in 63s
+
+  Step 3: Labeling regimes (forward-looking)...
+  Labeled in 2s
+
+  Step 4: Running experiments...
+
+======================================================================
+  REGIME DETECTION EXPERIMENTS
+  Bars: 114048, Forward window: 48 bars (240 min)
+======================================================================
+
+  Regime distribution:
+    active_range        :  95756 (84.0%)
+    quiet_range         :  10945 (9.6%)
+    chaos               :   4483 (3.9%)
+    volatile_trend      :   1570 (1.4%)
+    smooth_trend        :   1246 (1.1%)
+    unknown             :     48 (0.0%)
+
+  Binary: trending=2.5%, high_vol=19.7%
+  Random baseline: 20.0% (5-class), 50% (binary)
+
+######################################################################
+  GROUP 1: VOLATILITY DETECTION (is_high_vol)
+######################################################################
+  rvol_1h                        acc=0.626 f1=0.372 prec=0.278 rec=0.565 runs=21 thresh_pct=60 ✅ PASS
+  rvol_2h                        acc=0.558 f1=0.365 prec=0.254 rec=0.646 runs=39 thresh_pct=50 ❌ FAIL
+  rvol_4h                        acc=0.613 f1=0.351 prec=0.262 rec=0.533 runs=73 thresh_pct=60 ✅ PASS
+  rvol_8h                        acc=0.529 f1=0.324 prec=0.226 rec=0.574 runs=128 thresh_pct=50 ❌ FAIL
+  rvol_24h                       acc=0.514 f1=0.303 prec=0.211 rec=0.536 runs=341 thresh_pct=50 ❌ FAIL
+  parkvol_1h                     acc=0.628 f1=0.377 prec=0.281 rec=0.572 runs=32 thresh_pct=60 ✅ PASS
+  parkvol_4h                     acc=0.544 f1=0.346 prec=0.241 rec=0.613 runs=88 thresh_pct=50 ❌ FAIL
+  vol_ratio_1h_24h               acc=0.689 f1=0.375 prec=0.310 rec=0.472 runs=21 thresh_pct=70 ✅ PASS
+  vol_ratio_2h_24h               acc=0.626 f1=0.374 prec=0.279 rec=0.566 runs=32 thresh_pct=60 ✅ PASS
+  vol_ratio_1h_8h                acc=0.544 f1=0.346 prec=0.241 rec=0.613 runs=14 thresh_pct=50 ❌ FAIL
+  vol_accel_1h                   acc=0.520 f1=0.310 prec=0.216 rec=0.550 runs=9 thresh_pct=50 ❌ FAIL
+  vol_accel_4h                   acc=0.553 f1=0.358 prec=0.249 rec=0.633 runs=33 thresh_pct=50 ❌ FAIL
+  vol_ratio_bar                  acc=0.624 f1=0.370 prec=0.277 rec=0.561 runs=4 thresh_pct=60 ✅ PASS
+  trade_intensity_ratio          acc=0.634 f1=0.388 prec=0.289 rec=0.588 runs=5 thresh_pct=60 ✅ PASS
+  iti_cv_1h                      acc=0.523 f1=0.315 prec=0.220 rec=0.558 runs=26 thresh_pct=50 ❌ FAIL
+  large_trade_1h                 acc=0.523 f1=0.315 prec=0.219 rec=0.558 runs=34 thresh_pct=50 ❌ FAIL
+
+######################################################################
+  GROUP 2: TREND DETECTION (is_trending)
+######################################################################
+  efficiency_1h                  acc=0.834 f1=0.049 prec=0.028 rec=0.172 runs=10 thresh_pct=85 ✅ PASS
+  efficiency_2h                  acc=0.550 f1=0.051 prec=0.027 rec=0.490 runs=7 thresh_pct=55 ❌ FAIL
+  efficiency_4h                  acc=0.645 f1=0.052 prec=0.028 rec=0.394 runs=11 thresh_pct=65 ✅ PASS
+  efficiency_8h                  acc=0.498 f1=0.044 prec=0.023 rec=0.466 runs=13 thresh_pct=50 ❌ FAIL
+  ret_autocorr_1h                acc=0.549 f1=0.050 prec=0.026 rec=0.477 runs=6 thresh_pct=55 ❌ FAIL
+  ret_autocorr_2h                acc=0.645 f1=0.053 prec=0.028 rec=0.399 runs=11 thresh_pct=65 ✅ PASS
+  ret_autocorr_4h                acc=0.835 f1=0.055 prec=0.032 rec=0.194 runs=30 thresh_pct=85 ✅ PASS
+  adx_2h                         acc=0.646 f1=0.055 prec=0.029 rec=0.416 runs=41 thresh_pct=65 ✅ PASS
+  adx_4h                         acc=0.500 f1=0.047 prec=0.025 rec=0.501 runs=74 thresh_pct=50 ❌ FAIL
+  sign_persist_1h                acc=0.648 f1=0.045 prec=0.024 rec=0.334 runs=6 thresh_pct=50 ✅ PASS
+  sign_persist_2h                acc=0.502 f1=0.046 prec=0.024 rec=0.489 runs=7 thresh_pct=50 ❌ FAIL
+  bar_eff_1h                     acc=0.501 f1=0.049 prec=0.026 rec=0.521 runs=17 thresh_pct=50 ❌ FAIL
+  bar_eff_4h                     acc=0.788 f1=0.055 prec=0.031 rec=0.252 runs=90 thresh_pct=80 ✅ PASS
+  imbalance_persistence          acc=0.691 f1=0.049 prec=0.027 rec=0.324 runs=10 thresh_pct=70 ✅ PASS
+  momentum_1h                    acc=0.596 f1=0.048 prec=0.026 rec=0.413 runs=6 thresh_pct=60 ❌ FAIL
+  momentum_2h                    acc=0.501 f1=0.050 prec=0.026 rec=0.526 runs=7 thresh_pct=50 ❌ FAIL
+  momentum_4h                    acc=0.548 f1=0.048 prec=0.025 rec=0.460 runs=11 thresh_pct=55 ❌ FAIL
+  price_vs_sma_2h                acc=0.501 f1=0.048 prec=0.025 rec=0.514 runs=6 thresh_pct=50 ❌ FAIL
+  price_vs_sma_4h                acc=0.501 f1=0.050 prec=0.026 rec=0.527 runs=8 thresh_pct=50 ❌ FAIL
+  price_vs_sma_8h                acc=0.499 f1=0.045 prec=0.024 rec=0.480 runs=12 thresh_pct=50 ❌ FAIL
+
+######################################################################
+  GROUP 3: LEAD-LAG CORRELATION ANALYSIS
+######################################################################
+
+  Correlation with FUTURE VOLATILITY (fwd_vol):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+  parkvol_2h                     +0.5445 +0.5308 +0.5135 +0.4857 +0.4466 +0.3823
+  parkvol_4h                     +0.5420 +0.5315 +0.5179 +0.4943 +0.4545 +0.3820
+  parkvol_1h                     +0.5366 +0.5198 +0.4995 +0.4681 +0.4240 +0.3674
+  parkvol_8h                     +0.5099 +0.5009 +0.4888 +0.4677 +0.4335 +0.3822
+  rvol_4h                        +0.5072 +0.4957 +0.4810 +0.4568 +0.4175 +0.3469
+  rvol_2h                        +0.5017 +0.4870 +0.4688 +0.4403 +0.4022 +0.3436
+  parkvol_24h                    +0.4969 +0.4933 +0.4884 +0.4794 +0.4633 +0.4347
+  rvol_1h                        +0.4872 +0.4701 +0.4494 +0.4178 +0.3745 +0.3254
+  rvol_8h                        +0.4811 +0.4709 +0.4576 +0.4354 +0.4008 +0.3493
+  rvol_24h                       +0.4747 +0.4702 +0.4644 +0.4545 +0.4375 +0.4083
+  parkinson_vol                  +0.4330 +0.4121 +0.3891 +0.3601 +0.3208 +0.2774
+  bar_eff_4h                     -0.3983 -0.3932 -0.3859 -0.3721 -0.3459 -0.2942
+  vol_sma_24h                    +0.3778 +0.3741 +0.3691 +0.3602 +0.3445 +0.3162
+  bar_eff_1h                     -0.3742 -0.3680 -0.3596 -0.3451 -0.3208 -0.2811
+  vol_ratio_2h_24h               +0.2191 +0.2068 +0.1912 +0.1664 +0.1354 +0.0903
+  vol_ratio_1h_24h               +0.2190 +0.2048 +0.1872 +0.1596 +0.1248 +0.0904
+  bar_efficiency                 -0.2026 -0.1983 -0.1925 -0.1837 -0.1701 -0.1501
+  trade_intensity_ratio          +0.1891 +0.1729 +0.1544 +0.1317 +0.1062 +0.0823
+  vol_accel_4h                   +0.1834 +0.1775 +0.1708 +0.1607 +0.1433 +0.0893
+  price_vs_sma_24h               -0.1807 -0.1775 -0.1737 -0.1676 -0.1552 -0.1326
+
+  Correlation with FUTURE TREND (fwd_efficiency):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+
+######################################################################
+  GROUP 4: COMPOSITE DETECTORS
+######################################################################
+
+  Composite is_high_vol detector using: ['parkvol_2h', 'parkvol_4h', 'parkvol_1h', 'parkvol_8h', 'rvol_4h']
+/home/ubuntu/Projects/skytrade6/regime_detection.py:818: RuntimeWarning: Mean of empty slice
+  composite = np.nanmean(z_scores, axis=0)
+  Result: acc=0.615 f1=0.355 prec=0.265 rec=0.538 runs=74 ✅ PASS
+  Not enough features for composite is_trending detector
+
+######################################################################
+  GROUP 5: REGIME TRANSITION DETECTION
+######################################################################
+  Total regime transitions: 3847
+  Average regime duration: 29.6 bars (148 min)
+
+  Transition matrix (top 10):
+    chaos                → active_range        :  682
+    active_range         → quiet_range         :  648
+    quiet_range          → active_range        :  646
+    active_range         → chaos               :  634
+    active_range         → smooth_trend        :  361
+    smooth_trend         → active_range        :  339
+    volatile_trend       → chaos               :  249
+    chaos                → volatile_trend      :  205
+    active_range         → volatile_trend      :   28
+    smooth_trend         → volatile_trend      :   23
+
+  Feature behavior BEFORE transitions (avg z-score in 12 bars before):
+
+  → trending (632 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+
+  → high_vol (1153 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+  trade_intensity_ratio          +0.352   +0.401   +0.452   +0.512
+  vol_ratio_1h_24h               +0.392   +0.436   +0.465   +0.498
+  vol_ratio_bar                  +0.317   +0.363   +0.416   +0.467
+  vol_ratio_2h_24h               +0.381   +0.417   +0.436   +0.457
+  parkinson_vol                  +0.270   +0.312   +0.349   +0.377
+  rvol_1h                        +0.280   +0.317   +0.344   +0.374
+  parkvol_1h                     +0.301   +0.332   +0.352   +0.371
+  vol_ratio_1h_8h                +0.285   +0.313   +0.335   +0.363
+  vol_accel_4h                   +0.305   +0.329   +0.347   +0.362
+  parkvol_2h                     +0.274   +0.301   +0.317   +0.331
+  rvol_2h                        +0.253   +0.285   +0.302   +0.321
+  bar_eff_1h                     -0.264   -0.276   -0.284   -0.291
+  rvol_4h                        +0.224   +0.250   +0.266   +0.281
+  parkvol_4h                     +0.225   +0.249   +0.264   +0.275
+  efficiency_8h                  +0.239   +0.243   +0.258   +0.273
+
+  → ranging (2319 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+/home/ubuntu/Projects/skytrade6/regime_detection.py:920: RuntimeWarning: Mean of empty slice
+  pre_signals[lookback].append(np.nanmean(z_vals[start:bar]))
+  bar_eff_4h                     +0.201   +0.197   +0.196   +0.194
+
+
+======================================================================
+  SUMMARY
+======================================================================
+
+  PASSING experiments (16):
+    trade_intensity_ratio          → is_high_vol     acc=0.634 f1=0.388
+    parkvol_1h                     → is_high_vol     acc=0.628 f1=0.377
+    vol_ratio_1h_24h               → is_high_vol     acc=0.689 f1=0.375
+    vol_ratio_2h_24h               → is_high_vol     acc=0.626 f1=0.374
+    rvol_1h                        → is_high_vol     acc=0.626 f1=0.372
+    vol_ratio_bar                  → is_high_vol     acc=0.624 f1=0.370
+    composite_is_high_vol          → is_high_vol     acc=0.615 f1=0.355
+    rvol_4h                        → is_high_vol     acc=0.613 f1=0.351
+    bar_eff_4h                     → is_trending     acc=0.788 f1=0.055
+    adx_2h                         → is_trending     acc=0.646 f1=0.055
+    ret_autocorr_4h                → is_trending     acc=0.835 f1=0.055
+    ret_autocorr_2h                → is_trending     acc=0.645 f1=0.053
+    efficiency_4h                  → is_trending     acc=0.645 f1=0.052
+    imbalance_persistence          → is_trending     acc=0.691 f1=0.049
+    efficiency_1h                  → is_trending     acc=0.834 f1=0.049
+    sign_persist_1h                → is_trending     acc=0.648 f1=0.045
+
+  FAILING experiments (21):
+    momentum_1h                    → is_trending     acc=0.596 f1=0.048
+    rvol_2h                        → is_high_vol     acc=0.558 f1=0.365
+    vol_accel_4h                   → is_high_vol     acc=0.553 f1=0.358
+    efficiency_2h                  → is_trending     acc=0.550 f1=0.051
+    ret_autocorr_1h                → is_trending     acc=0.549 f1=0.050
+    momentum_4h                    → is_trending     acc=0.548 f1=0.048
+    parkvol_4h                     → is_high_vol     acc=0.544 f1=0.346
+    vol_ratio_1h_8h                → is_high_vol     acc=0.544 f1=0.346
+    rvol_8h                        → is_high_vol     acc=0.529 f1=0.324
+    iti_cv_1h                      → is_high_vol     acc=0.523 f1=0.315
+
+✅ ETHUSDT complete in 546s (load=471s, 114,048 bars, 60 features)
+
+  ⏱ Total elapsed: 1067s | ~533s/symbol | ETA remaining: 1600s
+
+
+**********************************************************************
+  SYMBOL 3/5: SOLUSDT
+**********************************************************************
+
+======================================================================
+  SOLUSDT | 2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars from tick data...
+  [20/396] 2025-01-20 | 22s ETA=409s RAM=8.9GB cache=0 new=20
+  [40/396] 2025-02-09 | 44s ETA=392s RAM=9.1GB cache=0 new=40
+  [60/396] 2025-03-01 | 61s ETA=341s RAM=8.9GB cache=0 new=60
+  [80/396] 2025-03-21 | 78s ETA=307s RAM=8.9GB cache=0 new=80
+  [100/396] 2025-04-10 | 91s ETA=269s RAM=8.5GB cache=0 new=100
+  [120/396] 2025-04-30 | 103s ETA=237s RAM=8.9GB cache=0 new=120
+  [140/396] 2025-05-20 | 117s ETA=213s RAM=8.8GB cache=0 new=140
+  [160/396] 2025-06-09 | 129s ETA=191s RAM=8.7GB cache=0 new=160
+  [180/396] 2025-06-29 | 141s ETA=170s RAM=8.8GB cache=0 new=180
+  [200/396] 2025-07-19 | 153s ETA=150s RAM=8.9GB cache=0 new=200
+  [220/396] 2025-08-08 | 167s ETA=134s RAM=8.6GB cache=0 new=220
+  [240/396] 2025-08-28 | 187s ETA=122s RAM=8.8GB cache=0 new=240
+  [260/396] 2025-09-17 | 204s ETA=107s RAM=8.4GB cache=0 new=260
+  [280/396] 2025-10-07 | 219s ETA=91s RAM=8.9GB cache=0 new=280
+  [300/396] 2025-10-27 | 242s ETA=78s RAM=9.1GB cache=0 new=300
+  [320/396] 2025-11-16 | 262s ETA=62s RAM=8.9GB cache=0 new=320
+  [340/396] 2025-12-06 | 276s ETA=46s RAM=9.0GB cache=0 new=340
+  [360/396] 2025-12-26 | 287s ETA=29s RAM=8.9GB cache=0 new=360
+  [380/396] 2026-01-15 | 296s ETA=12s RAM=8.6GB cache=0 new=380
+  [396/396] 2026-01-31 | 304s ETA=0s RAM=8.5GB cache=0 new=396
+  Loaded 114,048 bars (396 days, 0 cached, 396 new)
+
+  Step 2: Computing features...
+  60 features computed in 64s
+
+  Step 3: Labeling regimes (forward-looking)...
+  Labeled in 1s
+
+  Step 4: Running experiments...
+
+======================================================================
+  REGIME DETECTION EXPERIMENTS
+  Bars: 114048, Forward window: 48 bars (240 min)
+======================================================================
+
+  Regime distribution:
+    active_range        : 101066 (88.6%)
+    quiet_range         :   6628 (5.8%)
+    chaos               :   3658 (3.2%)
+    smooth_trend        :   1677 (1.5%)
+    volatile_trend      :    971 (0.9%)
+    unknown             :     48 (0.0%)
+
+  Binary: trending=2.3%, high_vol=17.1%
+  Random baseline: 20.0% (5-class), 50% (binary)
+
+######################################################################
+  GROUP 1: VOLATILITY DETECTION (is_high_vol)
+######################################################################
+  rvol_1h                        acc=0.695 f1=0.353 prec=0.277 rec=0.485 runs=23 thresh_pct=70 ✅ PASS
+  rvol_2h                        acc=0.693 f1=0.349 prec=0.274 rec=0.480 runs=44 thresh_pct=70 ✅ PASS
+  rvol_4h                        acc=0.686 f1=0.334 prec=0.263 rec=0.460 runs=79 thresh_pct=70 ✅ PASS
+  rvol_8h                        acc=0.536 f1=0.309 prec=0.207 rec=0.605 runs=124 thresh_pct=50 ❌ FAIL
+  rvol_24h                       acc=0.518 f1=0.282 prec=0.190 rec=0.553 runs=292 thresh_pct=50 ❌ FAIL
+  parkvol_1h                     acc=0.700 f1=0.364 prec=0.286 rec=0.501 runs=36 thresh_pct=70 ✅ PASS
+  parkvol_4h                     acc=0.616 f1=0.328 prec=0.234 rec=0.546 runs=97 thresh_pct=60 ✅ PASS
+  vol_ratio_1h_24h               acc=0.691 f1=0.345 prec=0.271 rec=0.474 runs=19 thresh_pct=70 ✅ PASS
+  vol_ratio_2h_24h               acc=0.693 f1=0.349 prec=0.274 rec=0.480 runs=35 thresh_pct=70 ✅ PASS
+  vol_ratio_1h_8h                acc=0.602 f1=0.304 prec=0.217 rec=0.507 runs=14 thresh_pct=60 ✅ PASS
+  vol_accel_1h                   acc=0.519 f1=0.283 prec=0.190 rec=0.555 runs=8 thresh_pct=50 ❌ FAIL
+  vol_accel_4h                   acc=0.541 f1=0.316 prec=0.212 rec=0.620 runs=29 thresh_pct=50 ❌ FAIL
+  vol_ratio_bar                  acc=0.621 f1=0.337 prec=0.241 rec=0.561 runs=4 thresh_pct=60 ✅ PASS
+  trade_intensity_ratio          acc=0.692 f1=0.347 prec=0.273 rec=0.477 runs=5 thresh_pct=70 ✅ PASS
+  iti_cv_1h                      acc=0.505 f1=0.262 prec=0.176 rec=0.514 runs=21 thresh_pct=50 ❌ FAIL
+  large_trade_1h                 acc=0.501 f1=0.256 prec=0.172 rec=0.502 runs=34 thresh_pct=50 ❌ FAIL
+
+######################################################################
+  GROUP 2: TREND DETECTION (is_trending)
+######################################################################
+  efficiency_1h                  acc=0.835 f1=0.050 prec=0.029 rec=0.185 runs=10 thresh_pct=85 ✅ PASS
+  efficiency_2h                  acc=0.835 f1=0.050 prec=0.029 rec=0.187 runs=14 thresh_pct=85 ✅ PASS
+  efficiency_4h                  acc=0.883 f1=0.052 prec=0.032 rec=0.137 runs=29 thresh_pct=90 ✅ PASS
+  efficiency_8h                  acc=0.594 f1=0.040 prec=0.021 rec=0.364 runs=15 thresh_pct=60 ❌ FAIL
+  ret_autocorr_1h                acc=0.645 f1=0.050 prec=0.027 rec=0.400 runs=7 thresh_pct=65 ✅ PASS
+  ret_autocorr_2h                acc=0.694 f1=0.052 prec=0.028 rec=0.364 runs=12 thresh_pct=70 ✅ PASS
+  ret_autocorr_4h                acc=0.884 f1=0.055 prec=0.034 rec=0.146 runs=38 thresh_pct=90 ✅ PASS
+  adx_2h                         acc=0.693 f1=0.049 prec=0.026 rec=0.340 runs=44 thresh_pct=70 ✅ PASS
+  adx_4h                         acc=0.500 f1=0.045 prec=0.024 rec=0.508 runs=74 thresh_pct=50 ❌ FAIL
+  sign_persist_1h                acc=0.612 f1=0.044 prec=0.023 rec=0.385 runs=6 thresh_pct=50 ✅ PASS
+  sign_persist_2h                acc=0.529 f1=0.045 prec=0.023 rec=0.474 runs=7 thresh_pct=50 ❌ FAIL
+  bar_eff_1h                     acc=0.501 f1=0.046 prec=0.024 rec=0.523 runs=15 thresh_pct=50 ❌ FAIL
+  bar_eff_4h                     acc=0.502 f1=0.048 prec=0.025 rec=0.540 runs=48 thresh_pct=50 ❌ FAIL
+  imbalance_persistence          acc=0.502 f1=0.048 prec=0.025 rec=0.543 runs=8 thresh_pct=50 ❌ FAIL
+  momentum_1h                    acc=0.692 f1=0.047 prec=0.026 rec=0.330 runs=7 thresh_pct=70 ✅ PASS
+  momentum_2h                    acc=0.502 f1=0.047 prec=0.025 rec=0.533 runs=7 thresh_pct=50 ❌ FAIL
+  momentum_4h                    acc=0.502 f1=0.048 prec=0.025 rec=0.539 runs=10 thresh_pct=50 ❌ FAIL
+  price_vs_sma_2h                acc=0.787 f1=0.047 prec=0.026 rec=0.227 runs=11 thresh_pct=80 ✅ PASS
+  price_vs_sma_4h                acc=0.740 f1=0.048 prec=0.026 rec=0.282 runs=14 thresh_pct=75 ✅ PASS
+  price_vs_sma_8h                acc=0.548 f1=0.045 prec=0.024 rec=0.460 runs=13 thresh_pct=55 ❌ FAIL
+
+######################################################################
+  GROUP 3: LEAD-LAG CORRELATION ANALYSIS
+######################################################################
+
+  Correlation with FUTURE VOLATILITY (fwd_vol):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+  parkvol_4h                     +0.5455 +0.5364 +0.5249 +0.5067 +0.4781 +0.4296
+  parkvol_2h                     +0.5420 +0.5292 +0.5135 +0.4903 +0.4596 +0.4163
+  parkvol_1h                     +0.5366 +0.5194 +0.4991 +0.4714 +0.4371 +0.3971
+  parkvol_8h                     +0.5348 +0.5277 +0.5185 +0.5032 +0.4796 +0.4432
+  parkvol_24h                    +0.5133 +0.5100 +0.5056 +0.4977 +0.4840 +0.4602
+  rvol_4h                        +0.4995 +0.4878 +0.4736 +0.4537 +0.4245 +0.3769
+  rvol_2h                        +0.4965 +0.4814 +0.4633 +0.4385 +0.4069 +0.3677
+  rvol_1h                        +0.4861 +0.4674 +0.4454 +0.4180 +0.3840 +0.3487
+  rvol_8h                        +0.4858 +0.4765 +0.4649 +0.4472 +0.4211 +0.3816
+  rvol_24h                       +0.4603 +0.4553 +0.4490 +0.4393 +0.4241 +0.3999
+  parkinson_vol                  +0.4534 +0.4335 +0.4050 +0.3757 +0.3431 +0.3083
+  bar_eff_4h                     -0.4034 -0.3994 -0.3936 -0.3828 -0.3619 -0.3180
+  vol_sma_24h                    +0.3978 +0.3939 +0.3887 +0.3799 +0.3651 +0.3392
+  bar_eff_1h                     -0.3608 -0.3554 -0.3483 -0.3372 -0.3206 -0.2896
+  vol_ratio_2h_24h               +0.2005 +0.1895 +0.1761 +0.1570 +0.1354 +0.1048
+  vol_ratio_1h_24h               +0.1995 +0.1860 +0.1694 +0.1477 +0.1238 +0.1025
+  bar_efficiency                 -0.1827 -0.1793 -0.1747 -0.1674 -0.1586 -0.1447
+  trade_intensity_ratio          +0.1703 +0.1536 +0.1307 +0.1070 +0.0902 +0.0737
+  vol_accel_4h                   +0.1659 +0.1582 +0.1494 +0.1381 +0.1220 +0.0783
+  large_trade_1h                 -0.1271 -0.1289 -0.1314 -0.1354 -0.1414 -0.1537
+
+  Correlation with FUTURE TREND (fwd_efficiency):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+  efficiency_8h                  -0.0546 -0.0560 -0.0576 -0.0563 -0.0465 -0.0209
+
+######################################################################
+  GROUP 4: COMPOSITE DETECTORS
+######################################################################
+
+  Composite is_high_vol detector using: ['parkvol_4h', 'parkvol_2h', 'parkvol_1h', 'parkvol_8h', 'parkvol_24h']
+/home/ubuntu/Projects/skytrade6/regime_detection.py:818: RuntimeWarning: Mean of empty slice
+  composite = np.nanmean(z_scores, axis=0)
+  Result: acc=0.581 f1=0.325 prec=0.224 rec=0.589 runs=76 ❌ FAIL
+  Not enough features for composite is_trending detector
+
+######################################################################
+  GROUP 5: REGIME TRANSITION DETECTION
+######################################################################
+  Total regime transitions: 3258
+  Average regime duration: 35.0 bars (175 min)
+
+  Transition matrix (top 10):
+    chaos                → active_range        :  593
+    active_range         → chaos               :  573
+    active_range         → quiet_range         :  470
+    quiet_range          → active_range        :  470
+    active_range         → smooth_trend        :  403
+    smooth_trend         → active_range        :  387
+    volatile_trend       → chaos               :  162
+    chaos                → volatile_trend      :  141
+    smooth_trend         → volatile_trend      :   25
+    active_range         → volatile_trend      :   11
+
+  Feature behavior BEFORE transitions (avg z-score in 12 bars before):
+
+  → trending (593 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+/home/ubuntu/Projects/skytrade6/regime_detection.py:920: RuntimeWarning: Mean of empty slice
+  pre_signals[lookback].append(np.nanmean(z_vals[start:bar]))
+
+  → high_vol (916 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+  vol_ratio_2h_24h               +0.408   +0.430   +0.447   +0.463
+  vol_ratio_1h_24h               +0.382   +0.391   +0.408   +0.432
+  trade_intensity_ratio          +0.280   +0.310   +0.355   +0.418
+  vol_ratio_bar                  +0.258   +0.289   +0.340   +0.399
+  vol_accel_4h                   +0.322   +0.347   +0.361   +0.374
+  vol_ratio_1h_8h                +0.264   +0.266   +0.278   +0.294
+  parkinson_vol                  +0.189   +0.211   +0.237   +0.286
+  parkvol_1h                     +0.219   +0.227   +0.236   +0.249
+  rvol_2h                        +0.209   +0.223   +0.235   +0.249
+  rvol_1h                        +0.204   +0.213   +0.227   +0.246
+  parkvol_2h                     +0.217   +0.230   +0.237   +0.245
+  rvol_4h                        +0.168   +0.186   +0.198   +0.210
+
+  → ranging (1926 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+
+
+======================================================================
+  SUMMARY
+======================================================================
+
+  PASSING experiments (21):
+    parkvol_1h                     → is_high_vol     acc=0.700 f1=0.364
+    rvol_1h                        → is_high_vol     acc=0.695 f1=0.353
+    vol_ratio_2h_24h               → is_high_vol     acc=0.693 f1=0.349
+    rvol_2h                        → is_high_vol     acc=0.693 f1=0.349
+    trade_intensity_ratio          → is_high_vol     acc=0.692 f1=0.347
+    vol_ratio_1h_24h               → is_high_vol     acc=0.691 f1=0.345
+    vol_ratio_bar                  → is_high_vol     acc=0.621 f1=0.337
+    rvol_4h                        → is_high_vol     acc=0.686 f1=0.334
+    parkvol_4h                     → is_high_vol     acc=0.616 f1=0.328
+    vol_ratio_1h_8h                → is_high_vol     acc=0.602 f1=0.304
+    ret_autocorr_4h                → is_trending     acc=0.884 f1=0.055
+    ret_autocorr_2h                → is_trending     acc=0.694 f1=0.052
+    efficiency_4h                  → is_trending     acc=0.883 f1=0.052
+    efficiency_2h                  → is_trending     acc=0.835 f1=0.050
+    ret_autocorr_1h                → is_trending     acc=0.645 f1=0.050
+    efficiency_1h                  → is_trending     acc=0.835 f1=0.050
+    adx_2h                         → is_trending     acc=0.693 f1=0.049
+    price_vs_sma_4h                → is_trending     acc=0.740 f1=0.048
+    momentum_1h                    → is_trending     acc=0.692 f1=0.047
+    price_vs_sma_2h                → is_trending     acc=0.787 f1=0.047
+    sign_persist_1h                → is_trending     acc=0.612 f1=0.044
+
+  FAILING experiments (16):
+    efficiency_8h                  → is_trending     acc=0.594 f1=0.040
+    composite_is_high_vol          → is_high_vol     acc=0.581 f1=0.325
+    price_vs_sma_8h                → is_trending     acc=0.548 f1=0.045
+    vol_accel_4h                   → is_high_vol     acc=0.541 f1=0.316
+    rvol_8h                        → is_high_vol     acc=0.536 f1=0.309
+    sign_persist_2h                → is_trending     acc=0.529 f1=0.045
+    vol_accel_1h                   → is_high_vol     acc=0.519 f1=0.283
+    rvol_24h                       → is_high_vol     acc=0.518 f1=0.282
+    iti_cv_1h                      → is_high_vol     acc=0.505 f1=0.262
+    imbalance_persistence          → is_trending     acc=0.502 f1=0.048
+
+✅ SOLUSDT complete in 379s (load=304s, 114,048 bars, 60 features)
+
+  ⏱ Total elapsed: 1445s | ~482s/symbol | ETA remaining: 964s
+
+
+**********************************************************************
+  SYMBOL 4/5: DOGEUSDT
+**********************************************************************
+
+======================================================================
+  DOGEUSDT | 2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars from tick data...
+  [20/396] 2025-01-20 | 27s ETA=509s RAM=8.5GB cache=0 new=20
+  [40/396] 2025-02-09 | 50s ETA=443s RAM=8.8GB cache=0 new=40
+  [60/396] 2025-03-01 | 63s ETA=353s RAM=9.0GB cache=0 new=60
+  [80/396] 2025-03-21 | 76s ETA=299s RAM=8.7GB cache=0 new=80
+  [100/396] 2025-04-10 | 87s ETA=258s RAM=8.9GB cache=0 new=100
+  [120/396] 2025-04-30 | 98s ETA=224s RAM=8.5GB cache=0 new=120
+  [140/396] 2025-05-20 | 114s ETA=209s RAM=9.1GB cache=0 new=140
+  [160/396] 2025-06-09 | 127s ETA=187s RAM=8.7GB cache=0 new=160
+  [180/396] 2025-06-29 | 136s ETA=164s RAM=9.0GB cache=0 new=180
+  [200/396] 2025-07-19 | 152s ETA=149s RAM=8.7GB cache=0 new=200
+  [220/396] 2025-08-08 | 171s ETA=137s RAM=9.1GB cache=0 new=220
+  [240/396] 2025-08-28 | 187s ETA=122s RAM=8.8GB cache=0 new=240
+  [260/396] 2025-09-17 | 204s ETA=107s RAM=9.1GB cache=0 new=260
+  [280/396] 2025-10-07 | 218s ETA=90s RAM=9.2GB cache=0 new=280
+  [300/396] 2025-10-27 | 237s ETA=76s RAM=9.3GB cache=0 new=300
+  [320/396] 2025-11-16 | 248s ETA=59s RAM=9.3GB cache=0 new=320
+  [340/396] 2025-12-06 | 257s ETA=42s RAM=9.0GB cache=0 new=340
+  [360/396] 2025-12-26 | 263s ETA=26s RAM=8.8GB cache=0 new=360
+  [380/396] 2026-01-15 | 271s ETA=11s RAM=8.9GB cache=0 new=380
+  [396/396] 2026-01-31 | 276s ETA=0s RAM=8.9GB cache=0 new=396
+  Loaded 114,048 bars (396 days, 0 cached, 396 new)
+
+  Step 2: Computing features...
+  60 features computed in 65s
+
+  Step 3: Labeling regimes (forward-looking)...
+  Labeled in 1s
+
+  Step 4: Running experiments...
+
+======================================================================
+  REGIME DETECTION EXPERIMENTS
+  Bars: 114048, Forward window: 48 bars (240 min)
+======================================================================
+
+  Regime distribution:
+    active_range        :  99644 (87.4%)
+    quiet_range         :   7851 (6.9%)
+    chaos               :   3877 (3.4%)
+    smooth_trend        :   1388 (1.2%)
+    volatile_trend      :   1240 (1.1%)
+    unknown             :     48 (0.0%)
+
+  Binary: trending=2.3%, high_vol=17.5%
+  Random baseline: 20.0% (5-class), 50% (binary)
+
+######################################################################
+  GROUP 1: VOLATILITY DETECTION (is_high_vol)
+######################################################################
+  rvol_1h                        acc=0.626 f1=0.350 prec=0.251 rec=0.574 runs=21 thresh_pct=60 ✅ PASS
+  rvol_2h                        acc=0.623 f1=0.344 prec=0.248 rec=0.565 runs=38 thresh_pct=60 ✅ PASS
+  rvol_4h                        acc=0.614 f1=0.329 prec=0.236 rec=0.539 runs=72 thresh_pct=60 ✅ PASS
+  rvol_8h                        acc=0.667 f1=0.300 prec=0.238 rec=0.407 runs=157 thresh_pct=70 ✅ PASS
+  rvol_24h                       acc=0.509 f1=0.274 prec=0.185 rec=0.527 runs=255 thresh_pct=50 ❌ FAIL
+  parkvol_1h                     acc=0.693 f1=0.354 prec=0.281 rec=0.480 runs=38 thresh_pct=70 ✅ PASS
+  parkvol_4h                     acc=0.609 f1=0.321 prec=0.231 rec=0.526 runs=92 thresh_pct=60 ✅ PASS
+  vol_ratio_1h_24h               acc=0.689 f1=0.347 prec=0.275 rec=0.470 runs=20 thresh_pct=70 ✅ PASS
+  vol_ratio_2h_24h               acc=0.755 f1=0.348 prec=0.326 rec=0.372 runs=47 thresh_pct=80 ✅ PASS
+  vol_ratio_1h_8h                acc=0.606 f1=0.316 prec=0.227 rec=0.518 runs=15 thresh_pct=60 ✅ PASS
+  vol_accel_1h                   acc=0.519 f1=0.288 prec=0.195 rec=0.555 runs=9 thresh_pct=50 ❌ FAIL
+  vol_accel_4h                   acc=0.676 f1=0.318 prec=0.252 rec=0.431 runs=39 thresh_pct=70 ✅ PASS
+  vol_ratio_bar                  acc=0.619 f1=0.337 prec=0.243 rec=0.553 runs=3 thresh_pct=60 ✅ PASS
+  trade_intensity_ratio          acc=0.692 f1=0.352 prec=0.279 rec=0.477 runs=5 thresh_pct=70 ✅ PASS
+  iti_cv_1h                      acc=0.515 f1=0.282 prec=0.190 rec=0.543 runs=19 thresh_pct=50 ❌ FAIL
+  large_trade_1h                 acc=0.516 f1=0.284 prec=0.192 rec=0.547 runs=21 thresh_pct=50 ❌ FAIL
+
+######################################################################
+  GROUP 2: TREND DETECTION (is_trending)
+######################################################################
+  efficiency_1h                  acc=0.787 f1=0.045 prec=0.025 rec=0.216 runs=8 thresh_pct=80 ✅ PASS
+  efficiency_2h                  acc=0.500 f1=0.044 prec=0.023 rec=0.496 runs=6 thresh_pct=50 ❌ FAIL
+  efficiency_4h                  acc=0.499 f1=0.042 prec=0.022 rec=0.479 runs=9 thresh_pct=50 ❌ FAIL
+  efficiency_8h                  acc=0.496 f1=0.037 prec=0.019 rec=0.416 runs=13 thresh_pct=50 ❌ FAIL
+  ret_autocorr_1h                acc=0.549 f1=0.047 prec=0.025 rec=0.481 runs=6 thresh_pct=55 ❌ FAIL
+  ret_autocorr_2h                acc=0.550 f1=0.048 prec=0.025 rec=0.492 runs=10 thresh_pct=55 ❌ FAIL
+  ret_autocorr_4h                acc=0.551 f1=0.050 prec=0.026 rec=0.515 runs=16 thresh_pct=55 ❌ FAIL
+  adx_2h                         acc=0.499 f1=0.041 prec=0.022 rec=0.470 runs=37 thresh_pct=50 ❌ FAIL
+  adx_4h                         acc=0.495 f1=0.035 prec=0.018 rec=0.400 runs=72 thresh_pct=50 ❌ FAIL
+  sign_persist_1h                acc=0.618 f1=0.045 prec=0.024 rec=0.388 runs=6 thresh_pct=50 ✅ PASS
+  sign_persist_2h                acc=0.524 f1=0.042 prec=0.022 rec=0.458 runs=7 thresh_pct=50 ❌ FAIL
+  bar_eff_1h                     acc=0.884 f1=0.056 prec=0.035 rec=0.151 runs=44 thresh_pct=90 ✅ PASS
+  bar_eff_4h                     acc=0.885 f1=0.066 prec=0.041 rec=0.176 runs=153 thresh_pct=90 ✅ PASS
+  imbalance_persistence          acc=0.835 f1=0.044 prec=0.026 rec=0.166 runs=17 thresh_pct=85 ✅ PASS
+  momentum_1h                    acc=0.690 f1=0.042 prec=0.023 rec=0.294 runs=7 thresh_pct=70 ✅ PASS
+  momentum_2h                    acc=0.499 f1=0.042 prec=0.022 rec=0.478 runs=7 thresh_pct=50 ❌ FAIL
+  momentum_4h                    acc=0.498 f1=0.041 prec=0.021 rec=0.465 runs=10 thresh_pct=50 ❌ FAIL
+  price_vs_sma_2h                acc=0.499 f1=0.042 prec=0.022 rec=0.477 runs=6 thresh_pct=50 ❌ FAIL
+  price_vs_sma_4h                acc=0.498 f1=0.041 prec=0.022 rec=0.467 runs=8 thresh_pct=50 ❌ FAIL
+  price_vs_sma_8h                acc=0.496 f1=0.036 prec=0.019 rec=0.412 runs=12 thresh_pct=50 ❌ FAIL
+
+######################################################################
+  GROUP 3: LEAD-LAG CORRELATION ANALYSIS
+######################################################################
+
+  Correlation with FUTURE VOLATILITY (fwd_vol):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+  parkvol_4h                     +0.3693 +0.3610 +0.3516 +0.3377 +0.3162 +0.2769
+  parkvol_8h                     +0.3650 +0.3584 +0.3504 +0.3375 +0.3172 +0.2851
+  parkvol_2h                     +0.3584 +0.3465 +0.3340 +0.3175 +0.2955 +0.2630
+  parkvol_1h                     +0.3465 +0.3301 +0.3132 +0.2930 +0.2712 +0.2419
+  parkvol_24h                    +0.3417 +0.3386 +0.3345 +0.3277 +0.3158 +0.2954
+  vol_sma_24h                    +0.2997 +0.2966 +0.2927 +0.2865 +0.2756 +0.2543
+  bar_eff_4h                     -0.2990 -0.2972 -0.2945 -0.2896 -0.2799 -0.2580
+  rvol_2h                        +0.2945 +0.2794 +0.2645 +0.2480 +0.2249 +0.1951
+  rvol_4h                        +0.2935 +0.2817 +0.2697 +0.2549 +0.2333 +0.1987
+  rvol_1h                        +0.2918 +0.2728 +0.2537 +0.2345 +0.2132 +0.1864
+  parkinson_vol                  +0.2901 +0.2650 +0.2353 +0.2176 +0.1951 +0.1736
+  rvol_8h                        +0.2787 +0.2695 +0.2596 +0.2464 +0.2268 +0.1962
+  bar_eff_1h                     -0.2776 -0.2747 -0.2711 -0.2659 -0.2580 -0.2427
+  rvol_24h                       +0.2450 +0.2396 +0.2338 +0.2259 +0.2134 +0.1941
+  bar_efficiency                 -0.1583 -0.1560 -0.1532 -0.1486 -0.1440 -0.1368
+  vol_ratio_1h_24h               +0.1538 +0.1421 +0.1284 +0.1128 +0.0977 +0.0867
+  vol_ratio_2h_24h               +0.1534 +0.1445 +0.1343 +0.1216 +0.1080 +0.0888
+  price_vs_sma_24h               -0.1355 -0.1308 -0.1259 -0.1211 -0.1123 -0.0878
+  vol_accel_4h                   +0.1287 +0.1204 +0.1125 +0.1043 +0.0933 +0.0614
+  price_vs_sma_8h                -0.1270 -0.1207 -0.1147 -0.1116 -0.1059 -0.0800
+
+  Correlation with FUTURE TREND (fwd_efficiency):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+  efficiency_8h                  -0.0622 -0.0629 -0.0621 -0.0547 -0.0410 -0.0135
+  adx_4h                         -0.0546 -0.0536 -0.0517 -0.0475 -0.0383 -0.0183
+
+######################################################################
+  GROUP 4: COMPOSITE DETECTORS
+######################################################################
+
+  Composite is_high_vol detector using: ['parkvol_4h', 'parkvol_8h', 'parkvol_2h', 'parkvol_1h', 'parkvol_24h']
+/home/ubuntu/Projects/skytrade6/regime_detection.py:818: RuntimeWarning: Mean of empty slice
+  composite = np.nanmean(z_scores, axis=0)
+  Result: acc=0.571 f1=0.314 prec=0.218 rec=0.559 runs=85 ❌ FAIL
+
+  Composite is_trending detector using: ['efficiency_8h', 'adx_4h']
+  Result: acc=0.495 f1=0.035 prec=0.018 rec=0.398 runs=21 ❌ FAIL
+
+######################################################################
+  GROUP 5: REGIME TRANSITION DETECTION
+######################################################################
+  Total regime transitions: 3498
+  Average regime duration: 32.6 bars (163 min)
+
+  Transition matrix (top 10):
+    chaos                → active_range        :  603
+    active_range         → chaos               :  574
+    active_range         → quiet_range         :  546
+    quiet_range          → active_range        :  545
+    active_range         → smooth_trend        :  375
+    smooth_trend         → active_range        :  362
+    volatile_trend       → chaos               :  225
+    chaos                → volatile_trend      :  194
+    smooth_trend         → volatile_trend      :   24
+    active_range         → volatile_trend      :   20
+
+  Feature behavior BEFORE transitions (avg z-score in 12 bars before):
+
+  → trending (631 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+/home/ubuntu/Projects/skytrade6/regime_detection.py:920: RuntimeWarning: Mean of empty slice
+  pre_signals[lookback].append(np.nanmean(z_vals[start:bar]))
+
+  → high_vol (1044 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+  trade_intensity_ratio          +0.330   +0.355   +0.375   +0.492
+  vol_ratio_2h_24h               +0.397   +0.433   +0.454   +0.471
+  vol_ratio_1h_24h               +0.397   +0.433   +0.453   +0.471
+  parkinson_vol                  +0.251   +0.306   +0.341   +0.469
+  vol_ratio_bar                  +0.293   +0.309   +0.327   +0.443
+  vol_accel_4h                   +0.296   +0.324   +0.349   +0.380
+  rvol_1h                        +0.265   +0.306   +0.343   +0.368
+  parkvol_1h                     +0.267   +0.309   +0.341   +0.359
+  vol_ratio_1h_8h                +0.321   +0.338   +0.348   +0.354
+  rvol_2h                        +0.233   +0.268   +0.299   +0.334
+  parkvol_2h                     +0.225   +0.258   +0.283   +0.303
+  rvol_4h                        +0.172   +0.202   +0.227   +0.255
+  vol_accel_1h                   +0.205   +0.206   +0.220   +0.244
+  parkvol_4h                     +0.160   +0.186   +0.204   +0.220
+
+  → ranging (2061 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+  bar_eff_4h                     +0.250   +0.254   +0.255   +0.256
+  bar_eff_1h                     +0.236   +0.227   +0.224   +0.221
+
+
+======================================================================
+  SUMMARY
+======================================================================
+
+  PASSING experiments (18):
+    parkvol_1h                     → is_high_vol     acc=0.693 f1=0.354
+    trade_intensity_ratio          → is_high_vol     acc=0.692 f1=0.352
+    rvol_1h                        → is_high_vol     acc=0.626 f1=0.350
+    vol_ratio_2h_24h               → is_high_vol     acc=0.755 f1=0.348
+    vol_ratio_1h_24h               → is_high_vol     acc=0.689 f1=0.347
+    rvol_2h                        → is_high_vol     acc=0.623 f1=0.344
+    vol_ratio_bar                  → is_high_vol     acc=0.619 f1=0.337
+    rvol_4h                        → is_high_vol     acc=0.614 f1=0.329
+    parkvol_4h                     → is_high_vol     acc=0.609 f1=0.321
+    vol_accel_4h                   → is_high_vol     acc=0.676 f1=0.318
+    vol_ratio_1h_8h                → is_high_vol     acc=0.606 f1=0.316
+    rvol_8h                        → is_high_vol     acc=0.667 f1=0.300
+    bar_eff_4h                     → is_trending     acc=0.885 f1=0.066
+    bar_eff_1h                     → is_trending     acc=0.884 f1=0.056
+    sign_persist_1h                → is_trending     acc=0.618 f1=0.045
+    efficiency_1h                  → is_trending     acc=0.787 f1=0.045
+    imbalance_persistence          → is_trending     acc=0.835 f1=0.044
+    momentum_1h                    → is_trending     acc=0.690 f1=0.042
+
+  FAILING experiments (20):
+    composite_is_high_vol          → is_high_vol     acc=0.571 f1=0.314
+    ret_autocorr_4h                → is_trending     acc=0.551 f1=0.050
+    ret_autocorr_2h                → is_trending     acc=0.550 f1=0.048
+    ret_autocorr_1h                → is_trending     acc=0.549 f1=0.047
+    sign_persist_2h                → is_trending     acc=0.524 f1=0.042
+    vol_accel_1h                   → is_high_vol     acc=0.519 f1=0.288
+    large_trade_1h                 → is_high_vol     acc=0.516 f1=0.284
+    iti_cv_1h                      → is_high_vol     acc=0.515 f1=0.282
+    rvol_24h                       → is_high_vol     acc=0.509 f1=0.274
+    efficiency_2h                  → is_trending     acc=0.500 f1=0.044
+
+✅ DOGEUSDT complete in 353s (load=277s, 114,048 bars, 60 features)
+
+  ⏱ Total elapsed: 1798s | ~450s/symbol | ETA remaining: 450s
+
+
+**********************************************************************
+  SYMBOL 5/5: XRPUSDT
+**********************************************************************
+
+======================================================================
+  XRPUSDT | 2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars from tick data...
+  [20/396] 2025-01-20 | 28s ETA=520s RAM=8.9GB cache=0 new=20
+  [40/396] 2025-02-09 | 54s ETA=477s RAM=9.8GB cache=0 new=40
+  [60/396] 2025-03-01 | 72s ETA=402s RAM=9.5GB cache=0 new=60
+  [80/396] 2025-03-21 | 99s ETA=392s RAM=9.3GB cache=0 new=80
+  [100/396] 2025-04-10 | 117s ETA=346s RAM=9.6GB cache=0 new=100
+  [120/396] 2025-04-30 | 129s ETA=296s RAM=9.5GB cache=0 new=120
+  [140/396] 2025-05-20 | 142s ETA=260s RAM=9.3GB cache=0 new=140
+  [160/396] 2025-06-09 | 152s ETA=224s RAM=9.2GB cache=0 new=160
+  [180/396] 2025-06-29 | 163s ETA=196s RAM=9.2GB cache=0 new=180
+  [200/396] 2025-07-19 | 181s ETA=178s RAM=9.4GB cache=0 new=200
+  [220/396] 2025-08-08 | 198s ETA=158s RAM=9.7GB cache=0 new=220
+  [240/396] 2025-08-28 | 211s ETA=137s RAM=9.6GB cache=0 new=240
+  [260/396] 2025-09-17 | 220s ETA=115s RAM=9.1GB cache=0 new=260
+  [280/396] 2025-10-07 | 232s ETA=96s RAM=9.4GB cache=0 new=280
+  [300/396] 2025-10-27 | 249s ETA=80s RAM=9.8GB cache=0 new=300
+  [320/396] 2025-11-16 | 264s ETA=63s RAM=9.0GB cache=0 new=320
+  [340/396] 2025-12-06 | 277s ETA=46s RAM=8.9GB cache=0 new=340
+  [360/396] 2025-12-26 | 285s ETA=29s RAM=8.8GB cache=0 new=360
+  [380/396] 2026-01-15 | 295s ETA=12s RAM=8.8GB cache=0 new=380
+  [396/396] 2026-01-31 | 303s ETA=0s RAM=8.9GB cache=0 new=396
+  Loaded 114,048 bars (396 days, 0 cached, 396 new)
+
+  Step 2: Computing features...
+  60 features computed in 65s
+
+  Step 3: Labeling regimes (forward-looking)...
+  Labeled in 2s
+
+  Step 4: Running experiments...
+
+======================================================================
+  REGIME DETECTION EXPERIMENTS
+  Bars: 114048, Forward window: 48 bars (240 min)
+======================================================================
+
+  Regime distribution:
+    active_range        :  98996 (86.8%)
+    quiet_range         :   9417 (8.3%)
+    chaos               :   3751 (3.3%)
+    smooth_trend        :   1099 (1.0%)
+    volatile_trend      :    737 (0.6%)
+    unknown             :     48 (0.0%)
+
+  Binary: trending=1.6%, high_vol=17.9%
+  Random baseline: 20.0% (5-class), 50% (binary)
+
+######################################################################
+  GROUP 1: VOLATILITY DETECTION (is_high_vol)
+######################################################################
+  rvol_1h                        acc=0.697 f1=0.368 prec=0.294 rec=0.493 runs=26 thresh_pct=70 ✅ PASS
+  rvol_2h                        acc=0.695 f1=0.363 prec=0.290 rec=0.487 runs=50 thresh_pct=70 ✅ PASS
+  rvol_4h                        acc=0.691 f1=0.355 prec=0.283 rec=0.476 runs=98 thresh_pct=70 ✅ PASS
+  rvol_8h                        acc=0.610 f1=0.325 prec=0.235 rec=0.527 runs=148 thresh_pct=60 ✅ PASS
+  rvol_24h                       acc=0.520 f1=0.292 prec=0.198 rec=0.556 runs=399 thresh_pct=50 ❌ FAIL
+  parkvol_1h                     acc=0.701 f1=0.375 prec=0.299 rec=0.503 runs=41 thresh_pct=70 ✅ PASS
+  parkvol_4h                     acc=0.622 f1=0.348 prec=0.251 rec=0.563 runs=112 thresh_pct=60 ✅ PASS
+  vol_ratio_1h_24h               acc=0.694 f1=0.359 prec=0.286 rec=0.482 runs=19 thresh_pct=70 ✅ PASS
+  vol_ratio_2h_24h               acc=0.696 f1=0.363 prec=0.289 rec=0.488 runs=36 thresh_pct=70 ✅ PASS
+  vol_ratio_1h_8h                acc=0.603 f1=0.314 prec=0.227 rec=0.508 runs=15 thresh_pct=60 ✅ PASS
+  vol_accel_1h                   acc=0.516 f1=0.287 prec=0.195 rec=0.545 runs=9 thresh_pct=50 ❌ FAIL
+  vol_accel_4h                   acc=0.616 f1=0.337 prec=0.244 rec=0.545 runs=31 thresh_pct=60 ✅ PASS
+  vol_ratio_bar                  acc=0.628 f1=0.356 prec=0.257 rec=0.578 runs=4 thresh_pct=60 ✅ PASS
+  trade_intensity_ratio          acc=0.634 f1=0.367 prec=0.265 rec=0.596 runs=4 thresh_pct=60 ✅ PASS
+  iti_cv_1h                      acc=0.526 f1=0.301 prec=0.204 rec=0.571 runs=21 thresh_pct=50 ❌ FAIL
+  large_trade_1h                 acc=0.512 f1=0.282 prec=0.191 rec=0.535 runs=29 thresh_pct=50 ❌ FAIL
+
+######################################################################
+  GROUP 2: TREND DETECTION (is_trending)
+######################################################################
+  efficiency_1h                  acc=0.840 f1=0.036 prec=0.020 rec=0.185 runs=10 thresh_pct=85 ✅ PASS
+  efficiency_2h                  acc=0.888 f1=0.036 prec=0.021 rec=0.129 runs=19 thresh_pct=90 ✅ PASS
+  efficiency_4h                  acc=0.839 f1=0.034 prec=0.019 rec=0.173 runs=19 thresh_pct=85 ✅ PASS
+  efficiency_8h                  acc=0.497 f1=0.026 prec=0.014 rec=0.419 runs=12 thresh_pct=50 ❌ FAIL
+  ret_autocorr_1h                acc=0.499 f1=0.030 prec=0.016 rec=0.482 runs=6 thresh_pct=50 ❌ FAIL
+  ret_autocorr_2h                acc=0.597 f1=0.031 prec=0.016 rec=0.397 runs=11 thresh_pct=60 ❌ FAIL
+  ret_autocorr_4h                acc=0.743 f1=0.035 prec=0.019 rec=0.291 runs=21 thresh_pct=75 ✅ PASS
+  adx_2h                         acc=0.647 f1=0.035 prec=0.018 rec=0.393 runs=40 thresh_pct=65 ✅ PASS
+  adx_4h                         acc=0.498 f1=0.026 prec=0.014 rec=0.423 runs=73 thresh_pct=50 ❌ FAIL
+  sign_persist_1h                acc=0.861 f1=0.033 prec=0.019 rec=0.149 runs=13 thresh_pct=70 ✅ PASS
+  sign_persist_2h                acc=0.861 f1=0.034 prec=0.019 rec=0.150 runs=18 thresh_pct=80 ✅ PASS
+  bar_eff_1h                     acc=0.889 f1=0.041 prec=0.024 rec=0.147 runs=35 thresh_pct=90 ✅ PASS
+  bar_eff_4h                     acc=0.794 f1=0.047 prec=0.025 rec=0.316 runs=79 thresh_pct=80 ✅ PASS
+  imbalance_persistence          acc=0.500 f1=0.031 prec=0.016 rec=0.503 runs=8 thresh_pct=50 ❌ FAIL
+  momentum_1h                    acc=0.500 f1=0.032 prec=0.016 rec=0.508 runs=5 thresh_pct=50 ❌ FAIL
+  momentum_2h                    acc=0.500 f1=0.031 prec=0.016 rec=0.501 runs=7 thresh_pct=50 ❌ FAIL
+  momentum_4h                    acc=0.500 f1=0.031 prec=0.016 rec=0.496 runs=10 thresh_pct=50 ❌ FAIL
+  price_vs_sma_2h                acc=0.597 f1=0.032 prec=0.016 rec=0.408 runs=7 thresh_pct=60 ❌ FAIL
+  price_vs_sma_4h                acc=0.549 f1=0.031 prec=0.016 rec=0.455 runs=9 thresh_pct=55 ❌ FAIL
+  price_vs_sma_8h                acc=0.499 f1=0.029 prec=0.015 rec=0.465 runs=12 thresh_pct=50 ❌ FAIL
+
+######################################################################
+  GROUP 3: LEAD-LAG CORRELATION ANALYSIS
+######################################################################
+
+  Correlation with FUTURE VOLATILITY (fwd_vol):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+  parkvol_4h                     +0.4746 +0.4660 +0.4558 +0.4404 +0.4160 +0.3693
+  parkvol_2h                     +0.4661 +0.4537 +0.4396 +0.4208 +0.3968 +0.3581
+  parkvol_8h                     +0.4648 +0.4579 +0.4492 +0.4350 +0.4127 +0.3777
+  parkvol_1h                     +0.4566 +0.4391 +0.4203 +0.3969 +0.3709 +0.3372
+  parkvol_24h                    +0.4328 +0.4295 +0.4251 +0.4176 +0.4046 +0.3820
+  rvol_2h                        +0.4067 +0.3909 +0.3730 +0.3518 +0.3261 +0.2910
+  rvol_4h                        +0.4043 +0.3923 +0.3784 +0.3607 +0.3359 +0.2937
+  rvol_1h                        +0.4041 +0.3841 +0.3622 +0.3377 +0.3102 +0.2802
+  bar_eff_4h                     -0.3998 -0.3969 -0.3924 -0.3839 -0.3668 -0.3298
+  vol_sma_24h                    +0.3990 +0.3956 +0.3911 +0.3835 +0.3704 +0.3470
+  rvol_8h                        +0.3866 +0.3770 +0.3654 +0.3494 +0.3267 +0.2925
+  parkinson_vol                  +0.3864 +0.3669 +0.3329 +0.3082 +0.2821 +0.2558
+  bar_eff_1h                     -0.3666 -0.3626 -0.3574 -0.3497 -0.3372 -0.3088
+  rvol_24h                       +0.3508 +0.3452 +0.3385 +0.3291 +0.3153 +0.2942
+  bar_efficiency                 -0.1970 -0.1941 -0.1910 -0.1850 -0.1785 -0.1653
+  vol_ratio_2h_24h               +0.1921 +0.1835 +0.1736 +0.1604 +0.1458 +0.1157
+  vol_ratio_1h_24h               +0.1877 +0.1763 +0.1639 +0.1486 +0.1313 +0.1151
+  vol_accel_4h                   +0.1741 +0.1662 +0.1587 +0.1532 +0.1464 +0.1006
+  trade_intensity_ratio          +0.1608 +0.1442 +0.1221 +0.1046 +0.0935 +0.0867
+  vol_ratio_bar                  +0.1573 +0.1414 +0.1184 +0.1014 +0.0960 +0.0921
+
+  Correlation with FUTURE TREND (fwd_efficiency):
+  Feature                           lag1    lag3    lag6   lag12   lag24   lag48
+  ---------------------------------------------------------------------------
+  bar_eff_4h                     +0.0443 +0.0455 +0.0471 +0.0497 +0.0522 +0.0517
+
+######################################################################
+  GROUP 4: COMPOSITE DETECTORS
+######################################################################
+
+  Composite is_high_vol detector using: ['parkvol_4h', 'parkvol_2h', 'parkvol_8h', 'parkvol_1h', 'parkvol_24h']
+/home/ubuntu/Projects/skytrade6/regime_detection.py:818: RuntimeWarning: Mean of empty slice
+  composite = np.nanmean(z_scores, axis=0)
+  Result: acc=0.550 f1=0.337 prec=0.229 rec=0.641 runs=103 ❌ FAIL
+  Not enough features for composite is_trending detector
+
+######################################################################
+  GROUP 5: REGIME TRANSITION DETECTION
+######################################################################
+  Total regime transitions: 3478
+  Average regime duration: 32.8 bars (164 min)
+
+  Transition matrix (top 10):
+    chaos                → active_range        :  682
+    active_range         → chaos               :  649
+    active_range         → quiet_range         :  603
+    quiet_range          → active_range        :  603
+    active_range         → smooth_trend        :  304
+    smooth_trend         → active_range        :  280
+    volatile_trend       → chaos               :  160
+    chaos                → volatile_trend      :  141
+    smooth_trend         → chaos               :   16
+    smooth_trend         → volatile_trend      :   15
+
+  Feature behavior BEFORE transitions (avg z-score in 12 bars before):
+
+  → trending (481 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+/home/ubuntu/Projects/skytrade6/regime_detection.py:920: RuntimeWarning: Mean of empty slice
+  pre_signals[lookback].append(np.nanmean(z_vals[start:bar]))
+  efficiency_8h                  -0.205   -0.184   -0.164   -0.158
+
+  → high_vol (995 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+  vol_ratio_2h_24h               +0.451   +0.464   +0.471   +0.477
+  vol_ratio_1h_24h               +0.422   +0.431   +0.434   +0.439
+  parkinson_vol                  +0.251   +0.284   +0.313   +0.404
+  vol_accel_4h                   +0.350   +0.367   +0.376   +0.393
+  rvol_2h                        +0.300   +0.315   +0.329   +0.354
+  parkvol_2h                     +0.304   +0.322   +0.336   +0.351
+  trade_intensity_ratio          +0.315   +0.341   +0.329   +0.340
+  parkvol_1h                     +0.334   +0.337   +0.332   +0.339
+  vol_ratio_bar                  +0.304   +0.329   +0.312   +0.324
+  rvol_1h                        +0.321   +0.320   +0.307   +0.323
+  rvol_4h                        +0.266   +0.281   +0.292   +0.311
+  parkvol_4h                     +0.265   +0.281   +0.292   +0.302
+  rvol_8h                        +0.234   +0.245   +0.250   +0.256
+  vol_ratio_1h_8h                +0.240   +0.240   +0.235   +0.235
+  adx_2h                         +0.234   +0.237   +0.237   +0.236
+
+  → ranging (2172 transitions):
+  Feature                          Pre-12    Pre-6    Pre-3    Pre-1
+  bar_eff_4h                     +0.225   +0.229   +0.231   +0.232
+  bar_eff_1h                     +0.200   +0.214   +0.221   +0.221
+
+
+======================================================================
+  SUMMARY
+======================================================================
+
+  PASSING experiments (21):
+    parkvol_1h                     → is_high_vol     acc=0.701 f1=0.375
+    rvol_1h                        → is_high_vol     acc=0.697 f1=0.368
+    trade_intensity_ratio          → is_high_vol     acc=0.634 f1=0.367
+    rvol_2h                        → is_high_vol     acc=0.695 f1=0.363
+    vol_ratio_2h_24h               → is_high_vol     acc=0.696 f1=0.363
+    vol_ratio_1h_24h               → is_high_vol     acc=0.694 f1=0.359
+    vol_ratio_bar                  → is_high_vol     acc=0.628 f1=0.356
+    rvol_4h                        → is_high_vol     acc=0.691 f1=0.355
+    parkvol_4h                     → is_high_vol     acc=0.622 f1=0.348
+    vol_accel_4h                   → is_high_vol     acc=0.616 f1=0.337
+    rvol_8h                        → is_high_vol     acc=0.610 f1=0.325
+    vol_ratio_1h_8h                → is_high_vol     acc=0.603 f1=0.314
+    bar_eff_4h                     → is_trending     acc=0.794 f1=0.047
+    bar_eff_1h                     → is_trending     acc=0.889 f1=0.041
+    efficiency_2h                  → is_trending     acc=0.888 f1=0.036
+    efficiency_1h                  → is_trending     acc=0.840 f1=0.036
+    ret_autocorr_4h                → is_trending     acc=0.743 f1=0.035
+    adx_2h                         → is_trending     acc=0.647 f1=0.035
+    sign_persist_2h                → is_trending     acc=0.861 f1=0.034
+    efficiency_4h                  → is_trending     acc=0.839 f1=0.034
+    sign_persist_1h                → is_trending     acc=0.861 f1=0.033
+
+  FAILING experiments (16):
+    price_vs_sma_2h                → is_trending     acc=0.597 f1=0.032
+    ret_autocorr_2h                → is_trending     acc=0.597 f1=0.031
+    composite_is_high_vol          → is_high_vol     acc=0.550 f1=0.337
+    price_vs_sma_4h                → is_trending     acc=0.549 f1=0.031
+    iti_cv_1h                      → is_high_vol     acc=0.526 f1=0.301
+    rvol_24h                       → is_high_vol     acc=0.520 f1=0.292
+    vol_accel_1h                   → is_high_vol     acc=0.516 f1=0.287
+    large_trade_1h                 → is_high_vol     acc=0.512 f1=0.282
+    momentum_1h                    → is_trending     acc=0.500 f1=0.032
+    imbalance_persistence          → is_trending     acc=0.500 f1=0.031
+
+✅ XRPUSDT complete in 379s (load=303s, 114,048 bars, 60 features)
+
+  ⏱ Total elapsed: 2177s | ~435s/symbol | ETA remaining: 0s
+
+
+######################################################################
+  CROSS-SYMBOL COMPARISON
+######################################################################
+
+  Best VOLATILITY detectors (is_high_vol):
+  Symbol       Feature                            Acc      F1    Prec     Rec   Runs
+  ---------------------------------------------------------------------------
+  BTCUSDT      trade_intensity_ratio            0.644   0.426   0.330   0.599      5
+  ETHUSDT      trade_intensity_ratio            0.634   0.388   0.289   0.588      5
+  SOLUSDT      parkvol_1h                       0.700   0.364   0.286   0.501     36
+  DOGEUSDT     parkvol_1h                       0.693   0.354   0.281   0.480     38
+  XRPUSDT      parkvol_1h                       0.701   0.375   0.299   0.503     41
+
+  Best TREND detectors (is_trending):
+  Symbol       Feature                            Acc      F1    Prec     Rec   Runs
+  ---------------------------------------------------------------------------
+  BTCUSDT      imbalance_persistence            0.885   0.054   0.033   0.155     25
+  ETHUSDT      bar_eff_4h                       0.788   0.055   0.031   0.252     90
+  SOLUSDT      ret_autocorr_4h                  0.884   0.055   0.034   0.146     38
+  DOGEUSDT     bar_eff_4h                       0.885   0.066   0.041   0.176    153
+  XRPUSDT      bar_eff_4h                       0.794   0.047   0.025   0.316     79
+
+  Feature consistency (passing >60% acc across symbols):
+  Feature                        Target           Symbols    BTCUSDT    ETHUSDT    SOLUSDT   DOGEUSDT    XRPUSDT
+  ----------------------------------------------------------------------------------------------------
+  parkvol_1h                     is_high_vol         5/5   0.64/0.42  0.63/0.38  0.70/0.36  0.69/0.35  0.70/0.38
+  trade_intensity_ratio          is_high_vol         5/5   0.64/0.43  0.63/0.39  0.69/0.35  0.69/0.35  0.63/0.37
+  rvol_1h                        is_high_vol         5/5   0.63/0.41  0.63/0.37  0.69/0.35  0.63/0.35  0.70/0.37
+  vol_ratio_2h_24h               is_high_vol         5/5   0.63/0.41  0.63/0.37  0.69/0.35  0.76/0.35  0.70/0.36
+  vol_ratio_1h_24h               is_high_vol         5/5   0.63/0.41  0.69/0.37  0.69/0.34  0.69/0.35  0.69/0.36
+  vol_ratio_bar                  is_high_vol         5/5   0.64/0.42  0.62/0.37  0.62/0.34  0.62/0.34  0.63/0.36
+  sign_persist_1h                is_trending         5/5   0.64/0.04  0.65/0.04  0.61/0.04  0.62/0.04  0.86/0.03
+  rvol_4h                        is_high_vol         4/5   0.56/0.39  0.61/0.35  0.69/0.33  0.61/0.33  0.69/0.36
+  bar_eff_4h                     is_trending         4/5   0.79/0.05  0.79/0.06  0.50/0.05  0.89/0.07  0.79/0.05
+  efficiency_1h                  is_trending         4/5   0.50/0.04  0.83/0.05  0.84/0.05  0.79/0.04  0.84/0.04
+  rvol_2h                        is_high_vol         3/5   0.57/0.40  0.56/0.36  0.69/0.35  0.62/0.34  0.70/0.36
+  parkvol_4h                     is_high_vol         3/5   0.56/0.39  0.54/0.35  0.62/0.33  0.61/0.32  0.62/0.35
+  vol_ratio_1h_8h                is_high_vol         3/5   0.56/0.39  0.54/0.35  0.60/0.30  0.61/0.32  0.60/0.31
+  bar_eff_1h                     is_trending         3/5   0.74/0.05  0.50/0.05  0.50/0.05  0.88/0.06  0.89/0.04
+  ret_autocorr_4h                is_trending         3/5   0.50/0.04  0.83/0.05  0.88/0.06  0.55/0.05  0.74/0.04
+  imbalance_persistence          is_trending         3/5   0.89/0.05  0.69/0.05  0.50/0.05  0.83/0.04  0.50/0.03
+  adx_2h                         is_trending         3/5   0.50/0.04  0.65/0.05  0.69/0.05  0.50/0.04  0.65/0.03
+  efficiency_4h                  is_trending         3/5   0.50/0.04  0.64/0.05  0.88/0.05  0.50/0.04  0.84/0.03
+
+
+======================================================================
+  ALL DONE — 5 symbols in 2177s (36.3 min)
+======================================================================
