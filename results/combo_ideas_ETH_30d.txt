@@ -1,0 +1,69 @@
+======================================================================
+  COMBINATION IDEAS: v3 Signals + v9-12 ML
+  Symbol:   ETHUSDT
+  Period:   2025-12-01 → 2025-12-30
+  Ideas:    [2]
+  Fee:      7.0 bps RT
+======================================================================
+  Loading v3 tick features...
+    [ 5/30] 2025-12-05  elapsed=16s  ETA=78s  RAM=11.0GB
+    [10/30] 2025-12-10  elapsed=28s  ETA=56s  RAM=11.3GB
+    [15/30] 2025-12-15  elapsed=39s  ETA=39s  RAM=11.5GB
+    [20/30] 2025-12-20  elapsed=49s  ETA=24s  RAM=10.8GB
+    [25/30] 2025-12-25  elapsed=55s  ETA=11s  RAM=10.8GB
+    [30/30] 2025-12-30  elapsed=60s  ETA=0s  RAM=10.6GB
+  v3: 8,640 bars in 60s
+  Loading v9 regime features...
+  [20/30] 2025-12-20 | 0s ETA=0s RAM=10.6GB cache=20 new=0
+  [30/30] 2025-12-30 | 0s ETA=0s RAM=10.6GB cache=30 new=0
+  Loaded 8,640 bars (30 days, 30 cached, 0 new)
+  v9: 8,640 bars in 0s
+  Computing regime features...
+  Regime features in 6s
+  Merged: 8,640 bars (29 v3 + 45 v9 regime cols)
+  Total load time: 66s
+
+  Generating v3 signals...
+  Generated 5 signals: ['E01', 'E03', 'E09', 'E06', 'E11']
+
+  Training walk-forward vol prediction...
+  Vol predictions: 6,640 valid (77%) in 1s
+
+######################################################################
+  IDEA #2: Vol-Regime Filtered Signals
+######################################################################
+
+  E01 (Contrarian imbalance) thresh=1.0 hold=4h:
+       All         : trades=161 avg=  -3.37 bps total=  -541.9 WR=48% sharpe=-0.024
+       Low-vol     : trades= 90 avg= -13.35 bps total= -1201.7 WR=31% sharpe=-0.131
+       High-vol    : trades= 88 avg=  -0.38 bps total=   -33.2 WR=55% sharpe=-0.002
+    ✅ Rising-vol  : trades=127 avg=  +1.50 bps total=  +190.7 WR=52% sharpe=0.011
+
+  E03 (Vol breakout) thresh=1.5 hold=4h:
+       All         : trades= 85 avg= -25.26 bps total= -2147.5 WR=38% sharpe=-0.149
+    ✅ Low-vol     : trades= 29 avg=  +6.23 bps total=  +180.6 WR=48% sharpe=0.084
+       High-vol    : trades= 48 avg= -52.86 bps total= -2537.5 WR=31% sharpe=-0.251
+       Rising-vol  : trades= 66 avg= -40.82 bps total= -2693.9 WR=36% sharpe=-0.230
+
+  E09 (Cum imbalance momentum) thresh=1.0 hold=4h:
+    ✅ All         : trades=146 avg=  +2.76 bps total=  +402.5 WR=47% sharpe=0.020
+       Low-vol     : trades= 79 avg= -12.90 bps total= -1019.0 WR=42% sharpe=-0.116
+       High-vol    : trades= 75 avg= -12.19 bps total=  -914.4 WR=44% sharpe=-0.080
+       Rising-vol  : trades=110 avg=  -1.60 bps total=  -176.0 WR=36% sharpe=-0.011
+
+  E06 (Volume surge) thresh=1.5 hold=4h:
+       All         : trades= 77 avg= -14.03 bps total= -1080.6 WR=39% sharpe=-0.089
+    ✅ Low-vol     : trades= 30 avg= +24.40 bps total=  +732.0 WR=50% sharpe=0.267
+       High-vol    : trades= 46 avg= -30.64 bps total= -1409.5 WR=30% sharpe=-0.167
+       Rising-vol  : trades= 62 avg= -19.85 bps total= -1230.6 WR=39% sharpe=-0.122
+
+  E11 (Kyle lambda momentum) thresh=1.5 hold=4h:
+       All         : trades=143 avg=  -3.81 bps total=  -544.5 WR=43% sharpe=-0.029
+       Low-vol     : trades= 71 avg=  -9.12 bps total=  -647.3 WR=44% sharpe=-0.089
+    ✅ High-vol    : trades= 65 avg= +17.55 bps total= +1141.0 WR=40% sharpe=0.111
+       Rising-vol  : trades= 90 avg= -19.75 bps total= -1777.3 WR=38% sharpe=-0.131
+
+======================================================================
+  ALL DONE — ETHUSDT in 67s (1.1 min)
+  Total results: 20
+======================================================================

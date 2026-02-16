@@ -1,0 +1,207 @@
+======================================================================
+  COMBINATION IDEAS: v3 Signals + v9-12 ML
+  Symbol:   BTCUSDT
+  Period:   2025-12-01 → 2025-12-30
+  Ideas:    [1, 2, 3, 4, 6]
+  Fee:      7.0 bps RT
+======================================================================
+  Loading v3 tick features...
+    [ 5/30] 2025-12-05  elapsed=14s  ETA=68s  RAM=10.4GB
+    [10/30] 2025-12-10  elapsed=22s  ETA=44s  RAM=10.1GB
+    [15/30] 2025-12-15  elapsed=30s  ETA=30s  RAM=10.3GB
+    [20/30] 2025-12-20  elapsed=41s  ETA=21s  RAM=10.6GB
+    [25/30] 2025-12-25  elapsed=49s  ETA=10s  RAM=10.5GB
+    [30/30] 2025-12-30  elapsed=55s  ETA=0s  RAM=10.6GB
+  v3: 8,640 bars in 55s
+  Loading v9 regime features...
+  [20/30] 2025-12-20 | 0s ETA=0s RAM=10.5GB cache=20 new=0
+  [30/30] 2025-12-30 | 0s ETA=0s RAM=10.6GB cache=30 new=0
+  Loaded 8,640 bars (30 days, 30 cached, 0 new)
+  v9: 8,640 bars in 0s
+  Computing regime features...
+  Regime features in 7s
+  Merged: 8,640 bars (29 v3 + 45 v9 regime cols)
+  Total load time: 62s
+
+  Generating v3 signals...
+  Generated 5 signals: ['E01', 'E03', 'E09', 'E06', 'E11']
+
+  Training walk-forward vol prediction...
+  Vol predictions: 6,640 valid (77%) in 1s
+
+######################################################################
+  IDEA #1: Vol-Adaptive Position Sizing
+######################################################################
+
+     E01 (Contrarian imbalance) thresh=1.0 hold=4h:
+    Fixed:    trades=161 avg= +13.68 bps total= +2202.2 WR=51% sharpe=0.155
+    VolAdapt: trades=161 avg=  +9.73 bps total= +1567.2 WR=51% sharpe=0.098 avg_size=1.26x
+    Δ avg=-3.94 bps  Δ sharpe=-0.057
+
+     E01 (Contrarian imbalance) thresh=1.5 hold=4h:
+    Fixed:    trades=145 avg=  +4.67 bps total=  +677.2 WR=41% sharpe=0.053
+    VolAdapt: trades=145 avg=  -0.40 bps total=   -57.4 WR=41% sharpe=-0.004 avg_size=1.18x
+    Δ avg=-5.07 bps  Δ sharpe=-0.057
+
+     E03 (Vol breakout) thresh=1.0 hold=4h:
+    Fixed:    trades=127 avg=  -3.96 bps total=  -503.5 WR=46% sharpe=-0.041
+    VolAdapt: trades=127 avg= -13.48 bps total= -1711.4 WR=46% sharpe=-0.115 avg_size=1.20x
+    Δ avg=-9.51 bps  Δ sharpe=-0.074
+
+  ✅ E03 (Vol breakout) thresh=1.5 hold=4h:
+    Fixed:    trades= 84 avg=  +9.91 bps total=  +832.4 WR=48% sharpe=0.090
+    VolAdapt: trades= 84 avg= +12.61 bps total= +1059.1 WR=48% sharpe=0.138 avg_size=1.01x
+    Δ avg=+2.70 bps  Δ sharpe=+0.047
+
+  ✅ E09 (Cum imbalance momentum) thresh=1.0 hold=4h:
+    Fixed:    trades=146 avg=  +9.39 bps total= +1370.3 WR=46% sharpe=0.106
+    VolAdapt: trades=146 avg= +10.91 bps total= +1592.2 WR=46% sharpe=0.093 avg_size=1.21x
+    Δ avg=+1.52 bps  Δ sharpe=-0.013
+
+  ✅ E09 (Cum imbalance momentum) thresh=1.5 hold=4h:
+    Fixed:    trades=110 avg=  +2.13 bps total=  +234.6 WR=50% sharpe=0.025
+    VolAdapt: trades=110 avg=  +4.93 bps total=  +542.8 WR=50% sharpe=0.037 avg_size=1.37x
+    Δ avg=+2.80 bps  Δ sharpe=+0.013
+
+  ✅ E06 (Volume surge) thresh=1.0 hold=4h:
+    Fixed:    trades= 93 avg=  +7.68 bps total=  +714.6 WR=47% sharpe=0.078
+    VolAdapt: trades= 93 avg= +15.32 bps total= +1425.0 WR=47% sharpe=0.143 avg_size=1.00x
+    Δ avg=+7.64 bps  Δ sharpe=+0.064
+
+  ✅ E06 (Volume surge) thresh=1.5 hold=4h:
+    Fixed:    trades= 74 avg= -21.06 bps total= -1558.5 WR=36% sharpe=-0.194
+    VolAdapt: trades= 74 avg= -11.15 bps total=  -825.0 WR=36% sharpe=-0.124 avg_size=0.97x
+    Δ avg=+9.91 bps  Δ sharpe=+0.070
+
+  ✅ E11 (Kyle lambda momentum) thresh=1.0 hold=4h:
+    Fixed:    trades=160 avg=  -8.30 bps total= -1327.8 WR=45% sharpe=-0.083
+    VolAdapt: trades=160 avg=  -1.74 bps total=  -278.7 WR=45% sharpe=-0.015 avg_size=1.26x
+    Δ avg=+6.56 bps  Δ sharpe=+0.068
+
+     E11 (Kyle lambda momentum) thresh=1.5 hold=4h:
+    Fixed:    trades=138 avg=  -5.52 bps total=  -761.1 WR=41% sharpe=-0.057
+    VolAdapt: trades=138 avg=  -7.90 bps total= -1090.8 WR=41% sharpe=-0.074 avg_size=1.27x
+    Δ avg=-2.39 bps  Δ sharpe=-0.017
+
+######################################################################
+  IDEA #2: Vol-Regime Filtered Signals
+######################################################################
+
+  E01 (Contrarian imbalance) thresh=1.0 hold=4h:
+    ✅ All         : trades=161 avg= +13.68 bps total= +2202.2 WR=51% sharpe=0.155
+    ✅ Low-vol     : trades= 93 avg= +11.28 bps total= +1049.1 WR=62% sharpe=0.145
+       High-vol    : trades= 92 avg= -11.85 bps total= -1090.2 WR=48% sharpe=-0.099
+       Rising-vol  : trades=125 avg= -13.04 bps total= -1630.4 WR=42% sharpe=-0.134
+
+  E03 (Vol breakout) thresh=1.5 hold=4h:
+    ✅ All         : trades= 84 avg=  +9.91 bps total=  +832.4 WR=48% sharpe=0.090
+    ✅ Low-vol     : trades= 25 avg=  +6.61 bps total=  +165.2 WR=36% sharpe=0.079
+       High-vol    : trades= 51 avg=  -0.90 bps total=   -45.8 WR=39% sharpe=-0.007
+    ✅ Rising-vol  : trades= 63 avg=  +8.38 bps total=  +527.8 WR=44% sharpe=0.069
+
+  E09 (Cum imbalance momentum) thresh=1.0 hold=4h:
+    ✅ All         : trades=146 avg=  +9.39 bps total= +1370.3 WR=46% sharpe=0.106
+    ✅ Low-vol     : trades= 81 avg=  +2.86 bps total=  +231.9 WR=44% sharpe=0.040
+       High-vol    : trades= 77 avg= -12.86 bps total=  -990.5 WR=44% sharpe=-0.139
+    ✅ Rising-vol  : trades=109 avg= +14.64 bps total= +1596.0 WR=46% sharpe=0.166
+
+  E06 (Volume surge) thresh=1.5 hold=4h:
+       All         : trades= 74 avg= -21.06 bps total= -1558.5 WR=36% sharpe=-0.194
+       Low-vol     : trades= 23 avg= -11.50 bps total=  -264.5 WR=26% sharpe=-0.180
+       High-vol    : trades= 43 avg= -31.09 bps total= -1336.8 WR=33% sharpe=-0.243
+       Rising-vol  : trades= 54 avg= -20.63 bps total= -1113.9 WR=37% sharpe=-0.183
+
+  E11 (Kyle lambda momentum) thresh=1.5 hold=4h:
+       All         : trades=138 avg=  -5.52 bps total=  -761.1 WR=41% sharpe=-0.057
+       Low-vol     : trades= 76 avg= -20.51 bps total= -1558.7 WR=29% sharpe=-0.351
+       High-vol    : trades= 62 avg=  -5.90 bps total=  -365.5 WR=53% sharpe=-0.055
+       Rising-vol  : trades= 88 avg=  -6.14 bps total=  -540.5 WR=51% sharpe=-0.062
+
+######################################################################
+  IDEA #3: Dynamic Hold/TP from Predicted Range
+######################################################################
+
+  E01 (Contrarian imbalance) thresh=1.0:
+    Fixed 4h:  trades=161 avg= +13.68 bps sharpe=0.155
+       TP@P50  : trades=201 avg= -20.44 bps sharpe=-0.278 WR=37% avg_hold=38bars TP_hit=30% Δ=-34.11
+       TP@P75  : trades=179 avg= -23.43 bps sharpe=-0.296 WR=37% avg_hold=43bars TP_hit=18% Δ=-37.11
+       TP@P100 : trades=173 avg= -24.67 bps sharpe=-0.293 WR=34% avg_hold=45bars TP_hit=14% Δ=-38.35
+       Combo   : trades=179 avg= -28.02 bps sharpe=-0.266 Δ=-41.69 (vol_sizing + TP@P75)
+
+  E03 (Vol breakout) thresh=1.5:
+    Fixed 4h:  trades= 84 avg=  +9.91 bps sharpe=0.090
+       TP@P50  : trades=110 avg= -28.74 bps sharpe=-0.309 WR=36% avg_hold=37bars TP_hit=35% Δ=-38.65
+       TP@P75  : trades= 96 avg= -26.28 bps sharpe=-0.257 WR=34% avg_hold=42bars TP_hit=25% Δ=-36.19
+       TP@P100 : trades= 93 avg= -19.16 bps sharpe=-0.184 WR=41% avg_hold=43bars TP_hit=17% Δ=-29.06
+       Combo   : trades= 96 avg= -20.67 bps sharpe=-0.260 Δ=-30.58 (vol_sizing + TP@P75)
+
+  E09 (Cum imbalance momentum) thresh=1.0:
+    Fixed 4h:  trades=146 avg=  +9.39 bps sharpe=0.106
+       TP@P50  : trades=176 avg= -23.79 bps sharpe=-0.357 WR=35% avg_hold=39bars TP_hit=28% Δ=-33.18
+       TP@P75  : trades=162 avg= -20.77 bps sharpe=-0.275 WR=37% avg_hold=43bars TP_hit=22% Δ=-30.16
+       TP@P100 : trades=155 avg= -13.53 bps sharpe=-0.166 WR=41% avg_hold=45bars TP_hit=14% Δ=-22.92
+       Combo   : trades=162 avg= -21.49 bps sharpe=-0.280 Δ=-30.87 (vol_sizing + TP@P75)
+
+  E06 (Volume surge) thresh=1.5:
+    Fixed 4h:  trades= 74 avg= -21.06 bps sharpe=-0.194
+       TP@P50  : trades= 95 avg= -40.76 bps sharpe=-0.429 WR=31% avg_hold=37bars TP_hit=34% Δ=-19.70
+       TP@P75  : trades= 83 avg= -33.59 bps sharpe=-0.329 WR=31% avg_hold=42bars TP_hit=20% Δ=-12.53
+       TP@P100 : trades= 80 avg= -34.26 bps sharpe=-0.309 WR=34% avg_hold=43bars TP_hit=16% Δ=-13.20
+       Combo   : trades= 83 avg= -23.31 bps sharpe=-0.291 Δ=-2.25 (vol_sizing + TP@P75)
+
+  E11 (Kyle lambda momentum) thresh=1.5:
+    Fixed 4h:  trades=138 avg=  -5.52 bps sharpe=-0.057
+       TP@P50  : trades=159 avg= -26.39 bps sharpe=-0.311 WR=33% avg_hold=40bars TP_hit=27% Δ=-20.87
+       TP@P75  : trades=150 avg= -29.67 bps sharpe=-0.326 WR=31% avg_hold=43bars TP_hit=18% Δ=-24.16
+       TP@P100 : trades=146 avg= -15.81 bps sharpe=-0.176 WR=36% avg_hold=44bars TP_hit=12% Δ=-10.30
+       Combo   : trades=150 avg= -33.84 bps sharpe=-0.369 Δ=-28.32 (vol_sizing + TP@P75)
+
+######################################################################
+  IDEA #4: Breakout Confirmation Filter
+######################################################################
+
+  E01 (Contrarian imbalance) thresh=1.0:
+    Baseline:        trades=161 avg= +13.68 bps
+       BO likely       : trades=121 avg=  -5.74 bps Δ=-19.42
+       BO unlikely     : trades=120 avg=  +1.82 bps Δ=-11.86
+
+  E03 (Vol breakout) thresh=1.5:
+    Baseline:        trades= 84 avg=  +9.91 bps
+       BO likely       : trades= 78 avg=  +5.72 bps Δ=-4.19
+       BO unlikely     : trades= 18 avg= -17.47 bps Δ=-27.38
+
+  E09 (Cum imbalance momentum) thresh=1.0:
+    Baseline:        trades=146 avg=  +9.39 bps
+       BO likely       : trades=105 avg=  +1.81 bps Δ=-7.58
+       BO unlikely     : trades=115 avg=  +1.86 bps Δ=-7.53
+
+  E06 (Volume surge) thresh=1.5:
+    Baseline:        trades= 74 avg= -21.06 bps
+    ✅ BO likely       : trades= 68 avg=  +0.98 bps Δ=+22.04
+       BO unlikely     : trades= 20 avg= -56.69 bps Δ=-35.63
+
+  E11 (Kyle lambda momentum) thresh=1.5:
+    Baseline:        trades=138 avg=  -5.52 bps
+       BO likely       : trades= 94 avg= -18.63 bps Δ=-13.12
+    ✅ BO unlikely     : trades=107 avg=  -0.17 bps Δ=+5.34
+
+######################################################################
+  IDEA #6: Contrarian + Vol Compression Setup
+######################################################################
+
+  E01 (Contrarian) thresh=1.0:
+    Baseline:         trades=161 avg= +13.68 bps
+       Strong compress     : trades=101 avg=  -7.58 bps Δ=-21.26
+       Mild compress       : trades=130 avg=  +5.89 bps Δ=-7.79
+       Expanding           : trades= 68 avg=  -4.57 bps Δ=-18.25
+
+  E01 (Contrarian) thresh=1.5:
+    Baseline:         trades=145 avg=  +4.67 bps
+       Strong compress     : trades= 75 avg=  +2.91 bps Δ=-1.76
+       Mild compress       : trades=102 avg=  -9.86 bps Δ=-14.53
+    ✅ Expanding           : trades= 51 avg= +15.42 bps Δ=+10.75
+
+======================================================================
+  ALL DONE — BTCUSDT in 64s (1.1 min)
+  Total results: 61
+======================================================================
