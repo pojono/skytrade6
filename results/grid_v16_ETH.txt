@@ -1,0 +1,130 @@
+======================================================================
+  v16: Novel Microstructure Signals for Grid Bot — ETHUSDT
+  Period: 2025-01-01 → 2026-01-31
+  Baseline: Fix 1.00% (24h rebalance)
+======================================================================
+
+  Loading data with novel features...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=5.3GB cache=20 new=0
+  [40/396] 2025-02-09 | 16s ETA=145s RAM=6.3GB cache=33 new=7
+  [60/396] 2025-03-01 | 46s ETA=259s RAM=6.0GB cache=33 new=27
+  [80/396] 2025-03-21 | 78s ETA=307s RAM=6.0GB cache=33 new=47
+  [100/396] 2025-04-10 | 107s ETA=316s RAM=6.4GB cache=33 new=67
+  [120/396] 2025-04-30 | 130s ETA=300s RAM=6.4GB cache=33 new=87
+  [140/396] 2025-05-20 | 164s ETA=301s RAM=6.1GB cache=33 new=107
+  [160/396] 2025-06-09 | 193s ETA=285s RAM=6.1GB cache=33 new=127
+  [180/396] 2025-06-29 | 224s ETA=269s RAM=6.2GB cache=33 new=147
+  [200/396] 2025-07-19 | 254s ETA=248s RAM=6.1GB cache=33 new=167
+  [220/396] 2025-08-08 | 288s ETA=230s RAM=6.0GB cache=33 new=187
+  [240/396] 2025-08-28 | 332s ETA=216s RAM=6.7GB cache=33 new=207
+  [260/396] 2025-09-17 | 361s ETA=189s RAM=6.4GB cache=33 new=227
+  [280/396] 2025-10-07 | 387s ETA=160s RAM=6.6GB cache=33 new=247
+  [300/396] 2025-10-27 | 431s ETA=138s RAM=6.8GB cache=33 new=267
+  [320/396] 2025-11-16 | 472s ETA=112s RAM=7.3GB cache=33 new=287
+  [340/396] 2025-12-06 | 513s ETA=84s RAM=7.0GB cache=33 new=307
+  [360/396] 2025-12-26 | 545s ETA=54s RAM=6.7GB cache=33 new=327
+  [380/396] 2026-01-15 | 567s ETA=24s RAM=6.7GB cache=33 new=347
+  [396/396] 2026-01-31 | 590s ETA=0s RAM=6.4GB cache=33 new=363
+  Loaded 114,048 bars (396 days, 33 cached, 363 new)
+  114,048 bars loaded in 591s
+  Computing regime features...
+  Regime features in 67s
+  Computing novel rolling features...
+  Novel rolling features in 0s
+  Computing forward targets...
+
+  [Ref] Walk-forward 1h vol prediction (Ridge)...
+    111,548 valid predictions in 46s
+
+  Simulation: 111,548 bars (387 days)
+  Price: $1396.81 - $4950.73
+  Median pred vol: 0.001625
+  Median VPIN(1h): 0.4133
+
+  N1 toxic pause: 5.5% of bars paused
+  N1b toxic pause: 14.9% of bars paused
+
+  Running 15 strategies...
+
+  S0: Fix 1.00% (24h):
+    PnL: $-3729645.43 (grid: $-3647923.47, fees: -$81721.96)
+    PnL/day: $-9629.38 | Fills: 138,136 (356.6/d) | Sharpe: -1.16 | MaxDD: $-3763650.88 (2.1s)
+
+  S5ref: AdaptRebal (v15):
+    PnL: $-2269131.67 (grid: $-2205238.35, fees: -$63893.32)
+    PnL/day: $-5858.55 | Fills: 105,338 (272.0/d) | Sharpe: 0.65 | MaxDD: $-2311369.07 (1.6s)
+
+  N1: Toxic pause (z>2):
+    PnL: $-3958457.25 (grid: $-3878991.13, fees: -$79466.12)
+    PnL/day: $-10220.14 | Fills: 132,896 (343.1/d) | Sharpe: -1.11 | MaxDD: $-3986954.44 (1.9s)
+
+  N1b: Toxic pause (z>1.5):
+    PnL: $-3444993.55 (grid: $-3370165.73, fees: -$74827.82)
+    PnL/day: $-8894.45 | Fills: 124,706 (322.0/d) | Sharpe: -0.57 | MaxDD: $-3468850.56 (1.6s)
+
+  N2: Herding widen:
+    PnL: $-3515188.56 (grid: $-3438321.23, fees: -$76867.33)
+    PnL/day: $-9075.68 | Fills: 130,184 (336.1/d) | Sharpe: -1.10 | MaxDD: $-3545859.62 (2.0s)
+
+  N3: Efficiency adapt:
+    PnL: $-4135651.17 (grid: $-4049118.60, fees: -$86532.57)
+    PnL/day: $-10677.62 | Fills: 145,724 (376.2/d) | Sharpe: -0.54 | MaxDD: $-4171519.12 (2.3s)
+
+  N4: VPIN adapt spacing:
+    PnL: $-3837784.73 (grid: $-3755459.72, fees: -$82325.02)
+    PnL/day: $-9908.58 | Fills: 139,056 (359.0/d) | Sharpe: -1.09 | MaxDD: $-3872318.89 (2.2s)
+
+  N5: Informed rebalance:
+    PnL: $-1919612.68 (grid: $-1876212.85, fees: -$43399.83)
+    PnL/day: $-4956.15 | Fills: 72,858 (188.1/d) | Sharpe: 0.74 | MaxDD: $-1933337.84 (0.7s)
+
+  N5b: Informed rebal soft:
+    PnL: $-495236.57 (grid: $-477046.08, fees: -$18190.49)
+    PnL/day: $-1278.63 | Fills: 31,388 (81.0/d) | Sharpe: 1.43 | MaxDD: $-499220.55 (0.4s)
+
+  N6: Multifractal adapt:
+    PnL: $-3765858.47 (grid: $-3683411.81, fees: -$82446.67)
+    PnL/day: $-9722.87 | Fills: 139,500 (360.2/d) | Sharpe: -1.20 | MaxDD: $-3801313.31 (2.3s)
+
+  C1: Toxic+AdaptRebal:
+    PnL: $-2158752.53 (grid: $-2097365.11, fees: -$61387.42)
+    PnL/day: $-5573.57 | Fills: 100,552 (259.6/d) | Sharpe: 0.70 | MaxDD: $-2198807.12 (1.4s)
+
+  C2: Eff+AdaptRebal:
+    PnL: $-2546137.71 (grid: $-2478594.26, fees: -$67543.46)
+    PnL/day: $-6573.74 | Fills: 111,296 (287.3/d) | Sharpe: 0.24 | MaxDD: $-2592858.05 (1.6s)
+
+  C3: VPIN+Toxic+AdRebal:
+    PnL: $-2211624.01 (grid: $-2149854.14, fees: -$61769.87)
+    PnL/day: $-5710.08 | Fills: 101,228 (261.4/d) | Sharpe: 0.75 | MaxDD: $-2253141.54 (1.4s)
+
+  C4: Herd+InfRebal:
+    PnL: $-1826280.60 (grid: $-1785344.15, fees: -$40936.45)
+    PnL/day: $-4715.18 | Fills: 68,856 (177.8/d) | Sharpe: 1.11 | MaxDD: $-1840468.92 (0.7s)
+
+  C5: Eff+Toxic+InfRebal:
+    PnL: $-2324057.64 (grid: $-2274555.05, fees: -$49502.60)
+    PnL/day: $-6000.36 | Fills: 82,722 (213.6/d) | Sharpe: 0.96 | MaxDD: $-2340483.35 (0.8s)
+
+  ====================================================================================================
+  SUMMARY — ETHUSDT (387 days)
+  ====================================================================================================
+  Strategy                              PnL      Grid$     Fees    PnL/d   Fills  Sharpe      MaxDD  vs Base
+  -------------------------------------------------------------------------------------------------------
+    S0: Fix 1.00% (24h)          $-3729645.43 $-3647923.47 $  81722 $-9629.38 138,136   -1.16 $-3763650.88         
+  ✅S5ref: AdaptRebal (v15)      $-2269131.67 $-2205238.35 $  63893 $-5858.55 105,338    0.65 $-2311369.07 $+1460514
+    N1: Toxic pause (z>2)        $-3958457.25 $-3878991.13 $  79466 $-10220.14 132,896   -1.11 $-3986954.44 $-228812
+  ✅N1b: Toxic pause (z>1.5)     $-3444993.55 $-3370165.73 $  74828 $-8894.45 124,706   -0.57 $-3468850.56 $+284652
+  ✅N2: Herding widen            $-3515188.56 $-3438321.23 $  76867 $-9075.68 130,184   -1.10 $-3545859.62 $+214457
+    N3: Efficiency adapt         $-4135651.17 $-4049118.60 $  86533 $-10677.62 145,724   -0.54 $-4171519.12 $-406006
+    N4: VPIN adapt spacing       $-3837784.73 $-3755459.72 $  82325 $-9908.58 139,056   -1.09 $-3872318.89 $-108139
+  ✅N5: Informed rebalance       $-1919612.68 $-1876212.85 $  43400 $-4956.15 72,858    0.74 $-1933337.84 $+1810033
+  ✅N5b: Informed rebal soft     $-495236.57 $-477046.08 $  18190 $-1278.63 31,388    1.43 $-499220.55 $+3234409
+    N6: Multifractal adapt       $-3765858.47 $-3683411.81 $  82447 $-9722.87 139,500   -1.20 $-3801313.31 $ -36213
+  ✅C1: Toxic+AdaptRebal         $-2158752.53 $-2097365.11 $  61387 $-5573.57 100,552    0.70 $-2198807.12 $+1570893
+  ✅C2: Eff+AdaptRebal           $-2546137.71 $-2478594.26 $  67543 $-6573.74 111,296    0.24 $-2592858.05 $+1183508
+  ✅C3: VPIN+Toxic+AdRebal       $-2211624.01 $-2149854.14 $  61770 $-5710.08 101,228    0.75 $-2253141.54 $+1518021
+  ✅C4: Herd+InfRebal            $-1826280.60 $-1785344.15 $  40936 $-4715.18 68,856    1.11 $-1840468.92 $+1903365
+  ✅C5: Eff+Toxic+InfRebal       $-2324057.64 $-2274555.05 $  49503 $-6000.36 82,722    0.96 $-2340483.35 $+1405588
+
+✅ Done in 728s (12.1min)
