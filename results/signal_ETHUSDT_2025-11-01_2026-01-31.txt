@@ -1,0 +1,203 @@
+# Experiment: signal
+# Symbol: ETHUSDT
+# Exchange: bybit_futures
+# Period: 2025-11-01 → 2026-01-31
+# Started: 2026-02-15 21:44:51 UTC
+
+
+======================================================================
+  SIGNAL EXPERIMENTS (E01-E15)
+  ETHUSDT on bybit_futures | 2025-11-01 → 2026-01-31 (92 days)
+  Fee: 7.0 bps RT
+  Experiments: 15
+======================================================================
+
+  Loading features...
+    [ 5/92] 2025-11-05  elapsed=10s  ETA=178s  RAM=8.4GB
+    [10/92] 2025-11-10  elapsed=18s  ETA=146s  RAM=8.6GB
+    [15/92] 2025-11-15  elapsed=27s  ETA=140s  RAM=8.4GB
+    [20/92] 2025-11-20  elapsed=38s  ETA=138s  RAM=8.2GB
+    [25/92] 2025-11-25  elapsed=48s  ETA=129s  RAM=8.9GB
+    [30/92] 2025-11-30  elapsed=53s  ETA=110s  RAM=8.6GB
+    [35/92] 2025-12-05  elapsed=62s  ETA=101s  RAM=8.1GB
+    [40/92] 2025-12-10  elapsed=69s  ETA=90s  RAM=7.8GB
+    [45/92] 2025-12-15  elapsed=75s  ETA=79s  RAM=8.2GB
+    [50/92] 2025-12-20  elapsed=83s  ETA=70s  RAM=8.0GB
+    [55/92] 2025-12-25  elapsed=88s  ETA=59s  RAM=8.3GB
+    [60/92] 2025-12-30  elapsed=92s  ETA=49s  RAM=8.1GB
+    [65/92] 2026-01-04  elapsed=96s  ETA=40s  RAM=8.1GB
+    [70/92] 2026-01-09  elapsed=102s  ETA=32s  RAM=8.1GB
+    [75/92] 2026-01-14  elapsed=107s  ETA=24s  RAM=8.1GB
+    [80/92] 2026-01-19  elapsed=111s  ETA=17s  RAM=8.3GB
+    [85/92] 2026-01-24  elapsed=117s  ETA=10s  RAM=8.3GB
+    [90/92] 2026-01-29  elapsed=123s  ETA=3s  RAM=8.0GB
+    [92/92] 2026-01-31  elapsed=129s  ETA=0s  RAM=8.0GB
+  26,496 bars, price 2351.39–3912.47
+  Adding derived features...
+
+  📋 E01_contrarian_imbalance: Contrarian composite imbalance (baseline)
+    - thresh=1.0, hold=1h, trades=1922, avg=-9.68, total=-18597.6, WR=42%, sharpe=-0.14
+    - thresh=1.0, hold=2h, trades=1013, avg=-8.47, total=-8580.2, WR=46%, sharpe=-0.08
+    - thresh=1.0, hold=4h, trades=524, avg=-14.10, total=-7390.1, WR=44%, sharpe=-0.09
+    - thresh=1.5, hold=1h, trades=1377, avg=-10.18, total=-14014.9, WR=42%, sharpe=-0.15
+    - thresh=1.5, hold=2h, trades=835, avg=-8.36, total=-6983.5, WR=44%, sharpe=-0.08
+    - thresh=1.5, hold=4h, trades=471, avg=-16.45, total=-7748.7, WR=43%, sharpe=-0.11
+       BEST: thresh=1.5, hold=2h, trades=835, avg=-8.36 bps, total=-6983.5, WR=44%, sharpe=-0.08
+
+  📋 E02_momentum_large_trades: Momentum: follow large trade direction
+    - thresh=1.0, hold=1h, trades=1862, avg=-6.19, total=-11529.1, WR=41%, sharpe=-0.09
+    - thresh=1.0, hold=2h, trades=1001, avg=-6.84, total=-6842.4, WR=41%, sharpe=-0.07
+    - thresh=1.0, hold=4h, trades=520, avg=-2.40, total=-1250.5, WR=46%, sharpe=-0.02
+    - thresh=1.5, hold=1h, trades=1299, avg=-7.27, total=-9444.4, WR=39%, sharpe=-0.12
+    - thresh=1.5, hold=2h, trades=800, avg=-2.32, total=-1855.8, WR=45%, sharpe=-0.03
+    - thresh=1.5, hold=4h, trades=459, avg=-1.66, total=-762.3, WR=45%, sharpe=-0.01
+       BEST: thresh=1.5, hold=4h, trades=459, avg=-1.66 bps, total=-762.3, WR=45%, sharpe=-0.01
+
+  📋 E03_vol_breakout: Volatility breakout: trade range expansion direction
+    - thresh=1.0, hold=1h, trades=1121, avg=-11.55, total=-12945.9, WR=39%, sharpe=-0.13
+    - thresh=1.0, hold=2h, trades=690, avg=-9.98, total=-6888.3, WR=41%, sharpe=-0.08
+    - thresh=1.0, hold=4h, trades=410, avg=-3.99, total=-1635.6, WR=47%, sharpe=-0.03
+    - thresh=1.5, hold=1h, trades=634, avg=-10.80, total=-6848.6, WR=40%, sharpe=-0.11
+    - thresh=1.5, hold=2h, trades=444, avg=-9.41, total=-4176.3, WR=42%, sharpe=-0.07
+    + thresh=1.5, hold=4h, trades=284, avg=+5.93, total=+1683.7, WR=45%, sharpe=0.03
+    ✅ BEST: thresh=1.5, hold=4h, trades=284, avg=+5.93 bps, total=+1683.7, WR=45%, sharpe=0.03
+
+  📋 E04_trade_acceleration: Trade acceleration: rising trade rate = momentum
+    - thresh=1.0, hold=1h, trades=1844, avg=-5.43, total=-10014.8, WR=42%, sharpe=-0.07
+    - thresh=1.0, hold=2h, trades=999, avg=-5.26, total=-5259.7, WR=44%, sharpe=-0.05
+    - thresh=1.0, hold=4h, trades=520, avg=-12.59, total=-6547.0, WR=45%, sharpe=-0.09
+    - thresh=1.5, hold=1h, trades=1350, avg=-2.12, total=-2864.1, WR=44%, sharpe=-0.03
+    - thresh=1.5, hold=2h, trades=826, avg=-7.04, total=-5814.6, WR=45%, sharpe=-0.07
+    + thresh=1.5, hold=4h, trades=467, avg=+3.09, total=+1444.4, WR=47%, sharpe=0.02
+    ✅ BEST: thresh=1.5, hold=4h, trades=467, avg=+3.09 bps, total=+1444.4, WR=47%, sharpe=0.02
+
+  📋 E05_vwap_reversion: VWAP reversion: price far from VWAP reverts
+    - thresh=1.0, hold=30m, trades=2547, avg=-6.27, total=-15961.7, WR=43%, sharpe=-0.11
+    - thresh=1.0, hold=1h, trades=1555, avg=-5.39, total=-8387.0, WR=44%, sharpe=-0.07
+    - thresh=1.0, hold=2h, trades=881, avg=-3.24, total=-2855.2, WR=45%, sharpe=-0.03
+    - thresh=1.0, hold=4h, trades=485, avg=-2.82, total=-1366.3, WR=48%, sharpe=-0.02
+    - thresh=1.5, hold=30m, trades=1482, avg=-6.02, total=-8920.6, WR=46%, sharpe=-0.09
+    - thresh=1.5, hold=1h, trades=1029, avg=-5.77, total=-5938.5, WR=45%, sharpe=-0.07
+    - thresh=1.5, hold=2h, trades=652, avg=-12.98, total=-8464.0, WR=45%, sharpe=-0.11
+    + thresh=1.5, hold=4h, trades=397, avg=+8.06, total=+3199.4, WR=52%, sharpe=0.05
+    - thresh=2.0, hold=30m, trades=864, avg=-6.68, total=-5767.2, WR=46%, sharpe=-0.09
+    - thresh=2.0, hold=1h, trades=654, avg=-9.00, total=-5883.8, WR=44%, sharpe=-0.09
+    - thresh=2.0, hold=2h, trades=472, avg=-9.64, total=-4549.8, WR=46%, sharpe=-0.07
+    - thresh=2.0, hold=4h, trades=300, avg=-11.47, total=-3440.4, WR=44%, sharpe=-0.06
+    ✅ BEST: thresh=1.5, hold=4h, trades=397, avg=+8.06 bps, total=+3199.4, WR=52%, sharpe=0.05
+
+  📋 E06_volume_surge_direction: Volume surge + direction: high volume confirms move
+    - thresh=1.0, hold=1h, trades=702, avg=-6.89, total=-4838.7, WR=41%, sharpe=-0.07
+    - thresh=1.0, hold=2h, trades=490, avg=-7.80, total=-3821.7, WR=45%, sharpe=-0.06
+    - thresh=1.0, hold=4h, trades=315, avg=-13.43, total=-4231.3, WR=43%, sharpe=-0.08
+    - thresh=1.5, hold=1h, trades=548, avg=-6.76, total=-3705.0, WR=39%, sharpe=-0.07
+    - thresh=1.5, hold=2h, trades=399, avg=-7.39, total=-2949.8, WR=41%, sharpe=-0.05
+    - thresh=1.5, hold=4h, trades=272, avg=-12.94, total=-3521.0, WR=44%, sharpe=-0.07
+       BEST: thresh=1.5, hold=1h, trades=548, avg=-6.76 bps, total=-3705.0, WR=39%, sharpe=-0.07
+
+  📋 E07_size_aggression: Size aggression: large buys vs large sells
+    - thresh=1.0, hold=1h_c, trades=1809, avg=-6.95, total=-12568.1, WR=44%, sharpe=-0.10
+    - thresh=1.0, hold=1h_m, trades=1809, avg=-7.05, total=-12757.9, WR=40%, sharpe=-0.10
+    - thresh=1.0, hold=2h_c, trades=982, avg=-6.40, total=-6289.3, WR=45%, sharpe=-0.06
+    - thresh=1.0, hold=2h_m, trades=982, avg=-7.60, total=-7458.7, WR=43%, sharpe=-0.07
+    - thresh=1.0, hold=4h_c, trades=517, avg=-6.73, total=-3480.2, WR=48%, sharpe=-0.04
+    - thresh=1.0, hold=4h_m, trades=517, avg=-7.27, total=-3757.8, WR=47%, sharpe=-0.05
+    - thresh=1.5, hold=1h_c, trades=1300, avg=-7.82, total=-10159.7, WR=43%, sharpe=-0.12
+    - thresh=1.5, hold=1h_m, trades=1300, avg=-6.18, total=-8040.3, WR=41%, sharpe=-0.09
+    - thresh=1.5, hold=2h_c, trades=804, avg=-5.59, total=-4498.0, WR=45%, sharpe=-0.06
+    - thresh=1.5, hold=2h_m, trades=804, avg=-8.41, total=-6758.0, WR=41%, sharpe=-0.08
+    - thresh=1.5, hold=4h_c, trades=453, avg=-14.20, total=-6431.8, WR=43%, sharpe=-0.11
+    + thresh=1.5, hold=4h_m, trades=453, avg=+0.20, total=+89.8, WR=49%, sharpe=0.00
+    ✅ BEST: thresh=1.5, hold=4h_m, trades=453, avg=+0.20 bps, total=+89.8, WR=49%, sharpe=0.00
+
+  📋 E08_wick_rejection: Wick rejection: long lower wick = buy, long upper wick = sell
+    - thresh=1.0, hold=1h, trades=1866, avg=-6.55, total=-12221.6, WR=43%, sharpe=-0.09
+    - thresh=1.0, hold=2h, trades=1007, avg=-3.32, total=-3338.7, WR=45%, sharpe=-0.03
+    - thresh=1.0, hold=4h, trades=520, avg=-7.06, total=-3671.3, WR=48%, sharpe=-0.05
+    - thresh=1.5, hold=1h, trades=1472, avg=-3.98, total=-5853.2, WR=45%, sharpe=-0.06
+    - thresh=1.5, hold=2h, trades=881, avg=-7.92, total=-6973.2, WR=45%, sharpe=-0.08
+    - thresh=1.5, hold=4h, trades=484, avg=-14.81, total=-7167.4, WR=46%, sharpe=-0.10
+       BEST: thresh=1.0, hold=2h, trades=1007, avg=-3.32 bps, total=-3338.7, WR=45%, sharpe=-0.03
+
+  📋 E09_cumulative_imbalance: Cumulative imbalance: sustained pressure over 1h
+    - thresh=1.0, hold=1h_c, trades=1350, avg=-10.83, total=-14617.3, WR=42%, sharpe=-0.16
+    - thresh=1.0, hold=1h_m, trades=1350, avg=-3.17, total=-4282.7, WR=41%, sharpe=-0.05
+    - thresh=1.0, hold=2h_c, trades=826, avg=-10.97, total=-9062.0, WR=45%, sharpe=-0.11
+    - thresh=1.0, hold=2h_m, trades=826, avg=-3.03, total=-2502.0, WR=42%, sharpe=-0.03
+    - thresh=1.0, hold=4h_c, trades=471, avg=-14.50, total=-6828.1, WR=48%, sharpe=-0.10
+    + thresh=1.0, hold=4h_m, trades=471, avg=+0.50, total=+234.1, WR=45%, sharpe=0.00
+    - thresh=1.5, hold=1h_c, trades=744, avg=-10.28, total=-7644.6, WR=44%, sharpe=-0.17
+    - thresh=1.5, hold=1h_m, trades=744, avg=-3.72, total=-2771.4, WR=39%, sharpe=-0.06
+    - thresh=1.5, hold=2h_c, trades=549, avg=-11.10, total=-6094.8, WR=45%, sharpe=-0.12
+    - thresh=1.5, hold=2h_m, trades=549, avg=-2.90, total=-1591.2, WR=42%, sharpe=-0.03
+    - thresh=1.5, hold=4h_c, trades=360, avg=-26.54, total=-9552.8, WR=43%, sharpe=-0.18
+    + thresh=1.5, hold=4h_m, trades=360, avg=+12.54, total=+4512.8, WR=49%, sharpe=0.08
+    ✅ BEST: thresh=1.5, hold=4h_m, trades=360, avg=+12.54 bps, total=+4512.8, WR=49%, sharpe=0.08
+
+  📋 E10_price_mean_reversion: Price mean-reversion: z-score of price vs 5h MA
+    - thresh=1.0, hold=1h, trades=1637, avg=-9.24, total=-15122.4, WR=46%, sharpe=-0.13
+    - thresh=1.0, hold=2h, trades=914, avg=-7.50, total=-6850.8, WR=48%, sharpe=-0.07
+    - thresh=1.0, hold=4h, trades=496, avg=-18.04, total=-8947.7, WR=48%, sharpe=-0.12
+    - thresh=1.5, hold=1h, trades=1116, avg=-10.47, total=-11688.4, WR=47%, sharpe=-0.13
+    - thresh=1.5, hold=2h, trades=713, avg=-11.04, total=-7871.9, WR=50%, sharpe=-0.10
+    - thresh=1.5, hold=4h, trades=433, avg=-14.77, total=-6396.6, WR=51%, sharpe=-0.10
+    - thresh=2.0, hold=1h, trades=673, avg=-9.70, total=-6526.4, WR=49%, sharpe=-0.11
+    - thresh=2.0, hold=2h, trades=488, avg=-9.81, total=-4787.3, WR=50%, sharpe=-0.08
+    - thresh=2.0, hold=4h, trades=346, avg=-20.72, total=-7170.0, WR=51%, sharpe=-0.13
+       BEST: thresh=1.0, hold=2h, trades=914, avg=-7.50 bps, total=-6850.8, WR=48%, sharpe=-0.07
+
+  📋 E11_kyle_lambda_momentum: Kyle's lambda: high price impact = informed flow, follow it
+    - thresh=1.0, hold=1h, trades=1772, avg=-8.33, total=-14766.4, WR=41%, sharpe=-0.12
+    - thresh=1.0, hold=2h, trades=973, avg=-2.96, total=-2878.2, WR=44%, sharpe=-0.03
+    - thresh=1.0, hold=4h, trades=514, avg=-4.45, total=-2286.8, WR=49%, sharpe=-0.03
+    - thresh=1.5, hold=1h, trades=1206, avg=-7.63, total=-9205.6, WR=40%, sharpe=-0.12
+    - thresh=1.5, hold=2h, trades=762, avg=-6.73, total=-5124.5, WR=41%, sharpe=-0.07
+    - thresh=1.5, hold=4h, trades=446, avg=-13.09, total=-5836.6, WR=42%, sharpe=-0.09
+       BEST: thresh=1.0, hold=2h, trades=973, avg=-2.96 bps, total=-2878.2, WR=44%, sharpe=-0.03
+
+  📋 E12_vol_regime_contrarian: Vol regime contrarian: low vol + imbalance (strongest from nb02)
+    - thresh=0.5, hold=1h, trades=1086, avg=-8.11, total=-8811.5, WR=42%, sharpe=-0.14
+    - thresh=0.5, hold=2h, trades=648, avg=-7.32, total=-4741.1, WR=44%, sharpe=-0.09
+    - thresh=0.5, hold=4h, trades=381, avg=-7.40, total=-2820.1, WR=48%, sharpe=-0.05
+    - thresh=1.0, hold=1h, trades=967, avg=-7.06, total=-6825.3, WR=43%, sharpe=-0.12
+    - thresh=1.0, hold=2h, trades=593, avg=-5.18, total=-3071.4, WR=46%, sharpe=-0.06
+    - thresh=1.0, hold=4h, trades=357, avg=-15.12, total=-5399.2, WR=46%, sharpe=-0.11
+    - thresh=1.5, hold=1h, trades=616, avg=-6.13, total=-3774.3, WR=43%, sharpe=-0.11
+    + thresh=1.5, hold=2h, trades=429, avg=+1.28, total=+551.0, WR=49%, sharpe=0.02
+    - thresh=1.5, hold=4h, trades=274, avg=-18.65, total=-5111.4, WR=44%, sharpe=-0.15
+    ✅ BEST: thresh=1.5, hold=2h, trades=429, avg=+1.28 bps, total=+551.0, WR=49%, sharpe=0.02
+
+  📋 E13_momentum_1h: 1h momentum: follow the trend
+    - thresh=1.0, hold=1h, trades=944, avg=-2.65, total=-2500.3, WR=42%, sharpe=-0.03
+    - thresh=1.0, hold=2h, trades=597, avg=-2.65, total=-1579.5, WR=45%, sharpe=-0.02
+    + thresh=1.0, hold=4h, trades=360, avg=+3.01, total=+1083.3, WR=47%, sharpe=0.02
+    - thresh=1.5, hold=1h, trades=542, avg=-1.94, total=-1054.0, WR=42%, sharpe=-0.02
+    - thresh=1.5, hold=2h, trades=368, avg=-1.61, total=-592.0, WR=43%, sharpe=-0.01
+    + thresh=1.5, hold=4h, trades=250, avg=+3.22, total=+805.2, WR=44%, sharpe=0.02
+    - thresh=2.0, hold=1h, trades=317, avg=-4.58, total=-1451.0, WR=44%, sharpe=-0.04
+    - thresh=2.0, hold=2h, trades=233, avg=-1.02, total=-237.4, WR=45%, sharpe=-0.01
+    + thresh=2.0, hold=4h, trades=170, avg=+0.10, total=+16.6, WR=45%, sharpe=0.00
+    ✅ BEST: thresh=1.5, hold=4h, trades=250, avg=+3.22 bps, total=+805.2, WR=44%, sharpe=0.02
+
+  📋 E14_reversal_after_momentum: Reversal: fade strong 1h moves
+    - thresh=1.5, hold=1h, trades=542, avg=-12.06, total=-6534.0, WR=50%, sharpe=-0.11
+    - thresh=1.5, hold=2h, trades=368, avg=-12.39, total=-4560.0, WR=52%, sharpe=-0.09
+    - thresh=1.5, hold=4h, trades=250, avg=-17.22, total=-4305.2, WR=50%, sharpe=-0.09
+    - thresh=2.0, hold=1h, trades=317, avg=-9.42, total=-2987.0, WR=50%, sharpe=-0.08
+    - thresh=2.0, hold=2h, trades=233, avg=-12.98, total=-3024.6, WR=52%, sharpe=-0.08
+    - thresh=2.0, hold=4h, trades=170, avg=-14.10, total=-2396.6, WR=49%, sharpe=-0.07
+    - thresh=2.5, hold=1h, trades=193, avg=-13.57, total=-2618.5, WR=48%, sharpe=-0.11
+    - thresh=2.5, hold=2h, trades=154, avg=-24.18, total=-3724.4, WR=49%, sharpe=-0.16
+    - thresh=2.5, hold=4h, trades=121, avg=-12.41, total=-1501.6, WR=51%, sharpe=-0.06
+       BEST: thresh=2.0, hold=1h, trades=317, avg=-9.42 bps, total=-2987.0, WR=50%, sharpe=-0.08
+
+  📋 E15_composite_momentum: Composite momentum: imbalance + price + volume all aligned
+    - thresh=1.0, hold=1h, trades=1895, avg=-7.62, total=-14447.3, WR=42%, sharpe=-0.10
+    - thresh=1.0, hold=2h, trades=1012, avg=-5.91, total=-5977.6, WR=45%, sharpe=-0.06
+    - thresh=1.0, hold=4h, trades=524, avg=-10.39, total=-5443.2, WR=43%, sharpe=-0.07
+    - thresh=1.5, hold=1h, trades=1061, avg=-8.00, total=-8483.9, WR=44%, sharpe=-0.10
+    - thresh=1.5, hold=2h, trades=687, avg=-10.27, total=-7054.4, WR=43%, sharpe=-0.09
+    - thresh=1.5, hold=4h, trades=414, avg=-8.87, total=-3672.5, WR=46%, sharpe=-0.06
+       BEST: thresh=1.0, hold=2h, trades=1012, avg=-5.91 bps, total=-5977.6, WR=45%, sharpe=-0.06
+
+# Completed in 130s

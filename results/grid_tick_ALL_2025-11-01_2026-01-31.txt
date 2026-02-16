@@ -1,0 +1,25 @@
+# Combined Summary: grid_tick
+# Exchange: bybit_futures
+# Period: 2025-11-01 → 2026-01-31
+# Symbols: BTCUSDT, ETHUSDT, SOLUSDT
+
+
+======================================================================
+  SUMMARY: GRID_TICK
+======================================================================
+  Experiment             Symbol  Trades   Inv     Avg     Real    Unrl       Net    WR
+  --------------------------------------------------------------------------------
+  grid_tick_50bps_2lvl  BTCUSDT       4    +2  +45.63   +182.5 -5522.2   -5339.7  100%
+  grid_tick_50bps_2lvl  ETHUSDT      11    +2  +45.64   +502.0 -7159.1   -6657.1  100%
+  grid_tick_50bps_2lvl  SOLUSDT      18    +2  +46.30   +833.3 -8641.0   -7807.7  100%
+  grid_tick_30bps_3lvl  BTCUSDT      13    +3  +25.81   +335.6 -8316.1   -7980.5  100%
+  grid_tick_20bps_3lvl  BTCUSDT      23    +3  +15.92   +366.1 -8359.7   -7993.6  100%
+  grid_tick_50bps_3lvl  BTCUSDT       5    +3  +45.55   +227.8 -8228.3   -8000.5  100%
+  grid_tick_20bps_3lvl  ETHUSDT      57    +3  +15.96   +909.5 -10806.5   -9897.0  100%
+  grid_tick_50bps_3lvl  ETHUSDT      15    +3  +45.64   +684.6 -10689.9  -10005.3  100%
+  grid_tick_30bps_3lvl  ETHUSDT      24    +3  +25.86   +620.6 -10767.8  -10147.2  100%
+  grid_tick_50bps_3lvl  SOLUSDT      23    +3  +46.40  +1067.1 -12918.3  -11851.2  100%
+  grid_tick_30bps_3lvl  SOLUSDT      39    +3  +26.12  +1018.8 -12987.2  -11968.4  100%
+  grid_tick_20bps_3lvl  SOLUSDT      55    +3  +16.04   +882.3 -13021.5  -12139.1  100%
+
+  Winners (avg>0, trades>=10): 10/12

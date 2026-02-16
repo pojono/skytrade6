@@ -1,0 +1,61 @@
+# Combined Summary: novel
+# Exchange: bybit_futures
+# Period: 2025-11-01 → 2026-01-31
+# Symbols: BTCUSDT, ETHUSDT, SOLUSDT
+
+
+======================================================================
+  SUMMARY: NOVEL
+======================================================================
+  Experiment                            Symbol Thresh   Hold  Trades      Avg     Total    WR  Sharpe
+  -----------------------------------------------------------------------------------------------
+  N15_composite_informed               SOLUSDT    1.0   4h_c     517   +10.36   +5354.3   50%   +0.06
+  N15_composite_informed               ETHUSDT    1.0   4h_m     515    +7.70   +3964.2   50%   +0.05
+  N10_herding_runs                     SOLUSDT    1.0   4h_m     524    +7.42   +3885.5   45%   +0.05
+  N07_illiquidity_shock                SOLUSDT    1.0   4h_c     527    +5.27   +2777.0   47%   +0.03
+  N10_herding_runs                     BTCUSDT    1.0   4h_c     513    +3.92   +2008.9   49%   +0.04
+  N06_toxic_flow_cumulative            SOLUSDT    1.5   4h_m     358    +3.63   +1300.3   47%   +0.02
+  N07_illiquidity_shock                ETHUSDT    1.5   4h_c     470    +3.41   +1604.8   47%   +0.03
+  N09_aggressive_flow                  SOLUSDT    1.0     4h     514    +2.99   +1534.7   51%   +0.02
+  N08_efficiency_regime                ETHUSDT    1.5     4h     356    +2.38    +845.5   47%   +0.02
+  N14_vol_speed_informed               BTCUSDT    1.0     4h     319    +2.09    +667.2   44%   +0.02
+  N06_toxic_flow_cumulative            ETHUSDT    1.0   4h_m     466    +1.92    +894.7   51%   +0.01
+  N15_composite_informed               BTCUSDT    1.0   4h_m     517    +0.88    +453.0   47%   +0.01
+  N12_vw_momentum                      SOLUSDT    1.5   2h_m     651    +0.82    +536.6   48%   +0.01
+  N05_entropy_regime                   ETHUSDT    1.5     4h     377    +0.71    +266.5   49%   +0.01
+  N16_time_entropy_regime              ETHUSDT    1.0     4h     516    +0.65    +337.3   47%   +0.00
+  N04_info_decay                       BTCUSDT    1.0     4h     471    +0.63    +299.0   49%   +0.01
+  N08_efficiency_regime                SOLUSDT    1.0     4h     497    +0.20     +99.5   47%   +0.00
+  N16_time_entropy_regime              SOLUSDT    1.5     4h     462    +0.18     +83.9   46%   +0.00
+  N03_sign_persistence                 ETHUSDT    1.0     4h     528    -0.07     -34.4   47%   -0.00
+  N13_surprise_contrarian              SOLUSDT    2.0     4h     217    -0.18     -38.0   52%   -0.00
+  N16_time_entropy_regime              BTCUSDT    1.0     4h     516    -0.26    -133.1   46%   -0.00
+  N13_surprise_contrarian              ETHUSDT    1.5     2h     367    -0.29    -104.8   55%   -0.00
+  N02_hurst_regime                     SOLUSDT    1.0     4h     498    -0.39    -196.7   48%   -0.00
+  N01_vpin_toxicity                    ETHUSDT    2.0   4h_m     360    -0.49    -175.7   45%   -0.00
+  N14_vol_speed_informed               SOLUSDT    1.5     2h     398    -0.50    -197.3   46%   -0.00
+  N11_multifractal_vol                 BTCUSDT    1.0     4h     515    -0.54    -277.5   45%   -0.01
+  N01_vpin_toxicity                    BTCUSDT    2.0   4h_c     356    -0.77    -272.6   49%   -0.01
+  N11_multifractal_vol                 SOLUSDT    1.5     2h     791    -0.89    -701.4   47%   -0.01
+  N03_sign_persistence                 SOLUSDT    1.0     4h     528    -1.22    -643.7   49%   -0.01
+  N05_entropy_regime                   SOLUSDT    1.5     2h     732    -1.72   -1262.2   50%   -0.02
+  N09_aggressive_flow                  BTCUSDT    1.0     4h     517    -1.82    -941.5   48%   -0.02
+  N12_vw_momentum                      ETHUSDT    1.0   4h_m     471    -1.97    -927.7   43%   -0.01
+  N01_vpin_toxicity                    SOLUSDT    2.0   2h_c     547    -2.07   -1131.3   48%   -0.02
+  N14_vol_speed_informed               ETHUSDT    1.5     2h     408    -2.30    -939.8   44%   -0.02
+  N10_herding_runs                     ETHUSDT    1.5   4h_m     437    -3.44   -1504.1   44%   -0.03
+  N09_aggressive_flow                  ETHUSDT    1.0     2h     990    -3.80   -3762.7   44%   -0.04
+  N02_hurst_regime                     BTCUSDT    1.0     4h     504    -3.89   -1962.5   45%   -0.04
+  N12_vw_momentum                      BTCUSDT    1.5   1h_c     950    -3.93   -3732.4   43%   -0.08
+  N07_illiquidity_shock                BTCUSDT    1.0   4h_c     526    -4.03   -2120.8   42%   -0.04
+  N02_hurst_regime                     ETHUSDT    1.5     2h     729    -4.14   -3018.3   45%   -0.04
+  N04_info_decay                       SOLUSDT    1.0     2h     862    -4.35   -3752.7   45%   -0.04
+  N08_efficiency_regime                BTCUSDT    1.5     2h     581    -5.40   -3139.2   40%   -0.10
+  N13_surprise_contrarian              BTCUSDT    1.0     2h     433    -5.77   -2498.4   46%   -0.07
+  N05_entropy_regime                   BTCUSDT    1.5     1h     909    -5.86   -5322.3   38%   -0.15
+  N04_info_decay                       ETHUSDT    1.5     1h     759    -5.87   -4454.4   40%   -0.08
+  N06_toxic_flow_cumulative            BTCUSDT    1.0   2h_m     829    -6.24   -5172.8   42%   -0.09
+  N03_sign_persistence                 BTCUSDT    1.0     2h    1026    -6.47   -6634.1   44%   -0.10
+  N11_multifractal_vol                 ETHUSDT    1.0     1h    1811    -6.89  -12478.2   41%   -0.10
+
+  Winners (avg>0, trades>=10): 18/48

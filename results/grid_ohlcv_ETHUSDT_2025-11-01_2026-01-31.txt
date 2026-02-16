@@ -1,0 +1,77 @@
+# Experiment: grid_ohlcv
+# Symbol: ETHUSDT
+# Exchange: bybit_futures
+# Period: 2025-11-01 → 2026-01-31
+# Started: 2026-02-15 21:57:22 UTC
+
+
+======================================================================
+  GRID OHLCV EXPERIMENTS (G01-G10)
+  ETHUSDT on bybit_futures | 2025-11-01 → 2026-01-31 (92 days)
+  Grid fees: 4.0 bps RT | Trend fees: 7.0 bps RT
+  Experiments: 10
+======================================================================
+
+  Loading features...
+    [ 5/92] 2025-11-05  elapsed=10s  ETA=170s  RAM=8.0GB
+    [10/92] 2025-11-10  elapsed=17s  ETA=138s  RAM=8.2GB
+    [15/92] 2025-11-15  elapsed=26s  ETA=134s  RAM=7.6GB
+    [20/92] 2025-11-20  elapsed=37s  ETA=132s  RAM=7.5GB
+    [25/92] 2025-11-25  elapsed=46s  ETA=124s  RAM=8.4GB
+    [30/92] 2025-11-30  elapsed=51s  ETA=106s  RAM=8.2GB
+    [35/92] 2025-12-05  elapsed=59s  ETA=97s  RAM=7.5GB
+    [40/92] 2025-12-10  elapsed=66s  ETA=86s  RAM=7.5GB
+    [45/92] 2025-12-15  elapsed=72s  ETA=75s  RAM=7.9GB
+    [50/92] 2025-12-20  elapsed=79s  ETA=66s  RAM=8.0GB
+    [55/92] 2025-12-25  elapsed=84s  ETA=56s  RAM=7.9GB
+    [60/92] 2025-12-30  elapsed=87s  ETA=47s  RAM=8.0GB
+    [65/92] 2026-01-04  elapsed=91s  ETA=38s  RAM=7.7GB
+    [70/92] 2026-01-09  elapsed=96s  ETA=30s  RAM=7.9GB
+    [75/92] 2026-01-14  elapsed=101s  ETA=23s  RAM=7.9GB
+    [80/92] 2026-01-19  elapsed=104s  ETA=16s  RAM=7.9GB
+    [85/92] 2026-01-24  elapsed=110s  ETA=9s  RAM=7.9GB
+    [90/92] 2026-01-29  elapsed=116s  ETA=3s  RAM=7.6GB
+    [92/92] 2026-01-31  elapsed=121s  ETA=0s  RAM=7.7GB
+  26,496 bars, price 2351.39–3912.47
+
+  📋 G01_fixed_symmetric: Fixed symmetric grid (baseline)
+    ✅ Trades=14907 (grid=14907, trend=0), Avg=+14.62 bps, Total=+217878.8, WR=100%, DD=-914.7
+       Grid: avg=+14.62 bps, WR=100%
+
+  📋 G02_vol_scaled: Volatility-scaled cell width
+    ✅ Trades=8494 (grid=8494, trend=0), Avg=+17.97 bps, Total=+152615.7, WR=100%, DD=-573.1
+       Grid: avg=+17.97 bps, WR=100%
+
+  📋 G03_asymmetric: Asymmetric grid (contrarian bias from imbalance)
+    ✅ Trades=7553 (grid=7553, trend=0), Avg=+18.47 bps, Total=+139467.8, WR=100%, DD=-573.1
+       Grid: avg=+18.47 bps, WR=100%
+
+  📋 G04_regime_adaptive: Regime-adaptive: grid in range, pause in trend
+    ✅ Trades=8494 (grid=8494, trend=0), Avg=+17.97 bps, Total=+152615.7, WR=100%, DD=-573.1
+       Grid: avg=+17.97 bps, WR=100%
+
+  📋 G05_time_filtered: Time-of-day filter: skip 2-5 UTC
+    ✅ Trades=7147 (grid=7147, trend=0), Avg=+18.50 bps, Total=+132223.0, WR=100%, DD=-573.1
+       Grid: avg=+18.50 bps, WR=100%
+
+  📋 G06_trend_overlay: Grid + trend overlay (momentum in trends)
+    ✅ Trades=8494 (grid=8494, trend=0), Avg=+17.97 bps, Total=+152615.7, WR=100%, DD=-573.1
+       Grid: avg=+17.97 bps, WR=100%
+
+  📋 G07_dynamic_sizing: Dynamic sizing (reduce at high inventory)
+    ✅ Trades=8494 (grid=8494, trend=0), Avg=+17.97 bps, Total=+152615.7, WR=100%, DD=-573.1
+       Grid: avg=+17.97 bps, WR=100%
+
+  📋 G08_full_hybrid: Full hybrid: vol-scaled + asymmetric + regime + time + trend + dynamic
+    ✅ Trades=6363 (grid=6363, trend=0), Avg=+19.01 bps, Total=+120983.7, WR=100%, DD=-573.1
+       Grid: avg=+19.01 bps, WR=100%
+
+  📋 G09_tight_grid: Tight grid: more levels, smaller cells
+    ✅ Trades=23318 (grid=23318, trend=0), Avg=+8.72 bps, Total=+203299.4, WR=100%, DD=-601.3
+       Grid: avg=+8.72 bps, WR=100%
+
+  📋 G10_wide_grid: Wide grid: fewer levels, larger cells
+    ✅ Trades=1171 (grid=1171, trend=0), Avg=+36.26 bps, Total=+42463.3, WR=100%, DD=-250.5
+       Grid: avg=+36.26 bps, WR=100%
+
+# Completed in 123s

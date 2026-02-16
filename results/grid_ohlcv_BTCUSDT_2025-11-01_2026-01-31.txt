@@ -1,0 +1,77 @@
+# Experiment: grid_ohlcv
+# Symbol: BTCUSDT
+# Exchange: bybit_futures
+# Period: 2025-11-01 → 2026-01-31
+# Started: 2026-02-15 21:55:17 UTC
+
+
+======================================================================
+  GRID OHLCV EXPERIMENTS (G01-G10)
+  BTCUSDT on bybit_futures | 2025-11-01 → 2026-01-31 (92 days)
+  Grid fees: 4.0 bps RT | Trend fees: 7.0 bps RT
+  Experiments: 10
+======================================================================
+
+  Loading features...
+    [ 5/92] 2025-11-05  elapsed=9s  ETA=151s  RAM=7.9GB
+    [10/92] 2025-11-10  elapsed=15s  ETA=127s  RAM=8.1GB
+    [15/92] 2025-11-15  elapsed=24s  ETA=123s  RAM=7.8GB
+    [20/92] 2025-11-20  elapsed=34s  ETA=121s  RAM=7.5GB
+    [25/92] 2025-11-25  elapsed=44s  ETA=117s  RAM=8.0GB
+    [30/92] 2025-11-30  elapsed=49s  ETA=101s  RAM=8.4GB
+    [35/92] 2025-12-05  elapsed=57s  ETA=93s  RAM=8.1GB
+    [40/92] 2025-12-10  elapsed=63s  ETA=82s  RAM=8.1GB
+    [45/92] 2025-12-15  elapsed=68s  ETA=71s  RAM=7.8GB
+    [50/92] 2025-12-20  elapsed=76s  ETA=64s  RAM=8.1GB
+    [55/92] 2025-12-25  elapsed=82s  ETA=55s  RAM=8.0GB
+    [60/92] 2025-12-30  elapsed=86s  ETA=46s  RAM=7.7GB
+    [65/92] 2026-01-04  elapsed=89s  ETA=37s  RAM=7.8GB
+    [70/92] 2026-01-09  elapsed=96s  ETA=30s  RAM=7.7GB
+    [75/92] 2026-01-14  elapsed=101s  ETA=23s  RAM=7.7GB
+    [80/92] 2026-01-19  elapsed=105s  ETA=16s  RAM=7.7GB
+    [85/92] 2026-01-24  elapsed=111s  ETA=9s  RAM=7.7GB
+    [90/92] 2026-01-29  elapsed=117s  ETA=3s  RAM=7.6GB
+    [92/92] 2026-01-31  elapsed=122s  ETA=0s  RAM=7.6GB
+  26,496 bars, price 77089.60–111153.50
+
+  📋 G01_fixed_symmetric: Fixed symmetric grid (baseline)
+    ✅ Trades=6943 (grid=6943, trend=0), Avg=+15.09 bps, Total=+104759.0, WR=100%, DD=-268.6
+       Grid: avg=+15.09 bps, WR=100%
+
+  📋 G02_vol_scaled: Volatility-scaled cell width
+    ✅ Trades=7793 (grid=7793, trend=0), Avg=+12.13 bps, Total=+94492.4, WR=100%, DD=-239.5
+       Grid: avg=+12.13 bps, WR=100%
+
+  📋 G03_asymmetric: Asymmetric grid (contrarian bias from imbalance)
+    ✅ Trades=7074 (grid=7074, trend=0), Avg=+12.45 bps, Total=+88065.5, WR=100%, DD=-239.5
+       Grid: avg=+12.45 bps, WR=100%
+
+  📋 G04_regime_adaptive: Regime-adaptive: grid in range, pause in trend
+    ✅ Trades=7793 (grid=7793, trend=0), Avg=+12.13 bps, Total=+94492.4, WR=100%, DD=-239.5
+       Grid: avg=+12.13 bps, WR=100%
+
+  📋 G05_time_filtered: Time-of-day filter: skip 2-5 UTC
+    ✅ Trades=6645 (grid=6645, trend=0), Avg=+12.49 bps, Total=+83003.8, WR=100%, DD=-239.5
+       Grid: avg=+12.49 bps, WR=100%
+
+  📋 G06_trend_overlay: Grid + trend overlay (momentum in trends)
+    ✅ Trades=7793 (grid=7793, trend=0), Avg=+12.13 bps, Total=+94492.4, WR=100%, DD=-239.5
+       Grid: avg=+12.13 bps, WR=100%
+
+  📋 G07_dynamic_sizing: Dynamic sizing (reduce at high inventory)
+    ✅ Trades=7793 (grid=7793, trend=0), Avg=+12.13 bps, Total=+94492.4, WR=100%, DD=-239.5
+       Grid: avg=+12.13 bps, WR=100%
+
+  📋 G08_full_hybrid: Full hybrid: vol-scaled + asymmetric + regime + time + trend + dynamic
+    ✅ Trades=6036 (grid=6036, trend=0), Avg=+12.84 bps, Total=+77514.2, WR=100%, DD=-239.5
+       Grid: avg=+12.84 bps, WR=100%
+
+  📋 G09_tight_grid: Tight grid: more levels, smaller cells
+    ✅ Trades=20785 (grid=20785, trend=0), Avg=+5.64 bps, Total=+117129.7, WR=100%, DD=-262.6
+       Grid: avg=+5.64 bps, WR=100%
+
+  📋 G10_wide_grid: Wide grid: fewer levels, larger cells
+    ✅ Trades=1057 (grid=1057, trend=0), Avg=+23.91 bps, Total=+25274.9, WR=100%, DD=-34.8
+       Grid: avg=+23.91 bps, WR=100%
+
+# Completed in 125s

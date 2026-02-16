@@ -1,0 +1,43 @@
+# Combined Summary: grid_ohlcv
+# Exchange: bybit_futures
+# Period: 2025-11-01 → 2026-01-31
+# Symbols: BTCUSDT, ETHUSDT, SOLUSDT
+
+
+======================================================================
+  SUMMARY: GRID_OHLCV
+======================================================================
+  Experiment                  Symbol  Trades      Avg     Total    WR       DD
+  ---------------------------------------------------------------------------
+  G10_wide_grid              SOLUSDT    1095   +41.71  +45668.1  100%    -74.7
+  G10_wide_grid              ETHUSDT    1171   +36.26  +42463.3  100%   -250.5
+  G10_wide_grid              BTCUSDT    1057   +23.91  +25274.9  100%    -34.8
+  G08_full_hybrid            SOLUSDT    6393   +22.10 +141315.4  100%   -343.9
+  G03_asymmetric             SOLUSDT    7529   +21.55 +162255.1  100%   -343.9
+  G05_time_filtered          SOLUSDT    7176   +21.51 +154389.9  100%   -343.9
+  G02_vol_scaled             SOLUSDT    8474   +21.00 +177993.6  100%   -343.9
+  G04_regime_adaptive        SOLUSDT    8474   +21.00 +177993.6  100%   -343.9
+  G06_trend_overlay          SOLUSDT    8474   +21.00 +177993.6  100%   -343.9
+  G07_dynamic_sizing         SOLUSDT    8474   +21.00 +177993.6  100%   -343.9
+  G08_full_hybrid            ETHUSDT    6363   +19.01 +120983.7  100%   -573.1
+  G05_time_filtered          ETHUSDT    7147   +18.50 +132223.0  100%   -573.1
+  G03_asymmetric             ETHUSDT    7553   +18.47 +139467.8  100%   -573.1
+  G02_vol_scaled             ETHUSDT    8494   +17.97 +152615.7  100%   -573.1
+  G04_regime_adaptive        ETHUSDT    8494   +17.97 +152615.7  100%   -573.1
+  G06_trend_overlay          ETHUSDT    8494   +17.97 +152615.7  100%   -573.1
+  G07_dynamic_sizing         ETHUSDT    8494   +17.97 +152615.7  100%   -573.1
+  G01_fixed_symmetric        BTCUSDT    6943   +15.09 +104759.0  100%   -268.6
+  G01_fixed_symmetric        SOLUSDT   17580   +14.80 +260212.7  100%   -706.5
+  G01_fixed_symmetric        ETHUSDT   14907   +14.62 +217878.8  100%   -914.7
+  G08_full_hybrid            BTCUSDT    6036   +12.84  +77514.2  100%   -239.5
+  G05_time_filtered          BTCUSDT    6645   +12.49  +83003.8  100%   -239.5
+  G03_asymmetric             BTCUSDT    7074   +12.45  +88065.5  100%   -239.5
+  G02_vol_scaled             BTCUSDT    7793   +12.13  +94492.4  100%   -239.5
+  G04_regime_adaptive        BTCUSDT    7793   +12.13  +94492.4  100%   -239.5
+  G06_trend_overlay          BTCUSDT    7793   +12.13  +94492.4  100%   -239.5
+  G07_dynamic_sizing         BTCUSDT    7793   +12.13  +94492.4  100%   -239.5
+  G09_tight_grid             SOLUSDT   24112    +9.75 +235132.0  100%   -701.7
+  G09_tight_grid             ETHUSDT   23318    +8.72 +203299.4  100%   -601.3
+  G09_tight_grid             BTCUSDT   20785    +5.64 +117129.7  100%   -262.6
+
+  Winners (avg>0, trades>=10): 30/30

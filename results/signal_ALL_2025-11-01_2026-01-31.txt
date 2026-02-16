@@ -1,0 +1,58 @@
+# Combined Summary: signal
+# Exchange: bybit_futures
+# Period: 2025-11-01 → 2026-01-31
+# Symbols: BTCUSDT, ETHUSDT, SOLUSDT
+
+
+======================================================================
+  SUMMARY: SIGNAL
+======================================================================
+  Experiment                            Symbol Thresh   Hold  Trades      Avg     Total    WR  Sharpe
+  -----------------------------------------------------------------------------------------------
+  E09_cumulative_imbalance             ETHUSDT    1.5   4h_m     360   +12.54   +4512.8   49%   +0.08
+  E13_momentum_1h                      SOLUSDT    2.0     2h     233   +11.29   +2629.7   46%   +0.07
+  E03_vol_breakout                     SOLUSDT    1.5     2h     450    +9.77   +4394.9   45%   +0.07
+  E05_vwap_reversion                   ETHUSDT    1.5     4h     397    +8.06   +3199.4   52%   +0.05
+  E06_volume_surge_direction           SOLUSDT    1.5     2h     392    +7.65   +3000.0   46%   +0.05
+  E05_vwap_reversion                   SOLUSDT    1.0     4h     493    +7.01   +3456.4   49%   +0.04
+  E09_cumulative_imbalance             SOLUSDT    1.5   4h_m     354    +6.87   +2432.8   49%   +0.05
+  E03_vol_breakout                     ETHUSDT    1.5     4h     284    +5.93   +1683.7   45%   +0.03
+  E13_momentum_1h                      BTCUSDT    1.0     4h     366    +5.36   +1961.3   48%   +0.05
+  E03_vol_breakout                     BTCUSDT    1.5     4h     277    +5.25   +1453.3   44%   +0.04
+  E11_kyle_lambda_momentum             BTCUSDT    1.5     4h     431    +3.59   +1549.2   45%   +0.04
+  E13_momentum_1h                      ETHUSDT    1.5     4h     250    +3.22    +805.2   44%   +0.02
+  E04_trade_acceleration               ETHUSDT    1.5     4h     467    +3.09   +1444.4   47%   +0.02
+  E10_price_mean_reversion             SOLUSDT    1.5     4h     435    +2.26    +983.0   51%   +0.01
+  E12_vol_regime_contrarian            ETHUSDT    1.5     2h     429    +1.28    +551.0   49%   +0.02
+  E01_contrarian_imbalance             BTCUSDT    1.5     4h     471    +1.18    +556.2   45%   +0.01
+  E07_size_aggression                  ETHUSDT    1.5   4h_m     453    +0.20     +89.8   49%   +0.00
+  E08_wick_rejection                   SOLUSDT    1.0     2h    1003    +0.01      +7.7   47%   +0.00
+  E04_trade_acceleration               SOLUSDT    1.5     4h     476    -0.13     -62.9   48%   -0.00
+  E07_size_aggression                  SOLUSDT    1.5   4h_c     464    -0.13     -61.8   47%   -0.00
+  E07_size_aggression                  BTCUSDT    1.5   4h_c     458    -0.23    -104.2   45%   -0.00
+  E12_vol_regime_contrarian            SOLUSDT    1.0     2h     600    -1.49    -892.1   48%   -0.02
+  E09_cumulative_imbalance             BTCUSDT    1.5   4h_m     352    -1.54    -540.8   46%   -0.02
+  E02_momentum_large_trades            ETHUSDT    1.5     4h     459    -1.66    -762.3   45%   -0.01
+  E12_vol_regime_contrarian            BTCUSDT    0.5     4h     388    -1.84    -714.3   46%   -0.02
+  E11_kyle_lambda_momentum             ETHUSDT    1.0     2h     973    -2.96   -2878.2   44%   -0.03
+  E08_wick_rejection                   BTCUSDT    1.0     2h    1005    -3.09   -3106.4   44%   -0.05
+  E02_momentum_large_trades            BTCUSDT    1.0     2h     998    -3.26   -3258.1   44%   -0.05
+  E08_wick_rejection                   ETHUSDT    1.0     2h    1007    -3.32   -3338.7   45%   -0.03
+  E05_vwap_reversion                   BTCUSDT    2.0     4h     302    -4.41   -1330.9   46%   -0.04
+  E11_kyle_lambda_momentum             SOLUSDT    1.5     1h    1106    -5.08   -5621.6   44%   -0.08
+  E10_price_mean_reversion             BTCUSDT    1.0     2h     925    -5.12   -4738.9   47%   -0.07
+  E02_momentum_large_trades            SOLUSDT    1.0     2h    1001    -5.27   -5279.8   44%   -0.05
+  E06_volume_surge_direction           BTCUSDT    1.5     4h     257    -5.61   -1442.1   41%   -0.05
+  E01_contrarian_imbalance             SOLUSDT    1.5     1h    1370    -5.74   -7869.6   46%   -0.07
+  E04_trade_acceleration               BTCUSDT    1.0     2h     993    -5.86   -5816.6   44%   -0.09
+  E15_composite_momentum               ETHUSDT    1.0     2h    1012    -5.91   -5977.6   45%   -0.06
+  E06_volume_surge_direction           ETHUSDT    1.5     1h     548    -6.76   -3705.0   39%   -0.07
+  E15_composite_momentum               BTCUSDT    1.0     4h     526    -7.01   -3688.0   43%   -0.07
+  E14_reversal_after_momentum          BTCUSDT    2.0     1h     311    -7.10   -2206.6   48%   -0.09
+  E10_price_mean_reversion             ETHUSDT    1.0     2h     914    -7.50   -6850.8   48%   -0.07
+  E01_contrarian_imbalance             ETHUSDT    1.5     2h     835    -8.36   -6983.5   44%   -0.08
+  E14_reversal_after_momentum          SOLUSDT    2.5     4h     119    -8.85   -1053.7   51%   -0.03
+  E15_composite_momentum               SOLUSDT    1.0     1h    1866    -8.90  -16605.3   43%   -0.11
+  E14_reversal_after_momentum          ETHUSDT    2.0     1h     317    -9.42   -2987.0   50%   -0.08
+
+  Winners (avg>0, trades>=10): 18/45

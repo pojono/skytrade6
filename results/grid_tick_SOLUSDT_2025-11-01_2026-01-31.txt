@@ -1,0 +1,445 @@
+# Experiment: grid_tick
+# Symbol: SOLUSDT
+# Exchange: bybit_futures
+# Period: 2025-11-01 → 2026-01-31
+# Started: 2026-02-15 23:03:35 UTC
+
+
+======================================================================
+  TICK-LEVEL GRID EXPERIMENTS
+  SOLUSDT on bybit_futures | 2025-11-01 → 2026-01-31 (92 days)
+  Fee: 2.0 bps maker per fill (4.0 bps RT)
+  Configs: 4
+======================================================================
+
+  📋 20bps_3lvl: cell=20bps (0.37), levels=3/side
+  Center: 187.09
+    185.97 [buy]
+    186.34 [buy]
+    186.72 [buy]
+    187.46 [sell]
+    187.84 [sell]
+    188.21 [sell]
+  [1/92] 2025-11-01: 569,833 ticks, +23 trades  | buy=1 sell=3 long=2 short=0 | inv=2 | real=+370.1 unrl=-24.5 | 1s RAM=7.9GB
+  [2/92] 2025-11-02: 730,343 ticks, +22 trades  | buy=3 sell=1 long=0 short=2 | inv=-2 | real=+722.6 unrl=-3.1 | 3s RAM=7.9GB
+  [3/92] 2025-11-03: 2,279,150 ticks, +10 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-3286.1 | 9s RAM=8.0GB
+  [4/92] 2025-11-04: 3,154,718 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-5058.6 | 17s RAM=8.0GB
+  [5/92] 2025-11-05: 1,793,659 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-3872.1 | 22s RAM=7.9GB
+  [6/92] 2025-11-06: 1,446,300 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-5018.4 | 25s RAM=7.9GB
+  [7/92] 2025-11-07: 1,700,373 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-3962.3 | 29s RAM=7.9GB
+  [8/92] 2025-11-08: 873,420 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-4574.1 | 32s RAM=7.8GB
+  [9/92] 2025-11-09: 1,059,584 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-3522.8 | 35s RAM=7.7GB
+  [10/92] 2025-11-10: 1,297,958 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-3075.2 | 38s RAM=7.9GB
+  [11/92] 2025-11-11: 1,358,305 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-5129.5 | 41s RAM=8.0GB
+  [12/92] 2025-11-12: 1,361,028 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-5311.4 | 45s RAM=8.1GB
+  [13/92] 2025-11-13: 1,811,613 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-6715.3 | 49s RAM=8.0GB
+  [14/92] 2025-11-14: 2,063,831 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7649.1 | 54s RAM=8.0GB
+  [15/92] 2025-11-15: 732,190 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7539.6 | 56s RAM=8.0GB
+  [16/92] 2025-11-16: 1,105,053 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7921.1 | 59s RAM=7.9GB
+  [17/92] 2025-11-17: 1,755,516 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8922.5 | 63s RAM=8.0GB
+  [18/92] 2025-11-18: 1,637,467 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7360.9 | 68s RAM=7.9GB
+  [19/92] 2025-11-19: 1,418,878 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7940.5 | 71s RAM=7.8GB
+  [20/92] 2025-11-20: 1,809,335 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8491.1 | 76s RAM=7.7GB
+  [21/92] 2025-11-21: 2,500,047 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9294.4 | 82s RAM=7.6GB
+  [22/92] 2025-11-22: 839,748 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9473.1 | 84s RAM=7.6GB
+  [23/92] 2025-11-23: 809,308 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8991.8 | 86s RAM=7.7GB
+  [24/92] 2025-11-24: 1,311,519 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7723.1 | 90s RAM=7.6GB
+  [25/92] 2025-11-25: 1,009,683 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7634.6 | 92s RAM=7.6GB
+  [26/92] 2025-11-26: 1,082,148 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-6985.8 | 96s RAM=7.5GB
+  [27/92] 2025-11-27: 615,478 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7339.9 | 97s RAM=7.6GB
+  [28/92] 2025-11-28: 834,736 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7901.8 | 99s RAM=7.6GB
+  [29/92] 2025-11-29: 381,788 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8130.4 | 100s RAM=7.6GB
+  [30/92] 2025-11-30: 528,684 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8529.7 | 102s RAM=7.7GB
+  [31/92] 2025-12-01: 1,206,066 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9626.1 | 105s RAM=7.6GB
+  [32/92] 2025-12-02: 1,165,189 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7679.6 | 108s RAM=7.7GB
+  [33/92] 2025-12-03: 1,106,794 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-6713.7 | 111s RAM=7.7GB
+  [34/92] 2025-12-04: 826,605 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7631.3 | 113s RAM=7.7GB
+  [35/92] 2025-12-05: 920,986 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8550.6 | 115s RAM=7.7GB
+  [36/92] 2025-12-06: 382,636 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8730.9 | 116s RAM=7.7GB
+  [37/92] 2025-12-07: 801,921 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8722.9 | 118s RAM=7.8GB
+  [38/92] 2025-12-08: 965,811 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8557.1 | 120s RAM=7.7GB
+  [39/92] 2025-12-09: 1,197,550 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7813.3 | 123s RAM=7.8GB
+  [40/92] 2025-12-10: 1,192,971 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8075.7 | 127s RAM=7.7GB
+  [41/92] 2025-12-11: 1,130,250 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8049.9 | 130s RAM=7.7GB
+  [42/92] 2025-12-12: 1,040,266 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8716.5 | 133s RAM=7.7GB
+  [43/92] 2025-12-13: 315,615 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8581.2 | 133s RAM=7.6GB
+  [44/92] 2025-12-14: 524,191 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9178.5 | 135s RAM=7.6GB
+  [45/92] 2025-12-15: 1,125,850 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9432.9 | 138s RAM=7.8GB
+  [46/92] 2025-12-16: 912,504 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9215.5 | 140s RAM=7.8GB
+  [47/92] 2025-12-17: 1,248,391 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-10167.0 | 143s RAM=7.7GB
+  [48/92] 2025-12-18: 1,368,396 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-10756.3 | 147s RAM=7.6GB
+  [49/92] 2025-12-19: 1,043,242 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9682.4 | 149s RAM=7.5GB
+  [50/92] 2025-12-20: 252,324 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9756.5 | 150s RAM=7.5GB
+  [51/92] 2025-12-21: 428,143 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9721.1 | 151s RAM=7.6GB
+  [52/92] 2025-12-22: 786,870 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9735.6 | 153s RAM=7.6GB
+  [53/92] 2025-12-23: 611,199 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-10044.7 | 154s RAM=7.6GB
+  [54/92] 2025-12-24: 464,644 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-10279.7 | 155s RAM=7.6GB
+  [55/92] 2025-12-25: 378,900 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-10687.0 | 156s RAM=7.6GB
+  [56/92] 2025-12-26: 656,901 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-10323.2 | 158s RAM=7.6GB
+  [57/92] 2025-12-27: 258,644 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9925.5 | 159s RAM=7.6GB
+  [58/92] 2025-12-28: 255,451 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9840.2 | 159s RAM=7.6GB
+  [59/92] 2025-12-29: 836,346 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-10168.6 | 161s RAM=7.5GB
+  [60/92] 2025-12-30: 503,623 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9888.5 | 162s RAM=7.6GB
+  [61/92] 2025-12-31: 483,687 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9933.6 | 164s RAM=7.6GB
+  [62/92] 2026-01-01: 322,493 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9574.6 | 164s RAM=7.7GB
+  [63/92] 2026-01-02: 815,917 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8710.0 | 167s RAM=7.5GB
+  [64/92] 2026-01-03: 383,356 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8536.1 | 168s RAM=7.5GB
+  [65/92] 2026-01-04: 480,425 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8421.8 | 169s RAM=7.6GB
+  [66/92] 2026-01-05: 911,199 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7806.8 | 171s RAM=7.6GB
+  [67/92] 2026-01-06: 1,027,850 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7294.9 | 174s RAM=7.7GB
+  [68/92] 2026-01-07: 746,331 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8053.2 | 176s RAM=7.6GB
+  [69/92] 2026-01-08: 914,036 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7740.8 | 178s RAM=7.6GB
+  [70/92] 2026-01-09: 887,578 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8119.2 | 180s RAM=7.6GB
+  [71/92] 2026-01-10: 227,125 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8141.7 | 181s RAM=7.6GB
+  [72/92] 2026-01-11: 525,157 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7523.5 | 182s RAM=7.6GB
+  [73/92] 2026-01-12: 1,049,615 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7602.4 | 185s RAM=7.8GB
+  [74/92] 2026-01-13: 1,078,024 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-6581.7 | 188s RAM=7.6GB
+  [75/92] 2026-01-14: 885,418 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-6394.9 | 190s RAM=7.6GB
+  [76/92] 2026-01-15: 750,632 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7084.0 | 192s RAM=7.6GB
+  [77/92] 2026-01-16: 581,964 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-6678.3 | 194s RAM=7.7GB
+  [78/92] 2026-01-17: 234,022 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-6876.3 | 194s RAM=7.6GB
+  [79/92] 2026-01-18: 403,883 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-7811.7 | 196s RAM=7.6GB
+  [80/92] 2026-01-19: 791,255 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-8528.1 | 197s RAM=7.6GB
+  [81/92] 2026-01-20: 855,220 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9756.5 | 200s RAM=7.6GB
+  [82/92] 2026-01-21: 867,358 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9157.6 | 202s RAM=7.6GB
+  [83/92] 2026-01-22: 500,700 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9329.8 | 203s RAM=7.7GB
+  [84/92] 2026-01-23: 557,553 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9498.9 | 204s RAM=7.7GB
+  [85/92] 2026-01-24: 155,374 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9529.5 | 205s RAM=7.6GB
+  [86/92] 2026-01-25: 849,832 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-10875.4 | 207s RAM=7.6GB
+  [87/92] 2026-01-26: 719,747 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-10009.2 | 209s RAM=7.7GB
+  [88/92] 2026-01-27: 559,721 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9535.9 | 210s RAM=7.6GB
+  [89/92] 2026-01-28: 527,882 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-9828.9 | 211s RAM=7.6GB
+  [90/92] 2026-01-29: 864,083 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-11042.8 | 213s RAM=7.6GB
+  [91/92] 2026-01-30: 1,186,310 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-11078.3 | 216s RAM=7.6GB
+  [92/92] 2026-01-31: 2,006,850 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+882.3 unrl=-13021.5 | 221s RAM=7.8GB
+
+  SUMMARY (20bps_3lvl):
+    Completed trades: 55
+    Open: 3L 0S (inv=3)
+    Avg PnL: +16.04 bps, WR: 100%
+    Realized: +882.3, Unrealized: -13021.5, Net: -12139.1 bps
+    Ticks: 86,930,569, Time: 221s
+
+  📋 30bps_3lvl: cell=30bps (0.56), levels=3/side
+  Center: 187.09
+    185.41 [buy]
+    185.97 [buy]
+    186.53 [buy]
+    187.65 [sell]
+    188.21 [sell]
+    188.77 [sell]
+  [1/92] 2025-11-01: 569,833 ticks, +17 trades  | buy=1 sell=3 long=2 short=0 | inv=2 | real=+445.5 unrl=+5.6 | 1s RAM=7.7GB
+  [2/92] 2025-11-02: 730,343 ticks, +15 trades  | buy=3 sell=2 long=0 short=1 | inv=-1 | real=+837.0 unrl=-1.5 | 3s RAM=7.6GB
+  [3/92] 2025-11-03: 2,279,150 ticks, +7 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-3232.3 | 9s RAM=7.7GB
+  [4/92] 2025-11-04: 3,154,718 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-5008.4 | 16s RAM=7.8GB
+  [5/92] 2025-11-05: 1,793,659 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-3819.5 | 20s RAM=7.8GB
+  [6/92] 2025-11-06: 1,446,300 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-4968.0 | 24s RAM=7.9GB
+  [7/92] 2025-11-07: 1,700,373 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-3909.8 | 28s RAM=7.8GB
+  [8/92] 2025-11-08: 873,420 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-4522.8 | 30s RAM=7.9GB
+  [9/92] 2025-11-09: 1,059,584 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-3469.4 | 33s RAM=7.8GB
+  [10/92] 2025-11-10: 1,297,958 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-3020.9 | 37s RAM=7.8GB
+  [11/92] 2025-11-11: 1,358,305 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-5079.4 | 40s RAM=7.8GB
+  [12/92] 2025-11-12: 1,361,028 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-5261.7 | 44s RAM=7.8GB
+  [13/92] 2025-11-13: 1,811,613 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-6668.4 | 48s RAM=7.8GB
+  [14/92] 2025-11-14: 2,063,831 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7604.0 | 53s RAM=7.8GB
+  [15/92] 2025-11-15: 732,190 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7494.3 | 54s RAM=7.7GB
+  [16/92] 2025-11-16: 1,105,053 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7876.6 | 57s RAM=7.7GB
+  [17/92] 2025-11-17: 1,755,516 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8880.0 | 61s RAM=7.9GB
+  [18/92] 2025-11-18: 1,637,467 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7315.2 | 65s RAM=7.9GB
+  [19/92] 2025-11-19: 1,418,878 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7896.0 | 68s RAM=8.0GB
+  [20/92] 2025-11-20: 1,809,335 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8447.7 | 73s RAM=7.8GB
+  [21/92] 2025-11-21: 2,500,047 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9252.7 | 78s RAM=7.6GB
+  [22/92] 2025-11-22: 839,748 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9431.8 | 80s RAM=7.7GB
+  [23/92] 2025-11-23: 809,308 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8949.4 | 82s RAM=7.7GB
+  [24/92] 2025-11-24: 1,311,519 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7678.2 | 85s RAM=7.9GB
+  [25/92] 2025-11-25: 1,009,683 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7589.5 | 88s RAM=7.8GB
+  [26/92] 2025-11-26: 1,082,148 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-6939.4 | 90s RAM=7.9GB
+  [27/92] 2025-11-27: 615,478 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7294.3 | 92s RAM=8.0GB
+  [28/92] 2025-11-28: 834,736 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7857.3 | 94s RAM=7.8GB
+  [29/92] 2025-11-29: 381,788 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8086.4 | 95s RAM=7.9GB
+  [30/92] 2025-11-30: 528,684 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8486.4 | 96s RAM=7.9GB
+  [31/92] 2025-12-01: 1,206,066 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9585.0 | 99s RAM=8.0GB
+  [32/92] 2025-12-02: 1,165,189 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7634.7 | 102s RAM=7.5GB
+  [33/92] 2025-12-03: 1,106,794 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-6666.7 | 105s RAM=7.8GB
+  [34/92] 2025-12-04: 826,605 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7586.3 | 107s RAM=7.8GB
+  [35/92] 2025-12-05: 920,986 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8507.4 | 109s RAM=7.7GB
+  [36/92] 2025-12-06: 382,636 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8688.1 | 110s RAM=7.7GB
+  [37/92] 2025-12-07: 801,921 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8680.0 | 112s RAM=7.7GB
+  [38/92] 2025-12-08: 965,811 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8513.9 | 115s RAM=7.6GB
+  [39/92] 2025-12-09: 1,197,550 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7768.6 | 118s RAM=7.7GB
+  [40/92] 2025-12-10: 1,192,971 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8031.5 | 120s RAM=8.0GB
+  [41/92] 2025-12-11: 1,130,250 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8005.7 | 123s RAM=8.0GB
+  [42/92] 2025-12-12: 1,040,266 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8673.6 | 126s RAM=7.9GB
+  [43/92] 2025-12-13: 315,615 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8538.1 | 127s RAM=7.9GB
+  [44/92] 2025-12-14: 524,191 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9136.5 | 128s RAM=7.8GB
+  [45/92] 2025-12-15: 1,125,850 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9391.4 | 131s RAM=7.7GB
+  [46/92] 2025-12-16: 912,504 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9173.6 | 133s RAM=7.7GB
+  [47/92] 2025-12-17: 1,248,391 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-10127.0 | 136s RAM=7.8GB
+  [48/92] 2025-12-18: 1,368,396 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-10717.5 | 140s RAM=7.9GB
+  [49/92] 2025-12-19: 1,043,242 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9641.5 | 142s RAM=7.9GB
+  [50/92] 2025-12-20: 252,324 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9715.7 | 143s RAM=7.9GB
+  [51/92] 2025-12-21: 428,143 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9680.2 | 144s RAM=7.8GB
+  [52/92] 2025-12-22: 786,870 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9694.7 | 146s RAM=7.7GB
+  [53/92] 2025-12-23: 611,199 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-10004.4 | 147s RAM=7.8GB
+  [54/92] 2025-12-24: 464,644 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-10240.0 | 148s RAM=7.6GB
+  [55/92] 2025-12-25: 378,900 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-10648.1 | 149s RAM=7.7GB
+  [56/92] 2025-12-26: 656,901 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-10283.5 | 151s RAM=7.7GB
+  [57/92] 2025-12-27: 258,644 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9885.1 | 152s RAM=7.7GB
+  [58/92] 2025-12-28: 255,451 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9799.6 | 152s RAM=7.7GB
+  [59/92] 2025-12-29: 836,346 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-10128.7 | 154s RAM=7.6GB
+  [60/92] 2025-12-30: 503,623 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9848.0 | 156s RAM=7.7GB
+  [61/92] 2025-12-31: 483,687 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9893.1 | 157s RAM=7.7GB
+  [62/92] 2026-01-01: 322,493 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9533.4 | 157s RAM=7.6GB
+  [63/92] 2026-01-02: 815,917 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8667.1 | 159s RAM=7.6GB
+  [64/92] 2026-01-03: 383,356 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8492.9 | 161s RAM=7.6GB
+  [65/92] 2026-01-04: 480,425 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8378.3 | 162s RAM=7.6GB
+  [66/92] 2026-01-05: 911,199 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7762.1 | 164s RAM=7.6GB
+  [67/92] 2026-01-06: 1,027,850 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7249.1 | 167s RAM=7.6GB
+  [68/92] 2026-01-07: 746,331 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8008.9 | 169s RAM=7.7GB
+  [69/92] 2026-01-08: 914,036 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7696.0 | 171s RAM=7.7GB
+  [70/92] 2026-01-09: 887,578 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8075.1 | 173s RAM=7.6GB
+  [71/92] 2026-01-10: 227,125 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8097.6 | 174s RAM=7.6GB
+  [72/92] 2026-01-11: 525,157 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7478.2 | 175s RAM=7.6GB
+  [73/92] 2026-01-12: 1,049,615 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7557.2 | 178s RAM=7.9GB
+  [74/92] 2026-01-13: 1,078,024 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-6534.5 | 181s RAM=7.8GB
+  [75/92] 2026-01-14: 885,418 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-6347.3 | 183s RAM=7.8GB
+  [76/92] 2026-01-15: 750,632 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7037.8 | 185s RAM=7.8GB
+  [77/92] 2026-01-16: 581,964 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-6631.3 | 186s RAM=7.8GB
+  [78/92] 2026-01-17: 234,022 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-6829.7 | 187s RAM=7.7GB
+  [79/92] 2026-01-18: 403,883 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-7766.9 | 188s RAM=7.7GB
+  [80/92] 2026-01-19: 791,255 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-8484.8 | 190s RAM=7.6GB
+  [81/92] 2026-01-20: 855,220 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9715.7 | 192s RAM=7.6GB
+  [82/92] 2026-01-21: 867,358 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9115.6 | 194s RAM=7.6GB
+  [83/92] 2026-01-22: 500,700 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9288.2 | 195s RAM=7.6GB
+  [84/92] 2026-01-23: 557,553 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9457.6 | 197s RAM=7.7GB
+  [85/92] 2026-01-24: 155,374 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9488.2 | 197s RAM=7.6GB
+  [86/92] 2026-01-25: 849,832 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-10836.9 | 199s RAM=7.6GB
+  [87/92] 2026-01-26: 719,747 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9969.0 | 201s RAM=7.6GB
+  [88/92] 2026-01-27: 559,721 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9494.7 | 202s RAM=7.7GB
+  [89/92] 2026-01-28: 527,882 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-9788.3 | 203s RAM=7.7GB
+  [90/92] 2026-01-29: 864,083 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-11004.6 | 206s RAM=7.7GB
+  [91/92] 2026-01-30: 1,186,310 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-11040.1 | 209s RAM=7.9GB
+  [92/92] 2026-01-31: 2,006,850 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1018.8 unrl=-12987.2 | 214s RAM=7.9GB
+
+  SUMMARY (30bps_3lvl):
+    Completed trades: 39
+    Open: 3L 0S (inv=3)
+    Avg PnL: +26.12 bps, WR: 100%
+    Realized: +1018.8, Unrealized: -12987.2, Net: -11968.4 bps
+    Ticks: 86,930,569, Time: 214s
+
+  📋 50bps_2lvl: cell=50bps (0.94), levels=2/side
+  Center: 187.09
+    185.22 [buy]
+    186.15 [buy]
+    188.03 [sell]
+    188.96 [sell]
+  [1/92] 2025-11-01: 569,833 ticks, +9 trades  | buy=1 sell=2 long=1 short=0 | inv=1 | real=+418.0 unrl=+7.8 | 1s RAM=7.8GB
+  [2/92] 2025-11-02: 730,343 ticks, +6 trades  | buy=2 sell=1 long=0 short=1 | inv=-1 | real=+695.8 unrl=+18.4 | 2s RAM=7.9GB
+  [3/92] 2025-11-03: 2,279,150 ticks, +3 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-2127.9 | 7s RAM=7.8GB
+  [4/92] 2025-11-04: 3,154,718 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-3313.7 | 13s RAM=7.7GB
+  [5/92] 2025-11-05: 1,793,659 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-2519.9 | 17s RAM=7.9GB
+  [6/92] 2025-11-06: 1,446,300 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-3286.8 | 19s RAM=8.1GB
+  [7/92] 2025-11-07: 1,700,373 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-2580.2 | 22s RAM=8.1GB
+  [8/92] 2025-11-08: 873,420 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-2989.5 | 24s RAM=7.9GB
+  [9/92] 2025-11-09: 1,059,584 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-2286.2 | 26s RAM=8.1GB
+  [10/92] 2025-11-10: 1,297,958 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-1986.8 | 29s RAM=8.1GB
+  [11/92] 2025-11-11: 1,358,305 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-3361.1 | 31s RAM=8.1GB
+  [12/92] 2025-11-12: 1,361,028 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-3482.8 | 34s RAM=8.2GB
+  [13/92] 2025-11-13: 1,811,613 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4422.1 | 37s RAM=7.9GB
+  [14/92] 2025-11-14: 2,063,831 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5046.8 | 41s RAM=7.9GB
+  [15/92] 2025-11-15: 732,190 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4973.5 | 42s RAM=7.9GB
+  [16/92] 2025-11-16: 1,105,053 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5228.8 | 44s RAM=7.8GB
+  [17/92] 2025-11-17: 1,755,516 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5898.7 | 47s RAM=8.0GB
+  [18/92] 2025-11-18: 1,637,467 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4854.0 | 50s RAM=8.0GB
+  [19/92] 2025-11-19: 1,418,878 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5241.7 | 53s RAM=7.9GB
+  [20/92] 2025-11-20: 1,809,335 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5610.1 | 57s RAM=7.9GB
+  [21/92] 2025-11-21: 2,500,047 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6147.6 | 61s RAM=7.7GB
+  [22/92] 2025-11-22: 839,748 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6267.1 | 63s RAM=7.7GB
+  [23/92] 2025-11-23: 809,308 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5945.1 | 64s RAM=7.7GB
+  [24/92] 2025-11-24: 1,311,519 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5096.3 | 67s RAM=7.8GB
+  [25/92] 2025-11-25: 1,009,683 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5037.1 | 69s RAM=7.7GB
+  [26/92] 2025-11-26: 1,082,148 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4603.0 | 71s RAM=7.9GB
+  [27/92] 2025-11-27: 615,478 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4840.0 | 72s RAM=7.9GB
+  [28/92] 2025-11-28: 834,736 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5215.9 | 74s RAM=7.8GB
+  [29/92] 2025-11-29: 381,788 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5368.8 | 75s RAM=7.8GB
+  [30/92] 2025-11-30: 528,684 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5635.9 | 76s RAM=7.8GB
+  [31/92] 2025-12-01: 1,206,066 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6369.4 | 78s RAM=7.9GB
+  [32/92] 2025-12-02: 1,165,189 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5067.2 | 80s RAM=8.1GB
+  [33/92] 2025-12-03: 1,106,794 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4421.0 | 83s RAM=7.7GB
+  [34/92] 2025-12-04: 826,605 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5034.9 | 84s RAM=7.7GB
+  [35/92] 2025-12-05: 920,986 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5649.9 | 86s RAM=7.6GB
+  [36/92] 2025-12-06: 382,636 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5770.6 | 87s RAM=7.7GB
+  [37/92] 2025-12-07: 801,921 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5765.2 | 88s RAM=7.7GB
+  [38/92] 2025-12-08: 965,811 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5654.2 | 90s RAM=7.8GB
+  [39/92] 2025-12-09: 1,197,550 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5156.6 | 93s RAM=8.0GB
+  [40/92] 2025-12-10: 1,192,971 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5332.2 | 95s RAM=7.9GB
+  [41/92] 2025-12-11: 1,130,250 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5315.0 | 97s RAM=8.1GB
+  [42/92] 2025-12-12: 1,040,266 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5760.9 | 99s RAM=8.1GB
+  [43/92] 2025-12-13: 315,615 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5670.4 | 100s RAM=8.0GB
+  [44/92] 2025-12-14: 524,191 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6070.0 | 101s RAM=7.9GB
+  [45/92] 2025-12-15: 1,125,850 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6240.2 | 103s RAM=8.2GB
+  [46/92] 2025-12-16: 912,504 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6094.8 | 105s RAM=8.1GB
+  [47/92] 2025-12-17: 1,248,391 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6731.3 | 107s RAM=8.0GB
+  [48/92] 2025-12-18: 1,368,396 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-7125.6 | 110s RAM=8.2GB
+  [49/92] 2025-12-19: 1,043,242 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6407.1 | 112s RAM=7.8GB
+  [50/92] 2025-12-20: 252,324 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6456.7 | 112s RAM=7.8GB
+  [51/92] 2025-12-21: 428,143 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6433.0 | 113s RAM=7.9GB
+  [52/92] 2025-12-22: 786,870 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6442.7 | 114s RAM=7.9GB
+  [53/92] 2025-12-23: 611,199 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6649.5 | 115s RAM=7.8GB
+  [54/92] 2025-12-24: 464,644 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6806.7 | 116s RAM=7.8GB
+  [55/92] 2025-12-25: 378,900 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-7079.2 | 117s RAM=7.7GB
+  [56/92] 2025-12-26: 656,901 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6835.8 | 118s RAM=7.8GB
+  [57/92] 2025-12-27: 258,644 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6569.8 | 119s RAM=7.8GB
+  [58/92] 2025-12-28: 255,451 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6512.7 | 119s RAM=7.8GB
+  [59/92] 2025-12-29: 836,346 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6732.4 | 121s RAM=7.8GB
+  [60/92] 2025-12-30: 503,623 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6545.0 | 122s RAM=7.8GB
+  [61/92] 2025-12-31: 483,687 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6575.2 | 123s RAM=7.8GB
+  [62/92] 2026-01-01: 322,493 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6335.0 | 123s RAM=7.7GB
+  [63/92] 2026-01-02: 815,917 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5756.6 | 125s RAM=7.7GB
+  [64/92] 2026-01-03: 383,356 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5640.2 | 125s RAM=7.7GB
+  [65/92] 2026-01-04: 480,425 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5563.8 | 126s RAM=7.7GB
+  [66/92] 2026-01-05: 911,199 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5152.3 | 128s RAM=7.7GB
+  [67/92] 2026-01-06: 1,027,850 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4809.8 | 130s RAM=7.6GB
+  [68/92] 2026-01-07: 746,331 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5317.1 | 131s RAM=7.6GB
+  [69/92] 2026-01-08: 914,036 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5108.2 | 133s RAM=7.7GB
+  [70/92] 2026-01-09: 887,578 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5361.3 | 135s RAM=7.7GB
+  [71/92] 2026-01-10: 227,125 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5376.4 | 135s RAM=7.7GB
+  [72/92] 2026-01-11: 525,157 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4962.8 | 136s RAM=7.7GB
+  [73/92] 2026-01-12: 1,049,615 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5015.5 | 138s RAM=7.9GB
+  [74/92] 2026-01-13: 1,078,024 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4332.7 | 141s RAM=8.2GB
+  [75/92] 2026-01-14: 885,418 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4207.7 | 143s RAM=8.0GB
+  [76/92] 2026-01-15: 750,632 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4668.7 | 144s RAM=8.0GB
+  [77/92] 2026-01-16: 581,964 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4397.3 | 145s RAM=8.0GB
+  [78/92] 2026-01-17: 234,022 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-4529.8 | 146s RAM=7.9GB
+  [79/92] 2026-01-18: 403,883 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5155.6 | 146s RAM=7.9GB
+  [80/92] 2026-01-19: 791,255 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-5634.9 | 148s RAM=7.8GB
+  [81/92] 2026-01-20: 855,220 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6456.7 | 149s RAM=7.9GB
+  [82/92] 2026-01-21: 867,358 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6056.0 | 151s RAM=7.8GB
+  [83/92] 2026-01-22: 500,700 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6171.3 | 152s RAM=7.7GB
+  [84/92] 2026-01-23: 557,553 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6284.3 | 153s RAM=7.7GB
+  [85/92] 2026-01-24: 155,374 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6304.8 | 153s RAM=7.7GB
+  [86/92] 2026-01-25: 849,832 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-7205.3 | 155s RAM=7.7GB
+  [87/92] 2026-01-26: 719,747 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6625.8 | 156s RAM=7.7GB
+  [88/92] 2026-01-27: 559,721 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6309.1 | 157s RAM=7.7GB
+  [89/92] 2026-01-28: 527,882 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-6505.1 | 158s RAM=7.8GB
+  [90/92] 2026-01-29: 864,083 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-7317.3 | 160s RAM=7.7GB
+  [91/92] 2026-01-30: 1,186,310 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-7341.0 | 162s RAM=7.7GB
+  [92/92] 2026-01-31: 2,006,850 ticks, +0 trades  | buy=0 sell=2 long=2 short=0 | inv=2 | real=+833.3 unrl=-8641.0 | 166s RAM=7.9GB
+
+  SUMMARY (50bps_2lvl):
+    Completed trades: 18
+    Open: 2L 0S (inv=2)
+    Avg PnL: +46.30 bps, WR: 100%
+    Realized: +833.3, Unrealized: -8641.0, Net: -7807.7 bps
+    Ticks: 86,930,569, Time: 166s
+
+  📋 50bps_3lvl: cell=50bps (0.94), levels=3/side
+  Center: 187.09
+    184.28 [buy]
+    185.22 [buy]
+    186.15 [buy]
+    188.03 [sell]
+    188.96 [sell]
+    189.90 [sell]
+  [1/92] 2025-11-01: 569,833 ticks, +10 trades  | buy=2 sell=3 long=1 short=0 | inv=1 | real=+464.8 unrl=+7.8 | 1s RAM=7.9GB
+  [2/92] 2025-11-02: 730,343 ticks, +10 trades  | buy=3 sell=2 long=0 short=1 | inv=-1 | real=+929.6 unrl=+18.4 | 3s RAM=7.9GB
+  [3/92] 2025-11-03: 2,279,150 ticks, +3 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-3123.8 | 9s RAM=7.9GB
+  [4/92] 2025-11-04: 3,154,718 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-4907.1 | 16s RAM=7.7GB
+  [5/92] 2025-11-05: 1,793,659 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-3713.4 | 21s RAM=7.8GB
+  [6/92] 2025-11-06: 1,446,300 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-4866.6 | 24s RAM=7.9GB
+  [7/92] 2025-11-07: 1,700,373 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-3804.1 | 29s RAM=8.1GB
+  [8/92] 2025-11-08: 873,420 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-4419.6 | 31s RAM=7.9GB
+  [9/92] 2025-11-09: 1,059,584 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-3361.9 | 33s RAM=8.1GB
+  [10/92] 2025-11-10: 1,297,958 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-2911.6 | 37s RAM=7.9GB
+  [11/92] 2025-11-11: 1,358,305 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-4978.4 | 40s RAM=8.0GB
+  [12/92] 2025-11-12: 1,361,028 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-5161.4 | 44s RAM=7.7GB
+  [13/92] 2025-11-13: 1,811,613 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-6573.8 | 48s RAM=7.9GB
+  [14/92] 2025-11-14: 2,063,831 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7513.3 | 53s RAM=7.9GB
+  [15/92] 2025-11-15: 732,190 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7403.1 | 55s RAM=7.7GB
+  [16/92] 2025-11-16: 1,105,053 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7787.0 | 57s RAM=7.8GB
+  [17/92] 2025-11-17: 1,755,516 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8794.5 | 61s RAM=7.8GB
+  [18/92] 2025-11-18: 1,637,467 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7223.3 | 65s RAM=7.9GB
+  [19/92] 2025-11-19: 1,418,878 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7806.4 | 68s RAM=7.9GB
+  [20/92] 2025-11-20: 1,809,335 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8360.4 | 73s RAM=7.8GB
+  [21/92] 2025-11-21: 2,500,047 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9168.6 | 78s RAM=7.7GB
+  [22/92] 2025-11-22: 839,748 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9348.4 | 80s RAM=7.6GB
+  [23/92] 2025-11-23: 809,308 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8864.1 | 82s RAM=7.7GB
+  [24/92] 2025-11-24: 1,311,519 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7587.8 | 85s RAM=7.9GB
+  [25/92] 2025-11-25: 1,009,683 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7498.7 | 88s RAM=7.9GB
+  [26/92] 2025-11-26: 1,082,148 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-6845.9 | 90s RAM=8.2GB
+  [27/92] 2025-11-27: 615,478 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7202.3 | 92s RAM=8.2GB
+  [28/92] 2025-11-28: 834,736 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7767.6 | 94s RAM=7.8GB
+  [29/92] 2025-11-29: 381,788 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7997.6 | 95s RAM=7.7GB
+  [30/92] 2025-11-30: 528,684 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8399.3 | 96s RAM=7.7GB
+  [31/92] 2025-12-01: 1,206,066 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9502.3 | 99s RAM=7.8GB
+  [32/92] 2025-12-02: 1,165,189 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7544.1 | 102s RAM=7.7GB
+  [33/92] 2025-12-03: 1,106,794 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-6572.2 | 104s RAM=8.0GB
+  [34/92] 2025-12-04: 826,605 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7495.5 | 106s RAM=8.0GB
+  [35/92] 2025-12-05: 920,986 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8420.3 | 108s RAM=7.9GB
+  [36/92] 2025-12-06: 382,636 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8601.7 | 109s RAM=7.9GB
+  [37/92] 2025-12-07: 801,921 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8593.6 | 111s RAM=7.8GB
+  [38/92] 2025-12-08: 965,811 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8426.8 | 114s RAM=7.7GB
+  [39/92] 2025-12-09: 1,197,550 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7678.5 | 117s RAM=7.9GB
+  [40/92] 2025-12-10: 1,192,971 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7942.5 | 119s RAM=8.1GB
+  [41/92] 2025-12-11: 1,130,250 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7916.6 | 122s RAM=7.8GB
+  [42/92] 2025-12-12: 1,040,266 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8587.2 | 125s RAM=7.8GB
+  [43/92] 2025-12-13: 315,615 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8451.1 | 126s RAM=7.8GB
+  [44/92] 2025-12-14: 524,191 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9052.0 | 127s RAM=7.8GB
+  [45/92] 2025-12-15: 1,125,850 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9307.9 | 130s RAM=8.0GB
+  [46/92] 2025-12-16: 912,504 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9089.3 | 132s RAM=8.0GB
+  [47/92] 2025-12-17: 1,248,391 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-10046.5 | 135s RAM=7.9GB
+  [48/92] 2025-12-18: 1,368,396 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-10639.4 | 138s RAM=8.1GB
+  [49/92] 2025-12-19: 1,043,242 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9559.0 | 141s RAM=7.9GB
+  [50/92] 2025-12-20: 252,324 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9633.5 | 141s RAM=7.9GB
+  [51/92] 2025-12-21: 428,143 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9597.9 | 142s RAM=7.8GB
+  [52/92] 2025-12-22: 786,870 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9612.4 | 144s RAM=7.8GB
+  [53/92] 2025-12-23: 611,199 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9923.4 | 145s RAM=7.8GB
+  [54/92] 2025-12-24: 464,644 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-10159.9 | 147s RAM=7.8GB
+  [55/92] 2025-12-25: 378,900 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-10569.7 | 148s RAM=7.8GB
+  [56/92] 2025-12-26: 656,901 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-10203.6 | 149s RAM=7.7GB
+  [57/92] 2025-12-27: 258,644 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9803.6 | 150s RAM=7.6GB
+  [58/92] 2025-12-28: 255,451 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9717.7 | 150s RAM=7.6GB
+  [59/92] 2025-12-29: 836,346 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-10048.2 | 152s RAM=7.6GB
+  [60/92] 2025-12-30: 503,623 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9766.3 | 153s RAM=7.7GB
+  [61/92] 2025-12-31: 483,687 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9811.7 | 155s RAM=7.7GB
+  [62/92] 2026-01-01: 322,493 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9450.5 | 155s RAM=7.7GB
+  [63/92] 2026-01-02: 815,917 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8580.7 | 157s RAM=7.7GB
+  [64/92] 2026-01-03: 383,356 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8405.7 | 158s RAM=7.7GB
+  [65/92] 2026-01-04: 480,425 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8290.7 | 159s RAM=7.7GB
+  [66/92] 2026-01-05: 911,199 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7672.0 | 161s RAM=7.8GB
+  [67/92] 2026-01-06: 1,027,850 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7156.9 | 164s RAM=7.7GB
+  [68/92] 2026-01-07: 746,331 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7919.8 | 166s RAM=7.7GB
+  [69/92] 2026-01-08: 914,036 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7605.6 | 168s RAM=7.8GB
+  [70/92] 2026-01-09: 887,578 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7986.2 | 170s RAM=7.7GB
+  [71/92] 2026-01-10: 227,125 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8008.9 | 171s RAM=7.7GB
+  [72/92] 2026-01-11: 525,157 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7386.9 | 172s RAM=7.7GB
+  [73/92] 2026-01-12: 1,049,615 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7466.3 | 175s RAM=8.0GB
+  [74/92] 2026-01-13: 1,078,024 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-6439.4 | 178s RAM=8.0GB
+  [75/92] 2026-01-14: 885,418 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-6251.5 | 180s RAM=8.1GB
+  [76/92] 2026-01-15: 750,632 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-6944.8 | 182s RAM=8.0GB
+  [77/92] 2026-01-16: 581,964 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-6536.6 | 183s RAM=7.9GB
+  [78/92] 2026-01-17: 234,022 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-6735.8 | 184s RAM=7.9GB
+  [79/92] 2026-01-18: 403,883 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-7676.9 | 185s RAM=7.8GB
+  [80/92] 2026-01-19: 791,255 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-8397.6 | 187s RAM=7.8GB
+  [81/92] 2026-01-20: 855,220 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9633.5 | 189s RAM=7.7GB
+  [82/92] 2026-01-21: 867,358 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9031.0 | 191s RAM=7.6GB
+  [83/92] 2026-01-22: 500,700 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9204.3 | 192s RAM=7.6GB
+  [84/92] 2026-01-23: 557,553 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9374.3 | 194s RAM=7.6GB
+  [85/92] 2026-01-24: 155,374 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9405.1 | 194s RAM=7.6GB
+  [86/92] 2026-01-25: 849,832 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-10759.2 | 196s RAM=7.6GB
+  [87/92] 2026-01-26: 719,747 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9887.8 | 198s RAM=7.5GB
+  [88/92] 2026-01-27: 559,721 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9411.6 | 200s RAM=7.6GB
+  [89/92] 2026-01-28: 527,882 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-9706.4 | 201s RAM=7.6GB
+  [90/92] 2026-01-29: 864,083 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-10927.7 | 203s RAM=7.6GB
+  [91/92] 2026-01-30: 1,186,310 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-10963.3 | 206s RAM=7.8GB
+  [92/92] 2026-01-31: 2,006,850 ticks, +0 trades  | buy=0 sell=3 long=3 short=0 | inv=3 | real=+1067.1 unrl=-12918.3 | 211s RAM=7.8GB
+
+  SUMMARY (50bps_3lvl):
+    Completed trades: 23
+    Open: 3L 0S (inv=3)
+    Avg PnL: +46.40 bps, WR: 100%
+    Realized: +1067.1, Unrealized: -12918.3, Net: -11851.2 bps
+    Ticks: 86,930,569, Time: 211s
+
+# Completed in 812s
