@@ -1,0 +1,118 @@
+======================================================================
+  GRID BOT SIMULATOR (v2 — proper mechanics)
+  Symbol:   BTCUSDT
+  Period:   2025-10-01 → 2025-12-31
+  Fee:      7.0 bps RT (per fill)
+  Capital:  $10,000
+  Levels:   5 buy + 5 sell
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/92] 2025-10-20 | 0s ETA=0s RAM=9.3GB cache=20 new=0
+  [40/92] 2025-11-09 | 0s ETA=0s RAM=9.3GB cache=40 new=0
+  [60/92] 2025-11-29 | 0s ETA=0s RAM=9.3GB cache=60 new=0
+  [80/92] 2025-12-19 | 0s ETA=0s RAM=9.3GB cache=80 new=0
+  [92/92] 2025-12-31 | 0s ETA=0s RAM=9.3GB cache=92 new=0
+  Loaded 26,496 bars (92 days, 92 cached, 0 new)
+  Loaded 26,496 bars in 0s
+
+  Step 2: Computing regime features...
+  Features in 17s
+
+  Step 3: Computing forward vol target...
+
+  Step 4: Walk-forward vol prediction...
+  24,496 valid predictions (92%) in 6s
+
+  Simulation period: 23,996 bars (83 days)
+  Price range: $80938 - $122380
+  Median 1h range: 0.582% ($569)
+  Fixed spacing: 0.0582% per level (total grid: 0.582%)
+  Adaptive mean: 0.0680% per level
+  Ratio adaptive/fixed: 1.17x
+  Paused bars (vol>3×median): 326 (1.4%)
+
+  Running 9 strategies...
+
+  Fixed (1h rebal):
+    PnL: $-18360.81 (grid: $+6710.87, fees: -$23222.19)
+    PnL/day: $-220.37 | Fills: 33,181 (398.2/day) | Sharpe: -44.01
+    Max DD: $-18375.63 | Avg inv: $2464 | Max inv: $5082
+    Avg spacing: 0.0582% (0.1s)
+
+  Fixed (4h rebal):
+    PnL: $-9127.57 (grid: $+3257.55, fees: -$10920.65)
+    PnL/day: $-109.55 | Fills: 15,606 (187.3/day) | Sharpe: -28.13
+    Max DD: $-9153.04 | Avg inv: $2754 | Max inv: $5122
+    Avg spacing: 0.0582% (0.1s)
+
+  Fixed (8h rebal):
+    PnL: $-6005.03 (grid: $+2403.03, fees: -$7333.91)
+    PnL/day: $-72.07 | Fills: 10,464 (125.6/day) | Sharpe: -21.26
+    Max DD: $-6015.87 | Avg inv: $2738 | Max inv: $5122
+    Avg spacing: 0.0582% (0.1s)
+
+  Tight fixed (1h):
+    PnL: $-32430.40 (grid: $+9501.62, fees: -$37745.42)
+    PnL/day: $-389.23 | Fills: 53,930 (647.3/day) | Sharpe: -59.38
+    Max DD: $-32437.80 | Avg inv: $2675 | Max inv: $5084
+    Avg spacing: 0.0291% (0.1s)
+
+  Adaptive (1h rebal):
+    PnL: $-17639.82 (grid: $+5448.60, fees: -$21552.15)
+    PnL/day: $-211.71 | Fills: 30,795 (369.6/day) | Sharpe: -50.91
+    Max DD: $-17648.40 | Avg inv: $2549 | Max inv: $5132
+    Avg spacing: 0.0679% (0.1s)
+
+  Adaptive (4h rebal):
+    PnL: $-8695.15 (grid: $+3009.03, fees: -$10142.10)
+    PnL/day: $-104.36 | Fills: 14,494 (174.0/day) | Sharpe: -27.30
+    Max DD: $-8715.45 | Avg inv: $2834 | Max inv: $5121
+    Avg spacing: 0.0689% (0.1s)
+
+  Adaptive+Pause (1h):
+    PnL: $-17746.20 (grid: $+5371.45, fees: -$21403.58)
+    PnL/day: $-212.99 | Fills: 30,583 (367.1/day) | Sharpe: -50.54
+    Max DD: $-17754.77 | Avg inv: $2534 | Max inv: $5161
+    Avg spacing: 0.0679% (0.1s)
+
+  Wide adaptive (1h):
+    PnL: $-12538.27 (grid: $+3574.35, fees: -$14963.72)
+    PnL/day: $-150.48 | Fills: 21,381 (256.6/day) | Sharpe: -37.92
+    Max DD: $-12546.66 | Avg inv: $2064 | Max inv: $5124
+    Avg spacing: 0.1019% (0.1s)
+
+  Wide adaptive (4h):
+    PnL: $-6352.07 (grid: $+2404.52, fees: -$7215.31)
+    PnL/day: $-76.24 | Fills: 10,312 (123.8/day) | Sharpe: -18.98
+    Max DD: $-6379.12 | Avg inv: $2780 | Max inv: $5116
+    Avg spacing: 0.1034% (0.1s)
+
+  ==========================================================================================
+  SUMMARY — BTCUSDT (83 days, $121030→$87595)
+  ==========================================================================================
+  Strategy                         PnL      Grid$     Fees    PnL/d   Fills  Sharpe      MaxDD    Spc%
+  --------------------------------------------------------------------------------------------
+  Fixed (1h rebal)          $-18360.81 $ +6710.87 $  23222 $-220.37 33,181  -44.01 $-18375.63 0.0582%
+  Fixed (4h rebal)          $ -9127.57 $ +3257.55 $  10921 $-109.55 15,606  -28.13 $ -9153.04 0.0582%
+  Fixed (8h rebal)          $ -6005.03 $ +2403.03 $   7334 $ -72.07 10,464  -21.26 $ -6015.87 0.0582%
+  Tight fixed (1h)          $-32430.40 $ +9501.62 $  37745 $-389.23 53,930  -59.38 $-32437.80 0.0291%
+  Adaptive (1h rebal)       $-17639.82 $ +5448.60 $  21552 $-211.71 30,795  -50.91 $-17648.40 0.0679%
+  Adaptive (4h rebal)       $ -8695.15 $ +3009.03 $  10142 $-104.36 14,494  -27.30 $ -8715.45 0.0689%
+  Adaptive+Pause (1h)       $-17746.20 $ +5371.45 $  21404 $-212.99 30,583  -50.54 $-17754.77 0.0679%
+  Wide adaptive (1h)        $-12538.27 $ +3574.35 $  14964 $-150.48 21,381  -37.92 $-12546.66 0.1019%
+  Wide adaptive (4h)        $ -6352.07 $ +2404.52 $   7215 $ -76.24 10,312  -18.98 $ -6379.12 0.1034%
+
+  ======================================================================
+  REGIME ANALYSIS
+  ======================================================================
+  Calm periods (11,998 bars, 42 days):
+    Adaptive: 0.0435% | Fixed: 0.0582% | +25% vs fixed
+  Volatile periods (11,998 bars, 42 days):
+    Adaptive: 0.0924% | Fixed: 0.0582% | +59% vs fixed
+
+✅ BTCUSDT grid bot simulation complete in 24s (0.4min)
+
+======================================================================
+  ALL DONE — BTCUSDT in 24s (0.4 min)
+======================================================================

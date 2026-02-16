@@ -1,19 +1,16 @@
 # FINDINGS v17 — Regime-Filtered Grid Bot
 
+> **⚠️ CORRECTED 2026-02-16:** Original v17 results used a broken simulator (same bugs as v16).
+> All results below are from the **fixed simulator** ported from v15. The original narrative
+> ("99.7% loss reduction") was comparing broken numbers. With the correct simulator, the
+> baseline is **already profitable** (+$2,151 on SOL), and **all regime filtering strategies
+> make things worse**. See "Bug Post-Mortem" in FINDINGS_v16.
+
 ## Motivation
 
-v15/v16 reduced grid bot losses significantly but never reached positive PnL.
-The core problem: grid bots profit from mean-reversion but bleed in trends.
-SOL went $95→$294, BTC $74K→$126K, ETH $1.4K→$5K — strong uptrends.
-
-**Key insight from v8:** Markets are ranging 85-94% of the time over 13 months.
-Trending is only 1-2.5% of bars — but those rare bars cause nearly ALL the losses.
-
-**Strategy:** Pause the grid during dangerous regimes (high vol, trending),
-only run when conditions favor mean-reversion. Combine with:
-- N5b informed rebalance (v16 winner)
-- Short rebalance intervals (minimize inventory holding time)
-- Force-close inventory when transitioning to paused state
+v16 (with broken sim) suggested N5b informed rebalance reduced losses by 90%.
+v17 explored regime filtering — pausing the grid during high-vol/trending periods
+and force-closing inventory on pause transitions.
 
 ## Method
 
@@ -24,121 +21,103 @@ only run when conditions favor mean-reversion. Combine with:
 - **Informed rebalance:** Rebalance within 1h when composite informed flow z > 1.5
 - **Short rebalance:** 30min, 1h, 2h base rebalance intervals
 - **Force-close on pause:** When grid transitions to paused, close all inventory at market
+- **Capital:** $10K, 5 levels, 2bps maker fees
 
-## Results — SOLUSDT (387 days, $95→$294)
+## Results — SOLUSDT (387 days, $95→$294) — CORRECTED
 
-### Progression of improvements
+### Every v17 strategy is worse than baseline
 
-| Strategy | PnL | PnL/day | Fills | vs Baseline |
-|----------|-----|---------|-------|-------------|
-| S0: Fix 1% (24h) | **-$290,060** | -$749 | 169K | — |
-| R2: Vol pause (1.5x) | -$21,337 | -$55 | 40K | 93% better |
-| C1: VolPause+InfRebal | -$3,937 | -$10 | 12K | 98.6% better |
-| U2: 1%+1hR+VolP | -$1,499 | -$3.87 | 7K | 99.5% better |
-| **V1: 1%+30mR+VolP** | **-$959** | **-$2.48** | 3K | **99.7% better** |
+| Strategy | PnL | PnL/day | Fills | Sharpe | MaxDD | vs Base |
+|----------|-----|---------|-------|--------|-------|---------|
+| **S0: Fix 1% (24h)** | **+$2,151** | **+$5.55** | 3,597 | **0.85** | -$2,424 | — |
+| Ref: N5b InfRebal | -$1,260 | -$3.25 | 8,134 | -0.53 | -$2,105 | -$3,411 |
+| R1: Vol pause (2x) | -$8,710 | -$22.49 | 4,463 | -3.37 | -$8,922 | -$10,860 |
+| R2: Vol pause (1.5x) | -$9,469 | -$24.45 | 4,390 | -5.18 | -$9,589 | -$11,620 |
+| R3: Eff pause (>0.35) | -$3,415 | -$8.82 | 4,609 | -1.56 | -$4,695 | -$5,565 |
+| R4: Eff pause (>0.30) | -$1,008 | -$2.60 | 5,003 | -0.30 | -$2,063 | -$3,158 |
+| R6: Parkvol pause (1.5x) | -$11,340 | -$29.28 | 4,260 | -6.20 | -$11,523 | -$13,490 |
+| C1: VolPause+InfRebal | -$2,668 | -$6.89 | 4,798 | -4.79 | -$2,695 | -$4,819 |
+| U2: 1%+1hR+VolP | -$421 | -$1.09 | 4,052 | -1.43 | -$427 | -$2,572 |
+| V1: 1%+30mR+VolP | -$241 | -$0.62 | 2,064 | -1.38 | -$256 | -$2,392 |
+| V5: 1%+30mR+WideVP | -$71 | -$0.18 | 770 | -0.78 | -$111 | -$2,221 |
 
-### Best strategies (top 5)
+**Not a single v17 strategy achieves positive PnL.** The baseline (+$2,151) is the best.
 
-| Strategy | PnL | PnL/day | Fills | MaxDD |
-|----------|-----|---------|-------|-------|
-| V1: 1%+30mR+VolP | -$959 | -$2.48 | 3,158 | -$962 |
-| V3: 1%+30mR+V\|EP | -$1,043 | -$2.69 | 3,038 | -$1,044 |
-| V5: 1%+30mR+WideVP | -$1,261 | -$3.26 | 1,728 | -$1,261 |
-| V4: 1%+1hR+VolP+Inf | -$1,294 | -$3.34 | 5,002 | -$1,296 |
-| V2: 1%+1hR+V\|EP | -$1,299 | -$3.35 | 6,398 | -$1,300 |
+### Why regime filtering destroys profitability
 
-## Results — BTCUSDT (387 days, $74K→$126K)
+The force-close-on-pause mechanism is the culprit:
+- When the grid pauses, it **closes all inventory at market price**
+- In a bull market, inventory is typically long (buy fills dominate)
+- Closing long inventory during a dip (which triggers the vol pause) **crystallizes losses**
+- When the grid resumes, it rebuilds from scratch — missing the recovery
+- The grid's natural mean-reversion (buy dips, sell rallies) is **interrupted** by pausing
 
-| Strategy | PnL | PnL/day | Fills | vs Baseline |
-|----------|-----|---------|-------|-------------|
-| S0: Fix 1% (24h) | **-$39.0M** | -$101K | 75K | — |
-| V1: 1%+30mR+VolP | -$190K | -$491 | 378 | 99.5% better |
-| U2: 1%+1hR+VolP | -$202K | -$521 | 488 | 99.5% better |
-| C1: VolPause+InfRebal | -$304K | -$785 | 1,586 | 99.2% better |
+**V5 (30min rebal + wide vol pause)** loses only -$71 over 387 days, but it only has
+770 fills (2/day) — the grid barely runs. It's essentially "don't trade" which is
+slightly better than "trade and lose from force-closing."
 
-BTC still loses ~$190-300K with best strategies. The 1% grid on BTC = $1,000 spacing,
-which is too wide for 30min windows — only 378 fills in 387 days (< 1/day).
+### The paradox
 
-## Results — ETHUSDT (387 days, $1.4K→$5K)
+- **Without force-close:** Pausing just freezes inventory, which accumulates drift risk
+- **With force-close:** Pausing crystallizes losses at the worst time (during vol spikes)
+- **Either way:** Pausing hurts more than it helps when the baseline is already profitable
 
-| Strategy | PnL | PnL/day | Fills | vs Baseline |
-|----------|-----|---------|-------|-------------|
-| S0: Fix 1% (24h) | **-$3.73M** | -$9,629 | 138K | — |
-| V1: 1%+30mR+VolP | -$14,558 | -$37.59 | 1,818 | 99.6% better |
-| U2: 1%+1hR+VolP | -$18,947 | -$48.92 | 3,718 | 99.5% better |
-| V4: 1%+1hR+VolP+Inf | -$16,574 | -$42.79 | 3,074 | 99.6% better |
+## Key Findings (CORRECTED)
 
-## Key Findings
+### 1. The baseline grid bot is PROFITABLE — no enhancement needed
 
-### 1. Regime filtering + short rebalance reduces losses by 99.5-99.7%
+With the correct simulator, the Fix 1.00% (24h) grid produces:
 
-The combination of:
-- **Pause during high vol** (predicted vol > 1.5× median, ~16% of bars)
-- **Short rebalance** (30min-1h instead of 24h)
-- **Force-close on pause** (don't hold inventory through dangerous periods)
+| Symbol | PnL | PnL/day | Sharpe | MaxDD |
+|--------|-----|---------|--------|-------|
+| SOL | +$2,151 | +$5.55 | 0.85 | -$2,424 |
+| BTC | +$789 | +$2.04 | 0.83 | -$837 |
+| ETH | +$901 | +$2.33 | 0.45 | -$2,002 |
 
-Reduces losses from hundreds of thousands to low single-digit thousands on SOL.
+This is a **genuine, realistic result**: $10K capital, 2bps fees, 5 levels, 1% spacing.
+The grid earns ~$5,876 in grid profits on SOL, pays ~$718 in fees, for net +$2,151.
 
-### 2. Rebalance frequency is the most powerful lever
+### 2. Regime filtering is harmful in a bull market
 
-| Rebalance | SOL PnL | SOL PnL/day |
-|-----------|---------|-------------|
-| 24h + informed | -$3,937 | -$10.17 |
-| 2h | -$3,063 | -$7.91 |
-| 1h | -$1,499 | -$3.87 |
-| 30min | -$959 | -$2.48 |
+Every form of pausing (vol, efficiency, ADX, parkvol) makes things worse.
+The grid bot's natural behavior — buying dips and selling rallies — is already
+the correct response to short-term mean-reversion within a trend.
 
-Shorter rebalance = less inventory drift = less loss. But diminishing returns —
-going from 1h to 30min only saves $1.40/day.
+Pausing interrupts this natural cycle and forces inventory liquidation at bad times.
 
-### 3. Still not profitable — fundamental limitation
+### 3. Informed rebalance (N5b) is harmful
 
-Even with 99.7% loss reduction, the grid bot is still slightly negative.
-The remaining ~$1K/year loss on SOL comes from:
-- **Rebalance cost:** Each rebalance crystallizes a small directional loss
-- **Asymmetric fills:** In an uptrend, more buy fills than sell fills complete
-- **Fee drag:** Even at 2bps maker, fees add up with frequent rebalancing
+N5b triggers 21 fills/day vs baseline's 9.3. The excess rebalancing generates
+fees and crystallizes small losses that the grid would naturally recover from.
 
-### 4. The grid bot needs a fundamentally different market
+### 4. Short rebalance intervals are harmful
 
-The 13-month test period (Jan 2025 - Jan 2026) was a **strong bull market**.
-Grid bots are structurally short gamma — they sell rallies and buy dips.
-In a sustained uptrend, this is a losing proposition regardless of regime filtering.
+Even without pausing, shorter rebalance intervals (1h, 30min) hurt because
+they close inventory before the grid can complete round-trips.
 
-A grid bot would likely be profitable in a **sideways/ranging market** where:
-- Price oscillates within a range for extended periods
-- No sustained directional trend
-- Volatility is moderate (enough fills, not too much drift)
+### 5. The correct v15 findings hold
 
-### 5. Cross-asset comparison
-
-| Symbol | Best PnL | Best PnL/day | Loss Reduction |
-|--------|----------|-------------|----------------|
-| SOL | -$959 | -$2.48 | 99.7% |
-| ETH | -$14,558 | -$37.59 | 99.6% |
-| BTC | -$190,185 | -$491 | 99.5% |
-
-SOL is the most grid-friendly (highest fill rate, smallest losses).
-BTC is the worst (too expensive per level, too few fills).
+v15's conclusions are validated:
+- **S5 (adaptive rebalance)** is best for BTC/ETH (Sharpe 1.84 on BTC)
+- **S7 (asymmetry adjust)** is best for SOL (+$2,451, Sharpe 0.90)
+- **Fixed 1.00% (24h)** is a strong universal baseline
 
 ## Conclusion
 
-We've pushed the grid bot to its theoretical limit for this market regime:
-- **v15 baseline:** -$290K on SOL
-- **v16 informed rebalance:** -$28K (90% better)
-- **v17 regime filter + short rebalance:** -$959 (99.7% better)
+**The entire v17 research direction was misguided** — it was built on the false premise
+(from the broken v16 simulator) that the baseline grid bot was losing money.
 
-The remaining loss is structural — the grid bot is fundamentally mismatched
-with a trending market. To achieve positive PnL, we would need either:
-1. A ranging market period to test on
-2. A trend-following overlay (shift grid center with the trend)
-3. A completely different strategy architecture (not a grid bot)
+In reality, the baseline is profitable, and the correct research direction is:
+1. **Use v15's per-asset strategies** (S5 for BTC/ETH, S7 for SOL)
+2. **Do NOT add regime filtering or informed rebalance** — they destroy value
+3. **Focus on other strategy types** (not grid bots) for further alpha
 
 ## Files
 
 | File | Description |
 |------|-------------|
-| `grid_bot_v17.py` | Regime-filtered grid bot with 30+ strategies |
-| `results/grid_v17_SOL.txt` | SOL results (30+ strategies) |
-| `results/grid_v17_BTC.txt` | BTC results |
-| `results/grid_v17_ETH.txt` | ETH results |
+| `grid_bot_v17.py` | Regime-filtered grid bot (fixed simulator) |
+| `results/grid_v17_SOL_fixed.txt` | SOL results with correct simulator |
+| `results/grid_v17_SOL.txt` | SOL results with broken simulator (historical) |
+| `results/grid_v17_BTC.txt` | BTC results with broken simulator (historical) |
+| `results/grid_v17_ETH.txt` | ETH results with broken simulator (historical) |

@@ -332,7 +332,8 @@ def compute_novel_rolling(df):
 
 
 # ---------------------------------------------------------------------------
-# GridBotSimulator (same as v15)
+# GridBotSimulator — ported from v15 (correct implementation)
+# Key features: level deactivation, proper position sizing, paired buy/sell
 # ---------------------------------------------------------------------------
 
 class GridBotSimulator:
@@ -341,107 +342,154 @@ class GridBotSimulator:
         self.fee_bps = fee_bps
         self.capital_usd = capital_usd
 
-    def run(self, prices_close, prices_high, prices_low, spacings,
-            strategy_name="", paused=None, rebalance_intervals=None):
-        n = len(prices_close)
-        fee_frac = self.fee_bps / 10000
+    def _setup_grid(self, center, spacing):
+        levels = {}
+        for i in range(1, self.n_levels + 1):
+            levels[f"buy_{i}"] = {"price": center - i * spacing, "active": True, "type": "buy"}
+            levels[f"sell_{i}"] = {"price": center + i * spacing, "active": True, "type": "sell"}
+        return levels
 
-        if isinstance(spacings, (int, float)):
-            spacings = np.full(n, spacings)
+    def run(self, prices_close, prices_high, prices_low, spacings,
+            strategy_name="", paused=None, rebalance_intervals=None,
+            close_on_pause=False):
+        n = len(prices_close)
+        if paused is None:
+            paused = np.zeros(n, dtype=bool)
         if rebalance_intervals is None:
             rebalance_intervals = np.full(n, 288, dtype=int)
         elif isinstance(rebalance_intervals, (int, float)):
             rebalance_intervals = np.full(n, int(rebalance_intervals), dtype=int)
+        if isinstance(spacings, (int, float)):
+            spacings = np.full(n, spacings)
 
-        center = prices_close[0]
+        size_usd = self.capital_usd / (self.n_levels * 2)
         inventory = []
-        total_grid_profit = 0.0
+        cash = 0.0
         total_fees = 0.0
         fills = 0
-        equity_curve = [self.capital_usd]
-        bars_since_rebal = 0
+        grid_profits = 0.0
 
-        for i in range(1, n):
-            if paused is not None and paused[i]:
-                bars_since_rebal += 1
-                equity_curve.append(equity_curve[-1])
-                continue
+        grid_center = prices_close[0]
+        grid_spacing = spacings[0] * grid_center
+        levels = self._setup_grid(grid_center, grid_spacing)
+        last_rebalance = 0
 
-            spacing = spacings[i]
+        equity_curve = np.zeros(n)
+
+        for i in range(n):
             price = prices_close[i]
-            hi = prices_high[i]
-            lo = prices_low[i]
+            high = prices_high[i]
+            low = prices_low[i]
 
-            buy_levels = [center * (1 - spacing * (k + 1)) for k in range(self.n_levels)]
-            sell_levels = [center * (1 + spacing * (k + 1)) for k in range(self.n_levels)]
-
-            for bl in buy_levels:
-                if lo <= bl:
-                    inventory.append(bl)
-                    total_fees += bl * fee_frac
-                    fills += 1
-
-            new_inv = []
-            for entry in inventory:
-                matched = False
-                for sl in sell_levels:
-                    if hi >= sl and sl > entry:
-                        profit = sl - entry
-                        total_grid_profit += profit
-                        total_fees += sl * fee_frac
-                        fills += 1
-                        matched = True
-                        break
-                if not matched:
-                    new_inv.append(entry)
-            inventory = new_inv
-
-            bars_since_rebal += 1
+            # Rebalance check
             rebal_interval = int(rebalance_intervals[i])
-            if bars_since_rebal >= rebal_interval:
-                for entry in inventory:
-                    pnl = price - entry
-                    total_grid_profit += pnl
-                    total_fees += price * fee_frac
+            if i - last_rebalance >= rebal_interval and i > 0:
+                for qty, cost_p in inventory:
+                    pnl = qty * (price - cost_p)
+                    cash += pnl
+                    fee = abs(qty) * price * self.fee_bps / 10000
+                    cash -= fee
+                    total_fees += fee
                     fills += 1
                 inventory = []
-                center = price
-                bars_since_rebal = 0
+                grid_center = price
+                grid_spacing = spacings[i] * price
+                levels = self._setup_grid(grid_center, grid_spacing)
+                last_rebalance = i
 
-            unrealized = sum(price - e for e in inventory)
-            equity = self.capital_usd + total_grid_profit - total_fees + unrealized
-            equity_curve.append(equity)
+            # Pause handling
+            if paused[i]:
+                if close_on_pause and inventory:
+                    for qty, cost_p in inventory:
+                        pnl = qty * (price - cost_p)
+                        cash += pnl
+                        fee = abs(qty) * price * self.fee_bps / 10000
+                        cash -= fee
+                        total_fees += fee
+                        fills += 1
+                    inventory = []
+                    grid_center = price
+                    grid_spacing = spacings[i] * price
+                    levels = self._setup_grid(grid_center, grid_spacing)
+                    last_rebalance = i
+                net_qty = sum(q for q, _ in inventory)
+                cost_basis = sum(q * p for q, p in inventory)
+                unrealized = net_qty * price - cost_basis
+                equity_curve[i] = cash + unrealized
+                continue
 
-        for entry in inventory:
-            pnl = prices_close[-1] - entry
-            total_grid_profit += pnl
-            total_fees += prices_close[-1] * fee_frac
-            fills += 1
+            # Fill logic with level deactivation
+            for key, level in levels.items():
+                if not level["active"]:
+                    continue
+                lp = level["price"]
+                qty = size_usd / lp
 
-        equity_arr = np.array(equity_curve)
-        peak = np.maximum.accumulate(equity_arr)
-        drawdown = equity_arr - peak
-        max_dd = drawdown.min()
+                if level["type"] == "buy" and low <= lp:
+                    fee = size_usd * self.fee_bps / 10000
+                    cash -= fee
+                    total_fees += fee
+                    inventory.append((qty, lp))
+                    fills += 1
+                    level["active"] = False
+                    sell_key = key.replace("buy", "sell")
+                    if sell_key in levels:
+                        levels[sell_key]["active"] = True
 
-        total_pnl = total_grid_profit - total_fees
+                elif level["type"] == "sell" and high >= lp:
+                    fee = size_usd * self.fee_bps / 10000
+                    cash -= fee
+                    total_fees += fee
+                    if inventory and inventory[0][0] > 0:
+                        old_qty, old_price = inventory.pop(0)
+                        profit = old_qty * (lp - old_price)
+                        cash += profit
+                        grid_profits += profit
+                    else:
+                        inventory.append((-qty, lp))
+                    fills += 1
+                    level["active"] = False
+                    buy_key = key.replace("sell", "buy")
+                    if buy_key in levels:
+                        levels[buy_key]["active"] = True
+
+            net_qty = sum(q for q, _ in inventory)
+            cost_basis = sum(q * p for q, p in inventory)
+            unrealized = net_qty * price - cost_basis
+            equity_curve[i] = cash + unrealized
+
+        # Close remaining inventory at end
+        final_price = prices_close[-1]
+        for qty, cost_p in inventory:
+            pnl = qty * (final_price - cost_p)
+            cash += pnl
+            fee = abs(qty) * final_price * self.fee_bps / 10000
+            cash -= fee
+            total_fees += fee
+        equity_curve[-1] = cash
+
+        final_equity = cash
+        max_equity = np.maximum.accumulate(equity_curve)
+        drawdowns = equity_curve - max_equity
+        max_dd = np.min(drawdowns)
+
         n_days = n / 288
-        pnl_per_day = total_pnl / max(n_days, 1)
-
-        daily_eq = equity_arr[::288]
-        if len(daily_eq) > 1:
-            daily_ret = np.diff(daily_eq) / daily_eq[:-1]
-            sharpe = np.mean(daily_ret) / max(np.std(daily_ret), 1e-10) * np.sqrt(365)
+        daily_eq = equity_curve[::288]
+        daily_returns = np.diff(daily_eq)
+        daily_returns = daily_returns[~np.isnan(daily_returns)]
+        if len(daily_returns) > 1 and daily_returns.std() > 0:
+            sharpe = daily_returns.mean() / daily_returns.std() * np.sqrt(365)
         else:
-            sharpe = 0.0
+            sharpe = 0
 
         return {
             "strategy": strategy_name,
-            "total_pnl": total_pnl,
-            "grid_profits": total_grid_profit,
+            "total_pnl": final_equity,
+            "grid_profits": grid_profits,
             "total_fees": total_fees,
             "fills": fills,
             "fills_per_day": fills / max(n_days, 1),
-            "pnl_per_day": pnl_per_day,
+            "pnl_per_day": final_equity / max(n_days, 1),
             "sharpe": sharpe,
             "max_drawdown": max_dd,
         }

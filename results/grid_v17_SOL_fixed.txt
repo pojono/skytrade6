@@ -1,0 +1,248 @@
+======================================================================
+  v17: Regime-Filtered Grid Bot — SOLUSDT
+  Period: 2025-01-01 → 2026-01-31
+  Goal: Only run grid in ranging/low-vol regimes
+======================================================================
+
+  Loading data...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=6.7GB novel=20 regime=0 built=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=6.7GB novel=40 regime=0 built=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=6.7GB novel=60 regime=0 built=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=6.7GB novel=80 regime=0 built=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=6.7GB novel=100 regime=0 built=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=6.7GB novel=120 regime=0 built=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=6.7GB novel=140 regime=0 built=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=6.7GB novel=160 regime=0 built=0
+  [180/396] 2025-06-29 | 0s ETA=0s RAM=6.7GB novel=180 regime=0 built=0
+  [200/396] 2025-07-19 | 0s ETA=0s RAM=6.7GB novel=200 regime=0 built=0
+  [220/396] 2025-08-08 | 0s ETA=0s RAM=6.7GB novel=220 regime=0 built=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=6.7GB novel=240 regime=0 built=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=6.7GB novel=260 regime=0 built=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=6.7GB novel=280 regime=0 built=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=6.7GB novel=300 regime=0 built=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=6.7GB novel=320 regime=0 built=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=6.7GB novel=340 regime=0 built=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=6.7GB novel=360 regime=0 built=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=6.7GB novel=380 regime=0 built=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=6.7GB novel=396 regime=0 built=0
+  Loaded 114,048 bars (396 days, novel=396 regime=0 built=0)
+  114,048 bars loaded in 1s
+  Computing regime features...
+  Regime features in 69s
+  Computing informed flow composite...
+  Informed composite in 0s
+  Computing forward targets...
+
+  Walk-forward 1h vol prediction (Ridge)...
+    111,548 valid predictions in 54s
+
+  Simulation: 111,548 bars (387 days)
+  Price: $95.66 - $294.46
+  Median pred vol: 0.001870
+  Median parkvol_1h: 0.001784
+  Median eff_4h: 0.1213
+  Median adx_4h: 0.1770
+
+  R1 vol pause (>2x): 5.8% paused
+  R2 vol pause (>1.5x): 15.8% paused
+  R3 eff pause (>0.35): 4.7% paused
+  R4 eff pause (>0.30): 8.8% paused
+  R5 adx pause (>0.30): 15.1% paused
+  R6 parkvol pause (>1.5x): 19.7% paused
+  R7 vol+eff pause: 19.1% paused
+  R8 vol+eff+adx pause: 29.7% paused
+  T5 wide vol pause (>1.2x): 31.9% paused
+  T6 vwide pause (vol1.2|eff0.25): 40.7% paused
+
+  Running 35 strategies + U5 (10-level)...
+
+  S0: Fix 1.00% (24h):
+    PnL: $+2150.55 (grid: $+5876.88, fees: -$718.48)
+    PnL/day: $+5.55 | Fills: 3,597 (9.3/d) | Sharpe: 0.85 | MaxDD: $-2424.20 (0.5s)
+
+  Ref: N5b InfRebal:
+    PnL: $-1260.47 (grid: $+2849.80, fees: -$1626.67)
+    PnL/day: $-3.25 | Fills: 8,134 (21.0/d) | Sharpe: -0.53 | MaxDD: $-2104.97 (0.4s)
+
+  R1: Pause highVol(2x):
+    PnL: $-8709.50 (grid: $+2803.13, fees: -$892.21)
+    PnL/day: $-22.49 | Fills: 4,463 (11.5/d) | Sharpe: -3.37 | MaxDD: $-8922.23 (0.4s)
+
+  R2: Pause highVol(1.5x):
+    PnL: $-9469.01 (grid: $+1455.78, fees: -$877.66)
+    PnL/day: $-24.45 | Fills: 4,390 (11.3/d) | Sharpe: -5.18 | MaxDD: $-9589.16 (0.3s)
+
+  R3: Pause trend(eff>0.35):
+    PnL: $-3414.57 (grid: $+4885.72, fees: -$922.55)
+    PnL/day: $-8.82 | Fills: 4,609 (11.9/d) | Sharpe: -1.56 | MaxDD: $-4694.72 (0.4s)
+
+  R4: Pause trend(eff>0.30):
+    PnL: $-1007.63 (grid: $+3920.98, fees: -$1000.54)
+    PnL/day: $-2.60 | Fills: 5,003 (12.9/d) | Sharpe: -0.30 | MaxDD: $-2062.91 (0.4s)
+
+  R5: Pause trend(adx>0.30):
+    PnL: $-4713.83 (grid: $+5001.43, fees: -$842.74)
+    PnL/day: $-12.17 | Fills: 4,220 (10.9/d) | Sharpe: -1.82 | MaxDD: $-5272.94 (0.4s)
+
+  R6: Pause parkvol(1.5x):
+    PnL: $-11339.88 (grid: $+2225.93, fees: -$851.77)
+    PnL/day: $-29.28 | Fills: 4,260 (11.0/d) | Sharpe: -6.20 | MaxDD: $-11522.53 (0.3s)
+
+  R7: Pause vol|eff:
+    PnL: $-11217.65 (grid: $+1333.33, fees: -$894.62)
+    PnL/day: $-28.96 | Fills: 4,474 (11.6/d) | Sharpe: -5.97 | MaxDD: $-11307.24 (0.4s)
+
+  R8: Pause vol|eff|adx:
+    PnL: $-10880.05 (grid: $+1010.10, fees: -$853.86)
+    PnL/day: $-28.09 | Fills: 4,268 (11.0/d) | Sharpe: -7.15 | MaxDD: $-11013.99 (0.3s)
+
+  C1: VolPause+InfRebal:
+    PnL: $-2668.15 (grid: $+101.01, fees: -$959.71)
+    PnL/day: $-6.89 | Fills: 4,798 (12.4/d) | Sharpe: -4.79 | MaxDD: $-2694.60 (0.4s)
+
+  C2: EffPause+InfRebal:
+    PnL: $-597.54 (grid: $+2522.51, fees: -$1516.92)
+    PnL/day: $-1.54 | Fills: 7,586 (19.6/d) | Sharpe: -0.08 | MaxDD: $-1296.50 (0.4s)
+
+  C3: Vol|Eff+InfRebal:
+    PnL: $-2421.06 (grid: $+80.81, fees: -$894.08)
+    PnL/day: $-6.25 | Fills: 4,470 (11.5/d) | Sharpe: -4.71 | MaxDD: $-2465.86 (0.4s)
+
+  C4: Parkvol+InfRebal:
+    PnL: $-1922.09 (grid: $+101.01, fees: -$917.50)
+    PnL/day: $-4.96 | Fills: 4,588 (11.8/d) | Sharpe: -4.19 | MaxDD: $-1994.38 (0.3s)
+
+  T1: 0.70%+VolP+InfR:
+    PnL: $-4701.49 (grid: $+916.41, fees: -$1914.84)
+    PnL/day: $-12.14 | Fills: 9,574 (24.7/d) | Sharpe: -5.77 | MaxDD: $-4743.40 (0.4s)
+
+  T2: 0.50%+VolP+InfR:
+    PnL: $-6018.28 (grid: $+2799.48, fees: -$3308.89)
+    PnL/day: $-15.54 | Fills: 16,546 (42.7/d) | Sharpe: -5.63 | MaxDD: $-6035.71 (0.4s)
+
+  T3: 0.70%+V|E+InfR:
+    PnL: $-4263.79 (grid: $+888.22, fees: -$1825.22)
+    PnL/day: $-11.01 | Fills: 9,126 (23.6/d) | Sharpe: -5.63 | MaxDD: $-4337.84 (0.3s)
+
+  T4: 0.50%+V|E+InfR:
+    PnL: $-5837.44 (grid: $+2608.42, fees: -$3185.26)
+    PnL/day: $-15.07 | Fills: 15,928 (41.1/d) | Sharpe: -5.58 | MaxDD: $-5897.01 (0.3s)
+
+  T5: 0.70%+WideVP+InfR:
+    PnL: $-4579.83 (grid: $+267.88, fees: -$1287.77)
+    PnL/day: $-11.82 | Fills: 6,438 (16.6/d) | Sharpe: -8.04 | MaxDD: $-4626.35 (0.3s)
+
+  T6: 0.70%+VWideP+InfR:
+    PnL: $-2349.35 (grid: $+197.38, fees: -$1076.47)
+    PnL/day: $-6.07 | Fills: 5,382 (13.9/d) | Sharpe: -6.88 | MaxDD: $-2443.99 (0.3s)
+
+  T7: 0.70%+4hR+VolP+Inf:
+    PnL: $-4298.29 (grid: $+916.41, fees: -$1913.24)
+    PnL/day: $-11.10 | Fills: 9,566 (24.7/d) | Sharpe: -5.49 | MaxDD: $-4340.21 (0.4s)
+
+  T8: 0.70%+8hR+VolP+Inf:
+    PnL: $-4701.49 (grid: $+916.41, fees: -$1914.84)
+    PnL/day: $-12.14 | Fills: 9,574 (24.7/d) | Sharpe: -5.77 | MaxDD: $-4743.40 (0.4s)
+
+  U1: 1%+2hR+VolP:
+    PnL: $-2145.45 (grid: $+181.82, fees: -$1013.66)
+    PnL/day: $-5.54 | Fills: 5,068 (13.1/d) | Sharpe: -4.38 | MaxDD: $-2145.45 (0.3s)
+
+  U2: 1%+1hR+VolP:
+    PnL: $-421.02 (grid: $+20.20, fees: -$810.43)
+    PnL/day: $-1.09 | Fills: 4,052 (10.5/d) | Sharpe: -1.43 | MaxDD: $-427.44 (0.5s)
+
+  U3: 1%+2hR+V|EP:
+    PnL: $-1797.26 (grid: $+181.82, fees: -$946.11)
+    PnL/day: $-4.64 | Fills: 4,730 (12.2/d) | Sharpe: -4.04 | MaxDD: $-1797.26 (0.4s)
+
+  U4: 1%+2hR+VolP+Inf:
+    PnL: $-1380.91 (grid: $+60.61, fees: -$680.87)
+    PnL/day: $-3.57 | Fills: 3,404 (8.8/d) | Sharpe: -3.32 | MaxDD: $-1409.50 (0.4s)
+
+  U6: VolAdapt+VolP+InfR:
+    PnL: $-3169.19 (grid: $+318.59, fees: -$1292.87)
+    PnL/day: $-8.18 | Fills: 6,464 (16.7/d) | Sharpe: -5.16 | MaxDD: $-3193.15 (0.3s)
+
+  U7: VolAdapt+2hR+VolP:
+    PnL: $-2805.90 (grid: $+338.81, fees: -$1327.28)
+    PnL/day: $-7.24 | Fills: 6,636 (17.1/d) | Sharpe: -5.03 | MaxDD: $-2817.69 (0.4s)
+
+  V1: 1%+30mR+VolP:
+    PnL: $-241.03 (grid: $+0.00, fees: -$412.82)
+    PnL/day: $-0.62 | Fills: 2,064 (5.3/d) | Sharpe: -1.38 | MaxDD: $-255.61 (0.4s)
+
+  V2: 1%+1hR+V|EP:
+    PnL: $-448.24 (grid: $+20.20, fees: -$741.23)
+    PnL/day: $-1.16 | Fills: 3,706 (9.6/d) | Sharpe: -1.63 | MaxDD: $-537.04 (0.3s)
+
+  V3: 1%+30mR+V|EP:
+    PnL: $-449.86 (grid: $+0.00, fees: -$380.81)
+    PnL/day: $-1.16 | Fills: 1,904 (4.9/d) | Sharpe: -2.50 | MaxDD: $-491.43 (0.4s)
+
+  V4: 1%+1hR+VolP+Inf:
+    PnL: $-913.18 (grid: $+0.00, fees: -$590.89)
+    PnL/day: $-2.36 | Fills: 2,954 (7.6/d) | Sharpe: -4.05 | MaxDD: $-941.56 (0.6s)
+
+  V5: 1%+30mR+WideVP:
+    PnL: $-70.74 (grid: $+0.00, fees: -$153.99)
+    PnL/day: $-0.18 | Fills: 770 (2.0/d) | Sharpe: -0.78 | MaxDD: $-111.10 (0.5s)
+
+  V6: 1%+1hR+WideVP:
+    PnL: $-718.77 (grid: $+0.00, fees: -$419.26)
+    PnL/day: $-1.86 | Fills: 2,096 (5.4/d) | Sharpe: -4.25 | MaxDD: $-724.44 (0.3s)
+
+  V7: 1%+1hR+VWideP:
+    PnL: $-526.93 (grid: $+0.00, fees: -$323.60)
+    PnL/day: $-1.36 | Fills: 1,618 (4.2/d) | Sharpe: -3.61 | MaxDD: $-539.02 (0.3s)
+
+  U5: 10lvl+1%+VolP+InfR:
+    PnL: $-1340.22 (grid: $+50.51, fees: -$480.65)
+    PnL/day: $-3.46 | Fills: 4,806 (12.4/d) | Sharpe: -4.65 | MaxDD: $-1353.44 (0.6s)
+
+  ==============================================================================================================
+  SUMMARY — SOLUSDT (387 days)
+  ==============================================================================================================
+  Strategy                                PnL        Grid$     Fees     PnL/d   Fills  Sharpe        MaxDD    vs Base
+  -----------------------------------------------------------------------------------------------------------------
+    S0: Fix 1.00% (24h)          $   +2150.55 $   +5876.88 $    718 $   +5.55  3,597    0.85 $   -2424.20           
+    Ref: N5b InfRebal            $   -1260.47 $   +2849.80 $   1627 $   -3.25  8,134   -0.53 $   -2104.97 $    -3411
+    R1: Pause highVol(2x)        $   -8709.50 $   +2803.13 $    892 $  -22.49  4,463   -3.37 $   -8922.23 $   -10860
+    R2: Pause highVol(1.5x)      $   -9469.01 $   +1455.78 $    878 $  -24.45  4,390   -5.18 $   -9589.16 $   -11620
+    R3: Pause trend(eff>0.35)    $   -3414.57 $   +4885.72 $    923 $   -8.82  4,609   -1.56 $   -4694.72 $    -5565
+    R4: Pause trend(eff>0.30)    $   -1007.63 $   +3920.98 $   1001 $   -2.60  5,003   -0.30 $   -2062.91 $    -3158
+    R5: Pause trend(adx>0.30)    $   -4713.83 $   +5001.43 $    843 $  -12.17  4,220   -1.82 $   -5272.94 $    -6864
+    R6: Pause parkvol(1.5x)      $  -11339.88 $   +2225.93 $    852 $  -29.28  4,260   -6.20 $  -11522.53 $   -13490
+    R7: Pause vol|eff            $  -11217.65 $   +1333.33 $    895 $  -28.96  4,474   -5.97 $  -11307.24 $   -13368
+    R8: Pause vol|eff|adx        $  -10880.05 $   +1010.10 $    854 $  -28.09  4,268   -7.15 $  -11013.99 $   -13031
+    C1: VolPause+InfRebal        $   -2668.15 $    +101.01 $    960 $   -6.89  4,798   -4.79 $   -2694.60 $    -4819
+    C2: EffPause+InfRebal        $    -597.54 $   +2522.51 $   1517 $   -1.54  7,586   -0.08 $   -1296.50 $    -2748
+    C3: Vol|Eff+InfRebal         $   -2421.06 $     +80.81 $    894 $   -6.25  4,470   -4.71 $   -2465.86 $    -4572
+    C4: Parkvol+InfRebal         $   -1922.09 $    +101.01 $    917 $   -4.96  4,588   -4.19 $   -1994.38 $    -4073
+    T1: 0.70%+VolP+InfR          $   -4701.49 $    +916.41 $   1915 $  -12.14  9,574   -5.77 $   -4743.40 $    -6852
+    T2: 0.50%+VolP+InfR          $   -6018.28 $   +2799.48 $   3309 $  -15.54 16,546   -5.63 $   -6035.71 $    -8169
+    T3: 0.70%+V|E+InfR           $   -4263.79 $    +888.22 $   1825 $  -11.01  9,126   -5.63 $   -4337.84 $    -6414
+    T4: 0.50%+V|E+InfR           $   -5837.44 $   +2608.42 $   3185 $  -15.07 15,928   -5.58 $   -5897.01 $    -7988
+    T5: 0.70%+WideVP+InfR        $   -4579.83 $    +267.88 $   1288 $  -11.82  6,438   -8.04 $   -4626.35 $    -6730
+    T6: 0.70%+VWideP+InfR        $   -2349.35 $    +197.38 $   1076 $   -6.07  5,382   -6.88 $   -2443.99 $    -4500
+    T7: 0.70%+4hR+VolP+Inf       $   -4298.29 $    +916.41 $   1913 $  -11.10  9,566   -5.49 $   -4340.21 $    -6449
+    T8: 0.70%+8hR+VolP+Inf       $   -4701.49 $    +916.41 $   1915 $  -12.14  9,574   -5.77 $   -4743.40 $    -6852
+    U1: 1%+2hR+VolP              $   -2145.45 $    +181.82 $   1014 $   -5.54  5,068   -4.38 $   -2145.45 $    -4296
+    U2: 1%+1hR+VolP              $    -421.02 $     +20.20 $    810 $   -1.09  4,052   -1.43 $    -427.44 $    -2572
+    U3: 1%+2hR+V|EP              $   -1797.26 $    +181.82 $    946 $   -4.64  4,730   -4.04 $   -1797.26 $    -3948
+    U4: 1%+2hR+VolP+Inf          $   -1380.91 $     +60.61 $    681 $   -3.57  3,404   -3.32 $   -1409.50 $    -3531
+    U6: VolAdapt+VolP+InfR       $   -3169.19 $    +318.59 $   1293 $   -8.18  6,464   -5.16 $   -3193.15 $    -5320
+    U7: VolAdapt+2hR+VolP        $   -2805.90 $    +338.81 $   1327 $   -7.24  6,636   -5.03 $   -2817.69 $    -4956
+    V1: 1%+30mR+VolP             $    -241.03 $      +0.00 $    413 $   -0.62  2,064   -1.38 $    -255.61 $    -2392
+    V2: 1%+1hR+V|EP              $    -448.24 $     +20.20 $    741 $   -1.16  3,706   -1.63 $    -537.04 $    -2599
+    V3: 1%+30mR+V|EP             $    -449.86 $      +0.00 $    381 $   -1.16  1,904   -2.50 $    -491.43 $    -2600
+    V4: 1%+1hR+VolP+Inf          $    -913.18 $      +0.00 $    591 $   -2.36  2,954   -4.05 $    -941.56 $    -3064
+    V5: 1%+30mR+WideVP           $     -70.74 $      +0.00 $    154 $   -0.18    770   -0.78 $    -111.10 $    -2221
+    V6: 1%+1hR+WideVP            $    -718.77 $      +0.00 $    419 $   -1.86  2,096   -4.25 $    -724.44 $    -2869
+    V7: 1%+1hR+VWideP            $    -526.93 $      +0.00 $    324 $   -1.36  1,618   -3.61 $    -539.02 $    -2677
+    U5: 10lvl+1%+VolP+InfR       $   -1340.22 $     +50.51 $    481 $   -3.46  4,806   -4.65 $   -1353.44 $    -3491
+
+  🎉 1 strategies achieved POSITIVE PnL!
+    S0: Fix 1.00% (24h): $+2150.55 (Sharpe: 0.85)
+
+✅ Done in 141s (2.3min)
