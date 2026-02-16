@@ -1,0 +1,158 @@
+======================================================================
+  GRID BOT v15 — ML Improvements (one-by-one)
+  Symbol:   SOLUSDT
+  Period:   2025-01-01 → 2026-01-31
+  Fee:      2.0 bps maker per fill
+  Baseline: Fix 1.00% (24h rebalance)
+======================================================================
+
+  Loading data...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=9.3GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=9.3GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=9.3GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=9.3GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=9.3GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=9.3GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=9.3GB cache=140 new=0
+  [160/396] 2025-06-09 | 1s ETA=1s RAM=9.3GB cache=160 new=0
+  [180/396] 2025-06-29 | 1s ETA=1s RAM=9.3GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=9.3GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=1s RAM=9.3GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=9.3GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=9.3GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=9.3GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=9.3GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=9.3GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=9.3GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=9.3GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=9.4GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=9.4GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  114,048 bars loaded in 1s
+  Computing regime features...
+  Regime features in 104s
+  Computing breakout features...
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:186: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["range_trend_1h"] = pd.Series(hl_range).rolling(12).mean().values / \
+/home/ubuntu/Projects/skytrade6/breakout_ml.py:188: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["range_trend_4h"] = pd.Series(hl_range).rolling(48).mean().values / \
+  Breakout features in 1s
+  Computing forward targets...
+/home/ubuntu/Projects/skytrade6/grid_bot_v15.py:320: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["fwd_vol_1h"] = fwd_vol_1h
+/home/ubuntu/Projects/skytrade6/grid_bot_v15.py:328: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["fwd_range_1h"] = fwd_range_1h
+/home/ubuntu/Projects/skytrade6/grid_bot_v15.py:336: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["fwd_range_4h"] = fwd_range_4h
+/home/ubuntu/Projects/skytrade6/grid_bot_v15.py:346: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["fwd_upside_frac"] = fwd_upside_frac
+/home/ubuntu/Projects/skytrade6/grid_bot_v15.py:354: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df["breakout_1h"] = breakout_label
+
+  [Step 1] Walk-forward 1h range prediction (Ridge)...
+    111,548 valid predictions in 99s
+  [Step 2] P90 range = Ridge range × 1.7 (v11 calibration)
+    Done (derived from Step 1)
+  [Ref] Walk-forward 1h vol prediction (Ridge)...
+    111,548 valid predictions in 98s
+  [Step 3] Walk-forward breakout probability (Logistic)...
+    111,548 valid predictions, breakout rate=17.4% in 287s
+  [Step 6] Walk-forward 4h range prediction (Ridge)...
+    111,548 valid predictions in 105s
+  [Step 7] Walk-forward upside fraction (Ridge)...
+    111,548 valid predictions in 92s
+
+  Simulation: 111,548 bars (387 days)
+  Price: $95.66 - $294.46
+  Median pred vol: 0.1870%
+  Median pred range: 1.119%
+
+  Running 16 strategies...
+
+  S0: Fix 1.00% (24h):
+    PnL: $+2150.55 (grid: $+5876.88, fees: -$718.48)
+    PnL/day: $+5.55 | Fills: 3,597 (9.3/d) | Sharpe: 0.85 | MaxDD: $-2424.20 (0.7s)
+
+  S1: Range/2 f1.0% (24h):
+    PnL: $+1317.76 (grid: $+5661.19, fees: -$681.59)
+    PnL/day: $+3.40 | Fills: 3,411 (8.8/d) | Sharpe: 0.53 | MaxDD: $-2395.27 (0.7s)
+
+  S1b: Range/2 f0.5% (24h):
+    PnL: $+963.31 (grid: $+7125.27, fees: -$916.97)
+    PnL/day: $+2.49 | Fills: 4,589 (11.8/d) | Sharpe: 0.35 | MaxDD: $-2396.75 (0.7s)
+
+  S2: P90 range/2 f1.0% (24h):
+    PnL: $+1091.30 (grid: $+3933.12, fees: -$559.75)
+    PnL/day: $+2.82 | Fills: 2,799 (7.2/d) | Sharpe: 0.44 | MaxDD: $-1729.78 (0.6s)
+
+  S2b: P90 range/2 f0.5% (24h):
+    PnL: $+841.73 (grid: $+4244.14, fees: -$598.14)
+    PnL/day: $+2.17 | Fills: 2,991 (7.7/d) | Sharpe: 0.32 | MaxDD: $-1781.61 (0.5s)
+
+  S3: Fix1%+Brk widen (24h):
+    PnL: $+2024.00 (grid: $+5856.68, fees: -$712.20)
+    PnL/day: $+5.23 | Fills: 3,565 (9.2/d) | Sharpe: 0.81 | MaxDD: $-2424.20 (0.5s)
+
+  S3b: Fix1%+Brk pause (24h):
+    PnL: $+1732.42 (grid: $+5856.68, fees: -$711.43)
+    PnL/day: $+4.47 | Fills: 3,561 (9.2/d) | Sharpe: 0.69 | MaxDD: $-2424.20 (0.6s)
+
+  S4: Fix1%+Consol tight (24h):
+    PnL: $+1313.03 (grid: $+6701.90, fees: -$883.72)
+    PnL/day: $+3.39 | Fills: 4,425 (11.4/d) | Sharpe: 0.51 | MaxDD: $-3034.65 (0.5s)
+
+  S4b: Consol+Brk combo (24h):
+    PnL: $+1061.35 (grid: $+6641.19, fees: -$864.91)
+    PnL/day: $+2.74 | Fills: 4,329 (11.2/d) | Sharpe: 0.42 | MaxDD: $-3034.65 (0.7s)
+
+  S5: Fix1% adapt rebal:
+    PnL: $+694.62 (grid: $+6229.81, fees: -$882.63)
+    PnL/day: $+1.79 | Fills: 4,411 (11.4/d) | Sharpe: 0.30 | MaxDD: $-2756.90 (0.5s)
+
+  S6: Fix1% 4h-range rebal:
+    PnL: $+618.30 (grid: $+6465.03, fees: -$832.09)
+    PnL/day: $+1.60 | Fills: 4,161 (10.7/d) | Sharpe: 0.41 | MaxDD: $-2934.27 (0.5s)
+
+  S7: Asymmetry adj (24h):
+    PnL: $+2450.59 (grid: $+7544.74, fees: -$951.17)
+    PnL/day: $+6.33 | Fills: 4,761 (12.3/d) | Sharpe: 0.90 | MaxDD: $-2624.25 (0.5s)
+
+  C1: AdaptRebal+Asym:
+    PnL: $-273.80 (grid: $+7254.05, fees: -$1141.27)
+    PnL/day: $-0.71 | Fills: 5,707 (14.7/d) | Sharpe: -0.07 | MaxDD: $-3152.80 (0.6s)
+
+  C2: AdaptRebal+BrkWiden:
+    PnL: $+903.16 (grid: $+6169.21, fees: -$878.68)
+    PnL/day: $+2.33 | Fills: 4,391 (11.3/d) | Sharpe: 0.39 | MaxDD: $-2756.90 (0.6s)
+
+  C3: AdaptRebal+Brk+Asym:
+    PnL: $-223.58 (grid: $+7173.04, fees: -$1140.08)
+    PnL/day: $-0.58 | Fills: 5,701 (14.7/d) | Sharpe: -0.05 | MaxDD: $-3152.80 (0.5s)
+
+  C4: AdaptRebal+P90:
+    PnL: $+538.61 (grid: $+3608.82, fees: -$535.14)
+    PnL/day: $+1.39 | Fills: 2,674 (6.9/d) | Sharpe: 0.25 | MaxDD: $-1969.26 (0.5s)
+
+  ===============================================================================================
+  SUMMARY — SOLUSDT (387 days)
+  ===============================================================================================
+  Strategy                              PnL      Grid$     Fees    PnL/d   Fills  Sharpe      MaxDD  vs Base
+  --------------------------------------------------------------------------------------------------
+    S0: Fix 1.00% (24h)          $ +2150.55 $ +5876.88 $    718 $  +5.55  3,597    0.85 $ -2424.20         
+    S1: Range/2 f1.0% (24h)      $ +1317.76 $ +5661.19 $    682 $  +3.40  3,411    0.53 $ -2395.27 $   -833
+    S1b: Range/2 f0.5% (24h)     $  +963.31 $ +7125.27 $    917 $  +2.49  4,589    0.35 $ -2396.75 $  -1187
+    S2: P90 range/2 f1.0% (24h)  $ +1091.30 $ +3933.12 $    560 $  +2.82  2,799    0.44 $ -1729.78 $  -1059
+    S2b: P90 range/2 f0.5% (24h) $  +841.73 $ +4244.14 $    598 $  +2.17  2,991    0.32 $ -1781.61 $  -1309
+    S3: Fix1%+Brk widen (24h)    $ +2024.00 $ +5856.68 $    712 $  +5.23  3,565    0.81 $ -2424.20 $   -127
+    S3b: Fix1%+Brk pause (24h)   $ +1732.42 $ +5856.68 $    711 $  +4.47  3,561    0.69 $ -2424.20 $   -418
+    S4: Fix1%+Consol tight (24h) $ +1313.03 $ +6701.90 $    884 $  +3.39  4,425    0.51 $ -3034.65 $   -838
+    S4b: Consol+Brk combo (24h)  $ +1061.35 $ +6641.19 $    865 $  +2.74  4,329    0.42 $ -3034.65 $  -1089
+    S5: Fix1% adapt rebal        $  +694.62 $ +6229.81 $    883 $  +1.79  4,411    0.30 $ -2756.90 $  -1456
+    S6: Fix1% 4h-range rebal     $  +618.30 $ +6465.03 $    832 $  +1.60  4,161    0.41 $ -2934.27 $  -1532
+  ✅S7: Asymmetry adj (24h)      $ +2450.59 $ +7544.74 $    951 $  +6.33  4,761    0.90 $ -2624.25 $   +300
+    C1: AdaptRebal+Asym          $  -273.80 $ +7254.05 $   1141 $  -0.71  5,707   -0.07 $ -3152.80 $  -2424
+    C2: AdaptRebal+BrkWiden      $  +903.16 $ +6169.21 $    879 $  +2.33  4,391    0.39 $ -2756.90 $  -1247
+    C3: AdaptRebal+Brk+Asym      $  -223.58 $ +7173.04 $   1140 $  -0.58  5,701   -0.05 $ -3152.80 $  -2374
+    C4: AdaptRebal+P90           $  +538.61 $ +3608.82 $    535 $  +1.39  2,674    0.25 $ -1969.26 $  -1612
+
+✅ Done in 804s (13.4min)

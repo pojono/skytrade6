@@ -133,17 +133,57 @@ The breakout model (AUC=0.65) correctly identifies ~55% of breakouts, but the fa
 
 ---
 
+## Combo Strategy Results (BTC, ETH, SOL)
+
+Tested 4 combinations of the best individual strategies:
+
+| Strategy | BTC PnL | BTC Sharpe | ETH PnL | ETH Sharpe | SOL PnL | SOL Sharpe | Beats base |
+|----------|---------|-----------|---------|-----------|---------|-----------|------------|
+| **S0: Baseline** | +$789 | 0.83 | +$901 | 0.45 | +$2,151 | 0.85 | — |
+| **S5: AdaptRebal** | **+$1,355** | **1.84** | **+$1,136** | **0.60** | +$695 | 0.30 | 2/3 |
+| S7: Asymmetry | +$612 | 0.58 | -$24 | 0.02 | **+$2,451** | **0.90** | 1/3 |
+| C1: S5+S7 | +$730 | 0.89 | +$860 | 0.43 | -$274 | -0.07 | 0/3 |
+| **C2: S5+S3** | **+$1,250** | **1.73** | **+$1,031** | **0.55** | +$903 | 0.39 | 2/3 |
+| C3: S5+S3+S7 | +$609 | 0.78 | +$793 | 0.40 | -$224 | -0.05 | 0/3 |
+| C4: S5+S2 | +$825 | 1.25 | +$477 | 0.29 | +$539 | 0.25 | 0/3 |
+
+### Combo Takeaways
+
+1. **S5 alone is still the best for BTC/ETH.** No combo improved on it.
+
+2. **C2 (AdaptRebal + Breakout Widen) is the most robust combo** — beats baseline on BTC (+$462, Sharpe 1.73) and ETH (+$129, Sharpe 0.55), and doesn't crash SOL as badly as S5 alone (+$903 vs +$695). It's the best "universal" strategy.
+
+3. **Adding S7 (asymmetry) to any combo destroys SOL.** S7 is SOL-specific — when combined with adaptive rebalance, the two fight each other and produce losses.
+
+4. **More ML ≠ better.** The triple combo (C3) is worse than any individual component. The improvements are not additive — they interfere with each other.
+
+---
+
 ## Conclusion
 
 **The fixed 1.00% (24h) grid is a strong baseline that's hard to beat with ML.**
 
-The only robust improvement found is **asset-specific rebalance tuning:**
-- BTC/ETH: Longer rebalance in calm periods (S5) → Sharpe 1.84 on BTC
-- SOL: Keep 24h fixed (or use asymmetry adjustment)
+### Best universal strategy: C2 (Adaptive Rebalance + Breakout Widen)
+- Beats baseline on BTC (+$462) and ETH (+$129)
+- Positive on SOL (+$903) but below baseline (-$1,247)
+- Uses vol prediction for rebalance timing + breakout detection for grid widening
 
-The ML predictions (vol, range, breakout, asymmetry) provide marginal value for grid spacing but meaningful value for **rebalance timing** on lower-vol assets.
+### Best per-asset strategies:
 
-**Recommendation:** Use per-asset configuration rather than a universal ML-adaptive grid.
+| Asset | Strategy | PnL | Sharpe | Improvement |
+|-------|----------|-----|--------|-------------|
+| **BTC** | S5: Adaptive rebalance | +$1,355 | 1.84 | +72% PnL, +122% Sharpe |
+| **ETH** | S5: Adaptive rebalance | +$1,136 | 0.60 | +26% PnL, +33% Sharpe |
+| **SOL** | S7: Asymmetry adjust | +$2,451 | 0.90 | +14% PnL, +6% Sharpe |
+
+### What ML adds to grid bots
+
+The ML predictions (vol, range, breakout, asymmetry) provide:
+- **Meaningful value for rebalance timing** (S5) on lower-vol assets (BTC, ETH)
+- **Marginal value for grid spacing** — the fixed 1.00% is near-optimal
+- **No value when combined naively** — improvements interfere with each other
+
+**Final recommendation:** Per-asset configuration with S5 for BTC/ETH and S0/S7 for SOL.
 
 ---
 
@@ -151,8 +191,11 @@ The ML predictions (vol, range, breakout, asymmetry) provide marginal value for 
 
 | File | Description |
 |------|-------------|
-| `grid_bot_v15.py` | All 7 ML improvements + baseline |
-| `results/grid_v15_SOL.txt` | SOLUSDT quick validation (all 13 strategies) |
-| `results/grid_v15_BTC.txt` | BTCUSDT cross-validation |
-| `results/grid_v15_ETH.txt` | ETHUSDT cross-validation |
+| `grid_bot_v15.py` | All 7 ML improvements + 4 combos + baseline |
+| `results/grid_v15_combo_BTC.txt` | BTCUSDT full results (17 strategies) |
+| `results/grid_v15_combo_ETH.txt` | ETHUSDT full results (17 strategies) |
+| `results/grid_v15_combo_SOL.txt` | SOLUSDT full results (17 strategies) |
+| `results/grid_v15_SOL.txt` | SOLUSDT quick validation (13 strategies) |
+| `results/grid_v15_BTC.txt` | BTCUSDT initial cross-validation |
+| `results/grid_v15_ETH.txt` | ETHUSDT initial cross-validation |
 | `PLAN_v15_ml_grid_improvements.md` | Original plan with 7 steps |

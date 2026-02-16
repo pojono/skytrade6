@@ -587,6 +587,59 @@ def run_v15(symbol, start_date, end_date):
         "paused": None,
     })
 
+    # === COMBO STRATEGIES ===
+
+    # C1: S5 + S7 (adaptive rebalance + asymmetry spacing)
+    c1_spacings = s7_spacings.copy()
+    c1_rebal = s5_rebal.copy()
+    strategies.append({
+        "name": "C1: AdaptRebal+Asym",
+        "spacings": c1_spacings,
+        "rebalance": c1_rebal,
+        "paused": None,
+    })
+
+    # C2: S5 + S3 (adaptive rebalance + breakout widen)
+    c2_spacings = s3_spacings.copy()
+    c2_rebal = s5_rebal.copy()
+    strategies.append({
+        "name": "C2: AdaptRebal+BrkWiden",
+        "spacings": c2_spacings,
+        "rebalance": c2_rebal,
+        "paused": None,
+    })
+
+    # C3: S5 + S3 + S7 (all three)
+    c3_spacings = np.full(n_sim, 0.0100)
+    for i in range(n_sim):
+        # Asymmetry adjustment
+        if not np.isnan(pu[i]):
+            asym = abs(pu[i] - 0.5)
+            if asym < 0.05:
+                c3_spacings[i] = 0.0070
+            elif asym > 0.15:
+                c3_spacings[i] = 0.0150
+        # Breakout override (takes priority)
+        if not np.isnan(pb[i]) and pb[i] > 0.3:
+            c3_spacings[i] = max(c3_spacings[i], 0.0200)
+    c3_rebal = s5_rebal.copy()
+    strategies.append({
+        "name": "C3: AdaptRebal+Brk+Asym",
+        "spacings": c3_spacings,
+        "rebalance": c3_rebal,
+        "paused": None,
+    })
+
+    # C4: S5 + S2 (adaptive rebalance + P90 wider grid)
+    c4_spacings = s2_spacings.copy()
+    c4_rebal = s5_rebal.copy()
+    strategies.append({
+        "name": "C4: AdaptRebal+P90",
+        "spacings": c4_spacings,
+        "rebalance": c4_rebal,
+        "paused": None,
+    })
+
     # --- Run all strategies ---
     print(f"\n  Running {len(strategies)} strategies...\n")
     results = []
