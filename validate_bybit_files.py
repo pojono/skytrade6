@@ -40,7 +40,7 @@ except ImportError:
 DATA_DIR = Path("./data")
 PARQUET_DIR = Path("./parquet")
 SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT"]
-START_DATE = "2024-01-01"
+START_DATE = "2023-01-01"
 END_DATE = "2026-01-31"
 MIN_SIZE_RAW = 100      # bytes — raw .csv.gz
 MIN_SIZE_PARQUET = 200  # bytes — parquet files
