@@ -460,20 +460,9 @@ def main():
                     if m:
                         raw_dates.append(m.group(1))
 
-                # Determine actual parquet date range from what exists on disk
+                # Expected: one parquet file per raw date
                 trades_dir = sym_pq_dir / "trades" / source
-                if trades_dir.exists():
-                    pq_files = sorted(trades_dir.glob("*.parquet"))
-                    if pq_files:
-                        pq_first = pq_files[0].stem
-                        pq_last = pq_files[-1].stem
-                        # Expected dates = raw dates within the parquet range
-                        expected_dates = [d for d in raw_dates if pq_first <= d <= pq_last]
-                    else:
-                        expected_dates = raw_dates
-                else:
-                    expected_dates = raw_dates
-
+                expected_dates = raw_dates
                 n_expected = len(expected_dates)
                 source_label = source.replace("_", "/")
 
