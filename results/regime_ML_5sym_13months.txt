@@ -1,0 +1,1370 @@
+======================================================================
+  ML REGIME DETECTION EXPERIMENT SUITE
+  Symbols: BTCUSDT, ETHUSDT, SOLUSDT, DOGEUSDT, XRPUSDT
+  Period:  2025-01-01 → 2026-01-31
+  Forward: 48 bars (240 min)
+  Models:  LogReg, RandomForest, XGBoost, LightGBM (CPU)
+======================================================================
+
+
+**********************************************************************
+  SYMBOL 1/5: BTCUSDT
+**********************************************************************
+
+
+======================================================================
+  ML REGIME DETECTION: BTCUSDT
+  2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=8.7GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=8.7GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=8.7GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=8.7GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=8.7GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=8.7GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=8.7GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=8.7GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=0s RAM=8.7GB cache=180 new=0
+  [200/396] 2025-07-19 | 0s ETA=0s RAM=8.7GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=0s RAM=8.7GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=8.7GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=8.7GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=8.7GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=8.7GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=8.7GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=8.8GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.7GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=8.7GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=8.7GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded in 1s
+
+  Step 2: Computing features...
+  60 features in 80s
+
+  Step 3: Labeling regimes...
+  Labeled in 2s
+
+######################################################################
+  EXPERIMENT 1: Binary High-Vol Classification
+######################################################################
+  Samples: 113,761 | Positive rate: 0.220
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.723 f1=0.458 auc=0.729 [train=18,961 test=18,960]
+    LogReg fold 2/5: acc=0.747 f1=0.442 auc=0.728 [train=37,921 test=18,960]
+    LogReg fold 3/5: acc=0.783 f1=0.385 auc=0.694 [train=56,881 test=18,960]
+    LogReg fold 4/5: acc=0.739 f1=0.425 auc=0.709 [train=75,841 test=18,960]
+    LogReg fold 5/5: acc=0.752 f1=0.473 auc=0.757 [train=94,801 test=18,960]
+  → LogReg: acc=0.749±0.020 f1=0.437±0.030 auc=0.723±0.021 prec=0.425 rec=0.467 (5.4s)
+    RF fold 1/5: acc=0.736 f1=0.446 auc=0.721 [train=18,961 test=18,960]
+    RF fold 2/5: acc=0.742 f1=0.428 auc=0.701 [train=37,921 test=18,960]
+    RF fold 3/5: acc=0.761 f1=0.384 auc=0.722 [train=56,881 test=18,960]
+    RF fold 4/5: acc=0.666 f1=0.405 auc=0.663 [train=75,841 test=18,960]
+    RF fold 5/5: acc=0.738 f1=0.517 auc=0.755 [train=94,801 test=18,960]
+  → RF: acc=0.729±0.032 f1=0.436±0.046 auc=0.712±0.030 prec=0.394 rec=0.496 (96.5s)
+    XGB fold 1/5: acc=0.739 f1=0.431 auc=0.716 [train=18,961 test=18,960]
+    XGB fold 2/5: acc=0.705 f1=0.389 auc=0.677 [train=37,921 test=18,960]
+    XGB fold 3/5: acc=0.779 f1=0.361 auc=0.699 [train=56,881 test=18,960]
+    XGB fold 4/5: acc=0.735 f1=0.387 auc=0.687 [train=75,841 test=18,960]
+    XGB fold 5/5: acc=0.743 f1=0.452 auc=0.755 [train=94,801 test=18,960]
+  → XGB: acc=0.740±0.024 f1=0.404±0.033 auc=0.707±0.027 prec=0.402 rec=0.421 (21.1s)
+    LGBM fold 1/5: acc=0.735 f1=0.413 auc=0.714 [train=18,961 test=18,960]
+    LGBM fold 2/5: acc=0.704 f1=0.366 auc=0.656 [train=37,921 test=18,960]
+    LGBM fold 3/5: acc=0.783 f1=0.364 auc=0.700 [train=56,881 test=18,960]
+    LGBM fold 4/5: acc=0.735 f1=0.378 auc=0.681 [train=75,841 test=18,960]
+    LGBM fold 5/5: acc=0.732 f1=0.433 auc=0.748 [train=94,801 test=18,960]
+  → LGBM: acc=0.738±0.025 f1=0.391±0.027 auc=0.700±0.031 prec=0.393 rec=0.400 (22.3s)
+
+  Model           Acc       F1      AUC     Prec      Rec   Time
+  -------------------------------------------------------
+  LogReg        0.749    0.437    0.723    0.425    0.467    5.4s
+  RF            0.729    0.436    0.712    0.394    0.496   96.5s
+  XGB           0.740    0.404    0.707    0.402    0.421   21.1s
+  LGBM          0.738    0.391    0.700    0.393    0.400   22.3s
+
+  Baseline (single-feature threshold): acc=0.63-0.70, f1=0.35-0.43
+
+######################################################################
+  EXPERIMENT 2: 3-Class Vol Regime Classification
+######################################################################
+  Samples: 113,761 | Distribution: low_vol=0.133, norm_vol=0.646, high_vol=0.220
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.582 f1_macro=0.509 f1_low=0.403 f1_norm=0.674 f1_high=0.449
+    LogReg fold 2/5: acc=0.612 f1_macro=0.540 f1_low=0.499 f1_norm=0.704 f1_high=0.418
+    LogReg fold 3/5: acc=0.525 f1_macro=0.464 f1_low=0.410 f1_norm=0.619 f1_high=0.363
+    LogReg fold 4/5: acc=0.470 f1_macro=0.443 f1_low=0.373 f1_norm=0.540 f1_high=0.415
+    LogReg fold 5/5: acc=0.451 f1_macro=0.450 f1_low=0.441 f1_norm=0.458 f1_high=0.450
+  → LogReg: acc=0.528 f1_macro=0.481 f1_low=0.425 f1_norm=0.599 f1_high=0.419 (7.9s)
+    RF fold 1/5: acc=0.531 f1_macro=0.481 f1_low=0.392 f1_norm=0.623 f1_high=0.428
+    RF fold 2/5: acc=0.530 f1_macro=0.482 f1_low=0.399 f1_norm=0.618 f1_high=0.428
+    RF fold 3/5: acc=0.512 f1_macro=0.459 f1_low=0.410 f1_norm=0.600 f1_high=0.366
+    RF fold 4/5: acc=0.572 f1_macro=0.509 f1_low=0.458 f1_norm=0.669 f1_high=0.399
+    RF fold 5/5: acc=0.567 f1_macro=0.554 f1_low=0.542 f1_norm=0.610 f1_high=0.510
+  → RF: acc=0.542 f1_macro=0.497 f1_low=0.440 f1_norm=0.624 f1_high=0.426 (110.8s)
+    XGB fold 1/5: acc=0.638 f1_macro=0.453 f1_low=0.243 f1_norm=0.755 f1_high=0.360
+    XGB fold 2/5: acc=0.673 f1_macro=0.500 f1_low=0.404 f1_norm=0.783 f1_high=0.313
+    XGB fold 3/5: acc=0.684 f1_macro=0.455 f1_low=0.383 f1_norm=0.799 f1_high=0.183
+    XGB fold 4/5: acc=0.692 f1_macro=0.494 f1_low=0.433 f1_norm=0.802 f1_high=0.246
+    XGB fold 5/5: acc=0.610 f1_macro=0.500 f1_low=0.548 f1_norm=0.721 f1_high=0.231
+  → XGB: acc=0.659 f1_macro=0.480 f1_low=0.402 f1_norm=0.772 f1_high=0.267 (94.0s)
+    LGBM fold 1/5: acc=0.644 f1_macro=0.468 f1_low=0.268 f1_norm=0.758 f1_high=0.377
+    LGBM fold 2/5: acc=0.645 f1_macro=0.476 f1_low=0.357 f1_norm=0.761 f1_high=0.311
+    LGBM fold 3/5: acc=0.681 f1_macro=0.458 f1_low=0.378 f1_norm=0.797 f1_high=0.200
+    LGBM fold 4/5: acc=0.686 f1_macro=0.493 f1_low=0.441 f1_norm=0.797 f1_high=0.242
+    LGBM fold 5/5: acc=0.608 f1_macro=0.497 f1_low=0.536 f1_norm=0.719 f1_high=0.237
+  → LGBM: acc=0.653 f1_macro=0.479 f1_low=0.396 f1_norm=0.767 f1_high=0.273 (39.0s)
+
+  Model           Acc    F1mac    F1low   F1norm   F1high
+  --------------------------------------------------
+  RF            0.542    0.497    0.440    0.624    0.426
+  LogReg        0.528    0.481    0.425    0.599    0.419
+  XGB           0.659    0.480    0.402    0.772    0.267
+  LGBM          0.653    0.479    0.396    0.767    0.273
+
+######################################################################
+  EXPERIMENT 3: Vol Regression (predict fwd_vol)
+######################################################################
+  Samples: 113,713 | fwd_vol mean=0.001162 std=0.000770
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.437 corr=0.675 rmse=0.000549 bin_acc=0.773 bin_f1=0.683
+    Ridge fold 2/5: r2=0.285 corr=0.579 rmse=0.000389 bin_acc=0.763 bin_f1=0.522
+    Ridge fold 3/5: r2=0.263 corr=0.554 rmse=0.000341 bin_acc=0.771 bin_f1=0.568
+    Ridge fold 4/5: r2=0.232 corr=0.496 rmse=0.000825 bin_acc=0.798 bin_f1=0.848
+    Ridge fold 5/5: r2=0.374 corr=0.619 rmse=0.000505 bin_acc=0.737 bin_f1=0.723
+  → Ridge: r2=0.318 corr=0.585 rmse=0.000522 bin_acc=0.768 bin_f1=0.669 (0.5s)
+    RF_reg fold 1/5: r2=0.355 corr=0.626 rmse=0.000587 bin_acc=0.722 bin_f1=0.662
+    RF_reg fold 2/5: r2=0.192 corr=0.515 rmse=0.000413 bin_acc=0.673 bin_f1=0.522
+    RF_reg fold 3/5: r2=0.254 corr=0.532 rmse=0.000344 bin_acc=0.747 bin_f1=0.523
+    RF_reg fold 4/5: r2=0.189 corr=0.447 rmse=0.000848 bin_acc=0.788 bin_f1=0.849
+    RF_reg fold 5/5: r2=0.323 corr=0.580 rmse=0.000525 bin_acc=0.695 bin_f1=0.694
+  → RF_reg: r2=0.263 corr=0.540 rmse=0.000543 bin_acc=0.725 bin_f1=0.650 (644.5s)
+    XGB_reg fold 1/5: r2=0.350 corr=0.629 rmse=0.000590 bin_acc=0.759 bin_f1=0.692
+    XGB_reg fold 2/5: r2=0.230 corr=0.522 rmse=0.000403 bin_acc=0.738 bin_f1=0.557
+    XGB_reg fold 3/5: r2=0.267 corr=0.543 rmse=0.000340 bin_acc=0.759 bin_f1=0.537
+    XGB_reg fold 4/5: r2=0.195 corr=0.456 rmse=0.000845 bin_acc=0.783 bin_f1=0.843
+    XGB_reg fold 5/5: r2=0.296 corr=0.571 rmse=0.000536 bin_acc=0.719 bin_f1=0.705
+  → XGB_reg: r2=0.268 corr=0.544 rmse=0.000543 bin_acc=0.752 bin_f1=0.667 (8.4s)
+    LGBM_reg fold 1/5: r2=0.329 corr=0.617 rmse=0.000599 bin_acc=0.757 bin_f1=0.691
+    LGBM_reg fold 2/5: r2=0.226 corr=0.519 rmse=0.000404 bin_acc=0.742 bin_f1=0.561
+    LGBM_reg fold 3/5: r2=0.266 corr=0.542 rmse=0.000341 bin_acc=0.758 bin_f1=0.539
+    LGBM_reg fold 4/5: r2=0.194 corr=0.455 rmse=0.000845 bin_acc=0.784 bin_f1=0.844
+    LGBM_reg fold 5/5: r2=0.278 corr=0.561 rmse=0.000543 bin_acc=0.716 bin_f1=0.703
+  → LGBM_reg: r2=0.259 corr=0.539 rmse=0.000546 bin_acc=0.751 bin_f1=0.667 (8.4s)
+
+  Model            R²     Corr       RMSE   BinAcc    BinF1
+  -------------------------------------------------------
+  Ridge         0.318    0.585   0.000522    0.768    0.669
+  XGB_reg       0.268    0.544   0.000543    0.752    0.667
+  RF_reg        0.263    0.540   0.000543    0.725    0.650
+  LGBM_reg      0.259    0.539   0.000546    0.751    0.667
+
+  Baseline (parkvol_1h correlation): r=0.37-0.58
+
+######################################################################
+  EXPERIMENT 4: Feature Importance Analysis
+######################################################################
+  LGBM on 70/30 split: acc=0.769 f1=0.245 auc=0.726
+  Train: 79,632 | Test: 34,129
+
+  Top 20 features by importance (gain):
+  Feature                          Importance  Cumulative%
+  -------------------------------------------------------
+  vol_sma_24h                             540         7.2%
+  parkvol_24h                             501        13.9%
+  rvol_8h                                 454        19.9%
+  rvol_24h                                454        26.0%
+  price_vs_sma_24h                        435        31.7%
+  adx_4h                                  361        36.6%
+  parkvol_8h                              350        41.2%
+  large_trade_1h                          329        45.6%
+  bar_eff_4h                              312        49.8%
+  iti_cv_1h                               293        53.7%
+  vol_accel_4h                            225        56.7%
+  rvol_4h                                 205        59.4%
+  vol_ratio_2h_24h                        194        62.0%
+  imbalance_4h                            193        64.5%
+  efficiency_8h                           190        67.1%
+  ret_autocorr_4h                         188        69.6%
+  adx_2h                                  186        72.0%
+  momentum_4h                             144        74.0%
+  parkvol_1h                              126        75.6%
+  price_vs_sma_8h                         126        77.3%
+
+  Ablation: accuracy with top-N features only:
+    Top  5: acc=0.734 f1=0.261 auc=0.630
+    Top 10: acc=0.740 f1=0.239 auc=0.641
+    Top 15: acc=0.764 f1=0.255 auc=0.693
+    Top 20: acc=0.767 f1=0.244 auc=0.709
+    Top 46: acc=0.770 f1=0.253 auc=0.727
+
+######################################################################
+  EXPERIMENT 5: Probability Calibration for Position Sizing
+######################################################################
+
+  Calibration analysis (test set, n=22,753):
+  Prob Bin           Count  Actual%     Raw%     Cal%   CalErr
+  -------------------------------------------------------
+  [0.0, 0.1)         4535    0.057    0.012    0.040    0.017
+  [0.1, 0.2)         9534    0.203    0.067    0.139    0.064
+  [0.2, 0.3)         4878    0.352    0.175    0.228    0.125
+  [0.3, 0.4)         2426    0.469    0.372    0.369    0.100
+  [0.4, 0.5)          451    0.534    0.591    0.464    0.070
+  [0.5, 0.6)          501    0.547    0.721    0.549    0.002
+  [0.6, 0.7)           82    0.671    0.841    0.610    0.060
+  [0.7, 0.8)           54    0.722    0.875    0.770    0.048
+  [0.8, 0.9)          264    0.621    0.935    0.842    0.220
+  [0.9, 1.0)           28    0.964    0.985    1.000    0.036
+
+  Mean calibration error: raw=0.1239 calibrated=0.0719
+
+  Position sizing simulation:
+  Strategy: size = 1.0 - P(high_vol), capped at [0.2, 1.0]
+    Avg size when high_vol:  0.728
+    Avg size when normal:    0.839
+    Overall avg size:        0.810
+    Size reduction in danger: 13.2%
+
+######################################################################
+  EXPERIMENT 6: Early Warning — Predict High-Vol N Bars Ahead
+######################################################################
+  Horizon   1 bars (   5min): acc=0.769 f1=0.248 auc=0.725 prec=0.611 rec=0.155 (3.1s)
+  Horizon   6 bars (  30min): acc=0.762 f1=0.198 auc=0.707 prec=0.585 rec=0.119 (3.3s)
+  Horizon  12 bars (  60min): acc=0.756 f1=0.177 auc=0.694 prec=0.556 rec=0.105 (3.1s)
+  Horizon  24 bars ( 120min): acc=0.752 f1=0.134 auc=0.679 prec=0.559 rec=0.076 (3.2s)
+  Horizon  48 bars ( 240min): acc=0.745 f1=0.107 auc=0.663 prec=0.549 rec=0.059 (3.2s)
+  Horizon  96 bars ( 480min): acc=0.728 f1=0.146 auc=0.634 prec=0.461 rec=0.087 (3.2s)
+
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+        5min    0.769    0.248    0.725    0.611    0.155
+       30min    0.762    0.198    0.707    0.585    0.119
+       60min    0.756    0.177    0.694    0.556    0.105
+      120min    0.752    0.134    0.679    0.559    0.076
+      240min    0.745    0.107    0.663    0.549    0.059
+      480min    0.728    0.146    0.634    0.461    0.087
+
+######################################################################
+  EXPERIMENT 7: Core vs All Features Comparison
+######################################################################
+
+  --- Feature set: core_vol (19) ---
+    Fold 1: acc=0.761 f1=0.407 auc=0.705
+    Fold 2: acc=0.759 f1=0.349 auc=0.662
+    Fold 3: acc=0.817 f1=0.216 auc=0.684
+    Fold 4: acc=0.780 f1=0.213 auc=0.649
+    Fold 5: acc=0.749 f1=0.278 auc=0.734
+  → core_vol (19): acc=0.773 f1=0.292 auc=0.687
+
+  --- Feature set: all (45+) ---
+    Fold 1: acc=0.776 f1=0.354 auc=0.723
+    Fold 2: acc=0.790 f1=0.311 auc=0.673
+    Fold 3: acc=0.817 f1=0.178 auc=0.698
+    Fold 4: acc=0.781 f1=0.230 auc=0.680
+    Fold 5: acc=0.744 f1=0.240 auc=0.752
+  → all (45+): acc=0.782 f1=0.262 auc=0.705
+
+✅ BTCUSDT ML experiments complete in 1183s (19.7min)
+
+  ⏱ Total: 1183s | ~1183s/symbol | ETA: 4732s
+
+
+**********************************************************************
+  SYMBOL 2/5: ETHUSDT
+**********************************************************************
+
+
+======================================================================
+  ML REGIME DETECTION: ETHUSDT
+  2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=8.5GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=8.4GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=8.4GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=8.4GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=8.4GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=8.4GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=8.4GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=8.4GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=1s RAM=8.4GB cache=180 new=0
+  [200/396] 2025-07-19 | 0s ETA=0s RAM=8.4GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=0s RAM=8.4GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=8.4GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=8.4GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=8.4GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=8.4GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=8.4GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=8.4GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.4GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=8.4GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=8.4GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded in 1s
+
+  Step 2: Computing features...
+  60 features in 66s
+
+  Step 3: Labeling regimes...
+  Labeled in 2s
+
+######################################################################
+  EXPERIMENT 1: Binary High-Vol Classification
+######################################################################
+  Samples: 113,761 | Positive rate: 0.197
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.552 f1=0.416 auc=0.701 [train=18,961 test=18,960]
+    LogReg fold 2/5: acc=0.580 f1=0.367 auc=0.695 [train=37,921 test=18,960]
+    LogReg fold 3/5: acc=0.641 f1=0.275 auc=0.671 [train=56,881 test=18,960]
+    LogReg fold 4/5: acc=0.719 f1=0.402 auc=0.701 [train=75,841 test=18,960]
+    LogReg fold 5/5: acc=0.709 f1=0.490 auc=0.740 [train=94,801 test=18,960]
+  → LogReg: acc=0.640±0.067 f1=0.390±0.070 auc=0.701±0.022 prec=0.308 rec=0.613 (4.7s)
+    RF fold 1/5: acc=0.740 f1=0.409 auc=0.700 [train=18,961 test=18,960]
+    RF fold 2/5: acc=0.718 f1=0.369 auc=0.679 [train=37,921 test=18,960]
+    RF fold 3/5: acc=0.718 f1=0.271 auc=0.654 [train=56,881 test=18,960]
+    RF fold 4/5: acc=0.687 f1=0.385 auc=0.664 [train=75,841 test=18,960]
+    RF fold 5/5: acc=0.717 f1=0.483 auc=0.725 [train=94,801 test=18,960]
+  → RF: acc=0.716±0.017 f1=0.383±0.068 auc=0.684±0.026 prec=0.335 rec=0.467 (114.6s)
+    XGB fold 1/5: acc=0.710 f1=0.368 auc=0.675 [train=18,961 test=18,960]
+    XGB fold 2/5: acc=0.698 f1=0.378 auc=0.677 [train=37,921 test=18,960]
+    XGB fold 3/5: acc=0.687 f1=0.253 auc=0.634 [train=56,881 test=18,960]
+    XGB fold 4/5: acc=0.714 f1=0.346 auc=0.664 [train=75,841 test=18,960]
+    XGB fold 5/5: acc=0.732 f1=0.501 auc=0.734 [train=94,801 test=18,960]
+  → XGB: acc=0.708±0.015 f1=0.369±0.079 auc=0.677±0.033 prec=0.327 rec=0.456 (33.3s)
+    LGBM fold 1/5: acc=0.694 f1=0.341 auc=0.648 [train=18,961 test=18,960]
+    LGBM fold 2/5: acc=0.697 f1=0.356 auc=0.663 [train=37,921 test=18,960]
+    LGBM fold 3/5: acc=0.680 f1=0.256 auc=0.628 [train=56,881 test=18,960]
+    LGBM fold 4/5: acc=0.722 f1=0.350 auc=0.670 [train=75,841 test=18,960]
+    LGBM fold 5/5: acc=0.724 f1=0.491 auc=0.736 [train=94,801 test=18,960]
+  → LGBM: acc=0.703±0.017 f1=0.359±0.076 auc=0.669±0.036 prec=0.318 rec=0.442 (66.7s)
+
+  Model           Acc       F1      AUC     Prec      Rec   Time
+  -------------------------------------------------------
+  LogReg        0.640    0.390    0.701    0.308    0.613    4.7s
+  RF            0.716    0.383    0.684    0.335    0.467  114.6s
+  XGB           0.708    0.369    0.677    0.327    0.456   33.3s
+  LGBM          0.703    0.359    0.669    0.318    0.442   66.7s
+
+  Baseline (single-feature threshold): acc=0.63-0.70, f1=0.35-0.43
+
+######################################################################
+  EXPERIMENT 2: 3-Class Vol Regime Classification
+######################################################################
+  Samples: 113,761 | Distribution: low_vol=0.103, norm_vol=0.700, high_vol=0.197
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.472 f1_macro=0.410 f1_low=0.276 f1_norm=0.539 f1_high=0.415
+    LogReg fold 2/5: acc=0.461 f1_macro=0.433 f1_low=0.403 f1_norm=0.527 f1_high=0.369
+    LogReg fold 3/5: acc=0.496 f1_macro=0.387 f1_low=0.263 f1_norm=0.620 f1_high=0.278
+    LogReg fold 4/5: acc=0.327 f1_macro=0.335 f1_low=0.280 f1_norm=0.327 f1_high=0.399
+    LogReg fold 5/5: acc=0.371 f1_macro=0.378 f1_low=0.408 f1_norm=0.235 f1_high=0.491
+  → LogReg: acc=0.425 f1_macro=0.389 f1_low=0.326 f1_norm=0.450 f1_high=0.390 (6.9s)
+    RF fold 1/5: acc=0.554 f1_macro=0.446 f1_low=0.274 f1_norm=0.668 f1_high=0.396
+    RF fold 2/5: acc=0.564 f1_macro=0.438 f1_low=0.266 f1_norm=0.681 f1_high=0.367
+    RF fold 3/5: acc=0.521 f1_macro=0.387 f1_low=0.236 f1_norm=0.655 f1_high=0.269
+    RF fold 4/5: acc=0.521 f1_macro=0.462 f1_low=0.377 f1_norm=0.620 f1_high=0.387
+    RF fold 5/5: acc=0.427 f1_macro=0.431 f1_low=0.412 f1_norm=0.411 f1_high=0.471
+  → RF: acc=0.518 f1_macro=0.433 f1_low=0.313 f1_norm=0.607 f1_high=0.378 (80.9s)
+    XGB fold 1/5: acc=0.678 f1_macro=0.361 f1_low=0.007 f1_norm=0.799 f1_high=0.278
+    XGB fold 2/5: acc=0.697 f1_macro=0.356 f1_low=0.014 f1_norm=0.815 f1_high=0.239
+    XGB fold 3/5: acc=0.788 f1_macro=0.377 f1_low=0.060 f1_norm=0.880 f1_high=0.190
+    XGB fold 4/5: acc=0.679 f1_macro=0.397 f1_low=0.161 f1_norm=0.800 f1_high=0.231
+    XGB fold 5/5: acc=0.595 f1_macro=0.471 f1_low=0.408 f1_norm=0.712 f1_high=0.294
+  → XGB: acc=0.688 f1_macro=0.392 f1_low=0.130 f1_norm=0.801 f1_high=0.247 (74.5s)
+    LGBM fold 1/5: acc=0.663 f1_macro=0.363 f1_low=0.010 f1_norm=0.786 f1_high=0.293
+    LGBM fold 2/5: acc=0.692 f1_macro=0.372 f1_low=0.042 f1_norm=0.810 f1_high=0.265
+    LGBM fold 3/5: acc=0.789 f1_macro=0.400 f1_low=0.107 f1_norm=0.880 f1_high=0.213
+    LGBM fold 4/5: acc=0.669 f1_macro=0.381 f1_low=0.130 f1_norm=0.793 f1_high=0.219
+    LGBM fold 5/5: acc=0.594 f1_macro=0.475 f1_low=0.392 f1_norm=0.709 f1_high=0.323
+  → LGBM: acc=0.681 f1_macro=0.398 f1_low=0.136 f1_norm=0.796 f1_high=0.263 (63.0s)
+
+  Model           Acc    F1mac    F1low   F1norm   F1high
+  --------------------------------------------------
+  RF            0.518    0.433    0.313    0.607    0.378
+  LGBM          0.681    0.398    0.136    0.796    0.263
+  XGB           0.688    0.392    0.130    0.801    0.247
+  LogReg        0.425    0.389    0.326    0.450    0.390
+
+######################################################################
+  EXPERIMENT 3: Vol Regression (predict fwd_vol)
+######################################################################
+  Samples: 113,713 | fwd_vol mean=0.001901 std=0.001124
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.317 corr=0.592 rmse=0.000960 bin_acc=0.739 bin_f1=0.677
+    Ridge fold 2/5: r2=0.296 corr=0.565 rmse=0.000738 bin_acc=0.712 bin_f1=0.706
+    Ridge fold 3/5: r2=0.249 corr=0.543 rmse=0.000673 bin_acc=0.682 bin_f1=0.697
+    Ridge fold 4/5: r2=0.298 corr=0.552 rmse=0.001055 bin_acc=0.719 bin_f1=0.749
+    Ridge fold 5/5: r2=0.356 corr=0.603 rmse=0.000725 bin_acc=0.744 bin_f1=0.589
+  → Ridge: r2=0.303 corr=0.571 rmse=0.000830 bin_acc=0.719 bin_f1=0.684 (0.5s)
+    RF_reg fold 1/5: r2=0.293 corr=0.594 rmse=0.000977 bin_acc=0.698 bin_f1=0.693
+    RF_reg fold 2/5: r2=0.141 corr=0.528 rmse=0.000815 bin_acc=0.697 bin_f1=0.696
+    RF_reg fold 3/5: r2=0.210 corr=0.504 rmse=0.000690 bin_acc=0.668 bin_f1=0.684
+    RF_reg fold 4/5: r2=0.273 corr=0.524 rmse=0.001074 bin_acc=0.710 bin_f1=0.759
+    RF_reg fold 5/5: r2=0.149 corr=0.514 rmse=0.000834 bin_acc=0.712 bin_f1=0.582
+  → RF_reg: r2=0.213 corr=0.533 rmse=0.000878 bin_acc=0.697 bin_f1=0.683 (634.9s)
+    XGB_reg fold 1/5: r2=0.209 corr=0.599 rmse=0.001033 bin_acc=0.726 bin_f1=0.710
+    XGB_reg fold 2/5: r2=-0.122 corr=0.497 rmse=0.000932 bin_acc=0.693 bin_f1=0.702
+    XGB_reg fold 3/5: r2=0.192 corr=0.513 rmse=0.000698 bin_acc=0.682 bin_f1=0.694
+    XGB_reg fold 4/5: r2=0.268 corr=0.524 rmse=0.001078 bin_acc=0.721 bin_f1=0.758
+    XGB_reg fold 5/5: r2=0.159 corr=0.524 rmse=0.000828 bin_acc=0.710 bin_f1=0.583
+  → XGB_reg: r2=0.141 corr=0.531 rmse=0.000914 bin_acc=0.706 bin_f1=0.689 (18.4s)
+    LGBM_reg fold 1/5: r2=0.200 corr=0.587 rmse=0.001039 bin_acc=0.727 bin_f1=0.705
+    LGBM_reg fold 2/5: r2=-0.092 corr=0.498 rmse=0.000919 bin_acc=0.697 bin_f1=0.703
+    LGBM_reg fold 3/5: r2=0.172 corr=0.510 rmse=0.000707 bin_acc=0.680 bin_f1=0.692
+    LGBM_reg fold 4/5: r2=0.251 corr=0.511 rmse=0.001090 bin_acc=0.720 bin_f1=0.760
+    LGBM_reg fold 5/5: r2=0.162 corr=0.525 rmse=0.000827 bin_acc=0.713 bin_f1=0.589
+  → LGBM_reg: r2=0.139 corr=0.526 rmse=0.000916 bin_acc=0.707 bin_f1=0.690 (15.9s)
+
+  Model            R²     Corr       RMSE   BinAcc    BinF1
+  -------------------------------------------------------
+  Ridge         0.303    0.571   0.000830    0.719    0.684
+  RF_reg        0.213    0.533   0.000878    0.697    0.683
+  XGB_reg       0.141    0.531   0.000914    0.706    0.689
+  LGBM_reg      0.139    0.526   0.000916    0.707    0.690
+
+  Baseline (parkvol_1h correlation): r=0.37-0.58
+
+######################################################################
+  EXPERIMENT 4: Feature Importance Analysis
+######################################################################
+  LGBM on 70/30 split: acc=0.764 f1=0.288 auc=0.711
+  Train: 79,632 | Test: 34,129
+
+  Top 20 features by importance (gain):
+  Feature                          Importance  Cumulative%
+  -------------------------------------------------------
+  vol_sma_24h                             651         8.8%
+  parkvol_24h                             631        17.3%
+  rvol_24h                                575        25.0%
+  price_vs_sma_24h                        463        31.3%
+  parkvol_8h                              372        36.3%
+  rvol_8h                                 368        41.3%
+  adx_4h                                  315        45.5%
+  large_trade_1h                          284        49.3%
+  bar_eff_4h                              279        53.1%
+  iti_cv_1h                               262        56.6%
+  vol_accel_4h                            235        59.8%
+  ret_autocorr_4h                         228        62.9%
+  imbalance_4h                            224        65.9%
+  adx_2h                                  202        68.6%
+  vol_ratio_2h_24h                        174        70.9%
+  parkvol_4h                              161        73.1%
+  rvol_4h                                 159        75.3%
+  efficiency_8h                           145        77.2%
+  price_vs_sma_8h                         141        79.1%
+  bar_eff_1h                              116        80.7%
+
+  Ablation: accuracy with top-N features only:
+    Top  5: acc=0.753 f1=0.242 auc=0.630
+    Top 10: acc=0.755 f1=0.291 auc=0.660
+    Top 15: acc=0.759 f1=0.270 auc=0.687
+    Top 20: acc=0.759 f1=0.293 auc=0.702
+    Top 46: acc=0.763 f1=0.286 auc=0.710
+
+######################################################################
+  EXPERIMENT 5: Probability Calibration for Position Sizing
+######################################################################
+
+  Calibration analysis (test set, n=22,753):
+  Prob Bin           Count  Actual%     Raw%     Cal%   CalErr
+  -------------------------------------------------------
+  [0.0, 0.1)         4183    0.100    0.020    0.058    0.043
+  [0.1, 0.2)         9913    0.199    0.074    0.158    0.041
+  [0.2, 0.3)         5876    0.323    0.225    0.224    0.099
+  [0.3, 0.4)         1846    0.449    0.514    0.364    0.085
+  [0.4, 0.5)          252    0.520    0.712    0.422    0.098
+  [0.5, 0.6)          125    0.552    0.766    0.538    0.014
+  [0.6, 0.7)           35    0.600    0.795    0.668    0.068
+  [0.7, 0.8)          508    0.687    0.883    0.710    0.023
+  [0.8, 0.9)           15    0.867    0.978    0.800    0.067
+
+  Mean calibration error: raw=0.1072 calibrated=0.0597
+
+  Position sizing simulation:
+  Strategy: size = 1.0 - P(high_vol), capped at [0.2, 1.0]
+    Avg size when high_vol:  0.747
+    Avg size when normal:    0.828
+    Overall avg size:        0.808
+    Size reduction in danger: 9.8%
+
+######################################################################
+  EXPERIMENT 6: Early Warning — Predict High-Vol N Bars Ahead
+######################################################################
+  Horizon   1 bars (   5min): acc=0.766 f1=0.283 auc=0.709 prec=0.552 rec=0.190 (5.5s)
+  Horizon   6 bars (  30min): acc=0.759 f1=0.265 auc=0.703 prec=0.526 rec=0.177 (5.9s)
+  Horizon  12 bars (  60min): acc=0.756 f1=0.218 auc=0.691 prec=0.533 rec=0.137 (6.2s)
+  Horizon  24 bars ( 120min): acc=0.749 f1=0.161 auc=0.668 prec=0.522 rec=0.096 (5.6s)
+  Horizon  48 bars ( 240min): acc=0.746 f1=0.192 auc=0.637 prec=0.554 rec=0.116 (5.2s)
+  Horizon  96 bars ( 480min): acc=0.745 f1=0.165 auc=0.629 prec=0.608 rec=0.096 (5.6s)
+
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+        5min    0.766    0.283    0.709    0.552    0.190
+       30min    0.759    0.265    0.703    0.526    0.177
+       60min    0.756    0.218    0.691    0.533    0.137
+      120min    0.749    0.161    0.668    0.522    0.096
+      240min    0.746    0.192    0.637    0.554    0.116
+      480min    0.745    0.165    0.629    0.608    0.096
+
+######################################################################
+  EXPERIMENT 7: Core vs All Features Comparison
+######################################################################
+
+  --- Feature set: core_vol (19) ---
+    Fold 1: acc=0.673 f1=0.294 auc=0.607
+    Fold 2: acc=0.667 f1=0.321 auc=0.638
+    Fold 3: acc=0.871 f1=0.189 auc=0.596
+    Fold 4: acc=0.773 f1=0.198 auc=0.630
+    Fold 5: acc=0.756 f1=0.261 auc=0.712
+  → core_vol (19): acc=0.748 f1=0.253 auc=0.636
+
+  --- Feature set: all (45+) ---
+    Fold 1: acc=0.757 f1=0.301 auc=0.658
+    Fold 2: acc=0.785 f1=0.305 auc=0.673
+    Fold 3: acc=0.875 f1=0.214 auc=0.631
+    Fold 4: acc=0.778 f1=0.223 auc=0.663
+    Fold 5: acc=0.754 f1=0.308 auc=0.741
+  → all (45+): acc=0.790 f1=0.270 auc=0.673
+
+✅ ETHUSDT ML experiments complete in 1270s (21.2min)
+
+  ⏱ Total: 2453s | ~1227s/symbol | ETA: 3680s
+
+
+**********************************************************************
+  SYMBOL 3/5: SOLUSDT
+**********************************************************************
+
+
+======================================================================
+  ML REGIME DETECTION: SOLUSDT
+  2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=9.0GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=9.0GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=9.0GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=9.0GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=9.0GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=9.0GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=9.0GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=9.0GB cache=160 new=0
+  [180/396] 2025-06-29 | 1s ETA=1s RAM=9.0GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=9.0GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=1s RAM=9.0GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=9.0GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=9.0GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=9.0GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=9.0GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=9.0GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=9.0GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=9.0GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=9.0GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=9.0GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded in 1s
+
+  Step 2: Computing features...
+  60 features in 63s
+
+  Step 3: Labeling regimes...
+  Labeled in 2s
+
+######################################################################
+  EXPERIMENT 1: Binary High-Vol Classification
+######################################################################
+  Samples: 113,761 | Positive rate: 0.172
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.361 f1=0.307 auc=0.669 [train=18,961 test=18,960]
+    LogReg fold 2/5: acc=0.750 f1=0.324 auc=0.702 [train=37,921 test=18,960]
+    LogReg fold 3/5: acc=0.667 f1=0.269 auc=0.676 [train=56,881 test=18,960]
+    LogReg fold 4/5: acc=0.759 f1=0.366 auc=0.706 [train=75,841 test=18,960]
+    LogReg fold 5/5: acc=0.744 f1=0.412 auc=0.719 [train=94,801 test=18,960]
+  → LogReg: acc=0.656±0.151 f1=0.336±0.049 auc=0.694±0.019 prec=0.280 rec=0.533 (4.9s)
+    RF fold 1/5: acc=0.803 f1=0.376 auc=0.717 [train=18,961 test=18,960]
+    RF fold 2/5: acc=0.830 f1=0.314 auc=0.684 [train=37,921 test=18,960]
+    RF fold 3/5: acc=0.795 f1=0.245 auc=0.641 [train=56,881 test=18,960]
+    RF fold 4/5: acc=0.751 f1=0.305 auc=0.647 [train=75,841 test=18,960]
+    RF fold 5/5: acc=0.756 f1=0.393 auc=0.691 [train=94,801 test=18,960]
+  → RF: acc=0.787±0.030 f1=0.327±0.053 auc=0.676±0.028 prec=0.339 rec=0.322 (89.6s)
+    XGB fold 1/5: acc=0.770 f1=0.390 auc=0.687 [train=18,961 test=18,960]
+    XGB fold 2/5: acc=0.824 f1=0.247 auc=0.666 [train=37,921 test=18,960]
+    XGB fold 3/5: acc=0.770 f1=0.206 auc=0.594 [train=56,881 test=18,960]
+    XGB fold 4/5: acc=0.781 f1=0.263 auc=0.633 [train=75,841 test=18,960]
+    XGB fold 5/5: acc=0.751 f1=0.362 auc=0.682 [train=94,801 test=18,960]
+  → XGB: acc=0.779±0.024 f1=0.294±0.070 auc=0.653±0.035 prec=0.312 rec=0.294 (17.6s)
+    LGBM fold 1/5: acc=0.775 f1=0.361 auc=0.677 [train=18,961 test=18,960]
+    LGBM fold 2/5: acc=0.824 f1=0.224 auc=0.645 [train=37,921 test=18,960]
+    LGBM fold 3/5: acc=0.771 f1=0.178 auc=0.566 [train=56,881 test=18,960]
+    LGBM fold 4/5: acc=0.780 f1=0.264 auc=0.617 [train=75,841 test=18,960]
+    LGBM fold 5/5: acc=0.754 f1=0.341 auc=0.685 [train=94,801 test=18,960]
+  → LGBM: acc=0.781±0.023 f1=0.274±0.069 auc=0.638±0.043 prec=0.304 rec=0.262 (16.5s)
+
+  Model           Acc       F1      AUC     Prec      Rec   Time
+  -------------------------------------------------------
+  LogReg        0.656    0.336    0.694    0.280    0.533    4.9s
+  RF            0.787    0.327    0.676    0.339    0.322   89.6s
+  XGB           0.779    0.294    0.653    0.312    0.294   17.6s
+  LGBM          0.781    0.274    0.638    0.304    0.262   16.5s
+
+  Baseline (single-feature threshold): acc=0.63-0.70, f1=0.35-0.43
+
+######################################################################
+  EXPERIMENT 2: 3-Class Vol Regime Classification
+######################################################################
+  Samples: 113,761 | Distribution: low_vol=0.064, norm_vol=0.764, high_vol=0.172
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.325 f1_macro=0.265 f1_low=0.130 f1_norm=0.356 f1_high=0.310
+    LogReg fold 2/5: acc=0.650 f1_macro=0.430 f1_low=0.193 f1_norm=0.771 f1_high=0.326
+    LogReg fold 3/5: acc=0.577 f1_macro=0.444 f1_low=0.358 f1_norm=0.700 f1_high=0.274
+    LogReg fold 4/5: acc=0.508 f1_macro=0.420 f1_low=0.278 f1_norm=0.622 f1_high=0.359
+    LogReg fold 5/5: acc=0.412 f1_macro=0.403 f1_low=0.341 f1_norm=0.455 f1_high=0.411
+  → LogReg: acc=0.495 f1_macro=0.392 f1_low=0.260 f1_norm=0.581 f1_high=0.336 (6.6s)
+    RF fold 1/5: acc=0.742 f1_macro=0.429 f1_low=0.074 f1_norm=0.843 f1_high=0.370
+    RF fold 2/5: acc=0.670 f1_macro=0.396 f1_low=0.079 f1_norm=0.796 f1_high=0.314
+    RF fold 3/5: acc=0.632 f1_macro=0.428 f1_low=0.277 f1_norm=0.759 f1_high=0.247
+    RF fold 4/5: acc=0.581 f1_macro=0.443 f1_low=0.287 f1_norm=0.704 f1_high=0.338
+    RF fold 5/5: acc=0.418 f1_macro=0.398 f1_low=0.299 f1_norm=0.495 f1_high=0.402
+  → RF: acc=0.609 f1_macro=0.419 f1_low=0.203 f1_norm=0.719 f1_high=0.334 (91.1s)
+    XGB fold 1/5: acc=0.790 f1_macro=0.414 f1_low=0.000 f1_norm=0.877 f1_high=0.365
+    XGB fold 2/5: acc=0.829 f1_macro=0.330 f1_low=0.000 f1_norm=0.906 f1_high=0.084
+    XGB fold 3/5: acc=0.809 f1_macro=0.325 f1_low=0.000 f1_norm=0.894 f1_high=0.081
+    XGB fold 4/5: acc=0.762 f1_macro=0.332 f1_low=0.040 f1_norm=0.863 f1_high=0.093
+    XGB fold 5/5: acc=0.651 f1_macro=0.322 f1_low=0.096 f1_norm=0.786 f1_high=0.084
+  → XGB: acc=0.768 f1_macro=0.345 f1_low=0.027 f1_norm=0.865 f1_high=0.141 (55.7s)
+    LGBM fold 1/5: acc=0.775 f1_macro=0.405 f1_low=0.003 f1_norm=0.867 f1_high=0.345
+    LGBM fold 2/5: acc=0.823 f1_macro=0.335 f1_low=0.000 f1_norm=0.902 f1_high=0.101
+    LGBM fold 3/5: acc=0.793 f1_macro=0.316 f1_low=0.004 f1_norm=0.885 f1_high=0.058
+    LGBM fold 4/5: acc=0.762 f1_macro=0.335 f1_low=0.038 f1_norm=0.864 f1_high=0.102
+    LGBM fold 5/5: acc=0.653 f1_macro=0.338 f1_low=0.107 f1_norm=0.785 f1_high=0.122
+  → LGBM: acc=0.761 f1_macro=0.346 f1_low=0.031 f1_norm=0.861 f1_high=0.146 (43.1s)
+
+  Model           Acc    F1mac    F1low   F1norm   F1high
+  --------------------------------------------------
+  RF            0.609    0.419    0.203    0.719    0.334
+  LogReg        0.495    0.392    0.260    0.581    0.336
+  LGBM          0.761    0.346    0.031    0.861    0.146
+  XGB           0.768    0.345    0.027    0.865    0.141
+
+######################################################################
+  EXPERIMENT 3: Vol Regression (predict fwd_vol)
+######################################################################
+  Samples: 113,713 | fwd_vol mean=0.002267 std=0.001452
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.143 corr=0.612 rmse=0.001024 bin_acc=0.606 bin_f1=0.570
+    Ridge fold 2/5: r2=0.299 corr=0.576 rmse=0.000646 bin_acc=0.771 bin_f1=0.599
+    Ridge fold 3/5: r2=0.286 corr=0.542 rmse=0.000783 bin_acc=0.745 bin_f1=0.703
+    Ridge fold 4/5: r2=0.145 corr=0.392 rmse=0.001886 bin_acc=0.745 bin_f1=0.770
+    Ridge fold 5/5: r2=0.276 corr=0.548 rmse=0.000773 bin_acc=0.753 bin_f1=0.491
+  → Ridge: r2=0.230 corr=0.534 rmse=0.001023 bin_acc=0.724 bin_f1=0.627 (0.4s)
+    RF_reg fold 1/5: r2=0.159 corr=0.578 rmse=0.001014 bin_acc=0.636 bin_f1=0.565
+    RF_reg fold 2/5: r2=0.202 corr=0.484 rmse=0.000689 bin_acc=0.745 bin_f1=0.568
+    RF_reg fold 3/5: r2=0.179 corr=0.457 rmse=0.000840 bin_acc=0.712 bin_f1=0.686
+    RF_reg fold 4/5: r2=0.105 corr=0.337 rmse=0.001930 bin_acc=0.718 bin_f1=0.759
+    RF_reg fold 5/5: r2=0.068 corr=0.447 rmse=0.000877 bin_acc=0.753 bin_f1=0.505
+  → RF_reg: r2=0.143 corr=0.461 rmse=0.001070 bin_acc=0.713 bin_f1=0.616 (658.9s)
+    XGB_reg fold 1/5: r2=0.069 corr=0.559 rmse=0.001068 bin_acc=0.656 bin_f1=0.570
+    XGB_reg fold 2/5: r2=0.191 corr=0.478 rmse=0.000695 bin_acc=0.734 bin_f1=0.533
+    XGB_reg fold 3/5: r2=0.176 corr=0.457 rmse=0.000841 bin_acc=0.728 bin_f1=0.692
+    XGB_reg fold 4/5: r2=0.108 corr=0.345 rmse=0.001927 bin_acc=0.739 bin_f1=0.765
+    XGB_reg fold 5/5: r2=-0.022 corr=0.417 rmse=0.000919 bin_acc=0.745 bin_f1=0.505
+  → XGB_reg: r2=0.104 corr=0.451 rmse=0.001090 bin_acc=0.720 bin_f1=0.613 (22.3s)
+    LGBM_reg fold 1/5: r2=0.028 corr=0.552 rmse=0.001090 bin_acc=0.631 bin_f1=0.550
+    LGBM_reg fold 2/5: r2=0.182 corr=0.474 rmse=0.000698 bin_acc=0.731 bin_f1=0.530
+    LGBM_reg fold 3/5: r2=0.157 corr=0.453 rmse=0.000851 bin_acc=0.730 bin_f1=0.694
+    LGBM_reg fold 4/5: r2=0.104 corr=0.341 rmse=0.001931 bin_acc=0.738 bin_f1=0.764
+    LGBM_reg fold 5/5: r2=0.021 corr=0.429 rmse=0.000899 bin_acc=0.745 bin_f1=0.504
+  → LGBM_reg: r2=0.098 corr=0.450 rmse=0.001094 bin_acc=0.715 bin_f1=0.608 (16.7s)
+
+  Model            R²     Corr       RMSE   BinAcc    BinF1
+  -------------------------------------------------------
+  Ridge         0.230    0.534   0.001023    0.724    0.627
+  RF_reg        0.143    0.461   0.001070    0.713    0.616
+  XGB_reg       0.104    0.451   0.001090    0.720    0.613
+  LGBM_reg      0.098    0.450   0.001094    0.715    0.608
+
+  Baseline (parkvol_1h correlation): r=0.37-0.58
+
+######################################################################
+  EXPERIMENT 4: Feature Importance Analysis
+######################################################################
+  LGBM on 70/30 split: acc=0.792 f1=0.093 auc=0.675
+  Train: 79,632 | Test: 34,129
+
+  Top 20 features by importance (gain):
+  Feature                          Importance  Cumulative%
+  -------------------------------------------------------
+  parkvol_24h                             607         8.3%
+  vol_sma_24h                             598        16.5%
+  rvol_24h                                441        22.5%
+  price_vs_sma_24h                        408        28.1%
+  large_trade_1h                          377        33.3%
+  rvol_8h                                 337        37.9%
+  bar_eff_4h                              335        42.5%
+  iti_cv_1h                               319        46.8%
+  adx_4h                                  307        51.0%
+  vol_accel_4h                            247        54.4%
+  parkvol_8h                              227        57.5%
+  adx_2h                                  223        60.6%
+  ret_autocorr_4h                         208        63.4%
+  parkvol_4h                              188        66.0%
+  vol_ratio_2h_24h                        158        68.1%
+  bar_eff_1h                              156        70.3%
+  imbalance_4h                            150        72.3%
+  rvol_4h                                 149        74.4%
+  vol_ratio_1h_24h                        133        76.2%
+  parkvol_1h                              126        77.9%
+
+  Ablation: accuracy with top-N features only:
+    Top  5: acc=0.789 f1=0.154 auc=0.587
+    Top 10: acc=0.788 f1=0.102 auc=0.644
+    Top 15: acc=0.790 f1=0.113 auc=0.663
+    Top 20: acc=0.791 f1=0.115 auc=0.667
+    Top 46: acc=0.792 f1=0.106 auc=0.685
+
+######################################################################
+  EXPERIMENT 5: Probability Calibration for Position Sizing
+######################################################################
+
+  Calibration analysis (test set, n=22,753):
+  Prob Bin           Count  Actual%     Raw%     Cal%   CalErr
+  -------------------------------------------------------
+  [0.0, 0.1)         7337    0.135    0.015    0.062    0.073
+  [0.1, 0.2)        12324    0.234    0.081    0.147    0.087
+  [0.2, 0.3)         2766    0.382    0.257    0.213    0.169
+  [0.3, 0.4)          125    0.472    0.498    0.356    0.116
+  [0.4, 0.5)           24    0.500    0.562    0.475    0.025
+  [0.5, 0.6)          159    0.667    0.688    0.521    0.146
+  [0.6, 0.7)            4    0.750    0.854    0.656    0.094
+  [0.7, 0.8)            6    0.500    0.871    0.734    0.234
+  [0.8, 0.9)            6    0.500    0.911    0.851    0.351
+  [0.9, 1.0)            2    0.500    0.943    0.967    0.467
+
+  Mean calibration error: raw=0.1374 calibrated=0.0931
+
+  Position sizing simulation:
+  Strategy: size = 1.0 - P(high_vol), capped at [0.2, 1.0]
+    Avg size when high_vol:  0.839
+    Avg size when normal:    0.876
+    Overall avg size:        0.868
+    Size reduction in danger: 4.2%
+
+######################################################################
+  EXPERIMENT 6: Early Warning — Predict High-Vol N Bars Ahead
+######################################################################
+  Horizon   1 bars (   5min): acc=0.793 f1=0.100 auc=0.681 prec=0.584 rec=0.055 (6.2s)
+  Horizon   6 bars (  30min): acc=0.788 f1=0.069 auc=0.654 prec=0.499 rec=0.037 (5.0s)
+  Horizon  12 bars (  60min): acc=0.787 f1=0.059 auc=0.657 prec=0.509 rec=0.032 (5.3s)
+  Horizon  24 bars ( 120min): acc=0.780 f1=0.053 auc=0.637 prec=0.361 rec=0.029 (5.4s)
+  Horizon  48 bars ( 240min): acc=0.780 f1=0.068 auc=0.615 prec=0.432 rec=0.037 (5.2s)
+  Horizon  96 bars ( 480min): acc=0.779 f1=0.091 auc=0.576 prec=0.467 rec=0.050 (6.2s)
+
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+        5min    0.793    0.100    0.681    0.584    0.055
+       30min    0.788    0.069    0.654    0.499    0.037
+       60min    0.787    0.059    0.657    0.509    0.032
+      120min    0.780    0.053    0.637    0.361    0.029
+      240min    0.780    0.068    0.615    0.432    0.037
+      480min    0.779    0.091    0.576    0.467    0.050
+
+######################################################################
+  EXPERIMENT 7: Core vs All Features Comparison
+######################################################################
+
+  --- Feature set: core_vol (19) ---
+    Fold 1: acc=0.716 f1=0.358 auc=0.677
+    Fold 2: acc=0.843 f1=0.145 auc=0.646
+    Fold 3: acc=0.869 f1=0.143 auc=0.585
+    Fold 4: acc=0.816 f1=0.177 auc=0.632
+    Fold 5: acc=0.770 f1=0.141 auc=0.675
+  → core_vol (19): acc=0.803 f1=0.193 auc=0.643
+
+  --- Feature set: all (45+) ---
+    Fold 1: acc=0.827 f1=0.337 auc=0.679
+    Fold 2: acc=0.863 f1=0.106 auc=0.647
+    Fold 3: acc=0.872 f1=0.072 auc=0.583
+    Fold 4: acc=0.827 f1=0.088 auc=0.648
+    Fold 5: acc=0.766 f1=0.103 auc=0.690
+  → all (45+): acc=0.831 f1=0.141 auc=0.650
+
+✅ SOLUSDT ML experiments complete in 1175s (19.6min)
+
+  ⏱ Total: 3628s | ~1209s/symbol | ETA: 2419s
+
+
+**********************************************************************
+  SYMBOL 4/5: DOGEUSDT
+**********************************************************************
+
+
+======================================================================
+  ML REGIME DETECTION: DOGEUSDT
+  2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=8.3GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=8.3GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=8.3GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=8.3GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=8.3GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=8.3GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=8.3GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=8.3GB cache=160 new=0
+  [180/396] 2025-06-29 | 1s ETA=1s RAM=8.3GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=8.3GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=1s RAM=8.3GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=8.3GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=8.3GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=8.3GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=8.3GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=8.3GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=8.3GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.3GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=8.3GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=8.3GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded in 1s
+
+  Step 2: Computing features...
+  60 features in 67s
+
+  Step 3: Labeling regimes...
+  Labeled in 2s
+
+######################################################################
+  EXPERIMENT 1: Binary High-Vol Classification
+######################################################################
+  Samples: 113,761 | Positive rate: 0.175
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.732 f1=0.351 auc=0.666 [train=18,961 test=18,960]
+    LogReg fold 2/5: acc=0.715 f1=0.365 auc=0.739 [train=37,921 test=18,960]
+    LogReg fold 3/5: acc=0.544 f1=0.255 auc=0.655 [train=56,881 test=18,960]
+    LogReg fold 4/5: acc=0.680 f1=0.403 auc=0.698 [train=75,841 test=18,960]
+    LogReg fold 5/5: acc=0.731 f1=0.444 auc=0.701 [train=94,801 test=18,960]
+  → LogReg: acc=0.681±0.071 f1=0.364±0.063 auc=0.692±0.029 prec=0.292 rec=0.547 (5.3s)
+    RF fold 1/5: acc=0.781 f1=0.377 auc=0.684 [train=18,961 test=18,960]
+    RF fold 2/5: acc=0.770 f1=0.326 auc=0.697 [train=37,921 test=18,960]
+    RF fold 3/5: acc=0.734 f1=0.282 auc=0.672 [train=56,881 test=18,960]
+    RF fold 4/5: acc=0.720 f1=0.373 auc=0.667 [train=75,841 test=18,960]
+    RF fold 5/5: acc=0.748 f1=0.418 auc=0.683 [train=94,801 test=18,960]
+  → RF: acc=0.750±0.022 f1=0.355±0.047 auc=0.681±0.011 prec=0.324 rec=0.416 (91.3s)
+    XGB fold 1/5: acc=0.784 f1=0.328 auc=0.645 [train=18,961 test=18,960]
+    XGB fold 2/5: acc=0.780 f1=0.332 auc=0.681 [train=37,921 test=18,960]
+    XGB fold 3/5: acc=0.696 f1=0.276 auc=0.672 [train=56,881 test=18,960]
+    XGB fold 4/5: acc=0.747 f1=0.409 auc=0.696 [train=75,841 test=18,960]
+    XGB fold 5/5: acc=0.732 f1=0.421 auc=0.678 [train=94,801 test=18,960]
+  → XGB: acc=0.748±0.032 f1=0.353±0.054 auc=0.674±0.017 prec=0.323 rec=0.419 (21.1s)
+    LGBM fold 1/5: acc=0.794 f1=0.318 auc=0.640 [train=18,961 test=18,960]
+    LGBM fold 2/5: acc=0.799 f1=0.330 auc=0.669 [train=37,921 test=18,960]
+    LGBM fold 3/5: acc=0.678 f1=0.261 auc=0.662 [train=56,881 test=18,960]
+    LGBM fold 4/5: acc=0.747 f1=0.412 auc=0.691 [train=75,841 test=18,960]
+    LGBM fold 5/5: acc=0.741 f1=0.411 auc=0.682 [train=94,801 test=18,960]
+  → LGBM: acc=0.752±0.044 f1=0.346±0.058 auc=0.669±0.018 prec=0.331 rec=0.400 (18.0s)
+
+  Model           Acc       F1      AUC     Prec      Rec   Time
+  -------------------------------------------------------
+  LogReg        0.681    0.364    0.692    0.292    0.547    5.3s
+  RF            0.750    0.355    0.681    0.324    0.416   91.3s
+  XGB           0.748    0.353    0.674    0.323    0.419   21.1s
+  LGBM          0.752    0.346    0.669    0.331    0.400   18.0s
+
+  Baseline (single-feature threshold): acc=0.63-0.70, f1=0.35-0.43
+
+######################################################################
+  EXPERIMENT 2: 3-Class Vol Regime Classification
+######################################################################
+  Samples: 113,761 | Distribution: low_vol=0.076, norm_vol=0.749, high_vol=0.175
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.655 f1_macro=0.398 f1_low=0.073 f1_norm=0.776 f1_high=0.345
+    LogReg fold 2/5: acc=0.596 f1_macro=0.454 f1_low=0.289 f1_norm=0.712 f1_high=0.360
+    LogReg fold 3/5: acc=0.443 f1_macro=0.377 f1_low=0.328 f1_norm=0.555 f1_high=0.248
+    LogReg fold 4/5: acc=0.460 f1_macro=0.408 f1_low=0.277 f1_norm=0.544 f1_high=0.404
+    LogReg fold 5/5: acc=0.352 f1_macro=0.359 f1_low=0.272 f1_norm=0.357 f1_high=0.448
+  → LogReg: acc=0.501 f1_macro=0.399 f1_low=0.248 f1_norm=0.589 f1_high=0.361 (6.1s)
+    RF fold 1/5: acc=0.658 f1_macro=0.422 f1_low=0.108 f1_norm=0.779 f1_high=0.380
+    RF fold 2/5: acc=0.588 f1_macro=0.425 f1_low=0.229 f1_norm=0.713 f1_high=0.334
+    RF fold 3/5: acc=0.546 f1_macro=0.414 f1_low=0.302 f1_norm=0.675 f1_high=0.265
+    RF fold 4/5: acc=0.515 f1_macro=0.431 f1_low=0.285 f1_norm=0.629 f1_high=0.377
+    RF fold 5/5: acc=0.431 f1_macro=0.399 f1_low=0.271 f1_norm=0.519 f1_high=0.407
+  → RF: acc=0.548 f1_macro=0.418 f1_low=0.239 f1_norm=0.663 f1_high=0.353 (93.1s)
+    XGB fold 1/5: acc=0.757 f1_macro=0.376 f1_low=0.011 f1_norm=0.857 f1_high=0.261
+    XGB fold 2/5: acc=0.775 f1_macro=0.372 f1_low=0.063 f1_norm=0.871 f1_high=0.182
+    XGB fold 3/5: acc=0.793 f1_macro=0.376 f1_low=0.055 f1_norm=0.884 f1_high=0.189
+    XGB fold 4/5: acc=0.728 f1_macro=0.347 f1_low=0.034 f1_norm=0.839 f1_high=0.167
+    XGB fold 5/5: acc=0.662 f1_macro=0.392 f1_low=0.121 f1_norm=0.787 f1_high=0.269
+  → XGB: acc=0.743 f1_macro=0.373 f1_low=0.057 f1_norm=0.847 f1_high=0.214 (52.1s)
+    LGBM fold 1/5: acc=0.757 f1_macro=0.381 f1_low=0.012 f1_norm=0.856 f1_high=0.276
+    LGBM fold 2/5: acc=0.770 f1_macro=0.372 f1_low=0.068 f1_norm=0.868 f1_high=0.180
+    LGBM fold 3/5: acc=0.774 f1_macro=0.379 f1_low=0.074 f1_norm=0.872 f1_high=0.192
+    LGBM fold 4/5: acc=0.727 f1_macro=0.368 f1_low=0.072 f1_norm=0.837 f1_high=0.197
+    LGBM fold 5/5: acc=0.652 f1_macro=0.373 f1_low=0.077 f1_norm=0.781 f1_high=0.260
+  → LGBM: acc=0.736 f1_macro=0.375 f1_low=0.060 f1_norm=0.843 f1_high=0.221 (45.5s)
+
+  Model           Acc    F1mac    F1low   F1norm   F1high
+  --------------------------------------------------
+  RF            0.548    0.418    0.239    0.663    0.353
+  LogReg        0.501    0.399    0.248    0.589    0.361
+  LGBM          0.736    0.375    0.060    0.843    0.221
+  XGB           0.743    0.373    0.057    0.847    0.214
+
+######################################################################
+  EXPERIMENT 3: Vol Regression (predict fwd_vol)
+######################################################################
+  Samples: 113,713 | fwd_vol mean=0.002475 std=0.002136
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.375 corr=0.678 rmse=0.001000 bin_acc=0.772 bin_f1=0.670
+    Ridge fold 2/5: r2=0.386 corr=0.637 rmse=0.000822 bin_acc=0.775 bin_f1=0.722
+    Ridge fold 3/5: r2=0.295 corr=0.565 rmse=0.001044 bin_acc=0.696 bin_f1=0.751
+    Ridge fold 4/5: r2=0.059 corr=0.245 rmse=0.004135 bin_acc=0.680 bin_f1=0.665
+    Ridge fold 5/5: r2=0.058 corr=0.443 rmse=0.000908 bin_acc=0.737 bin_f1=0.428
+  → Ridge: r2=0.235 corr=0.514 rmse=0.001582 bin_acc=0.732 bin_f1=0.647 (0.4s)
+    RF_reg fold 1/5: r2=0.243 corr=0.612 rmse=0.001101 bin_acc=0.746 bin_f1=0.682
+    RF_reg fold 2/5: r2=0.316 corr=0.596 rmse=0.000867 bin_acc=0.743 bin_f1=0.707
+    RF_reg fold 3/5: r2=0.245 corr=0.518 rmse=0.001080 bin_acc=0.683 bin_f1=0.745
+    RF_reg fold 4/5: r2=0.060 corr=0.248 rmse=0.004132 bin_acc=0.659 bin_f1=0.653
+    RF_reg fold 5/5: r2=-0.408 corr=0.284 rmse=0.001111 bin_acc=0.728 bin_f1=0.443
+  → RF_reg: r2=0.091 corr=0.452 rmse=0.001658 bin_acc=0.712 bin_f1=0.646 (632.0s)
+    XGB_reg fold 1/5: r2=0.260 corr=0.601 rmse=0.001088 bin_acc=0.721 bin_f1=0.661
+    XGB_reg fold 2/5: r2=0.327 corr=0.598 rmse=0.000860 bin_acc=0.756 bin_f1=0.711
+    XGB_reg fold 3/5: r2=0.210 corr=0.512 rmse=0.001106 bin_acc=0.666 bin_f1=0.740
+    XGB_reg fold 4/5: r2=0.051 corr=0.230 rmse=0.004151 bin_acc=0.673 bin_f1=0.655
+    XGB_reg fold 5/5: r2=-1.283 corr=0.198 rmse=0.001414 bin_acc=0.736 bin_f1=0.426
+  → XGB_reg: r2=-0.087 corr=0.428 rmse=0.001724 bin_acc=0.710 bin_f1=0.639 (17.8s)
+    LGBM_reg fold 1/5: r2=0.250 corr=0.597 rmse=0.001096 bin_acc=0.726 bin_f1=0.672
+    LGBM_reg fold 2/5: r2=0.336 corr=0.602 rmse=0.000854 bin_acc=0.753 bin_f1=0.708
+    LGBM_reg fold 3/5: r2=0.170 corr=0.499 rmse=0.001133 bin_acc=0.662 bin_f1=0.738
+    LGBM_reg fold 4/5: r2=0.058 corr=0.244 rmse=0.004137 bin_acc=0.675 bin_f1=0.656
+    LGBM_reg fold 5/5: r2=-1.092 corr=0.210 rmse=0.001354 bin_acc=0.733 bin_f1=0.421
+  → LGBM_reg: r2=-0.055 corr=0.430 rmse=0.001715 bin_acc=0.710 bin_f1=0.639 (15.5s)
+
+  Model            R²     Corr       RMSE   BinAcc    BinF1
+  -------------------------------------------------------
+  Ridge         0.235    0.514   0.001582    0.732    0.647
+  RF_reg        0.091    0.452   0.001658    0.712    0.646
+  LGBM_reg     -0.055    0.430   0.001715    0.710    0.639
+  XGB_reg      -0.087    0.428   0.001724    0.710    0.639
+
+  Baseline (parkvol_1h correlation): r=0.37-0.58
+
+######################################################################
+  EXPERIMENT 4: Feature Importance Analysis
+######################################################################
+  LGBM on 70/30 split: acc=0.783 f1=0.230 auc=0.682
+  Train: 79,632 | Test: 34,129
+
+  Top 20 features by importance (gain):
+  Feature                          Importance  Cumulative%
+  -------------------------------------------------------
+  vol_sma_24h                             775        10.0%
+  parkvol_24h                             652        18.5%
+  rvol_24h                                554        25.6%
+  price_vs_sma_24h                        528        32.5%
+  bar_eff_4h                              416        37.9%
+  adx_4h                                  358        42.5%
+  parkvol_8h                              351        47.0%
+  rvol_8h                                 350        51.6%
+  imbalance_4h                            267        55.0%
+  vol_accel_4h                            244        58.2%
+  iti_cv_1h                               235        61.2%
+  adx_2h                                  225        64.1%
+  large_trade_1h                          214        66.9%
+  vol_ratio_2h_24h                        211        69.6%
+  ret_autocorr_4h                         193        72.1%
+  rvol_4h                                 167        74.3%
+  parkvol_4h                              160        76.4%
+  parkvol_1h                              122        77.9%
+  bar_eff_1h                              116        79.4%
+  efficiency_8h                           113        80.9%
+
+  Ablation: accuracy with top-N features only:
+    Top  5: acc=0.764 f1=0.233 auc=0.624
+    Top 10: acc=0.768 f1=0.218 auc=0.663
+    Top 15: acc=0.774 f1=0.208 auc=0.673
+    Top 20: acc=0.775 f1=0.206 auc=0.679
+    Top 46: acc=0.783 f1=0.224 auc=0.683
+
+######################################################################
+  EXPERIMENT 5: Probability Calibration for Position Sizing
+######################################################################
+
+  Calibration analysis (test set, n=22,753):
+  Prob Bin           Count  Actual%     Raw%     Cal%   CalErr
+  -------------------------------------------------------
+  [0.0, 0.1)         6622    0.127    0.012    0.040    0.088
+  [0.1, 0.2)         9100    0.204    0.068    0.128    0.077
+  [0.2, 0.3)         3117    0.288    0.195    0.238    0.050
+  [0.3, 0.4)         3542    0.397    0.458    0.349    0.047
+  [0.4, 0.5)          219    0.612    0.846    0.480    0.132
+  [0.5, 0.6)           14    0.214    0.903    0.500    0.286
+  [0.6, 0.7)           40    0.275    0.919    0.633    0.358
+  [0.8, 0.9)           80    0.438    0.957    0.833    0.395
+  [0.9, 1.0)           19    0.895    0.989    1.000    0.105
+
+  Mean calibration error: raw=0.1164 calibrated=0.0739
+
+  Position sizing simulation:
+  Strategy: size = 1.0 - P(high_vol), capped at [0.2, 1.0]
+    Avg size when high_vol:  0.788
+    Avg size when normal:    0.857
+    Overall avg size:        0.841
+    Size reduction in danger: 8.1%
+
+######################################################################
+  EXPERIMENT 6: Early Warning — Predict High-Vol N Bars Ahead
+######################################################################
+  Horizon   1 bars (   5min): acc=0.780 f1=0.229 auc=0.687 prec=0.531 rec=0.146 (6.1s)
+  Horizon   6 bars (  30min): acc=0.776 f1=0.182 auc=0.662 prec=0.504 rec=0.111 (5.4s)
+  Horizon  12 bars (  60min): acc=0.772 f1=0.161 auc=0.641 prec=0.485 rec=0.097 (6.6s)
+  Horizon  24 bars ( 120min): acc=0.768 f1=0.115 auc=0.600 prec=0.444 rec=0.066 (5.0s)
+  Horizon  48 bars ( 240min): acc=0.753 f1=0.100 auc=0.571 prec=0.331 rec=0.059 (5.2s)
+  Horizon  96 bars ( 480min): acc=0.750 f1=0.160 auc=0.565 prec=0.394 rec=0.100 (6.1s)
+
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+        5min    0.780    0.229    0.687    0.531    0.146
+       30min    0.776    0.182    0.662    0.504    0.111
+       60min    0.772    0.161    0.641    0.485    0.097
+      120min    0.768    0.115    0.600    0.444    0.066
+      240min    0.753    0.100    0.571    0.331    0.059
+      480min    0.750    0.160    0.565    0.394    0.100
+
+######################################################################
+  EXPERIMENT 7: Core vs All Features Comparison
+######################################################################
+
+  --- Feature set: core_vol (19) ---
+    Fold 1: acc=0.784 f1=0.274 auc=0.642
+    Fold 2: acc=0.828 f1=0.247 auc=0.650
+    Fold 3: acc=0.846 f1=0.199 auc=0.655
+    Fold 4: acc=0.801 f1=0.166 auc=0.653
+    Fold 5: acc=0.764 f1=0.265 auc=0.634
+  → core_vol (19): acc=0.805 f1=0.230 auc=0.647
+
+  --- Feature set: all (45+) ---
+    Fold 1: acc=0.815 f1=0.279 auc=0.640
+    Fold 2: acc=0.850 f1=0.206 auc=0.689
+    Fold 3: acc=0.842 f1=0.206 auc=0.652
+    Fold 4: acc=0.810 f1=0.189 auc=0.698
+    Fold 5: acc=0.769 f1=0.264 auc=0.677
+  → all (45+): acc=0.817 f1=0.229 auc=0.671
+
+✅ DOGEUSDT ML experiments complete in 1149s (19.2min)
+
+  ⏱ Total: 4778s | ~1194s/symbol | ETA: 1194s
+
+
+**********************************************************************
+  SYMBOL 5/5: XRPUSDT
+**********************************************************************
+
+
+======================================================================
+  ML REGIME DETECTION: XRPUSDT
+  2025-01-01 → 2026-01-31 | fwd=48 bars (240min)
+======================================================================
+
+  Step 1: Loading 5m bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=8.1GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=8.1GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=8.1GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=8.1GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=8.1GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=8.1GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=8.1GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=8.1GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=1s RAM=8.1GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=8.1GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=0s RAM=8.1GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=8.1GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=8.1GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=8.1GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=8.1GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=8.1GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=8.1GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.1GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=8.1GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=8.1GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Loaded in 1s
+
+  Step 2: Computing features...
+  60 features in 65s
+
+  Step 3: Labeling regimes...
+  Labeled in 2s
+
+######################################################################
+  EXPERIMENT 1: Binary High-Vol Classification
+######################################################################
+  Samples: 113,761 | Positive rate: 0.178
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.772 f1=0.376 auc=0.700 [train=18,961 test=18,960]
+    LogReg fold 2/5: acc=0.804 f1=0.410 auc=0.760 [train=37,921 test=18,960]
+    LogReg fold 3/5: acc=0.737 f1=0.338 auc=0.704 [train=56,881 test=18,960]
+    LogReg fold 4/5: acc=0.746 f1=0.380 auc=0.723 [train=75,841 test=18,960]
+    LogReg fold 5/5: acc=0.754 f1=0.481 auc=0.739 [train=94,801 test=18,960]
+  → LogReg: acc=0.763±0.024 f1=0.397±0.048 auc=0.725±0.022 prec=0.357 rec=0.461 (5.1s)
+    RF fold 1/5: acc=0.790 f1=0.384 auc=0.706 [train=18,961 test=18,960]
+    RF fold 2/5: acc=0.802 f1=0.349 auc=0.723 [train=37,921 test=18,960]
+    RF fold 3/5: acc=0.767 f1=0.324 auc=0.686 [train=56,881 test=18,960]
+    RF fold 4/5: acc=0.675 f1=0.314 auc=0.645 [train=75,841 test=18,960]
+    RF fold 5/5: acc=0.764 f1=0.479 auc=0.739 [train=94,801 test=18,960]
+  → RF: acc=0.760±0.045 f1=0.370±0.060 auc=0.700±0.033 prec=0.349 rec=0.413 (90.8s)
+    XGB fold 1/5: acc=0.802 f1=0.315 auc=0.674 [train=18,961 test=18,960]
+    XGB fold 2/5: acc=0.796 f1=0.295 auc=0.682 [train=37,921 test=18,960]
+    XGB fold 3/5: acc=0.768 f1=0.278 auc=0.660 [train=56,881 test=18,960]
+    XGB fold 4/5: acc=0.716 f1=0.356 auc=0.690 [train=75,841 test=18,960]
+    XGB fold 5/5: acc=0.757 f1=0.406 auc=0.721 [train=94,801 test=18,960]
+  → XGB: acc=0.768±0.031 f1=0.330±0.046 auc=0.685±0.020 prec=0.337 rec=0.343 (19.4s)
+    LGBM fold 1/5: acc=0.805 f1=0.288 auc=0.663 [train=18,961 test=18,960]
+    LGBM fold 2/5: acc=0.794 f1=0.273 auc=0.683 [train=37,921 test=18,960]
+    LGBM fold 3/5: acc=0.771 f1=0.280 auc=0.663 [train=56,881 test=18,960]
+    LGBM fold 4/5: acc=0.712 f1=0.346 auc=0.683 [train=75,841 test=18,960]
+    LGBM fold 5/5: acc=0.761 f1=0.412 auc=0.720 [train=94,801 test=18,960]
+  → LGBM: acc=0.769±0.032 f1=0.320±0.053 auc=0.682±0.021 prec=0.334 rec=0.329 (15.8s)
+
+  Model           Acc       F1      AUC     Prec      Rec   Time
+  -------------------------------------------------------
+  LogReg        0.763    0.397    0.725    0.357    0.461    5.1s
+  RF            0.760    0.370    0.700    0.349    0.413   90.8s
+  XGB           0.768    0.330    0.685    0.337    0.343   19.4s
+  LGBM          0.769    0.320    0.682    0.334    0.329   15.8s
+
+  Baseline (single-feature threshold): acc=0.63-0.70, f1=0.35-0.43
+
+######################################################################
+  EXPERIMENT 2: 3-Class Vol Regime Classification
+######################################################################
+  Samples: 113,761 | Distribution: low_vol=0.090, norm_vol=0.732, high_vol=0.178
+  Walk-forward splits: 5
+    LogReg fold 1/5: acc=0.632 f1_macro=0.432 f1_low=0.174 f1_norm=0.755 f1_high=0.368
+    LogReg fold 2/5: acc=0.629 f1_macro=0.496 f1_low=0.349 f1_norm=0.741 f1_high=0.396
+    LogReg fold 3/5: acc=0.532 f1_macro=0.443 f1_low=0.353 f1_norm=0.640 f1_high=0.337
+    LogReg fold 4/5: acc=0.451 f1_macro=0.397 f1_low=0.256 f1_norm=0.550 f1_high=0.384
+    LogReg fold 5/5: acc=0.464 f1_macro=0.442 f1_low=0.318 f1_norm=0.527 f1_high=0.480
+  → LogReg: acc=0.542 f1_macro=0.442 f1_low=0.290 f1_norm=0.643 f1_high=0.393 (7.1s)
+    RF fold 1/5: acc=0.607 f1_macro=0.436 f1_low=0.184 f1_norm=0.735 f1_high=0.389
+    RF fold 2/5: acc=0.581 f1_macro=0.448 f1_low=0.282 f1_norm=0.706 f1_high=0.354
+    RF fold 3/5: acc=0.538 f1_macro=0.435 f1_low=0.318 f1_norm=0.655 f1_high=0.332
+    RF fold 4/5: acc=0.481 f1_macro=0.392 f1_low=0.258 f1_norm=0.596 f1_high=0.323
+    RF fold 5/5: acc=0.481 f1_macro=0.454 f1_low=0.335 f1_norm=0.548 f1_high=0.478
+  → RF: acc=0.537 f1_macro=0.433 f1_low=0.275 f1_norm=0.648 f1_high=0.375 (89.9s)
+    XGB fold 1/5: acc=0.756 f1_macro=0.375 f1_low=0.043 f1_norm=0.858 f1_high=0.224
+    XGB fold 2/5: acc=0.737 f1_macro=0.366 f1_low=0.123 f1_norm=0.846 f1_high=0.128
+    XGB fold 3/5: acc=0.758 f1_macro=0.368 f1_low=0.038 f1_norm=0.859 f1_high=0.207
+    XGB fold 4/5: acc=0.760 f1_macro=0.438 f1_low=0.231 f1_norm=0.859 f1_high=0.223
+    XGB fold 5/5: acc=0.692 f1_macro=0.484 f1_low=0.454 f1_norm=0.804 f1_high=0.194
+  → XGB: acc=0.741 f1_macro=0.406 f1_low=0.178 f1_norm=0.845 f1_high=0.195 (57.3s)
+    LGBM fold 1/5: acc=0.748 f1_macro=0.373 f1_low=0.045 f1_norm=0.853 f1_high=0.222
+    LGBM fold 2/5: acc=0.732 f1_macro=0.373 f1_low=0.133 f1_norm=0.842 f1_high=0.143
+    LGBM fold 3/5: acc=0.755 f1_macro=0.368 f1_low=0.032 f1_norm=0.857 f1_high=0.215
+    LGBM fold 4/5: acc=0.756 f1_macro=0.445 f1_low=0.229 f1_norm=0.856 f1_high=0.250
+    LGBM fold 5/5: acc=0.691 f1_macro=0.498 f1_low=0.451 f1_norm=0.801 f1_high=0.243
+  → LGBM: acc=0.737 f1_macro=0.411 f1_low=0.178 f1_norm=0.842 f1_high=0.215 (44.6s)
+
+  Model           Acc    F1mac    F1low   F1norm   F1high
+  --------------------------------------------------
+  LogReg        0.542    0.442    0.290    0.643    0.393
+  RF            0.537    0.433    0.275    0.648    0.375
+  LGBM          0.737    0.411    0.178    0.842    0.215
+  XGB           0.741    0.406    0.178    0.845    0.195
+
+######################################################################
+  EXPERIMENT 3: Vol Regression (predict fwd_vol)
+######################################################################
+  Samples: 113,713 | fwd_vol mean=0.002168 std=0.001918
+  Walk-forward splits: 5
+    Ridge fold 1/5: r2=0.407 corr=0.664 rmse=0.001096 bin_acc=0.816 bin_f1=0.650
+    Ridge fold 2/5: r2=0.437 corr=0.678 rmse=0.000709 bin_acc=0.840 bin_f1=0.628
+    Ridge fold 3/5: r2=0.353 corr=0.610 rmse=0.000762 bin_acc=0.780 bin_f1=0.657
+    Ridge fold 4/5: r2=0.065 corr=0.277 rmse=0.003225 bin_acc=0.774 bin_f1=0.763
+    Ridge fold 5/5: r2=0.237 corr=0.575 rmse=0.000713 bin_acc=0.768 bin_f1=0.587
+  → Ridge: r2=0.300 corr=0.561 rmse=0.001301 bin_acc=0.795 bin_f1=0.657 (0.4s)
+    RF_reg fold 1/5: r2=0.395 corr=0.648 rmse=0.001108 bin_acc=0.790 bin_f1=0.640
+    RF_reg fold 2/5: r2=0.279 corr=0.600 rmse=0.000802 bin_acc=0.799 bin_f1=0.613
+    RF_reg fold 3/5: r2=0.332 corr=0.594 rmse=0.000774 bin_acc=0.754 bin_f1=0.640
+    RF_reg fold 4/5: r2=0.053 corr=0.246 rmse=0.003245 bin_acc=0.760 bin_f1=0.768
+    RF_reg fold 5/5: r2=-0.516 corr=0.397 rmse=0.001005 bin_acc=0.762 bin_f1=0.576
+  → RF_reg: r2=0.108 corr=0.497 rmse=0.001387 bin_acc=0.773 bin_f1=0.648 (620.0s)
+    XGB_reg fold 1/5: r2=0.365 corr=0.623 rmse=0.001135 bin_acc=0.787 bin_f1=0.615
+    XGB_reg fold 2/5: r2=0.356 corr=0.622 rmse=0.000758 bin_acc=0.813 bin_f1=0.607
+    XGB_reg fold 3/5: r2=0.322 corr=0.588 rmse=0.000780 bin_acc=0.761 bin_f1=0.640
+    XGB_reg fold 4/5: r2=0.060 corr=0.257 rmse=0.003233 bin_acc=0.773 bin_f1=0.776
+    XGB_reg fold 5/5: r2=-3.651 corr=0.263 rmse=0.001760 bin_acc=0.770 bin_f1=0.576
+  → XGB_reg: r2=-0.510 corr=0.470 rmse=0.001533 bin_acc=0.781 bin_f1=0.643 (18.0s)
+    LGBM_reg fold 1/5: r2=0.358 corr=0.619 rmse=0.001141 bin_acc=0.781 bin_f1=0.609
+    LGBM_reg fold 2/5: r2=0.351 corr=0.619 rmse=0.000761 bin_acc=0.817 bin_f1=0.614
+    LGBM_reg fold 3/5: r2=0.316 corr=0.588 rmse=0.000783 bin_acc=0.756 bin_f1=0.635
+    LGBM_reg fold 4/5: r2=0.051 corr=0.247 rmse=0.003248 bin_acc=0.766 bin_f1=0.770
+    LGBM_reg fold 5/5: r2=-4.328 corr=0.243 rmse=0.001883 bin_acc=0.766 bin_f1=0.565
+  → LGBM_reg: r2=-0.650 corr=0.463 rmse=0.001563 bin_acc=0.777 bin_f1=0.639 (15.2s)
+
+  Model            R²     Corr       RMSE   BinAcc    BinF1
+  -------------------------------------------------------
+  Ridge         0.300    0.561   0.001301    0.795    0.657
+  RF_reg        0.108    0.497   0.001387    0.773    0.648
+  XGB_reg      -0.510    0.470   0.001533    0.781    0.643
+  LGBM_reg     -0.650    0.463   0.001563    0.777    0.639
+
+  Baseline (parkvol_1h correlation): r=0.37-0.58
+
+######################################################################
+  EXPERIMENT 4: Feature Importance Analysis
+######################################################################
+  LGBM on 70/30 split: acc=0.805 f1=0.277 auc=0.711
+  Train: 79,632 | Test: 34,129
+
+  Top 20 features by importance (gain):
+  Feature                          Importance  Cumulative%
+  -------------------------------------------------------
+  rvol_24h                                644         9.0%
+  parkvol_24h                             642        18.0%
+  vol_sma_24h                             531        25.4%
+  price_vs_sma_24h                        480        32.2%
+  bar_eff_4h                              346        37.0%
+  rvol_8h                                 331        41.6%
+  parkvol_8h                              318        46.1%
+  large_trade_1h                          314        50.5%
+  adx_4h                                  282        54.4%
+  ret_autocorr_4h                         215        57.5%
+  vol_accel_4h                            214        60.5%
+  iti_cv_1h                               198        63.2%
+  vol_ratio_2h_24h                        179        65.7%
+  parkvol_4h                              171        68.1%
+  adx_2h                                  171        70.5%
+  imbalance_4h                            168        72.9%
+  price_vs_sma_8h                         153        75.0%
+  bar_eff_1h                              145        77.0%
+  rvol_4h                                 134        78.9%
+  efficiency_8h                           126        80.7%
+
+  Ablation: accuracy with top-N features only:
+    Top  5: acc=0.764 f1=0.283 auc=0.638
+    Top 10: acc=0.779 f1=0.272 auc=0.669
+    Top 15: acc=0.795 f1=0.277 auc=0.676
+    Top 20: acc=0.793 f1=0.269 auc=0.691
+    Top 46: acc=0.804 f1=0.283 auc=0.706
+
+######################################################################
+  EXPERIMENT 5: Probability Calibration for Position Sizing
+######################################################################
+
+  Calibration analysis (test set, n=22,753):
+  Prob Bin           Count  Actual%     Raw%     Cal%   CalErr
+  -------------------------------------------------------
+  [0.0, 0.1)         7224    0.090    0.026    0.054    0.036
+  [0.1, 0.2)         8349    0.195    0.101    0.137    0.057
+  [0.2, 0.3)         5166    0.322    0.288    0.237    0.085
+  [0.3, 0.4)          824    0.392    0.509    0.340    0.052
+  [0.4, 0.5)          686    0.442    0.647    0.445    0.003
+  [0.5, 0.6)           25    0.360    0.732    0.550    0.190
+  [0.6, 0.7)          275    0.527    0.788    0.660    0.132
+  [0.7, 0.8)            4    0.250    0.842    0.769    0.519
+  [0.8, 0.9)          123    0.545    0.870    0.817    0.273
+  [0.9, 1.0)           77    0.779    0.925    0.970    0.191
+
+  Mean calibration error: raw=0.0786 calibrated=0.0577
+
+  Position sizing simulation:
+  Strategy: size = 1.0 - P(high_vol), capped at [0.2, 1.0]
+    Avg size when high_vol:  0.769
+    Avg size when normal:    0.856
+    Overall avg size:        0.837
+    Size reduction in danger: 10.1%
+
+######################################################################
+  EXPERIMENT 6: Early Warning — Predict High-Vol N Bars Ahead
+######################################################################
+  Horizon   1 bars (   5min): acc=0.806 f1=0.283 auc=0.713 prec=0.527 rec=0.193 (5.6s)
+  Horizon   6 bars (  30min): acc=0.798 f1=0.240 auc=0.687 prec=0.477 rec=0.160 (5.0s)
+  Horizon  12 bars (  60min): acc=0.797 f1=0.252 auc=0.673 prec=0.478 rec=0.171 (5.8s)
+  Horizon  24 bars ( 120min): acc=0.786 f1=0.215 auc=0.652 prec=0.416 rec=0.145 (5.2s)
+  Horizon  48 bars ( 240min): acc=0.789 f1=0.227 auc=0.636 prec=0.467 rec=0.150 (5.2s)
+  Horizon  96 bars ( 480min): acc=0.772 f1=0.156 auc=0.569 prec=0.351 rec=0.100 (5.1s)
+
+     Horizon      Acc       F1      AUC     Prec      Rec
+  --------------------------------------------------
+        5min    0.806    0.283    0.713    0.527    0.193
+       30min    0.798    0.240    0.687    0.477    0.160
+       60min    0.797    0.252    0.673    0.478    0.171
+      120min    0.786    0.215    0.652    0.416    0.145
+      240min    0.789    0.227    0.636    0.467    0.150
+      480min    0.772    0.156    0.569    0.351    0.100
+
+######################################################################
+  EXPERIMENT 7: Core vs All Features Comparison
+######################################################################
+
+  --- Feature set: core_vol (19) ---
+    Fold 1: acc=0.823 f1=0.252 auc=0.669
+    Fold 2: acc=0.818 f1=0.229 auc=0.709
+    Fold 3: acc=0.852 f1=0.242 auc=0.661
+    Fold 4: acc=0.811 f1=0.215 auc=0.677
+    Fold 5: acc=0.776 f1=0.232 auc=0.687
+  → core_vol (19): acc=0.816 f1=0.234 auc=0.681
+
+  --- Feature set: all (45+) ---
+    Fold 1: acc=0.838 f1=0.241 auc=0.678
+    Fold 2: acc=0.829 f1=0.137 auc=0.690
+    Fold 3: acc=0.855 f1=0.212 auc=0.673
+    Fold 4: acc=0.829 f1=0.239 auc=0.699
+    Fold 5: acc=0.783 f1=0.203 auc=0.719
+  → all (45+): acc=0.827 f1=0.206 auc=0.692
+
+✅ XRPUSDT ML experiments complete in 1131s (18.9min)
+
+  ⏱ Total: 5909s | ~1182s/symbol | ETA: 0s
+
+
+######################################################################
+  CROSS-SYMBOL ML SUMMARY
+######################################################################
+
+  Binary High-Vol — Best model per symbol:
+  Symbol       Model           Acc       F1      AUC
+  ---------------------------------------------
+  BTCUSDT      LogReg        0.749    0.437    0.723
+  ETHUSDT      LogReg        0.640    0.390    0.701
+  SOLUSDT      LogReg        0.656    0.336    0.694
+  DOGEUSDT     LogReg        0.681    0.364    0.692
+  XRPUSDT      LogReg        0.763    0.397    0.725
+
+  Vol Regression — Best model per symbol:
+  Symbol       Model            R²     Corr    BinF1
+  ---------------------------------------------
+  BTCUSDT      Ridge         0.318    0.585    0.669
+  ETHUSDT      Ridge         0.303    0.571    0.684
+  SOLUSDT      Ridge         0.230    0.534    0.627
+  DOGEUSDT     Ridge         0.235    0.514    0.647
+  XRPUSDT      Ridge         0.300    0.561    0.657
+
+  Early Warning — AUC decay by horizon:
+  Symbol           5min    30min    60min   120min   240min   480min
+  -------------------------------------------------------
+  BTCUSDT        0.725   0.707   0.694   0.679   0.663   0.634
+  ETHUSDT        0.709   0.703   0.691   0.668   0.637   0.629
+  SOLUSDT        0.681   0.654   0.657   0.637   0.615   0.576
+  DOGEUSDT       0.687   0.662   0.641   0.600   0.571   0.565
+  XRPUSDT        0.713   0.687   0.673   0.652   0.636   0.569
+
+  Calibration & Position Sizing:
+  Symbol         CalErr   SizeHigh   SizeNorm  Reduction
+  -------------------------------------------------------
+  BTCUSDT        0.0719      0.728      0.839      13.2%
+  ETHUSDT        0.0597      0.747      0.828       9.8%
+  SOLUSDT        0.0931      0.839      0.876       4.2%
+  DOGEUSDT       0.0739      0.788      0.857       8.1%
+  XRPUSDT        0.0577      0.769      0.856      10.1%
+
+  Baseline comparison:
+    Single-feature threshold: acc=0.63-0.70, f1=0.35-0.43
+    Parkvol_1h correlation:   r=0.37-0.58
+
+
+======================================================================
+  ALL DONE — 5 symbols in 5909s (98.5 min)
+======================================================================
