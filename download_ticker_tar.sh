@@ -6,12 +6,12 @@ SSH_KEY="$HOME/.ssh/id_ed25519_remote"
 REMOTE_BASE="dataminer/data/archive/raw"
 LOCAL_BASE="data"
 
-SYMBOLS=("DOGEUSDT" "XRPUSDT")
+SYMBOLS=("BTCUSDT" "ETHUSDT" "SOLUSDT" "DOGEUSDT" "XRPUSDT")
 
 echo "======================================================================"
 echo "TICKER DATA DOWNLOAD - Efficient tar method"
 echo "======================================================================"
-echo "Period: 2025-05-11 to 2025-08-10"
+echo "Period: 2026-02-09 to 2026-02-17"
 echo "Symbols: ${SYMBOLS[@]}"
 echo "======================================================================"
 
@@ -28,7 +28,7 @@ for SYMBOL in "${SYMBOLS[@]}"; do
     REMOTE_TAR="/tmp/ticker_${SYMBOL}_2025.tar.gz"
     
     ssh -i "$SSH_KEY" "$REMOTE_HOST" "cd $REMOTE_BASE && \
-        find dt=2025-*/hr=*/exchange=bybit/source=rest/market=linear/stream=ticker/symbol=$SYMBOL/ \
+        find dt=2026-*/hr=*/exchange=bybit/source=rest/market=linear/stream=ticker/symbol=$SYMBOL/ \
         -name 'data.jsonl.gz' -print0 | \
         tar -czf $REMOTE_TAR --null -T - 2>/dev/null && \
         echo 'Archive created' && \

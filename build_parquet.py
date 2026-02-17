@@ -66,9 +66,28 @@ TRADES_COLUMNS = [
 # ---------------------------------------------------------------------------
 
 
+# Global date filter (set via CLI args)
+_DATE_START: str | None = None
+_DATE_END: str | None = None
+
+
 def find_files(directory: Path, pattern: str) -> list[Path]:
-    """Find files matching glob pattern, sorted by name."""
-    return sorted(directory.glob(pattern))
+    """Find files matching glob pattern, sorted by name. Optionally filtered by date."""
+    files = sorted(directory.glob(pattern))
+    if _DATE_START or _DATE_END:
+        filtered = []
+        for f in files:
+            d = extract_date_from_filename(f.name)
+            if d is None:
+                filtered.append(f)
+                continue
+            if _DATE_START and d < _DATE_START:
+                continue
+            if _DATE_END and d > _DATE_END:
+                continue
+            filtered.append(f)
+        return filtered
+    return files
 
 
 def read_csv_gz(path: Path, **kwargs) -> pd.DataFrame:
@@ -817,8 +836,15 @@ def main():
                         help="Parquet output directory (default: ./parquet)")
     parser.add_argument("--ohlcv-intervals", nargs="+", default=DEFAULT_OHLCV_INTERVALS,
                         help=f"OHLCV bar intervals (default: {DEFAULT_OHLCV_INTERVALS})")
+    parser.add_argument("--start", default=None,
+                        help="Start date filter YYYY-MM-DD (inclusive)")
+    parser.add_argument("--end", default=None,
+                        help="End date filter YYYY-MM-DD (inclusive)")
 
     args = parser.parse_args()
+    global _DATE_START, _DATE_END
+    _DATE_START = args.start
+    _DATE_END = args.end
     run(args)
 
 

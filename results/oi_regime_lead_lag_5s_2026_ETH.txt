@@ -1,0 +1,101 @@
+======================================================================
+  OI REGIME LEAD/LAG — 5-SECOND RESOLUTION — ETHUSDT
+  Period: 2026-02-01 to 2026-02-17
+======================================================================
+Loading OHLCV bars and fitting GMM...
+  Loaded 4,608 bars (17 days, 0 cached, 16 new)
+  4608 bars, quiet=2526 (55%), volatile=1795 (39%)
+  Transitions quiet→volatile: 96
+Loading raw 5-second ticker data...
+  138,654 rows, 9 days
+
+======================================================================
+  5-SECOND LEAD/LAG ANALYSIS
+  Window: 5 min before to 5 min after each transition
+  Resolution: 5 seconds
+======================================================================
+  Valid transitions: 59 (skipped 37 due to gaps/edges)
+
+  Average OI velocity and Price volatility around transitions:
+  (Values are 30-second rolling mean of |5s change|)
+      Time       OI vel    Price vol   OI ratio  Price ratio
+  -------- ------------ ------------ ---------- ------------
+     -300s     0.000000     0.019695       0.00x        0.98x
+     -240s     0.005071     0.015975       1.05x        0.86x
+     -180s     0.005360     0.018365       1.03x        0.96x
+     -120s     0.004967     0.017452       2.03x        1.02x
+      -90s     0.008082     0.019765       1.91x        1.12x
+      -60s     0.003611     0.018600       1.15x        1.03x
+      -45s     0.003888     0.019981       1.34x        1.13x
+      -30s     0.004379     0.020414       1.41x        1.18x
+      -20s     0.004522     0.018788       2.04x        1.08x
+      -15s     0.004320     0.018124       2.17x        1.03x
+      -10s     0.004320     0.017504       2.17x        0.99x
+       -5s     0.004287     0.017116       2.01x        0.96x
+       +0s     0.004287     0.017210       2.01x        0.99x <<<
+       +5s     0.004951     0.023292       1.61x        1.34x
+      +10s     0.004951     0.025349       1.61x        1.48x
+      +15s     0.008665     0.028699       2.95x        1.69x
+      +20s     0.008665     0.030422       2.95x        1.78x
+      +30s     0.010192     0.034449       3.56x        1.98x
+      +45s     0.013629     0.029936       6.60x        1.69x
+      +60s     0.013491     0.029035       6.72x        1.71x
+      +90s     0.021446     0.038661      10.13x        2.33x
+     +120s     0.016249     0.036169       6.42x        2.25x
+     +180s     0.013211     0.036250       5.70x        2.13x
+     +300s     0.016402     0.027987       5.67x        1.72x
+
+  First time metric exceeds threshold (relative to transition at t=0):
+                Metric     > 1.5x     > 2.0x     > 3.0x     > 5.0x
+  -------------------- ---------- ---------- ---------- ----------
+           OI velocity      -145s      -125s       +25s       +35s
+      Price volatility       +15s       +65s      never      never
+
+  Per-transition: which metric spikes first (> 2x baseline)?
+    OI spikes first:       38 (64.4%)
+    Price spikes first:    19 (32.2%)
+    Simultaneous:           1 (1.7%)
+    Neither spikes:         1 (1.7%)
+
+    OI lead time (positive = OI first):
+      Mean:   +89.6 seconds
+      Median: +52.5 seconds
+      P25:    -5.0 seconds
+      P75:    +240.0 seconds
+
+    When OI leads (36 cases):
+      Mean lead: 172s, Median: 162s, Max: 445s
+    When Price leads (17 cases):
+      Mean lead: 79s, Median: 30s, Max: 395s
+
+======================================================================
+  5-SECOND OI EARLY WARNING DETECTOR
+  How many seconds before the 5-min bar transition can OI detect it?
+======================================================================
+
+  Detection lead time: seconds BEFORE the 5-min bar transition
+                   Detector   Detected   Med Lead  Mean Lead   P75 Lead   P90 Lead
+  ------------------------- ---------- ---------- ---------- ---------- ----------
+  OI vel z>1.0                   74%       160s       201s       338s       433s
+  Price vol z>1.0                   84%        98s       147s       170s       443s
+  OI vel z>1.5                   63%       170s       215s       348s       475s
+  Price vol z>1.5                   82%       150s       196s       295s       453s
+  OI vel z>2.0                   58%       205s       236s       375s       483s
+  Price vol z>2.0                   65%       180s       204s       290s       439s
+  OI vel z>3.0                   46%       270s       293s       475s       535s
+  Price vol z>3.0                   47%       225s       268s       435s       537s
+
+  Head-to-head at z > 1.5 threshold:
+    OI fires first:       19 (33.3%)
+    Price fires first:    30 (52.6%)
+    Tie (same time):       8 (14.0%)
+
+    OI advantage (positive = OI earlier):
+      Mean:   -25.9s
+      Median: -5.0s
+      When OI leads: avg 196s (19 cases)
+      When Price leads: avg 174s (30 cases)
+
+======================================================================
+  DONE — 50s
+======================================================================

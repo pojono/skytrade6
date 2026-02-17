@@ -485,6 +485,12 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--symbol", default="BTCUSDT")
+    parser.add_argument("--start", default=None)
+    parser.add_argument("--end", default=None)
     args = parser.parse_args()
     SYMBOL = args.symbol
+    if args.start:
+        START_DATE = args.start
+    if args.end:
+        END_DATE = args.end
     main()
