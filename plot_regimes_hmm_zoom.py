@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Zoomed-in 5-min bar chart showing GMM vs HMM regime differences."""
+"""Zoomed-in 5-min bar chart showing GMM vs HMM regime differences.
+24-hour window at raw 5-min resolution — no resampling."""
 
 import sys
 sys.stdout.reconfigure(line_buffering=True)
@@ -75,81 +76,72 @@ r0 = df.loc[idx, "rvol_1h"].values[hmm_labels == 0].mean()
 r1 = df.loc[idx, "rvol_1h"].values[hmm_labels == 1].mean()
 if r0 > r1: hmm_labels = 1 - hmm_labels
 
-# Prepare data
-df_plot = df.loc[idx].copy()
-df_plot["gmm"] = gmm_labels
-df_plot["hmm"] = hmm_labels
-df_plot["dt"] = pd.to_datetime(df_plot["timestamp_us"], unit="us", utc=True)
+# Find best 24h window with most disagreements at raw 5-min level
+disagree = (gmm_labels != hmm_labels).astype(int)
+window = 288  # 24h of 5-min bars
+rolling_dis = np.convolve(disagree, np.ones(window), mode='valid')
+best_start_i = np.argmax(rolling_dis)
 
-# Find a 3-day window with most disagreements to zoom into
-df_plot = df_plot.set_index("dt")
-df_plot["disagree"] = (df_plot["gmm"] != df_plot["hmm"]).astype(int)
+# Extract zoom slice using array indices
+gmm_zoom = gmm_labels[best_start_i:best_start_i + window]
+hmm_zoom = hmm_labels[best_start_i:best_start_i + window]
+idx_zoom = idx[best_start_i:best_start_i + window]
 
-# Rolling 3-day disagreement count
-window = 288 * 3  # 3 days of 5-min bars
-disagree_rolling = df_plot["disagree"].rolling(window).sum()
-best_end = disagree_rolling.idxmax()
-best_start = best_end - pd.Timedelta(days=3)
+gmm_zoom_trans = np.sum(np.diff(gmm_zoom) != 0)
+hmm_zoom_trans = np.sum(np.diff(hmm_zoom) != 0)
+n_disagree = int(rolling_dis[best_start_i])
 
-print(f"Zoom window: {best_start} to {best_end}")
-print(f"Disagreements in window: {disagree_rolling.max():.0f} bars")
+# Build plot dataframe at raw 5-min — NO resampling
+df_zoom = df.loc[idx_zoom].copy()
+df_zoom["gmm"] = gmm_zoom
+df_zoom["hmm"] = hmm_zoom
+df_zoom["dt"] = pd.to_datetime(df_zoom["timestamp_us"], unit="us", utc=True)
 
-zoom = df_plot.loc[best_start:best_end].copy()
-print(f"Bars in zoom: {len(zoom)}")
-
-# Count transitions in zoom
-gmm_zoom_trans = np.sum(np.diff(zoom["gmm"].values) != 0)
-hmm_zoom_trans = np.sum(np.diff(zoom["hmm"].values) != 0)
-print(f"GMM transitions in zoom: {gmm_zoom_trans}")
-print(f"HMM transitions in zoom: {hmm_zoom_trans}")
-
-# Resample to 15-min for readability but preserving more detail than 1h
-ohlc = zoom.resample("15min").agg({
-    "open": "first", "high": "max", "low": "min", "close": "last",
-    "volume": "sum",
-    "gmm": lambda x: x.mode().iloc[0] if len(x) > 0 else 0,
-    "hmm": lambda x: x.mode().iloc[0] if len(x) > 0 else 0,
-}).dropna()
-
-print(f"Resampled to {len(ohlc)} 15-min candles")
+print(f"Zoom: {df_zoom['dt'].iloc[0]} to {df_zoom['dt'].iloc[-1]}")
+print(f"Bars: {len(df_zoom)}, Disagreements: {n_disagree}")
+print(f"GMM transitions: {gmm_zoom_trans}")
+print(f"HMM transitions: {hmm_zoom_trans}")
 
 
-def draw_chart(ax, ohlc, regime_col, title):
-    """Draw candlestick chart with regime background."""
-    for i in range(len(ohlc)):
-        row = ohlc.iloc[i]
-        t = ohlc.index[i]
-        width = pd.Timedelta(minutes=15)
-        color = "#ffcccc" if row[regime_col] == 1 else "#ccffcc"
-        ax.axvspan(t, t + width, alpha=0.4, color=color, linewidth=0)
+def draw_chart_5m(ax, df_z, regime_col, title):
+    """Draw 5-min candlestick chart with regime background — no resampling."""
+    times = df_z["dt"].values
+    bar_width = pd.Timedelta(minutes=5)
 
-    for i in range(len(ohlc)):
-        row = ohlc.iloc[i]
-        t = ohlc.index[i]
+    # Background
+    for i in range(len(df_z)):
+        t = pd.Timestamp(times[i])
+        color = "#ffcccc" if df_z[regime_col].iloc[i] == 1 else "#ccffcc"
+        ax.axvspan(t, t + bar_width, alpha=0.4, color=color, linewidth=0)
+
+    # Candlesticks
+    for i in range(len(df_z)):
+        row = df_z.iloc[i]
+        t = pd.Timestamp(times[i])
         o, h, l, c = row["open"], row["high"], row["low"], row["close"]
         color = "#26a69a" if c >= o else "#ef5350"
-        ax.plot([t, t], [l, h], color=color, linewidth=0.8)
+        ax.plot([t, t], [l, h], color=color, linewidth=0.6)
         body_bottom = min(o, c)
-        body_height = max(abs(c - o), 10)
-        rect = Rectangle((t - pd.Timedelta(minutes=5), body_bottom),
-                          pd.Timedelta(minutes=10), body_height,
-                          facecolor=color, edgecolor=color, linewidth=0.5)
+        body_height = max(abs(c - o), 5)
+        rect = Rectangle((t - pd.Timedelta(minutes=1.5), body_bottom),
+                          pd.Timedelta(minutes=3), body_height,
+                          facecolor=color, edgecolor=color, linewidth=0.3)
         ax.add_patch(rect)
 
     ax.set_title(title, fontsize=12, fontweight="bold")
     ax.set_ylabel("Price (USDT)", fontsize=10)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %d %H:%M"))
-    ax.xaxis.set_major_locator(mdates.HourLocator(interval=8))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
+    ax.xaxis.set_major_locator(mdates.HourLocator(interval=2))
     ax.grid(True, alpha=0.2)
-    ax.set_xlim(ohlc.index[0], ohlc.index[-1])
+    ax.set_xlim(pd.Timestamp(times[0]), pd.Timestamp(times[-1]) + bar_width)
 
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(22, 12), sharex=True, sharey=True)
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(24, 12), sharex=True, sharey=True)
 
-draw_chart(ax1, ohlc, "gmm",
-           f"GMM — {gmm_zoom_trans} transitions in 3 days (15-min candles)")
-draw_chart(ax2, ohlc, "hmm",
-           f"HMM (Viterbi) — {hmm_zoom_trans} transitions in 3 days (15-min candles)")
+draw_chart_5m(ax1, df_zoom, "gmm",
+              f"GMM — {gmm_zoom_trans} transitions in 24h")
+draw_chart_5m(ax2, df_zoom, "hmm",
+              f"HMM (Viterbi) — {hmm_zoom_trans} transitions in 24h")
 
 legend_elements = [
     Patch(facecolor="#ccffcc", alpha=0.5, label="Quiet regime"),
@@ -158,10 +150,10 @@ legend_elements = [
 ax1.legend(handles=legend_elements, loc="upper left", fontsize=11)
 ax2.legend(handles=legend_elements, loc="upper left", fontsize=11)
 
-start_str = best_start.strftime("%b %d")
-end_str = best_end.strftime("%b %d")
-fig.suptitle(f"BTC/USDT — {start_str} to {end_str} 2025 (15-min candles, zoomed)\n"
-             f"GMM vs HMM — showing where HMM filters noise flickers",
+date_str = df_zoom["dt"].iloc[0].strftime("%b %d")
+date_str2 = df_zoom["dt"].iloc[-1].strftime("%b %d")
+fig.suptitle(f"BTC/USDT — {date_str} to {date_str2} 2025 (raw 5-min bars, no resampling)\n"
+             f"GMM: {gmm_zoom_trans} transitions vs HMM: {hmm_zoom_trans} transitions",
              fontsize=14, fontweight="bold", y=0.98)
 
 fig.autofmt_xdate()
