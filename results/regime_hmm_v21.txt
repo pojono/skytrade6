@@ -1,0 +1,216 @@
+
+**********************************************************************
+  SYMBOL: BTCUSDT
+**********************************************************************
+  Loading bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=8.8GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=8.8GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=8.9GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=8.9GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=8.9GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=8.9GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=8.9GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=8.9GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=0s RAM=8.9GB cache=180 new=0
+  [200/396] 2025-07-19 | 0s ETA=0s RAM=8.9GB cache=200 new=0
+  [220/396] 2025-08-08 | 0s ETA=0s RAM=8.9GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=8.9GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=8.9GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=8.9GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=8.9GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=8.9GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=8.9GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=8.9GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=8.9GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=8.9GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Computing features...
+  Preparing features...
+  Bars: 113761, Features: 36
+
+======================================================================
+  EXP 1: HMM vs GMM CLASSIFICATION — BTCUSDT
+  Samples: 113761, Features: 36
+======================================================================
+
+  --- GMM Baseline ---
+  GMM K=2... BIC=9737226 AIC=9735828 Sil=0.187 Transitions=5803 Short≤3bars=53.0%
+  GMM K=3... BIC=9101813 AIC=9099711 Sil=0.045 Transitions=7543 Short≤3bars=52.9%
+  GMM K=4... BIC=8771873 AIC=8769067 Sil=0.014 Transitions=10405 Short≤3bars=57.1%
+
+  --- HMM (Gaussian, diagonal covariance) ---
+  HMM K=2... BIC=1094824639479 AIC=1094824638061 Sil=0.181 Transitions=3453 Short≤3bars=32.5% (22s)
+    Transition matrix:
+      State 0: [0.9587 0.0413]
+      State 1: [0.0247 0.9753]
+      State 0 expected duration: 24.2 bars (121min)
+      State 1 expected duration: 40.5 bars (202min)
+  HMM K=3... BIC=1013243009413 AIC=1013243007253 Sil=0.040 Transitions=4275 Short≤3bars=31.7% (55s)
+    Transition matrix:
+      State 0: [0.9801 0.0075 0.0124]
+      State 1: [0.0114 0.9620 0.0267]
+      State 2: [0.0088 0.0568 0.9344]
+      State 0 expected duration: 50.2 bars (251min)
+      State 1 expected duration: 26.3 bars (131min)
+      State 2 expected duration: 15.2 bars (76min)
+  HMM K=4... BIC=970161373029 AIC=970161370108 Sil=0.007 Transitions=5395 Short≤3bars=31.7% (145s)
+    Transition matrix:
+      State 0: [0.9810 0.0084 0.0008 0.0099]
+      State 1: [0.0097 0.9570 0.0282 0.0051]
+      State 2: [0.0002 0.0349 0.9386 0.0263]
+      State 3: [0.0063 0.0024 0.0649 0.9263]
+      State 0 expected duration: 52.6 bars (263min)
+      State 1 expected duration: 23.3 bars (116min)
+      State 2 expected duration: 16.3 bars (81min)
+      State 3 expected duration: 13.6 bars (68min)
+
+  --- Head-to-Head: GMM K=2 vs HMM K=2 ---
+  Agreement: 97.9% (ARI=0.918)
+    GMM      quiet: n= 2902, median=    6 bars (30m), mean=  25.0, P10=   1, P90=   71
+    GMM   volatile: n= 2902, median=    2 bars (10m), mean=  14.2, P10=   1, P90=   38
+    GMM transitions: 5803, short≤3bars: 53.0%
+    HMM      quiet: n= 1727, median=   17 bars (85m), mean=  41.2, P10=   2, P90=  111
+    HMM   volatile: n= 1727, median=    4 bars (20m), mean=  24.6, P10=   1, P90=   68
+    HMM transitions: 3453, short≤3bars: 32.5%
+
+  --- Regime Profiles (HMM K=2) ---
+  Regime 0 (quiet): 62.6% of bars
+                      rvol_1h: mean=0.000723 (quiet=0.000733 volatile=0.001801)
+                   parkvol_1h: mean=0.000646 (quiet=0.000656 volatile=0.001640)
+        trade_intensity_ratio: mean=0.653321 (quiet=0.649467 volatile=1.772430)
+                efficiency_1h: mean=0.251804 (quiet=0.250908 volatile=0.315035)
+             vol_ratio_1h_24h: mean=0.736760 (quiet=0.741316 volatile=1.228329)
+  Regime 1 (volatile): 37.4% of bars
+                      rvol_1h: mean=0.001781 (quiet=0.000733 volatile=0.001801)
+                   parkvol_1h: mean=0.001622 (quiet=0.000656 volatile=0.001640)
+        trade_intensity_ratio: mean=1.726573 (quiet=0.649467 volatile=1.772430)
+                efficiency_1h: mean=0.311285 (quiet=0.250908 volatile=0.315035)
+             vol_ratio_1h_24h: mean=1.218856 (quiet=0.741316 volatile=1.228329)
+
+======================================================================
+  EXP 2: DETECTION SPEED — HMM vs GMM — BTCUSDT
+======================================================================
+
+  --- Method A: GMM single-bar posterior ---
+  --- Method B: HMM Viterbi (global, offline) ---
+  --- Method C: HMM Forward-filtered (online, causal) ---
+  --- Method D: HMM Forward + EMA(3) ---
+
+  Ground truth: GMM full-sample
+  Transitions: 5803
+
+                  Method  Accuracy  Med lag  Mean lag  P90 lag  %<3bar  %<12bar  FalsSw/d  Trans
+  ------------------------------------------------------------------------------------------
+           GMM posterior     1.000        0       0.0        0  100.0%   100.0%       0.0   5803
+            GMM + EMA(3)     0.987        0       3.2        2   90.2%    94.7%       0.0   4403
+             HMM forward     0.976        0       3.1        5   85.1%    94.8%       0.0   4231
+      HMM forward+EMA(3)     0.966        0       5.6       10   77.3%    90.9%       0.0   3457
+
+  Ground truth: HMM Viterbi full-sample
+  Transitions: 3453
+
+                  Method  Accuracy  Med lag  Mean lag  P90 lag  %<3bar  %<12bar  FalsSw/d  Trans
+  ------------------------------------------------------------------------------------------
+           GMM posterior     0.979        0       0.0        0   99.9%   100.0%       5.9   5803
+            GMM + EMA(3)     0.983        0       1.1        1   96.8%    98.2%       2.4   4403
+             HMM forward     0.987        0       0.3        1   99.2%   100.0%       2.0   4231
+      HMM forward+EMA(3)     0.981        0       2.0        2   93.8%    97.6%       0.0   3457
+
+  --- HMM Forward: Threshold Sensitivity ---
+  Ground truth: HMM Viterbi
+   Threshold  Accuracy  Med lag  Mean lag  P90 lag  %<3bar  FalsSw/d
+  ------------------------------------------------------------
+         0.3     0.985        0       0.2        1   99.7%       2.0
+         0.4     0.986        0       0.2        1   99.5%       2.0
+         0.5     0.987        0       0.3        1   99.2%       2.0
+         0.6     0.988        0       0.3        1   98.9%       1.9
+         0.7     0.988        0       0.4        1   98.3%       1.9
+         0.8     0.989        0       0.4        1   97.5%       2.0
+         0.9     0.989        0       0.5        2   96.6%       2.2
+
+======================================================================
+  EXP 3: HMM-BASED PREDICTION — BTCUSDT
+======================================================================
+
+  --- Method 1: HMM Transition Probability ---
+
+  Horizon: 6 bars (30min), Base rate: 0.128
+
+  Horizon: 12 bars (60min), Base rate: 0.221
+
+  Horizon: 24 bars (120min), Base rate: 0.361
+
+  Horizon: 48 bars (240min), Base rate: 0.561
+
+  --- Method 2: ML with HMM-augmented features ---
+  Total features: 57 (35 base + 22 HMM-derived + rate-of-change)
+
+  Comparing: v20 features (50) vs v21 HMM-augmented (57)
+
+  Horizon: 12 bars (60min = 1.0h), Base rate: 0.221
+      Features             Model  Accuracy  Precision  Recall      F1     AUC
+  ------------------------------------------------------------------------
+  v20 (no HMM)     Random Forest     0.679      0.387   0.779   0.517   0.787
+  v20 (no HMM)    Gradient Boost     0.786      0.524   0.325   0.401   0.796
+    v21 (+HMM)     Random Forest     0.716      0.418   0.740   0.535   0.809
+    v21 (+HMM)    Gradient Boost     0.802      0.571   0.414   0.480   0.812
+
+  Top 15 features (v21 RF, 1h horizon):
+     1.                 hmm_p_volatile  importance=0.0929 ★
+     2.                     parkvol_1h  importance=0.0869
+     3.            hmm_p_volatile_ema3  importance=0.0795 ★
+     4.                        rvol_2h  importance=0.0757
+     5.                 hmm_p_vol_roc6  importance=0.0602 ★
+     6.                        rvol_1h  importance=0.0583
+     7.          trade_intensity_ratio  importance=0.0516
+     8.           hmm_p_volatile_ema12  importance=0.0488 ★
+     9.                   hmm_p_switch  importance=0.0483 ★
+    10.                hmm_p_vol_roc12  importance=0.0475 ★
+    11.                     parkvol_4h  importance=0.0408
+    12.                 hmm_p_vol_roc3  importance=0.0398 ★
+    13.                        rvol_4h  importance=0.0342
+    14.                  vol_ratio_bar  importance=0.0253
+    15.                    vol_sma_24h  importance=0.0195
+
+  Horizon: 24 bars (120min = 2.0h), Base rate: 0.361
+      Features             Model  Accuracy  Precision  Recall      F1     AUC
+  ------------------------------------------------------------------------
+  v20 (no HMM)     Random Forest     0.669      0.529   0.766   0.626   0.758
+  v20 (no HMM)    Gradient Boost     0.699      0.583   0.582   0.583   0.759
+    v21 (+HMM)     Random Forest     0.676      0.537   0.726   0.617   0.768
+    v21 (+HMM)    Gradient Boost     0.715      0.620   0.540   0.577   0.778
+
+======================================================================
+  EXP 4: NOISE FILTERING — BTCUSDT
+======================================================================
+
+  GMM (v20):
+    Total transitions: 5803
+    Transitions/day: 14.7
+    Episodes ≤ 1 bars (≤  5min): 34.0%
+    Episodes ≤ 2 bars (≤ 10min): 46.0%
+    Episodes ≤ 3 bars (≤ 15min): 53.0%
+    Episodes ≤ 5 bars (≤ 25min): 60.4%
+    Episodes ≤10 bars (≤ 50min): 69.8%
+    Episodes ≤20 bars (≤100min): 78.3%
+
+  HMM Viterbi:
+    Total transitions: 3453
+    Transitions/day: 8.7
+    Episodes ≤ 1 bars (≤  5min): 18.0%
+    Episodes ≤ 2 bars (≤ 10min): 26.6%
+    Episodes ≤ 3 bars (≤ 15min): 32.5%
+    Episodes ≤ 5 bars (≤ 25min): 40.0%
+    Episodes ≤10 bars (≤ 50min): 51.7%
+    Episodes ≤20 bars (≤100min): 64.2%
+
+  HMM Forward-filtered with confirmation:
+    Confirm=0: Acc=0.987 Trans=4231 Short≤3=40.6% MedLag=0 MeanLag=0.3
+    Confirm=1: Acc=0.987 Trans=4231 Short≤3=40.6% MedLag=0 MeanLag=0.3
+    Confirm=2: Acc=0.963 Trans=2495 Short≤3=19.0% MedLag=1 MeanLag=7.0
+    Confirm=3: Acc=0.948 Trans=1893 Short≤3=6.5% MedLag=2 MeanLag=11.9
+    Confirm=5: Acc=0.923 Trans=1463 Short≤3=0.0% MedLag=4 MeanLag=17.0
+
+  BTCUSDT completed in 1127s
+
+✅ All done in 1127s
