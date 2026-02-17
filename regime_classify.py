@@ -45,7 +45,7 @@ from regime_detection import load_bars, compute_regime_features, label_regimes
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT"]
+SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "DOGEUSDT", "XRPUSDT"]
 START = "2025-01-01"
 END = "2026-01-31"
 
