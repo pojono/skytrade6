@@ -1,0 +1,297 @@
+======================================================================
+  OI/FUNDING RESEARCH — BTCUSDT Dec 2025
+  Data: 5-min bars + OI/funding + OB features
+======================================================================
+Loading OHLCV bars...
+  [20/31] 2025-12-20 | 0s ETA=0s RAM=10.5GB cache=20 new=0
+  [31/31] 2025-12-31 | 0s ETA=0s RAM=10.5GB cache=31 new=0
+  Loaded 8,928 bars (31 days, 31 cached, 0 new)
+  OHLCV: 8928 bars, 62 cols
+  OB features (futures): 8928 bars, 62 cols
+  Metrics: 8928 bars, cols=['timestamp_us', 'open_interest', 'open_interest_value', 'top_trader_ls_ratio_accounts', 'top_trader_ls_ratio_positions', 'global_ls_ratio', 'taker_buy_sell_ratio']
+  Premium index: 8928 bars, premium range [-0.001229, 0.001304]
+  Engineered 25 OI/funding features
+  Merged: 8928 bars, OB=8928, OI/F=8915
+
+  Regime labels: quiet=5460 (61.2%), volatile=3181 (35.6%)
+
+======================================================================
+  EXP 1: OI/FUNDING FEATURE PROFILES BY REGIME
+======================================================================
+
+  Feature                                    Quiet     Volatile    Ratio   T-stat      P-val
+  ----------------------------------- ------------ ------------ -------- -------- ----------
+  oi_change_5m                              0.0016      -0.0006    -0.36     0.86   3.91e-01 
+  oi_change_1h                              0.0132       0.0034     0.26     0.88   3.80e-01 
+  oi_change_4h                              0.0240       0.0576     2.41    -1.40   1.60e-01 
+  oi_change_24h                            -0.0633       0.6175    -9.75   -16.22   5.95e-58 ***
+  oi_accel_1h                               0.0020      -0.0030    -1.53     0.35   7.30e-01 
+  oi_zscore_24h                            -0.0991       0.4210    -4.25   -15.72   1.70e-54 ***
+  oi_value_change_1h                        0.0162       0.0067     0.41     0.51   6.07e-01 
+  funding_rate                             -0.0004      -0.0004     1.00    -0.18   8.59e-01 
+  funding_abs                               0.0004       0.0004     1.01    -1.13   2.60e-01 
+  funding_change_1h                        -0.0000       0.0000    -2.39    -0.53   5.99e-01 
+  funding_change_4h                         0.0000       0.0000     0.10     0.26   7.91e-01 
+  funding_zscore_24h                        0.0195       0.0175     0.90     0.08   9.37e-01 
+  funding_cum_8h                           -0.0429      -0.0427     1.00    -1.87   6.12e-02 
+  ls_ratio_top                              2.3808       2.2422     0.94    15.57   1.02e-53 ***
+  ls_ratio_global                           2.0644       1.9407     0.94    14.67   5.95e-48 ***
+  ls_top_change_1h                         -0.1444       0.4706    -3.26    -5.92   3.50e-09 ***
+  ls_global_change_1h                      -0.1300       0.4588    -3.53    -5.71   1.21e-08 ***
+  ls_top_zscore_24h                         0.0804       0.0381     0.47     1.09   2.74e-01 
+  ls_global_zscore_24h                      0.0800      -0.0442    -0.55     3.25   1.18e-03 **
+  taker_ratio                               1.1331       1.0946     0.97     3.04   2.38e-03 **
+  taker_ratio_1h                            1.1330       1.0945     0.97     8.83   1.26e-18 ***
+  taker_ratio_4h                            1.1373       1.0864     0.96    20.13   4.56e-88 ***
+  taker_zscore_24h                          0.0178      -0.0167    -0.94     1.63   1.04e-01 
+  oi_x_funding                             -0.0039       0.0112    -2.88    -2.93   3.41e-03 **
+  oi_x_taker                                0.0009      -0.0046    -5.10     1.03   3.01e-01 
+
+  Top discriminating OI/funding features (p<0.05): 11/25
+    taker_ratio_4h                      |t|=20.13  ratio=0.96
+    oi_change_24h                       |t|=16.22  ratio=-9.75
+    oi_zscore_24h                       |t|=15.72  ratio=-4.25
+    ls_ratio_top                        |t|=15.57  ratio=0.94
+    ls_ratio_global                     |t|=14.67  ratio=0.94
+    taker_ratio_1h                      |t|=8.83  ratio=0.97
+    ls_top_change_1h                    |t|=5.92  ratio=-3.26
+    ls_global_change_1h                 |t|=5.71  ratio=-3.53
+    ls_global_zscore_24h                |t|=3.25  ratio=-0.55
+    taker_ratio                         |t|=3.04  ratio=0.97
+
+======================================================================
+  EXP 2: REGIME DETECTION — OHLCV vs OHLCV+OI/FUNDING
+======================================================================
+
+  OHLCV only (14 features):
+    GMM accuracy:  0.9997
+    LR AUC:        0.9947
+    GB AUC:        0.9955
+
+  OHLCV + OI/F (39 features):
+    GMM accuracy:  0.9005
+    LR AUC:        0.9931
+    GB AUC:        0.9952
+
+  OI/F only (25 features):
+    GMM accuracy:  0.7876
+    LR AUC:        0.5540
+    GB AUC:        0.8219
+
+  OHLCV + OB (45 features):
+    GMM accuracy:  0.7643
+    LR AUC:        0.9944
+    GB AUC:        0.9954
+
+  OHLCV + OB + OI/F (70 features):
+    GMM accuracy:  0.7882
+    LR AUC:        0.9922
+    GB AUC:        0.9950
+
+  Top 20 features (GB, all combined):
+     1. [  ] parkvol_1h                               importance=0.5692
+     2. [  ] rvol_4h                                  importance=0.1098
+     3. [  ] efficiency_4h                            importance=0.0864
+     4. [  ] trade_intensity_ratio                    importance=0.0808
+     5. [  ] rvol_1h                                  importance=0.0772
+     6. [  ] momentum_4h                              importance=0.0307
+     7. [  ] adx_4h                                   importance=0.0228
+     8. [  ] price_vs_sma_24h                         importance=0.0050
+     9. [  ] bar_eff_4h                               importance=0.0026
+    10. [OI] ls_ratio_top                             importance=0.0025
+    11. [  ] vol_ratio_1h_24h                         importance=0.0018
+    12. [OB] ob_mid_volatility                        importance=0.0017
+    13. [  ] rvol_24h                                 importance=0.0013
+    14. [OI] oi_change_24h                            importance=0.0012
+    15. [  ] efficiency_1h                            importance=0.0011
+    16. [OI] oi_change_4h                             importance=0.0009
+    17. [OI] ls_ratio_global                          importance=0.0007
+    18. [OI] taker_ratio_4h                           importance=0.0006
+    19. [OI] oi_zscore_24h                            importance=0.0005
+    20. [OI] funding_cum_8h                           importance=0.0005
+
+======================================================================
+  EXP 3: OI/FUNDING → DIRECTIONAL SIGNAL
+======================================================================
+
+  Information Coefficient (IC) — OI/funding vs forward returns:
+  Feature                                 5min    15min       1h       4h
+  -------------------------------------------------------------------
+  oi_change_5m                         +0.0272  +0.0016  -0.0192  -0.0084
+  oi_change_1h                         -0.0183  -0.0407  -0.0404  -0.0335
+  oi_change_4h                         -0.0081  -0.0168  -0.0283  -0.0877
+  oi_change_24h                        -0.0074  -0.0138  -0.0182  -0.0152
+  oi_accel_1h                          -0.0230  -0.0507  -0.0555  +0.0047
+  oi_zscore_24h                        -0.0122  -0.0247  -0.0332  -0.0360
+  oi_value_change_1h                   -0.0095  -0.0203  -0.0304  -0.0110
+  funding_rate                         -0.0067  -0.0020  -0.0045  -0.0345
+  funding_abs                          +0.0145  +0.0037  -0.0143  +0.0172
+  funding_change_1h                    +0.0006  +0.0114  +0.0023  +0.0015
+  funding_change_4h                    -0.0032  +0.0046  -0.0002  -0.0289
+  funding_zscore_24h                   -0.0033  +0.0063  +0.0031  -0.0274
+  funding_cum_8h                       -0.0142  -0.0245  -0.0468  -0.0384
+  ls_ratio_top                         +0.0301  +0.0527  +0.1046  +0.2047
+  ls_ratio_global                      +0.0279  +0.0491  +0.0975  +0.1872
+  ls_top_change_1h                     -0.0022  +0.0003  +0.0046  +0.0637
+  ls_global_change_1h                  -0.0051  +0.0004  +0.0077  +0.0792
+  ls_top_zscore_24h                    +0.0199  +0.0376  +0.0850  +0.1691
+  ls_global_zscore_24h                 +0.0141  +0.0281  +0.0646  +0.1260
+  taker_ratio                          +0.0048  -0.0090  +0.0121  +0.0157
+  taker_ratio_1h                       +0.0110  +0.0183  +0.0238  +0.0757
+  taker_ratio_4h                       +0.0109  +0.0248  +0.0638  +0.1225
+  taker_zscore_24h                     +0.0002  -0.0149  +0.0092  +0.0150
+  oi_x_funding                         +0.0208  +0.0445  +0.0417  +0.0206
+  oi_x_taker                           -0.0022  -0.0133  +0.0023  +0.0105
+
+  Best IC per horizon:
+      5min: ls_ratio_top                        IC=+0.0301
+     15min: ls_ratio_top                        IC=+0.0527
+        1h: ls_ratio_top                        IC=+0.1046
+        4h: ls_ratio_top                        IC=+0.2047
+
+  Simple backtest — trade on OI/funding signal (4h hold, 7bps fee):
+     oi_change_1h                       : trades=1638, avg=-14.0bps, wr=41.8%, long=-21.8bps(792), short=-6.7bps(846)
+     oi_change_4h                       : trades=2159, avg=-21.9bps, wr=36.4%, long=-44.5bps(1011), short=-1.9bps(1148)
+     oi_zscore_24h                      : trades=3025, avg=-20.6bps, wr=27.9%, long=-24.8bps(1394), short=-17.1bps(1631)
+     funding_rate                       : trades=2069, avg=-10.8bps, wr=44.4%, long=-11.3bps(1022), short=-10.3bps(1047)
+     funding_zscore_24h                 : trades=2123, avg=-11.2bps, wr=43.9%, long=-12.2bps(1066), short=-10.1bps(1057)
+     funding_cum_8h                     : trades=1941, avg=-0.0bps, wr=47.0%, long=-7.0bps(1046), short=+8.2bps(895)
+  ✅ ls_top_zscore_24h                  : trades=3047, avg=+18.6bps, wr=55.5%, long=+4.2bps(1390), short=+30.7bps(1657)
+  ✅ ls_global_zscore_24h               : trades=3192, avg=+9.4bps, wr=52.5%, long=-4.9bps(1502), short=+22.0bps(1690)
+     taker_zscore_24h                   : trades=2094, avg=-5.2bps, wr=44.5%, long=-1.0bps(1203), short=-10.9bps(891)
+     oi_x_funding                       : trades=1498, avg=-2.2bps, wr=51.7%, long=-8.7bps(802), short=+5.2bps(696)
+     oi_x_taker                         : trades=1113, avg=-6.9bps, wr=44.1%, long=-11.3bps(561), short=-2.4bps(552)
+
+======================================================================
+  EXP 4: VOLATILITY PREDICTION — OHLCV vs +OI/F vs +OB vs +ALL
+======================================================================
+
+  OHLCV only (14 features):
+    Ridge:  R²=0.3369  corr=0.6366
+    GB:     R²=0.1414  corr=0.5668
+
+  OHLCV + OI/F (39 features):
+    Ridge:  R²=0.2540  corr=0.5885
+    GB:     R²=0.1631  corr=0.5677
+
+  OI/F only (25 features):
+    Ridge:  R²=-0.3144  corr=0.0525
+    GB:     R²=-0.3464  corr=0.2890
+
+  OHLCV + OB (45 features):
+    Ridge:  R²=0.3213  corr=0.6240
+    GB:     R²=0.2194  corr=0.5914
+
+  OHLCV + OB + OI/F (70 features):
+    Ridge:  R²=0.2549  corr=0.5818
+    GB:     R²=0.1559  corr=0.5580
+
+  Top 20 features for vol prediction (GB, all combined):
+     1. [OB] ob_mid_volatility                        importance=0.3472
+     2. [  ] parkvol_1h                               importance=0.3147
+     3. [OI] oi_change_24h                            importance=0.0390
+     4. [  ] rvol_1h                                  importance=0.0367
+     5. [OI] funding_cum_8h                           importance=0.0241
+     6. [  ] rvol_24h                                 importance=0.0238
+     7. [  ] adx_4h                                   importance=0.0209
+     8. [OI] ls_ratio_top                             importance=0.0209
+     9. [  ] rvol_4h                                  importance=0.0198
+    10. [  ] bar_eff_4h                               importance=0.0158
+    11. [OI] oi_zscore_24h                            importance=0.0141
+    12. [OI] ls_global_zscore_24h                     importance=0.0116
+    13. [  ] vol_ratio_1h_24h                         importance=0.0112
+    14. [OI] oi_change_4h                             importance=0.0096
+    15. [  ] momentum_4h                              importance=0.0087
+    16. [  ] price_vs_sma_24h                         importance=0.0087
+    17. [OI] taker_ratio_4h                           importance=0.0066
+    18. [OI] ls_ratio_global                          importance=0.0062
+    19. [OI] oi_change_1h                             importance=0.0062
+    20. [OI] taker_ratio_1h                           importance=0.0056
+
+======================================================================
+  EXP 5: CROWDING & EXTREME DETECTION → REVERSALS
+======================================================================
+
+  OI z-score (oi_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    ------------------------- ------ ---------- -------- --------
+  ✅ z > +2.0 → short             794      +23.1bps    66.2%    +7.55
+  ✅ z > +1.5 → short            1410      +10.2bps    58.7%    +3.80
+     z > +1.0 → short            2374       -8.2bps    50.0%    -3.67
+  ✅ z < -1.0 → long             2325       +0.2bps    54.0%    +0.13
+  ✅ z < -1.5 → long             1001       +1.0bps    57.1%    +0.47
+     z < -2.0 → long              310       -9.4bps    50.0%    -2.02
+
+  Funding z-score (funding_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    ------------------------- ------ ---------- -------- --------
+  ✅ z > +2.0 → short             247       +2.4bps    46.2%    +0.30
+     z > +1.5 → short             537       -0.1bps    44.3%    -0.01
+     z > +1.0 → short            1142       -1.5bps    44.3%    -0.45
+     z < -1.0 → long             1077       -4.2bps    46.9%    -1.35
+     z < -1.5 → long              465      -10.8bps    43.4%    -2.17
+     z < -2.0 → long              203       -6.8bps    46.3%    -0.87
+
+  Top trader LS z-score (ls_top_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    ------------------------- ------ ---------- -------- --------
+     z > +2.0 → short             877      -22.6bps    34.5%    -9.95
+     z > +1.5 → short            1694      -14.5bps    36.5%    -8.77
+     z > +1.0 → short            2653      -18.1bps    36.0%   -13.33
+     z < -1.0 → long             2404      -26.4bps    38.0%   -10.43
+     z < -1.5 → long             1622      -44.9bps    32.1%   -15.46
+     z < -2.0 → long              820      -66.3bps    26.2%   -14.98
+
+  Global LS z-score (ls_global_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    ------------------------- ------ ---------- -------- --------
+     z > +2.0 → short             737       -9.1bps    37.3%    -3.25
+     z > +1.5 → short            1739       -9.8bps    39.7%    -6.23
+     z > +1.0 → short            2807      -12.5bps    39.4%    -9.97
+     z < -1.0 → long             2558      -23.6bps    38.5%    -9.86
+     z < -1.5 → long             1721      -34.8bps    32.6%   -11.80
+     z < -2.0 → long              800      -59.3bps    29.5%   -12.12
+
+  Taker ratio z-score (taker_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    ------------------------- ------ ---------- -------- --------
+     z > +2.0 → short             409      -11.9bps    38.9%    -2.93
+     z > +1.5 → short             679      -14.3bps    38.4%    -4.16
+     z > +1.0 → short            1237      -12.5bps    38.3%    -4.94
+     z < -1.0 → long              941       -3.0bps    47.4%    -1.02
+  ✅ z < -1.5 → long               48       +0.8bps    54.2%    +0.06
+
+======================================================================
+  EXP 6: WALK-FORWARD — OI/FUNDING COMBINED SIGNAL
+======================================================================
+
+  OHLCV only (14 features):
+    IC=+0.0660  rank_IC=+0.0630  n=5729
+    Bottom  : avg=   -12.4bps  wr=49.6%  n=1145
+    Q2      : avg=    -7.0bps  wr=58.6%  n=1145
+    Q3      : avg=    -9.6bps  wr=53.3%  n=1145
+    Q4      : avg=    +2.1bps  wr=52.8%  n=1145
+    Top     : avg=    +7.1bps  wr=54.2%  n=1149
+  ✅ Long-short (Q5-Q1): avg=+2.7bps  wr=46.5%  sharpe=+1.52
+
+  OHLCV + OI/F (39 features):
+    IC=+0.2018  rank_IC=+0.1647  n=5728
+    Bottom  : avg=   -32.0bps  wr=43.7%  n=1145
+    Q2      : avg=   -13.1bps  wr=49.5%  n=1145
+    Q3      : avg=    -1.3bps  wr=59.8%  n=1145
+    Q4      : avg=   +10.1bps  wr=57.6%  n=1145
+    Top     : avg=   +16.6bps  wr=57.8%  n=1148
+  ✅ Long-short (Q5-Q1): avg=+17.3bps  wr=52.5%  sharpe=+9.32
+
+  OHLCV + OB + OI/F (70 features):
+    IC=+0.1836  rank_IC=+0.1628  n=5728
+    Bottom  : avg=   -27.6bps  wr=44.8%  n=1145
+    Q2      : avg=   -16.5bps  wr=47.7%  n=1145
+    Q3      : avg=    -1.1bps  wr=58.6%  n=1145
+    Q4      : avg=   +11.2bps  wr=60.3%  n=1145
+    Top     : avg=   +14.2bps  wr=57.1%  n=1148
+  ✅ Long-short (Q5-Q1): avg=+13.9bps  wr=51.2%  sharpe=+7.85
+
+======================================================================
+  DONE — 342s total
+======================================================================
