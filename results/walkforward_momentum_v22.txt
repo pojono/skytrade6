@@ -1,0 +1,434 @@
+######################################################################
+  WALK-FORWARD MOMENTUM BACKTEST (v22)
+  NO LOOKAHEAD — online regime detection only
+  Symbols: ETHUSDT, BTCUSDT
+  Period: 2025-01-01 → 2026-01-31
+  Warmup: 30 days
+  Refit: every 14 days
+######################################################################
+
+######################################################################
+  WALK-FORWARD MOMENTUM BACKTEST — ETHUSDT
+  Period: 2025-01-01 → 2026-01-31
+  Warmup: 30 days, Refit: every 14 days
+  Hold: 48 bars (240min), Fee: 7bps
+  Momentum threshold: 1.0 z-score
+  Regime confirmation: 3 bars
+######################################################################
+
+  Loading bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=9.2GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=9.2GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=9.2GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=9.2GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=9.2GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=9.2GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=9.2GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=9.2GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=1s RAM=9.2GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=9.2GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=0s RAM=9.2GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=9.2GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=9.2GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=9.2GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=9.2GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=9.2GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=9.2GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=9.2GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=9.2GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=9.2GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Computing features...
+  Total valid bars: 113761
+  Warmup: 8640 bars (30 days)
+  Trading period: bar 8640 to 113761 (365 days)
+  Initial fit done at bar 8640
+  Bar 8640/113761 (0 trading days), HMM=0 GMM=0 Uncond=0 Quiet=0 trades, 1s
+  Refit at bar 12672 (14 days in), HMM trades=39, GMM trades=39, Uncond trades=45, elapsed=5s
+  Refit at bar 16704 (28 days in), HMM trades=69, GMM trades=68, Uncond trades=81, elapsed=11s
+  Bar 17280/113761 (30 trading days), HMM=75 GMM=74 Uncond=88 Quiet=35 trades, 11s
+  Refit at bar 20736 (42 days in), HMM trades=118, GMM trades=115, Uncond trades=137, elapsed=17s
+  Refit at bar 24768 (56 days in), HMM trades=131, GMM trades=127, Uncond trades=154, elapsed=23s
+  Bar 25920/113761 (60 trading days), HMM=138 GMM=134 Uncond=162 Quiet=68 trades, 23s
+  Refit at bar 28800 (70 days in), HMM trades=171, GMM trades=166, Uncond trades=199, elapsed=29s
+  Refit at bar 32832 (84 days in), HMM trades=196, GMM trades=190, Uncond trades=230, elapsed=35s
+  Bar 34560/113761 (90 trading days), HMM=205 GMM=199 Uncond=242 Quiet=106 trades, 36s
+  Refit at bar 36864 (98 days in), HMM trades=220, GMM trades=214, Uncond trades=261, elapsed=41s
+  Refit at bar 40896 (112 days in), HMM trades=267, GMM trades=260, Uncond trades=312, elapsed=49s
+  Bar 43200/113761 (120 trading days), HMM=279 GMM=272 Uncond=331 Quiet=140 trades, 50s
+  Refit at bar 44928 (126 days in), HMM trades=288, GMM trades=280, Uncond trades=343, elapsed=55s
+  Refit at bar 48960 (140 days in), HMM trades=315, GMM trades=308, Uncond trades=375, elapsed=61s
+  Bar 51840/113761 (150 trading days), HMM=330 GMM=323 Uncond=394 Quiet=171 trades, 61s
+  Refit at bar 52992 (154 days in), HMM trades=335, GMM trades=328, Uncond trades=402, elapsed=67s
+  Refit at bar 57024 (168 days in), HMM trades=363, GMM trades=356, Uncond trades=432, elapsed=72s
+  Bar 60480/113761 (180 trading days), HMM=391 GMM=382 Uncond=465 Quiet=203 trades, 73s
+  Refit at bar 61056 (182 days in), HMM trades=398, GMM trades=389, Uncond trades=472, elapsed=79s
+  Refit at bar 65088 (196 days in), HMM trades=433, GMM trades=424, Uncond trades=513, elapsed=85s
+  Refit at bar 69120 (210 days in), HMM trades=470, GMM trades=459, Uncond trades=557, elapsed=91s
+  Bar 69120/113761 (210 trading days), HMM=470 GMM=459 Uncond=557 Quiet=244 trades, 91s
+  Refit at bar 73152 (224 days in), HMM trades=497, GMM trades=485, Uncond trades=587, elapsed=98s
+  Refit at bar 77184 (238 days in), HMM trades=516, GMM trades=502, Uncond trades=610, elapsed=103s
+  Bar 77760/113761 (240 trading days), HMM=517 GMM=503 Uncond=611 Quiet=273 trades, 103s
+  Refit at bar 81216 (252 days in), HMM trades=537, GMM trades=523, Uncond trades=636, elapsed=110s
+  Refit at bar 85248 (266 days in), HMM trades=579, GMM trades=564, Uncond trades=686, elapsed=116s
+  Bar 86400/113761 (270 trading days), HMM=585 GMM=569 Uncond=694 Quiet=311 trades, 116s
+  Refit at bar 89280 (280 days in), HMM trades=609, GMM trades=593, Uncond trades=722, elapsed=123s
+  Refit at bar 93312 (294 days in), HMM trades=657, GMM trades=640, Uncond trades=775, elapsed=129s
+  Bar 95040/113761 (300 trading days), HMM=674 GMM=655 Uncond=795 Quiet=344 trades, 129s
+  Refit at bar 97344 (308 days in), HMM trades=689, GMM trades=670, Uncond trades=811, elapsed=134s
+  Refit at bar 101376 (322 days in), HMM trades=712, GMM trades=693, Uncond trades=836, elapsed=140s
+  Bar 103680/113761 (330 trading days), HMM=720 GMM=701 Uncond=846 Quiet=365 trades, 141s
+  Refit at bar 105408 (336 days in), HMM trades=724, GMM trades=705, Uncond trades=850, elapsed=146s
+  Refit at bar 109440 (350 days in), HMM trades=741, GMM trades=721, Uncond trades=871, elapsed=151s
+  Bar 112320/113761 (360 trading days), HMM=758 GMM=737 Uncond=890 Quiet=386 trades, 152s
+  Refit at bar 113472 (364 days in), HMM trades=766, GMM trades=745, Uncond trades=900, elapsed=158s
+
+  Completed in 158s
+
+======================================================================
+  RESULTS — ETHUSDT
+  Trading period: 365 days
+======================================================================
+
+  --- HMM volatile + momentum ---
+  Trades: 769 (2.1/day)
+  Avg PnL: +4.18 bps
+  Median PnL: -11.85 bps
+  Std PnL: 204.43 bps
+  Win rate: 46.4%
+  Total PnL: +3213.3 bps
+  Sharpe (annualized): 0.57
+  Longs: 379 trades, avg=+3.31 bps
+  Shorts: 390 trades, avg=+5.02 bps
+
+  Monthly breakdown:
+     Month  Trades   Avg PnL     Total
+   2025-02      69    +14.16    +977.2
+   2025-03      67     -1.03     -69.0
+   2025-04      68    +12.61    +857.2
+   2025-05      75     +4.40    +330.2
+   2025-06      51    +15.41    +785.9
+   2025-07      64     +7.12    +455.8
+   2025-08      80     -5.71    -457.0
+   2025-09      46    -16.03    -737.4
+   2025-10      70     +4.54    +317.6
+   2025-11      86     -5.88    -505.7
+   2025-12      47    +21.88   +1028.3
+   2026-01      46     +5.01    +230.3
+  Positive months: 8/12
+
+  --- GMM volatile + momentum ---
+  Trades: 748 (2.0/day)
+  Avg PnL: +2.70 bps
+  Median PnL: -13.92 bps
+  Std PnL: 207.23 bps
+  Win rate: 45.6%
+  Total PnL: +2018.6 bps
+  Sharpe (annualized): 0.36
+  Longs: 370 trades, avg=+0.90 bps
+  Shorts: 378 trades, avg=+4.45 bps
+
+  Monthly breakdown:
+     Month  Trades   Avg PnL     Total
+   2025-02      68    +15.66   +1064.8
+   2025-03      64     -1.80    -115.2
+   2025-04      66    +11.30    +745.7
+   2025-05      74     +7.46    +552.1
+   2025-06      51    +11.98    +611.1
+   2025-07      62     +4.31    +267.0
+   2025-08      78     -8.94    -697.2
+   2025-09      43    -17.02    -731.8
+   2025-10      68     +2.15    +146.2
+   2025-11      83    -10.35    -858.7
+   2025-12      47    +18.01    +846.6
+   2026-01      44     +4.27    +188.0
+  Positive months: 8/12
+
+  --- Unconditional momentum ---
+  Trades: 903 (2.5/day)
+  Avg PnL: +3.37 bps
+  Median PnL: -13.06 bps
+  Std PnL: 195.02 bps
+  Win rate: 46.7%
+  Total PnL: +3044.0 bps
+  Sharpe (annualized): 0.52
+  Longs: 476 trades, avg=-1.86 bps
+  Shorts: 427 trades, avg=+9.20 bps
+
+  Monthly breakdown:
+     Month  Trades   Avg PnL     Total
+   2025-02      81    +13.38   +1083.4
+   2025-03      79     +3.52    +277.9
+   2025-04      81     +3.10    +251.4
+   2025-05      90     +4.64    +417.7
+   2025-06      63    +12.56    +791.1
+   2025-07      74     +6.66    +492.5
+   2025-08      93     -0.52     -48.7
+   2025-09      54    -21.25   -1147.4
+   2025-10      86     +3.14    +270.1
+   2025-11      96    -12.09   -1160.7
+   2025-12      52    +32.14   +1671.4
+   2026-01      54     +2.69    +145.3
+  Positive months: 9/12
+
+  --- HMM quiet + momentum (control) ---
+  Trades: 391 (1.1/day)
+  Avg PnL: -11.43 bps
+  Median PnL: -13.07 bps
+  Std PnL: 170.69 bps
+  Win rate: 46.3%
+  Total PnL: -4468.6 bps
+  Sharpe (annualized): -1.32
+  Longs: 238 trades, avg=-9.90 bps
+  Shorts: 153 trades, avg=-13.81 bps
+
+  Monthly breakdown:
+     Month  Trades   Avg PnL     Total
+   2025-02      31    -10.20    -316.1
+   2025-03      35    -18.66    -653.0
+   2025-04      39     -9.15    -356.8
+   2025-05      35    -24.89    -871.1
+   2025-06      31    +10.16    +315.0
+   2025-07      32    +12.13    +388.2
+   2025-08      44    -14.41    -633.9
+   2025-09      28     -4.70    -131.7
+   2025-10      39    -60.24   -2349.4
+   2025-11      30    -37.31   -1119.3
+   2025-12      22    +45.78   +1007.1
+   2026-01      25    +10.10    +252.5
+  Positive months: 4/12
+
+======================================================================
+  SUMMARY COMPARISON — ETHUSDT
+======================================================================
+                             Strategy  Trades   Avg PnL   Win%  Sharpe     Total  Pos Mo
+  --------------------------------------------------------------------------------
+              HMM volatile + momentum     769     +4.18  46.4%    0.57   +3213.3  8/12
+              GMM volatile + momentum     748     +2.70  45.6%    0.36   +2018.6  8/12
+               Unconditional momentum     903     +3.37  46.7%    0.52   +3044.0  9/12
+       HMM quiet + momentum (control)     391    -11.43  46.3%   -1.32   -4468.6  4/12
+
+######################################################################
+  WALK-FORWARD MOMENTUM BACKTEST — BTCUSDT
+  Period: 2025-01-01 → 2026-01-31
+  Warmup: 30 days, Refit: every 14 days
+  Hold: 48 bars (240min), Fee: 7bps
+  Momentum threshold: 1.0 z-score
+  Regime confirmation: 3 bars
+######################################################################
+
+  Loading bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=9.6GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=9.6GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=9.6GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=9.6GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=9.6GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=9.6GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=9.6GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=9.6GB cache=160 new=0
+  [180/396] 2025-06-29 | 1s ETA=1s RAM=9.6GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=1s RAM=9.6GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=0s RAM=9.6GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=9.6GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=9.6GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=9.6GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=9.6GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=9.6GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=9.6GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=9.6GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=9.6GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=9.6GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Computing features...
+  Total valid bars: 113761
+  Warmup: 8640 bars (30 days)
+  Trading period: bar 8640 to 113761 (365 days)
+  Initial fit done at bar 8640
+  Bar 8640/113761 (0 trading days), HMM=0 GMM=0 Uncond=0 Quiet=0 trades, 1s
+  Refit at bar 12672 (14 days in), HMM trades=30, GMM trades=30, Uncond trades=35, elapsed=4s
+  Refit at bar 16704 (28 days in), HMM trades=59, GMM trades=59, Uncond trades=66, elapsed=10s
+  Bar 17280/113761 (30 trading days), HMM=63 GMM=63 Uncond=72 Quiet=32 trades, 10s
+  Refit at bar 20736 (42 days in), HMM trades=107, GMM trades=107, Uncond trades=121, elapsed=16s
+  Refit at bar 24768 (56 days in), HMM trades=126, GMM trades=126, Uncond trades=148, elapsed=21s
+  Bar 25920/113761 (60 trading days), HMM=133 GMM=132 Uncond=157 Quiet=67 trades, 21s
+  Refit at bar 28800 (70 days in), HMM trades=168, GMM trades=167, Uncond trades=193, elapsed=26s
+  Refit at bar 32832 (84 days in), HMM trades=189, GMM trades=187, Uncond trades=219, elapsed=33s
+  Bar 34560/113761 (90 trading days), HMM=196 GMM=194 Uncond=227 Quiet=95 trades, 34s
+  Refit at bar 36864 (98 days in), HMM trades=204, GMM trades=201, Uncond trades=238, elapsed=39s
+  Refit at bar 40896 (112 days in), HMM trades=228, GMM trades=224, Uncond trades=268, elapsed=45s
+  Bar 43200/113761 (120 trading days), HMM=241 GMM=237 Uncond=284 Quiet=123 trades, 45s
+  Refit at bar 44928 (126 days in), HMM trades=249, GMM trades=245, Uncond trades=295, elapsed=50s
+  Refit at bar 48960 (140 days in), HMM trades=268, GMM trades=263, Uncond trades=318, elapsed=55s
+  Bar 51840/113761 (150 trading days), HMM=279 GMM=274 Uncond=329 Quiet=140 trades, 56s
+  Refit at bar 52992 (154 days in), HMM trades=282, GMM trades=277, Uncond trades=332, elapsed=61s
+  Refit at bar 57024 (168 days in), HMM trades=303, GMM trades=298, Uncond trades=356, elapsed=68s
+  Bar 60480/113761 (180 trading days), HMM=321 GMM=316 Uncond=377 Quiet=164 trades, 68s
+  Refit at bar 61056 (182 days in), HMM trades=328, GMM trades=323, Uncond trades=383, elapsed=74s
+  Refit at bar 65088 (196 days in), HMM trades=349, GMM trades=344, Uncond trades=406, elapsed=81s
+  Refit at bar 69120 (210 days in), HMM trades=374, GMM trades=369, Uncond trades=433, elapsed=87s
+  Bar 69120/113761 (210 trading days), HMM=374 GMM=369 Uncond=433 Quiet=180 trades, 87s
+  Refit at bar 73152 (224 days in), HMM trades=394, GMM trades=388, Uncond trades=454, elapsed=93s
+  Refit at bar 77184 (238 days in), HMM trades=408, GMM trades=402, Uncond trades=470, elapsed=99s
+  Bar 77760/113761 (240 trading days), HMM=409 GMM=403 Uncond=471 Quiet=191 trades, 99s
+  Refit at bar 81216 (252 days in), HMM trades=436, GMM trades=430, Uncond trades=498, elapsed=105s
+  Refit at bar 85248 (266 days in), HMM trades=485, GMM trades=478, Uncond trades=549, elapsed=111s
+  Bar 86400/113761 (270 trading days), HMM=491 GMM=483 Uncond=557 Quiet=209 trades, 111s
+  Refit at bar 89280 (280 days in), HMM trades=524, GMM trades=516, Uncond trades=591, elapsed=117s
+  Refit at bar 93312 (294 days in), HMM trades=577, GMM trades=567, Uncond trades=649, elapsed=123s
+  Bar 95040/113761 (300 trading days), HMM=599 GMM=588 Uncond=674 Quiet=242 trades, 124s
+  Refit at bar 97344 (308 days in), HMM trades=620, GMM trades=609, Uncond trades=698, elapsed=130s
+  Refit at bar 101376 (322 days in), HMM trades=653, GMM trades=641, Uncond trades=737, elapsed=137s
+  Bar 103680/113761 (330 trading days), HMM=664 GMM=652 Uncond=751 Quiet=276 trades, 138s
+  Refit at bar 105408 (336 days in), HMM trades=673, GMM trades=661, Uncond trades=761, elapsed=143s
+  Refit at bar 109440 (350 days in), HMM trades=697, GMM trades=685, Uncond trades=791, elapsed=149s
+  Bar 112320/113761 (360 trading days), HMM=714 GMM=702 Uncond=810 Quiet=304 trades, 149s
+  Refit at bar 113472 (364 days in), HMM trades=725, GMM trades=712, Uncond trades=822, elapsed=157s
+
+  Completed in 157s
+
+======================================================================
+  RESULTS — BTCUSDT
+  Trading period: 365 days
+======================================================================
+
+  --- HMM volatile + momentum ---
+  Trades: 728 (2.0/day)
+  Avg PnL: -7.59 bps
+  Median PnL: -10.37 bps
+  Std PnL: 126.09 bps
+  Win rate: 45.1%
+  Total PnL: -5529.1 bps
+  Sharpe (annualized): -1.63
+  Longs: 357 trades, avg=-11.31 bps
+  Shorts: 371 trades, avg=-4.02 bps
+
+  Monthly breakdown:
+     Month  Trades   Avg PnL     Total
+   2025-02      59     -3.93    -232.0
+   2025-03      71     -9.84    -698.4
+   2025-04      64    -30.92   -1979.1
+   2025-05      47    -33.46   -1572.6
+   2025-06      38    -11.53    -438.0
+   2025-07      45     -4.07    -183.0
+   2025-08      50     +2.32    +116.1
+   2025-09      38    -17.90    -680.1
+   2025-10      90     -4.87    -438.3
+   2025-11     100     +3.33    +333.3
+   2025-12      68     +0.12      +8.4
+   2026-01      58     +4.04    +234.4
+  Positive months: 4/12
+
+  --- GMM volatile + momentum ---
+  Trades: 715 (2.0/day)
+  Avg PnL: -7.13 bps
+  Median PnL: -10.13 bps
+  Std PnL: 126.76 bps
+  Win rate: 45.0%
+  Total PnL: -5100.7 bps
+  Sharpe (annualized): -1.50
+  Longs: 347 trades, avg=-11.04 bps
+  Shorts: 368 trades, avg=-3.45 bps
+
+  Monthly breakdown:
+     Month  Trades   Avg PnL     Total
+   2025-02      59     -4.34    -256.3
+   2025-03      71     -9.75    -692.4
+   2025-04      62    -30.24   -1875.0
+   2025-05      45    -33.93   -1526.6
+   2025-06      37    -14.16    -523.8
+   2025-07      45     -3.77    -169.5
+   2025-08      50     +1.89     +94.3
+   2025-09      37    -14.62    -540.9
+   2025-10      88     -5.81    -511.5
+   2025-11      97     +8.84    +857.4
+   2025-12      67     -0.75     -50.5
+   2026-01      57     +1.65     +94.2
+  Positive months: 3/12
+
+  --- Unconditional momentum ---
+  Trades: 825 (2.3/day)
+  Avg PnL: -6.84 bps
+  Median PnL: -10.55 bps
+  Std PnL: 121.80 bps
+  Win rate: 45.1%
+  Total PnL: -5645.1 bps
+  Sharpe (annualized): -1.61
+  Longs: 412 trades, avg=-11.63 bps
+  Shorts: 413 trades, avg=-2.06 bps
+
+  Monthly breakdown:
+     Month  Trades   Avg PnL     Total
+   2025-02      66     +2.86    +188.7
+   2025-03      88    -10.91    -960.5
+   2025-04      71    -30.69   -2178.9
+   2025-05      59    -24.36   -1437.4
+   2025-06      45     -4.82    -216.9
+   2025-07      50     +3.53    +176.3
+   2025-08      54     +1.03     +55.7
+   2025-09      41    -14.58    -597.6
+   2025-10      95     -2.53    -240.7
+   2025-11     109     +0.47     +51.3
+   2025-12      80     +0.41     +33.0
+   2026-01      67     -7.73    -518.0
+  Positive months: 5/12
+
+  --- HMM quiet + momentum (control) ---
+  Trades: 310 (0.8/day)
+  Avg PnL: -13.78 bps
+  Median PnL: -17.64 bps
+  Std PnL: 100.47 bps
+  Win rate: 41.9%
+  Total PnL: -4270.8 bps
+  Sharpe (annualized): -2.41
+  Longs: 171 trades, avg=-15.88 bps
+  Shorts: 139 trades, avg=-11.19 bps
+
+  Monthly breakdown:
+     Month  Trades   Avg PnL     Total
+   2025-02      29    -16.62    -482.0
+   2025-03      36    -17.34    -624.2
+   2025-04      29    -48.98   -1420.3
+   2025-05      29    -27.71    -803.6
+   2025-06      17    -17.31    -294.3
+   2025-07      25    +24.34    +608.6
+   2025-08      15     +0.17      +2.6
+   2025-09      12     -3.05     -36.5
+   2025-10      19    -14.15    -268.9
+   2025-11      33     -5.82    -192.1
+   2025-12      35     +0.59     +20.6
+   2026-01      31    -25.18    -780.7
+  Positive months: 3/12
+
+======================================================================
+  SUMMARY COMPARISON — BTCUSDT
+======================================================================
+                             Strategy  Trades   Avg PnL   Win%  Sharpe     Total  Pos Mo
+  --------------------------------------------------------------------------------
+              HMM volatile + momentum     728     -7.59  45.1%   -1.63   -5529.1  4/12
+              GMM volatile + momentum     715     -7.13  45.0%   -1.50   -5100.7  3/12
+               Unconditional momentum     825     -6.84  45.1%   -1.61   -5645.1  5/12
+       HMM quiet + momentum (control)     310    -13.78  41.9%   -2.41   -4270.8  3/12
+
+
+######################################################################
+  CROSS-SYMBOL SUMMARY
+######################################################################
+
+  HMM volatile + momentum:
+    ETHUSDT: 769 trades, avg=+4.18bps, win=46.4%, sharpe=0.57
+    BTCUSDT: 728 trades, avg=-7.59bps, win=45.1%, sharpe=-1.63
+
+  GMM volatile + momentum:
+    ETHUSDT: 748 trades, avg=+2.70bps, win=45.6%, sharpe=0.36
+    BTCUSDT: 715 trades, avg=-7.13bps, win=45.0%, sharpe=-1.50
+
+  Unconditional momentum:
+    ETHUSDT: 903 trades, avg=+3.37bps, win=46.7%, sharpe=0.52
+    BTCUSDT: 825 trades, avg=-6.84bps, win=45.1%, sharpe=-1.61
+
+  HMM quiet + momentum (control):
+    ETHUSDT: 391 trades, avg=-11.43bps, win=46.3%, sharpe=-1.32
+    BTCUSDT: 310 trades, avg=-13.78bps, win=41.9%, sharpe=-2.41
+
+
+Done.
