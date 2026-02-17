@@ -1,0 +1,152 @@
+======================================================================
+  v18: Grid Bot with Orderbook Features — SOLUSDT
+  Period: 2025-12-01 → 2025-12-31
+======================================================================
+
+  Loading data...
+  [20/31] 2025-12-20 | 0s ETA=0s RAM=10.1GB novel=20 regime=0 built=0
+  [31/31] 2025-12-31 | 0s ETA=0s RAM=10.1GB novel=31 regime=0 built=0
+  Loaded 8,928 bars (31 days, novel=31 regime=0 built=0)
+  Futures OB merged: 8928/8928 bars (100.0%)
+  Basis features computed: 8928 bars
+  8,928 bars loaded in 6s
+
+  Walk-forward vol prediction (OHLCV only)...
+    Done in 1s
+  Walk-forward vol prediction (OHLCV + OB)...
+    Done in 1s
+    OHLCV corr: 0.6375
+    OHLCV+OB corr: 0.6455 (+1.3%)
+  Basis depth ratio: mean=13.51, std=2.73
+
+  Simulation: 6,428 bars (22 days)
+  Price: $117.12 - $144.91
+  Median vol (OHLCV): 0.001434
+  Median vol (OB): 0.001442
+  Median ob_mid_vol: 0.7423
+
+  B1 OHLCV vol pause (>1.5x): 18.5% paused
+  O1 OB vol pause (>1.5x): 18.8% paused
+  O2 ob_mid_vol pause (>1.5x): 24.0% paused
+  O3 ob_spread_std pause (>2x): 20.9% paused
+  O4 combined OB pause: 30.5% paused
+  O5 OHLCV+OB vol pause: 27.3% paused
+  D1 depth ratio rebalance triggers: 1116 (17.4%)
+
+  Running 19 strategies...
+
+  S0: Fix 1.00% (24h):
+    PnL: $+1005.30 (grid: $+344.98, fees: -$29.48)
+    PnL/day: $+45.04 | Fills: 147 (6.6/d) | Sharpe: 15.43 | MaxDD: $-243.62 (0.0s)
+
+  B1: OHLCV VolP+InfR:
+    PnL: $-158.21 (grid: $+0.00, fees: -$24.79)
+    PnL/day: $-7.09 | Fills: 124 (5.6/d) | Sharpe: -7.30 | MaxDD: $-166.86 (0.0s)
+
+  B2: OHLCV 1%+1hR+VolP:
+    PnL: $-5.44 (grid: $+0.00, fees: -$13.20)
+    PnL/day: $-0.24 | Fills: 66 (3.0/d) | Sharpe: -0.97 | MaxDD: $-37.43 (0.0s)
+
+  O1: OB VolP+InfR:
+    PnL: $-134.18 (grid: $+0.00, fees: -$22.79)
+    PnL/day: $-6.01 | Fills: 114 (5.1/d) | Sharpe: -5.95 | MaxDD: $-160.11 (0.0s)
+
+  O2: OBmidVol pause:
+    PnL: $-217.53 (grid: $+0.00, fees: -$21.17)
+    PnL/day: $-9.75 | Fills: 106 (4.7/d) | Sharpe: -9.77 | MaxDD: $-224.10 (0.0s)
+
+  O3: SpreadStd pause:
+    PnL: $-300.03 (grid: $+0.00, fees: -$37.58)
+    PnL/day: $-13.44 | Fills: 188 (8.4/d) | Sharpe: -9.45 | MaxDD: $-306.89 (0.0s)
+
+  O4: OBmidVol|SpreadStd:
+    PnL: $-196.86 (grid: $+0.00, fees: -$20.38)
+    PnL/day: $-8.82 | Fills: 102 (4.6/d) | Sharpe: -9.11 | MaxDD: $-202.18 (0.0s)
+
+  O5: OHLCV+OB VolP:
+    PnL: $-197.80 (grid: $+0.00, fees: -$15.98)
+    PnL/day: $-8.86 | Fills: 80 (3.6/d) | Sharpe: -7.74 | MaxDD: $-203.12 (0.0s)
+
+  D1: DepthR+InfR+VolP:
+    PnL: $-34.82 (grid: $+0.00, fees: -$20.80)
+    PnL/day: $-1.56 | Fills: 104 (4.7/d) | Sharpe: -4.04 | MaxDD: $-65.45 (0.0s)
+
+  D2: DepthR+InfR+OBVolP:
+    PnL: $-123.46 (grid: $+0.00, fees: -$14.39)
+    PnL/day: $-5.53 | Fills: 72 (3.2/d) | Sharpe: -11.81 | MaxDD: $-138.17 (0.0s)
+
+  D3: 1hR+DepthR+Inf+VolP:
+    PnL: $-23.51 (grid: $+0.00, fees: -$11.20)
+    PnL/day: $-1.05 | Fills: 56 (2.5/d) | Sharpe: -3.86 | MaxDD: $-36.94 (0.0s)
+
+  A1: OBAdaptSpc+VolP+InfR:
+    PnL: $-185.75 (grid: $+0.00, fees: -$26.39)
+    PnL/day: $-8.32 | Fills: 132 (5.9/d) | Sharpe: -8.05 | MaxDD: $-191.89 (0.0s)
+
+  A2: OBAdaptSpc+OBVolP:
+    PnL: $-235.01 (grid: $+0.00, fees: -$23.98)
+    PnL/day: $-10.53 | Fills: 120 (5.4/d) | Sharpe: -10.06 | MaxDD: $-239.51 (0.0s)
+
+  A3: OBAdapt+DepthR+OBP:
+    PnL: $-127.73 (grid: $+0.00, fees: -$16.39)
+    PnL/day: $-5.72 | Fills: 82 (3.7/d) | Sharpe: -10.15 | MaxDD: $-136.30 (0.0s)
+
+  X1: 1hR+OBVolP+Inf:
+    PnL: $+0.21 (grid: $+0.00, fees: -$5.20)
+    PnL/day: $+0.01 | Fills: 26 (1.2/d) | Sharpe: 0.07 | MaxDD: $-22.47 (0.0s)
+
+  X2: 1hR+OBAdapt+OBVolP:
+    PnL: $-6.75 (grid: $+0.00, fees: -$7.60)
+    PnL/day: $-0.30 | Fills: 38 (1.7/d) | Sharpe: -2.33 | MaxDD: $-21.81 (0.0s)
+
+  X3: 1hR+OBAll:
+    PnL: $-2.20 (grid: $+0.00, fees: -$6.00)
+    PnL/day: $-0.10 | Fills: 30 (1.3/d) | Sharpe: -0.71 | MaxDD: $-13.67 (0.0s)
+
+  X4: 30mR+OBVolP:
+    PnL: $+0.00 (grid: $+0.00, fees: -$0.00)
+    PnL/day: $+0.00 | Fills: 0 (0.0/d) | Sharpe: 0.00 | MaxDD: $0.00 (0.0s)
+
+  X5: 30mR+OBAdapt+OBVolP:
+    PnL: $+1.46 (grid: $+0.00, fees: -$0.80)
+    PnL/day: $+0.07 | Fills: 4 (0.2/d) | Sharpe: 4.17 | MaxDD: $-1.08 (0.0s)
+
+  ========================================================================================================================
+  SUMMARY — SOLUSDT (22 days)
+  ========================================================================================================================
+  Strategy                                PnL        Grid$     Fees     PnL/d   Fills  Sharpe        MaxDD    vs Base
+  ------------------------------------------------------------------------------------------------------------------------
+    S0: Fix 1.00% (24h)          $   +1005.30 $    +344.98 $     29 $  +45.04    147   15.43 $    -243.62           
+    B1: OHLCV VolP+InfR          $    -158.21 $      +0.00 $     25 $   -7.09    124   -7.30 $    -166.86 $    -1164
+    B2: OHLCV 1%+1hR+VolP        $      -5.44 $      +0.00 $     13 $   -0.24     66   -0.97 $     -37.43 $    -1011
+    O1: OB VolP+InfR             $    -134.18 $      +0.00 $     23 $   -6.01    114   -5.95 $    -160.11 $    -1139
+    O2: OBmidVol pause           $    -217.53 $      +0.00 $     21 $   -9.75    106   -9.77 $    -224.10 $    -1223
+    O3: SpreadStd pause          $    -300.03 $      +0.00 $     38 $  -13.44    188   -9.45 $    -306.89 $    -1305
+    O4: OBmidVol|SpreadStd       $    -196.86 $      +0.00 $     20 $   -8.82    102   -9.11 $    -202.18 $    -1202
+    O5: OHLCV+OB VolP            $    -197.80 $      +0.00 $     16 $   -8.86     80   -7.74 $    -203.12 $    -1203
+    D1: DepthR+InfR+VolP         $     -34.82 $      +0.00 $     21 $   -1.56    104   -4.04 $     -65.45 $    -1040
+    D2: DepthR+InfR+OBVolP       $    -123.46 $      +0.00 $     14 $   -5.53     72  -11.81 $    -138.17 $    -1129
+    D3: 1hR+DepthR+Inf+VolP      $     -23.51 $      +0.00 $     11 $   -1.05     56   -3.86 $     -36.94 $    -1029
+    A1: OBAdaptSpc+VolP+InfR     $    -185.75 $      +0.00 $     26 $   -8.32    132   -8.05 $    -191.89 $    -1191
+    A2: OBAdaptSpc+OBVolP        $    -235.01 $      +0.00 $     24 $  -10.53    120  -10.06 $    -239.51 $    -1240
+    A3: OBAdapt+DepthR+OBP       $    -127.73 $      +0.00 $     16 $   -5.72     82  -10.15 $    -136.30 $    -1133
+    X1: 1hR+OBVolP+Inf           $      +0.21 $      +0.00 $      5 $   +0.01     26    0.07 $     -22.47 $    -1005
+    X2: 1hR+OBAdapt+OBVolP       $      -6.75 $      +0.00 $      8 $   -0.30     38   -2.33 $     -21.81 $    -1012
+    X3: 1hR+OBAll                $      -2.20 $      +0.00 $      6 $   -0.10     30   -0.71 $     -13.67 $    -1007
+    X4: 30mR+OBVolP              $      +0.00 $      +0.00 $      0 $   +0.00      0    0.00 $       0.00 $    -1005
+    X5: 30mR+OBAdapt+OBVolP      $      +1.46 $      +0.00 $      1 $   +0.07      4    4.17 $      -1.08 $    -1004
+
+  Top 5 strategies:
+    1. S0: Fix 1.00% (24h): $+1005.30 (Sharpe: 15.43, vs base: $+0)
+    2. X5: 30mR+OBAdapt+OBVolP: $+1.46 (Sharpe: 4.17, vs base: $-1004)
+    3. X1: 1hR+OBVolP+Inf: $+0.21 (Sharpe: 0.07, vs base: $-1005)
+    4. X4: 30mR+OBVolP: $+0.00 (Sharpe: 0.00, vs base: $-1005)
+    5. X3: 1hR+OBAll: $-2.20 (Sharpe: -0.71, vs base: $-1007)
+
+  🎉 3 strategies achieved POSITIVE PnL!
+
+  Best OB strategy:     X5: 30mR+OBAdapt+OBVolP: $+1.46
+  Best non-OB strategy: B2: OHLCV 1%+1hR+VolP: $-5.44
+  OB advantage: $+6.90
+
+✅ Done in 8s (0.1min)

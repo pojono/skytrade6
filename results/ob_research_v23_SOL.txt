@@ -1,0 +1,217 @@
+======================================================================
+  ORDERBOOK RESEARCH — SOLUSDT Dec 2025
+  Data: 5-min bars + OB features (futures + spot)
+======================================================================
+Loading OHLCV bars...
+  [20/31] 2025-12-20 | 0s ETA=0s RAM=10.1GB cache=20 new=0
+  [31/31] 2025-12-31 | 0s ETA=0s RAM=10.1GB cache=31 new=0
+  Loaded 8,928 bars (31 days, 31 cached, 0 new)
+  OHLCV: 8928 bars, 62 cols
+  OB features (futures): 8928 bars, 62 cols
+  OB features (spot): 8928 bars, 62 cols
+  Merged: 8928 bars, 8928 with OB data (100.0%)
+
+  Regime labels: quiet=5563 (62.3%), volatile=3078 (34.5%)
+
+======================================================================
+  EXP 1: OB FEATURE PROFILES BY REGIME
+======================================================================
+
+  Feature                                    Quiet     Volatile    Ratio   T-stat      P-val
+  ----------------------------------- ------------ ------------ -------- -------- ----------
+  ob_spread_mean                            0.7798       0.7668     0.98    15.29   1.11e-51 ***
+  ob_spread_std                             0.0037       0.0139     3.76   -15.18   1.06e-50 ***
+  ob_spread_max                             0.8375       0.9799     1.17   -12.91   2.02e-37 ***
+  ob_imb_0.5bps_mean                        0.0077      -0.0010    -0.13     3.45   5.64e-04 ***
+  ob_imb_1bps_mean                          0.0077      -0.0010    -0.13     3.45   5.66e-04 ***
+  ob_imb_2bps_mean                         -0.0064       0.0027    -0.42    -2.31   2.09e-02 *
+  ob_imb_5bps_mean                         -0.0068       0.0005    -0.07    -2.16   3.07e-02 *
+  ob_imb_1bps_std                           0.5719       0.6078     1.06   -32.25  1.64e-214 ***
+  ob_imb_2bps_std                           0.3650       0.4127     1.13   -30.06  1.94e-187 ***
+  ob_imb_1bps_trend                        -0.0000      -0.0000     0.92    -0.05   9.63e-01 
+  ob_imb_2bps_trend                        -0.0000      -0.0000     1.13     0.08   9.34e-01 
+  ob_bid_depth_1bps_mean                  529.9863     493.4740     0.93     4.78   1.82e-06 ***
+  ob_ask_depth_1bps_mean                  530.2029     492.5395     0.93     5.74   1.01e-08 ***
+  ob_bid_depth_2bps_mean                 2088.1690    1776.4486     0.85    13.49   5.31e-41 ***
+  ob_ask_depth_2bps_mean                 2150.6726    1770.9489     0.82    15.70   1.43e-54 ***
+  ob_bid_depth_5bps_mean                 8455.2802    7043.3835     0.83    27.19  4.23e-155 ***
+  ob_ask_depth_5bps_mean                 8642.5796    7119.0366     0.82    24.16  6.84e-124 ***
+  ob_total_depth_mean                  441192.4948  412414.4622     0.93    23.55  5.22e-118 ***
+  ob_bid_depth_change                       0.0264       0.0591     2.24    -3.13   1.74e-03 **
+  ob_ask_depth_change                       0.0370       0.0539     1.46    -1.51   1.32e-01 
+  ob_bid_depth_cv                           0.4413       0.5533     1.25   -20.72   5.00e-91 ***
+  ob_ask_depth_cv                           0.4500       0.5459     1.21   -18.91   4.73e-77 ***
+  ob_bid_wall_ratio                         4.4176       5.8140     1.32   -14.17   1.94e-44 ***
+  ob_ask_wall_ratio                         4.4925       5.6504     1.26   -12.68   4.31e-36 ***
+  ob_bid_wall_frac                          0.0317       0.0402     1.27   -18.01   4.94e-71 ***
+  ob_ask_wall_frac                          0.0347       0.0386     1.11    -8.00   1.40e-15 ***
+  ob_bid_slope                              0.0654       0.0722     1.10   -10.45   2.42e-25 ***
+  ob_ask_slope                              0.0642       0.0729     1.13   -13.65   1.00e-41 ***
+  ob_microprice_dev_bps                    -0.0064      -0.0005     0.08    -3.00   2.75e-03 **
+  ob_mid_return_bps                         0.2239      -0.3674    -1.64     1.04   2.99e-01 
+  ob_mid_volatility                         0.6552       1.4462     2.21   -59.70   0.00e+00 ***
+
+  Top discriminating OB features (p<0.05): 27/31
+    ob_mid_volatility                   |t|=59.70  ratio=2.21
+    ob_imb_1bps_std                     |t|=32.25  ratio=1.06
+    ob_imb_2bps_std                     |t|=30.06  ratio=1.13
+    ob_bid_depth_5bps_mean              |t|=27.19  ratio=0.83
+    ob_ask_depth_5bps_mean              |t|=24.16  ratio=0.82
+    ob_total_depth_mean                 |t|=23.55  ratio=0.93
+    ob_bid_depth_cv                     |t|=20.72  ratio=1.25
+    ob_ask_depth_cv                     |t|=18.91  ratio=1.21
+    ob_bid_wall_frac                    |t|=18.01  ratio=1.27
+    ob_ask_depth_2bps_mean              |t|=15.70  ratio=0.82
+
+======================================================================
+  EXP 2: REGIME DETECTION — OHLCV vs OHLCV+OB
+======================================================================
+
+  OHLCV only (14 features):
+    GMM accuracy:  0.9796
+    LR accuracy:   0.9684  AUC: 0.9935
+    GB accuracy:   0.9826  AUC: 0.9985
+
+  OHLCV + OB (45 features):
+    GMM accuracy:  0.8222
+    LR accuracy:   0.9680  AUC: 0.9942
+    GB accuracy:   0.9830  AUC: 0.9983
+
+  OB only (31 features):
+    GMM accuracy:  0.7466
+    LR accuracy:   0.8839  AUC: 0.9129
+    GB accuracy:   0.8403  AUC: 0.8752
+
+  Top 15 features (GB, OHLCV+OB):
+     1. [  ] parkvol_1h                          importance=0.6446
+     2. [  ] adx_4h                              importance=0.0831
+     3. [  ] rvol_4h                             importance=0.0602
+     4. [  ] trade_intensity_ratio               importance=0.0432
+     5. [  ] momentum_4h                         importance=0.0417
+     6. [  ] bar_eff_4h                          importance=0.0362
+     7. [  ] price_vs_sma_24h                    importance=0.0172
+     8. [  ] rvol_1h                             importance=0.0168
+     9. [  ] rvol_24h                            importance=0.0107
+    10. [OB] ob_mid_volatility                   importance=0.0076
+    11. [  ] vol_ratio_1h_24h                    importance=0.0075
+    12. [  ] efficiency_4h                       importance=0.0072
+    13. [  ] ret_autocorr_1h                     importance=0.0052
+    14. [OB] ob_ask_depth_cv                     importance=0.0037
+    15. [OB] ob_bid_depth_cv                     importance=0.0021
+
+======================================================================
+  EXP 3: REGIME SWITCH PREDICTION — OHLCV vs OHLCV+OB
+======================================================================
+
+  Horizon: 30min (6 bars)
+    Switch rate: 0.170
+    OHLCV only          : AUC=0.7330  Acc=0.8097
+    OHLCV + OB          : AUC=0.7275  Acc=0.8020
+
+  Horizon: 1h (12 bars)
+    Switch rate: 0.268
+    OHLCV only          : AUC=0.6853  Acc=0.7153
+    OHLCV + OB          : AUC=0.6548  Acc=0.6748
+
+  Horizon: 2h (24 bars)
+    Switch rate: 0.399
+    OHLCV only          : AUC=0.6151  Acc=0.5974
+    OHLCV + OB          : AUC=0.5664  Acc=0.5240
+
+======================================================================
+  EXP 4: DEPTH IMBALANCE → DIRECTIONAL SIGNAL
+======================================================================
+
+  Information Coefficient (IC) — imbalance vs forward returns:
+  Feature                                 5min    15min       1h       4h
+  ---------------------------------------------------------------------------
+  ob_imb_0.5bps_mean                   -0.0044  -0.0007  +0.0090  -0.0539
+  ob_imb_1bps_mean                     -0.0040  -0.0006  +0.0092  -0.0538
+  ob_imb_2bps_mean                     -0.0034  +0.0058  +0.0240  -0.0378
+  ob_imb_3bps_mean                     -0.0014  +0.0078  +0.0314  -0.0237
+  ob_imb_5bps_mean                     -0.0013  +0.0108  +0.0364  -0.0068
+  ob_imb_10bps_mean                    -0.0021  -0.0075  +0.0057  -0.0204
+  ob_imb_25bps_mean                    +0.0028  -0.0051  +0.0009  -0.0070
+  ob_imb_50bps_mean                    -0.0018  -0.0165  -0.0193  -0.0228
+
+  Best IC per horizon:
+      5min: ob_imb_0.5bps_mean                  IC=-0.0044
+     15min: ob_imb_50bps_mean                   IC=-0.0165
+        1h: ob_imb_5bps_mean                    IC=+0.0364
+        4h: ob_imb_0.5bps_mean                  IC=-0.0539
+
+  Simple backtest — trade on imbalance (4h hold, 7bps fee):
+    ob_imb_0.5bps_mean                 : trades=2588, avg=-20.6bps, wr=44.3%, long=-21.5bps(1292), short=-19.8bps(1296)
+    ob_imb_1bps_mean                   : trades=2590, avg=-20.6bps, wr=44.3%, long=-21.6bps(1295), short=-19.7bps(1295)
+    ob_imb_2bps_mean                   : trades=2872, avg=-13.7bps, wr=44.5%, long=-5.9bps(1479), short=-22.0bps(1393)
+    ob_imb_3bps_mean                   : trades=2622, avg=-9.5bps, wr=44.9%, long=+2.5bps(1342), short=-22.1bps(1280)
+    ob_imb_5bps_mean                   : trades=2126, avg=-6.7bps, wr=45.6%, long=+5.2bps(1090), short=-19.1bps(1036)
+    ob_imb_10bps_mean                  : trades=2006, avg=-5.8bps, wr=45.4%, long=-5.5bps(1019), short=-6.1bps(987)
+    ob_imb_25bps_mean                  : trades=1832, avg=-8.6bps, wr=43.9%, long=-8.7bps(948), short=-8.5bps(884)
+    ob_imb_50bps_mean                  : trades=1920, avg=-6.3bps, wr=46.4%, long=-9.0bps(987), short=-3.4bps(933)
+
+======================================================================
+  EXP 5: VOLATILITY PREDICTION — OHLCV vs OHLCV+OB
+======================================================================
+
+  OHLCV only (14 features):
+    Ridge:  R²=0.2076  corr=0.5593
+    GB:     R²=-0.0552  corr=0.5555
+
+  OHLCV + OB (45 features):
+    Ridge:  R²=0.0714  corr=0.5421
+    GB:     R²=-0.1141  corr=0.4854
+
+  OB only (31 features):
+    Ridge:  R²=-0.2232  corr=0.4316
+    GB:     R²=-0.1135  corr=0.4075
+
+  Top 15 features for vol prediction (GB, OHLCV+OB):
+     1. [  ] parkvol_1h                          importance=0.2475
+     2. [OB] ob_mid_volatility                   importance=0.1831
+     3. [  ] rvol_24h                            importance=0.0766
+     4. [  ] rvol_4h                             importance=0.0708
+     5. [  ] bar_eff_4h                          importance=0.0441
+     6. [  ] rvol_1h                             importance=0.0362
+     7. [  ] momentum_4h                         importance=0.0342
+     8. [  ] price_vs_sma_24h                    importance=0.0325
+     9. [OB] ob_spread_mean                      importance=0.0316
+    10. [  ] adx_4h                              importance=0.0267
+    11. [OB] ob_total_depth_mean                 importance=0.0246
+    12. [  ] vol_ratio_1h_24h                    importance=0.0198
+    13. [OB] ob_bid_depth_cv                     importance=0.0183
+    14. [  ] efficiency_4h                       importance=0.0176
+    15. [  ] efficiency_1h                       importance=0.0167
+  OB features (spot): 8928 bars, 62 cols
+
+======================================================================
+  EXP 6: FUTURES-SPOT BASIS SIGNAL
+======================================================================
+  Merged futures+spot: 8928 bars, 8928 matched
+
+  Basis feature stats:
+    basis_imb_1bps           : mean=-0.0186, std=0.1548
+    basis_imb_2bps           : mean=-0.0405, std=0.2489
+    basis_spread             : mean=0.0000, std=0.0041
+    basis_depth_ratio        : mean=12.7950, std=2.6853
+
+  IC of basis features vs forward returns:
+    5min:
+      basis_imb_1bps           : IC=+0.0044
+      basis_imb_2bps           : IC=-0.0049
+      basis_spread             : IC=-0.0152
+      basis_depth_ratio        : IC=-0.0097
+    1h:
+      basis_imb_1bps           : IC=+0.0092
+      basis_imb_2bps           : IC=+0.0117
+      basis_spread             : IC=+0.0370
+      basis_depth_ratio        : IC=-0.0149
+    4h:
+      basis_imb_1bps           : IC=-0.0403
+      basis_imb_2bps           : IC=-0.0430
+      basis_spread             : IC=+0.0500
+      basis_depth_ratio        : IC=-0.0261
+
+======================================================================
+  DONE — 109s total
+======================================================================
