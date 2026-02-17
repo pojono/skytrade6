@@ -1,0 +1,134 @@
+######################################################################
+  REGIME CLASSIFICATION EXPERIMENT (v20)
+  Symbols: BTCUSDT, ETHUSDT, SOLUSDT
+  Period: 2025-01-01 → 2026-01-31
+  Started: 2026-02-17 09:31:55 UTC
+######################################################################
+
+
+**********************************************************************
+  SYMBOL: BTCUSDT
+**********************************************************************
+
+  Loading bars...
+  [20/396] 2025-01-20 | 0s ETA=2s RAM=5.2GB cache=20 new=0
+  [40/396] 2025-02-09 | 0s ETA=1s RAM=5.2GB cache=40 new=0
+  [60/396] 2025-03-01 | 0s ETA=1s RAM=5.2GB cache=60 new=0
+  [80/396] 2025-03-21 | 0s ETA=1s RAM=5.2GB cache=80 new=0
+  [100/396] 2025-04-10 | 0s ETA=1s RAM=5.2GB cache=100 new=0
+  [120/396] 2025-04-30 | 0s ETA=1s RAM=5.2GB cache=120 new=0
+  [140/396] 2025-05-20 | 0s ETA=1s RAM=5.2GB cache=140 new=0
+  [160/396] 2025-06-09 | 0s ETA=1s RAM=5.2GB cache=160 new=0
+  [180/396] 2025-06-29 | 0s ETA=1s RAM=5.2GB cache=180 new=0
+  [200/396] 2025-07-19 | 1s ETA=0s RAM=5.3GB cache=200 new=0
+  [220/396] 2025-08-08 | 1s ETA=0s RAM=5.3GB cache=220 new=0
+  [240/396] 2025-08-28 | 1s ETA=0s RAM=5.3GB cache=240 new=0
+  [260/396] 2025-09-17 | 1s ETA=0s RAM=5.3GB cache=260 new=0
+  [280/396] 2025-10-07 | 1s ETA=0s RAM=5.3GB cache=280 new=0
+  [300/396] 2025-10-27 | 1s ETA=0s RAM=5.3GB cache=300 new=0
+  [320/396] 2025-11-16 | 1s ETA=0s RAM=5.3GB cache=320 new=0
+  [340/396] 2025-12-06 | 1s ETA=0s RAM=5.3GB cache=340 new=0
+  [360/396] 2025-12-26 | 1s ETA=0s RAM=5.3GB cache=360 new=0
+  [380/396] 2026-01-15 | 1s ETA=0s RAM=5.4GB cache=380 new=0
+  [396/396] 2026-01-31 | 1s ETA=0s RAM=5.4GB cache=396 new=0
+  Loaded 114,048 bars (396 days, 396 cached, 0 new)
+  Computing features...
+  Preparing clustering features...
+  Features: 36, Valid bars: 113761
+
+======================================================================
+  EXP 1: OPTIMAL NUMBER OF REGIMES — BTCUSDT
+  Samples: 113761, Features: 36
+======================================================================
+  K=2... KM_sil=0.256 GMM_BIC=9737226 GMM_sil=0.191
+  K=3... KM_sil=0.208 GMM_BIC=9101813 GMM_sil=0.042
+  K=4... KM_sil=0.080 GMM_BIC=8771879 GMM_sil=0.013
+  K=5... KM_sil=0.079 GMM_BIC=8508611 GMM_sil=0.020
+  K=6... KM_sil=0.071 GMM_BIC=8324761 GMM_sil=0.004
+  K=7... KM_sil=0.075 GMM_BIC=8195259 GMM_sil=-0.001
+  K=8... KM_sil=0.078 GMM_BIC=8090040 GMM_sil=-0.002
+
+  Optimal K by criterion:
+    KMeans Silhouette → K=2
+    KMeans Calinski-Harabasz → K=2
+    GMM BIC → K=8
+    GMM Silhouette → K=2
+    KMeans Elbow → K=3
+
+  ★ CONSENSUS K = 2 (votes: {np.int64(2): 3, np.int64(8): 1, 3: 1})
+
+======================================================================
+  EXP 2: CLUSTER STABILITY (Bootstrap) — BTCUSDT
+======================================================================
+  K=2: ARI=0.989 ± 0.006 (STABLE)
+  K=3: ARI=0.982 ± 0.015 (STABLE)
+
+======================================================================
+  EXP 3: REGIME PROFILES (K=2) — BTCUSDT
+======================================================================
+
+  Regime sizes:
+    Regime 0: 72,687 bars (63.9%)
+    Regime 1: 41,074 bars (36.1%)
+
+  Regime profiles (mean values, raw scale):
+  Feature                         R0          R1        
+  ------------------------------------------------------
+  rvol_1h                          +0.000733   +0.001801
+  rvol_4h                          +0.000818   +0.001807
+  rvol_24h                         +0.001051   +0.001615
+  parkvol_1h                       +0.000656   +0.001640
+  vol_ratio_1h_24h                 +0.741316   +1.228329
+  efficiency_1h                    +0.250908   +0.315035
+  efficiency_4h                    +0.111574   +0.181904
+  adx_4h                           +0.174043   +0.227040
+  bar_eff_4h                       +0.039897   +0.020969
+  trade_intensity_ratio            +0.649467   +1.772430
+  momentum_4h                      +0.000287   -0.000612
+  price_vs_sma_24h                 +0.000808   -0.001866
+
+  Forward returns per regime (next 48 bars = 4h):
+    Regime 0: fwd_vol=0.000909 fwd_eff=0.137 avg_4h_ret=1.1bps n=72687
+    Regime 1: fwd_vol=0.001611 fwd_eff=0.136 avg_4h_ret=-3.0bps n=41074
+
+  Regime durations (consecutive bars in same regime):
+    Regime 0: median=6 bars (30 min), mean=25, max=475, n_episodes=2902
+    Regime 1: median=2 bars (10 min), mean=14, max=1038, n_episodes=2902
+
+  Transition matrix (row=from, col=to, %):
+           R0     R1   
+    R0   96.0%    4.0%
+    R1    7.1%   92.9%
+
+  Classification confidence:
+    Regime 0: mean_conf=0.992, P(conf>0.8)=98.4%, P(conf>0.9)=97.5%
+    Regime 1: mean_conf=0.986, P(conf>0.8)=97.1%, P(conf>0.9)=95.6%
+
+  ★ Regime names (auto-assigned):
+    Regime 0 → quiet_choppy (72,687 bars, 63.9%)
+    Regime 1 → volatile_choppy (41,074 bars, 36.1%)
+
+======================================================================
+  EXP 4: FEATURE IMPORTANCE — BTCUSDT
+======================================================================
+
+  Method 1: ANOVA F-statistic (univariate separability)
+  Feature                            F-stat      p-value
+  -------------------------------------------------------
+  parkvol_1h                        83247.8     0.00e+00
+  parkvol_4h                        78197.6     0.00e+00
+  rvol_2h                           69839.7     0.00e+00
+  rvol_4h                           67836.3     0.00e+00
+  rvol_1h                           62344.5     0.00e+00
+  rvol_8h                           48206.0     0.00e+00
+  vol_ratio_2h_24h                  41588.8     0.00e+00
+  vol_ratio_1h_24h                  36064.2     0.00e+00
+  bar_eff_1h                        32929.1     0.00e+00
+  bar_eff_4h                        30671.8     0.00e+00
+  rvol_24h                          25463.7     0.00e+00
+  vol_sma_24h                       23459.8     0.00e+00
+  vol_accel_4h                      23239.0     0.00e+00
+  iti_cv_1h                         18531.4     0.00e+00
+  trade_intensity_ratio             17373.0     0.00e+00
+
+  Method 2: Random Forest importance (multivariate)
