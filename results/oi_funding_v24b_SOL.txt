@@ -1,0 +1,193 @@
+======================================================================
+  OI/FUNDING RESEARCH v24b — SOLUSDT
+  Out-of-Sample: 2025-05-12 to 2025-08-08
+  Data: Bybit ticker (5s) + Bybit trades → 5-min bars
+======================================================================
+Loading OHLCV bars (from Bybit trades)...
+  [20/89] 2025-05-31 | 0s ETA=0s RAM=10.2GB cache=20 new=0
+  [40/89] 2025-06-20 | 0s ETA=0s RAM=10.2GB cache=40 new=0
+  [60/89] 2025-07-10 | 0s ETA=0s RAM=10.2GB cache=60 new=0
+  [80/89] 2025-07-30 | 0s ETA=0s RAM=10.2GB cache=80 new=0
+  [89/89] 2025-08-08 | 0s ETA=0s RAM=10.2GB cache=89 new=0
+  Loaded 25,632 bars (89 days, 89 cached, 0 new)
+  OHLCV: 25632 bars, 62 cols
+  Ticker: 1090650 rows (64 days), OI range [4549046, 7419510]
+Building 5-min ticker features...
+    [5000/18181] bars processed...
+    [10000/18181] bars processed...
+    [15000/18181] bars processed...
+  Built 18181 5-min bars with 19 ticker features (5s)
+  Rolling features: 38 total columns
+  Merged: 25632 bars, 18194 with ticker data (71.0%)
+
+======================================================================
+  PART A: OUT-OF-SAMPLE VALIDATION (May-Aug 2025)
+  Validating v24 findings using Bybit ticker data
+======================================================================
+
+  Information Coefficient (IC) — Bybit ticker features vs forward returns:
+  Feature                                 5min    15min       1h       4h
+  -------------------------------------------------------------------
+  tk_oi_change_5m                      -0.0063  +0.0014  +0.0098  -0.0122
+  tk_oi_change_1h                      +0.0047  +0.0072  -0.0005  -0.0281
+  tk_oi_change_4h                      -0.0076  -0.0126  -0.0295  -0.0438
+  tk_oi_change_24h                     +0.0033  +0.0062  +0.0139  +0.0484
+  tk_oi_zscore_24h                     +0.0030  +0.0050  +0.0105  +0.0348
+  tk_oi_accel_1h                       +0.0115  +0.0184  +0.0193  +0.0022
+  tk_funding_rate                      -0.0176  -0.0328  -0.0636  -0.1217
+  tk_funding_abs                       -0.0021  -0.0025  -0.0020  +0.0108
+  tk_funding_zscore_24h                -0.0024  -0.0099  -0.0206  -0.0357
+  tk_funding_cum_8h                    -0.0157  -0.0273  -0.0529  -0.1013
+  tk_mark_index_spread                 -0.0136  -0.0228  -0.0444  -0.0698
+  tk_mis_1h                            -0.0139  -0.0240  -0.0474  -0.0694
+  tk_mis_4h                            -0.0113  -0.0198  -0.0360  -0.0625
+  tk_mis_zscore_24h                    -0.0059  -0.0073  -0.0146  -0.0214
+
+  Best IC per horizon:
+      5min: tk_funding_rate                     IC=-0.0176
+     15min: tk_funding_rate                     IC=-0.0328
+        1h: tk_funding_rate                     IC=-0.0636
+        4h: tk_funding_rate                     IC=-0.1217
+
+  OI Z-Score Extreme Contrarian (replicating v24 finding):
+    Condition                      N    Avg Ret       WR   Sharpe
+    ------------------------- ------ ---------- -------- --------
+     z > +2.0 → short            1476       -7.5bps    49.1%    -1.84
+     z > +1.5 → short            2816      -14.1bps    45.8%    -5.04
+     z > +1.0 → short            4901      -11.7bps    45.6%    -5.65
+     z < -1.0 → long             4590      -19.1bps    43.4%    -8.97
+     z < -1.5 → long             2303      -11.2bps    44.7%    -3.76
+  ✅ z < -2.0 → long              912       +2.7bps    47.0%    +0.63
+
+  Funding Z-Score Extreme Contrarian:
+    Condition                      N    Avg Ret       WR   Sharpe
+    ------------------------- ------ ---------- -------- --------
+     z > +2.0 → short             470      -27.4bps    37.2%    -5.11
+     z > +1.5 → short            1381      -13.7bps    46.6%    -4.05
+  ✅ z > +1.0 → short            3236       +0.5bps    50.3%    +0.23
+  ✅ z < -1.0 → long             3688       +7.3bps    51.7%    +2.93
+  ✅ z < -1.5 → long             2203       +2.7bps    50.3%    +0.82
+     z < -2.0 → long             1266       -9.5bps    47.8%    -2.23
+
+  Mark-Index Spread Signals:
+     tk_mark_index_spread               : trades=5271, avg=-24.2bps, wr=43.8%
+     tk_mis_1h                          : trades=5240, avg=-22.4bps, wr=44.6%
+     tk_mis_4h                          : trades=4836, avg=-17.5bps, wr=46.3%
+     tk_mis_zscore_24h                  : trades=6028, avg=-13.0bps, wr=45.7%
+
+  Walk-Forward Quintile L/S (4h returns):
+
+  OHLCV only (14 features):
+    IC=-0.0184  rank_IC=+0.0035  n=16865
+    Bottom  : avg=    +5.4bps  wr=51.8%  n=3373
+    Q2      : avg=    -2.7bps  wr=49.8%  n=3373
+    Q3      : avg=    +0.5bps  wr=50.5%  n=3373
+    Q4      : avg=   +11.3bps  wr=54.0%  n=3373
+    Top     : avg=    +0.3bps  wr=51.0%  n=3373
+     Long-short (Q5-Q1): avg=-9.6bps  wr=47.2%  sharpe=-5.23
+
+  OHLCV + Ticker Std (28 features):
+    IC=+0.0687  rank_IC=+0.0841  n=11728
+    Bottom  : avg=   -21.6bps  wr=43.9%  n=2345
+    Q2      : avg=    -9.5bps  wr=46.7%  n=2345
+    Q3      : avg=    -3.1bps  wr=47.5%  n=2345
+    Q4      : avg=   +21.9bps  wr=57.7%  n=2345
+    Top     : avg=    +3.8bps  wr=52.8%  n=2348
+  ✅ Long-short (Q5-Q1): avg=+5.8bps  wr=52.0%  sharpe=+2.39
+
+======================================================================
+  PART B: SUB-5MIN OI SPIKE FEATURES
+  Testing if 5-second OI dynamics add value over 5-min aggregates
+======================================================================
+
+  Information Coefficient — Sub-5min features:
+  Feature                                 5min    15min       1h       4h
+  -------------------------------------------------------------------
+  tk_oi_velocity_max                   -0.0086  -0.0225  -0.0081  +0.0000
+  tk_oi_velocity_mean                  -0.0047  -0.0195  -0.0092  +0.0030
+  tk_oi_velocity_std                   -0.0057  -0.0206  -0.0091  +0.0013
+  tk_oi_spike_count                    -0.0053  -0.0092  -0.0045  +0.0041
+  tk_oi_large_spike_count              -0.0096  -0.0133  -0.0045  +0.0051
+  tk_oi_direction                      +0.0060  -0.0009  -0.0078  -0.0245
+  tk_oi_accel_intrabar                 -0.0011  +0.0111  +0.0082  -0.0023
+  tk_funding_std                       -0.0066  -0.0025  -0.0042  +0.0073
+  tk_funding_range                     -0.0073  -0.0046  -0.0061  +0.0070
+  tk_mis_std                           +0.0076  +0.0051  -0.0018  +0.0193
+  tk_mis_max_abs                       +0.0166  +0.0202  +0.0294  +0.0513
+  tk_spread_mean                       +0.0153  +0.0255  +0.0514  +0.1036
+  tk_spread_std                        -0.0041  -0.0118  -0.0015  +0.0067
+  tk_ba_ratio_mean                     +0.0091  +0.0032  -0.0018  -0.0230
+  tk_ba_ratio_std                      +0.0094  +0.0036  +0.0016  -0.0170
+  tk_oi_spikes_1h                      -0.0020  -0.0012  +0.0123  +0.0099
+  tk_oi_spikes_4h                      +0.0016  +0.0035  +0.0071  +0.0052
+  tk_oi_large_spikes_1h                -0.0022  -0.0005  +0.0100  +0.0157
+  tk_oi_vel_max_1h                     -0.0042  -0.0027  -0.0071  +0.0012
+  tk_oi_vel_mean_1h                    -0.0048  -0.0028  +0.0006  +0.0120
+  tk_oi_vel_mean_4h                    +0.0017  +0.0038  +0.0089  +0.0052
+  tk_ba_ratio_1h                       -0.0009  -0.0040  -0.0105  -0.0484
+
+  Sub-5min features by regime:
+  Feature                                    Quiet     Volatile    Ratio   T-stat      P-val
+  ----------------------------------- ------------ ------------ -------- -------- ----------
+  tk_oi_velocity_max                        0.0706       0.1500     2.13   -14.25   1.75e-45 ***
+  tk_oi_velocity_mean                       0.0041       0.0094     2.31   -17.59   7.25e-68 ***
+  tk_oi_velocity_std                        0.0118       0.0263     2.22   -11.87   3.19e-32 ***
+  tk_oi_spike_count                         0.7778       2.2370     2.88   -44.81   0.00e+00 ***
+  tk_oi_large_spike_count                   0.2496       0.8517     3.41   -34.09  1.97e-239 ***
+  tk_oi_direction                          -0.0007      -0.0056     7.63     4.65   3.28e-06 ***
+  tk_oi_accel_intrabar                     -0.0002      -0.0011     5.41     1.48   1.38e-01 
+  tk_funding_std                            0.0000       0.0000     1.19    -2.96   3.03e-03 **
+  tk_funding_range                          0.0000       0.0000     1.19    -3.22   1.30e-03 **
+  tk_mis_std                                0.5720       0.8451     1.48   -57.05   0.00e+00 ***
+  tk_mis_max_abs                            6.1816       7.0061     1.13   -26.59  3.89e-151 ***
+  tk_spread_mean                            0.6339       0.6305     0.99     4.23   2.37e-05 ***
+  tk_spread_std                             0.0038       0.0129     3.43   -16.15   6.90e-58 ***
+  tk_ba_ratio_mean                         40.5363      57.7828     1.43   -14.95   4.13e-50 ***
+  tk_ba_ratio_std                         215.6840     299.4026     1.39   -13.34   2.30e-40 ***
+  tk_oi_spikes_1h                          10.1441      25.5975     2.52   -75.43   0.00e+00 ***
+  tk_oi_spikes_4h                          46.5378      93.1761     2.00   -84.84   0.00e+00 ***
+  tk_oi_large_spikes_1h                     3.3500       9.6644     2.88   -64.05   0.00e+00 ***
+  tk_oi_vel_max_1h                          0.2551       0.5027     1.97   -18.30   3.02e-73 ***
+  tk_oi_vel_mean_1h                         0.0043       0.0088     2.06   -57.71   0.00e+00 ***
+  tk_oi_vel_mean_4h                         0.0047       0.0081     1.71   -77.12   0.00e+00 ***
+  tk_ba_ratio_1h                           40.9604      57.1596     1.40   -26.55  3.26e-151 ***
+
+  Significant sub-5min features: 21/22
+
+  Volatility Prediction — sub-5min features:
+    OHLCV only                    : Ridge R²=0.2934  GB R²=0.1806
+    OHLCV + Ticker Std            : Ridge R²=0.2273  GB R²=-0.0438
+    OHLCV + Ticker All            : Ridge R²=0.0586  GB R²=0.0362
+    OHLCV + Sub-5min only         : Ridge R²=0.2059  GB R²=0.1228
+
+  Walk-Forward Direction (4h) — sub-5min features:
+     OHLCV only                    : IC=-0.0184  L/S avg=-9.6bps  sharpe=-5.23
+  ✅ OHLCV + Ticker Std            : IC=+0.0687  L/S avg=+5.8bps  sharpe=+2.39
+  ✅ OHLCV + Ticker All            : IC=+0.0391  L/S avg=+6.6bps  sharpe=+3.01
+     OHLCV + Sub-5min only         : IC=-0.0416  L/S avg=-12.6bps  sharpe=-6.14
+
+  Top 20 features for 4h return prediction (GB):
+     1. [S5] tk_spread_mean                           importance=0.1440
+     2. [  ] rvol_24h                                 importance=0.1358
+     3. [TK] tk_funding_cum_8h                        importance=0.1301
+     4. [TK] tk_oi_change_24h                         importance=0.0642
+     5. [S5] tk_oi_spikes_4h                          importance=0.0585
+     6. [TK] tk_mis_4h                                importance=0.0584
+     7. [  ] price_vs_sma_24h                         importance=0.0512
+     8. [TK] tk_oi_zscore_24h                         importance=0.0480
+     9. [TK] tk_funding_zscore_24h                    importance=0.0374
+    10. [S5] tk_oi_vel_mean_4h                        importance=0.0339
+    11. [  ] adx_4h                                   importance=0.0325
+    12. [  ] momentum_4h                              importance=0.0262
+    13. [  ] bar_eff_4h                               importance=0.0252
+    14. [TK] tk_oi_change_4h                          importance=0.0248
+    15. [TK] tk_funding_rate                          importance=0.0215
+    16. [  ] rvol_4h                                  importance=0.0185
+    17. [S5] tk_ba_ratio_1h                           importance=0.0145
+    18. [  ] parkvol_1h                               importance=0.0141
+    19. [TK] tk_funding_abs                           importance=0.0129
+    20. [TK] tk_mis_1h                                importance=0.0114
+
+======================================================================
+  DONE — 262s total
+======================================================================
