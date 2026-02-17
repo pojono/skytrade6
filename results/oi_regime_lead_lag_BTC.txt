@@ -1,0 +1,108 @@
+======================================================================
+  OI REGIME LEAD/LAG ANALYSIS — BTCUSDT
+  Does OI velocity spike BEFORE OHLCV volatility?
+  Period: 2025-05-12 to 2025-08-08
+======================================================================
+Loading OHLCV bars...
+  [20/89] 2025-05-31 | 0s ETA=0s RAM=9.8GB cache=20 new=0
+  [40/89] 2025-06-20 | 0s ETA=0s RAM=9.8GB cache=40 new=0
+  [60/89] 2025-07-10 | 0s ETA=0s RAM=9.8GB cache=60 new=0
+  [80/89] 2025-07-30 | 0s ETA=0s RAM=9.8GB cache=80 new=0
+  [89/89] 2025-08-08 | 0s ETA=0s RAM=9.8GB cache=89 new=0
+  Loaded 25,632 bars (89 days, 89 cached, 0 new)
+  OHLCV: 25632 bars
+  Ticker: 1090647 rows (5-second)
+  OI velocity features: 18181 bars
+
+Fitting GMM for regime labels...
+  Quiet: 14930 bars (58.2%)
+  Volatile: 10415 bars (40.6%)
+  Transitions quiet→volatile: 730
+
+======================================================================
+  LEAD/LAG ANALYSIS: OI Velocity vs OHLCV Volatility
+  Around 730 quiet→volatile transitions
+======================================================================
+  Valid transitions (with full window): 730
+
+  Z-score of features around transitions (baseline = bars -24 to -13):
+  Positive z = feature is elevated above quiet baseline
+  Feature                        |    −12     −9     −6     −3     −2     −1      0     +1     +3     +6
+  -------------------------------+-------------------------------------------------------------------
+  [OI] oi_vel_mean               |  -0.05  -0.04  +0.02  +0.03  +0.04  -0.03  +1.12  +0.65  +0.36  +0.30
+  [OI] oi_vel_max                |  -0.06  -0.04  +0.02  +0.03  +0.04  -0.07  +1.08  +0.42  +0.22  +0.16
+  [OI] oi_spike_count            |  -0.06  -0.03  +0.01  +0.08  +0.07  -0.05  +1.39  +0.77  +0.43  +0.38
+  [OI] oi_large_spike_count      |  -0.07  -0.00  +0.01  +0.02  +0.00  -0.12  +1.32  +0.63  +0.32  +0.31
+  [OI] oi_change_5m              |  -0.03  -0.02  +0.01  -0.06  -0.09  -0.01  -0.63  +0.01  +0.03  +0.07
+  [OI] oi_vel_mean_15m           |  -0.03  -0.09  -0.02  +0.02  +0.04  +0.03  +0.60  +0.91  +0.80  +0.52
+  [OI] oi_vel_mean_1h            |  -0.01  -0.04  -0.04  -0.04  -0.03  -0.03  +0.19  +0.33  +0.51  +0.71
+  [OI] oi_spike_count_15m        |  -0.01  -0.08  -0.02  +0.03  +0.06  +0.05  +0.66  +0.99  +0.84  +0.55
+  [OI] oi_spike_count_1h         |  -0.01  -0.02  -0.03  -0.04  -0.03  -0.04  +0.22  +0.36  +0.56  +0.77
+  [OH] rvol_1h                   |  -0.03  -0.07  -0.09  -0.12  -0.11  -0.10  +0.29  +0.40  +0.59  +0.77
+  [OH] parkvol_1h                |  -0.02  -0.05  -0.06  -0.06  -0.05  -0.05  +0.20  +0.31  +0.49  +0.69
+  [OH] trade_intensity_ratio     |  -0.01  -0.06  +0.04  +0.04  +0.08  -0.06  +1.92  +0.92  +0.64  +0.49
+  [OH] vol_ratio_1h_24h          |  -0.01  -0.04  -0.05  -0.08  -0.07  -0.06  +0.28  +0.37  +0.53  +0.68
+
+  First sustained spike (z > 1.0 for 2+ bars):
+  Feature                         First bar         Time   Type
+  ------------------------------------------------------------
+     oi_vel_mean                          +0         +0 min      OI
+     oi_spike_count                       +0         +0 min      OI
+     oi_large_spike_count                 +0         +0 min      OI
+     trade_intensity_ratio                +0         +0 min   OHLCV
+     oi_vel_mean_15m                      +2        +10 min      OI
+     oi_spike_count_15m                   +2        +10 min      OI
+     oi_spike_count_1h                   +11        +55 min      OI
+
+  Average first-spike bar:
+    OI features:    bar +2.5 (+12 min)
+    OHLCV features: bar +0.0 (+0 min)
+    OI leads OHLCV by: -2.5 bars (-12 min)
+
+======================================================================
+  OI-BASED EARLY WARNING DETECTOR
+  Can OI velocity detect regime changes faster than OHLCV-based methods?
+======================================================================
+
+  Detection lag comparison across 730 transitions:
+  (How many bars BEFORE the GMM transition does each method fire?)
+
+  Method                      Detected   Med Lead  Mean Lead   P90 Lead  False/Day
+  ------------------------- ---------- ---------- ---------- ---------- ----------
+  GMM p_volatile > 0.5            100%         0bar       0.0bar         0bar      84.6
+  GMM p_volatile > 0.7             97%         0bar       2.1bar         6bar      83.1
+  OI vel z > 1.0                   56%         0bar       4.1bar        15bar      13.9
+  OI vel z > 1.5                   47%         0bar       4.9bar        18bar       9.1
+  OI vel z > 2.0                   37%         0bar       5.5bar        18bar       6.0
+  OI spikes z > 1.0                57%         1bar       3.9bar        15bar      14.8
+  OI spikes z > 1.5                48%         1bar       4.8bar        16bar       9.4
+  parkvol_1h z > 1.0               32%        16bar      14.3bar        24bar      37.1
+  rvol_1h z > 1.0                  37%        13bar      12.2bar        24bar      33.6
+
+  (Lead = how many bars BEFORE the GMM transition the method first fires)
+  (Higher lead = earlier detection = better)
+  (False/Day = false alarms when no transition is happening)
+
+  Head-to-head: OI vel z>1.0 vs parkvol_1h z>1.0
+    OI fires first: 37 times (16%)
+    OHLCV fires first: 174 times (74%)
+    Tie: 25 times (11%)
+    Average OI advantage: -9.6 bars (-48 min)
+
+======================================================================
+  COMBINED DETECTOR: OI early warning + GMM confirmation
+======================================================================
+
+  Method                      Accuracy    Med Lag   Mean Lag    P90 Lag  FalseSw/d    Trans/d
+  ------------------------- ---------- ---------- ---------- ---------- ---------- ----------
+  GMM + 3-bar confirm           93.6%         2bar       7.2bar        24bar       1.3       6.0
+  OI alert + GMM 1-bar          84.8%         0bar       3.2bar        12bar       0.9       7.6
+  OI z>1 + GMM p>0.3            83.8%         0bar       3.8bar        13bar       1.0       6.5
+
+  (Lag = bars AFTER the GMM ground-truth transition until detector fires)
+  (Lower lag = faster detection = better)
+  (1 bar = 5 minutes)
+
+======================================================================
+  DONE — 85s
+======================================================================
