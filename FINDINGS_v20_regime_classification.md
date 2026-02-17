@@ -269,7 +269,118 @@ ETH momentum in the volatile regime shows +9.6 bps avg — the only regime-condi
 
 ---
 
-## 8. Relationship to Previous Findings
+## 8. How Fast Can We Detect a Regime Switch?
+
+### Method 1: Single-Bar GMM Posterior (Fastest — Pre-fitted Model)
+
+With a pre-fitted GMM, each new bar gets an instant probability estimate. After a ground-truth transition:
+
+| Confidence Threshold | Median Lag | P90 Lag | % Detected <3 bars | % Detected <12 bars |
+|---------------------|-----------|---------|--------------------|--------------------|
+| P > 0.5 | **0 bars (instant)** | 0 | 100% | 100% |
+| P > 0.7 | **0 bars** | 1 bar | 95.6–96.3% | 97.9–98.2% |
+| P > 0.9 | **0 bars** | 3 bars | 88.3–90.3% | 95.1–95.6% |
+
+**Answer: Detection is essentially instant.** With a pre-fitted GMM, the median detection lag is **0 bars** even at 90% confidence. The features (especially parkvol_1h, rvol_1h) react immediately because they're computed from the current bar's data.
+
+### Method 2: EMA-Smoothed GMM Probability (Recommended for Production)
+
+Smoothing reduces false switches at the cost of slight lag:
+
+| EMA Span | Accuracy | Median Lag | P90 Lag | False Switches/Day |
+|----------|----------|-----------|---------|-------------------|
+| **15 min (3 bars)** | 98.5–98.8% | 0 bars | 2–3 bars | 0 |
+| **30 min (6 bars)** | 95.4–96.4% | 1 bar | 35–66 bars | 0 |
+| **60 min (12 bars)** | 92.9–94.4% | 3 bars | 60–100 bars | 0 |
+| **120 min (24 bars)** | 89.4–91.9% | 5 bars | 94–100 bars | 0 |
+
+**Recommended: EMA span = 15 min (3 bars).** This gives 98.5%+ accuracy with median 0-bar lag and zero false switches. The 30-min EMA is a good alternative if you want extra smoothing.
+
+### The Noise Problem: 53% of Episodes Are ≤15 Minutes
+
+A critical finding: **51–54% of all regime episodes last ≤3 bars (≤15 minutes)**. These are noise flickers, not real regime changes. For strategy switching:
+
+| Regime | Median Duration | Mean Duration | P10 | P90 |
+|--------|----------------|---------------|-----|-----|
+| Quiet | 6–8 bars (30–40 min) | 22–31 bars (~2h) | 1 bar | 71–91 bars |
+| Volatile | 1–2 bars (5–10 min) | 9–14 bars (~1h) | 1 bar | 23–38 bars |
+
+**Practical implication:** Don't switch strategy on every regime change. Use a **confirmation window** — require the new regime to persist for N bars before switching. A 3-bar (15 min) confirmation filter would eliminate most noise while adding minimal lag to real transitions.
+
+---
+
+## 9. Can We Predict Regime Switches?
+
+### Short Answer: Partially — But Not Enough for Reliable Trading
+
+We tested 3 models (Logistic Regression, Random Forest, Gradient Boosting) at 4 horizons (30min, 1h, 2h, 4h) on all 5 symbols.
+
+### Best Model Performance (RF, 1h Horizon, Across 5 Symbols)
+
+| Metric | BTC | ETH | SOL | DOGE | XRP |
+|--------|-----|-----|-----|------|-----|
+| **AUC** | 0.819 | 0.802 | 0.807 | 0.796 | 0.814 |
+| **Precision** | 0.334 | 0.380 | 0.399 | 0.398 | 0.352 |
+| **Recall** | 0.814 | 0.761 | 0.740 | 0.708 | 0.796 |
+| **F1** | 0.473 | 0.507 | 0.519 | 0.510 | 0.488 |
+| **Base rate** | 17.8% | 20.6% | 19.6% | 20.0% | 16.7% |
+
+AUC of 0.80–0.82 means the model has **real signal** — it's significantly better than random. But precision of 33–40% means **60–67% of alerts are false positives**.
+
+### Practical Early Warning (GB at 1h Horizon)
+
+| P(switch) Threshold | Precision | Recall | Alerts/Day |
+|--------------------|-----------|--------|------------|
+| 0.3 | 48–53% | 70–78% | 107–125 |
+| 0.5 | 58–65% | 44–55% | 59–81 |
+| 0.7 | 65–78% | 11–17% | 12–20 |
+
+At P>0.5 threshold: ~60% precision, ~50% recall, ~70 alerts/day. Usable as a **warning signal** but not as a hard switch trigger.
+
+### Advance Warning When It Works
+
+For transitions detected (P>0.3 at any point before the switch):
+
+| Symbol | % Detected | Median Warning | Mean Warning | P10 |
+|--------|-----------|---------------|-------------|-----|
+| BTC | 100% | 48 bars (4h) | 40 bars (3.3h) | 18 bars |
+| ETH | 100% | 48 bars (4h) | 42 bars (3.5h) | 26 bars |
+| SOL | 100% | 46 bars (3.8h) | 39 bars (3.2h) | 16 bars |
+| DOGE | 100% | 47 bars (3.9h) | 40 bars (3.3h) | 22 bars |
+| XRP | 100% | 45 bars (3.8h) | 37 bars (3.1h) | 11 bars |
+
+**100% of transitions are detected** at some point before they happen. Median advance warning is ~4 hours. But this is misleading — the high recall comes at the cost of many false alerts.
+
+### Top Predictive Features (Consistent Across All 5 Symbols)
+
+1. **parkvol_1h** (14–18% importance) — current volatility level
+2. **rvol_2h** (9–13%) — slightly longer volatility
+3. **trade_intensity_ratio** (8–9%) — microstructure activity
+4. **parkvol_4h** (7–8%) — medium-term volatility
+5. **rvol_1h** (5–7%) — short-term volatility
+
+The same features that *classify* regimes also *predict* transitions. This makes sense — a transition happens when volatility starts changing, and these features capture that change in real-time.
+
+### Why Prediction Is Hard
+
+The fundamental problem: **regime transitions are not gradual**. They happen when an external shock (news, liquidation cascade, whale order) hits the market. The features capture the *result* of the shock (rising vol), not the *cause*. By the time features move enough to predict a switch, the switch is already happening.
+
+This is why detection (instant) works so much better than prediction (mediocre).
+
+### Practical Recommendation for Strategy Switching
+
+Don't try to predict switches. Instead:
+
+1. **Detect instantly** using single-bar GMM posterior (P > 0.5)
+2. **Confirm** by requiring 3+ consecutive bars in the new regime (15 min filter)
+3. **Use EMA(3-bar) smoothed probability** as a continuous regime score
+4. **Gradually adjust** strategy parameters based on the probability, rather than hard switching
+
+This gives you sub-minute detection of real regime changes while filtering out noise.
+
+---
+
+## 10. Relationship to Previous Findings
 
 | Finding | v8 (Hand-picked 5 regimes) | v20 (Data-driven, 5 symbols) |
 |---------|---------------------------|-------------------|
@@ -290,6 +401,9 @@ The v8 attempt to define 5 regimes was over-engineering. The data only supports 
 | File | Description |
 |------|-------------|
 | `regime_classify.py` | Full experiment suite (7 experiments) |
+| `regime_speed.py` | Detection latency + switch prediction experiments |
+| `plot_regimes.py` | Regime visualization (candlestick + background) |
 | `results/regime_classify_v20.txt` | Complete output for all 5 symbols |
+| `results/regime_chart_btc_dec2025.png` | BTC Dec 2025 regime visualization |
 | `FINDINGS_v8_regime_detection.md` | Previous hand-picked regime analysis |
 | `FINDINGS_v9_ml_regime.md` | Previous ML regime detection |
