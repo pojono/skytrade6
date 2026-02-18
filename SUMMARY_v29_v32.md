@@ -542,3 +542,87 @@ Previous backtests used overlapping entries (new trade every 30s). In reality yo
 **Entry trigger**: There is no signal — it's purely temporal. Enter immediately at 13:00 UTC weekday, re-enter after each resolution until 18:00 UTC. Trades resolve in ~30-45s on average (not the full 5m TL).
 
 **TP=20/SL=10, 15m TL** gives ~610 trades/day across 5 symbols at +0.82 EV, with 132s avg duration. Higher EV per trade but fewer trades.
+
+---
+
+## v35: Smart Entry Triggers — Not Every Second Is Equal
+
+### Hypothesis
+Instead of entering blindly every 30s during peak hours, use microstructure signals (vol, range, trade count) to select the best entry moments. Research v29-v31 showed breakout/squeeze regimes have 2-2.5x forward volatility, and v38 showed volume surges predict 6x vol.
+
+### Signals Tested (TP=20/SL=10, 15m TL, weekday 13-18 UTC)
+
+**SOL** — Filtering works:
+
+| Trigger | N | EV | Sequential EV |
+|---------|---|-----|--------------|
+| Baseline | 6,000 | +1.213 | +0.810 |
+| Range60 z>1 | 1,009 | **+1.705** | — |
+| TC ratio>2.0 | 178 | **+3.427** | — |
+
+**DOGE** — TC ratio works:
+
+| Trigger | N | EV | Sequential EV |
+|---------|---|-----|--------------|
+| Baseline | 6,000 | +1.065 | +1.127 |
+| TC>1.5 | 912 | **+1.546** | +1.504 |
+| TC>2.0 | 352 | **+1.562** | +1.631 |
+
+**BTC** — TC ratio works (biggest improvement):
+
+| Trigger | N | EV | Sequential EV |
+|---------|---|-----|--------------|
+| Baseline | 6,000 | +0.418 | +0.382 |
+| TC>1.5 | 921 | **+1.227** | +1.126 |
+| TC>2.0 | 363 | +0.771 | **+1.714** |
+| Range_z>1 | 1,027 | +0.769 | +1.314 |
+
+**ETH** — Filtering HURTS (mean-reversion during spikes):
+
+| Trigger | N | EV | Sequential EV |
+|---------|---|-----|--------------|
+| Baseline | 6,000 | +0.832 | +0.032 |
+| TC>2.0 | 201 | **-0.398** | -1.127 |
+| Range_z>1 10/5 5m | 1,029 | +0.777 | +0.841 |
+
+**Key finding**: ETH reverses during high-activity moments (consistent with v31b). ETH needs the opposite: trade during *normal* activity, not spikes.
+
+### Discovery: Adaptive TP/SL (Scale to Current Volatility)
+
+Instead of fixed TP/SL, set levels based on recent 60s price range:
+
+**BTC** (range P50 = 7.6 bps):
+
+| Range Bucket | TP/SL Used | N | EV | WR |
+|-------------|-----------|---|-----|-----|
+| **<5 bps** | **10/5** | 1,538 | **+1.014** | **73.2%** |
+| **5-10 bps** | **15/7** | 2,524 | **+1.028** | **67.3%** |
+| 10-20 bps | 30/15 | 1,628 | -1.327 | 51.9% |
+| 20-50 bps | 50/25 | 305 | -7.213 | 36.7% |
+
+**DOGE** (range P50 = 19.9 bps):
+
+| Range Bucket | TP/SL Used | N | EV | WR |
+|-------------|-----------|---|-----|-----|
+| 5-10 bps | 15/7 | 489 | **+1.746** | 71.6% |
+| 10-20 bps | 30/15 | 2,520 | +1.179 | 69.0% |
+| **>50 bps** | **50/25** | 226 | **+3.540** | **71.2%** |
+
+**Critical insight**: The edge is concentrated in **low-to-moderate range environments**, NOT during extreme moves. When range is already high (>20 bps for BTC, >50 bps for most), wider TP/SL levels have *negative* EV — the move is already exhausting.
+
+This contradicts the naive hypothesis that "more vol = more edge." Instead:
+- **Compression → early breakout** (range just starting to expand) = best entries
+- **Already in breakout/exhaustion** (range already high) = worst entries
+- The fat-tail edge comes from **catching the expansion**, not riding an existing one
+
+### Per-Symbol Optimal Strategy
+
+| Symbol | Best Config | Trigger | EV | Trades/day (est) |
+|--------|------------|---------|-----|-----------------|
+| SOL | 20/10 15m | Range_z>1 | +1.71 | ~100 |
+| DOGE | 20/10 15m | TC>1.5 | +1.55 | ~90 |
+| BTC | 20/10 15m | TC>1.5 | +1.23 | ~50 |
+| XRP | 20/10 15m | Range_z>1 | +1.09 | ~80 |
+| ETH | 10/5 5m | Range_z>1 | +0.84 | ~90 |
+
+**Portfolio weighted avg EV: ~1.3 bps** (vs 0.77 baseline — **+69% improvement**)
