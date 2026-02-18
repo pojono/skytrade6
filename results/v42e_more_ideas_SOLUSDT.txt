@@ -1,0 +1,135 @@
+================================================================================
+  v42e: MORE IDEAS — SOLUSDT — 30 DAYS
+  2026-02-18 23:20:06  [RAM=0.1GB, avail=5.4GB]
+================================================================================
+  Loading SOLUSDT futures 30d... [10/30 16s ETA 33s] [20/30 30s ETA 15s] [30/30 41s ETA 0s] 30,331,082 (44s) [RAM=2.3GB, avail=3.2GB]
+  Loading SOLUSDT liqs 30d... [10/30 1s ETA 2s] [20/30 2s ETA 1s] [30/30 3s ETA 0s] 40,934 (3s) [RAM=1.9GB, avail=3.6GB]
+  Building 1-min bars... 43,200 bars [RAM=1.9GB, avail=3.5GB]
+  Cascades P95: 288
+
+================================================================================
+  EXP K: TRADE IMBALANCE MOMENTUM
+================================================================================
+  Computing buy/sell volumes... done
+
+  5-MIN BUY IMBALANCE → FORWARD RETURN:
+  Bucket             Count      fwd_5m     fwd_15m     fwd_60m
+  ------------------------------------------------------------
+  sell dom           8,238      -0.03      -0.88      -2.47
+  slight sell        8,775      -0.41      -0.19      -0.89
+  balanced           9,487      -0.08      +0.31      +0.58
+  slight buy         8,687      -0.06      +0.27      -0.09
+  buy dom            7,894      +0.42      -0.31      +0.33
+
+  15-MIN BUY IMBALANCE → FORWARD RETURN:
+  Bucket             Count      fwd_5m     fwd_15m     fwd_60m
+  ------------------------------------------------------------
+  sell dom           4,540      -1.41      -3.53      -6.05
+  slight sell       11,112      +0.33      -0.36      -0.49
+  balanced          13,515      +0.04      +0.35      -0.22
+  slight buy         9,748      +0.03      +0.60      +1.12
+  buy dom            4,166      +0.03      +0.78      +1.00
+
+  60-MIN BUY IMBALANCE → FORWARD RETURN:
+  Bucket             Count      fwd_5m     fwd_15m     fwd_60m
+  ------------------------------------------------------------
+  sell dom           1,247      +0.01      +1.71      +4.70
+  slight sell       11,512      -0.60      -1.74      -4.97
+  balanced          21,102      -0.05      -0.12      +1.07
+  slight buy         8,391      +0.56      +1.39      +0.35
+  buy dom              829      +1.94      +3.17      +6.00
+
+  STRATEGY TEST (15m imbalance, 15m hold):
+     MOMENTUM imb>0.60  n= 1159  wr= 48.3%  gross= +1.53bps  net= -5.97bps
+     REVERSION imb>0.60  n= 1159  wr= 49.4%  gross= -0.96bps  net= -8.46bps
+     MOMENTUM imb>0.65  n=  581  wr= 47.5%  gross= +1.41bps  net= -6.09bps
+     REVERSION imb>0.65  n=  581  wr= 47.2%  gross= -2.83bps  net=-10.33bps
+     MOMENTUM imb>0.70  n=  227  wr= 48.9%  gross= +2.52bps  net= -4.98bps
+     REVERSION imb>0.70  n=  227  wr= 46.3%  gross= -2.14bps  net= -9.64bps
+
+  [RAM=1.9GB, avail=3.5GB] after EXP K
+
+================================================================================
+  EXP L: CROSS-SYMBOL CASCADE CONTAGION
+================================================================================
+  Loading ETHUSDT liqs 30d... [10/30 2s ETA 3s] [20/30 3s ETA 2s] [30/30 4s ETA 0s] 74,416 (4s) [RAM=1.9GB, avail=3.6GB]
+  Loading SOLUSDT liqs 30d... [10/30 1s ETA 2s] [20/30 2s ETA 1s] [30/30 2s ETA 0s] 40,934 (2s) [RAM=1.9GB, avail=3.6GB]
+  ETH cascades: 521, SOL cascades: 288
+
+  ETH CASCADE → SOL CASCADE CONTAGION:
+  Window       ETH→SOL    Rate   SOL→ETH    Rate
+  --------------------------------------------------
+    30s              2    0.4%        14    4.9%
+    60s              8    1.5%        16    5.6%
+   120s             29    5.6%        37   12.8%
+   300s             71   13.6%        68   23.6%
+
+  FRONT-RUN STRATEGY: ETH cascade → enter SOL MM immediately
+  Loading SOLUSDT futures 30d... [10/30 16s ETA 32s] [20/30 29s ETA 15s] [30/30 40s ETA 0s] 30,331,082 (45s) [RAM=3.3GB, avail=2.5GB]
+  ✅ off=0.15 tp=0.15 sl=0.5  n= 363  wr= 91.5%  avg=  +5.3bps  tot=+19.16%
+  ✅ off=0.2 tp=0.2 sl=0.5  n= 331  wr= 83.7%  avg=  +4.2bps  tot=+13.79%
+  ✅ off=0.1 tp=0.1 sl=0.25  n= 396  wr= 87.9%  avg=  +1.3bps  tot= +5.28%
+
+  [RAM=2.1GB, avail=3.6GB] after EXP L
+
+================================================================================
+  EXP M: POST-CASCADE VOL EXPANSION TRADE
+================================================================================
+
+  POST-CASCADE ENTRY (wait after cascade, enter tight TP/SL):
+     wait= 3m TP=10bps SL=5bps  n= 222  wr= 22.1%  avg= -11.9bps  tot=-26.45%
+     wait= 3m TP=15bps SL=8bps  n= 222  wr= 23.4%  avg= -12.8bps  tot=-28.40%
+     wait= 3m TP=20bps SL=10bps  n= 222  wr= 27.5%  avg= -11.8bps  tot=-26.18%
+     wait= 3m TP=8bps SL=4bps  n= 222  wr= 19.8%  avg= -11.9bps  tot=-26.48%
+     wait= 5m TP=10bps SL=5bps  n= 222  wr= 28.4%  avg= -10.7bps  tot=-23.86%
+     wait= 5m TP=15bps SL=8bps  n= 222  wr= 30.2%  avg= -11.0bps  tot=-24.42%
+     wait= 5m TP=20bps SL=10bps  n= 222  wr= 25.7%  avg= -12.4bps  tot=-27.52%
+     wait= 5m TP=8bps SL=4bps  n= 222  wr= 25.7%  avg= -11.0bps  tot=-24.46%
+     wait=10m TP=10bps SL=5bps  n= 222  wr= 29.3%  avg= -10.6bps  tot=-23.49%
+     wait=10m TP=15bps SL=8bps  n= 222  wr= 28.4%  avg= -11.5bps  tot=-25.48%
+     wait=10m TP=20bps SL=10bps  n= 222  wr= 27.5%  avg= -11.8bps  tot=-26.18%
+     wait=10m TP=8bps SL=4bps  n= 222  wr= 27.9%  avg= -10.7bps  tot=-23.69%
+     wait=15m TP=10bps SL=5bps  n= 222  wr= 31.1%  avg= -10.2bps  tot=-22.75%
+     wait=15m TP=15bps SL=8bps  n= 222  wr= 32.4%  avg= -10.4bps  tot=-23.10%
+     wait=15m TP=20bps SL=10bps  n= 222  wr= 34.7%  avg=  -9.4bps  tot=-20.82%
+     wait=15m TP=8bps SL=4bps  n= 222  wr= 26.1%  avg= -11.0bps  tot=-24.31%
+
+  [RAM=2.1GB, avail=3.6GB] after EXP M
+
+================================================================================
+  EXP N+O: WHALE TRADES & LARGE TRADE MEAN-REVERSION
+================================================================================
+  Trade notional: P95=$8,872  P99=$22,339  P99.9=$68,968
+
+  P95 WHALE TRADES (>8,872): 1,516,556
+    Whale buys: 197,442  Whale sells: 194,787
+    Direction         fwd_1m      fwd_5m     fwd_15m
+    --------------------------------------------------
+    Whale BUY         +0.00      +0.02      +0.02
+    Whale SELL        -0.01      -0.02      -0.04
+       MOMENTUM (follow whale) 5m:  n=78446  wr= 22.8%  gross= +0.01bps  net= -7.49bps
+       REVERSION (fade whale) 5m:   n=78446  wr= 22.8%  gross= -0.01bps  net= -7.51bps
+
+  P99 WHALE TRADES (>22,339): 303,311
+    Whale buys: 63,416  Whale sells: 61,577
+    Direction         fwd_1m      fwd_5m     fwd_15m
+    --------------------------------------------------
+    Whale BUY         -0.03      -0.01      +0.02
+    Whale SELL        +0.02      -0.01      -0.09
+       MOMENTUM (follow whale) 5m:  n=24999  wr= 37.1%  gross= -0.08bps  net= -7.58bps
+       REVERSION (fade whale) 5m:   n=24999  wr= 36.7%  gross= +0.08bps  net= -7.42bps
+
+  P99.9 WHALE TRADES (>68,968): 30,335
+    Whale buys: 9,083  Whale sells: 10,079
+    Direction         fwd_1m      fwd_5m     fwd_15m
+    --------------------------------------------------
+    Whale BUY         -0.11      -0.13      +0.23
+    Whale SELL        +0.06      -0.04      -0.72
+       MOMENTUM (follow whale) 5m:  n= 3833  wr= 48.1%  gross= +0.15bps  net= -7.35bps
+       REVERSION (fade whale) 5m:   n= 3833  wr= 45.8%  gross= -0.15bps  net= -7.65bps
+
+  [RAM=2.4GB, avail=3.4GB] after EXP N+O
+
+################################################################################
+  COMPLETE — 112s (1.9min) [RAM=2.4GB, avail=3.4GB]
+################################################################################
