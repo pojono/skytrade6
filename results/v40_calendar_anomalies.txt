@@ -1,0 +1,69 @@
+======================================================================
+v40: Calendar Anomalies
+======================================================================
+
+Loading BTCUSDT...
+  BTCUSDT: 329,184 bars (3.4s)
+  Day-of-month profile:
+  Turn-of-month vs mid-month: ratio=0.919x, p=0.0000
+  Week-of-month profile:
+    Week 1: 18.38 bps (n=76,608)
+    Week 2: 18.70 bps (n=76,608)
+    Week 3: 18.52 bps (n=75,168)
+    Week 4: 16.79 bps (n=74,592)
+    Week 5: 15.77 bps (n=26,208)
+  Quarter-end week vs normal: ratio=0.707x, p=0.0000
+
+Loading ETHUSDT...
+  ETHUSDT: 329,184 bars (3.1s)
+  Day-of-month profile:
+  Turn-of-month vs mid-month: ratio=0.902x, p=0.0000
+  Week-of-month profile:
+    Week 1: 24.42 bps (n=76,608)
+    Week 2: 25.70 bps (n=76,608)
+    Week 3: 24.67 bps (n=75,168)
+    Week 4: 23.12 bps (n=74,592)
+    Week 5: 21.29 bps (n=26,208)
+  Quarter-end week vs normal: ratio=0.718x, p=0.0000
+
+Loading SOLUSDT...
+  SOLUSDT: 329,184 bars (3.1s)
+  Day-of-month profile:
+  Turn-of-month vs mid-month: ratio=0.902x, p=0.0000
+  Week-of-month profile:
+    Week 1: 37.89 bps (n=76,608)
+    Week 2: 40.25 bps (n=76,608)
+    Week 3: 39.77 bps (n=75,168)
+    Week 4: 35.45 bps (n=74,592)
+    Week 5: 33.23 bps (n=26,208)
+  Quarter-end week vs normal: ratio=0.781x, p=0.0000
+
+Loading DOGEUSDT...
+  DOGEUSDT: 329,184 bars (2.8s)
+  Day-of-month profile:
+  Turn-of-month vs mid-month: ratio=0.915x, p=0.0000
+  Week-of-month profile:
+    Week 1: 37.25 bps (n=76,608)
+    Week 2: 37.88 bps (n=76,608)
+    Week 3: 36.45 bps (n=75,168)
+    Week 4: 33.06 bps (n=74,592)
+    Week 5: 31.19 bps (n=26,208)
+  Quarter-end week vs normal: ratio=0.748x, p=0.0000
+
+Loading XRPUSDT...
+  XRPUSDT: 329,184 bars (3.3s)
+  Day-of-month profile:
+  Turn-of-month vs mid-month: ratio=0.929x, p=0.0000
+  Week-of-month profile:
+    Week 1: 31.59 bps (n=76,608)
+    Week 2: 32.25 bps (n=76,608)
+    Week 3: 32.11 bps (n=75,168)
+    Week 4: 27.62 bps (n=74,592)
+    Week 5: 26.74 bps (n=26,208)
+  Quarter-end week vs normal: ratio=0.755x, p=0.0000
+
+  Saved: 4 CSVs
+  Saved: results/v40_day_of_month.png
+  Saved: results/v40_week_of_month.png
+
+Done! 17.0s total

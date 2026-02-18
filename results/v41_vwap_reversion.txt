@@ -1,0 +1,113 @@
+======================================================================
+v41: Intraday VWAP Reversion
+======================================================================
+
+Loading BTCUSDT...
+  BTCUSDT: 329,184 bars (1.9s)
+
+  VWAP Reversion Analysis (BTCUSDT):
+    VWAP dev vs next-bar return: ρ=-0.0244, p=2.39e-44
+    VWAP dev vs 30min return:    ρ=-0.0355, p=7.19e-92
+    → MEAN REVERSION confirmed (negative correlation)
+/home/ubuntu/Projects/skytrade6/research_v41_vwap_reversion.py:93: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  quintile_stats = valid.groupby('dev_quintile').agg(
+
+    Quintile analysis:
+      Q     Avg Dev      Fwd 5m     Fwd 30m         N
+      1      -96.21      +0.098      +0.288    65,608
+      2      -20.30      -0.007      -0.022    65,608
+      3       +1.75      -0.022      +0.196    65,608
+      4      +25.24      +0.091      +0.397    65,608
+      5     +109.67      +0.103      +0.760    65,608
+    Q1-Q5 spread (5min): -0.005 bps
+
+Loading ETHUSDT...
+  ETHUSDT: 329,184 bars (1.8s)
+
+  VWAP Reversion Analysis (ETHUSDT):
+    VWAP dev vs next-bar return: ρ=-0.0286, p=2.93e-60
+    VWAP dev vs 30min return:    ρ=-0.0358, p=1.90e-93
+    → MEAN REVERSION confirmed (negative correlation)
+/home/ubuntu/Projects/skytrade6/research_v41_vwap_reversion.py:93: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  quintile_stats = valid.groupby('dev_quintile').agg(
+
+    Quintile analysis:
+      Q     Avg Dev      Fwd 5m     Fwd 30m         N
+      1     -134.24      -0.039      -0.286    65,608
+      2      -28.96      -0.097      -0.473    65,608
+      3       +1.65      -0.003      +0.108    65,608
+      4      +34.06      +0.140      +0.799    65,608
+      5     +145.00      +0.163      +0.868    65,608
+    Q1-Q5 spread (5min): -0.202 bps
+
+Loading SOLUSDT...
+  SOLUSDT: 329,184 bars (1.9s)
+
+  VWAP Reversion Analysis (SOLUSDT):
+    VWAP dev vs next-bar return: ρ=-0.0214, p=1.60e-34
+    VWAP dev vs 30min return:    ρ=-0.0291, p=2.08e-62
+    → MEAN REVERSION confirmed (negative correlation)
+/home/ubuntu/Projects/skytrade6/research_v41_vwap_reversion.py:93: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  quintile_stats = valid.groupby('dev_quintile').agg(
+
+    Quintile analysis:
+      Q     Avg Dev      Fwd 5m     Fwd 30m         N
+      1     -197.42      +0.331      +1.644    65,608
+      2      -53.26      -0.174      -0.703    65,608
+      3       +0.72      -0.051      -0.019    65,608
+      4      +56.50      +0.286      +1.135    65,608
+      5     +218.96      +0.139      +1.093    65,608
+    Q1-Q5 spread (5min): +0.192 bps
+
+Loading DOGEUSDT...
+  DOGEUSDT: 329,184 bars (1.9s)
+
+  VWAP Reversion Analysis (DOGEUSDT):
+    VWAP dev vs next-bar return: ρ=-0.0255, p=2.14e-48
+    VWAP dev vs 30min return:    ρ=-0.0378, p=5.37e-104
+    → MEAN REVERSION confirmed (negative correlation)
+/home/ubuntu/Projects/skytrade6/research_v41_vwap_reversion.py:93: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  quintile_stats = valid.groupby('dev_quintile').agg(
+
+    Quintile analysis:
+      Q     Avg Dev      Fwd 5m     Fwd 30m         N
+      1     -201.73      +0.097      +1.052    65,608
+      2      -48.80      -0.104      -0.339    65,608
+      3       -0.08      +0.073      +0.266    65,608
+      4      +47.18      +0.100      +0.121    65,608
+      5     +202.90      +0.120      +0.551    65,608
+    Q1-Q5 spread (5min): -0.023 bps
+
+Loading XRPUSDT...
+  XRPUSDT: 329,184 bars (2.9s)
+
+  VWAP Reversion Analysis (XRPUSDT):
+    VWAP dev vs next-bar return: ρ=-0.0315, p=5.39e-73
+    VWAP dev vs 30min return:    ρ=-0.0481, p=4.96e-167
+    → MEAN REVERSION confirmed (negative correlation)
+/home/ubuntu/Projects/skytrade6/research_v41_vwap_reversion.py:93: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  quintile_stats = valid.groupby('dev_quintile').agg(
+
+    Quintile analysis:
+      Q     Avg Dev      Fwd 5m     Fwd 30m         N
+      1     -150.82      +0.288      +1.480    65,608
+      2      -33.07      -0.099      -0.304    65,608
+      3       +3.60      +0.039      +0.352    65,608
+      4      +42.72      +0.085      +0.247    65,608
+      5     +181.43      +0.097      +0.747    65,608
+    Q1-Q5 spread (5min): +0.192 bps
+
+  Saved: 3 CSVs
+  Saved: results/v41_vwap_quintile_returns.png
+  Saved: results/v41_vwap_reversion_by_hour.png
+
+======================================================================
+SUMMARY
+======================================================================
+     BTCUSDT: ρ(5m)=-0.0244, ρ(30m)=-0.0355, Q1-Q5=-0.005 bps
+     ETHUSDT: ρ(5m)=-0.0286, ρ(30m)=-0.0358, Q1-Q5=-0.202 bps
+     SOLUSDT: ρ(5m)=-0.0214, ρ(30m)=-0.0291, Q1-Q5=+0.192 bps
+    DOGEUSDT: ρ(5m)=-0.0255, ρ(30m)=-0.0378, Q1-Q5=-0.023 bps
+     XRPUSDT: ρ(5m)=-0.0315, ρ(30m)=-0.0481, Q1-Q5=+0.192 bps
+
+Done! 13.5s total

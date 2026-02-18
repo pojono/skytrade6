@@ -1,0 +1,63 @@
+======================================================================
+v37: Cross-Asset Lead-Lag in Volatility
+======================================================================
+  BTCUSDT: 329,184 bars (1.7s)
+  ETHUSDT: 329,184 bars (1.7s)
+  SOLUSDT: 329,184 bars (1.7s)
+  DOGEUSDT: 329,184 bars (1.7s)
+  XRPUSDT: 329,184 bars (1.7s)
+
+Aligning timestamps...
+  Aligned: 329,184 bars
+
+Computing cross-correlations (BTC vs alts)...
+  BTC vs ETHUSDT...
+    Peak: lag=0 (0min), ρ=0.8112
+    At lag=0: ρ=0.8112
+  BTC vs SOLUSDT...
+    Peak: lag=0 (0min), ρ=0.6784
+    At lag=0: ρ=0.6784
+  BTC vs DOGEUSDT...
+    Peak: lag=0 (0min), ρ=0.6417
+    At lag=0: ρ=0.6417
+  BTC vs XRPUSDT...
+    Peak: lag=0 (0min), ρ=0.6022
+    At lag=0: ρ=0.6022
+
+All pairwise cross-correlations...
+  BTCUSDT vs ETHUSDT: lag0=0.8112, peak_lag=0 (0min), peak_ρ=0.8112, leader=simultaneous
+  BTCUSDT vs SOLUSDT: lag0=0.6784, peak_lag=0 (0min), peak_ρ=0.6784, leader=simultaneous
+  BTCUSDT vs DOGEUSDT: lag0=0.6417, peak_lag=0 (0min), peak_ρ=0.6417, leader=simultaneous
+  BTCUSDT vs XRPUSDT: lag0=0.6022, peak_lag=0 (0min), peak_ρ=0.6022, leader=simultaneous
+  ETHUSDT vs SOLUSDT: lag0=0.6685, peak_lag=0 (0min), peak_ρ=0.6685, leader=simultaneous
+  ETHUSDT vs DOGEUSDT: lag0=0.7188, peak_lag=0 (0min), peak_ρ=0.7188, leader=simultaneous
+  ETHUSDT vs XRPUSDT: lag0=0.6406, peak_lag=0 (0min), peak_ρ=0.6406, leader=simultaneous
+  SOLUSDT vs DOGEUSDT: lag0=0.6383, peak_lag=0 (0min), peak_ρ=0.6383, leader=simultaneous
+  SOLUSDT vs XRPUSDT: lag0=0.5832, peak_lag=0 (0min), peak_ρ=0.5832, leader=simultaneous
+  DOGEUSDT vs XRPUSDT: lag0=0.6575, peak_lag=0 (0min), peak_ρ=0.6575, leader=simultaneous
+
+  Saved: results/v37_leadlag_pairs.csv
+  Saved: results/v37_leadlag_curves.csv
+  Saved: results/v37_leadlag_btc_vs_alts.png
+  Saved: results/v37_vol_correlation_matrix.png
+
+Rolling lead-lag stability (yearly)...
+  2023 BTC vs ETHUSDT: lag0=0.8502, peak_lag=0 (0min)
+  2023 BTC vs SOLUSDT: lag0=0.6064, peak_lag=0 (0min)
+  2023 BTC vs DOGEUSDT: lag0=0.5680, peak_lag=0 (0min)
+  2023 BTC vs XRPUSDT: lag0=0.5309, peak_lag=0 (0min)
+  2024 BTC vs ETHUSDT: lag0=0.8231, peak_lag=0 (0min)
+  2024 BTC vs SOLUSDT: lag0=0.7293, peak_lag=0 (0min)
+  2024 BTC vs DOGEUSDT: lag0=0.6293, peak_lag=0 (0min)
+  2024 BTC vs XRPUSDT: lag0=0.5792, peak_lag=0 (0min)
+  2025 BTC vs ETHUSDT: lag0=0.7827, peak_lag=0 (0min)
+  2025 BTC vs SOLUSDT: lag0=0.7453, peak_lag=0 (0min)
+  2025 BTC vs DOGEUSDT: lag0=0.6880, peak_lag=0 (0min)
+  2025 BTC vs XRPUSDT: lag0=0.7054, peak_lag=0 (0min)
+  2026 BTC vs ETHUSDT: lag0=0.9146, peak_lag=0 (0min)
+  2026 BTC vs SOLUSDT: lag0=0.8738, peak_lag=0 (0min)
+  2026 BTC vs DOGEUSDT: lag0=0.7802, peak_lag=0 (0min)
+  2026 BTC vs XRPUSDT: lag0=0.8230, peak_lag=0 (0min)
+  Saved: results/v37_leadlag_yearly.csv
+
+Done! 9.8s total

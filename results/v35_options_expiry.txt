@@ -1,0 +1,95 @@
+======================================================================
+v35: Options Expiry / Derivatives Calendar Effects
+======================================================================
+
+Loading BTCUSDT...
+  BTCUSDT: 329,184 bars (1.9s)
+
+  Day type distribution:
+                other_weekday: 166,752 bars, avg range = 20.55 bps
+               regular_friday:  36,288 bars, avg range = 20.54 bps
+           monthly_expiry_fri:   7,200 bars, avg range = 18.68 bps
+         quarterly_expiry_fri:   3,456 bars, avg range = 17.19 bps
+           pre_monthly_expiry:  10,656 bars, avg range = 17.73 bps
+          post_monthly_expiry:  10,656 bars, avg range = 19.22 bps
+                      weekend:  94,176 bars, avg range = 12.09 bps
+
+  Regular Friday vs Mon-Thu: U=3380951187, p=0.0056, ratio=1.011x
+  Monthly expiry Fri vs regular Fri: U=124691043, p=0.0000, ratio=0.909x
+  Quarterly expiry Fri vs regular Fri: U=57591662, p=0.0000, ratio=0.837x
+  Pre-expiry Thu vs Post-expiry Mon: U=55242997, p=0.0006, ratio=0.923x
+
+Loading ETHUSDT...
+  ETHUSDT: 329,184 bars (1.8s)
+
+  Day type distribution:
+                other_weekday: 166,752 bars, avg range = 26.81 bps
+               regular_friday:  36,288 bars, avg range = 27.07 bps
+           monthly_expiry_fri:   7,200 bars, avg range = 25.22 bps
+         quarterly_expiry_fri:   3,456 bars, avg range = 22.75 bps
+           pre_monthly_expiry:  10,656 bars, avg range = 24.28 bps
+          post_monthly_expiry:  10,656 bars, avg range = 26.31 bps
+                      weekend:  94,176 bars, avg range = 18.31 bps
+
+  Regular Friday vs Mon-Thu: U=3409983376, p=0.8421, ratio=1.016x
+  Monthly expiry Fri vs regular Fri: U=125987592, p=0.0000, ratio=0.932x
+  Quarterly expiry Fri vs regular Fri: U=57276807, p=0.0000, ratio=0.840x
+  Pre-expiry Thu vs Post-expiry Mon: U=57309230, p=0.2343, ratio=0.923x
+
+Loading SOLUSDT...
+  SOLUSDT: 329,184 bars (1.9s)
+
+  Day type distribution:
+                other_weekday: 166,752 bars, avg range = 40.99 bps
+               regular_friday:  36,288 bars, avg range = 41.57 bps
+           monthly_expiry_fri:   7,200 bars, avg range = 35.83 bps
+         quarterly_expiry_fri:   3,456 bars, avg range = 38.10 bps
+           pre_monthly_expiry:  10,656 bars, avg range = 36.63 bps
+          post_monthly_expiry:  10,656 bars, avg range = 38.13 bps
+                      weekend:  94,176 bars, avg range = 31.43 bps
+
+  Regular Friday vs Mon-Thu: U=3408573978, p=0.7460, ratio=1.024x
+  Monthly expiry Fri vs regular Fri: U=119970446, p=0.0000, ratio=0.862x
+  Quarterly expiry Fri vs regular Fri: U=58963395, p=0.0000, ratio=0.916x
+  Pre-expiry Thu vs Post-expiry Mon: U=56865755, p=0.8401, ratio=0.961x
+
+Loading DOGEUSDT...
+  DOGEUSDT: 329,184 bars (1.9s)
+
+  Day type distribution:
+                other_weekday: 166,752 bars, avg range = 38.51 bps
+               regular_friday:  36,288 bars, avg range = 38.56 bps
+           monthly_expiry_fri:   7,200 bars, avg range = 31.86 bps
+         quarterly_expiry_fri:   3,456 bars, avg range = 33.02 bps
+           pre_monthly_expiry:  10,656 bars, avg range = 32.71 bps
+          post_monthly_expiry:  10,656 bars, avg range = 38.19 bps
+                      weekend:  94,176 bars, avg range = 30.35 bps
+
+  Regular Friday vs Mon-Thu: U=3401977882, p=0.3639, ratio=1.010x
+  Monthly expiry Fri vs regular Fri: U=117778590, p=0.0000, ratio=0.826x
+  Quarterly expiry Fri vs regular Fri: U=58908102, p=0.0000, ratio=0.856x
+  Pre-expiry Thu vs Post-expiry Mon: U=54390335, p=0.0000, ratio=0.857x
+
+Loading XRPUSDT...
+  XRPUSDT: 329,184 bars (2.0s)
+
+  Day type distribution:
+                other_weekday: 166,752 bars, avg range = 33.36 bps
+               regular_friday:  36,288 bars, avg range = 33.76 bps
+           monthly_expiry_fri:   7,200 bars, avg range = 29.05 bps
+         quarterly_expiry_fri:   3,456 bars, avg range = 28.03 bps
+           pre_monthly_expiry:  10,656 bars, avg range = 27.07 bps
+          post_monthly_expiry:  10,656 bars, avg range = 34.67 bps
+                      weekend:  94,176 bars, avg range = 24.57 bps
+
+  Regular Friday vs Mon-Thu: U=3429378941, p=0.1290, ratio=1.021x
+  Monthly expiry Fri vs regular Fri: U=119816277, p=0.0000, ratio=0.860x
+  Quarterly expiry Fri vs regular Fri: U=58107397, p=0.0000, ratio=0.830x
+  Pre-expiry Thu vs Post-expiry Mon: U=54014813, p=0.0000, ratio=0.781x
+
+  Saved: results/v35_expiry_effects.csv
+  Saved: results/v35_expiry_hourly.csv
+  Saved: results/v35_expiry_day_types.png
+  Saved: results/v35_expiry_hourly_btc.png
+
+Done! 13.3s total

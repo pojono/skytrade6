@@ -1,0 +1,60 @@
+======================================================================
+v36: Volatility Clustering Decay Function
+======================================================================
+
+Loading BTCUSDT...
+  BTCUSDT: 329,184 bars (2.0s)
+  Computing ACF (lags 1-288)...
+    Exponential: half-life = 1631 min, R² = 0.513
+    Power-law: R² = 0.824
+    Best model: power-law
+    3σ spikes: 652, decay to 50% in 500 min
+
+Loading ETHUSDT...
+  ETHUSDT: 329,184 bars (1.8s)
+  Computing ACF (lags 1-288)...
+    Exponential: half-life = 2509 min, R² = 0.418
+    Power-law: R² = 0.803
+    Best model: power-law
+    3σ spikes: 724, decay to 50% in 500 min
+
+Loading SOLUSDT...
+  SOLUSDT: 329,184 bars (1.8s)
+  Computing ACF (lags 1-288)...
+    Exponential: half-life = 2030 min, R² = 0.540
+    Power-law: R² = 0.887
+    Best model: power-law
+    3σ spikes: 1322, decay to 50% in 500 min
+
+Loading DOGEUSDT...
+  DOGEUSDT: 329,184 bars (2.2s)
+  Computing ACF (lags 1-288)...
+    Exponential: half-life = 3239 min, R² = 0.514
+    Power-law: R² = 0.891
+    Best model: power-law
+    3σ spikes: 1030, decay to 50% in 500 min
+
+Loading XRPUSDT...
+  XRPUSDT: 329,184 bars (2.3s)
+  Computing ACF (lags 1-288)...
+    Exponential: half-life = 2323 min, R² = 0.655
+    Power-law: R² = 0.943
+    Best model: power-law
+    3σ spikes: 1480, decay to 50% in 500 min
+
+  Saved: results/v36_vol_acf.csv
+  Saved: results/v36_vol_decay_fits.csv
+  Saved: results/v36_vol_acf_curves.png
+  Saved: results/v36_vol_spike_decay.png
+  Saved: results/v36_vol_decay_by_session.png
+
+======================================================================
+SUMMARY
+======================================================================
+     BTCUSDT: half-life=1631min, exp_R²=0.513, pow_R²=0.824, best=power-law
+     ETHUSDT: half-life=2509min, exp_R²=0.418, pow_R²=0.803, best=power-law
+     SOLUSDT: half-life=2030min, exp_R²=0.540, pow_R²=0.887, best=power-law
+    DOGEUSDT: half-life=3239min, exp_R²=0.514, pow_R²=0.891, best=power-law
+     XRPUSDT: half-life=2323min, exp_R²=0.655, pow_R²=0.943, best=power-law
+
+Done! 11.5s total

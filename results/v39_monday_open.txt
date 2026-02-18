@@ -1,0 +1,111 @@
+======================================================================
+v39: Weekend Gap / Monday Open Effect
+======================================================================
+
+Loading BTCUSDT...
+  BTCUSDT: 329,184 bars (3.1s)
+
+  Day transition analysis (BTCUSDT):
+    Mon 00-03 UTC: 22.15 bps
+    Tue 00-03 UTC: 19.78 bps
+    Wed 00-03 UTC: 18.16 bps
+    Thu 00-03 UTC: 18.93 bps
+    Fri 00-03 UTC: 19.77 bps
+    Sat 00-03 UTC: 13.12 bps
+    Sun 00-03 UTC: 11.80 bps
+    Mon 00-02 vs Sun 22-24: ratio=1.127x, p=0.0000
+
+  Weekend gap analysis (BTCUSDT):
+    N weekends: 163
+    Avg gap: +24.71 bps
+    Std gap: 240.16 bps
+    Abs gap: 165.16 bps
+    |Gap| vs Monday range: ρ=+0.381, p=0.0000
+
+Loading ETHUSDT...
+  ETHUSDT: 329,184 bars (3.2s)
+
+  Day transition analysis (ETHUSDT):
+    Mon 00-03 UTC: 31.07 bps
+    Tue 00-03 UTC: 26.54 bps
+    Wed 00-03 UTC: 25.18 bps
+    Thu 00-03 UTC: 25.77 bps
+    Fri 00-03 UTC: 27.22 bps
+    Sat 00-03 UTC: 19.52 bps
+    Sun 00-03 UTC: 18.21 bps
+    Mon 00-02 vs Sun 22-24: ratio=1.133x, p=0.0000
+
+  Weekend gap analysis (ETHUSDT):
+    N weekends: 163
+    Avg gap: +26.72 bps
+    Std gap: 369.05 bps
+    Abs gap: 243.70 bps
+    |Gap| vs Monday range: ρ=+0.382, p=0.0000
+
+Loading SOLUSDT...
+  SOLUSDT: 329,184 bars (2.3s)
+
+  Day transition analysis (SOLUSDT):
+    Mon 00-03 UTC: 47.38 bps
+    Tue 00-03 UTC: 42.32 bps
+    Wed 00-03 UTC: 39.87 bps
+    Thu 00-03 UTC: 40.68 bps
+    Fri 00-03 UTC: 43.52 bps
+    Sat 00-03 UTC: 35.18 bps
+    Sun 00-03 UTC: 33.34 bps
+    Mon 00-02 vs Sun 22-24: ratio=1.198x, p=0.0000
+
+  Weekend gap analysis (SOLUSDT):
+    N weekends: 163
+    Avg gap: +80.77 bps
+    Std gap: 552.64 bps
+    Abs gap: 391.93 bps
+    |Gap| vs Monday range: ρ=+0.329, p=0.0000
+
+Loading DOGEUSDT...
+  DOGEUSDT: 329,184 bars (2.6s)
+
+  Day transition analysis (DOGEUSDT):
+    Mon 00-03 UTC: 44.73 bps
+    Tue 00-03 UTC: 41.60 bps
+    Wed 00-03 UTC: 37.61 bps
+    Thu 00-03 UTC: 37.41 bps
+    Fri 00-03 UTC: 38.97 bps
+    Sat 00-03 UTC: 33.99 bps
+    Sun 00-03 UTC: 32.17 bps
+    Mon 00-02 vs Sun 22-24: ratio=1.243x, p=0.0000
+
+  Weekend gap analysis (DOGEUSDT):
+    N weekends: 163
+    Avg gap: +51.87 bps
+    Std gap: 589.82 bps
+    Abs gap: 370.00 bps
+    |Gap| vs Monday range: ρ=+0.464, p=0.0000
+
+Loading XRPUSDT...
+  XRPUSDT: 329,184 bars (2.4s)
+
+  Day transition analysis (XRPUSDT):
+    Mon 00-03 UTC: 38.51 bps
+    Tue 00-03 UTC: 33.35 bps
+    Wed 00-03 UTC: 30.64 bps
+    Thu 00-03 UTC: 31.08 bps
+    Fri 00-03 UTC: 34.47 bps
+    Sat 00-03 UTC: 27.14 bps
+    Sun 00-03 UTC: 24.91 bps
+    Mon 00-02 vs Sun 22-24: ratio=1.313x, p=0.0000
+
+  Weekend gap analysis (XRPUSDT):
+    N weekends: 163
+    Avg gap: +39.89 bps
+    Std gap: 523.31 bps
+    Abs gap: 304.85 bps
+    |Gap| vs Monday range: ρ=+0.472, p=0.0000
+
+  Saved: results/v39_day_transitions.csv
+  Saved: results/v39_weekend_gaps.csv
+  Saved: results/v39_hourly_transitions.csv
+  Saved: results/v39_opening_vol_by_day.png
+  Saved: results/v39_weekend_gap_dist.png
+
+Done! 15.3s total

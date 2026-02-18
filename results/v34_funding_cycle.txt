@@ -1,0 +1,103 @@
+======================================================================
+v34: Funding Rate Cycle Microstructure
+======================================================================
+
+Loading BTCUSDT...
+  BTCUSDT: 329,184 bars (2.4s)
+
+  Funding Cycle Analysis (BTCUSDT):
+    Pre-funding (last 30min):  17.58 bps (n=20,574)
+    Post-funding (first 30min): 19.50 bps (n=24,003)
+    Mid-cycle:                  17.10 bps (n=168,021)
+    Pre/Mid ratio: 1.028x
+    Post/Mid ratio: 1.141x
+    Pre vs Mid: p=4.10e-07
+    Post vs Mid: p=5.06e-203
+
+    By funding window:
+      window_00: avg range = 14.96 bps
+      window_08: avg range = 18.81 bps
+      window_16: avg range = 19.98 bps
+
+Loading ETHUSDT...
+  ETHUSDT: 329,184 bars (1.9s)
+
+  Funding Cycle Analysis (ETHUSDT):
+    Pre-funding (last 30min):  23.35 bps (n=20,574)
+    Post-funding (first 30min): 26.88 bps (n=24,003)
+    Mid-cycle:                  23.11 bps (n=168,021)
+    Pre/Mid ratio: 1.010x
+    Post/Mid ratio: 1.163x
+    Pre vs Mid: p=1.05e-02
+    Post vs Mid: p=1.55e-263
+
+    By funding window:
+      window_00: avg range = 21.07 bps
+      window_08: avg range = 25.26 bps
+      window_16: avg range = 26.36 bps
+
+Loading SOLUSDT...
+  SOLUSDT: 329,184 bars (2.3s)
+
+  Funding Cycle Analysis (SOLUSDT):
+    Pre-funding (last 30min):  36.71 bps (n=20,574)
+    Post-funding (first 30min): 43.13 bps (n=24,003)
+    Mid-cycle:                  36.46 bps (n=168,021)
+    Pre/Mid ratio: 1.007x
+    Post/Mid ratio: 1.183x
+    Pre vs Mid: p=3.60e-01
+    Post vs Mid: p=0.00e+00
+
+    By funding window:
+      window_00: avg range = 35.08 bps
+      window_08: avg range = 39.16 bps
+      window_16: avg range = 39.59 bps
+
+Loading DOGEUSDT...
+  DOGEUSDT: 329,184 bars (1.9s)
+
+  Funding Cycle Analysis (DOGEUSDT):
+    Pre-funding (last 30min):  34.11 bps (n=20,574)
+    Post-funding (first 30min): 41.45 bps (n=24,003)
+    Mid-cycle:                  34.29 bps (n=168,021)
+    Pre/Mid ratio: 0.995x
+    Post/Mid ratio: 1.209x
+    Pre vs Mid: p=5.59e-01
+    Post vs Mid: p=0.00e+00
+
+    By funding window:
+      window_00: avg range = 33.24 bps
+      window_08: avg range = 36.84 bps
+      window_16: avg range = 37.27 bps
+
+Loading XRPUSDT...
+  XRPUSDT: 329,184 bars (2.2s)
+
+  Funding Cycle Analysis (XRPUSDT):
+    Pre-funding (last 30min):  29.51 bps (n=20,574)
+    Post-funding (first 30min): 34.99 bps (n=24,003)
+    Mid-cycle:                  29.54 bps (n=168,021)
+    Pre/Mid ratio: 0.999x
+    Post/Mid ratio: 1.184x
+    Pre vs Mid: p=8.54e-01
+    Post vs Mid: p=1.69e-305
+
+    By funding window:
+      window_00: avg range = 27.72 bps
+      window_08: avg range = 31.89 bps
+      window_16: avg range = 32.13 bps
+
+  Saved: results/v34_funding_cycle_summary.csv
+  Saved: results/v34_funding_cycle_profile.csv
+  Saved: results/v34_funding_cycle.png
+
+======================================================================
+SUMMARY
+======================================================================
+     BTCUSDT: pre/mid=1.028x (p=4.10e-07), post/mid=1.141x (p=5.06e-203)
+     ETHUSDT: pre/mid=1.010x (p=1.05e-02), post/mid=1.163x (p=1.55e-263)
+     SOLUSDT: pre/mid=1.007x (p=3.60e-01), post/mid=1.183x (p=0.00e+00)
+    DOGEUSDT: pre/mid=0.995x (p=5.59e-01), post/mid=1.209x (p=0.00e+00)
+     XRPUSDT: pre/mid=0.999x (p=8.54e-01), post/mid=1.184x (p=1.69e-305)
+
+Done! 13.5s total

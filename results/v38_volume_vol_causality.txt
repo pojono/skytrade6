@@ -1,0 +1,86 @@
+======================================================================
+v38: Volume-Volatility Causality
+======================================================================
+
+Loading BTCUSDT...
+  BTCUSDT: 329,184 bars (2.7s)
+  Cross-correlation (volume → range)...
+    Volume→Range: peak at lag=0 (0min), ρ=0.8285
+    Range→Volume: peak at lag=0 (0min), ρ=0.8285
+    Contemporaneous: ρ=0.8285
+  Granger causality tests...
+    Vol→Range: best F=8194.5 at lag=1, p=1.11e-16
+    Range→Vol: best F=616.9 at lag=1, p=1.11e-16
+    → VOLUME leads RANGE (stronger Granger signal)
+  Buy ratio vs forward range...
+    1σ surge (n=51235): next bar 2.15x, +30min 1.86x, +60min 1.74x baseline
+    2σ surge (n=8179): next bar 3.33x, +30min 2.54x, +60min 2.22x baseline
+    3σ surge (n=512): next bar 6.18x, +30min 3.68x, +60min 3.02x baseline
+
+Loading ETHUSDT...
+  ETHUSDT: 329,184 bars (2.2s)
+  Cross-correlation (volume → range)...
+    Volume→Range: peak at lag=0 (0min), ρ=0.8278
+    Range→Volume: peak at lag=0 (0min), ρ=0.8278
+    Contemporaneous: ρ=0.8278
+  Granger causality tests...
+    Vol→Range: best F=11001.5 at lag=1, p=1.11e-16
+    Range→Vol: best F=1075.0 at lag=1, p=1.11e-16
+    → VOLUME leads RANGE (stronger Granger signal)
+  Buy ratio vs forward range...
+    1σ surge (n=52420): next bar 2.02x, +30min 1.78x, +60min 1.69x baseline
+    2σ surge (n=7105): next bar 2.99x, +30min 2.30x, +60min 2.07x baseline
+    3σ surge (n=350): next bar 5.77x, +30min 3.38x, +60min 2.77x baseline
+
+Loading SOLUSDT...
+  SOLUSDT: 329,184 bars (2.3s)
+  Cross-correlation (volume → range)...
+    Volume→Range: peak at lag=0 (0min), ρ=0.6242
+    Range→Volume: peak at lag=0 (0min), ρ=0.6242
+    Contemporaneous: ρ=0.6242
+  Granger causality tests...
+    Vol→Range: best F=2928.5 at lag=1, p=1.11e-16
+    Range→Vol: best F=2287.1 at lag=1, p=1.11e-16
+    → VOLUME leads RANGE (stronger Granger signal)
+  Buy ratio vs forward range...
+    1σ surge (n=47960): next bar 1.65x, +30min 1.50x, +60min 1.43x baseline
+    2σ surge (n=4277): next bar 2.62x, +30min 2.04x, +60min 1.84x baseline
+    3σ surge (n=169): next bar 5.56x, +30min 3.05x, +60min 2.53x baseline
+
+Loading DOGEUSDT...
+  DOGEUSDT: 329,184 bars (2.4s)
+  Cross-correlation (volume → range)...
+    Volume→Range: peak at lag=0 (0min), ρ=0.7992
+    Range→Volume: peak at lag=0 (0min), ρ=0.7992
+    Contemporaneous: ρ=0.7992
+  Granger causality tests...
+    Vol→Range: best F=16134.1 at lag=1, p=1.11e-16
+    Range→Vol: best F=952.9 at lag=1, p=1.11e-16
+    → VOLUME leads RANGE (stronger Granger signal)
+  Buy ratio vs forward range...
+    1σ surge (n=50930): next bar 2.11x, +30min 1.94x, +60min 1.87x baseline
+    2σ surge (n=4964): next bar 3.92x, +30min 3.15x, +60min 2.84x baseline
+    3σ surge (n=176): next bar 8.91x, +30min 5.83x, +60min 4.83x baseline
+
+Loading XRPUSDT...
+  XRPUSDT: 329,184 bars (2.2s)
+  Cross-correlation (volume → range)...
+    Volume→Range: peak at lag=0 (0min), ρ=0.7761
+    Range→Volume: peak at lag=0 (0min), ρ=0.7761
+    Contemporaneous: ρ=0.7761
+  Granger causality tests...
+    Vol→Range: best F=12104.3 at lag=1, p=1.11e-16
+    Range→Vol: best F=524.6 at lag=2, p=1.11e-16
+    → VOLUME leads RANGE (stronger Granger signal)
+  Buy ratio vs forward range...
+    1σ surge (n=55400): next bar 2.09x, +30min 1.94x, +60min 1.87x baseline
+    2σ surge (n=7409): next bar 3.89x, +30min 3.21x, +60min 2.93x baseline
+    3σ surge (n=389): next bar 8.99x, +30min 5.87x, +60min 4.85x baseline
+
+  Saved: results/v38_granger_causality.csv
+  Saved: results/v38_volume_surge.csv
+  Saved: results/v38_vol_range_xcorr.csv
+  Saved: results/v38_vol_range_xcorr.png
+  Saved: results/v38_granger_fstats.png
+
+Done! 21.3s total

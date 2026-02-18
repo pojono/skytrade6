@@ -1,0 +1,113 @@
+======================================================================
+v42: Moon Phase Cycle Effect on Volatility
+======================================================================
+
+Loading BTCUSDT...
+  BTCUSDT: 329,184 bars (1.8s)
+  Moon phase analysis (BTCUSDT, weekdays only, n=235,008):
+
+    Phase octant analysis:
+      0 (          New Moon): 21.79 bps (n=28,877)
+      1 (   Waxing Crescent): 20.39 bps (n=28,691)
+      2 (     First Quarter): 20.85 bps (n=29,504)
+      3 (    Waxing Gibbous): 18.97 bps (n=29,588)
+      4 (         Full Moon): 19.05 bps (n=29,751)
+      5 (    Waning Gibbous): 19.79 bps (n=29,367)
+      6 (      Last Quarter): 20.93 bps (n=29,908)
+      7 (   Waning Crescent): 20.28 bps (n=29,322)
+
+    Kruskal-Wallis H=678.42, p=0.0000
+    sin(moon) vs range: ρ=+0.0051, p=0.0143
+    cos(moon) vs range: ρ=+0.0524, p=0.0000
+    New moon vs Full moon: ratio=1.230x, p=0.0000
+
+Loading ETHUSDT...
+  ETHUSDT: 329,184 bars (1.9s)
+  Moon phase analysis (ETHUSDT, weekdays only, n=235,008):
+
+    Phase octant analysis:
+      0 (          New Moon): 27.81 bps (n=28,877)
+      1 (   Waxing Crescent): 26.39 bps (n=28,691)
+      2 (     First Quarter): 26.77 bps (n=29,504)
+      3 (    Waxing Gibbous): 26.21 bps (n=29,588)
+      4 (         Full Moon): 26.09 bps (n=29,751)
+      5 (    Waning Gibbous): 26.12 bps (n=29,367)
+      6 (      Last Quarter): 27.01 bps (n=29,908)
+      7 (   Waning Crescent): 26.44 bps (n=29,322)
+
+    Kruskal-Wallis H=229.90, p=0.0000
+    sin(moon) vs range: ρ=-0.0031, p=0.1391
+    cos(moon) vs range: ρ=+0.0246, p=0.0000
+    New moon vs Full moon: ratio=1.126x, p=0.0000
+
+Loading SOLUSDT...
+  SOLUSDT: 329,184 bars (2.1s)
+  Moon phase analysis (SOLUSDT, weekdays only, n=235,008):
+
+    Phase octant analysis:
+      0 (          New Moon): 42.47 bps (n=28,877)
+      1 (   Waxing Crescent): 39.11 bps (n=28,691)
+      2 (     First Quarter): 40.81 bps (n=29,504)
+      3 (    Waxing Gibbous): 37.96 bps (n=29,588)
+      4 (         Full Moon): 38.97 bps (n=29,751)
+      5 (    Waning Gibbous): 42.59 bps (n=29,367)
+      6 (      Last Quarter): 41.10 bps (n=29,908)
+      7 (   Waning Crescent): 41.43 bps (n=29,322)
+
+    Kruskal-Wallis H=872.36, p=0.0000
+    sin(moon) vs range: ρ=-0.0444, p=0.0000
+    cos(moon) vs range: ρ=+0.0381, p=0.0000
+    New moon vs Full moon: ratio=1.212x, p=0.0000
+
+Loading DOGEUSDT...
+  DOGEUSDT: 329,184 bars (1.8s)
+  Moon phase analysis (DOGEUSDT, weekdays only, n=235,008):
+
+    Phase octant analysis:
+      0 (          New Moon): 37.56 bps (n=28,877)
+      1 (   Waxing Crescent): 36.94 bps (n=28,691)
+      2 (     First Quarter): 38.05 bps (n=29,504)
+      3 (    Waxing Gibbous): 37.31 bps (n=29,588)
+      4 (         Full Moon): 37.45 bps (n=29,751)
+      5 (    Waning Gibbous): 38.37 bps (n=29,367)
+      6 (      Last Quarter): 39.92 bps (n=29,908)
+      7 (   Waning Crescent): 38.03 bps (n=29,322)
+
+    Kruskal-Wallis H=697.70, p=0.0000
+    sin(moon) vs range: ρ=-0.0354, p=0.0000
+    cos(moon) vs range: ρ=+0.0183, p=0.0000
+    New moon vs Full moon: ratio=1.084x, p=0.0000
+
+Loading XRPUSDT...
+  XRPUSDT: 329,184 bars (1.8s)
+  Moon phase analysis (XRPUSDT, weekdays only, n=235,008):
+
+    Phase octant analysis:
+      0 (          New Moon): 36.40 bps (n=28,877)
+      1 (   Waxing Crescent): 32.47 bps (n=28,691)
+      2 (     First Quarter): 33.65 bps (n=29,504)
+      3 (    Waxing Gibbous): 31.41 bps (n=29,588)
+      4 (         Full Moon): 32.43 bps (n=29,751)
+      5 (    Waning Gibbous): 32.95 bps (n=29,367)
+      6 (      Last Quarter): 31.79 bps (n=29,908)
+      7 (   Waning Crescent): 32.85 bps (n=29,322)
+
+    Kruskal-Wallis H=601.26, p=0.0000
+    sin(moon) vs range: ρ=+0.0072, p=0.0005
+    cos(moon) vs range: ρ=+0.0269, p=0.0000
+    New moon vs Full moon: ratio=1.194x, p=0.0000
+
+  Saved: 3 CSVs
+  Saved: results/v42_moon_phase_octant.png
+  Saved: results/v42_moon_phase_polar.png
+
+======================================================================
+SUMMARY
+======================================================================
+     BTCUSDT: KW H=678.4 (***), max/min=1.149x, peak=New Moon, trough=Waxing Gibbous
+     ETHUSDT: KW H=229.9 (***), max/min=1.066x, peak=New Moon, trough=Full Moon
+     SOLUSDT: KW H=872.4 (***), max/min=1.122x, peak=Waning Gibbous, trough=Waxing Gibbous
+    DOGEUSDT: KW H=697.7 (***), max/min=1.080x, peak=Last Quarter, trough=Waxing Crescent
+     XRPUSDT: KW H=601.3 (***), max/min=1.159x, peak=New Moon, trough=Waxing Gibbous
+
+Done! 11.0s total
