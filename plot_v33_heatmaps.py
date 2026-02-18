@@ -218,6 +218,91 @@ def plot_hour_dow_heatmap(df, symbol, out_path):
 
 
 # ============================================================================
+# CSV EXPORT
+# ============================================================================
+
+def save_month_year_csv(df, symbol, out_path):
+    """Save Month × Year matrix as CSV."""
+    years = sorted(df['year'].unique())
+    years = [y for y in years if df[df['year'] == y]['month'].nunique() >= 2]
+    rows = []
+    for y in years:
+        row = {'year': y}
+        for m in range(1, 13):
+            mask = (df['year'] == y) & (df['month'] == m)
+            row[MONTH_NAMES[m - 1]] = round(df.loc[mask, 'range_bps'].mean(), 2) if mask.sum() > 0 else None
+        rows.append(row)
+    pd.DataFrame(rows).to_csv(out_path, index=False)
+    print(f"    Saved: {out_path}")
+
+
+def save_hour_dow_csv(df, symbol, out_path):
+    """Save Hour × Day-of-week matrix as CSV."""
+    rows = []
+    for h in range(24):
+        row = {'hour_utc': f'{h:02d}:00'}
+        for d in range(7):
+            mask = (df['hour'] == h) & (df['dow'] == d)
+            row[DAY_NAMES[d]] = round(df.loc[mask, 'range_bps'].mean(), 2) if mask.sum() > 0 else None
+        # Add session label
+        if h < 8:
+            row['session'] = 'Asia'
+        elif h < 16:
+            row['session'] = 'Europe'
+        else:
+            row['session'] = 'US'
+        rows.append(row)
+    pd.DataFrame(rows).to_csv(out_path, index=False)
+    print(f"    Saved: {out_path}")
+
+
+def save_hourly_csv(all_dfs):
+    """Save per-hour summary across all symbols as a single CSV."""
+    rows = []
+    for h in range(24):
+        row = {'hour_utc': f'{h:02d}:00'}
+        for symbol, df in all_dfs.items():
+            mask = df['hour'] == h
+            row[f'{symbol}_range_bps'] = round(df.loc[mask, 'range_bps'].mean(), 2)
+            row[f'{symbol}_volume'] = round(df.loc[mask, 'quote_volume'].mean(), 0)
+            row[f'{symbol}_trades'] = round(df.loc[mask, 'trade_count'].mean(), 0)
+        rows.append(row)
+    out = RESULTS_DIR / 'v33_hourly_all_symbols.csv'
+    pd.DataFrame(rows).to_csv(out, index=False)
+    print(f"    Saved: {out}")
+
+
+def save_daily_csv(all_dfs):
+    """Save per-day-of-week summary across all symbols as a single CSV."""
+    rows = []
+    for d in range(7):
+        row = {'day': DAY_NAMES[d], 'is_weekend': d >= 5}
+        for symbol, df in all_dfs.items():
+            mask = df['dow'] == d
+            row[f'{symbol}_range_bps'] = round(df.loc[mask, 'range_bps'].mean(), 2)
+            row[f'{symbol}_volume'] = round(df.loc[mask, 'quote_volume'].mean(), 0)
+        rows.append(row)
+    out = RESULTS_DIR / 'v33_daily_all_symbols.csv'
+    pd.DataFrame(rows).to_csv(out, index=False)
+    print(f"    Saved: {out}")
+
+
+def save_monthly_csv(all_dfs):
+    """Save per-month summary across all symbols as a single CSV."""
+    rows = []
+    for m in range(1, 13):
+        row = {'month': MONTH_NAMES[m - 1]}
+        for symbol, df in all_dfs.items():
+            mask = df['month'] == m
+            row[f'{symbol}_range_bps'] = round(df.loc[mask, 'range_bps'].mean(), 2)
+            row[f'{symbol}_volume'] = round(df.loc[mask, 'quote_volume'].mean(), 0)
+        rows.append(row)
+    out = RESULTS_DIR / 'v33_monthly_all_symbols.csv'
+    pd.DataFrame(rows).to_csv(out, index=False)
+    print(f"    Saved: {out}")
+
+
+# ============================================================================
 # MAIN
 # ============================================================================
 
@@ -244,23 +329,37 @@ def main():
     all_combined = pd.concat(combined_parts, ignore_index=True)
     print(f"  ALL: {len(all_combined):,} bars (normalized)")
 
-    # Generate charts
-    print("\nGenerating heatmaps...")
+    # Generate charts + CSVs
+    print("\nGenerating heatmaps + CSVs...")
     for symbol, df in all_dfs.items():
         print(f"\n  {symbol}:")
         plot_month_year_heatmap(df, symbol,
                                 RESULTS_DIR / f"v33_heatmap_month_{symbol}.png")
         plot_hour_dow_heatmap(df, symbol,
                               RESULTS_DIR / f"v33_heatmap_hour_dow_{symbol}.png")
+        save_month_year_csv(df, symbol,
+                            RESULTS_DIR / f"v33_month_year_{symbol}.csv")
+        save_hour_dow_csv(df, symbol,
+                          RESULTS_DIR / f"v33_hour_dow_{symbol}.csv")
 
     print(f"\n  ALL (combined):")
     plot_month_year_heatmap(all_combined, 'ALL',
                             RESULTS_DIR / "v33_heatmap_month_ALL.png")
     plot_hour_dow_heatmap(all_combined, 'ALL',
                           RESULTS_DIR / "v33_heatmap_hour_dow_ALL.png")
+    save_month_year_csv(all_combined, 'ALL',
+                        RESULTS_DIR / "v33_month_year_ALL.csv")
+    save_hour_dow_csv(all_combined, 'ALL',
+                      RESULTS_DIR / "v33_hour_dow_ALL.csv")
+
+    # Cross-symbol summary CSVs
+    print(f"\n  Cross-symbol summaries:")
+    save_hourly_csv(all_dfs)
+    save_daily_csv(all_dfs)
+    save_monthly_csv(all_dfs)
 
     elapsed = time.time() - t0
-    print(f"\nDone! {elapsed:.1f}s total. 12 charts saved to {RESULTS_DIR}/")
+    print(f"\nDone! {elapsed:.1f}s total. Charts + CSVs saved to {RESULTS_DIR}/")
 
 
 if __name__ == '__main__':
