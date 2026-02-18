@@ -1,0 +1,1031 @@
+======================================================================
+  LIQUIDATION CASCADE MARKET-MAKING (v26d)
+  Limit orders INTO cascades, asymmetric TP/SL, maker fees
+======================================================================
+  Symbols: BTCUSDT, ETHUSDT, SOLUSDT, DOGEUSDT, XRPUSDT
+  Data: Bybit liquidation + ticker streams
+======================================================================
+
+======================================================================
+  BTCUSDT — LIQUIDATION CASCADE MARKET-MAKING
+======================================================================
+  Loading 3037 liquidation files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 done (283,130 events)
+  Loading 3259 ticker files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 done (1,261,986 ticks)
+  Building 1-min price bars... 105,197 bars
+  Period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00
+  Duration: 282.0 days
+
+  Detecting cascades... 2087 cascades
+  Buy-dominant: 1144 (55%)  Sell-dominant: 943 (45%)
+  Avg notional: $1,444,154  Avg events: 6.7  Avg duration: 14s
+  Cascades/day: 7.4
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY A: SINGLE-LEVEL LIMIT FADE
+──────────────────────────────────────────────────────────────────────
+  Sweeping 72 configs...
+    [24/72]
+    [48/72]
+    [72/72]
+
+  Top 10 configs (by total return):
+  Offset    TP    SL  Fills  FillR     WR      Avg     Total   Sharpe   TP%   SL%
+  ----------------------------------------------------------------------------
+   0.10% 0.50% 0.25%   1144  71.2%  48.5%  +0.020%   +22.52%   +45.6   12%   35%
+   0.05% 0.50% 0.25%   1354  86.5%  47.6%  +0.016%   +21.76%   +37.3   12%   36%
+   0.10% 0.15% 0.25%   1144  71.2%  64.5%  +0.018%   +20.89%   +64.3   56%   25%
+   0.15% 0.15% 0.25%    931  55.8%  65.4%  +0.022%   +20.84%   +79.4   57%   24%
+   0.15% 0.15% 0.15%    931  55.8%  57.1%  +0.021%   +19.95%   +91.8   50%   37%
+   0.10% 0.50% 0.15%   1144  71.2%  38.7%  +0.017%   +19.51%   +46.2   10%   52%
+   0.10% 0.30% 0.25%   1144  71.2%  51.7%  +0.016%   +18.53%   +43.0   28%   33%
+   0.15% 0.20% 0.25%    931  55.8%  58.6%  +0.020%   +18.28%   +60.4   46%   29%
+   0.15% 0.15% 0.10%    931  55.8%  48.5%  +0.019%   +17.68%   +94.9   44%   48%
+   0.05% 0.50% 0.15%   1354  86.5%  38.4%  +0.013%   +17.25%   +34.8   10%   53%
+
+  Best config: offset=0.10% TP=0.50% SL=0.25%
+
+  Best Single-Level (0% maker fee):
+    Signals: 1606  Fills: 1144 (71.2%)
+    Win rate:    48.5%
+    Avg return:  +0.020%
+    Median ret:  -0.009%
+    Total ret:   +22.52%
+    Sharpe:      +45.6
+    Max DD:      6.95%
+    Exits: TP=138 (12%)  SL=402 (35%)  Timeout=604 (53%)
+    LONG : n= 625  wr=49.1%  avg=+0.028%  total=+17.77%
+    SHORT: n= 519  wr=47.8%  avg=+0.009%  total=+4.75%
+    Avg hold:    16.1 min
+
+  Best Single-Level (2 bps maker fee):
+    Signals: 1606  Fills: 1144 (71.2%)
+    Win rate:    45.5%
+    Avg return:  -0.000%
+    Median ret:  -0.029%
+    Total ret:   -0.36%
+    Sharpe:      -0.7
+    Max DD:      12.68%
+    Exits: TP=138 (12%)  SL=402 (35%)  Timeout=604 (53%)
+    LONG : n= 625  wr=46.4%  avg=+0.008%  total=+5.27%
+    SHORT: n= 519  wr=44.5%  avg=-0.011%  total=-5.63%
+    Avg hold:    16.1 min
+
+  Monthly breakdown (Best Single-Level):
+     2025-05: n= 420 wr=45.2% avg=-0.001% total=-0.36%
+  ✅ 2025-06: n= 477 wr=49.3% avg=+0.029% total=+13.82%
+  ✅ 2025-07: n=  87 wr=47.1% avg=+0.002% total=+0.17%
+  ✅ 2025-08: n=  86 wr=60.5% avg=+0.068% total=+5.89%
+  ✅ 2026-02: n=  74 wr=50.0% avg=+0.041% total=+3.00%
+    Positive months: 4/5 (80%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY B: MARKET ORDER FADE (v26b/c baseline)
+──────────────────────────────────────────────────────────────────────
+
+  Market Order TP=0.30% SL=0.15% (4 bps taker):
+    Signals: 2086  Fills: 2086 (100.0%)
+    Win rate:    33.7%
+    Avg return:  -0.048%
+    Median ret:  -0.190%
+    Total ret:   -99.99%
+    Sharpe:      -153.3
+    Max DD:      100.81%
+    Exits: TP=449 (22%)  SL=1203 (58%)  Timeout=434 (21%)
+    LONG : n=1143  wr=31.9%  avg=-0.054%  total=-61.60%
+    SHORT: n= 943  wr=35.7%  avg=-0.041%  total=-38.39%
+    Avg hold:    13.1 min
+
+  Market Order TP=0.50% SL=0.25% (4 bps taker):
+    Signals: 2086  Fills: 2086 (100.0%)
+    Win rate:    41.1%
+    Avg return:  -0.036%
+    Median ret:  -0.088%
+    Total ret:   -74.89%
+    Sharpe:      -81.8
+    Max DD:      76.18%
+    Exits: TP=243 (12%)  SL=823 (39%)  Timeout=1020 (49%)
+    LONG : n=1143  wr=41.0%  avg=-0.035%  total=-40.11%
+    SHORT: n= 943  wr=41.1%  avg=-0.037%  total=-34.77%
+    Avg hold:    20.7 min
+
+  Market Order TP=0.20% SL=0.10% (4 bps taker):
+    Signals: 2086  Fills: 2086 (100.0%)
+    Win rate:    29.5%
+    Avg return:  -0.053%
+    Median ret:  -0.140%
+    Total ret:   -110.40%
+    Sharpe:      -242.6
+    Max DD:      110.94%
+    Exits: TP=530 (25%)  SL=1408 (67%)  Timeout=148 (7%)
+    LONG : n=1143  wr=28.4%  avg=-0.055%  total=-63.41%
+    SHORT: n= 943  wr=30.8%  avg=-0.050%  total=-46.99%
+    Avg hold:    7.8 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY C: US-HOURS LIMIT FADE (13-18 UTC)
+──────────────────────────────────────────────────────────────────────
+
+  US-Hours Limit Fade (0% maker):
+    Signals: 529  Fills: 409 (77.3%)
+    Win rate:    44.7%
+    Avg return:  +0.016%
+    Median ret:  -0.048%
+    Total ret:   +6.36%
+    Sharpe:      +32.7
+    Max DD:      4.66%
+    Exits: TP=67 (16%)  SL=175 (43%)  Timeout=167 (41%)
+    LONG : n= 225  wr=46.7%  avg=+0.027%  total=+6.09%
+    SHORT: n= 184  wr=42.4%  avg=+0.001%  total=+0.27%
+    Avg hold:    15.2 min
+
+  Monthly breakdown (US-Hours):
+     2025-05: n= 136 wr=41.2% avg=-0.013% total=-1.81%
+  ✅ 2025-06: n= 176 wr=46.0% avg=+0.032% total=+5.69%
+  ✅ 2025-07: n=  34 wr=44.1% avg=+0.014% total=+0.46%
+  ✅ 2025-08: n=  29 wr=58.6% avg=+0.044% total=+1.29%
+  ✅ 2026-02: n=  34 wr=41.2% avg=+0.021% total=+0.73%
+    Positive months: 4/5 (80%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY D: LAYERED MARKET-MAKING (3 levels)
+──────────────────────────────────────────────────────────────────────
+
+  Layered [0.03/0.08/0.15] TP=0.30% SL=0.15%:
+    Signals: 5371  Fills: 4041 (75.2%)
+    Win rate:    39.9%
+    Avg return:  +0.006%
+    Median ret:  -0.150%
+    Total ret:   +23.57%
+    Sharpe:      +18.6
+    Max DD:      8.50%
+    Exits: TP=917 (23%)  SL=2110 (52%)  Timeout=1014 (25%)
+    LONG : n=2233  wr=39.8%  avg=+0.008%  total=+17.52%
+    SHORT: n=1808  wr=40.1%  avg=+0.003%  total=+6.05%
+    Avg hold:    10.8 min
+
+  Layered [0.03/0.08/0.15] TP=0.50% SL=0.25%:
+    Signals: 5371  Fills: 4041 (75.2%)
+    Win rate:    47.4%
+    Avg return:  +0.014%
+    Median ret:  -0.019%
+    Total ret:   +58.53%
+    Sharpe:      +33.4
+    Max DD:      8.23%
+    Exits: TP=485 (12%)  SL=1480 (37%)  Timeout=2076 (51%)
+    LONG : n=2233  wr=47.3%  avg=+0.020%  total=+43.59%
+    SHORT: n=1808  wr=47.5%  avg=+0.008%  total=+14.94%
+    Avg hold:    17.2 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY E: LARGE CASCADES ONLY (P99)
+──────────────────────────────────────────────────────────────────────
+  P99 cascades: 733
+
+  P99 Cascades (0% maker):
+    Signals: 605  Fills: 437 (72.2%)
+    Win rate:    44.2%
+    Avg return:  +0.007%
+    Median ret:  -0.056%
+    Total ret:   +2.92%
+    Sharpe:      +14.6
+    Max DD:      6.21%
+    Exits: TP=60 (14%)  SL=185 (42%)  Timeout=192 (44%)
+    LONG : n= 264  wr=44.3%  avg=+0.020%  total=+5.29%
+    SHORT: n= 173  wr=43.9%  avg=-0.014%  total=-2.37%
+    Avg hold:    15.1 min
+
+──────────────────────────────────────────────────────────────────────
+  BTCUSDT complete in 416s
+──────────────────────────────────────────────────────────────────────
+
+======================================================================
+  ETHUSDT — LIQUIDATION CASCADE MARKET-MAKING
+======================================================================
+  Loading 3089 liquidation files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 done (328,388 events)
+  Loading 3251 ticker files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 done (1,261,971 ticks)
+  Building 1-min price bars... 105,193 bars
+  Period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00
+  Duration: 282.0 days
+
+  Detecting cascades... 2640 cascades
+  Buy-dominant: 1524 (58%)  Sell-dominant: 1116 (42%)
+  Avg notional: $956,515  Avg events: 6.2  Avg duration: 12s
+  Cascades/day: 9.4
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY A: SINGLE-LEVEL LIMIT FADE
+──────────────────────────────────────────────────────────────────────
+  Sweeping 72 configs...
+    [24/72]
+    [48/72]
+    [72/72]
+
+  Top 10 configs (by total return):
+  Offset    TP    SL  Fills  FillR     WR      Avg     Total   Sharpe   TP%   SL%
+  ----------------------------------------------------------------------------
+   0.15% 0.15% 0.25%   1542  75.0%  71.8%  +0.040%   +62.22%  +139.2   70%   25%
+   0.10% 0.15% 0.25%   1731  85.2%  70.5%  +0.034%   +59.71%  +116.2   70%   27%
+   0.20% 0.15% 0.25%   1380  66.3%  72.7%  +0.043%   +59.68%  +150.8   71%   25%
+   0.10% 0.20% 0.25%   1731  85.2%  62.2%  +0.032%   +55.58%   +90.8   60%   35%
+   0.15% 0.15% 0.15%   1542  75.0%  61.3%  +0.034%   +52.97%  +143.0   60%   37%
+   0.20% 0.20% 0.25%   1380  66.3%  63.3%  +0.037%   +50.88%  +106.3   60%   33%
+   0.15% 0.20% 0.25%   1542  75.0%  61.9%  +0.032%   +48.71%   +89.6   60%   35%
+   0.10% 0.30% 0.25%   1731  85.2%  50.7%  +0.025%   +44.01%   +58.0   45%   45%
+   0.10% 0.50% 0.25%   1731  85.2%  41.8%  +0.025%   +43.82%   +46.6   26%   53%
+   0.15% 0.20% 0.15%   1542  75.0%  51.0%  +0.028%   +42.94%   +97.0   49%   48%
+
+  Best config: offset=0.15% TP=0.15% SL=0.25%
+
+  Best Single-Level (0% maker fee):
+    Signals: 2057  Fills: 1542 (75.0%)
+    Win rate:    71.8%
+    Avg return:  +0.040%
+    Median ret:  +0.150%
+    Total ret:   +62.22%
+    Sharpe:      +139.2
+    Max DD:      2.98%
+    Exits: TP=1084 (70%)  SL=393 (25%)  Timeout=65 (4%)
+    LONG : n= 886  wr=71.3%  avg=+0.038%  total=+33.85%
+    SHORT: n= 656  wr=72.4%  avg=+0.043%  total=+28.37%
+    Avg hold:    2.3 min
+
+  Best Single-Level (2 bps maker fee):
+    Signals: 2057  Fills: 1542 (75.0%)
+    Win rate:    71.5%
+    Avg return:  +0.020%
+    Median ret:  +0.130%
+    Total ret:   +31.38%
+    Sharpe:      +70.2
+    Max DD:      4.24%
+    Exits: TP=1084 (70%)  SL=393 (25%)  Timeout=65 (4%)
+    LONG : n= 886  wr=71.2%  avg=+0.018%  total=+16.13%
+    SHORT: n= 656  wr=71.8%  avg=+0.023%  total=+15.25%
+    Avg hold:    2.3 min
+
+  Monthly breakdown (Best Single-Level):
+  ✅ 2025-05: n= 584 wr=75.2% avg=+0.054% total=+31.25%
+  ✅ 2025-06: n= 638 wr=69.1% avg=+0.029% total=+18.71%
+  ✅ 2025-07: n= 100 wr=69.0% avg=+0.033% total=+3.34%
+  ✅ 2025-08: n= 172 wr=70.3% avg=+0.036% total=+6.12%
+  ✅ 2026-02: n=  48 wr=77.1% avg=+0.058% total=+2.80%
+    Positive months: 5/5 (100%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY B: MARKET ORDER FADE (v26b/c baseline)
+──────────────────────────────────────────────────────────────────────
+
+  Market Order TP=0.30% SL=0.15% (4 bps taker):
+    Signals: 2640  Fills: 2640 (100.0%)
+    Win rate:    30.8%
+    Avg return:  -0.053%
+    Median ret:  -0.190%
+    Total ret:   -140.58%
+    Sharpe:      -156.5
+    Max DD:      142.14%
+    Exits: TP=771 (29%)  SL=1812 (69%)  Timeout=57 (2%)
+    LONG : n=1524  wr=31.2%  avg=-0.052%  total=-78.63%
+    SHORT: n=1116  wr=30.3%  avg=-0.056%  total=-61.95%
+    Avg hold:    5.4 min
+
+  Market Order TP=0.50% SL=0.25% (4 bps taker):
+    Signals: 2640  Fills: 2640 (100.0%)
+    Win rate:    35.5%
+    Avg return:  -0.046%
+    Median ret:  -0.290%
+    Total ret:   -122.40%
+    Sharpe:      -86.5
+    Max DD:      124.67%
+    Exits: TP=630 (24%)  SL=1561 (59%)  Timeout=449 (17%)
+    LONG : n=1524  wr=34.7%  avg=-0.050%  total=-75.61%
+    SHORT: n=1116  wr=36.6%  avg=-0.042%  total=-46.79%
+    Avg hold:    12.2 min
+
+  Market Order TP=0.20% SL=0.10% (4 bps taker):
+    Signals: 2640  Fills: 2640 (100.0%)
+    Win rate:    28.0%
+    Avg return:  -0.056%
+    Median ret:  -0.140%
+    Total ret:   -147.89%
+    Sharpe:      -250.7
+    Max DD:      149.07%
+    Exits: TP=737 (28%)  SL=1897 (72%)  Timeout=6 (0%)
+    LONG : n=1524  wr=27.5%  avg=-0.058%  total=-87.79%
+    SHORT: n=1116  wr=28.7%  avg=-0.054%  total=-60.10%
+    Avg hold:    2.2 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY C: US-HOURS LIMIT FADE (13-18 UTC)
+──────────────────────────────────────────────────────────────────────
+
+  US-Hours Limit Fade (0% maker):
+    Signals: 641  Fills: 502 (78.3%)
+    Win rate:    70.5%
+    Avg return:  +0.036%
+    Median ret:  +0.150%
+    Total ret:   +18.03%
+    Sharpe:      +121.3
+    Max DD:      1.65%
+    Exits: TP=351 (70%)  SL=138 (27%)  Timeout=13 (3%)
+    LONG : n= 285  wr=69.5%  avg=+0.031%  total=+8.72%
+    SHORT: n= 217  wr=71.9%  avg=+0.043%  total=+9.30%
+    Avg hold:    1.7 min
+
+  Monthly breakdown (US-Hours):
+  ✅ 2025-05: n= 164 wr=70.7% avg=+0.037% total=+6.04%
+  ✅ 2025-06: n= 213 wr=66.7% avg=+0.021% total=+4.42%
+  ✅ 2025-07: n=  42 wr=73.8% avg=+0.051% total=+2.15%
+  ✅ 2025-08: n=  56 wr=76.8% avg=+0.060% total=+3.37%
+  ✅ 2026-02: n=  27 wr=81.5% avg=+0.076% total=+2.05%
+    Positive months: 5/5 (100%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY D: LAYERED MARKET-MAKING (3 levels)
+──────────────────────────────────────────────────────────────────────
+
+  Layered [0.03/0.08/0.15] TP=0.30% SL=0.15%:
+    Signals: 6813  Fills: 5942 (87.2%)
+    Win rate:    36.3%
+    Avg return:  +0.009%
+    Median ret:  -0.150%
+    Total ret:   +56.37%
+    Sharpe:      +27.0
+    Max DD:      14.37%
+    Exits: TP=1986 (33%)  SL=3720 (63%)  Timeout=236 (4%)
+    LONG : n=3427  wr=35.4%  avg=+0.006%  total=+19.23%
+    SHORT: n=2515  wr=37.6%  avg=+0.015%  total=+37.15%
+    Avg hold:    5.1 min
+
+  Layered [0.03/0.08/0.15] TP=0.50% SL=0.25%:
+    Signals: 6813  Fills: 5942 (87.2%)
+    Win rate:    40.5%
+    Avg return:  +0.017%
+    Median ret:  -0.250%
+    Total ret:   +100.04%
+    Sharpe:      +31.1
+    Max DD:      14.28%
+    Exits: TP=1524 (26%)  SL=3236 (54%)  Timeout=1182 (20%)
+    LONG : n=3427  wr=39.3%  avg=+0.010%  total=+35.94%
+    SHORT: n=2515  wr=42.1%  avg=+0.025%  total=+64.10%
+    Avg hold:    11.5 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY E: LARGE CASCADES ONLY (P99)
+──────────────────────────────────────────────────────────────────────
+  P99 cascades: 856
+
+  P99 Cascades (0% maker):
+    Signals: 735  Fills: 594 (80.8%)
+    Win rate:    75.3%
+    Avg return:  +0.055%
+    Median ret:  +0.150%
+    Total ret:   +32.51%
+    Sharpe:      +197.2
+    Max DD:      2.06%
+    Exits: TP=442 (74%)  SL=132 (22%)  Timeout=20 (3%)
+    LONG : n= 370  wr=74.9%  avg=+0.054%  total=+19.86%
+    SHORT: n= 224  wr=75.9%  avg=+0.056%  total=+12.65%
+    Avg hold:    1.7 min
+
+──────────────────────────────────────────────────────────────────────
+  ETHUSDT complete in 423s
+──────────────────────────────────────────────────────────────────────
+
+======================================================================
+  SOLUSDT — LIQUIDATION CASCADE MARKET-MAKING
+======================================================================
+  Loading 3107 liquidation files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 done (189,603 events)
+  Loading 3251 ticker files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 done (1,261,981 ticks)
+  Building 1-min price bars... 105,195 bars
+  Period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00
+  Duration: 282.0 days
+
+  Detecting cascades... 1937 cascades
+  Buy-dominant: 1211 (63%)  Sell-dominant: 726 (37%)
+  Avg notional: $187,559  Avg events: 4.8  Avg duration: 9s
+  Cascades/day: 6.9
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY A: SINGLE-LEVEL LIMIT FADE
+──────────────────────────────────────────────────────────────────────
+  Sweeping 72 configs...
+    [24/72]
+    [48/72]
+    [72/72]
+
+  Top 10 configs (by total return):
+  Offset    TP    SL  Fills  FillR     WR      Avg     Total   Sharpe   TP%   SL%
+  ----------------------------------------------------------------------------
+   0.15% 0.15% 0.25%   1221  78.0%  73.6%  +0.047%   +57.15%  +163.7   73%   24%
+   0.20% 0.15% 0.25%   1102  69.4%  73.5%  +0.048%   +52.38%  +167.9   72%   24%
+   0.20% 0.20% 0.25%   1102  69.4%  65.3%  +0.046%   +51.22%  +135.0   63%   31%
+   0.15% 0.15% 0.15%   1221  78.0%  61.8%  +0.036%   +43.86%  +149.4   61%   37%
+   0.15% 0.20% 0.25%   1221  78.0%  62.4%  +0.033%   +40.43%   +93.6   61%   35%
+   0.20% 0.15% 0.15%   1102  69.4%  60.7%  +0.032%   +35.53%  +133.5   60%   38%
+   0.20% 0.20% 0.15%   1102  69.4%  52.1%  +0.031%   +34.68%  +109.5   51%   47%
+   0.10% 0.15% 0.25%   1335  86.1%  68.6%  +0.025%   +33.65%   +82.6   68%   30%
+   0.15% 0.15% 0.10%   1221  78.0%  50.9%  +0.027%   +33.36%  +132.1   50%   48%
+   0.20% 0.30% 0.25%   1102  69.4%  50.8%  +0.027%   +29.32%   +60.9   45%   44%
+
+  Best config: offset=0.15% TP=0.15% SL=0.25%
+
+  Best Single-Level (0% maker fee):
+    Signals: 1566  Fills: 1221 (78.0%)
+    Win rate:    73.6%
+    Avg return:  +0.047%
+    Median ret:  +0.150%
+    Total ret:   +57.15%
+    Sharpe:      +163.7
+    Max DD:      1.85%
+    Exits: TP=886 (73%)  SL=296 (24%)  Timeout=39 (3%)
+    LONG : n= 758  wr=73.9%  avg=+0.047%  total=+35.87%
+    SHORT: n= 463  wr=73.2%  avg=+0.046%  total=+21.28%
+    Avg hold:    2.2 min
+
+  Best Single-Level (2 bps maker fee):
+    Signals: 1566  Fills: 1221 (78.0%)
+    Win rate:    73.2%
+    Avg return:  +0.027%
+    Median ret:  +0.130%
+    Total ret:   +32.73%
+    Sharpe:      +93.8
+    Max DD:      2.33%
+    Exits: TP=886 (73%)  SL=296 (24%)  Timeout=39 (3%)
+    LONG : n= 758  wr=73.5%  avg=+0.027%  total=+20.71%
+    SHORT: n= 463  wr=72.8%  avg=+0.026%  total=+12.02%
+    Avg hold:    2.2 min
+
+  Monthly breakdown (Best Single-Level):
+  ✅ 2025-05: n= 393 wr=76.6% avg=+0.058% total=+22.88%
+  ✅ 2025-06: n= 559 wr=71.2% avg=+0.038% total=+21.26%
+  ✅ 2025-07: n=  91 wr=71.4% avg=+0.040% total=+3.62%
+  ✅ 2025-08: n= 124 wr=73.4% avg=+0.041% total=+5.08%
+  ✅ 2026-02: n=  54 wr=81.5% avg=+0.080% total=+4.31%
+    Positive months: 5/5 (100%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY B: MARKET ORDER FADE (v26b/c baseline)
+──────────────────────────────────────────────────────────────────────
+
+  Market Order TP=0.30% SL=0.15% (4 bps taker):
+    Signals: 1937  Fills: 1937 (100.0%)
+    Win rate:    29.4%
+    Avg return:  -0.058%
+    Median ret:  -0.190%
+    Total ret:   -112.45%
+    Sharpe:      -172.1
+    Max DD:      112.26%
+    Exits: TP=553 (29%)  SL=1351 (70%)  Timeout=33 (2%)
+    LONG : n=1211  wr=28.8%  avg=-0.060%  total=-72.64%
+    SHORT: n= 726  wr=30.4%  avg=-0.055%  total=-39.81%
+    Avg hold:    4.6 min
+
+  Market Order TP=0.50% SL=0.25% (4 bps taker):
+    Signals: 1937  Fills: 1937 (100.0%)
+    Win rate:    33.2%
+    Avg return:  -0.055%
+    Median ret:  -0.290%
+    Total ret:   -105.63%
+    Sharpe:      -100.0
+    Max DD:      107.07%
+    Exits: TP=493 (25%)  SL=1213 (63%)  Timeout=231 (12%)
+    LONG : n=1211  wr=32.0%  avg=-0.060%  total=-72.99%
+    SHORT: n= 726  wr=35.4%  avg=-0.045%  total=-32.64%
+    Avg hold:    11.1 min
+
+  Market Order TP=0.20% SL=0.10% (4 bps taker):
+    Signals: 1937  Fills: 1937 (100.0%)
+    Win rate:    28.9%
+    Avg return:  -0.053%
+    Median ret:  -0.140%
+    Total ret:   -103.39%
+    Sharpe:      -236.6
+    Max DD:      103.51%
+    Exits: TP=558 (29%)  SL=1376 (71%)  Timeout=3 (0%)
+    LONG : n=1211  wr=28.5%  avg=-0.054%  total=-65.85%
+    SHORT: n= 726  wr=29.5%  avg=-0.052%  total=-37.54%
+    Avg hold:    2.1 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY C: US-HOURS LIMIT FADE (13-18 UTC)
+──────────────────────────────────────────────────────────────────────
+
+  US-Hours Limit Fade (0% maker):
+    Signals: 515  Fills: 419 (81.4%)
+    Win rate:    73.5%
+    Avg return:  +0.046%
+    Median ret:  +0.150%
+    Total ret:   +19.27%
+    Sharpe:      +159.3
+    Max DD:      1.65%
+    Exits: TP=306 (73%)  SL=106 (25%)  Timeout=7 (2%)
+    LONG : n= 246  wr=74.0%  avg=+0.048%  total=+11.76%
+    SHORT: n= 173  wr=72.8%  avg=+0.043%  total=+7.51%
+    Avg hold:    1.5 min
+
+  Monthly breakdown (US-Hours):
+  ✅ 2025-05: n= 113 wr=75.2% avg=+0.052% total=+5.91%
+  ✅ 2025-06: n= 206 wr=71.4% avg=+0.038% total=+7.81%
+  ✅ 2025-07: n=  31 wr=80.6% avg=+0.073% total=+2.25%
+  ✅ 2025-08: n=  43 wr=74.4% avg=+0.047% total=+2.00%
+  ✅ 2026-02: n=  26 wr=73.1% avg=+0.050% total=+1.31%
+    Positive months: 5/5 (100%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY D: LAYERED MARKET-MAKING (3 levels)
+──────────────────────────────────────────────────────────────────────
+
+  Layered [0.03/0.08/0.15] TP=0.30% SL=0.15%:
+    Signals: 5073  Fills: 4497 (88.6%)
+    Win rate:    34.8%
+    Avg return:  +0.004%
+    Median ret:  -0.150%
+    Total ret:   +17.03%
+    Sharpe:      +10.8
+    Max DD:      21.54%
+    Exits: TP=1473 (33%)  SL=2885 (64%)  Timeout=139 (3%)
+    LONG : n=2779  wr=33.8%  avg=+0.000%  total=+0.04%
+    SHORT: n=1718  wr=36.4%  avg=+0.010%  total=+16.99%
+    Avg hold:    4.5 min
+
+  Layered [0.03/0.08/0.15] TP=0.50% SL=0.25%:
+    Signals: 5073  Fills: 4497 (88.6%)
+    Win rate:    38.1%
+    Avg return:  +0.008%
+    Median ret:  -0.250%
+    Total ret:   +34.33%
+    Sharpe:      +13.9
+    Max DD:      15.07%
+    Exits: TP=1202 (27%)  SL=2603 (58%)  Timeout=692 (15%)
+    LONG : n=2779  wr=37.0%  avg=+0.003%  total=+7.65%
+    SHORT: n=1718  wr=39.9%  avg=+0.016%  total=+26.68%
+    Avg hold:    10.4 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY E: LARGE CASCADES ONLY (P99)
+──────────────────────────────────────────────────────────────────────
+  P99 cascades: 595
+
+  P99 Cascades (0% maker):
+    Signals: 523  Fills: 422 (80.7%)
+    Win rate:    73.5%
+    Avg return:  +0.046%
+    Median ret:  +0.150%
+    Total ret:   +19.38%
+    Sharpe:      +159.0
+    Max DD:      1.30%
+    Exits: TP=309 (73%)  SL=106 (25%)  Timeout=7 (2%)
+    LONG : n= 263  wr=75.3%  avg=+0.053%  total=+13.81%
+    SHORT: n= 159  wr=70.4%  avg=+0.035%  total=+5.56%
+    Avg hold:    1.6 min
+
+──────────────────────────────────────────────────────────────────────
+  SOLUSDT complete in 380s
+──────────────────────────────────────────────────────────────────────
+
+======================================================================
+  DOGEUSDT — LIQUIDATION CASCADE MARKET-MAKING
+======================================================================
+  Loading 3018 liquidation files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 done (93,913 events)
+  Loading 3251 ticker files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 done (1,261,993 ticks)
+  Building 1-min price bars... 105,196 bars
+  Period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00
+  Duration: 282.0 days
+
+  Detecting cascades... 1247 cascades
+  Buy-dominant: 869 (70%)  Sell-dominant: 378 (30%)
+  Avg notional: $174,821  Avg events: 3.7  Avg duration: 8s
+  Cascades/day: 4.4
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY A: SINGLE-LEVEL LIMIT FADE
+──────────────────────────────────────────────────────────────────────
+  Sweeping 72 configs...
+    [24/72]
+    [48/72]
+    [72/72]
+
+  Top 10 configs (by total return):
+  Offset    TP    SL  Fills  FillR     WR      Avg     Total   Sharpe   TP%   SL%
+  ----------------------------------------------------------------------------
+   0.15% 0.15% 0.25%    877  83.2%  74.8%  +0.049%   +43.33%  +172.3   74%   25%
+   0.20% 0.15% 0.25%    802  75.8%  74.4%  +0.049%   +39.31%  +170.9   74%   25%
+   0.20% 0.20% 0.25%    802  75.8%  65.7%  +0.047%   +37.68%  +134.1   65%   33%
+   0.15% 0.20% 0.25%    877  83.2%  63.6%  +0.036%   +31.98%  +102.3   63%   35%
+   0.15% 0.15% 0.15%    877  83.2%  62.1%  +0.036%   +31.71%  +149.8   62%   38%
+   0.15% 0.20% 0.15%    877  83.2%  52.6%  +0.033%   +29.23%  +115.4   52%   47%
+   0.20% 0.20% 0.15%    802  75.8%  52.9%  +0.035%   +28.20%  +121.9   52%   46%
+   0.20% 0.15% 0.15%    802  75.8%  61.6%  +0.035%   +28.13%  +145.3   61%   38%
+   0.10% 0.15% 0.25%    951  90.7%  69.4%  +0.028%   +27.01%   +93.3   69%   30%
+   0.10% 0.30% 0.25%    951  90.7%  50.8%  +0.028%   +26.90%   +62.9   48%   48%
+
+  Best config: offset=0.15% TP=0.15% SL=0.25%
+
+  Best Single-Level (0% maker fee):
+    Signals: 1054  Fills: 877 (83.2%)
+    Win rate:    74.8%
+    Avg return:  +0.049%
+    Median ret:  +0.150%
+    Total ret:   +43.33%
+    Sharpe:      +172.3
+    Max DD:      1.35%
+    Exits: TP=651 (74%)  SL=217 (25%)  Timeout=9 (1%)
+    LONG : n= 591  wr=75.0%  avg=+0.050%  total=+29.46%
+    SHORT: n= 286  wr=74.5%  avg=+0.048%  total=+13.87%
+    Avg hold:    1.4 min
+
+  Best Single-Level (2 bps maker fee):
+    Signals: 1054  Fills: 877 (83.2%)
+    Win rate:    74.8%
+    Avg return:  +0.029%
+    Median ret:  +0.130%
+    Total ret:   +25.79%
+    Sharpe:      +102.5
+    Max DD:      2.98%
+    Exits: TP=651 (74%)  SL=217 (25%)  Timeout=9 (1%)
+    LONG : n= 591  wr=75.0%  avg=+0.030%  total=+17.64%
+    SHORT: n= 286  wr=74.5%  avg=+0.028%  total=+8.15%
+    Avg hold:    1.4 min
+
+  Monthly breakdown (Best Single-Level):
+  ✅ 2025-05: n= 421 wr=77.2% avg=+0.059% total=+24.63%
+  ✅ 2025-06: n= 278 wr=72.7% avg=+0.041% total=+11.42%
+  ✅ 2025-07: n=  63 wr=68.3% avg=+0.026% total=+1.63%
+  ✅ 2025-08: n= 101 wr=74.3% avg=+0.047% total=+4.75%
+  ✅ 2026-02: n=  14 wr=78.6% avg=+0.064% total=+0.90%
+    Positive months: 5/5 (100%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY B: MARKET ORDER FADE (v26b/c baseline)
+──────────────────────────────────────────────────────────────────────
+
+  Market Order TP=0.30% SL=0.15% (4 bps taker):
+    Signals: 1247  Fills: 1247 (100.0%)
+    Win rate:    30.7%
+    Avg return:  -0.052%
+    Median ret:  -0.190%
+    Total ret:   -65.14%
+    Sharpe:      -152.2
+    Max DD:      66.73%
+    Exits: TP=377 (30%)  SL=861 (69%)  Timeout=9 (1%)
+    LONG : n= 869  wr=32.1%  avg=-0.046%  total=-39.90%
+    SHORT: n= 378  wr=27.5%  avg=-0.067%  total=-25.24%
+    Avg hold:    3.2 min
+
+  Market Order TP=0.50% SL=0.25% (4 bps taker):
+    Signals: 1247  Fills: 1247 (100.0%)
+    Win rate:    33.4%
+    Avg return:  -0.052%
+    Median ret:  -0.290%
+    Total ret:   -65.14%
+    Sharpe:      -93.6
+    Max DD:      67.49%
+    Exits: TP=343 (28%)  SL=810 (65%)  Timeout=94 (8%)
+    LONG : n= 869  wr=33.5%  avg=-0.049%  total=-42.49%
+    SHORT: n= 378  wr=33.1%  avg=-0.060%  total=-22.65%
+    Avg hold:    8.3 min
+
+  Market Order TP=0.20% SL=0.10% (4 bps taker):
+    Signals: 1247  Fills: 1247 (100.0%)
+    Win rate:    29.1%
+    Avg return:  -0.053%
+    Median ret:  -0.140%
+    Total ret:   -65.55%
+    Sharpe:      -232.3
+    Max DD:      65.79%
+    Exits: TP=363 (29%)  SL=883 (71%)  Timeout=1 (0%)
+    LONG : n= 869  wr=29.5%  avg=-0.051%  total=-44.73%
+    SHORT: n= 378  wr=28.3%  avg=-0.055%  total=-20.82%
+    Avg hold:    1.3 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY C: US-HOURS LIMIT FADE (13-18 UTC)
+──────────────────────────────────────────────────────────────────────
+
+  US-Hours Limit Fade (0% maker):
+    Signals: 313  Fills: 266 (85.0%)
+    Win rate:    75.9%
+    Avg return:  +0.053%
+    Median ret:  +0.150%
+    Total ret:   +14.00%
+    Sharpe:      +185.4
+    Max DD:      0.85%
+    Exits: TP=199 (75%)  SL=64 (24%)  Timeout=3 (1%)
+    LONG : n= 180  wr=76.1%  avg=+0.053%  total=+9.50%
+    SHORT: n=  86  wr=75.6%  avg=+0.052%  total=+4.50%
+    Avg hold:    1.0 min
+
+  Monthly breakdown (US-Hours):
+  ✅ 2025-05: n= 112 wr=75.0% avg=+0.049% total=+5.48%
+  ✅ 2025-06: n=  89 wr=75.3% avg=+0.049% total=+4.37%
+  ✅ 2025-07: n=  26 wr=73.1% avg=+0.042% total=+1.10%
+  ✅ 2025-08: n=  33 wr=81.8% avg=+0.077% total=+2.55%
+  ✅ 2026-02: n=   6 wr=83.3% avg=+0.083% total=+0.50%
+    Positive months: 5/5 (100%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY D: LAYERED MARKET-MAKING (3 levels)
+──────────────────────────────────────────────────────────────────────
+
+  Layered [0.03/0.08/0.15] TP=0.30% SL=0.15%:
+    Signals: 3341  Fills: 3057 (91.5%)
+    Win rate:    36.1%
+    Avg return:  +0.010%
+    Median ret:  -0.150%
+    Total ret:   +32.00%
+    Sharpe:      +29.5
+    Max DD:      7.99%
+    Exits: TP=1060 (35%)  SL=1944 (64%)  Timeout=53 (2%)
+    LONG : n=2076  wr=36.6%  avg=+0.012%  total=+25.51%
+    SHORT: n= 981  wr=35.2%  avg=+0.007%  total=+6.49%
+    Avg hold:    3.3 min
+
+  Layered [0.03/0.08/0.15] TP=0.50% SL=0.25%:
+    Signals: 3341  Fills: 3057 (91.5%)
+    Win rate:    37.0%
+    Avg return:  +0.008%
+    Median ret:  -0.250%
+    Total ret:   +23.51%
+    Sharpe:      +13.6
+    Max DD:      9.47%
+    Exits: TP=896 (29%)  SL=1866 (61%)  Timeout=295 (10%)
+    LONG : n=2076  wr=37.0%  avg=+0.010%  total=+19.79%
+    SHORT: n= 981  wr=37.0%  avg=+0.004%  total=+3.72%
+    Avg hold:    7.9 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY E: LARGE CASCADES ONLY (P99)
+──────────────────────────────────────────────────────────────────────
+  P99 cascades: 356
+
+  P99 Cascades (0% maker):
+    Signals: 333  Fills: 287 (86.2%)
+    Win rate:    74.2%
+    Avg return:  +0.047%
+    Median ret:  +0.150%
+    Total ret:   +13.50%
+    Sharpe:      +162.5
+    Max DD:      2.32%
+    Exits: TP=212 (74%)  SL=73 (25%)  Timeout=2 (1%)
+    LONG : n= 207  wr=74.9%  avg=+0.049%  total=+10.12%
+    SHORT: n=  80  wr=72.5%  avg=+0.042%  total=+3.38%
+    Avg hold:    1.1 min
+
+──────────────────────────────────────────────────────────────────────
+  DOGEUSDT complete in 325s
+──────────────────────────────────────────────────────────────────────
+
+======================================================================
+  XRPUSDT — LIQUIDATION CASCADE MARKET-MAKING
+======================================================================
+  Loading 2962 liquidation files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 done (128,466 events)
+  Loading 3251 ticker files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 done (1,261,981 ticks)
+  Building 1-min price bars... 105,196 bars
+  Period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00
+  Duration: 282.0 days
+
+  Detecting cascades... 1494 cascades
+  Buy-dominant: 1046 (70%)  Sell-dominant: 448 (30%)
+  Avg notional: $273,401  Avg events: 4.2  Avg duration: 9s
+  Cascades/day: 5.3
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY A: SINGLE-LEVEL LIMIT FADE
+──────────────────────────────────────────────────────────────────────
+  Sweeping 72 configs...
+    [24/72]
+    [48/72]
+    [72/72]
+
+  Top 10 configs (by total return):
+  Offset    TP    SL  Fills  FillR     WR      Avg     Total   Sharpe   TP%   SL%
+  ----------------------------------------------------------------------------
+   0.15% 0.15% 0.25%    903  74.6%  72.3%  +0.042%   +37.73%  +144.3   71%   25%
+   0.20% 0.20% 0.25%    819  67.2%  63.6%  +0.040%   +32.48%  +114.5   61%   32%
+   0.20% 0.15% 0.25%    819  67.2%  70.7%  +0.037%   +30.24%  +126.6   69%   26%
+   0.15% 0.15% 0.15%    903  74.6%  60.8%  +0.033%   +29.35%  +134.6   60%   38%
+   0.15% 0.20% 0.25%    903  74.6%  62.0%  +0.030%   +27.24%   +85.4   59%   35%
+   0.10% 0.15% 0.25%    998  83.4%  68.1%  +0.025%   +25.17%   +83.2   67%   30%
+   0.20% 0.20% 0.15%    819  67.2%  50.5%  +0.028%   +22.64%   +96.5   49%   47%
+   0.20% 0.15% 0.15%    819  67.2%  58.5%  +0.027%   +21.89%  +110.4   58%   40%
+   0.15% 0.20% 0.15%    903  74.6%  49.5%  +0.022%   +19.73%   +76.2   48%   49%
+   0.20% 0.50% 0.25%    819  67.2%  41.4%  +0.022%   +18.41%   +42.0   25%   52%
+
+  Best config: offset=0.15% TP=0.15% SL=0.25%
+
+  Best Single-Level (0% maker fee):
+    Signals: 1210  Fills: 903 (74.6%)
+    Win rate:    72.3%
+    Avg return:  +0.042%
+    Median ret:  +0.150%
+    Total ret:   +37.73%
+    Sharpe:      +144.3
+    Max DD:      2.01%
+    Exits: TP=643 (71%)  SL=227 (25%)  Timeout=33 (4%)
+    LONG : n= 623  wr=72.2%  avg=+0.042%  total=+26.26%
+    SHORT: n= 280  wr=72.5%  avg=+0.041%  total=+11.48%
+    Avg hold:    2.7 min
+
+  Best Single-Level (2 bps maker fee):
+    Signals: 1210  Fills: 903 (74.6%)
+    Win rate:    72.2%
+    Avg return:  +0.022%
+    Median ret:  +0.130%
+    Total ret:   +19.67%
+    Sharpe:      +75.2
+    Max DD:      2.80%
+    Exits: TP=643 (71%)  SL=227 (25%)  Timeout=33 (4%)
+    LONG : n= 623  wr=72.2%  avg=+0.022%  total=+13.80%
+    SHORT: n= 280  wr=72.1%  avg=+0.021%  total=+5.88%
+    Avg hold:    2.7 min
+
+  Monthly breakdown (Best Single-Level):
+  ✅ 2025-05: n= 316 wr=70.3% avg=+0.032% total=+10.11%
+  ✅ 2025-06: n= 322 wr=70.5% avg=+0.035% total=+11.27%
+  ✅ 2025-07: n=  91 wr=74.7% avg=+0.055% total=+4.96%
+  ✅ 2025-08: n= 144 wr=79.2% avg=+0.069% total=+9.91%
+  ✅ 2026-02: n=  30 wr=73.3% avg=+0.050% total=+1.49%
+    Positive months: 5/5 (100%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY B: MARKET ORDER FADE (v26b/c baseline)
+──────────────────────────────────────────────────────────────────────
+
+  Market Order TP=0.30% SL=0.15% (4 bps taker):
+    Signals: 1494  Fills: 1494 (100.0%)
+    Win rate:    30.9%
+    Avg return:  -0.051%
+    Median ret:  -0.190%
+    Total ret:   -76.85%
+    Sharpe:      -151.1
+    Max DD:      77.79%
+    Exits: TP=438 (29%)  SL=1012 (68%)  Timeout=44 (3%)
+    LONG : n=1046  wr=31.0%  avg=-0.050%  total=-52.74%
+    SHORT: n= 448  wr=30.8%  avg=-0.054%  total=-24.10%
+    Avg hold:    5.7 min
+
+  Market Order TP=0.50% SL=0.25% (4 bps taker):
+    Signals: 1494  Fills: 1494 (100.0%)
+    Win rate:    36.1%
+    Avg return:  -0.041%
+    Median ret:  -0.290%
+    Total ret:   -61.62%
+    Sharpe:      -76.3
+    Max DD:      65.86%
+    Exits: TP=368 (25%)  SL=879 (59%)  Timeout=247 (17%)
+    LONG : n=1046  wr=37.3%  avg=-0.033%  total=-34.86%
+    SHORT: n= 448  wr=33.5%  avg=-0.060%  total=-26.75%
+    Avg hold:    12.2 min
+
+  Market Order TP=0.20% SL=0.10% (4 bps taker):
+    Signals: 1494  Fills: 1494 (100.0%)
+    Win rate:    29.4%
+    Avg return:  -0.052%
+    Median ret:  -0.140%
+    Total ret:   -77.29%
+    Sharpe:      -228.9
+    Max DD:      77.49%
+    Exits: TP=433 (29%)  SL=1048 (70%)  Timeout=13 (1%)
+    LONG : n=1046  wr=28.6%  avg=-0.054%  total=-56.28%
+    SHORT: n= 448  wr=31.2%  avg=-0.047%  total=-21.01%
+    Avg hold:    2.7 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY C: US-HOURS LIMIT FADE (13-18 UTC)
+──────────────────────────────────────────────────────────────────────
+
+  US-Hours Limit Fade (0% maker):
+    Signals: 371  Fills: 294 (79.2%)
+    Win rate:    72.1%
+    Avg return:  +0.039%
+    Median ret:  +0.150%
+    Total ret:   +11.35%
+    Sharpe:      +130.1
+    Max DD:      0.90%
+    Exits: TP=210 (71%)  SL=80 (27%)  Timeout=4 (1%)
+    LONG : n= 198  wr=69.7%  avg=+0.030%  total=+5.89%
+    SHORT: n=  96  wr=77.1%  avg=+0.057%  total=+5.46%
+    Avg hold:    2.3 min
+
+  Monthly breakdown (US-Hours):
+  ✅ 2025-05: n=  92 wr=72.8% avg=+0.042% total=+3.83%
+  ✅ 2025-06: n= 113 wr=68.1% avg=+0.023% total=+2.57%
+  ✅ 2025-07: n=  34 wr=73.5% avg=+0.044% total=+1.50%
+  ✅ 2025-08: n=  43 wr=81.4% avg=+0.076% total=+3.25%
+  ✅ 2026-02: n=  12 wr=66.7% avg=+0.017% total=+0.20%
+    Positive months: 5/5 (100%)
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY D: LAYERED MARKET-MAKING (3 levels)
+──────────────────────────────────────────────────────────────────────
+
+  Layered [0.03/0.08/0.15] TP=0.30% SL=0.15%:
+    Signals: 3921  Fills: 3384 (86.3%)
+    Win rate:    36.0%
+    Avg return:  +0.007%
+    Median ret:  -0.150%
+    Total ret:   +22.65%
+    Sharpe:      +19.2
+    Max DD:      13.63%
+    Exits: TP=1108 (33%)  SL=2127 (63%)  Timeout=149 (4%)
+    LONG : n=2365  wr=35.8%  avg=+0.007%  total=+16.10%
+    SHORT: n=1019  wr=36.5%  avg=+0.006%  total=+6.55%
+    Avg hold:    5.1 min
+
+  Layered [0.03/0.08/0.15] TP=0.50% SL=0.25%:
+    Signals: 3921  Fills: 3384 (86.3%)
+    Win rate:    40.7%
+    Avg return:  +0.020%
+    Median ret:  -0.250%
+    Total ret:   +67.86%
+    Sharpe:      +36.8
+    Max DD:      10.07%
+    Exits: TP=891 (26%)  SL=1838 (54%)  Timeout=655 (19%)
+    LONG : n=2365  wr=41.5%  avg=+0.029%  total=+67.58%
+    SHORT: n=1019  wr=39.0%  avg=+0.000%  total=+0.28%
+    Avg hold:    11.1 min
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY E: LARGE CASCADES ONLY (P99)
+──────────────────────────────────────────────────────────────────────
+  P99 cascades: 441
+
+  P99 Cascades (0% maker):
+    Signals: 387  Fills: 296 (76.5%)
+    Win rate:    71.3%
+    Avg return:  +0.036%
+    Median ret:  +0.150%
+    Total ret:   +10.71%
+    Sharpe:      +121.4
+    Max DD:      1.75%
+    Exits: TP=210 (71%)  SL=82 (28%)  Timeout=4 (1%)
+    LONG : n= 223  wr=72.2%  avg=+0.041%  total=+9.05%
+    SHORT: n=  73  wr=68.5%  avg=+0.023%  total=+1.67%
+    Avg hold:    2.0 min
+
+──────────────────────────────────────────────────────────────────────
+  XRPUSDT complete in 341s
+──────────────────────────────────────────────────────────────────────
+
+
+======================================================================
+  GRAND SUMMARY — ALL SYMBOLS
+======================================================================
+
+  BTCUSDT:
+    best_single                    fills=1144 wr= 48.5% avg= +0.020% total=  +22.52% sharpe=  +45.6
+    best_single_fee                fills=1144 wr= 45.5% avg= -0.000% total=   -0.36% sharpe=   -0.7
+    market_0.3_0.15                fills=2086 wr= 33.7% avg= -0.048% total=  -99.99% sharpe= -153.3
+    market_0.5_0.25                fills=2086 wr= 41.1% avg= -0.036% total=  -74.89% sharpe=  -81.8
+    market_0.2_0.1                 fills=2086 wr= 29.5% avg= -0.053% total= -110.40% sharpe= -242.6
+    us_hours                       fills= 409 wr= 44.7% avg= +0.016% total=   +6.36% sharpe=  +32.7
+    layered_0.3_0.15               fills=4041 wr= 39.9% avg= +0.006% total=  +23.57% sharpe=  +18.6
+    layered_0.5_0.25               fills=4041 wr= 47.4% avg= +0.014% total=  +58.53% sharpe=  +33.4
+    p99                            fills= 437 wr= 44.2% avg= +0.007% total=   +2.92% sharpe=  +14.6
+
+  ETHUSDT:
+    best_single                    fills=1542 wr= 71.8% avg= +0.040% total=  +62.22% sharpe= +139.2
+    best_single_fee                fills=1542 wr= 71.5% avg= +0.020% total=  +31.38% sharpe=  +70.2
+    market_0.3_0.15                fills=2640 wr= 30.8% avg= -0.053% total= -140.58% sharpe= -156.5
+    market_0.5_0.25                fills=2640 wr= 35.5% avg= -0.046% total= -122.40% sharpe=  -86.5
+    market_0.2_0.1                 fills=2640 wr= 28.0% avg= -0.056% total= -147.89% sharpe= -250.7
+    us_hours                       fills= 502 wr= 70.5% avg= +0.036% total=  +18.03% sharpe= +121.3
+    layered_0.3_0.15               fills=5942 wr= 36.3% avg= +0.009% total=  +56.37% sharpe=  +27.0
+    layered_0.5_0.25               fills=5942 wr= 40.5% avg= +0.017% total= +100.04% sharpe=  +31.1
+    p99                            fills= 594 wr= 75.3% avg= +0.055% total=  +32.51% sharpe= +197.2
+
+  SOLUSDT:
+    best_single                    fills=1221 wr= 73.6% avg= +0.047% total=  +57.15% sharpe= +163.7
+    best_single_fee                fills=1221 wr= 73.2% avg= +0.027% total=  +32.73% sharpe=  +93.8
+    market_0.3_0.15                fills=1937 wr= 29.4% avg= -0.058% total= -112.45% sharpe= -172.1
+    market_0.5_0.25                fills=1937 wr= 33.2% avg= -0.055% total= -105.63% sharpe= -100.0
+    market_0.2_0.1                 fills=1937 wr= 28.9% avg= -0.053% total= -103.39% sharpe= -236.6
+    us_hours                       fills= 419 wr= 73.5% avg= +0.046% total=  +19.27% sharpe= +159.3
+    layered_0.3_0.15               fills=4497 wr= 34.8% avg= +0.004% total=  +17.03% sharpe=  +10.8
+    layered_0.5_0.25               fills=4497 wr= 38.1% avg= +0.008% total=  +34.33% sharpe=  +13.9
+    p99                            fills= 422 wr= 73.5% avg= +0.046% total=  +19.38% sharpe= +159.0
+
+  DOGEUSDT:
+    best_single                    fills= 877 wr= 74.8% avg= +0.049% total=  +43.33% sharpe= +172.3
+    best_single_fee                fills= 877 wr= 74.8% avg= +0.029% total=  +25.79% sharpe= +102.5
+    market_0.3_0.15                fills=1247 wr= 30.7% avg= -0.052% total=  -65.14% sharpe= -152.2
+    market_0.5_0.25                fills=1247 wr= 33.4% avg= -0.052% total=  -65.14% sharpe=  -93.6
+    market_0.2_0.1                 fills=1247 wr= 29.1% avg= -0.053% total=  -65.55% sharpe= -232.3
+    us_hours                       fills= 266 wr= 75.9% avg= +0.053% total=  +14.00% sharpe= +185.4
+    layered_0.3_0.15               fills=3057 wr= 36.1% avg= +0.010% total=  +32.00% sharpe=  +29.5
+    layered_0.5_0.25               fills=3057 wr= 37.0% avg= +0.008% total=  +23.51% sharpe=  +13.6
+    p99                            fills= 287 wr= 74.2% avg= +0.047% total=  +13.50% sharpe= +162.5
+
+  XRPUSDT:
+    best_single                    fills= 903 wr= 72.3% avg= +0.042% total=  +37.73% sharpe= +144.3
+    best_single_fee                fills= 903 wr= 72.2% avg= +0.022% total=  +19.67% sharpe=  +75.2
+    market_0.3_0.15                fills=1494 wr= 30.9% avg= -0.051% total=  -76.85% sharpe= -151.1
+    market_0.5_0.25                fills=1494 wr= 36.1% avg= -0.041% total=  -61.62% sharpe=  -76.3
+    market_0.2_0.1                 fills=1494 wr= 29.4% avg= -0.052% total=  -77.29% sharpe= -228.9
+    us_hours                       fills= 294 wr= 72.1% avg= +0.039% total=  +11.35% sharpe= +130.1
+    layered_0.3_0.15               fills=3384 wr= 36.0% avg= +0.007% total=  +22.65% sharpe=  +19.2
+    layered_0.5_0.25               fills=3384 wr= 40.7% avg= +0.020% total=  +67.86% sharpe=  +36.8
+    p99                            fills= 296 wr= 71.3% avg= +0.036% total=  +10.71% sharpe= +121.4
+
+======================================================================
+  DONE — 1886s total
+======================================================================
