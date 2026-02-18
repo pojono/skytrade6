@@ -1,0 +1,342 @@
+======================================================================
+v33c: DST Analysis — Does the Volatility Peak Shift?
+======================================================================
+  [RAM] used=11.6GB avail=4.9GB start
+
+Loading BTCUSDT...
+  BTCUSDT: 329,184 bars (3.1s)
+    summer_summer: 183,456 bars (55.7%)
+    summer_winter: 22,176 bars (6.7%)
+    winter_winter: 123,552 bars (37.5%)
+
+======================================================================
+DST HOURLY ANALYSIS — BTCUSDT
+======================================================================
+
+  Weekday bars: summer=146,880, winter=88,128
+
+  Hour   Summer(EDT)  Winter(EST)   Ratio   Summer Session          Winter Session
+  ───────────────────────────────────────────────────────────────────────────────────────────────
+     0        19.02        22.79    0.83x  Tokyo                   Tokyo                 
+     1        19.05        23.00    0.83x  Tokyo                   Tokyo                 
+     2        16.78        20.88    0.80x  Tokyo                   Tokyo                 
+     3        14.41        17.46    0.83x  Tokyo                   Tokyo                 
+     4        13.17        15.86    0.83x  Tokyo                   Tokyo                 
+     5        13.38        15.58    0.86x  Tokyo                   Tokyo                 
+     6        14.26        16.01    0.89x  Tokyo(late)             Tokyo(late)           
+     7        15.17        16.47    0.92x  Tokyo(late) + London    Tokyo(late)           
+     8        15.82        17.97    0.88x  Tokyo(late) + London    Tokyo(late) + London  
+     9        14.86        18.01    0.83x  London                  London                
+    10        14.70        16.65    0.88x  London                  London                
+    11        15.07        17.33    0.87x  London                  London                
+    12        20.78        19.83    1.05x  London                  London                
+    13        26.95        23.97    1.12x  London + NYSE(pre)      London                
+    14        31.37        35.11    0.89x  London + NYSE           London + NYSE(pre)     ◄ SUMMER PEAK
+    15        26.74        37.86    0.71x  NYSE                    London + NYSE          ◄ WINTER PEAK
+    16        24.09        32.00    0.75x  NYSE                    NYSE                  
+    17        22.83        29.77    0.77x  NYSE                    NYSE                  
+    18        21.98        27.61    0.80x  NYSE                    NYSE                  
+    19        21.85        27.05    0.81x  NYSE                    NYSE                  
+    20        19.17        28.29    0.68x  Quiet                   NYSE                  
+    21        18.89        24.30    0.78x  Quiet                   Quiet                 
+    22        15.79        23.17    0.68x  Quiet                   Quiet                 
+    23        13.95        18.95    0.74x  Quiet                   Quiet                 
+
+  Summer peak hour: 14:00 UTC (31.37 bps)
+  Winter peak hour: 15:00 UTC (37.86 bps)
+  Peak shift: +1 hour(s)
+
+  Summer top-3: 14:00(31.4), 13:00(26.9), 15:00(26.7)
+  Winter top-3: 15:00(37.9), 14:00(35.1), 16:00(32.0)
+
+  Summer vs Winter hourly profile: ρ=+0.891, p=0.0000
+
+======================================================================
+4-STATE DST ANALYSIS — BTCUSDT (weekdays only)
+======================================================================
+
+  State                                  N bars   Peak Hour   Peak Range
+  ──────────────────────────────────────────────────────────────────────
+  US-EDT + UK-BST (Apr-Oct)             131,040  14:00 UTC       30.02
+  US-EDT + UK-GMT (Mar, Nov)             15,840  14:00 UTC       42.53
+  US-EST + UK-GMT (Nov-Mar)              88,128  15:00 UTC       37.86
+
+  Key comparison (most common states):
+    Full summer (EDT+BST): peak at 14:00 UTC
+    Full winter (EST+GMT): peak at 15:00 UTC
+    Shift: +1 hour(s)
+    ✓ CONFIRMED: Peak shifts +1h in winter, consistent with NYSE open moving from 14:30→15:30 UTC
+
+Loading ETHUSDT...
+  ETHUSDT: 329,184 bars (2.3s)
+    summer_summer: 183,456 bars (55.7%)
+    summer_winter: 22,176 bars (6.7%)
+    winter_winter: 123,552 bars (37.5%)
+
+======================================================================
+DST HOURLY ANALYSIS — ETHUSDT
+======================================================================
+
+  Weekday bars: summer=146,880, winter=88,128
+
+  Hour   Summer(EDT)  Winter(EST)   Ratio   Summer Session          Winter Session
+  ───────────────────────────────────────────────────────────────────────────────────────────────
+     0        26.35        31.01    0.85x  Tokyo                   Tokyo                 
+     1        26.42        30.92    0.85x  Tokyo                   Tokyo                 
+     2        23.24        28.67    0.81x  Tokyo                   Tokyo                 
+     3        19.70        23.67    0.83x  Tokyo                   Tokyo                 
+     4        18.36        21.74    0.84x  Tokyo                   Tokyo                 
+     5        18.67        21.56    0.87x  Tokyo                   Tokyo                 
+     6        19.95        21.83    0.91x  Tokyo(late)             Tokyo(late)           
+     7        21.13        22.66    0.93x  Tokyo(late) + London    Tokyo(late)           
+     8        22.21        24.51    0.91x  Tokyo(late) + London    Tokyo(late) + London  
+     9        20.90        24.45    0.85x  London                  London                
+    10        20.50        22.70    0.90x  London                  London                
+    11        20.61        23.02    0.90x  London                  London                
+    12        27.13        25.74    1.05x  London                  London                
+    13        33.70        31.08    1.08x  London + NYSE(pre)      London                
+    14        38.42        44.11    0.87x  London + NYSE           London + NYSE(pre)     ◄ SUMMER PEAK
+    15        33.17        47.02    0.71x  NYSE                    London + NYSE          ◄ WINTER PEAK
+    16        31.08        39.66    0.78x  NYSE                    NYSE                  
+    17        29.57        36.18    0.82x  NYSE                    NYSE                  
+    18        28.39        33.69    0.84x  NYSE                    NYSE                  
+    19        27.17        33.29    0.82x  NYSE                    NYSE                  
+    20        25.26        33.81    0.75x  Quiet                   NYSE                  
+    21        25.21        31.16    0.81x  Quiet                   Quiet                 
+    22        21.10        29.93    0.70x  Quiet                   Quiet                 
+    23        19.03        24.84    0.77x  Quiet                   Quiet                 
+
+  Summer peak hour: 14:00 UTC (38.42 bps)
+  Winter peak hour: 15:00 UTC (47.02 bps)
+  Peak shift: +1 hour(s)
+
+  Summer top-3: 14:00(38.4), 13:00(33.7), 15:00(33.2)
+  Winter top-3: 15:00(47.0), 14:00(44.1), 16:00(39.7)
+
+  Summer vs Winter hourly profile: ρ=+0.883, p=0.0000
+
+======================================================================
+4-STATE DST ANALYSIS — ETHUSDT (weekdays only)
+======================================================================
+
+  State                                  N bars   Peak Hour   Peak Range
+  ──────────────────────────────────────────────────────────────────────
+  US-EDT + UK-BST (Apr-Oct)             131,040  14:00 UTC       37.39
+  US-EDT + UK-GMT (Mar, Nov)             15,840  14:00 UTC       47.00
+  US-EST + UK-GMT (Nov-Mar)              88,128  15:00 UTC       47.02
+
+  Key comparison (most common states):
+    Full summer (EDT+BST): peak at 14:00 UTC
+    Full winter (EST+GMT): peak at 15:00 UTC
+    Shift: +1 hour(s)
+    ✓ CONFIRMED: Peak shifts +1h in winter, consistent with NYSE open moving from 14:30→15:30 UTC
+
+Loading SOLUSDT...
+  SOLUSDT: 329,184 bars (2.2s)
+    summer_summer: 183,456 bars (55.7%)
+    summer_winter: 22,176 bars (6.7%)
+    winter_winter: 123,552 bars (37.5%)
+
+======================================================================
+DST HOURLY ANALYSIS — SOLUSDT
+======================================================================
+
+  Weekday bars: summer=146,880, winter=88,128
+
+  Hour   Summer(EDT)  Winter(EST)   Ratio   Summer Session          Winter Session
+  ───────────────────────────────────────────────────────────────────────────────────────────────
+     0        41.29        51.87    0.80x  Tokyo                   Tokyo                 
+     1        39.94        49.73    0.80x  Tokyo                   Tokyo                 
+     2        35.12        46.57    0.75x  Tokyo                   Tokyo                 
+     3        31.62        39.40    0.80x  Tokyo                   Tokyo                 
+     4        30.05        37.14    0.81x  Tokyo                   Tokyo                 
+     5        30.31        36.30    0.84x  Tokyo                   Tokyo                 
+     6        31.50        37.17    0.85x  Tokyo(late)             Tokyo(late)           
+     7        32.03        38.90    0.82x  Tokyo(late) + London    Tokyo(late)           
+     8        33.75        40.12    0.84x  Tokyo(late) + London    Tokyo(late) + London  
+     9        32.18        39.98    0.80x  London                  London                
+    10        31.26        38.13    0.82x  London                  London                
+    11        31.38        39.32    0.80x  London                  London                
+    12        40.62        43.22    0.94x  London                  London                
+    13        48.23        49.37    0.98x  London + NYSE(pre)      London                
+    14        52.73        62.45    0.84x  London + NYSE           London + NYSE(pre)     ◄ SUMMER PEAK
+    15        48.46        66.18    0.73x  NYSE                    London + NYSE          ◄ WINTER PEAK
+    16        45.74        59.64    0.77x  NYSE                    NYSE                  
+    17        42.49        52.64    0.81x  NYSE                    NYSE                  
+    18        41.26        49.25    0.84x  NYSE                    NYSE                  
+    19        38.69        49.04    0.79x  NYSE                    NYSE                  
+    20        36.71        49.68    0.74x  Quiet                   NYSE                  
+    21        36.26        46.73    0.78x  Quiet                   Quiet                 
+    22        31.88        45.18    0.71x  Quiet                   Quiet                 
+    23        29.31        39.46    0.74x  Quiet                   Quiet                 
+
+  Summer peak hour: 14:00 UTC (52.73 bps)
+  Winter peak hour: 15:00 UTC (66.18 bps)
+  Peak shift: +1 hour(s)
+
+  Summer top-3: 14:00(52.7), 15:00(48.5), 13:00(48.2)
+  Winter top-3: 15:00(66.2), 14:00(62.4), 16:00(59.6)
+
+  Summer vs Winter hourly profile: ρ=+0.916, p=0.0000
+
+======================================================================
+4-STATE DST ANALYSIS — SOLUSDT (weekdays only)
+======================================================================
+
+  State                                  N bars   Peak Hour   Peak Range
+  ──────────────────────────────────────────────────────────────────────
+  US-EDT + UK-BST (Apr-Oct)             131,040  14:00 UTC       50.99
+  US-EDT + UK-GMT (Mar, Nov)             15,840  14:00 UTC       67.10
+  US-EST + UK-GMT (Nov-Mar)              88,128  15:00 UTC       66.18
+
+  Key comparison (most common states):
+    Full summer (EDT+BST): peak at 14:00 UTC
+    Full winter (EST+GMT): peak at 15:00 UTC
+    Shift: +1 hour(s)
+    ✓ CONFIRMED: Peak shifts +1h in winter, consistent with NYSE open moving from 14:30→15:30 UTC
+
+Loading DOGEUSDT...
+  DOGEUSDT: 329,184 bars (2.3s)
+    summer_summer: 183,456 bars (55.7%)
+    summer_winter: 22,176 bars (6.7%)
+    winter_winter: 123,552 bars (37.5%)
+
+======================================================================
+DST HOURLY ANALYSIS — DOGEUSDT
+======================================================================
+
+  Weekday bars: summer=146,880, winter=88,128
+
+  Hour   Summer(EDT)  Winter(EST)   Ratio   Summer Session          Winter Session
+  ───────────────────────────────────────────────────────────────────────────────────────────────
+     0        39.68        47.81    0.83x  Tokyo                   Tokyo                 
+     1        38.21        45.21    0.85x  Tokyo                   Tokyo                 
+     2        33.62        41.69    0.81x  Tokyo                   Tokyo                 
+     3        30.13        36.26    0.83x  Tokyo                   Tokyo                 
+     4        28.57        34.77    0.82x  Tokyo                   Tokyo                 
+     5        29.10        34.41    0.85x  Tokyo                   Tokyo                 
+     6        30.43        34.74    0.88x  Tokyo(late)             Tokyo(late)           
+     7        31.52        35.14    0.90x  Tokyo(late) + London    Tokyo(late)           
+     8        32.57        37.40    0.87x  Tokyo(late) + London    Tokyo(late) + London  
+     9        30.51        37.03    0.82x  London                  London                
+    10        30.50        35.13    0.87x  London                  London                
+    11        29.89        35.58    0.84x  London                  London                
+    12        38.45        38.25    1.01x  London                  London                
+    13        46.07        44.98    1.02x  London + NYSE(pre)      London                
+    14        49.62        57.00    0.87x  London + NYSE           London + NYSE(pre)     ◄ SUMMER PEAK
+    15        45.13        59.33    0.76x  NYSE                    London + NYSE          ◄ WINTER PEAK
+    16        44.24        56.29    0.79x  NYSE                    NYSE                  
+    17        40.24        50.22    0.80x  NYSE                    NYSE                  
+    18        38.96        44.28    0.88x  NYSE                    NYSE                  
+    19        36.05        43.34    0.83x  NYSE                    NYSE                  
+    20        34.69        44.20    0.78x  Quiet                   NYSE                  
+    21        35.94        41.33    0.87x  Quiet                   Quiet                 
+    22        30.22        40.49    0.75x  Quiet                   Quiet                 
+    23        27.21        35.23    0.77x  Quiet                   Quiet                 
+
+  Summer peak hour: 14:00 UTC (49.62 bps)
+  Winter peak hour: 15:00 UTC (59.33 bps)
+  Peak shift: +1 hour(s)
+
+  Summer top-3: 14:00(49.6), 13:00(46.1), 15:00(45.1)
+  Winter top-3: 15:00(59.3), 14:00(57.0), 16:00(56.3)
+
+  Summer vs Winter hourly profile: ρ=+0.894, p=0.0000
+
+======================================================================
+4-STATE DST ANALYSIS — DOGEUSDT (weekdays only)
+======================================================================
+
+  State                                  N bars   Peak Hour   Peak Range
+  ──────────────────────────────────────────────────────────────────────
+  US-EDT + UK-BST (Apr-Oct)             131,040  14:00 UTC       47.57
+  US-EDT + UK-GMT (Mar, Nov)             15,840  14:00 UTC       66.57
+  US-EST + UK-GMT (Nov-Mar)              88,128  15:00 UTC       59.33
+
+  Key comparison (most common states):
+    Full summer (EDT+BST): peak at 14:00 UTC
+    Full winter (EST+GMT): peak at 15:00 UTC
+    Shift: +1 hour(s)
+    ✓ CONFIRMED: Peak shifts +1h in winter, consistent with NYSE open moving from 14:30→15:30 UTC
+
+Loading XRPUSDT...
+  XRPUSDT: 329,184 bars (2.5s)
+    summer_summer: 183,456 bars (55.7%)
+    summer_winter: 22,176 bars (6.7%)
+    winter_winter: 123,552 bars (37.5%)
+
+======================================================================
+DST HOURLY ANALYSIS — XRPUSDT
+======================================================================
+
+  Weekday bars: summer=146,880, winter=88,128
+
+  Hour   Summer(EDT)  Winter(EST)   Ratio   Summer Session          Winter Session
+  ───────────────────────────────────────────────────────────────────────────────────────────────
+     0        31.48        43.78    0.72x  Tokyo                   Tokyo                 
+     1        29.90        41.52    0.72x  Tokyo                   Tokyo                 
+     2        26.35        37.44    0.70x  Tokyo                   Tokyo                 
+     3        23.56        32.52    0.72x  Tokyo                   Tokyo                 
+     4        23.03        30.72    0.75x  Tokyo                   Tokyo                 
+     5        23.48        30.64    0.77x  Tokyo                   Tokyo                 
+     6        26.13        31.86    0.82x  Tokyo(late)             Tokyo(late)           
+     7        27.65        32.46    0.85x  Tokyo(late) + London    Tokyo(late)           
+     8        28.29        35.76    0.79x  Tokyo(late) + London    Tokyo(late) + London  
+     9        26.34        34.62    0.76x  London                  London                
+    10        25.98        32.59    0.80x  London                  London                
+    11        25.51        34.12    0.75x  London                  London                
+    12        31.72        37.01    0.86x  London                  London                
+    13        37.72        41.49    0.91x  London + NYSE(pre)      London                
+    14        39.62        51.87    0.76x  London + NYSE           London + NYSE(pre)     ◄ SUMMER PEAK
+    15        37.46        53.02    0.71x  NYSE                    London + NYSE          ◄ WINTER PEAK
+    16        36.00        48.91    0.74x  NYSE                    NYSE                  
+    17        33.62        43.98    0.76x  NYSE                    NYSE                  
+    18        32.97        40.70    0.81x  NYSE                    NYSE                  
+    19        31.42        40.24    0.78x  NYSE                    NYSE                  
+    20        30.67        42.65    0.72x  Quiet                   NYSE                  
+    21        33.13        40.77    0.81x  Quiet                   Quiet                 
+    22        25.15        37.88    0.66x  Quiet                   Quiet                 
+    23        22.44        31.84    0.70x  Quiet                   Quiet                 
+
+  Summer peak hour: 14:00 UTC (39.62 bps)
+  Winter peak hour: 15:00 UTC (53.02 bps)
+  Peak shift: +1 hour(s)
+
+  Summer top-3: 14:00(39.6), 13:00(37.7), 15:00(37.5)
+  Winter top-3: 15:00(53.0), 14:00(51.9), 16:00(48.9)
+
+  Summer vs Winter hourly profile: ρ=+0.868, p=0.0000
+
+======================================================================
+4-STATE DST ANALYSIS — XRPUSDT (weekdays only)
+======================================================================
+
+  State                                  N bars   Peak Hour   Peak Range
+  ──────────────────────────────────────────────────────────────────────
+  US-EDT + UK-BST (Apr-Oct)             131,040  14:00 UTC       38.10
+  US-EDT + UK-GMT (Mar, Nov)             15,840  14:00 UTC       52.14
+  US-EST + UK-GMT (Nov-Mar)              88,128  15:00 UTC       53.02
+
+  Key comparison (most common states):
+    Full summer (EDT+BST): peak at 14:00 UTC
+    Full winter (EST+GMT): peak at 15:00 UTC
+    Shift: +1 hour(s)
+    ✓ CONFIRMED: Peak shifts +1h in winter, consistent with NYSE open moving from 14:30→15:30 UTC
+
+======================================================================
+CROSS-SYMBOL DST SUMMARY
+======================================================================
+
+    Symbol   Summer Peak   Winter Peak   Shift                         Verdict
+  ───────────────────────────────────────────────────────────────────────────
+   BTCUSDT  14:00 UTC   15:00 UTC     +1h  ✓ +1h shift (equity-driven)
+   ETHUSDT  14:00 UTC   15:00 UTC     +1h  ✓ +1h shift (equity-driven)
+   SOLUSDT  14:00 UTC   15:00 UTC     +1h  ✓ +1h shift (equity-driven)
+  DOGEUSDT  14:00 UTC   15:00 UTC     +1h  ✓ +1h shift (equity-driven)
+   XRPUSDT  14:00 UTC   15:00 UTC     +1h  ✓ +1h shift (equity-driven)
+  Saved: results/v33c_dst_hourly_profiles.csv
+  Saved: results/v33c_dst_peak_shifts.csv
+
+======================================================================
+TOTAL TIME: 14s (0.2min)
+  [RAM] used=11.7GB avail=4.8GB final
