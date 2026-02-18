@@ -42,13 +42,9 @@ HORIZONS = [300, 900, 3600]  # Skip 60s — minimal signal, save RAM
 # TP/SL configs to test: (tp_bps, sl_bps, time_limit_s)
 TPSL_CONFIGS = [
     (5, 2.5, 300),    # tight, 5min
-    (5, 2.5, 600),    # tight, 10min
     (10, 5, 300),     # medium, 5min
     (10, 5, 600),     # medium, 10min
-    (10, 5, 900),     # medium, 15min
     (15, 7.5, 600),   # wide, 10min
-    (15, 7.5, 900),   # wide, 15min
-    (20, 10, 900),    # very wide, 15min
 ]
 
 
@@ -389,8 +385,8 @@ def run_experiment(feat_df, price, n, ts_start):
     print(f"  v32: ASYMMETRIC TP/SL PREDICTION")
     print(f"{'#'*80}")
 
-    # Sample every 10s, split at midpoint
-    sample_idx = np.arange(3600, n - 900, 10)
+    # Sample every 30s to reduce memory, split at midpoint
+    sample_idx = np.arange(3600, n - 900, 30)
     split = n // 2
     train_mask = sample_idx < split
     test_mask = sample_idx >= split
@@ -419,143 +415,96 @@ def run_experiment(feat_df, price, n, ts_start):
     print(f"  {'TP bps':>7s}  {'SL bps':>7s}  {'TL':>5s}  {'L-TP%':>7s}  {'L-SL%':>7s}  {'S-TP%':>7s}  {'S-SL%':>7s}  {'TO%':>6s}  {'EV':>7s}")
     print(f"  {'-'*65}")
 
-    config_results = {}
-    for tp_bps, sl_bps, tl in TPSL_CONFIGS:
+    summary_rows = []
+    sym_summary = []
+
+    for ci, (tp_bps, sl_bps, tl) in enumerate(TPSL_CONFIGS):
+        config_label = f"TP={tp_bps} SL={sl_bps} TL={tl}s"
+        print(f"\n{'='*80}")
+        print(f"  CONFIG {ci+1}/{len(TPSL_CONFIGS)}: {config_label}")
+        print(f"{'='*80}")
+
+        # Compute outcomes
         t0 = time.time()
         long_win, short_win, best_side = compute_tpsl_outcomes(
             price, n, sample_idx, tp_bps, sl_bps, tl)
+        elapsed = time.time() - t0
 
-        # Stats
+        # Baseline stats
         valid_l = ~np.isnan(long_win)
         valid_s = ~np.isnan(short_win)
         l_tp = (long_win[valid_l] == 1).mean() * 100
-        l_sl = (long_win[valid_l] == 0).mean() * 100
         s_tp = (short_win[valid_s] == 1).mean() * 100
-        s_sl = (short_win[valid_s] == 0).mean() * 100
         timeout = (~valid_l).mean() * 100
+        print(f"  Baseline: L-TP={l_tp:.1f}% S-TP={s_tp:.1f}% Timeout={timeout:.1f}% ({elapsed:.0f}s)")
 
-        # EV: for each sample, take the better side
-        ev_samples = []
-        for li, si in zip(long_win, short_win):
-            if li == 1:
-                ev_samples.append(tp_bps)
-            elif si == 1:
-                ev_samples.append(tp_bps)
-            elif li == 0 and si == 0:
-                ev_samples.append(-sl_bps)  # both SL hit
-            elif li == 0:
-                ev_samples.append(-sl_bps)
-            elif si == 0:
-                ev_samples.append(-sl_bps)
-        ev = np.mean(ev_samples) if ev_samples else 0
-
-        elapsed = time.time() - t0
-        print(f"  {tp_bps:>7.1f}  {sl_bps:>7.1f}  {tl:>5d}  {l_tp:>6.1f}%  {l_sl:>6.1f}%  {s_tp:>6.1f}%  {s_sl:>6.1f}%  {timeout:>5.1f}%  {ev:>+6.2f}  ({elapsed:.0f}s)")
-
-        config_results[(tp_bps, sl_bps, tl)] = {
-            'long_win': long_win, 'short_win': short_win, 'best_side': best_side,
-            'l_tp_pct': l_tp, 's_tp_pct': s_tp, 'timeout_pct': timeout,
-        }
-
-    # =====================================================================
-    # Phase 2: ML prediction — can we predict which side wins?
-    # =====================================================================
-    print(f"\n{'='*80}")
-    print(f"  PHASE 2: ML Prediction — Which Side Wins?")
-    print(f"{'='*80}")
-
-    summary_rows = []
-
-    for tp_bps, sl_bps, tl in TPSL_CONFIGS:
-        cr = config_results[(tp_bps, sl_bps, tl)]
-        long_win = cr['long_win']
-        short_win = cr['short_win']
-        best_side = cr['best_side']
-
-        config_label = f"TP={tp_bps} SL={sl_bps} TL={tl}s"
-        print(f"\n  --- {config_label} ---")
-
-        # Target A: predict long TP hit (binary: 1=TP, 0=SL, exclude timeouts)
+        # Skip Phase 2 direction — already proven dead (AUC ~0.50) in first run
         valid = ~np.isnan(long_win)
-        if valid.sum() < 1000:
-            print(f"  SKIP: too few valid samples ({valid.sum()})")
-            continue
+        base_rate = long_win[valid][test_mask[valid]].mean() if valid.any() else 0.5
+        summary_rows.append({'config': config_label, 'auc': 0.50,
+            'base_rate': base_rate, 'tp_bps': tp_bps, 'sl_bps': sl_bps, 'tl': tl})
 
-        y_long = long_win[valid].astype(np.int8)
-        X_valid = X_all[valid]
-        tr = train_mask[valid]
-        te = test_mask[valid]
+        # --- Phase 3: Symmetric vol-timing ---
+        long_pnl = np.where(long_win == 1, tp_bps, np.where(long_win == 0, -sl_bps, 0))
+        short_pnl = np.where(short_win == 1, tp_bps, np.where(short_win == 0, -sl_bps, 0))
+        sym_pnl = long_pnl + short_pnl
+        y_profit = (sym_pnl > 0).astype(np.int8)
 
-        if tr.sum() < 500 or te.sum() < 500:
-            print(f"  SKIP: too few train/test")
-            continue
+        valid2 = ~(np.isnan(long_win) & np.isnan(short_win))
+        y_v = y_profit[valid2]; X_v = X_all[valid2]
+        tr2 = train_mask[valid2]; te2 = test_mask[valid2]
+        X_tr2, X_te2 = X_v[tr2], X_v[te2]
+        y_tr2, y_te2 = y_v[tr2], y_v[te2]
+        pnl_te = sym_pnl[valid2][te2]
 
-        X_tr, X_te = X_valid[tr], X_valid[te]
-        y_tr, y_te = y_long[tr], y_long[te]
+        base_rate2 = y_te2.mean()
+        base_ev = pnl_te.mean()
+        print(f"  Symmetric: profit rate={base_rate2:.4f}, baseline EV={base_ev:+.2f} bps")
 
-        base_rate = y_te.mean()
-        print(f"  Long TP base rate: {base_rate:.4f} (train: {y_tr.mean():.4f})")
-
-        # Train GBM
-        model = GradientBoostingClassifier(
-            n_estimators=150, max_depth=3, learning_rate=0.05,
+        model2 = GradientBoostingClassifier(
+            n_estimators=100, max_depth=2, learning_rate=0.05,
             subsample=0.8, random_state=42, min_samples_leaf=50
         )
-        model.fit(X_tr, y_tr)
-        y_prob = model.predict_proba(X_te)[:, 1]
-
+        model2.fit(X_tr2, y_tr2)
+        y_prob2 = model2.predict_proba(X_te2)[:, 1]
         try:
-            auc = roc_auc_score(y_te, y_prob)
+            auc_sym = roc_auc_score(y_te2, y_prob2)
         except:
-            auc = 0.5
-        print(f"  AUC (long TP): {auc:.4f}")
+            auc_sym = 0.5
+        print(f"  Symmetric AUC: {auc_sym:.4f}")
 
-        # Strategy simulation: when model says high prob of long TP, go long
-        # When model says low prob (= high prob of short TP), go short
-        print(f"\n  Strategy: go long when P(long TP) > threshold, short when < (1-threshold)")
-        print(f"  {'Threshold':>10s}  {'#Long':>7s}  {'L-Win%':>7s}  {'#Short':>7s}  {'S-Win%':>7s}  {'EV/trade':>9s}  {'Lift':>6s}")
+        # Strategy: only trade when model says high probability of profit
+        print(f"\n  {'Threshold':>10s}  {'#Trades':>8s}  {'Win%':>7s}  {'Avg PnL':>9s}  {'Total PnL':>10s}  {'Lift':>6s}")
         print(f"  {'-'*55}")
 
-        for pct in [90, 80, 70, 60]:
-            hi_thresh = np.percentile(y_prob, pct)
-            lo_thresh = np.percentile(y_prob, 100 - pct)
-
-            long_signals = y_prob >= hi_thresh
-            short_signals = y_prob <= lo_thresh
-
-            if long_signals.sum() > 0:
-                l_win_rate = y_te[long_signals].mean()
-                l_ev = l_win_rate * tp_bps - (1 - l_win_rate) * sl_bps
-            else:
-                l_win_rate = 0; l_ev = 0
-
-            if short_signals.sum() > 0:
-                # For short: y_te=0 means short TP hit
-                s_win_rate = (1 - y_te[short_signals]).mean()
-                s_ev = s_win_rate * tp_bps - (1 - s_win_rate) * sl_bps
-            else:
-                s_win_rate = 0; s_ev = 0
-
-            combined_ev = (l_ev + s_ev) / 2 if (long_signals.sum() > 0 and short_signals.sum() > 0) else 0
-            baseline_ev = base_rate * tp_bps - (1 - base_rate) * sl_bps
-
-            print(f"  P{pct:>2d}        {long_signals.sum():>7,}  {l_win_rate*100:>6.1f}%  {short_signals.sum():>7,}  {s_win_rate*100:>6.1f}%  {combined_ev:>+8.2f}  {combined_ev/max(abs(baseline_ev),0.01):>5.1f}x")
+        best_ev = base_ev
+        for pct in [90, 80, 70, 60, 50]:
+            thresh = np.percentile(y_prob2, pct)
+            signals = y_prob2 >= thresh
+            n_sig = signals.sum()
+            if n_sig == 0: continue
+            sig_win = y_te2[signals].mean()
+            sig_ev = pnl_te[signals].mean()
+            sig_total = pnl_te[signals].sum()
+            lift = sig_ev / max(abs(base_ev), 0.01)
+            print(f"  P{pct:>2d}        {n_sig:>8,}  {sig_win*100:>6.1f}%  {sig_ev:>+8.2f}  {sig_total:>+9.0f}  {lift:>5.1f}x")
+            if sig_ev > best_ev: best_ev = sig_ev
 
         # Top features
-        importances = model.feature_importances_
+        importances = model2.feature_importances_
         imp_order = np.argsort(importances)[::-1]
         print(f"\n  Top 10 features:")
         for rank, idx in enumerate(imp_order[:10]):
             print(f"    {rank+1:>2d}. {feat_cols[idx]:>30s}  {importances[idx]:.4f}")
 
-        summary_rows.append({
-            'config': config_label,
-            'auc': auc,
-            'base_rate': base_rate,
-            'tp_bps': tp_bps,
-            'sl_bps': sl_bps,
-            'tl': tl,
-        })
+        sym_summary.append({'config': config_label, 'auc': auc_sym,
+            'base_rate': base_rate2, 'base_ev': base_ev, 'best_ev': best_ev,
+            'tp_bps': tp_bps, 'sl_bps': sl_bps, 'tl': tl})
+
+        del model2, y_prob2, long_win, short_win, best_side, sym_pnl
+        del long_pnl, short_pnl, y_profit
+        gc.collect()
+        print_mem(f"after config {ci+1}")
 
     # =====================================================================
     # Summary
@@ -563,11 +512,20 @@ def run_experiment(feat_df, price, n, ts_start):
     print(f"\n\n{'#'*80}")
     print(f"  SUMMARY: ALL CONFIGS")
     print(f"{'#'*80}")
+
+    print(f"\n  Direction prediction (long vs short):")
     print(f"  {'Config':>30s}  {'AUC':>8s}  {'Base Rate':>10s}  {'2:1 EV':>8s}")
     print(f"  {'-'*60}")
     for r in summary_rows:
         baseline_ev = r['base_rate'] * r['tp_bps'] - (1 - r['base_rate']) * r['sl_bps']
         print(f"  {r['config']:>30s}  {r['auc']:>8.4f}  {r['base_rate']:>10.4f}  {baseline_ev:>+7.2f}")
+
+    print(f"\n  Symmetric vol-timing (BOTH sides):")
+    print(f"  {'Config':>30s}  {'AUC':>8s}  {'Base EV':>8s}  {'Best EV':>8s}  {'Lift':>6s}")
+    print(f"  {'-'*65}")
+    for r in sym_summary:
+        lift = r['best_ev'] / max(abs(r['base_ev']), 0.01)
+        print(f"  {r['config']:>30s}  {r['auc']:>8.4f}  {r['base_ev']:>+7.2f}  {r['best_ev']:>+7.2f}  {lift:>5.1f}x")
 
 
 # ============================================================================
