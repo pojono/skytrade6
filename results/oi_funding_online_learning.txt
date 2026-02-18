@@ -1,0 +1,1091 @@
+======================================================================
+  ONLINE LEARNING — LS RATIO SIGNAL
+  Period: 2025-05-01 to 2026-01-31 (continuous stream)
+  Symbols: BTCUSDT, SOLUSDT
+  SGD configs: 5
+  Feature sets: ['fixed_all', 'ewma_all', 'ls_only_ewma']
+======================================================================
+
+######################################################################
+  BTCUSDT
+######################################################################
+
+Loading data...
+  Klines: 79488 bars
+  Metrics: 79485 rows
+
+Building features...
+  Merged: 79488 bars, 79487 with metrics (100.0%)
+  Total bars: 79488, with LS ratio: 79445 (99.9%)
+
+  LS ratio distribution over time:
+    2025-05: mean=0.830 std=0.170 n=8928
+    2025-06: mean=0.959 std=0.216 n=8640
+    2025-07: mean=0.874 std=0.195 n=8886
+    2025-08: mean=1.588 std=0.341 n=8927
+    2025-09: mean=1.553 std=0.285 n=8640
+    2025-10: mean=1.610 std=0.604 n=8928
+    2025-11: mean=2.829 std=0.673 n=8640
+    2025-12: mean=2.340 std=0.401 n=8928
+    2026-01: mean=2.272 std=0.652 n=8928
+
+======================================================================
+  ADAPTIVE SIGNAL (non-ML) — BTCUSDT
+======================================================================
+     EWMA(4h) z>0.5 mom: avg=-5.7bps wr=47.2% n=54236  OOS=-5.9bps IS=-5.2bps
+     EWMA(4h) z>1.0 mom: avg=-5.9bps wr=48.3% n=26774  OOS=-10.4bps IS=+3.5bps
+     EWMA(4h) z>1.5 mom: avg=-6.2bps wr=47.9% n=8656  OOS=-11.6bps IS=+5.8bps
+     EWMA(4h) z>2.0 mom: avg=-8.4bps wr=46.3% n=2322  OOS=-15.4bps IS=+4.6bps
+     EWMA(8h) z>0.5 mom: avg=-4.7bps wr=47.9% n=51442  OOS=-5.6bps IS=-3.1bps
+     EWMA(8h) z>1.0 mom: avg=-6.1bps wr=48.7% n=26112  OOS=-9.6bps IS=+1.3bps
+     EWMA(8h) z>1.5 mom: avg=-1.9bps wr=50.3% n=9482  OOS=-11.9bps IS=+19.3bps
+     EWMA(8h) z>2.0 mom: avg=-4.1bps wr=46.9% n=2846  OOS=-15.8bps IS=+23.2bps
+     EWMA(24h) z>0.5 mom: avg=-6.3bps wr=46.6% n=51362  OOS=-8.8bps IS=-1.5bps
+     EWMA(24h) z>1.0 mom: avg=-4.2bps wr=49.3% n=25914  OOS=-5.3bps IS=-1.9bps
+     EWMA(24h) z>1.5 mom: avg=-1.9bps wr=51.9% n=10836  OOS=-3.2bps IS=+0.6bps
+  ✅ EWMA(24h) z>2.0 mom: avg=+4.2bps wr=53.8% n=3115  OOS=+1.2bps IS=+10.9bps
+
+  Running: BTCUSDT | fixed_all | SGD_fast
+    [SGD_fast] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_fast] 25% (20000/79488) updates=19665 preds=19664 [6.7s]
+    [SGD_fast] 38% (30000/79488) updates=29614 preds=29613 [10.2s]
+    [SGD_fast] 50% (40000/79488) updates=39613 preds=39612 [13.9s]
+    [SGD_fast] 63% (50000/79488) updates=49613 preds=49612 [17.4s]
+    [SGD_fast] 75% (60000/79488) updates=59613 preds=59612 [20.7s]
+    [SGD_fast] 88% (70000/79488) updates=69613 preds=69612 [24.1s]
+    [SGD_fast] Done: 79100 updates, 79099 predictions [27.3s]
+
+  BTCUSDT | fixed_all | SGD_fast
+    IC=+0.0362  rank_IC=+0.0354  n=79051
+    Bottom  : avg=    -6.5bps
+    Q2      : avg=    -1.8bps
+    Q3      : avg=    -0.5bps
+    Q4      : avg=    +3.9bps
+    Top     : avg=    +0.1bps
+     L/S: avg=-3.7bps  wr=46.9%  sharpe=-7.50
+    Monthly IC:
+       2025-05: IC=+0.0035
+       2025-06: IC=-0.0600
+       2025-07: IC=+0.0115
+       2025-08: IC=-0.0434
+    ✅ 2025-09: IC=+0.0258
+       2025-10: IC=+0.0039
+    ✅ 2025-11: IC=+0.0428
+    ✅ 2025-12: IC=+0.1230
+    ✅ 2026-01: IC=+0.0646
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0088  L/S avg=-7.4bps  sharpe=-13.93  n=52603
+  ✅ IS (Nov-Jan): IC=+0.0807  L/S avg=+3.6bps  sharpe=+3.64  n=26448
+
+  Running: BTCUSDT | fixed_all | SGD_medium
+    [SGD_medium] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_medium] 25% (20000/79488) updates=19665 preds=19664 [6.9s]
+    [SGD_medium] 38% (30000/79488) updates=29614 preds=29613 [10.2s]
+    [SGD_medium] 50% (40000/79488) updates=39613 preds=39612 [13.7s]
+    [SGD_medium] 63% (50000/79488) updates=49613 preds=49612 [17.0s]
+    [SGD_medium] 75% (60000/79488) updates=59613 preds=59612 [20.3s]
+    [SGD_medium] 88% (70000/79488) updates=69613 preds=69612 [23.5s]
+    [SGD_medium] Done: 79100 updates, 79099 predictions [26.7s]
+
+  BTCUSDT | fixed_all | SGD_medium
+    IC=+0.0306  rank_IC=+0.0275  n=79051
+    Bottom  : avg=    -6.0bps
+    Q2      : avg=    +0.1bps
+    Q3      : avg=    +0.0bps
+    Q4      : avg=    -0.5bps
+    Top     : avg=    +1.5bps
+     L/S: avg=-3.3bps  wr=46.8%  sharpe=-6.69
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0302
+       2025-06: IC=-0.0596
+       2025-07: IC=-0.0241
+       2025-08: IC=-0.0484
+    ✅ 2025-09: IC=+0.0215
+       2025-10: IC=-0.0055
+    ✅ 2025-11: IC=+0.0519
+    ✅ 2025-12: IC=+0.0958
+    ✅ 2026-01: IC=+0.0322
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0106  L/S avg=-7.6bps  sharpe=-14.55  n=52603
+  ✅ IS (Nov-Jan): IC=+0.0669  L/S avg=+1.9bps  sharpe=+1.94  n=26448
+
+  Running: BTCUSDT | fixed_all | SGD_slow
+    [SGD_slow] 13% (10000/79488) updates=9665 preds=9664 [3.8s]
+    [SGD_slow] 25% (20000/79488) updates=19665 preds=19664 [7.1s]
+    [SGD_slow] 38% (30000/79488) updates=29614 preds=29613 [10.4s]
+    [SGD_slow] 50% (40000/79488) updates=39613 preds=39612 [13.6s]
+    [SGD_slow] 63% (50000/79488) updates=49613 preds=49612 [17.0s]
+    [SGD_slow] 75% (60000/79488) updates=59613 preds=59612 [20.3s]
+    [SGD_slow] 88% (70000/79488) updates=69613 preds=69612 [23.6s]
+    [SGD_slow] Done: 79100 updates, 79099 predictions [26.7s]
+
+  BTCUSDT | fixed_all | SGD_slow
+    IC=+0.0178  rank_IC=+0.0283  n=79051
+    Bottom  : avg=    -2.3bps
+    Q2      : avg=    -3.8bps
+    Q3      : avg=    +0.6bps
+    Q4      : avg=    +0.5bps
+    Top     : avg=    +0.1bps
+     L/S: avg=-5.8bps  wr=47.0%  sharpe=-11.92
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0786
+       2025-06: IC=-0.0103
+       2025-07: IC=-0.0800
+       2025-08: IC=-0.0638
+    ✅ 2025-09: IC=+0.0240
+       2025-10: IC=-0.0362
+    ✅ 2025-11: IC=+0.0236
+    ✅ 2025-12: IC=+0.0737
+       2026-01: IC=+0.0073
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0085  L/S avg=-7.9bps  sharpe=-15.25  n=52603
+     IS (Nov-Jan): IC=+0.0349  L/S avg=-4.2bps  sharpe=-4.49  n=26448
+
+  Running: BTCUSDT | fixed_all | SGD_constant
+    [SGD_constant] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_constant] 25% (20000/79488) updates=19665 preds=19664 [6.7s]
+    [SGD_constant] 38% (30000/79488) updates=29614 preds=29613 [10.0s]
+    [SGD_constant] 50% (40000/79488) updates=39613 preds=39612 [13.5s]
+    [SGD_constant] 63% (50000/79488) updates=49613 preds=49612 [17.1s]
+    [SGD_constant] 75% (60000/79488) updates=59613 preds=59612 [20.6s]
+    [SGD_constant] 88% (70000/79488) updates=69613 preds=69612 [24.0s]
+    [SGD_constant] Done: 79100 updates, 79099 predictions [27.2s]
+
+  BTCUSDT | fixed_all | SGD_constant
+    IC=+0.0435  rank_IC=+0.0433  n=79051
+    Bottom  : avg=    -6.8bps
+    Q2      : avg=    -3.1bps
+    Q3      : avg=    -1.6bps
+    Q4      : avg=    +5.5bps
+    Top     : avg=    +1.1bps
+     L/S: avg=-3.0bps  wr=47.4%  sharpe=-6.05
+    Monthly IC:
+       2025-05: IC=+0.0140
+       2025-06: IC=-0.0574
+    ✅ 2025-07: IC=+0.0235
+       2025-08: IC=-0.0458
+    ✅ 2025-09: IC=+0.0272
+       2025-10: IC=+0.0095
+    ✅ 2025-11: IC=+0.0313
+    ✅ 2025-12: IC=+0.1358
+    ✅ 2026-01: IC=+0.0988
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0037  L/S avg=-6.4bps  sharpe=-11.89  n=52603
+  ✅ IS (Nov-Jan): IC=+0.0870  L/S avg=+2.9bps  sharpe=+2.95  n=26448
+
+  Running: BTCUSDT | fixed_all | SGD_adaptive
+    [SGD_adaptive] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_adaptive] 25% (20000/79488) updates=19665 preds=19664 [6.7s]
+    [SGD_adaptive] 38% (30000/79488) updates=29614 preds=29613 [10.6s]
+    [SGD_adaptive] 50% (40000/79488) updates=39613 preds=39612 [13.9s]
+    [SGD_adaptive] 63% (50000/79488) updates=49613 preds=49612 [17.3s]
+    [SGD_adaptive] 75% (60000/79488) updates=59613 preds=59612 [20.7s]
+    [SGD_adaptive] 88% (70000/79488) updates=69613 preds=69612 [24.3s]
+    [SGD_adaptive] Done: 79100 updates, 79099 predictions [27.5s]
+
+  BTCUSDT | fixed_all | SGD_adaptive
+    IC=+0.0533  rank_IC=+0.0504  n=79051
+    Bottom  : avg=    -9.4bps
+    Q2      : avg=    -3.2bps
+    Q3      : avg=    -0.5bps
+    Q4      : avg=    +6.1bps
+    Top     : avg=    +2.1bps
+     L/S: avg=-1.2bps  wr=47.3%  sharpe=-2.48
+    Monthly IC:
+       2025-05: IC=-0.0021
+       2025-06: IC=-0.0142
+    ✅ 2025-07: IC=+0.0314
+       2025-08: IC=-0.0287
+    ✅ 2025-09: IC=+0.0439
+    ✅ 2025-10: IC=+0.0495
+    ✅ 2025-11: IC=+0.0211
+    ✅ 2025-12: IC=+0.1239
+    ✅ 2026-01: IC=+0.1716
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=+0.0165  L/S avg=-4.9bps  sharpe=-9.14  n=52603
+  ✅ IS (Nov-Jan): IC=+0.0916  L/S avg=+5.8bps  sharpe=+5.80  n=26448
+
+  Running: BTCUSDT | ewma_all | SGD_fast
+    [SGD_fast] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_fast] 25% (20000/79488) updates=19665 preds=19664 [6.5s]
+    [SGD_fast] 38% (30000/79488) updates=29614 preds=29613 [9.8s]
+    [SGD_fast] 50% (40000/79488) updates=39613 preds=39612 [13.1s]
+    [SGD_fast] 63% (50000/79488) updates=49613 preds=49612 [16.3s]
+    [SGD_fast] 75% (60000/79488) updates=59613 preds=59612 [19.7s]
+    [SGD_fast] 88% (70000/79488) updates=69613 preds=69612 [23.1s]
+    [SGD_fast] Done: 79100 updates, 79099 predictions [26.6s]
+
+  BTCUSDT | ewma_all | SGD_fast
+    IC=+0.0097  rank_IC=+0.0077  n=79051
+    Bottom  : avg=    -0.9bps
+    Q2      : avg=    -5.0bps
+    Q3      : avg=    -0.1bps
+    Q4      : avg=    +2.5bps
+    Top     : avg=    -1.2bps
+     L/S: avg=-7.2bps  wr=45.2%  sharpe=-14.58
+    Monthly IC:
+       2025-05: IC=-0.0092
+       2025-06: IC=-0.0592
+    ✅ 2025-07: IC=+0.0399
+       2025-08: IC=-0.0387
+       2025-09: IC=+0.0139
+       2025-10: IC=-0.0523
+       2025-11: IC=-0.0451
+    ✅ 2025-12: IC=+0.1076
+    ✅ 2026-01: IC=+0.0587
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0231  L/S avg=-10.6bps  sharpe=-19.74  n=52603
+     IS (Nov-Jan): IC=+0.0434  L/S avg=-2.9bps  sharpe=-2.98  n=26448
+
+  Running: BTCUSDT | ewma_all | SGD_medium
+    [SGD_medium] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_medium] 25% (20000/79488) updates=19665 preds=19664 [6.6s]
+    [SGD_medium] 38% (30000/79488) updates=29614 preds=29613 [9.8s]
+    [SGD_medium] 50% (40000/79488) updates=39613 preds=39612 [13.1s]
+    [SGD_medium] 63% (50000/79488) updates=49613 preds=49612 [16.9s]
+    [SGD_medium] 75% (60000/79488) updates=59613 preds=59612 [20.1s]
+    [SGD_medium] 88% (70000/79488) updates=69613 preds=69612 [23.4s]
+    [SGD_medium] Done: 79100 updates, 79099 predictions [26.4s]
+
+  BTCUSDT | ewma_all | SGD_medium
+    IC=+0.0100  rank_IC=+0.0092  n=79051
+    Bottom  : avg=    -0.2bps
+    Q2      : avg=    -4.2bps
+    Q3      : avg=    -0.8bps
+    Q4      : avg=    +1.0bps
+    Top     : avg=    -0.6bps
+     L/S: avg=-7.2bps  wr=45.6%  sharpe=-14.74
+    Monthly IC:
+       2025-05: IC=+0.0150
+       2025-06: IC=-0.0522
+       2025-07: IC=+0.0077
+       2025-08: IC=-0.0411
+    ✅ 2025-09: IC=+0.0264
+       2025-10: IC=-0.0430
+       2025-11: IC=-0.0426
+    ✅ 2025-12: IC=+0.0924
+    ✅ 2026-01: IC=+0.0274
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0166  L/S avg=-9.7bps  sharpe=-18.43  n=52603
+     IS (Nov-Jan): IC=+0.0333  L/S avg=-4.6bps  sharpe=-4.84  n=26448
+
+  Running: BTCUSDT | ewma_all | SGD_slow
+    [SGD_slow] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_slow] 25% (20000/79488) updates=19665 preds=19664 [6.7s]
+    [SGD_slow] 38% (30000/79488) updates=29614 preds=29613 [10.1s]
+    [SGD_slow] 50% (40000/79488) updates=39613 preds=39612 [13.5s]
+    [SGD_slow] 63% (50000/79488) updates=49613 preds=49612 [17.2s]
+    [SGD_slow] 75% (60000/79488) updates=59613 preds=59612 [20.7s]
+    [SGD_slow] 88% (70000/79488) updates=69613 preds=69612 [24.1s]
+    [SGD_slow] Done: 79100 updates, 79099 predictions [27.4s]
+
+  BTCUSDT | ewma_all | SGD_slow
+    IC=+0.0070  rank_IC=+0.0189  n=79051
+    Bottom  : avg=    -0.4bps
+    Q2      : avg=    -2.3bps
+    Q3      : avg=    -1.6bps
+    Q4      : avg=    +1.1bps
+    Top     : avg=    -1.7bps
+     L/S: avg=-7.7bps  wr=46.3%  sharpe=-15.51
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0567
+       2025-06: IC=-0.0014
+       2025-07: IC=-0.0732
+       2025-08: IC=-0.0506
+    ✅ 2025-09: IC=+0.0350
+       2025-10: IC=-0.0543
+       2025-11: IC=-0.0318
+    ✅ 2025-12: IC=+0.0773
+       2026-01: IC=+0.0008
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0126  L/S avg=-8.8bps  sharpe=-16.86  n=52603
+     IS (Nov-Jan): IC=+0.0178  L/S avg=-6.5bps  sharpe=-6.99  n=26448
+
+  Running: BTCUSDT | ewma_all | SGD_constant
+    [SGD_constant] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_constant] 25% (20000/79488) updates=19665 preds=19664 [6.8s]
+    [SGD_constant] 38% (30000/79488) updates=29614 preds=29613 [10.4s]
+    [SGD_constant] 50% (40000/79488) updates=39613 preds=39612 [13.6s]
+    [SGD_constant] 63% (50000/79488) updates=49613 preds=49612 [16.9s]
+    [SGD_constant] 75% (60000/79488) updates=59613 preds=59612 [20.6s]
+    [SGD_constant] 88% (70000/79488) updates=69613 preds=69612 [24.0s]
+    [SGD_constant] Done: 79100 updates, 79099 predictions [27.1s]
+
+  BTCUSDT | ewma_all | SGD_constant
+    IC=+0.0167  rank_IC=+0.0130  n=79051
+    Bottom  : avg=    -1.7bps
+    Q2      : avg=    -4.8bps
+    Q3      : avg=    +0.4bps
+    Q4      : avg=    +2.4bps
+    Top     : avg=    -1.2bps
+     L/S: avg=-6.8bps  wr=45.4%  sharpe=-13.54
+    Monthly IC:
+       2025-05: IC=+0.0041
+       2025-06: IC=-0.0580
+    ✅ 2025-07: IC=+0.0482
+       2025-08: IC=-0.0392
+       2025-09: IC=+0.0128
+       2025-10: IC=-0.0486
+       2025-11: IC=-0.0401
+    ✅ 2025-12: IC=+0.1134
+    ✅ 2026-01: IC=+0.0909
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0203  L/S avg=-9.6bps  sharpe=-17.91  n=52603
+     IS (Nov-Jan): IC=+0.0517  L/S avg=-3.1bps  sharpe=-3.16  n=26448
+
+  Running: BTCUSDT | ewma_all | SGD_adaptive
+    [SGD_adaptive] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_adaptive] 25% (20000/79488) updates=19665 preds=19664 [6.7s]
+    [SGD_adaptive] 38% (30000/79488) updates=29614 preds=29613 [10.2s]
+    [SGD_adaptive] 50% (40000/79488) updates=39613 preds=39612 [13.6s]
+    [SGD_adaptive] 63% (50000/79488) updates=49613 preds=49612 [17.0s]
+    [SGD_adaptive] 75% (60000/79488) updates=59613 preds=59612 [20.4s]
+    [SGD_adaptive] 88% (70000/79488) updates=69613 preds=69612 [23.9s]
+    [SGD_adaptive] Done: 79100 updates, 79099 predictions [27.1s]
+
+  BTCUSDT | ewma_all | SGD_adaptive
+    IC=+0.0325  rank_IC=+0.0264  n=79051
+    Bottom  : avg=    -7.5bps
+    Q2      : avg=    -2.3bps
+    Q3      : avg=    +1.1bps
+    Q4      : avg=    +3.8bps
+    Top     : avg=    +0.1bps
+     L/S: avg=-3.2bps  wr=46.2%  sharpe=-6.26
+    Monthly IC:
+       2025-05: IC=-0.0093
+       2025-06: IC=-0.0354
+    ✅ 2025-07: IC=+0.0319
+       2025-08: IC=-0.0340
+    ✅ 2025-09: IC=+0.0355
+       2025-10: IC=-0.0089
+       2025-11: IC=+0.0071
+    ✅ 2025-12: IC=+0.1060
+    ✅ 2026-01: IC=+0.1615
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0085  L/S avg=-6.3bps  sharpe=-11.63  n=52603
+  ✅ IS (Nov-Jan): IC=+0.0783  L/S avg=+2.5bps  sharpe=+2.37  n=26448
+
+  Running: BTCUSDT | ls_only_ewma | SGD_fast
+    [SGD_fast] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_fast] 25% (20000/79488) updates=19665 preds=19664 [6.6s]
+    [SGD_fast] 38% (30000/79488) updates=29623 preds=29622 [10.1s]
+    [SGD_fast] 50% (40000/79488) updates=39622 preds=39621 [13.4s]
+    [SGD_fast] 63% (50000/79488) updates=49622 preds=49621 [17.0s]
+    [SGD_fast] 75% (60000/79488) updates=59622 preds=59621 [20.6s]
+    [SGD_fast] 88% (70000/79488) updates=69622 preds=69621 [24.0s]
+    [SGD_fast] Done: 79109 updates, 79108 predictions [27.8s]
+
+  BTCUSDT | ls_only_ewma | SGD_fast
+    IC=+0.0208  rank_IC=-0.0061  n=79060
+    Bottom  : avg=    -5.2bps
+    Q2      : avg=    +3.0bps
+    Q3      : avg=    +1.4bps
+    Q4      : avg=    -3.5bps
+    Top     : avg=    -0.5bps
+     L/S: avg=-4.7bps  wr=45.8%  sharpe=-9.46
+    Monthly IC:
+       2025-05: IC=-0.0451
+       2025-06: IC=-0.0735
+    ✅ 2025-07: IC=+0.0532
+       2025-08: IC=-0.0374
+       2025-09: IC=+0.0017
+       2025-10: IC=-0.0586
+       2025-11: IC=-0.0559
+    ✅ 2025-12: IC=+0.1703
+    ✅ 2026-01: IC=+0.0491
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0308  L/S avg=-9.9bps  sharpe=-18.81  n=52612
+  ✅ IS (Nov-Jan): IC=+0.0685  L/S avg=+2.9bps  sharpe=+2.95  n=26448
+
+  Running: BTCUSDT | ls_only_ewma | SGD_medium
+    [SGD_medium] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_medium] 25% (20000/79488) updates=19665 preds=19664 [6.8s]
+    [SGD_medium] 38% (30000/79488) updates=29623 preds=29622 [10.1s]
+    [SGD_medium] 50% (40000/79488) updates=39622 preds=39621 [13.6s]
+    [SGD_medium] 63% (50000/79488) updates=49622 preds=49621 [17.1s]
+    [SGD_medium] 75% (60000/79488) updates=59622 preds=59621 [20.4s]
+    [SGD_medium] 88% (70000/79488) updates=69622 preds=69621 [23.9s]
+    [SGD_medium] Done: 79109 updates, 79108 predictions [27.2s]
+
+  BTCUSDT | ls_only_ewma | SGD_medium
+    IC=+0.0258  rank_IC=+0.0001  n=79060
+    Bottom  : avg=    -4.3bps
+    Q2      : avg=    +1.9bps
+    Q3      : avg=    +0.1bps
+    Q4      : avg=    -3.3bps
+    Top     : avg=    +0.7bps
+     L/S: avg=-4.5bps  wr=46.2%  sharpe=-9.22
+    Monthly IC:
+       2025-05: IC=-0.0407
+       2025-06: IC=-0.0541
+       2025-07: IC=+0.0191
+       2025-08: IC=-0.0325
+       2025-09: IC=+0.0123
+       2025-10: IC=-0.0432
+       2025-11: IC=-0.0598
+    ✅ 2025-12: IC=+0.1713
+    ✅ 2026-01: IC=+0.0210
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0245  L/S avg=-9.6bps  sharpe=-17.78  n=52612
+  ✅ IS (Nov-Jan): IC=+0.0657  L/S avg=+0.8bps  sharpe=+0.83  n=26448
+
+  Running: BTCUSDT | ls_only_ewma | SGD_slow
+    [SGD_slow] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_slow] 25% (20000/79488) updates=19665 preds=19664 [6.7s]
+    [SGD_slow] 38% (30000/79488) updates=29623 preds=29622 [10.1s]
+    [SGD_slow] 50% (40000/79488) updates=39622 preds=39621 [13.5s]
+    [SGD_slow] 63% (50000/79488) updates=49622 preds=49621 [17.0s]
+    [SGD_slow] 75% (60000/79488) updates=59622 preds=59621 [20.3s]
+    [SGD_slow] 88% (70000/79488) updates=69622 preds=69621 [23.9s]
+    [SGD_slow] Done: 79109 updates, 79108 predictions [27.5s]
+
+  BTCUSDT | ls_only_ewma | SGD_slow
+    IC=+0.0237  rank_IC=+0.0211  n=79060
+    Bottom  : avg=    -5.9bps
+    Q2      : avg=    +1.6bps
+    Q3      : avg=    -0.7bps
+    Q4      : avg=    +3.0bps
+    Top     : avg=    -3.0bps
+     L/S: avg=-5.6bps  wr=46.8%  sharpe=-11.31
+    Monthly IC:
+       2025-05: IC=-0.0276
+       2025-06: IC=+0.0126
+       2025-07: IC=-0.1372
+       2025-08: IC=-0.0382
+    ✅ 2025-09: IC=+0.0232
+       2025-10: IC=-0.0368
+       2025-11: IC=-0.0314
+    ✅ 2025-12: IC=+0.1603
+       2026-01: IC=-0.0043
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0222  L/S avg=-10.1bps  sharpe=-19.71  n=52612
+     IS (Nov-Jan): IC=+0.0476  L/S avg=-2.6bps  sharpe=-2.83  n=26448
+
+  Running: BTCUSDT | ls_only_ewma | SGD_constant
+    [SGD_constant] 13% (10000/79488) updates=9665 preds=9664 [3.9s]
+    [SGD_constant] 25% (20000/79488) updates=19665 preds=19664 [7.3s]
+    [SGD_constant] 38% (30000/79488) updates=29623 preds=29622 [10.6s]
+    [SGD_constant] 50% (40000/79488) updates=39622 preds=39621 [13.9s]
+    [SGD_constant] 63% (50000/79488) updates=49622 preds=49621 [17.3s]
+    [SGD_constant] 75% (60000/79488) updates=59622 preds=59621 [20.7s]
+    [SGD_constant] 88% (70000/79488) updates=69622 preds=69621 [24.1s]
+    [SGD_constant] Done: 79109 updates, 79108 predictions [27.2s]
+
+  BTCUSDT | ls_only_ewma | SGD_constant
+    IC=+0.0224  rank_IC=-0.0046  n=79060
+    Bottom  : avg=    -6.7bps
+    Q2      : avg=    +3.7bps
+    Q3      : avg=    +0.6bps
+    Q4      : avg=    -0.7bps
+    Top     : avg=    -1.9bps
+     L/S: avg=-4.6bps  wr=45.5%  sharpe=-9.16
+    Monthly IC:
+       2025-05: IC=-0.0372
+       2025-06: IC=-0.0689
+    ✅ 2025-07: IC=+0.0622
+       2025-08: IC=-0.0379
+       2025-09: IC=-0.0033
+       2025-10: IC=-0.0538
+       2025-11: IC=-0.0495
+    ✅ 2025-12: IC=+0.1534
+    ✅ 2026-01: IC=+0.0776
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0273  L/S avg=-9.9bps  sharpe=-18.90  n=52612
+     IS (Nov-Jan): IC=+0.0647  L/S avg=-0.7bps  sharpe=-0.73  n=26448
+
+  Running: BTCUSDT | ls_only_ewma | SGD_adaptive
+    [SGD_adaptive] 13% (10000/79488) updates=9665 preds=9664 [3.4s]
+    [SGD_adaptive] 25% (20000/79488) updates=19665 preds=19664 [7.1s]
+    [SGD_adaptive] 38% (30000/79488) updates=29623 preds=29622 [10.5s]
+    [SGD_adaptive] 50% (40000/79488) updates=39622 preds=39621 [13.9s]
+    [SGD_adaptive] 63% (50000/79488) updates=49622 preds=49621 [17.3s]
+    [SGD_adaptive] 75% (60000/79488) updates=59622 preds=59621 [20.7s]
+    [SGD_adaptive] 88% (70000/79488) updates=69622 preds=69621 [24.2s]
+    [SGD_adaptive] Done: 79109 updates, 79108 predictions [27.3s]
+
+  BTCUSDT | ls_only_ewma | SGD_adaptive
+    IC=+0.0166  rank_IC=-0.0048  n=79060
+    Bottom  : avg=    -4.2bps
+    Q2      : avg=    +0.8bps
+    Q3      : avg=    +0.3bps
+    Q4      : avg=    -1.0bps
+    Top     : avg=    -0.7bps
+     L/S: avg=-5.2bps  wr=44.4%  sharpe=-10.30
+    Monthly IC:
+       2025-05: IC=-0.0380
+       2025-06: IC=-0.1019
+    ✅ 2025-07: IC=+0.0463
+       2025-08: IC=-0.0074
+    ✅ 2025-09: IC=+0.0248
+    ✅ 2025-10: IC=+0.0271
+       2025-11: IC=-0.0241
+    ✅ 2025-12: IC=+0.0628
+    ✅ 2026-01: IC=+0.1133
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0067  L/S avg=-8.6bps  sharpe=-15.98  n=52612
+     IS (Nov-Jan): IC=+0.0388  L/S avg=-0.1bps  sharpe=-0.14  n=26448
+
+######################################################################
+  SOLUSDT
+######################################################################
+
+Loading data...
+  Klines: 79488 bars
+  Metrics: 79485 rows
+
+Building features...
+  Merged: 79488 bars, 79487 with metrics (100.0%)
+  Total bars: 79488, with LS ratio: 79444 (99.9%)
+
+  LS ratio distribution over time:
+    2025-05: mean=2.354 std=0.319 n=8928
+    2025-06: mean=2.505 std=0.368 n=8640
+    2025-07: mean=2.741 std=0.537 n=8885
+    2025-08: mean=3.053 std=0.617 n=8927
+    2025-09: mean=2.292 std=0.683 n=8640
+    2025-10: mean=3.262 std=0.626 n=8928
+    2025-11: mean=4.507 std=0.511 n=8640
+    2025-12: mean=3.933 std=0.595 n=8928
+    2026-01: mean=3.648 std=0.986 n=8928
+
+======================================================================
+  ADAPTIVE SIGNAL (non-ML) — SOLUSDT
+======================================================================
+     EWMA(4h) z>0.5 mom: avg=-0.6bps wr=49.1% n=54105  OOS=-4.4bps IS=+7.0bps
+  ✅ EWMA(4h) z>1.0 mom: avg=+5.4bps wr=50.7% n=26492  OOS=+1.0bps IS=+14.2bps
+  ✅ EWMA(4h) z>1.5 mom: avg=+11.5bps wr=51.5% n=8191  OOS=+5.5bps IS=+23.0bps
+  ✅ EWMA(4h) z>2.0 mom: avg=+8.8bps wr=50.2% n=2290  OOS=+8.1bps IS=+10.5bps
+  ✅ EWMA(8h) z>0.5 mom: avg=+0.8bps wr=49.6% n=52696  OOS=-3.7bps IS=+10.2bps
+  ✅ EWMA(8h) z>1.0 mom: avg=+2.4bps wr=50.7% n=27084  OOS=-2.3bps IS=+11.7bps
+  ✅ EWMA(8h) z>1.5 mom: avg=+8.7bps wr=52.3% n=9266  OOS=+1.2bps IS=+22.7bps
+  ✅ EWMA(8h) z>2.0 mom: avg=+4.4bps wr=48.1% n=2484  OOS=+5.7bps IS=+1.4bps
+     EWMA(24h) z>0.5 mom: avg=-0.5bps wr=50.0% n=52507  OOS=-4.8bps IS=+8.4bps
+     EWMA(24h) z>1.0 mom: avg=-1.2bps wr=51.4% n=26647  OOS=-3.8bps IS=+4.0bps
+  ✅ EWMA(24h) z>1.5 mom: avg=+5.9bps wr=52.7% n=10328  OOS=-0.0bps IS=+18.2bps
+  ✅ EWMA(24h) z>2.0 mom: avg=+17.4bps wr=53.6% n=3042  OOS=+8.4bps IS=+36.3bps
+
+  Running: SOLUSDT | fixed_all | SGD_fast
+    [SGD_fast] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_fast] 25% (20000/79488) updates=19665 preds=19664 [7.3s]
+    [SGD_fast] 38% (30000/79488) updates=29613 preds=29612 [10.8s]
+    [SGD_fast] 50% (40000/79488) updates=39612 preds=39611 [14.4s]
+    [SGD_fast] 63% (50000/79488) updates=49612 preds=49611 [17.7s]
+    [SGD_fast] 75% (60000/79488) updates=59612 preds=59611 [21.0s]
+    [SGD_fast] 88% (70000/79488) updates=69612 preds=69611 [24.4s]
+    [SGD_fast] Done: 79099 updates, 79098 predictions [27.5s]
+
+  SOLUSDT | fixed_all | SGD_fast
+    IC=+0.0136  rank_IC=-0.0006  n=79050
+    Bottom  : avg=    -6.9bps
+    Q2      : avg=    +1.2bps
+    Q3      : avg=    +3.9bps
+    Q4      : avg=    -1.6bps
+    Top     : avg=    -1.6bps
+     L/S: avg=-4.3bps  wr=47.8%  sharpe=-4.62
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0352
+       2025-06: IC=-0.0018
+       2025-07: IC=-0.0305
+       2025-08: IC=-0.0885
+       2025-09: IC=-0.0713
+       2025-10: IC=-0.0387
+    ✅ 2025-11: IC=+0.0622
+    ✅ 2025-12: IC=+0.1353
+       2026-01: IC=-0.0039
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0292  L/S avg=-10.5bps  sharpe=-9.67  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0775  L/S avg=+6.2bps  sharpe=+3.52  n=26448
+
+  Running: SOLUSDT | fixed_all | SGD_medium
+    [SGD_medium] 13% (10000/79488) updates=9665 preds=9664 [3.1s]
+    [SGD_medium] 25% (20000/79488) updates=19665 preds=19664 [6.4s]
+    [SGD_medium] 38% (30000/79488) updates=29613 preds=29612 [9.7s]
+    [SGD_medium] 50% (40000/79488) updates=39612 preds=39611 [13.0s]
+    [SGD_medium] 63% (50000/79488) updates=49612 preds=49611 [16.4s]
+    [SGD_medium] 75% (60000/79488) updates=59612 preds=59611 [19.9s]
+    [SGD_medium] 88% (70000/79488) updates=69612 preds=69611 [23.3s]
+    [SGD_medium] Done: 79099 updates, 79098 predictions [26.7s]
+
+  SOLUSDT | fixed_all | SGD_medium
+    IC=+0.0181  rank_IC=+0.0072  n=79050
+    Bottom  : avg=    -7.4bps
+    Q2      : avg=    +3.3bps
+    Q3      : avg=    +1.1bps
+    Q4      : avg=    -3.1bps
+    Top     : avg=    +1.1bps
+     L/S: avg=-2.7bps  wr=48.2%  sharpe=-2.96
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0408
+       2025-06: IC=-0.0061
+       2025-07: IC=-0.0548
+       2025-08: IC=-0.0887
+       2025-09: IC=-0.0495
+       2025-10: IC=-0.0235
+    ✅ 2025-11: IC=+0.0575
+    ✅ 2025-12: IC=+0.1364
+       2026-01: IC=-0.0092
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0248  L/S avg=-9.9bps  sharpe=-9.04  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0752  L/S avg=+7.1bps  sharpe=+4.19  n=26448
+
+  Running: SOLUSDT | fixed_all | SGD_slow
+    [SGD_slow] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_slow] 25% (20000/79488) updates=19665 preds=19664 [6.7s]
+    [SGD_slow] 38% (30000/79488) updates=29613 preds=29612 [10.0s]
+    [SGD_slow] 50% (40000/79488) updates=39612 preds=39611 [13.7s]
+    [SGD_slow] 63% (50000/79488) updates=49612 preds=49611 [17.0s]
+    [SGD_slow] 75% (60000/79488) updates=59612 preds=59611 [20.5s]
+    [SGD_slow] 88% (70000/79488) updates=69612 preds=69611 [24.1s]
+    [SGD_slow] Done: 79099 updates, 79098 predictions [27.3s]
+
+  SOLUSDT | fixed_all | SGD_slow
+    IC=+0.0173  rank_IC=+0.0140  n=79050
+    Bottom  : avg=    -5.0bps
+    Q2      : avg=    +1.7bps
+    Q3      : avg=    -3.0bps
+    Q4      : avg=    +0.9bps
+    Top     : avg=    +0.5bps
+     L/S: avg=-4.3bps  wr=48.4%  sharpe=-4.65
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0899
+       2025-06: IC=-0.0139
+       2025-07: IC=-0.0569
+       2025-08: IC=-0.0645
+       2025-09: IC=-0.0204
+       2025-10: IC=-0.0182
+    ✅ 2025-11: IC=+0.0231
+    ✅ 2025-12: IC=+0.1430
+       2026-01: IC=-0.0431
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0087  L/S avg=-9.3bps  sharpe=-8.41  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0459  L/S avg=+2.7bps  sharpe=+1.65  n=26448
+
+  Running: SOLUSDT | fixed_all | SGD_constant
+    [SGD_constant] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_constant] 25% (20000/79488) updates=19665 preds=19664 [6.7s]
+    [SGD_constant] 38% (30000/79488) updates=29613 preds=29612 [10.2s]
+    [SGD_constant] 50% (40000/79488) updates=39612 preds=39611 [13.7s]
+    [SGD_constant] 63% (50000/79488) updates=49612 preds=49611 [17.1s]
+    [SGD_constant] 75% (60000/79488) updates=59612 preds=59611 [20.5s]
+    [SGD_constant] 88% (70000/79488) updates=69612 preds=69611 [23.8s]
+    [SGD_constant] Done: 79099 updates, 79098 predictions [27.1s]
+
+  SOLUSDT | fixed_all | SGD_constant
+    IC=+0.0127  rank_IC=-0.0035  n=79050
+    Bottom  : avg=    -7.7bps
+    Q2      : avg=    +3.9bps
+    Q3      : avg=    +1.3bps
+    Q4      : avg=    +1.0bps
+    Top     : avg=    -3.5bps
+     L/S: avg=-4.9bps  wr=47.6%  sharpe=-5.17
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0337
+       2025-06: IC=-0.0002
+       2025-07: IC=-0.0272
+       2025-08: IC=-0.0884
+       2025-09: IC=-0.0770
+       2025-10: IC=-0.0489
+    ✅ 2025-11: IC=+0.0650
+    ✅ 2025-12: IC=+0.1425
+       2026-01: IC=-0.0024
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0356  L/S avg=-11.2bps  sharpe=-10.34  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0809  L/S avg=+7.1bps  sharpe=+4.03  n=26448
+
+  Running: SOLUSDT | fixed_all | SGD_adaptive
+    [SGD_adaptive] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_adaptive] 25% (20000/79488) updates=19665 preds=19664 [6.6s]
+    [SGD_adaptive] 38% (30000/79488) updates=29613 preds=29612 [10.0s]
+    [SGD_adaptive] 50% (40000/79488) updates=39612 preds=39611 [13.4s]
+    [SGD_adaptive] 63% (50000/79488) updates=49612 preds=49611 [16.7s]
+    [SGD_adaptive] 75% (60000/79488) updates=59612 preds=59611 [20.7s]
+    [SGD_adaptive] 88% (70000/79488) updates=69612 preds=69611 [24.1s]
+    [SGD_adaptive] Done: 79099 updates, 79098 predictions [27.4s]
+
+  SOLUSDT | fixed_all | SGD_adaptive
+    IC=+0.0198  rank_IC=+0.0113  n=79050
+    Bottom  : avg=    -9.0bps
+    Q2      : avg=    -3.3bps
+    Q3      : avg=    +3.3bps
+    Q4      : avg=    -0.1bps
+    Top     : avg=    +4.0bps
+     L/S: avg=-0.5bps  wr=47.7%  sharpe=-0.51
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0753
+       2025-06: IC=-0.0011
+       2025-07: IC=+0.0021
+       2025-08: IC=-0.0563
+       2025-09: IC=-0.0922
+       2025-10: IC=-0.0619
+    ✅ 2025-11: IC=+0.0961
+    ✅ 2025-12: IC=+0.1359
+    ✅ 2026-01: IC=+0.0217
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0276  L/S avg=-7.2bps  sharpe=-6.25  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0957  L/S avg=+12.3bps  sharpe=+7.07  n=26448
+
+  Running: SOLUSDT | ewma_all | SGD_fast
+    [SGD_fast] 13% (10000/79488) updates=9665 preds=9664 [3.8s]
+    [SGD_fast] 25% (20000/79488) updates=19665 preds=19664 [7.4s]
+    [SGD_fast] 38% (30000/79488) updates=29613 preds=29612 [10.9s]
+    [SGD_fast] 50% (40000/79488) updates=39612 preds=39611 [14.3s]
+    [SGD_fast] 63% (50000/79488) updates=49612 preds=49611 [17.8s]
+    [SGD_fast] 75% (60000/79488) updates=59612 preds=59611 [21.2s]
+    [SGD_fast] 88% (70000/79488) updates=69612 preds=69611 [24.5s]
+    [SGD_fast] Done: 79099 updates, 79098 predictions [27.6s]
+
+  SOLUSDT | ewma_all | SGD_fast
+    IC=-0.0210  rank_IC=-0.0353  n=79050
+    Bottom  : avg=    +0.0bps
+    Q2      : avg=   +10.2bps
+    Q3      : avg=    +2.2bps
+    Q4      : avg=    -6.7bps
+    Top     : avg=   -10.8bps
+     L/S: avg=-12.4bps  wr=45.5%  sharpe=-13.77
+    Monthly IC:
+       2025-05: IC=+0.0090
+       2025-06: IC=-0.0685
+       2025-07: IC=-0.0511
+       2025-08: IC=-0.1221
+       2025-09: IC=-0.0682
+       2025-10: IC=-0.1295
+       2025-11: IC=+0.0062
+    ✅ 2025-12: IC=+0.1310
+       2026-01: IC=+0.0008
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0716  L/S avg=-21.4bps  sharpe=-19.93  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0546  L/S avg=+5.3bps  sharpe=+3.32  n=26448
+
+  Running: SOLUSDT | ewma_all | SGD_medium
+    [SGD_medium] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_medium] 25% (20000/79488) updates=19665 preds=19664 [6.5s]
+    [SGD_medium] 38% (30000/79488) updates=29613 preds=29612 [9.9s]
+    [SGD_medium] 50% (40000/79488) updates=39612 preds=39611 [13.2s]
+    [SGD_medium] 63% (50000/79488) updates=49612 preds=49611 [16.5s]
+    [SGD_medium] 75% (60000/79488) updates=59612 preds=59611 [19.7s]
+    [SGD_medium] 88% (70000/79488) updates=69612 preds=69611 [23.0s]
+    [SGD_medium] Done: 79099 updates, 79098 predictions [26.6s]
+
+  SOLUSDT | ewma_all | SGD_medium
+    IC=-0.0102  rank_IC=-0.0219  n=79050
+    Bottom  : avg=    +1.6bps
+    Q2      : avg=    +4.5bps
+    Q3      : avg=    +1.0bps
+    Q4      : avg=    -4.8bps
+    Top     : avg=    -7.4bps
+     L/S: avg=-11.5bps  wr=46.2%  sharpe=-12.67
+    Monthly IC:
+       2025-05: IC=+0.0188
+       2025-06: IC=-0.0679
+       2025-07: IC=-0.0401
+       2025-08: IC=-0.1280
+       2025-09: IC=-0.0387
+       2025-10: IC=-0.1075
+       2025-11: IC=+0.0036
+    ✅ 2025-12: IC=+0.1406
+       2026-01: IC=-0.0104
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0602  L/S avg=-20.5bps  sharpe=-18.89  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0568  L/S avg=+4.4bps  sharpe=+2.73  n=26448
+
+  Running: SOLUSDT | ewma_all | SGD_slow
+    [SGD_slow] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_slow] 25% (20000/79488) updates=19665 preds=19664 [6.6s]
+    [SGD_slow] 38% (30000/79488) updates=29613 preds=29612 [10.0s]
+    [SGD_slow] 50% (40000/79488) updates=39612 preds=39611 [13.6s]
+    [SGD_slow] 63% (50000/79488) updates=49612 preds=49611 [17.3s]
+    [SGD_slow] 75% (60000/79488) updates=59612 preds=59611 [20.6s]
+    [SGD_slow] 88% (70000/79488) updates=69612 preds=69611 [23.9s]
+    [SGD_slow] Done: 79099 updates, 79098 predictions [27.1s]
+
+  SOLUSDT | ewma_all | SGD_slow
+    IC=+0.0054  rank_IC=+0.0042  n=79050
+    Bottom  : avg=    -3.8bps
+    Q2      : avg=    +5.7bps
+    Q3      : avg=    -3.0bps
+    Q4      : avg=    -3.6bps
+    Top     : avg=    -0.3bps
+     L/S: avg=-5.2bps  wr=48.2%  sharpe=-5.73
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0766
+       2025-06: IC=-0.0489
+       2025-07: IC=-0.0229
+       2025-08: IC=-0.0720
+       2025-09: IC=-0.0080
+       2025-10: IC=-0.0776
+       2025-11: IC=-0.0037
+    ✅ 2025-12: IC=+0.1351
+       2026-01: IC=-0.0341
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0252  L/S avg=-12.1bps  sharpe=-10.97  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0389  L/S avg=+4.8bps  sharpe=+3.00  n=26448
+
+  Running: SOLUSDT | ewma_all | SGD_constant
+    [SGD_constant] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_constant] 25% (20000/79488) updates=19665 preds=19664 [6.5s]
+    [SGD_constant] 38% (30000/79488) updates=29613 preds=29612 [9.8s]
+    [SGD_constant] 50% (40000/79488) updates=39612 preds=39611 [13.1s]
+    [SGD_constant] 63% (50000/79488) updates=49612 preds=49611 [16.5s]
+    [SGD_constant] 75% (60000/79488) updates=59612 preds=59611 [19.8s]
+    [SGD_constant] 88% (70000/79488) updates=69612 preds=69611 [23.0s]
+    [SGD_constant] Done: 79099 updates, 79098 predictions [26.1s]
+
+  SOLUSDT | ewma_all | SGD_constant
+    IC=-0.0226  rank_IC=-0.0371  n=79050
+    Bottom  : avg=    -1.7bps
+    Q2      : avg=   +10.2bps
+    Q3      : avg=    +5.2bps
+    Q4      : avg=    -7.8bps
+    Top     : avg=   -10.8bps
+     L/S: avg=-11.6bps  wr=45.6%  sharpe=-12.53
+    Monthly IC:
+       2025-05: IC=+0.0096
+       2025-06: IC=-0.0650
+       2025-07: IC=-0.0562
+       2025-08: IC=-0.1133
+       2025-09: IC=-0.0772
+       2025-10: IC=-0.1410
+       2025-11: IC=+0.0130
+    ✅ 2025-12: IC=+0.1303
+       2026-01: IC=+0.0017
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0793  L/S avg=-20.7bps  sharpe=-18.98  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0560  L/S avg=+3.7bps  sharpe=+2.23  n=26448
+
+  Running: SOLUSDT | ewma_all | SGD_adaptive
+    [SGD_adaptive] 13% (10000/79488) updates=9665 preds=9664 [3.1s]
+    [SGD_adaptive] 25% (20000/79488) updates=19665 preds=19664 [6.3s]
+    [SGD_adaptive] 38% (30000/79488) updates=29613 preds=29612 [9.4s]
+    [SGD_adaptive] 50% (40000/79488) updates=39612 preds=39611 [12.9s]
+    [SGD_adaptive] 63% (50000/79488) updates=49612 preds=49611 [16.1s]
+    [SGD_adaptive] 75% (60000/79488) updates=59612 preds=59611 [19.4s]
+    [SGD_adaptive] 88% (70000/79488) updates=69612 preds=69611 [22.9s]
+    [SGD_adaptive] Done: 79099 updates, 79098 predictions [26.4s]
+
+  SOLUSDT | ewma_all | SGD_adaptive
+    IC=-0.0045  rank_IC=-0.0191  n=79050
+    Bottom  : avg=    -1.9bps
+    Q2      : avg=    +4.6bps
+    Q3      : avg=    -0.5bps
+    Q4      : avg=    -4.7bps
+    Top     : avg=    -2.5bps
+     L/S: avg=-7.3bps  wr=46.4%  sharpe=-7.53
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0471
+       2025-06: IC=-0.0754
+       2025-07: IC=-0.0415
+       2025-08: IC=-0.0759
+       2025-09: IC=-0.0743
+       2025-10: IC=-0.0977
+    ✅ 2025-11: IC=+0.0647
+    ✅ 2025-12: IC=+0.1467
+       2026-01: IC=-0.0022
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0587  L/S avg=-14.5bps  sharpe=-12.56  n=52602
+  ✅ IS (Nov-Jan): IC=+0.0811  L/S avg=+6.7bps  sharpe=+3.78  n=26448
+
+  Running: SOLUSDT | ls_only_ewma | SGD_fast
+    [SGD_fast] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_fast] 25% (20000/79488) updates=19665 preds=19664 [6.4s]
+    [SGD_fast] 38% (30000/79488) updates=29622 preds=29621 [9.7s]
+    [SGD_fast] 50% (40000/79488) updates=39621 preds=39620 [12.9s]
+    [SGD_fast] 63% (50000/79488) updates=49621 preds=49620 [16.1s]
+    [SGD_fast] 75% (60000/79488) updates=59621 preds=59620 [19.4s]
+    [SGD_fast] 88% (70000/79488) updates=69621 preds=69620 [22.8s]
+    [SGD_fast] Done: 79108 updates, 79107 predictions [25.9s]
+
+  SOLUSDT | ls_only_ewma | SGD_fast
+    IC=+0.0006  rank_IC=-0.0252  n=79059
+    Bottom  : avg=    -1.0bps
+    Q2      : avg=    +4.8bps
+    Q3      : avg=    +0.5bps
+    Q4      : avg=    +2.4bps
+    Top     : avg=   -11.7bps
+     L/S: avg=-12.3bps  wr=45.7%  sharpe=-13.49
+    Monthly IC:
+       2025-05: IC=+0.0159
+       2025-06: IC=-0.0663
+       2025-07: IC=-0.0347
+       2025-08: IC=-0.0986
+       2025-09: IC=-0.0389
+       2025-10: IC=-0.1026
+    ✅ 2025-11: IC=+0.0307
+    ✅ 2025-12: IC=+0.1158
+    ✅ 2026-01: IC=+0.0213
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0527  L/S avg=-21.1bps  sharpe=-19.62  n=52611
+  ✅ IS (Nov-Jan): IC=+0.0661  L/S avg=+4.3bps  sharpe=+2.61  n=26448
+
+  Running: SOLUSDT | ls_only_ewma | SGD_medium
+    [SGD_medium] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_medium] 25% (20000/79488) updates=19665 preds=19664 [6.6s]
+    [SGD_medium] 38% (30000/79488) updates=29622 preds=29621 [10.0s]
+    [SGD_medium] 50% (40000/79488) updates=39621 preds=39620 [13.4s]
+    [SGD_medium] 63% (50000/79488) updates=49621 preds=49620 [16.7s]
+    [SGD_medium] 75% (60000/79488) updates=59621 preds=59620 [20.0s]
+    [SGD_medium] 88% (70000/79488) updates=69621 preds=69620 [23.8s]
+    [SGD_medium] Done: 79108 updates, 79107 predictions [27.1s]
+
+  SOLUSDT | ls_only_ewma | SGD_medium
+    IC=+0.0154  rank_IC=-0.0097  n=79059
+    Bottom  : avg=    -1.2bps
+    Q2      : avg=    -0.5bps
+    Q3      : avg=    +5.4bps
+    Q4      : avg=    -4.4bps
+    Top     : avg=    -4.3bps
+     L/S: avg=-8.6bps  wr=46.2%  sharpe=-9.82
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0262
+       2025-06: IC=-0.0718
+       2025-07: IC=-0.0271
+       2025-08: IC=-0.1013
+       2025-09: IC=-0.0254
+       2025-10: IC=-0.0925
+    ✅ 2025-11: IC=+0.0456
+    ✅ 2025-12: IC=+0.1404
+       2026-01: IC=+0.0007
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0439  L/S avg=-15.6bps  sharpe=-15.28  n=52611
+  ✅ IS (Nov-Jan): IC=+0.0793  L/S avg=+11.5bps  sharpe=+7.27  n=26448
+
+  Running: SOLUSDT | ls_only_ewma | SGD_slow
+    [SGD_slow] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_slow] 25% (20000/79488) updates=19665 preds=19664 [6.7s]
+    [SGD_slow] 38% (30000/79488) updates=29622 preds=29621 [10.6s]
+    [SGD_slow] 50% (40000/79488) updates=39621 preds=39620 [14.0s]
+    [SGD_slow] 63% (50000/79488) updates=49621 preds=49620 [17.3s]
+    [SGD_slow] 75% (60000/79488) updates=59621 preds=59620 [20.6s]
+    [SGD_slow] 88% (70000/79488) updates=69621 preds=69620 [23.9s]
+    [SGD_slow] Done: 79108 updates, 79107 predictions [27.1s]
+
+  SOLUSDT | ls_only_ewma | SGD_slow
+    IC=+0.0340  rank_IC=+0.0181  n=79059
+    Bottom  : avg=    -8.9bps
+    Q2      : avg=    +3.2bps
+    Q3      : avg=    -0.3bps
+    Q4      : avg=    -0.2bps
+    Top     : avg=    +1.2bps
+     L/S: avg=-1.9bps  wr=47.7%  sharpe=-2.22
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0754
+       2025-06: IC=-0.0115
+       2025-07: IC=-0.0054
+       2025-08: IC=-0.0519
+       2025-09: IC=-0.0498
+       2025-10: IC=-0.0881
+    ✅ 2025-11: IC=+0.0643
+    ✅ 2025-12: IC=+0.1784
+       2026-01: IC=-0.0458
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0084  L/S avg=-11.6bps  sharpe=-11.34  n=52611
+  ✅ IS (Nov-Jan): IC=+0.0729  L/S avg=+7.9bps  sharpe=+5.23  n=26448
+
+  Running: SOLUSDT | ls_only_ewma | SGD_constant
+    [SGD_constant] 13% (10000/79488) updates=9665 preds=9664 [3.3s]
+    [SGD_constant] 25% (20000/79488) updates=19665 preds=19664 [6.6s]
+    [SGD_constant] 38% (30000/79488) updates=29622 preds=29621 [10.0s]
+    [SGD_constant] 50% (40000/79488) updates=39621 preds=39620 [13.4s]
+    [SGD_constant] 63% (50000/79488) updates=49621 preds=49620 [16.8s]
+    [SGD_constant] 75% (60000/79488) updates=59621 preds=59620 [20.3s]
+    [SGD_constant] 88% (70000/79488) updates=69621 preds=69620 [23.6s]
+    [SGD_constant] Done: 79108 updates, 79107 predictions [26.8s]
+
+  SOLUSDT | ls_only_ewma | SGD_constant
+    IC=-0.0050  rank_IC=-0.0310  n=79059
+    Bottom  : avg=    +0.2bps
+    Q2      : avg=    +5.8bps
+    Q3      : avg=    +1.0bps
+    Q4      : avg=    -1.4bps
+    Top     : avg=   -10.6bps
+     L/S: avg=-12.4bps  wr=45.5%  sharpe=-13.30
+    Monthly IC:
+       2025-05: IC=+0.0129
+       2025-06: IC=-0.0587
+       2025-07: IC=-0.0406
+       2025-08: IC=-0.0922
+       2025-09: IC=-0.0462
+       2025-10: IC=-0.1020
+    ✅ 2025-11: IC=+0.0224
+    ✅ 2025-12: IC=+0.0979
+    ✅ 2026-01: IC=+0.0256
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0573  L/S avg=-22.9bps  sharpe=-20.83  n=52611
+  ✅ IS (Nov-Jan): IC=+0.0550  L/S avg=+1.9bps  sharpe=+1.15  n=26448
+
+  Running: SOLUSDT | ls_only_ewma | SGD_adaptive
+    [SGD_adaptive] 13% (10000/79488) updates=9665 preds=9664 [3.2s]
+    [SGD_adaptive] 25% (20000/79488) updates=19665 preds=19664 [6.5s]
+    [SGD_adaptive] 38% (30000/79488) updates=29622 preds=29621 [10.0s]
+    [SGD_adaptive] 50% (40000/79488) updates=39621 preds=39620 [13.1s]
+    [SGD_adaptive] 63% (50000/79488) updates=49621 preds=49620 [16.4s]
+    [SGD_adaptive] 75% (60000/79488) updates=59621 preds=59620 [19.9s]
+    [SGD_adaptive] 88% (70000/79488) updates=69621 preds=69620 [23.1s]
+    [SGD_adaptive] Done: 79108 updates, 79107 predictions [26.1s]
+
+  SOLUSDT | ls_only_ewma | SGD_adaptive
+    IC=-0.0038  rank_IC=-0.0287  n=79059
+    Bottom  : avg=    +2.5bps
+    Q2      : avg=    -6.2bps
+    Q3      : avg=    +7.9bps
+    Q4      : avg=    +1.3bps
+    Top     : avg=   -10.5bps
+     L/S: avg=-13.5bps  wr=44.6%  sharpe=-14.24
+    Monthly IC:
+    ✅ 2025-05: IC=+0.0765
+       2025-06: IC=-0.0081
+       2025-07: IC=-0.0245
+       2025-08: IC=-0.0551
+       2025-09: IC=-0.0776
+       2025-10: IC=-0.0385
+       2025-11: IC=+0.0139
+    ✅ 2025-12: IC=+0.0392
+       2026-01: IC=-0.0124
+    Quintile monotonic: NO
+     OOS (May-Oct): IC=-0.0222  L/S avg=-13.9bps  sharpe=-12.28  n=52611
+     IS (Nov-Jan): IC=+0.0199  L/S avg=-13.0bps  sharpe=-7.64  n=26448
+
+======================================================================
+  FINAL COMPARISON
+======================================================================
+
+  Symbol   Features       Config          Full IC  Full Sharpe   OOS IC  OOS Sharpe   IS IC  IS Sharpe
+  --------------------------------------------------------------------------------------------------
+   BTCUSDT  ewma_all       SGD_adaptive    +0.0325        -6.26  -0.0085      -11.63 +0.0783      +2.37
+   BTCUSDT  ewma_all       SGD_constant    +0.0167       -13.54  -0.0203      -17.91 +0.0517      -3.16
+   BTCUSDT  ewma_all       SGD_fast        +0.0097       -14.58  -0.0231      -19.74 +0.0434      -2.98
+   BTCUSDT  ewma_all       SGD_medium      +0.0100       -14.74  -0.0166      -18.43 +0.0333      -4.84
+   BTCUSDT  ewma_all       SGD_slow        +0.0070       -15.51  -0.0126      -16.86 +0.0178      -6.99
+   BTCUSDT  fixed_all      SGD_adaptive    +0.0533        -2.48  +0.0165       -9.14 +0.0916      +5.80
+   BTCUSDT  fixed_all      SGD_constant    +0.0435        -6.05  -0.0037      -11.89 +0.0870      +2.95
+   BTCUSDT  fixed_all      SGD_fast        +0.0362        -7.50  -0.0088      -13.93 +0.0807      +3.64
+   BTCUSDT  fixed_all      SGD_medium      +0.0306        -6.69  -0.0106      -14.55 +0.0669      +1.94
+   BTCUSDT  fixed_all      SGD_slow        +0.0178       -11.92  -0.0085      -15.25 +0.0349      -4.49
+   BTCUSDT  ls_only_ewma   SGD_adaptive    +0.0166       -10.30  -0.0067      -15.98 +0.0388      -0.14
+   BTCUSDT  ls_only_ewma   SGD_constant    +0.0224        -9.16  -0.0273      -18.90 +0.0647      -0.73
+   BTCUSDT  ls_only_ewma   SGD_fast        +0.0208        -9.46  -0.0308      -18.81 +0.0685      +2.95
+   BTCUSDT  ls_only_ewma   SGD_medium      +0.0258        -9.22  -0.0245      -17.78 +0.0657      +0.83
+   BTCUSDT  ls_only_ewma   SGD_slow        +0.0237       -11.31  -0.0222      -19.71 +0.0476      -2.83
+   SOLUSDT  ewma_all       SGD_adaptive    -0.0045        -7.53  -0.0587      -12.56 +0.0811      +3.78
+   SOLUSDT  ewma_all       SGD_constant    -0.0226       -12.53  -0.0793      -18.98 +0.0560      +2.23
+   SOLUSDT  ewma_all       SGD_fast        -0.0210       -13.77  -0.0716      -19.93 +0.0546      +3.32
+   SOLUSDT  ewma_all       SGD_medium      -0.0102       -12.67  -0.0602      -18.89 +0.0568      +2.73
+   SOLUSDT  ewma_all       SGD_slow        +0.0054        -5.73  -0.0252      -10.97 +0.0389      +3.00
+   SOLUSDT  fixed_all      SGD_adaptive    +0.0198        -0.51  -0.0276       -6.25 +0.0957      +7.07
+   SOLUSDT  fixed_all      SGD_constant    +0.0127        -5.17  -0.0356      -10.34 +0.0809      +4.03
+   SOLUSDT  fixed_all      SGD_fast        +0.0136        -4.62  -0.0292       -9.67 +0.0775      +3.52
+   SOLUSDT  fixed_all      SGD_medium      +0.0181        -2.96  -0.0248       -9.04 +0.0752      +4.19
+   SOLUSDT  fixed_all      SGD_slow        +0.0173        -4.65  -0.0087       -8.41 +0.0459      +1.65
+   SOLUSDT  ls_only_ewma   SGD_adaptive    -0.0038       -14.24  -0.0222      -12.28 +0.0199      -7.64
+   SOLUSDT  ls_only_ewma   SGD_constant    -0.0050       -13.30  -0.0573      -20.83 +0.0550      +1.15
+   SOLUSDT  ls_only_ewma   SGD_fast        +0.0006       -13.49  -0.0527      -19.62 +0.0661      +2.61
+   SOLUSDT  ls_only_ewma   SGD_medium      +0.0154        -9.82  -0.0439      -15.28 +0.0793      +7.27
+   SOLUSDT  ls_only_ewma   SGD_slow        +0.0340        -2.22  -0.0084      -11.34 +0.0729      +5.23
+
+  COMPARISON TO v24c STATIC WALK-FORWARD:
+  (v24c used Ridge with expanding window, retrained every 4h)
+  BTC v24c: OOS IC=-0.018, OOS Sharpe=-12.40 | IS IC=-0.019, IS Sharpe=-5.71
+  SOL v24c: OOS IC=+0.032, OOS Sharpe=+0.55  | IS IC=+0.077, IS Sharpe=+2.31
+
+======================================================================
+  DONE — 813s total
+======================================================================
