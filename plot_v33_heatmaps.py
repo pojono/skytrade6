@@ -38,11 +38,32 @@ DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-SESSION_BOUNDS = {
-    'Asia':   (0, 8,  '#4FC3F7'),   # light blue
-    'Europe': (8, 16, '#FFB74D'),   # orange
-    'US':     (16, 24, '#EF5350'),  # red
-}
+# Realistic overlapping market sessions (UTC)
+# Tokyo:  00:00–09:00 UTC  (09:00–18:00 JST)
+# London: 07:00–16:00 UTC  (07:00–16:00 GMT)
+# New York: 12:00–21:00 UTC (08:00–17:00 ET, summer; 07:00–16:00 ET winter)
+#
+# Overlaps:
+#   Tokyo-London:  07:00–09:00 UTC
+#   London-NY:     12:00–16:00 UTC  ← peak volatility zone
+
+SESSIONS = [
+    # (name, start_h, end_h, color, bar_x_offset)
+    ('Tokyo',   0,  9,  '#4FC3F7', 0),     # light blue
+    ('London',  7,  16, '#FFB74D', 1),     # orange
+    ('New York', 12, 21, '#EF5350', 2),    # red
+]
+
+# For labeling each hour with active sessions
+def get_session_label(h):
+    """Return which sessions are active at hour h UTC."""
+    active = []
+    for name, start, end, _, _ in SESSIONS:
+        if start <= h < end:
+            active.append(name)
+    if not active:
+        return 'Quiet'
+    return ' + '.join(active)
 
 
 # ============================================================================
@@ -181,26 +202,45 @@ def plot_hour_dow_heatmap(df, symbol, out_path):
                 ax.text(d, h, f'{val:.1f}', ha='center', va='center',
                         fontsize=8, fontweight='bold', color=color)
 
-    # Session boundary lines and labels on the left
-    for sess_name, (start, end, color) in SESSION_BOUNDS.items():
-        # Horizontal lines at session boundaries
-        if start > 0:
-            ax.axhline(y=start - 0.5, color=color, linewidth=2.5, linestyle='-', alpha=0.9)
+    # Session bars on the right side (overlapping)
+    bar_width = 0.22
+    bar_gap = 0.24
+    bar_x_start = 6.65
 
-        # Session label bar on the right side
-        mid_y = (start + end) / 2 - 0.5
-        ax.annotate(sess_name, xy=(7.3, mid_y), fontsize=9, fontweight='bold',
-                    color=color, ha='left', va='center',
-                    annotation_clip=False)
+    for name, start, end, color, x_off in SESSIONS:
+        x = bar_x_start + x_off * bar_gap
 
-        # Colored bar on the right edge
-        rect = Rectangle((6.6, start - 0.5), 0.25, end - start,
-                         linewidth=0, facecolor=color, alpha=0.6,
+        # Colored bar
+        rect = Rectangle((x, start - 0.5), bar_width, end - start,
+                         linewidth=0.5, edgecolor=color, facecolor=color, alpha=0.5,
                          clip_on=False)
         ax.add_patch(rect)
 
+        # Session label
+        mid_y = (start + end) / 2 - 0.5
+        label_x = bar_x_start + 3 * bar_gap + 0.1
+        ax.annotate(name, xy=(label_x, mid_y), fontsize=8, fontweight='bold',
+                    color=color, ha='left', va='center',
+                    annotation_clip=False)
+
+    # Horizontal lines at key boundaries
+    for h_line, style, lw in [(7, '--', 1.5), (9, '--', 1.5),   # Tokyo-London overlap
+                               (12, '-', 2.0), (16, '-', 2.0),  # London-NY overlap
+                               (21, '--', 1.5)]:
+        ax.axhline(y=h_line - 0.5, color='#666666', linewidth=lw,
+                   linestyle=style, alpha=0.7)
+
+    # Overlap zone annotations on the far right
+    overlap_x = bar_x_start + 3 * bar_gap + 0.1
+    ax.annotate('Tokyo-London\noverlap', xy=(overlap_x, 7.5),
+                fontsize=6.5, color='#666666', ha='left', va='center',
+                fontstyle='italic', annotation_clip=False)
+    ax.annotate('London-NY\noverlap ★', xy=(overlap_x, 13.5),
+                fontsize=6.5, color='#333333', ha='left', va='center',
+                fontweight='bold', fontstyle='italic', annotation_clip=False)
+
     # Colorbar
-    cbar = fig.colorbar(im, ax=ax, shrink=0.6, pad=0.12)
+    cbar = fig.colorbar(im, ax=ax, shrink=0.6, pad=0.18)
     cbar.set_label('Range (bps)', fontsize=10)
 
     title = f'{symbol} — Avg 5-min Range (bps)\nHour (UTC) × Day of Week'
@@ -244,13 +284,11 @@ def save_hour_dow_csv(df, symbol, out_path):
         for d in range(7):
             mask = (df['hour'] == h) & (df['dow'] == d)
             row[DAY_NAMES[d]] = round(df.loc[mask, 'range_bps'].mean(), 2) if mask.sum() > 0 else None
-        # Add session label
-        if h < 8:
-            row['session'] = 'Asia'
-        elif h < 16:
-            row['session'] = 'Europe'
-        else:
-            row['session'] = 'US'
+        row['sessions_active'] = get_session_label(h)
+        row['tokyo'] = 1 if 0 <= h < 9 else 0
+        row['london'] = 1 if 7 <= h < 16 else 0
+        row['new_york'] = 1 if 12 <= h < 21 else 0
+        row['n_sessions'] = row['tokyo'] + row['london'] + row['new_york']
         rows.append(row)
     pd.DataFrame(rows).to_csv(out_path, index=False)
     print(f"    Saved: {out_path}")
@@ -260,7 +298,9 @@ def save_hourly_csv(all_dfs):
     """Save per-hour summary across all symbols as a single CSV."""
     rows = []
     for h in range(24):
-        row = {'hour_utc': f'{h:02d}:00'}
+        row = {'hour_utc': f'{h:02d}:00',
+               'sessions_active': get_session_label(h),
+               'n_sessions': sum([1 for _, s, e, _, _ in SESSIONS if s <= h < e])}
         for symbol, df in all_dfs.items():
             mask = df['hour'] == h
             row[f'{symbol}_range_bps'] = round(df.loc[mask, 'range_bps'].mean(), 2)
