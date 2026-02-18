@@ -1,0 +1,108 @@
+==========================================================================================
+  v41: CASCADE MM — WALK-FORWARD OOS VALIDATION — ETHUSDT
+  Maker=0.020%  Taker=0.055%
+  Started: 2026-02-18 22:18:59
+  [RAM=0.1GB used, 5.1GB avail]
+==========================================================================================
+
+################################################################################
+  LOADING ETHUSDT
+################################################################################
+  Loading 1445 liq files... [300/1445 5s ETA 19s] [600/1445 9s ETA 12s] [900/1445 13s ETA 8s] [1200/1445 17s ETA 3s] done (158,956 records, 21s) [RAM=0.2GB used, 4.9GB avail]
+  Loading 1488 ticker files... [300/1488 333s ETA 1319s] [600/1488 574s ETA 849s] [900/1488 813s ETA 531s] [1200/1488 1002s ETA 241s] done (9,473,055 records, 1216s) [RAM=3.7GB used, 1.2GB avail]
+  Building 1-min bars... 89,177 bars
+  [RAM=0.2GB used, 4.5GB avail] (freed tick_df)
+  Period: 2025-05-11 19:56:00 to 2025-08-07 10:59:00 (88 days)
+  Detecting cascades... 1048 cascades (12.0/day)
+  [RAM=0.1GB used, 4.6GB avail] (freed liq_df)
+
+  Train/Test split at 2025-07-11
+  Train: 2025-05-11 to 2025-07-11 (61 days)
+  Test:  2025-07-11 to 2025-08-07 (26 days)
+  Train cascades: 880  Test cascades: 168
+
+================================================================================
+  PART 1: PARAMETER SWEEP ON TRAIN SET (880 cascades)
+================================================================================
+  Sweeping 80 configs...
+  Config                                       n      wr     avg       tot    sharpe      DD   TP%     PF
+  ----------------------------------------------------------------------------------------------------
+  ... 20/80 (4s, ETA 13s) [RAM=0.1GB used, 4.7GB avail]
+  ... 40/80 (11s, ETA 11s) [RAM=0.1GB used, 4.6GB avail]
+  ... 60/80 (17s, ETA 6s) [RAM=0.1GB used, 4.6GB avail]
+  ... 80/80 (24s, ETA 0s) [RAM=0.1GB used, 4.7GB avail]
+
+  TOP 10 TRAIN CONFIGS (by total return):
+  Config                                       n      wr     avg       tot    sharpe      DD   TP%     PF
+  ----------------------------------------------------------------------------------------------------
+    off=0.15 TP=0.15 SL=0.50                  n= 609  wr= 90.1%  avg= +5.3bps  tot= +31.99%  sharpe= +173.4  DD= 1.53%  TP=  90%  PF= 2.13  hold=1.0m
+    off=0.20 TP=0.20 SL=0.50                  n= 547  wr= 82.8%  avg= +5.5bps  tot= +30.24%  sharpe= +136.9  DD= 2.74%  TP=  82%  PF= 1.72  hold=2.0m
+    off=0.20 TP=0.20 SL=0.35                  n= 547  wr= 79.2%  avg= +4.9bps  tot= +26.96%  sharpe= +133.9  DD= 1.84%  TP=  79%  PF= 1.64  hold=1.6m
+    off=0.15 TP=0.15 SL=0.35                  n= 609  wr= 86.5%  avg= +4.3bps  tot= +26.35%  sharpe= +150.6  DD= 1.48%  TP=  86%  PF= 1.84  hold=0.8m
+    off=0.25 TP=0.15 SL=0.50                  n= 489  wr= 90.6%  avg= +5.3bps  tot= +25.70%  sharpe= +170.9  DD= 1.99%  TP=  90%  PF= 2.12  hold=0.8m
+    off=0.20 TP=0.15 SL=0.50                  n= 547  wr= 88.8%  avg= +4.7bps  tot= +25.51%  sharpe= +147.5  DD= 1.50%  TP=  89%  PF= 1.91  hold=0.9m
+    off=0.25 TP=0.25 SL=0.50                  n= 489  wr= 76.7%  avg= +5.2bps  tot= +25.32%  sharpe= +104.8  DD= 4.13%  TP=  75%  PF= 1.49  hold=3.1m
+    off=0.25 TP=0.20 SL=0.50                  n= 489  wr= 82.6%  avg= +5.1bps  tot= +24.90%  sharpe= +122.8  DD= 3.06%  TP=  82%  PF= 1.63  hold=1.9m
+    off=0.15 TP=0.20 SL=0.50                  n= 609  wr= 81.1%  avg= +3.8bps  tot= +23.40%  sharpe=  +87.7  DD= 2.85%  TP=  81%  PF= 1.42  hold=2.7m
+    off=0.25 TP=0.25 SL=0.35                  n= 489  wr= 72.6%  avg= +4.8bps  tot= +23.36%  sharpe= +107.8  DD= 2.79%  TP=  71%  PF= 1.47  hold=2.5m
+
+================================================================================
+  PART 2: TOP 5 TRAIN CONFIGS → TEST SET (168 cascades)
+================================================================================
+
+  Config #1: off=0.15 TP=0.15 SL=0.50
+    TRAIN:     off=0.15 TP=0.15 SL=0.50                  n= 609  wr= 90.1%  avg= +5.3bps  tot= +31.99%  sharpe= +173.4  DD= 1.53%  TP=  90%  PF= 2.13  hold=1.0m
+    TEST:      TEST  off=0.15 TP=0.15 SL=0.50            n= 113  wr= 86.7%  avg= +3.5bps  tot=  +3.98%  sharpe= +105.6  DD= 1.15%  TP=  85%  PF= 1.60  hold=2.8m
+    Daily return: train=+0.5243%/day  test=+0.1532%/day  ✅ OOS POSITIVE
+
+  Config #2: off=0.20 TP=0.20 SL=0.50
+    TRAIN:     off=0.20 TP=0.20 SL=0.50                  n= 547  wr= 82.8%  avg= +5.5bps  tot= +30.24%  sharpe= +136.9  DD= 2.74%  TP=  82%  PF= 1.72  hold=2.0m
+    TEST:      TEST  off=0.20 TP=0.20 SL=0.50            n= 108  wr= 75.0%  avg= +1.5bps  tot=  +1.61%  sharpe=  +33.2  DD= 1.96%  TP=  71%  PF= 1.15  hold=4.2m
+    Daily return: train=+0.4957%/day  test=+0.0619%/day  ✅ OOS POSITIVE
+
+  Config #3: off=0.20 TP=0.20 SL=0.35
+    TRAIN:     off=0.20 TP=0.20 SL=0.35                  n= 547  wr= 79.2%  avg= +4.9bps  tot= +26.96%  sharpe= +133.9  DD= 1.84%  TP=  79%  PF= 1.64  hold=1.6m
+    TEST:      TEST  off=0.20 TP=0.20 SL=0.35            n= 108  wr= 71.3%  avg= +0.8bps  tot=  +0.85%  sharpe=  +19.4  DD= 2.25%  TP=  68%  PF= 1.08  hold=3.5m
+    Daily return: train=+0.4420%/day  test=+0.0327%/day  ✅ OOS POSITIVE
+
+  Config #4: off=0.15 TP=0.15 SL=0.35
+    TRAIN:     off=0.15 TP=0.15 SL=0.35                  n= 609  wr= 86.5%  avg= +4.3bps  tot= +26.35%  sharpe= +150.6  DD= 1.48%  TP=  86%  PF= 1.84  hold=0.8m
+    TEST:      TEST  off=0.15 TP=0.15 SL=0.35            n= 113  wr= 81.4%  avg= +1.6bps  tot=  +1.81%  sharpe=  +48.6  DD= 1.70%  TP=  80%  PF= 1.22  hold=2.1m
+    Daily return: train=+0.4320%/day  test=+0.0697%/day  ✅ OOS POSITIVE
+
+  Config #5: off=0.25 TP=0.15 SL=0.50
+    TRAIN:     off=0.25 TP=0.15 SL=0.50                  n= 489  wr= 90.6%  avg= +5.3bps  tot= +25.70%  sharpe= +170.9  DD= 1.99%  TP=  90%  PF= 2.12  hold=0.8m
+    TEST:      TEST  off=0.25 TP=0.15 SL=0.50            n= 100  wr= 87.0%  avg= +4.3bps  tot=  +4.35%  sharpe= +141.6  DD= 1.30%  TP=  85%  PF= 1.86  hold=2.2m
+    Daily return: train=+0.4213%/day  test=+0.1671%/day  ✅ OOS POSITIVE
+
+================================================================================
+  PART 3: RANDOM DIRECTION BASELINE (is cascade side signal real?)
+================================================================================
+
+  Best config: off=0.15 TP=0.15 SL=0.50
+    REAL direction:      REAL direction  off=0.15 TP=0.15 SL=0.50  n= 722  wr= 89.6%  avg= +5.0bps  tot= +35.97%  sharpe= +161.8  DD= 1.53%  TP=  89%  PF= 2.03  hold=1.3m
+    RANDOM direction (10 seeds):
+      avg total_ret = +28.87%  (min=+20.94%, max=+33.37%)
+      avg win_rate  = 87.0%  (min=85.5%, max=88.2%)
+      Direction edge = +7.10% over random
+      ✅ CASCADE DIRECTION ADDS REAL VALUE
+
+================================================================================
+  PART 4: ROLLING 30-DAY WINDOW STABILITY
+================================================================================
+  Config: off=0.15 TP=0.15 SL=0.50
+  Window: 30 days, step: 15 days
+
+  Window                        n      wr     avg       tot    sharpe      DD
+  --------------------------------------------------------------------------------
+  ✅ 2025-05-11 to 2025-06-10                  n= 360  wr= 90.6%  avg= +5.4bps  tot= +19.54%  sharpe= +181.7  DD= 1.40%
+  ✅ 2025-05-26 to 2025-06-25                  n= 335  wr= 88.4%  avg= +4.2bps  tot= +13.93%  sharpe= +126.7  DD= 1.53%
+  ✅ 2025-06-10 to 2025-07-10                  n= 249  wr= 89.6%  avg= +5.0bps  tot= +12.45%  sharpe= +161.5  DD= 1.53%
+  ✅ 2025-06-25 to 2025-07-25                  n=  54  wr= 92.6%  avg= +7.9bps  tot=  +4.26%  sharpe= +394.1  DD= 0.57%
+
+  Positive windows: 4/4 (100%)
+
+################################################################################
+  COMPLETE — ETHUSDT — 1283s (21.4min)
+  [RAM=0.1GB used, 4.9GB avail]
+################################################################################
