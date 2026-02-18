@@ -240,3 +240,112 @@ The quietest combination is **Saturday Asia** (vol 0.252-0.370). The most active
 - Simple rule: trade straddles only during 13:00-18:00 UTC on weekdays
 - Expected vol lift: 1.5-2x vs unconditional
 - Combined with v30 ML model: could significantly improve signal quality
+
+---
+
+## v33b: Large-Sample Confirmation (3+ Years, 5 Symbols)
+
+### Dataset
+
+| Symbol | Days | 5-min Bars | Date Range |
+|--------|------|-----------|------------|
+| BTCUSDT | 1,143 | 329,184 | 2023-01-01 to 2026-02-16 |
+| ETHUSDT | 1,143 | 329,184 | 2023-01-01 to 2026-02-16 |
+| SOLUSDT | 1,143 | 329,184 | 2023-01-01 to 2026-02-16 |
+| DOGEUSDT | 1,143 | 329,184 | 2023-01-01 to 2026-02-16 |
+| XRPUSDT | 1,143 | 329,184 | 2023-01-01 to 2026-02-16 |
+| **Total** | | **1,645,920** | |
+
+Source: Bybit futures 5-min OHLCV parquet (built from tick trades). No OI/FR/liqs — trades-only metrics.
+
+### Hour of Day — CONFIRMED: 14:00 UTC Peak is Universal
+
+**ALL 5 symbols peak at exactly 14:00 UTC** (US equity market open, 10am ET):
+
+| Symbol | Peak Hour | Peak Range (bps) | Trough Hour | Trough Range (bps) | **Ratio** |
+|--------|-----------|------------------|-------------|-------------------|-----------|
+| BTCUSDT | **14:00** | 27.38 | 05:00 | 12.75 | **2.15x** |
+| ETHUSDT | **14:00** | 35.06 | 04:00 | 18.13 | **1.93x** |
+| SOLUSDT | **14:00** | 50.18 | 05:00 | 31.14 | **1.61x** |
+| DOGEUSDT | **14:00** | 47.06 | 05:00 | 29.53 | **1.59x** |
+| XRPUSDT | **14:00** | 39.57 | 04:00 | 24.45 | **1.62x** |
+
+Kruskal-Wallis H-stats for range: 11,957–26,578 (all p ≈ 0). This is among the strongest statistical effects we've ever measured.
+
+### Day of Week — CONFIRMED: Weekday/Weekend Gap is Structural
+
+| Symbol | Weekday Range | Weekend Range | **Ratio** | t-stat |
+|--------|-------------|-------------|-----------|--------|
+| BTCUSDT | 20.25 | 12.09 | **1.67x** | 120.8*** |
+| ETHUSDT | 26.60 | 18.31 | **1.45x** | 92.3*** |
+| SOLUSDT | 40.55 | 31.43 | **1.29x** | 71.7*** |
+| DOGEUSDT | 37.96 | 30.35 | **1.25x** | 50.0*** |
+| XRPUSDT | 32.99 | 24.57 | **1.34x** | 60.8*** |
+
+**BTC has the largest weekday/weekend gap (1.67x)**. Altcoins have smaller but still highly significant gaps. Saturday is the quietest day for all 5 symbols.
+
+### Trading Sessions — CONFIRMED: Asia Quietest
+
+| Symbol | Asia Range | Europe Range | US Range | Asia vs Europe p | Asia vs US p |
+|--------|-----------|-------------|---------|-----------------|-------------|
+| BTCUSDT | 14.96 | 18.81 | **19.98** | < 0.001*** | < 0.001*** |
+| ETHUSDT | 21.07 | 25.26 | **26.36** | < 0.001*** | < 0.001*** |
+| SOLUSDT | 35.08 | 39.16 | **39.59** | < 0.001*** | < 0.001*** |
+| DOGEUSDT | 33.24 | 36.84 | **37.27** | < 0.001*** | < 0.001*** |
+| XRPUSDT | 27.72 | **31.89** | 32.13 | < 0.001*** | < 0.001*** |
+
+Asia is significantly quieter for all 5 symbols. Europe and US are close, with US slightly higher for most.
+
+### NEW: Month of Year — STRONG Seasonal Effect
+
+| Symbol | Peak Month | Peak Range | Trough Month | Trough Range | **Ratio** |
+|--------|-----------|-----------|-------------|-------------|-----------|
+| BTCUSDT | **Mar** | 25.56 | Sep | 13.01 | **1.96x** |
+| ETHUSDT | **Mar** | 29.64 | Sep | 17.97 | **1.65x** |
+| SOLUSDT | **Nov** | 46.76 | Sep | 27.32 | **1.71x** |
+| DOGEUSDT | **Mar** | 50.65 | Sep | 24.57 | **2.06x** |
+| XRPUSDT | **Nov** | 43.47 | Sep | 19.48 | **2.23x** |
+
+**September is universally the quietest month** (all 5 symbols). Peak months are Mar or Nov. The seasonal effect is 1.65-2.23x — comparable in magnitude to the hourly effect.
+
+All Kruskal-Wallis H-stats for monthly range: 7,405–26,692 (p ≈ 0).
+
+### NEW: Year-Over-Year Stability — Hourly Profile is a Market Constant
+
+Spearman correlation of hourly range profiles between years:
+
+| Pair | BTC | ETH | SOL | DOGE | XRP |
+|------|-----|-----|-----|------|-----|
+| 2023 vs 2024 | **+0.979*** | +0.949*** | +0.949*** | +0.937*** | +0.925*** |
+| 2023 vs 2025 | **+0.943*** | +0.976*** | +0.950*** | +0.937*** | +0.930*** |
+| 2024 vs 2025 | **+0.968*** | +0.956*** | +0.953*** | +0.935*** | +0.950*** |
+| 2025 vs 2026 | **+0.919*** | +0.895*** | +0.857*** | +0.836*** | +0.858*** |
+
+**The hourly volatility profile is essentially identical year after year** (ρ = 0.84–0.98). This is a structural feature of the market, not a temporary anomaly.
+
+Weekday/weekend ratio is also stable across years:
+
+| Symbol | 2023 | 2024 | 2025 | 2026 |
+|--------|------|------|------|------|
+| BTCUSDT | 1.68x | 1.70x | 1.67x | 1.48x |
+| ETHUSDT | 1.44x | 1.51x | 1.42x | 1.37x |
+| SOLUSDT | 1.20x | 1.35x | 1.33x | 1.32x |
+| DOGEUSDT | 1.24x | 1.24x | 1.27x | 1.18x |
+| XRPUSDT | 1.41x | 1.30x | 1.34x | 1.24x |
+
+---
+
+## Final Verdict
+
+The temporal patterns discovered in v33 are **confirmed at massive scale** (1.6M bars, 5 symbols, 3+ years):
+
+1. **14:00 UTC vol peak**: Universal across all assets and all years. This is the single most reliable temporal signal.
+2. **Weekday > Weekend**: 1.25-1.67x, structural and stable.
+3. **September = quietest month**: Universal trough. Mar/Nov = peaks.
+4. **Asia = quietest session**: Consistent across all assets.
+5. **Year-over-year stability**: ρ > 0.84 for hourly profiles — these patterns are market constants.
+
+These are **not overfitted**. They are physical consequences of:
+- US equity market hours driving global crypto activity
+- Weekend reduction in institutional/algorithmic trading
+- Seasonal patterns in risk appetite and market participation
