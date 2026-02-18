@@ -626,3 +626,79 @@ This contradicts the naive hypothesis that "more vol = more edge." Instead:
 | ETH | 10/5 5m | Range_z>1 | +0.84 | ~90 |
 
 **Portfolio weighted avg EV: ~1.3 bps** (vs 0.77 baseline — **+69% improvement**)
+
+---
+
+## v36: Tick-Level Entry Triggers (OI + Liquidations + Spread)
+
+### Architecture
+Production system runs every 1 second with raw websocket data (trades, liquidations, ticker with bid/ask/OI/FR). No aggregation beyond very short windows (5s, 10s, 30s). Signals computed at tick resolution.
+
+### Data Used (SOL, DOGE, BTC — 3 days each)
+- **Trades**: 4.4M (SOL), per-second count and notional
+- **Liquidations**: 3.5-7K events, parsed from hourly JSONL files
+- **Ticker**: 2.2M updates, bid/ask spread and OI at ~1.6s resolution
+
+### Best Triggers Found (TP=20/SL=10, 15m TL, weekday 13-18 UTC)
+
+**SOL** (baseline EV=+1.26):
+
+| Trigger | N | EV | WR | Improvement |
+|---------|---|-----|-----|-------------|
+| **spread_z > 1** | 392 | **+2.58** | **75.3%** | **+105%** |
+| **liq_30s>0 + tc_accel>2** | 95 | **+2.74** | **75.8%** | **+118%** |
+| **tc_accel>2 + spread_z>1** | 46 | **+2.83** | **76.1%** | **+125%** |
+| quiet: liq60==0 + tc_accel<1 | 2,459 | +1.42 | 71.4% | +13% |
+
+**DOGE** (baseline EV=+1.28):
+
+| Trigger | N | EV | WR | Improvement |
+|---------|---|-----|-----|-------------|
+| **quiet: range10<3** | 351 | **+2.39** | **74.6%** | **+87%** |
+| **quiet: liq60==0 + tc_accel<1** | 2,472 | **+1.69** | **72.3%** | **+32%** |
+| liq_30s>0 + tc_accel>2 | 76 | +1.71 | 72.4% | +33% |
+| spread_z > 1 | 216 | +1.67 | 72.2% | +30% |
+
+**BTC** (baseline EV=+0.11):
+
+| Trigger | N | EV | WR | Improvement |
+|---------|---|-----|-----|-------------|
+| **liq_10s > 0** | 315 | **+1.18** | **67.3%** | **+971%** |
+| |oi_d60| > 5 | 2,718 | +0.57 | 64.8% | +418% |
+| Spread signals: too few events (BTC spread is ~0.01 bps, nearly zero) |
+
+### Key Discovery: The Bimodal Edge
+
+Two distinct profitable regimes exist:
+
+1. **Stress entries** (spread widening + liquidations + trade acceleration):
+   - EV: +2.5-2.8 bps (SOL), +1.7 bps (DOGE)
+   - Frequency: ~1-2% of peak-hour seconds
+   - Mechanism: market makers pulling liquidity → incoming cascade → fat tail
+
+2. **Compression entries** (quiet, no liquidations, low activity):
+   - EV: +1.4-1.7 bps (SOL/DOGE), -0.4 bps (BTC)
+   - Frequency: ~45% of peak-hour seconds
+   - Mechanism: positioned for next breakout → catch the expansion
+
+3. **Mid-activity** (some liqs, moderate trade acceleration):
+   - EV: +0.5-1.0 bps — the *worst* zone
+   - The move is already partially played out
+
+### Per-Symbol Signal Architecture
+
+| Symbol | Primary Signal | Secondary Signal | Expected EV |
+|--------|---------------|-----------------|-------------|
+| **SOL** | spread_z > 1 | liq + tc_accel combo | **+2.5-2.8** |
+| **DOGE** | Quiet (range10<3 or liq60==0) | spread_z > 1 | **+1.7-2.4** |
+| **BTC** | liq_10s > 0 | |oi_delta_60s| > 5 | **+1.2** |
+
+### Fee Viability at Best Signals
+
+| Config | EV | 4-fill @ 0% maker | 4-fill @ 0.005% | 4-fill @ 0.01% |
+|--------|-----|-------------------|-----------------|----------------|
+| SOL stress | +2.8 | **+2.8 ✅** | **+0.8 ✅** | -1.2 ❌ |
+| DOGE quiet | +2.4 | **+2.4 ✅** | **+0.4 ✅** | -1.6 ❌ |
+| BTC liq | +1.2 | **+1.2 ✅** | -0.8 ❌ | -2.8 ❌ |
+
+**SOL and DOGE stress/quiet entries survive 0.005% maker fees** — first time any config has been viable above 0% maker.
