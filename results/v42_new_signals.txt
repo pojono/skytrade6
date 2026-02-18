@@ -1,0 +1,171 @@
+================================================================================
+  v42: NEW SIGNAL RESEARCH — 5 EXPERIMENTS
+  Symbol: SOLUSDT (start small)
+  Started: 2026-02-18 22:46:44
+  [RAM=0.1GB used, 5.3GB avail]
+================================================================================
+
+  Phase 1: Quick test on 7 days (2025-05-12 to 2025-05-18)
+
+================================================================================
+  EXP A: SPOT-FUTURES BASIS MEAN-REVERSION — SOLUSDT
+  Dates: 2025-05-12 to 2025-05-18 (7 days)
+================================================================================
+  Loading futures trades for 7 days... [5/7 9s ETA 3s] done (8,608,031 trades, 12s) [RAM=0.8GB used, 4.5GB avail]
+  Loading spot trades for 7 days... [5/7 1s ETA 0s] done (2,949,389 trades, 2s) [RAM=0.6GB used, 4.6GB avail]
+  Computing 1s VWAP bars... done [RAM=0.7GB used, 4.4GB avail]
+  Computing basis... 604,797 seconds
+  Computing rolling z-scores... done (604,738 rows) [RAM=0.3GB used, 4.9GB avail]
+
+  BASIS STATISTICS:
+    Mean:   -4.14 bps
+    Std:    1.95 bps
+    Min:    -36.85 bps
+    Max:    +34.60 bps
+    P5:     -6.84 bps
+    P95:    -0.31 bps
+  Computing forward returns... done
+
+  BASIS Z-SCORE → FORWARD RETURN (futures):
+  Z bucket           Count     fwd_10s     fwd_30s     fwd_60s    fwd_300s
+  ----------------------------------------------------------------------
+  z<-3               3,260      +0.43      +0.28      +0.29      +0.12
+  -3<z<-2           14,642      +0.33      +0.40      +0.29      +0.23
+  -2<z<-1           73,895      +0.11      +0.08      +0.02      -0.01
+  -1<z<0           210,644      +0.05      +0.06      +0.04      -0.02
+  0<z<1            209,900      -0.05      -0.05      -0.02      +0.06
+  1<z<2             74,888      -0.11      -0.11      -0.04      +0.17
+  2<z<3             14,493      -0.33      -0.28      -0.10      -0.06
+  z>3                3,016      -0.42      -0.36      -0.23      +0.29
+
+  ✅ MONOTONIC: extreme low z outperforms extreme high z by 0.52 bps at 60s
+     This suggests basis mean-reversion is REAL
+
+  STRATEGY SIMULATION:
+     z>1.5 hold= 30s  n= 2771  wr= 52.3%  gross= +0.26bps  net= -7.24bps  total_net=-200.66%  sharpe=  +26.7
+     z>1.5 hold= 60s  n= 1386  wr= 51.7%  gross= +0.11bps  net= -7.39bps  total_net=-102.43%  sharpe=   +5.6
+     z>1.5 hold=300s  n=  277  wr= 46.6%  gross= +0.38bps  net= -7.12bps  total_net= -19.71%  sharpe=   +4.4
+     z>2.0 hold= 30s  n= 1181  wr= 52.8%  gross= -0.01bps  net= -7.51bps  total_net= -88.65%  sharpe=   -0.6
+     z>2.0 hold= 60s  n=  591  wr= 50.4%  gross= -0.56bps  net= -8.06bps  total_net= -47.63%  sharpe=  -27.5
+     z>2.0 hold=300s  n=  118  wr= 46.6%  gross= -0.03bps  net= -7.53bps  total_net=  -8.88%  sharpe=   -0.3
+     z>2.5 hold= 30s  n=  499  wr= 55.3%  gross= +0.81bps  net= -6.69bps  total_net= -33.38%  sharpe=  +78.8
+     z>2.5 hold= 60s  n=  250  wr= 54.4%  gross= +0.46bps  net= -7.04bps  total_net= -17.60%  sharpe=  +20.5
+     z>2.5 hold=300s  n=   50  wr= 48.0%  gross= +3.24bps  net= -4.26bps  total_net=  -2.13%  sharpe=  +44.8
+     z>3.0 hold= 30s  n=  210  wr= 51.9%  gross= -0.74bps  net= -8.24bps  total_net= -17.31%  sharpe=  -61.3
+     z>3.0 hold= 60s  n=  105  wr= 49.5%  gross= +0.27bps  net= -7.23bps  total_net=  -7.59%  sharpe=  +13.3
+     z>3.0 hold=300s  n=   21  wr= 47.6%  gross= -3.61bps  net=-11.11bps  total_net=  -2.33%  sharpe=  -36.7
+
+  [RAM=0.3GB used, 4.9GB avail] after EXP A
+
+================================================================================
+  EXP B: CASCADE SIZE FILTERING — SOLUSDT
+  Dates: 2025-05-12 to 2025-05-18 (7 days)
+================================================================================
+  Loading liquidations for 7 days... [5/7 1s ETA 0s] done (9,487 records, 1s) [RAM=0.3GB used, 4.9GB avail]
+  Loading futures trades for 7 days... [5/7 9s ETA 4s] done (8,608,031 trades, 12s) [RAM=0.8GB used, 4.4GB avail]
+  Building 1-min bars... 10,080 bars
+
+  CASCADE THRESHOLD COMPARISON:
+  Threshold     Cascades   Fills     WR%    AvgNet    TotNet    Sharpe
+  ----------------------------------------------------------------------
+  ✅ P90 (>8,382)       154      92   88.0%    +7.21bps    +6.64%   +182.2
+  ✅ P95 (>17,090)        84      62   95.2%   +12.80bps    +7.94%   +536.3
+  ✅ P97 (>28,761)        44      34  100.0%   +16.00bps    +5.44%  +9638319286.4
+  ✅ P99 (>48,790)         8       7  100.0%   +16.00bps    +1.12%  +9638319146.6
+
+  CASCADE NOTIONAL → EDGE (P95 threshold):
+  Median cascade notional: $91,931
+  Testing: above-median vs below-median cascades
+    SMALL (<median)       n=  33  wr= 90.9%  avg= +9.99bps  tot= +3.30%
+    LARGE (>median)       n=  31  wr=100.0%  avg=+16.00bps  tot= +4.96%
+
+  [RAM=0.3GB used, 5.0GB avail] after EXP B
+
+================================================================================
+  EXP C: OI DIVERGENCE SIGNAL — SOLUSDT
+  Dates: 2025-05-12 to 2025-05-25 (14 days)
+================================================================================
+  Loading ticker for 14 days... [5/14 189s ETA 341s] [10/14 374s ETA 150s] done (1,660,410 records, 519s) [RAM=0.9GB used, 4.6GB avail]
+  Building 1-min OI/price bars... 20,160 bars
+
+  OI-PRICE REGIME → FORWARD RETURNS & VOLATILITY:
+  Regime                  Count     fwd_60m    fwd_120m    fwd_240m   |fwd_60m|
+  --------------------------------------------------------------------------------
+  OI↑ Price flat          2,246      +4.89      +9.64     +10.08      61.90
+  OI↓ Price flat          2,166      +0.52      +3.35     +17.06      62.90
+  OI↑ Price↑              1,510     -17.35     -26.29     -36.97      81.35
+  OI↓ Price↓              1,511      +1.02      -2.14     +23.45      66.22
+  Baseline               19,859      +0.02      -0.23      +0.17      65.46
+
+  OI↑+flat → |fwd_60m| = 61.90 bps vs baseline 65.46 bps (ratio=0.95x)
+  ❌ OI buildup does NOT predict larger moves
+
+  [RAM=0.3GB used, 5.2GB avail] after EXP C
+
+================================================================================
+  EXP D: FUNDING RATE PRE-SETTLEMENT — SOLUSDT
+  Dates: 2025-05-12 to 2025-05-25 (14 days)
+================================================================================
+  Loading ticker for 14 days... [5/14 192s ETA 346s] [10/14 384s ETA 154s] done (1,660,410 records, 529s) [RAM=0.9GB used, 4.5GB avail]
+  Building FR/price bars... 19,793 bars
+
+  FUNDING SETTLEMENT TRADES: 41
+    Avg FR:        0.0100%
+    Avg price_ret: -5.01 bps
+    Avg funding:   +1.00 bps
+    Avg gross:     -4.01 bps
+    Avg net:       -11.51 bps
+    Win rate:      51.2%
+    Total net:     -4.72%
+    ❌ Funding rate strategy is NOT profitable
+
+  FR MAGNITUDE FILTER:
+
+  [RAM=0.3GB used, 5.1GB avail] after EXP D
+
+================================================================================
+  EXP E: INTRADAY SEASONALITY — SOLUSDT
+  Dates: 2025-05-12 to 2025-05-18 (7 days)
+================================================================================
+  Loading futures trades for 7 days... [5/7 8s ETA 3s] done (8,608,031 trades, 12s) [RAM=0.8GB used, 4.5GB avail]
+  Building 1-min bars... 10,080 bars
+
+  HOUR-OF-DAY RETURNS:
+  Hour    Count     MeanRet   |MeanRet|      StdRet    Sharpe     WR%
+  -----------------------------------------------------------------
+  ✅ 00:00      360     +17.31      75.61      87.08    +3.80   54.2%
+  ✅ 01:00      420     -35.22      71.26      77.80    -8.65   36.9%
+  ✅ 02:00      420      -6.79      90.98     109.88    -1.18   51.7%
+  ✅ 03:00      420     -24.90      48.72      58.05    -8.19   33.3%
+  ✅ 04:00      420     +33.60      69.40      73.96    +8.68   67.1%
+  ✅ 05:00      420     +23.24      60.01      67.94    +6.54   60.0%
+  ✅ 06:00      420     +25.51      43.25      47.52   +10.25   67.1%
+  ✅ 07:00      420      +5.70      71.20      98.14    +1.11   52.4%
+  ✅ 08:00      420     -29.07      83.96     102.30    -5.43   40.7%
+  ✅ 09:00      420      -3.53      66.46      80.70    -0.84   46.2%
+  ✅ 10:00      420      +3.04      48.17      59.57    +0.98   56.0%
+  ✅ 11:00      420     +19.81      38.97      43.58    +8.68   72.9%
+     12:00      420      -0.39      36.72      48.10    -0.15   47.6%
+  ✅ 13:00      420      +8.07      66.86      79.68    +1.94   57.1%
+  ✅ 14:00      420     -23.43      87.93     101.18    -4.42   38.1%
+  ✅ 15:00      420     +11.82      75.90      98.14    +2.30   56.4%
+  ✅ 16:00      420     +12.40      80.16      92.68    +2.56   53.8%
+  ✅ 17:00      420     -10.55      77.38      92.25    -2.18   44.8%
+  ✅ 18:00      420     -71.60     114.82     132.61   -10.31   40.7%
+  ✅ 19:00      420      -5.00      70.60      94.67    -1.01   46.2%
+  ✅ 20:00      420      -6.14      67.85      97.93    -1.20   52.9%
+  ✅ 21:00      420     +21.63      61.14      72.88    +5.67   55.0%
+  ✅ 22:00      420     -17.00      68.61      81.30    -4.00   48.1%
+  ✅ 23:00      420     +32.88      67.91      77.72    +8.08   73.6%
+
+  Best hour:  06:00 (Sharpe=+10.25, avg=+25.51bps)
+  Worst hour: 18:00 (Sharpe=-10.31, avg=-71.60bps)
+  Best-Worst spread: 97.10 bps/hour
+  ❌ No significant intraday seasonality
+
+  [RAM=0.4GB used, 4.9GB avail] after EXP E
+
+################################################################################
+  COMPLETE — 1093s (18.2min)
+  [RAM=0.4GB used, 4.9GB avail]
+################################################################################
