@@ -1,0 +1,250 @@
+==========================================================================================
+  LIQUIDATION CASCADE MM — FEE-AWARE SWEEP (v26e)
+  Maker fee: 0.020%  Taker fee: 0.055%
+  Double-fee model: entry(maker) + TP(maker) or SL/timeout(taker)
+==========================================================================================
+
+==========================================================================================
+  ETHUSDT — FEE-AWARE SWEEP (maker=0.020% taker=0.055%)
+==========================================================================================
+  Loading 3089 liq files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 done (328,388)
+  Loading 3251 ticker files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 done (1,261,971)
+  Building 1-min bars... 105,193 bars
+  Period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00 (282 days)
+  Cascades: 2640 (9.4/day)
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  SWEEP: All hours, double-fee model
+  Config                                      fills      wr    gross     fee      net      total    sharpe      DD   TP%  SL%   months   hold
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  TOP 15 CONFIGS (by total net return after fees):
+  Config                                      fills      wr    gross     fee      net      total    sharpe      DD   TP%  SL%   months   hold
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  off=0.20% TP=0.15% SL=0.50%                 fills=1380  wr= 80.5%  gross=+0.052%  fee=0.047%  net=+0.005%  total=   +7.37%  sharpe=  +13.9  DD= 5.98%  TP=  80% SL=  12%  months=3/5  hold=3.2m
+  off=0.15% TP=0.15% SL=0.50%                 fills=1542  wr= 80.0%  gross=+0.049%  fee=0.047%  net=+0.002%  total=   +2.33%  sharpe=   +3.9  DD=10.23%  TP=  79% SL=  12%  months=2/5  hold=3.6m
+  off=0.20% TP=0.15% SL=0.35%                 fills=1380  wr= 76.5%  gross=+0.047%  fee=0.048%  net=-0.001%  total=   -1.49%  sharpe=   -3.1  DD=10.45%  TP=  76% SL=  18%  months=2/5  hold=2.5m
+  off=0.15% TP=0.15% SL=0.35%                 fills=1542  wr= 75.9%  gross=+0.045%  fee=0.049%  net=-0.004%  total=   -6.29%  sharpe=  -11.7  DD=16.57%  TP=  75% SL=  18%  months=2/5  hold=2.9m
+  off=0.20% TP=0.15% SL=0.25%                 fills=1380  wr= 71.2%  gross=+0.043%  fee=0.050%  net=-0.007%  total=   -9.66%  sharpe=  -22.4  DD=14.28%  TP=  71% SL=  25%  months=2/5  hold=2.0m
+  off=0.20% TP=0.20% SL=0.50%                 fills=1380  wr= 71.2%  gross=+0.043%  fee=0.051%  net=-0.007%  total=  -10.22%  sharpe=  -15.8  DD=20.52%  TP=  69% SL=  17%  months=2/5  hold=5.2m
+  off=0.15% TP=0.15% SL=0.25%                 fills=1542  wr= 70.8%  gross=+0.040%  fee=0.050%  net=-0.010%  total=  -15.49%  sharpe=  -31.8  DD=23.10%  TP=  70% SL=  25%  months=2/5  hold=2.3m
+  off=0.20% TP=0.20% SL=0.35%                 fills=1380  wr= 66.7%  gross=+0.038%  fee=0.052%  net=-0.014%  total=  -19.08%  sharpe=  -32.8  DD=26.52%  TP=  65% SL=  25%  months=1/5  hold=4.1m
+  off=0.15% TP=0.20% SL=0.50%                 fills=1542  wr= 71.1%  gross=+0.037%  fee=0.051%  net=-0.014%  total=  -21.32%  sharpe=  -28.8  DD=28.72%  TP=  69% SL=  18%  months=1/5  hold=6.1m
+  off=0.10% TP=0.15% SL=0.50%                 fills=1731  wr= 78.5%  gross=+0.034%  fee=0.048%  net=-0.013%  total=  -22.73%  sharpe=  -31.6  DD=26.79%  TP=  78% SL=  15%  months=1/5  hold=4.6m
+  off=0.10% TP=0.15% SL=0.35%                 fills=1731  wr= 74.9%  gross=+0.036%  fee=0.049%  net=-0.013%  total=  -22.74%  sharpe=  -36.2  DD=28.32%  TP=  75% SL=  21%  months=1/5  hold=3.8m
+  off=0.20% TP=0.20% SL=0.25%                 fills=1380  wr= 61.2%  gross=+0.037%  fee=0.054%  net=-0.017%  total=  -23.85%  sharpe=  -46.2  DD=28.35%  TP=  60% SL=  33%  months=1/5  hold=3.3m
+  off=0.10% TP=0.15% SL=0.25%                 fills=1731  wr= 70.0%  gross=+0.034%  fee=0.051%  net=-0.016%  total=  -27.80%  sharpe=  -49.7  DD=30.94%  TP=  70% SL=  27%  months=1/5  hold=3.0m
+  off=0.15% TP=0.20% SL=0.35%                 fills=1542  wr= 66.3%  gross=+0.034%  fee=0.052%  net=-0.018%  total=  -28.25%  sharpe=  -42.8  DD=33.78%  TP=  65% SL=  26%  months=1/5  hold=4.9m
+  off=0.15% TP=0.15% SL=0.15%                 fills=1542  wr= 60.6%  gross=+0.034%  fee=0.054%  net=-0.020%  total=  -30.13%  sharpe=  -72.9  DD=32.35%  TP=  60% SL=  37%  months=0/5  hold=1.5m
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  BEST CONFIG US-HOURS ONLY (13-18 UTC):
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  US-hours off=0.20% TP=0.15% SL=0.50%        fills= 454  wr= 81.5%  gross=+0.047%  fee=0.047%  net=+0.000%  total=   +0.03%  sharpe=   +0.2  DD= 6.40%  TP=  81% SL=  14%  months=2/5  hold=2.9m
+
+  Monthly breakdown (best config, all hours):
+    ✅ 2025-05: n= 523  wr=82.2%  gross=+0.059%  net=+0.013%  total=+6.84%
+    ✅ 2025-06: n= 573  wr=80.1%  gross=+0.048%  net=+0.000%  total=+0.15%
+       2025-07: n=  89  wr=76.4%  gross=+0.033%  net=-0.016%  total=-1.39%
+       2025-08: n= 154  wr=75.3%  gross=+0.045%  net=-0.004%  total=-0.68%
+    ✅ 2026-02: n=  41  wr=92.7%  gross=+0.102%  net=+0.060%  total=+2.46%
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  COMPARISON: Same best config with 0% maker fee:
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  0% maker  off=0.20% TP=0.15% SL=0.50%       fills=1380  wr= 80.9%  gross=+0.052%  fee=0.011%  net=+0.041%  total=  +57.03%  sharpe= +104.5  DD= 3.87%  TP=  80% SL=  12%  months=5/5  hold=3.2m
+
+  ETHUSDT done in 403s
+
+==========================================================================================
+  SOLUSDT — FEE-AWARE SWEEP (maker=0.020% taker=0.055%)
+==========================================================================================
+  Loading 3107 liq files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 done (189,603)
+  Loading 3251 ticker files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 done (1,261,981)
+  Building 1-min bars... 105,195 bars
+  Period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00 (282 days)
+  Cascades: 1937 (6.9/day)
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  SWEEP: All hours, double-fee model
+  Config                                      fills      wr    gross     fee      net      total    sharpe      DD   TP%  SL%   months   hold
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  TOP 15 CONFIGS (by total net return after fees):
+  Config                                      fills      wr    gross     fee      net      total    sharpe      DD   TP%  SL%   months   hold
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  off=0.20% TP=0.15% SL=0.50%                 fills=1102  wr= 81.1%  gross=+0.056%  fee=0.047%  net=+0.010%  total=  +10.69%  sharpe=  +25.9  DD=10.07%  TP=  81% SL=  11%  months=5/5  hold=3.3m
+  off=0.15% TP=0.15% SL=0.50%                 fills=1221  wr= 81.5%  gross=+0.053%  fee=0.047%  net=+0.006%  total=   +7.87%  sharpe=  +16.8  DD= 6.90%  TP=  81% SL=  12%  months=2/5  hold=3.5m
+  off=0.15% TP=0.15% SL=0.35%                 fills=1221  wr= 78.3%  gross=+0.052%  fee=0.048%  net=+0.004%  total=   +5.36%  sharpe=  +12.8  DD= 7.29%  TP=  78% SL=  18%  months=2/5  hold=2.7m
+  off=0.20% TP=0.15% SL=0.35%                 fills=1102  wr= 77.5%  gross=+0.052%  fee=0.048%  net=+0.004%  total=   +3.99%  sharpe=  +10.6  DD= 8.05%  TP=  77% SL=  17%  months=3/5  hold=2.6m
+  off=0.20% TP=0.20% SL=0.50%                 fills=1102  wr= 73.4%  gross=+0.051%  fee=0.050%  net=+0.001%  total=   +1.08%  sharpe=   +2.1  DD=12.48%  TP=  72% SL=  17%  months=2/5  hold=5.0m
+  off=0.20% TP=0.20% SL=0.35%                 fills=1102  wr= 69.6%  gross=+0.051%  fee=0.051%  net=-0.000%  total=   -0.24%  sharpe=   -0.5  DD=10.24%  TP=  69% SL=  24%  months=2/5  hold=3.9m
+  off=0.20% TP=0.15% SL=0.25%                 fills=1102  wr= 72.5%  gross=+0.048%  fee=0.050%  net=-0.002%  total=   -2.38%  sharpe=   -7.0  DD=11.83%  TP=  72% SL=  24%  months=2/5  hold=2.0m
+  off=0.15% TP=0.15% SL=0.25%                 fills=1221  wr= 73.0%  gross=+0.047%  fee=0.050%  net=-0.003%  total=   -3.42%  sharpe=   -9.0  DD=11.52%  TP=  73% SL=  24%  months=2/5  hold=2.2m
+  off=0.20% TP=0.20% SL=0.25%                 fills=1102  wr= 63.7%  gross=+0.046%  fee=0.053%  net=-0.007%  total=   -7.17%  sharpe=  -17.5  DD=17.13%  TP=  63% SL=  31%  months=2/5  hold=3.1m
+  off=0.15% TP=0.15% SL=0.15%                 fills=1221  wr= 61.5%  gross=+0.036%  fee=0.054%  net=-0.018%  total=  -21.57%  sharpe=  -65.8  DD=23.11%  TP=  61% SL=  37%  months=0/5  hold=1.4m
+  off=0.10% TP=0.15% SL=0.50%                 fills=1335  wr= 78.7%  gross=+0.031%  fee=0.048%  net=-0.016%  total=  -21.71%  sharpe=  -38.6  DD=31.02%  TP=  78% SL=  16%  months=2/5  hold=4.8m
+  off=0.15% TP=0.20% SL=0.35%                 fills=1221  wr= 67.0%  gross=+0.033%  fee=0.052%  net=-0.019%  total=  -22.89%  sharpe=  -43.5  DD=30.47%  TP=  66% SL=  27%  months=1/5  hold=4.8m
+  off=0.15% TP=0.20% SL=0.50%                 fills=1221  wr= 71.1%  gross=+0.031%  fee=0.051%  net=-0.019%  total=  -23.26%  sharpe=  -38.8  DD=33.05%  TP=  70% SL=  20%  months=1/5  hold=6.0m
+  off=0.20% TP=0.15% SL=0.15%                 fills=1102  wr= 60.2%  gross=+0.032%  fee=0.054%  net=-0.022%  total=  -23.99%  sharpe=  -80.7  DD=24.55%  TP=  60% SL=  38%  months=1/5  hold=1.3m
+  off=0.20% TP=0.25% SL=0.35%                 fills=1102  wr= 60.0%  gross=+0.032%  fee=0.055%  net=-0.022%  total=  -24.58%  sharpe=  -46.3  DD=31.79%  TP=  58% SL=  31%  months=1/5  hold=5.6m
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  BEST CONFIG US-HOURS ONLY (13-18 UTC):
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  US-hours off=0.20% TP=0.15% SL=0.50%        fills= 386  wr= 83.9%  gross=+0.063%  fee=0.046%  net=+0.018%  total=   +6.78%  sharpe=  +47.1  DD= 4.10%  TP=  84% SL=  11%  months=5/5  hold=2.8m
+
+  Monthly breakdown (best config, all hours):
+    ✅ 2025-05: n= 356  wr=82.6%  gross=+0.055%  net=+0.009%  total=+3.19%
+    ✅ 2025-06: n= 502  wr=79.1%  gross=+0.050%  net=+0.003%  total=+1.34%
+    ✅ 2025-07: n=  83  wr=77.1%  gross=+0.049%  net=+0.001%  total=+0.08%
+    ✅ 2025-08: n= 113  wr=84.1%  gross=+0.069%  net=+0.023%  total=+2.60%
+    ✅ 2026-02: n=  48  wr=91.7%  gross=+0.115%  net=+0.073%  total=+3.48%
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  COMPARISON: Same best config with 0% maker fee:
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  0% maker  off=0.20% TP=0.15% SL=0.50%       fills=1102  wr= 81.5%  gross=+0.056%  fee=0.011%  net=+0.046%  total=  +50.53%  sharpe= +118.7  DD= 4.37%  TP=  81% SL=  11%  months=5/5  hold=3.3m
+
+  SOLUSDT done in 416s
+
+==========================================================================================
+  DOGEUSDT — FEE-AWARE SWEEP (maker=0.020% taker=0.055%)
+==========================================================================================
+  Loading 3018 liq files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 done (93,913)
+  Loading 3251 ticker files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 done (1,261,993)
+  Building 1-min bars... 105,196 bars
+  Period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00 (282 days)
+  Cascades: 1247 (4.4/day)
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  SWEEP: All hours, double-fee model
+  Config                                      fills      wr    gross     fee      net      total    sharpe      DD   TP%  SL%   months   hold
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  TOP 15 CONFIGS (by total net return after fees):
+  Config                                      fills      wr    gross     fee      net      total    sharpe      DD   TP%  SL%   months   hold
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  off=0.20% TP=0.15% SL=0.50%                 fills= 802  wr= 85.3%  gross=+0.065%  fee=0.045%  net=+0.020%  total=  +15.89%  sharpe=  +53.2  DD= 5.05%  TP=  85% SL=  11%  months=3/5  hold=2.1m
+  off=0.15% TP=0.15% SL=0.50%                 fills= 877  wr= 84.5%  gross=+0.058%  fee=0.046%  net=+0.012%  total=  +10.83%  sharpe=  +31.9  DD= 6.37%  TP=  84% SL=  13%  months=3/5  hold=2.4m
+  off=0.15% TP=0.15% SL=0.35%                 fills= 877  wr= 80.6%  gross=+0.057%  fee=0.047%  net=+0.010%  total=   +8.73%  sharpe=  +29.0  DD= 5.49%  TP=  80% SL=  18%  months=2/5  hold=1.9m
+  off=0.20% TP=0.15% SL=0.35%                 fills= 802  wr= 80.4%  gross=+0.057%  fee=0.047%  net=+0.011%  total=   +8.49%  sharpe=  +31.2  DD= 6.05%  TP=  80% SL=  17%  months=3/5  hold=1.6m
+  off=0.20% TP=0.20% SL=0.50%                 fills= 802  wr= 76.2%  gross=+0.052%  fee=0.049%  net=+0.003%  total=   +2.56%  sharpe=   +6.6  DD=11.40%  TP=  75% SL=  18%  months=2/5  hold=3.5m
+  off=0.20% TP=0.20% SL=0.35%                 fills= 802  wr= 71.7%  gross=+0.053%  fee=0.050%  net=+0.003%  total=   +2.16%  sharpe=   +6.4  DD=10.05%  TP=  71% SL=  24%  months=2/5  hold=2.7m
+  off=0.15% TP=0.15% SL=0.25%                 fills= 877  wr= 74.5%  gross=+0.049%  fee=0.049%  net=+0.000%  total=   +0.34%  sharpe=   +1.2  DD= 7.50%  TP=  74% SL=  25%  months=2/5  hold=1.4m
+  off=0.20% TP=0.15% SL=0.25%                 fills= 802  wr= 74.3%  gross=+0.049%  fee=0.049%  net=-0.000%  total=   -0.01%  sharpe=   -0.1  DD= 5.80%  TP=  74% SL=  25%  months=3/5  hold=1.1m
+  off=0.20% TP=0.20% SL=0.25%                 fills= 802  wr= 65.3%  gross=+0.047%  fee=0.052%  net=-0.005%  total=   -4.31%  sharpe=  -14.2  DD=13.29%  TP=  65% SL=  33%  months=2/5  hold=2.0m
+  off=0.15% TP=0.20% SL=0.50%                 fills= 877  wr= 75.1%  gross=+0.040%  fee=0.049%  net=-0.009%  total=   -7.59%  sharpe=  -17.4  DD=14.80%  TP=  74% SL=  20%  months=2/5  hold=4.3m
+  off=0.15% TP=0.20% SL=0.35%                 fills= 877  wr= 69.3%  gross=+0.038%  fee=0.051%  net=-0.013%  total=  -11.13%  sharpe=  -29.1  DD=15.63%  TP=  69% SL=  28%  months=2/5  hold=3.4m
+  off=0.10% TP=0.15% SL=0.50%                 fills= 951  wr= 80.9%  gross=+0.033%  fee=0.047%  net=-0.013%  total=  -12.78%  sharpe=  -31.4  DD=15.78%  TP=  80% SL=  17%  months=1/5  hold=3.5m
+  off=0.15% TP=0.20% SL=0.25%                 fills= 877  wr= 63.1%  gross=+0.036%  fee=0.053%  net=-0.017%  total=  -14.58%  sharpe=  -43.3  DD=17.11%  TP=  63% SL=  35%  months=0/5  hold=2.6m
+  off=0.20% TP=0.15% SL=0.15%                 fills= 802  wr= 61.5%  gross=+0.035%  fee=0.054%  net=-0.018%  total=  -14.80%  sharpe=  -68.4  DD=15.66%  TP=  61% SL=  38%  months=1/5  hold=0.7m
+  off=0.15% TP=0.15% SL=0.15%                 fills= 877  wr= 61.9%  gross=+0.036%  fee=0.053%  net=-0.017%  total=  -15.13%  sharpe=  -64.0  DD=15.55%  TP=  62% SL=  38%  months=1/5  hold=0.9m
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  BEST CONFIG US-HOURS ONLY (13-18 UTC):
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  US-hours off=0.20% TP=0.15% SL=0.50%        fills= 247  wr= 87.0%  gross=+0.072%  fee=0.045%  net=+0.028%  total=   +6.89%  sharpe=  +76.6  DD= 2.12%  TP=  87% SL=  11%  months=4/5  hold=1.8m
+
+  Monthly breakdown (best config, all hours):
+    ✅ 2025-05: n= 389  wr=88.9%  gross=+0.084%  net=+0.040%  total=+15.55%
+    ✅ 2025-06: n= 249  wr=82.7%  gross=+0.058%  net=+0.011%  total=+2.83%
+       2025-07: n=  60  wr=78.3%  gross=+0.018%  net=-0.029%  total=-1.77%
+       2025-08: n=  90  wr=78.9%  gross=+0.022%  net=-0.025%  total=-2.27%
+    ✅ 2026-02: n=  14  wr=100.0%  gross=+0.150%  net=+0.110%  total=+1.54%
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  COMPARISON: Same best config with 0% maker fee:
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  0% maker  off=0.20% TP=0.15% SL=0.50%       fills= 802  wr= 85.4%  gross=+0.065%  fee=0.008%  net=+0.057%  total=  +45.59%  sharpe= +148.0  DD= 2.69%  TP=  85% SL=  11%  months=5/5  hold=2.1m
+
+  DOGEUSDT done in 397s
+
+==========================================================================================
+  XRPUSDT — FEE-AWARE SWEEP (maker=0.020% taker=0.055%)
+==========================================================================================
+  Loading 2962 liq files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 done (128,466)
+  Loading 3251 ticker files... 200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 done (1,261,981)
+  Building 1-min bars... 105,196 bars
+  Period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00 (282 days)
+  Cascades: 1494 (5.3/day)
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  SWEEP: All hours, double-fee model
+  Config                                      fills      wr    gross     fee      net      total    sharpe      DD   TP%  SL%   months   hold
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  TOP 15 CONFIGS (by total net return after fees):
+  Config                                      fills      wr    gross     fee      net      total    sharpe      DD   TP%  SL%   months   hold
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  off=0.15% TP=0.15% SL=0.50%                 fills= 903  wr= 80.6%  gross=+0.053%  fee=0.047%  net=+0.006%  total=   +5.49%  sharpe=  +16.0  DD= 4.79%  TP=  80% SL=  12%  months=3/5  hold=4.1m
+  off=0.20% TP=0.15% SL=0.50%                 fills= 819  wr= 79.1%  gross=+0.050%  fee=0.048%  net=+0.002%  total=   +1.88%  sharpe=   +6.0  DD= 7.79%  TP=  78% SL=  11%  months=4/5  hold=3.9m
+  off=0.15% TP=0.15% SL=0.35%                 fills= 903  wr= 77.2%  gross=+0.050%  fee=0.048%  net=+0.002%  total=   +1.57%  sharpe=   +5.1  DD= 6.32%  TP=  77% SL=  17%  months=2/5  hold=3.5m
+  off=0.20% TP=0.20% SL=0.50%                 fills= 819  wr= 72.0%  gross=+0.048%  fee=0.050%  net=-0.002%  total=   -1.76%  sharpe=   -4.6  DD= 7.42%  TP=  70% SL=  16%  months=3/5  hold=5.5m
+  off=0.20% TP=0.15% SL=0.35%                 fills= 819  wr= 75.6%  gross=+0.045%  fee=0.049%  net=-0.004%  total=   -2.87%  sharpe=  -10.1  DD= 8.51%  TP=  75% SL=  17%  months=3/5  hold=3.3m
+  off=0.15% TP=0.20% SL=0.50%                 fills= 903  wr= 72.0%  gross=+0.045%  fee=0.051%  net=-0.006%  total=   -5.30%  sharpe=  -12.5  DD=15.61%  TP=  70% SL=  17%  months=4/5  hold=6.6m
+  off=0.20% TP=0.20% SL=0.35%                 fills= 819  wr= 68.0%  gross=+0.045%  fee=0.052%  net=-0.007%  total=   -5.37%  sharpe=  -15.8  DD= 9.12%  TP=  66% SL=  23%  months=2/5  hold=4.6m
+  off=0.15% TP=0.15% SL=0.25%                 fills= 903  wr= 71.3%  gross=+0.042%  fee=0.050%  net=-0.008%  total=   -7.49%  sharpe=  -26.3  DD=12.24%  TP=  71% SL=  25%  months=3/5  hold=2.7m
+  off=0.10% TP=0.15% SL=0.50%                 fills= 998  wr= 77.9%  gross=+0.037%  fee=0.048%  net=-0.011%  total=  -11.00%  sharpe=  -27.1  DD=17.68%  TP=  77% SL=  14%  months=2/5  hold=5.6m
+  off=0.20% TP=0.15% SL=0.25%                 fills= 819  wr= 69.7%  gross=+0.037%  fee=0.051%  net=-0.014%  total=  -11.34%  sharpe=  -43.6  DD=13.38%  TP=  69% SL=  26%  months=2/5  hold=2.5m
+  off=0.20% TP=0.20% SL=0.25%                 fills= 819  wr= 62.1%  gross=+0.040%  fee=0.054%  net=-0.014%  total=  -11.44%  sharpe=  -37.4  DD=13.91%  TP=  61% SL=  32%  months=2/5  hold=3.6m
+  off=0.20% TP=0.25% SL=0.50%                 fills= 819  wr= 65.2%  gross=+0.039%  fee=0.054%  net=-0.015%  total=  -12.12%  sharpe=  -27.9  DD=17.87%  TP=  60% SL=  21%  months=3/5  hold=7.5m
+  off=0.15% TP=0.20% SL=0.35%                 fills= 903  wr= 67.0%  gross=+0.038%  fee=0.052%  net=-0.014%  total=  -12.95%  sharpe=  -33.9  DD=20.28%  TP=  65% SL=  25%  months=3/5  hold=5.6m
+  off=0.20% TP=0.25% SL=0.35%                 fills= 819  wr= 60.4%  gross=+0.035%  fee=0.055%  net=-0.020%  total=  -16.65%  sharpe=  -42.9  DD=20.24%  TP=  56% SL=  29%  months=2/5  hold=6.3m
+  off=0.10% TP=0.15% SL=0.35%                 fills= 998  wr= 73.1%  gross=+0.030%  fee=0.049%  net=-0.019%  total=  -18.94%  sharpe=  -51.7  DD=21.91%  TP=  73% SL=  21%  months=2/5  hold=4.6m
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  BEST CONFIG US-HOURS ONLY (13-18 UTC):
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  US-hours off=0.15% TP=0.15% SL=0.50%        fills= 294  wr= 80.6%  gross=+0.041%  fee=0.047%  net=-0.006%  total=   -1.86%  sharpe=  -15.4  DD= 6.85%  TP=  80% SL=  15%  months=3/5  hold=3.9m
+
+  Monthly breakdown (best config, all hours):
+       2025-05: n= 316  wr=80.1%  gross=+0.047%  net=-0.000%  total=-0.07%
+       2025-06: n= 322  wr=78.0%  gross=+0.044%  net=-0.004%  total=-1.15%
+    ✅ 2025-07: n=  91  wr=80.2%  gross=+0.055%  net=+0.008%  total=+0.69%
+    ✅ 2025-08: n= 144  wr=87.5%  gross=+0.084%  net=+0.040%  total=+5.71%
+    ✅ 2026-02: n=  30  wr=83.3%  gross=+0.056%  net=+0.010%  total=+0.31%
+
+──────────────────────────────────────────────────────────────────────────────────────────
+  COMPARISON: Same best config with 0% maker fee:
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  0% maker  off=0.15% TP=0.15% SL=0.50%       fills= 903  wr= 81.0%  gross=+0.053%  fee=0.011%  net=+0.042%  total=  +38.03%  sharpe= +107.1  DD= 3.24%  TP=  80% SL=  12%  months=5/5  hold=4.1m
+
+  XRPUSDT done in 395s
+
+
+==========================================================================================
+  GRAND SUMMARY — BEST CONFIG PER SYMBOL (after 0.020%+0.055% fees)
+==========================================================================================
+
+  ETHUSDT:
+  off=0.20% TP=0.15% SL=0.50%                 fills=1380  wr= 80.5%  gross=+0.052%  fee=0.047%  net=+0.005%  total=   +7.37%  sharpe=  +13.9  DD= 5.98%  TP=  80% SL=  12%  months=3/5  hold=3.2m
+  off=0.15% TP=0.15% SL=0.50%                 fills=1542  wr= 80.0%  gross=+0.049%  fee=0.047%  net=+0.002%  total=   +2.33%  sharpe=   +3.9  DD=10.23%  TP=  79% SL=  12%  months=2/5  hold=3.6m
+  off=0.20% TP=0.15% SL=0.35%                 fills=1380  wr= 76.5%  gross=+0.047%  fee=0.048%  net=-0.001%  total=   -1.49%  sharpe=   -3.1  DD=10.45%  TP=  76% SL=  18%  months=2/5  hold=2.5m
+  off=0.15% TP=0.15% SL=0.35%                 fills=1542  wr= 75.9%  gross=+0.045%  fee=0.049%  net=-0.004%  total=   -6.29%  sharpe=  -11.7  DD=16.57%  TP=  75% SL=  18%  months=2/5  hold=2.9m
+  off=0.20% TP=0.15% SL=0.25%                 fills=1380  wr= 71.2%  gross=+0.043%  fee=0.050%  net=-0.007%  total=   -9.66%  sharpe=  -22.4  DD=14.28%  TP=  71% SL=  25%  months=2/5  hold=2.0m
+
+  SOLUSDT:
+  off=0.20% TP=0.15% SL=0.50%                 fills=1102  wr= 81.1%  gross=+0.056%  fee=0.047%  net=+0.010%  total=  +10.69%  sharpe=  +25.9  DD=10.07%  TP=  81% SL=  11%  months=5/5  hold=3.3m
+  off=0.15% TP=0.15% SL=0.50%                 fills=1221  wr= 81.5%  gross=+0.053%  fee=0.047%  net=+0.006%  total=   +7.87%  sharpe=  +16.8  DD= 6.90%  TP=  81% SL=  12%  months=2/5  hold=3.5m
+  off=0.15% TP=0.15% SL=0.35%                 fills=1221  wr= 78.3%  gross=+0.052%  fee=0.048%  net=+0.004%  total=   +5.36%  sharpe=  +12.8  DD= 7.29%  TP=  78% SL=  18%  months=2/5  hold=2.7m
+  off=0.20% TP=0.15% SL=0.35%                 fills=1102  wr= 77.5%  gross=+0.052%  fee=0.048%  net=+0.004%  total=   +3.99%  sharpe=  +10.6  DD= 8.05%  TP=  77% SL=  17%  months=3/5  hold=2.6m
+  off=0.20% TP=0.20% SL=0.50%                 fills=1102  wr= 73.4%  gross=+0.051%  fee=0.050%  net=+0.001%  total=   +1.08%  sharpe=   +2.1  DD=12.48%  TP=  72% SL=  17%  months=2/5  hold=5.0m
+
+  DOGEUSDT:
+  off=0.20% TP=0.15% SL=0.50%                 fills= 802  wr= 85.3%  gross=+0.065%  fee=0.045%  net=+0.020%  total=  +15.89%  sharpe=  +53.2  DD= 5.05%  TP=  85% SL=  11%  months=3/5  hold=2.1m
+  off=0.15% TP=0.15% SL=0.50%                 fills= 877  wr= 84.5%  gross=+0.058%  fee=0.046%  net=+0.012%  total=  +10.83%  sharpe=  +31.9  DD= 6.37%  TP=  84% SL=  13%  months=3/5  hold=2.4m
+  off=0.15% TP=0.15% SL=0.35%                 fills= 877  wr= 80.6%  gross=+0.057%  fee=0.047%  net=+0.010%  total=   +8.73%  sharpe=  +29.0  DD= 5.49%  TP=  80% SL=  18%  months=2/5  hold=1.9m
+  off=0.20% TP=0.15% SL=0.35%                 fills= 802  wr= 80.4%  gross=+0.057%  fee=0.047%  net=+0.011%  total=   +8.49%  sharpe=  +31.2  DD= 6.05%  TP=  80% SL=  17%  months=3/5  hold=1.6m
+  off=0.20% TP=0.20% SL=0.50%                 fills= 802  wr= 76.2%  gross=+0.052%  fee=0.049%  net=+0.003%  total=   +2.56%  sharpe=   +6.6  DD=11.40%  TP=  75% SL=  18%  months=2/5  hold=3.5m
+
+  XRPUSDT:
+  off=0.15% TP=0.15% SL=0.50%                 fills= 903  wr= 80.6%  gross=+0.053%  fee=0.047%  net=+0.006%  total=   +5.49%  sharpe=  +16.0  DD= 4.79%  TP=  80% SL=  12%  months=3/5  hold=4.1m
+  off=0.20% TP=0.15% SL=0.50%                 fills= 819  wr= 79.1%  gross=+0.050%  fee=0.048%  net=+0.002%  total=   +1.88%  sharpe=   +6.0  DD= 7.79%  TP=  78% SL=  11%  months=4/5  hold=3.9m
+  off=0.15% TP=0.15% SL=0.35%                 fills= 903  wr= 77.2%  gross=+0.050%  fee=0.048%  net=+0.002%  total=   +1.57%  sharpe=   +5.1  DD= 6.32%  TP=  77% SL=  17%  months=2/5  hold=3.5m
+  off=0.20% TP=0.20% SL=0.50%                 fills= 819  wr= 72.0%  gross=+0.048%  fee=0.050%  net=-0.002%  total=   -1.76%  sharpe=   -4.6  DD= 7.42%  TP=  70% SL=  16%  months=3/5  hold=5.5m
+  off=0.20% TP=0.15% SL=0.35%                 fills= 819  wr= 75.6%  gross=+0.045%  fee=0.049%  net=-0.004%  total=   -2.87%  sharpe=  -10.1  DD= 8.51%  TP=  75% SL=  17%  months=3/5  hold=3.3m
+
+==========================================================================================
+  DONE — 1611s total
+==========================================================================================
