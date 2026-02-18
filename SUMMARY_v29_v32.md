@@ -378,3 +378,70 @@ This 3.3pp excess win rate is the **entire source of edge**:
 The edge exists because crypto prices have **excess kurtosis** — extreme moves (both up and down) happen more frequently than a random walk predicts. The 2:1 TP/SL ratio is positioned to capture these tail events.
 
 **This is a real, structural edge** — not an artifact. It will persist as long as crypto price distributions remain fat-tailed, which is a fundamental property of leveraged speculative markets.
+
+---
+
+## v33e: Fee Reality Check — The Strategy Doesn't Survive Fees
+
+### The Actionable Setup (SOL @ ~$170)
+
+**What you'd do manually:**
+1. SOL is at $170.00
+2. Place a **limit long** at $170.00 (buy)
+3. Place a **limit short** at $170.00 (sell)
+4. Long TP: limit sell at $170.17 (+10 bps = +$0.17)
+5. Long SL: stop-market at $169.915 (-5 bps = -$0.085)
+6. Short TP: limit buy at $169.83 (-10 bps)
+7. Short SL: stop-market at $170.085 (+5 bps)
+8. Cancel remaining orders after 5 minutes if not filled
+
+**What happens (SOL, 10 days of data):**
+
+| Outcome | Frequency | Net PnL |
+|---------|-----------|---------|
+| One side TP + other SL | **59.5%** | +5 bps |
+| Both SL hit | **22.7%** | -10 bps |
+| Both timeout (cancel) | **16.8%** | 0 bps |
+| One SL + timeout | 1.0% | -5 bps |
+| Both TP hit | 0.0% | +20 bps |
+
+**Gross EV: +0.66 bps per entry** (~$0.11 on a $170 position)
+
+### The Fee Problem
+
+Each entry involves **4 order fills** (open 2 + close 2):
+
+| Order | Type | Fee |
+|-------|------|-----|
+| Open long | Limit (maker) | 1 bps |
+| Open short | Limit (maker) | 1 bps |
+| Close winner (TP) | Limit (maker) | 1 bps |
+| Close loser (SL) | Stop-market (taker) | 5.5 bps |
+
+**Weighted average fee: ~10.3 bps per entry**
+
+| Gross EV | Fee | Net EV | Verdict |
+|----------|-----|--------|---------|
+| +0.66 bps (SOL) | 10.3 bps | **-9.7 bps** | ❌ |
+| +1.30 bps (DOGE, best) | 10.3 bps | **-9.0 bps** | ❌ |
+
+### Even VIP Tiers Don't Save It
+
+| Tier | Maker | Taker | Fee | DOGE Net |
+|------|-------|-------|-----|----------|
+| Regular | 0.010% | 0.055% | 10.3 bps | **-9.0** |
+| VIP 3 | 0.004% | 0.025% | 4.6 bps | **-3.3** |
+| VIP 5 | 0.000% | 0.015% | 2.1 bps | **-0.8** |
+| Pro 1 | -0.005% | 0.015% | 0.8 bps | **+0.5** |
+| Pro 2 | -0.005% | 0.013% | 0.5 bps | **+0.8** |
+| Pro 3 | -0.005% | 0.010% | 0.1 bps | **+1.2** |
+
+**Only profitable at Pro 1+ tier** (requires $100M+ monthly volume on Bybit).
+
+### Conclusion
+
+The fat-tail edge is **real but tiny** (~0.5-1.3 bps). Exchange fees at retail/VIP tiers are **10-20× larger** than the edge. This strategy:
+- ✅ Works in theory (proven by data)
+- ✅ Has a real structural source (excess kurtosis)
+- ❌ **Cannot be traded profitably** at normal fee tiers
+- ⚠️ Only viable at Pro market-maker tiers with negative maker fees
