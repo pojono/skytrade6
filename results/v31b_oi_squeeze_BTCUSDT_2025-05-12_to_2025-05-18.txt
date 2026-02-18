@@ -1,0 +1,38 @@
+v31b: OI Divergence Squeeze Continuation — BTCUSDT
+======================================================================
+Dates: 2025-05-12 to 2025-05-18 (7 days)
+Time: 52s
+
+TOP CONFIGURATIONS BY EDGE:
+  lb=120 pm=P75 ov=P75 fwd=120: squeeze=50.1% mom=49.6% edge=+0.5% ret=+0.3bps anti=-0.1bps n=41849
+  lb=300 pm=P50 ov=P75 fwd=120: squeeze=50.2% mom=49.8% edge=+0.4% ret=+0.3bps anti=-0.3bps n=56580
+  lb=300 pm=P50 ov=P75 fwd=300: squeeze=50.0% mom=49.7% edge=+0.4% ret=+0.1bps anti=-0.5bps n=56580
+  lb=120 pm=P50 ov=P50 fwd=120: squeeze=49.4% mom=49.0% edge=+0.4% ret=+0.1bps anti=-0.1bps n=101858
+  lb=300 pm=P50 ov=P50 fwd=120: squeeze=50.1% mom=49.8% edge=+0.3% ret=+0.2bps anti=-0.2bps n=97206
+  lb=120 pm=P75 ov=P50 fwd=120: squeeze=49.9% mom=49.6% edge=+0.3% ret=+0.2bps anti=-0.1bps n=63179
+  lb=300 pm=P50 ov=P75 fwd= 60: squeeze=49.3% mom=49.1% edge=+0.2% ret=+0.2bps anti=-0.2bps n=56580
+  lb=300 pm=P50 ov=P75 fwd= 30: squeeze=48.9% mom=48.7% edge=+0.2% ret=+0.1bps anti=-0.1bps n=56580
+  lb=300 pm=P75 ov=P75 fwd=300: squeeze=48.8% mom=48.7% edge=+0.2% ret=-0.1bps anti=-0.5bps n=43135
+  lb= 60 pm=P50 ov=P50 fwd=300: squeeze=50.3% mom=50.2% edge=+0.1% ret=+0.0bps anti=+0.1bps n=105345
+  lb=120 pm=P50 ov=P75 fwd=120: squeeze=49.1% mom=49.0% edge=+0.1% ret=+0.2bps anti=+0.0bps n=56071
+  lb= 60 pm=P50 ov=P75 fwd=300: squeeze=50.2% mom=50.2% edge=-0.0% ret=+0.1bps anti=+0.0bps n=57038
+  lb= 60 pm=P50 ov=P50 fwd=120: squeeze=49.6% mom=49.7% edge=-0.0% ret=-0.0bps anti=-0.0bps n=105346
+  lb=300 pm=P50 ov=P50 fwd= 60: squeeze=49.0% mom=49.1% edge=-0.1% ret=+0.1bps anti=-0.1bps n=97206
+  lb=120 pm=P50 ov=P75 fwd=300: squeeze=50.2% mom=50.3% edge=-0.1% ret=+0.2bps anti=+0.1bps n=56071
+
+TOP CONFIGURATIONS BY RETURN:
+  lb=300 pm=P75 ov=P75 fwd=120: squeeze=49.3% ret=+0.4bps anti=-0.3bps n=43135
+  lb=300 pm=P50 ov=P75 fwd=120: squeeze=50.2% ret=+0.3bps anti=-0.3bps n=56580
+  lb=120 pm=P75 ov=P75 fwd=120: squeeze=50.1% ret=+0.3bps anti=-0.1bps n=41849
+  lb=300 pm=P75 ov=P75 fwd= 60: squeeze=48.6% ret=+0.2bps anti=-0.2bps n=43135
+  lb=300 pm=P50 ov=P75 fwd= 60: squeeze=49.3% ret=+0.2bps anti=-0.2bps n=56580
+  lb=120 pm=P50 ov=P75 fwd=120: squeeze=49.1% ret=+0.2bps anti=+0.0bps n=56071
+  lb=300 pm=P75 ov=P50 fwd=120: squeeze=48.8% ret=+0.2bps anti=-0.1bps n=61890
+  lb=120 pm=P50 ov=P75 fwd=300: squeeze=50.2% ret=+0.2bps anti=+0.1bps n=56071
+  lb=120 pm=P75 ov=P50 fwd=120: squeeze=49.9% ret=+0.2bps anti=-0.1bps n=63179
+  lb=300 pm=P50 ov=P50 fwd=120: squeeze=50.1% ret=+0.2bps anti=-0.2bps n=97206
+  lb=300 pm=P75 ov=P50 fwd= 60: squeeze=48.3% ret=+0.1bps anti=-0.1bps n=61890
+  lb=300 pm=P75 ov=P75 fwd= 30: squeeze=48.8% ret=+0.1bps anti=-0.0bps n=43135
+  lb=120 pm=P75 ov=P75 fwd=300: squeeze=49.9% ret=+0.1bps anti=+0.0bps n=41849
+  lb=300 pm=P50 ov=P75 fwd= 30: squeeze=48.9% ret=+0.1bps anti=-0.1bps n=56580
+  lb=300 pm=P50 ov=P50 fwd= 60: squeeze=49.0% ret=+0.1bps anti=-0.1bps n=97206
