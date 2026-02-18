@@ -1,0 +1,145 @@
+================================================================================
+  v42c: NEXT IDEAS — SOLUSDT — 30 DAYS
+  2026-02-18 23:13:12  [RAM=0.1GB, avail=5.6GB]
+================================================================================
+  Loading liqs 30 days... [10/30 1s ETA 2s] [20/30 2s ETA 1s] [30/30 3s ETA 0s] 40,934 (3s) [RAM=0.1GB, avail=5.6GB]
+  Loading futures 30 days... [10/30 16s ETA 33s] [20/30 30s ETA 15s] [30/30 40s ETA 0s] 30,331,082 trades (44s) [RAM=2.3GB, avail=3.4GB]
+  Loading spot 30 days... [10/30 2s ETA 4s] [20/30 4s ETA 2s] [30/30 5s ETA 0s] 9,538,451 trades (6s) [RAM=2.0GB, avail=3.7GB]
+  Building 1-min bars... 43,200 bars
+  Period: 2025-05-12 00:00:00 to 2025-06-10 23:59:00 (30 days)
+  [RAM=1.9GB, avail=3.8GB]
+  Cascades: P95=288, P97=163
+
+================================================================================
+  EXP F: COMBINED CASCADE SIZE + HOUR FILTER
+================================================================================
+
+  BASELINE vs FILTERED:
+  ✅ P95 all hours (baseline)                  n= 188  wr= 89.9%  avg=  +8.7bps  tot= +16.40%  sharpe=  +243.6
+  ✅ P97 all hours                             n= 113  wr= 92.9%  avg= +10.8bps  tot= +12.20%  sharpe=  +345.0
+  ✅ P95 good hours only                       n=  30  wr= 96.7%  avg= +13.6bps  tot=  +4.07%  sharpe=  +618.7
+  ✅ P95 exclude bad hours                     n= 142  wr= 90.1%  avg=  +8.8bps  tot= +12.49%  sharpe=  +246.2
+  ✅ P97 good hours only                       n=  17  wr=100.0%  avg= +16.0bps  tot=  +2.72%  sharpe=+9638318951.7
+  ✅ P97 exclude bad hours                     n=  81  wr= 92.6%  avg= +10.6bps  tot=  +8.55%  sharpe=  +330.3
+
+  WALK-FORWARD (train=20d, test=10d):
+
+  P95 no-bad:
+  ✅ TRAIN                                     n= 102  wr= 94.1%  avg= +11.5bps  tot= +11.75%  sharpe=  +400.6
+  ✅ TEST                                      n=  40  wr= 80.0%  avg=  +1.8bps  tot=  +0.74%  sharpe=   +39.0
+
+  P97 no-bad:
+  ✅ TRAIN                                     n=  57  wr= 96.5%  avg= +13.4bps  tot=  +7.65%  sharpe=  +597.8
+  ✅ TEST                                      n=  24  wr= 83.3%  avg=  +3.8bps  tot=  +0.90%  sharpe=   +82.5
+
+  P97 good-only:
+  ✅ TRAIN                                     n=  13  wr=100.0%  avg= +16.0bps  tot=  +2.08%  sharpe=+9638319498.7
+  ✅ TEST                                      n=   4  wr=100.0%  avg= +16.0bps  tot=  +0.64%  sharpe=+9638318103.6
+
+  [RAM=1.9GB, avail=3.8GB] after EXP F
+
+================================================================================
+  EXP G: SPOT-FUTURES VOLUME IMBALANCE
+================================================================================
+  Computing 1-min volumes... 43,200 bars
+
+  SPOT VOLUME SURGE → FUTURES FORWARD RETURN:
+  Bucket             Count      fwd_5m     fwd_15m     fwd_60m
+  ------------------------------------------------------------
+  spot quiet        30,664      -0.02      -0.01      +0.00
+  spot normal        7,705      -0.31      -0.26      -1.61
+  spot 2-5x          3,681      -0.25      -1.18      -2.94
+  spot >5x           1,061      +1.99      +0.56      -0.43
+
+  FUT/SPOT RATIO Z-SCORE → FUTURES FORWARD RETURN:
+  Z bucket           Count      fwd_5m     fwd_15m     fwd_60m
+  ------------------------------------------------------------
+  -2<z<-1            2,545      +0.50      +1.27      -1.62
+  -1<z<1            34,912      -0.07      -0.14      -0.49
+  1<z<2              3,331      +0.13      -0.19      -0.40
+  z>2 (fut dom)      2,321      -0.51      -1.64      -0.48
+
+  SPOT SURGE + DIRECTION → FUTURES RETURN:
+  sell dominant   + surge  n=1,880  fwd_5m= -0.41  fwd_15m= -1.40
+  balanced        + surge  n=1,142  fwd_5m= +1.06  fwd_15m= +0.02
+  buy dominant    + surge  n=1,720  fwd_5m= +0.42  fwd_15m= -0.67
+
+  [RAM=1.5GB, avail=4.2GB] after EXP G
+
+================================================================================
+  EXP H: CASCADE HOUR-OF-DAY INTERACTION
+================================================================================
+
+  CASCADE MM PERFORMANCE BY HOUR:
+  Hour     N     WR%    AvgNet    TotNet    Sharpe
+  --------------------------------------------------
+  ✅ 00:00     9  100.0%    +16.0    +1.44%  +9638319581.9
+  ✅ 01:00    13   84.6%     +4.7    +0.61%   +106.6
+  ✅ 02:00     9  100.0%    +16.0    +1.44%  +9638319008.4
+  ✅ 03:00     6  100.0%    +16.0    +0.96%  +9638319447.4
+  ✅ 04:00     4  100.0%    +16.0    +0.64%  +9638318090.1
+  ✅ 06:00     4  100.0%    +16.0    +0.64%  +9638321174.4
+  ✅ 07:00     6  100.0%    +16.0    +0.96%  +9638320018.8
+  ❌ 08:00     7   71.4%     -1.8    -0.13%    -38.6
+  ❌ 09:00     7   71.4%     -5.0    -0.35%    -90.7
+  ✅ 11:00     4  100.0%    +16.0    +0.64%  +9638322887.4
+  ✅ 12:00     5   80.0%     +1.3    +0.07%    +26.6
+  ❌ 13:00    16   75.0%     -2.4    -0.38%    -45.0
+  ✅ 14:00    19   94.7%    +12.1    +2.30%   +445.3
+  ✅ 15:00     8  100.0%    +16.0    +1.28%  +9638318432.8
+  ❌ 16:00    12   75.0%     -0.6    -0.07%    -11.6
+  ✅ 17:00     7   85.7%     +5.5    +0.39%   +128.8
+  ✅ 18:00     8  100.0%    +16.0    +1.28%  +9638320098.9
+  ✅ 19:00     8   87.5%     +4.8    +0.39%   +120.6
+  ✅ 20:00    11   90.9%     +9.3    +1.03%   +265.7
+  ✅ 21:00     6   83.3%     +3.8    +0.23%    +82.5
+  ✅ 22:00     7  100.0%    +16.0    +1.12%  +9638319764.4
+  ✅ 23:00     8  100.0%    +16.0    +1.28%  +9638319068.1
+
+  Best cascade hour:  11:00 (avg=+16.0bps, wr=100%)
+  Worst cascade hour: 09:00 (avg=-5.0bps, wr=71%)
+
+  [RAM=1.5GB, avail=4.2GB] after EXP H
+
+================================================================================
+  EXP I: VOL COMPRESSION → BREAKOUT
+================================================================================
+
+  VOL PERCENTILE → FORWARD |RETURN|:
+  Vol bucket         Count   |fwd_60m|  |fwd_120m|    Ratio
+  -------------------------------------------------------
+     P0-10 (quiet)      4,313       37.6       62.9    0.67x
+     P10-25             6,471       41.7       66.6    0.74x
+     P25-50            10,785       47.5       68.3    0.85x
+     P50-75            10,729       63.3       86.9    1.13x
+  ✅ P75-90             6,410       69.1       94.1    1.23x
+  ✅ P90-100 (wild)     4,312       81.3      104.3    1.45x
+
+  STRADDLE STRATEGY (enter when vol < P10):
+  ✅ offset=0.10%  n= 124  wr=100.0%  avg= +12.5bps  total=+15.50%
+  ✅ offset=0.15%  n= 124  wr= 99.2%  avg= +22.3bps  total=+27.60%
+  ✅ offset=0.20%  n= 124  wr= 94.4%  avg= +30.2bps  total=+37.50%
+
+  [RAM=1.5GB, avail=4.2GB] after EXP I
+
+================================================================================
+  EXP J: TRADE FLOW TOXICITY (VPIN-like)
+================================================================================
+  Computing trade flow metrics... done [RAM=1.5GB, avail=3.9GB]
+
+  CASCADE MM PERFORMANCE BY TOXICITY LEVEL:
+  VPIN range: 0.250 to 0.606 (P33=0.357, P66=0.416)
+
+  Toxicity            N     WR%    AvgNet    TotNet
+  --------------------------------------------------
+  ✅ LOW (safe)         62   88.7%     +7.4    +4.62%
+  ✅ MEDIUM             62   90.3%     +8.9    +5.51%
+  ✅ HIGH (toxic)       64   90.6%     +9.8    +6.27%
+
+  ⚠️ HIGH TOXICITY OUTPERFORMS LOW BY 2.3 bps — cascades in toxic flow revert MORE
+
+  [RAM=1.5GB, avail=3.9GB] after EXP J
+
+################################################################################
+  COMPLETE — 73s (1.2min) [RAM=1.5GB, avail=3.9GB]
+################################################################################
