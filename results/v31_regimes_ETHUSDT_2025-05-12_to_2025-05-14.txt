@@ -1,0 +1,30 @@
+v31: Tick-Level Microstructure Regime Classification
+======================================================================
+Symbol: ETHUSDT
+Dates:  2025-05-12 to 2025-05-14 (3 days)
+Total time: 36s
+
+RULE-BASED REGIME DISTRIBUTION:
+  COMPRESSION    :   429 ( 49.7%)
+  BREAKOUT       :    68 (  7.9%)
+  SQUEEZE        :    47 (  5.4%)
+  EXHAUSTION     :   319 ( 37.0%)
+
+KMEANS CLUSTER DISTRIBUTION:
+  Cluster 0:   105 ( 12.2%)
+  Cluster 1:   408 ( 47.3%)
+  Cluster 2:    27 (  3.1%)
+  Cluster 3:   323 ( 37.4%)
+
+TRANSITION MATRIX (rule-based, %):
+                COMPRESSION      BREAKOUT       SQUEEZE    EXHAUSTION
+  COMPRESSION         77.1%          2.8%          1.9%         18.2%
+  BREAKOUT             8.8%         22.1%         11.8%         57.4%
+  SQUEEZE              6.4%         21.3%         25.5%         46.8%
+  EXHAUSTION          28.2%          9.7%          6.0%         56.1%
+
+FORWARD RETURNS BY REGIME (next 5min):
+  After COMPRESSION    : mean= +1.36bps  |ret|= 16.03bps  n=428
+  After BREAKOUT       : mean= -7.77bps  |ret|= 32.63bps  n=68
+  After SQUEEZE        : mean= +2.88bps  |ret|= 33.59bps  n=47
+  After EXHAUSTION     : mean= +0.53bps  |ret|= 21.71bps  n=319

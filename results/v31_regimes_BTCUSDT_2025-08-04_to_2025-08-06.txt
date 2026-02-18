@@ -1,0 +1,30 @@
+v31: Tick-Level Microstructure Regime Classification
+======================================================================
+Symbol: BTCUSDT
+Dates:  2025-08-04 to 2025-08-06 (3 days)
+Total time: 28s
+
+RULE-BASED REGIME DISTRIBUTION:
+  COMPRESSION    :   431 ( 49.9%)
+  BREAKOUT       :    80 (  9.3%)
+  SQUEEZE        :    22 (  2.5%)
+  EXHAUSTION     :   330 ( 38.2%)
+
+KMEANS CLUSTER DISTRIBUTION:
+  Cluster 0:    79 (  9.2%)
+  Cluster 1:   417 ( 48.3%)
+  Cluster 2:   361 ( 41.8%)
+  Cluster 3:     6 (  0.7%)
+
+TRANSITION MATRIX (rule-based, %):
+                COMPRESSION      BREAKOUT       SQUEEZE    EXHAUSTION
+  COMPRESSION         75.3%          3.3%          1.4%         20.0%
+  BREAKOUT             3.8%         20.0%          8.8%         67.5%
+  SQUEEZE              4.5%         40.9%         13.6%         40.9%
+  EXHAUSTION          31.2%         12.4%          1.8%         54.5%
+
+FORWARD RETURNS BY REGIME (next 5min):
+  After COMPRESSION    : mean= -0.16bps  |ret|=  4.91bps  n=430
+  After BREAKOUT       : mean= +1.49bps  |ret|=  8.00bps  n=80
+  After SQUEEZE        : mean= +0.44bps  |ret|= 10.83bps  n=22
+  After EXHAUSTION     : mean= +0.02bps  |ret|=  6.63bps  n=330

@@ -31,13 +31,14 @@ import pandas as pd
 import psutil
 from pathlib import Path
 from collections import defaultdict
+import argparse
 
 warnings.filterwarnings("ignore")
 
 DATA_DIR = Path("data")
-SYMBOL = "BTCUSDT"
 
-# Start small: 3 days
+# Defaults — overridden by CLI args
+SYMBOL = "BTCUSDT"
 DATES = [f"2025-05-{d:02d}" for d in range(12, 15)]
 
 # Classification window: 5 minutes (300s) — main regime window
@@ -855,6 +856,31 @@ def analyze_regimes(rule_regimes, km_labels, gmm_labels, features, bar_idx, regi
 # ============================================================================
 
 def main():
+    global SYMBOL, DATES
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--symbol', default=SYMBOL)
+    parser.add_argument('--start', help='Start date YYYY-MM-DD')
+    parser.add_argument('--end', help='End date YYYY-MM-DD')
+    parser.add_argument('--days', type=int, help='Number of days from start')
+    args = parser.parse_args()
+
+    SYMBOL = args.symbol
+    if args.start:
+        from datetime import datetime, timedelta
+        start_dt = datetime.strptime(args.start, '%Y-%m-%d')
+        if args.end:
+            end_dt = datetime.strptime(args.end, '%Y-%m-%d')
+        elif args.days:
+            end_dt = start_dt + timedelta(days=args.days - 1)
+        else:
+            end_dt = start_dt + timedelta(days=2)  # default 3 days
+        DATES = []
+        dt = start_dt
+        while dt <= end_dt:
+            DATES.append(dt.strftime('%Y-%m-%d'))
+            dt += timedelta(days=1)
+
     t_start = time.time()
     print(f"{'='*70}")
     print(f"v31: Tick-Level Microstructure Regime Classification")
@@ -891,7 +917,8 @@ def main():
     print_mem("final")
 
     # Write results to file
-    output_file = RESULTS_DIR / f"v31_microstructure_regimes_{SYMBOL}.txt"
+    date_tag = f"{DATES[0]}_to_{DATES[-1]}"
+    output_file = RESULTS_DIR / f"v31_regimes_{SYMBOL}_{date_tag}.txt"
     print(f"\nResults saved to {output_file}")
 
     # Redirect stdout to capture summary
