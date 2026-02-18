@@ -24,6 +24,8 @@ Output structure (archives kept compressed for direct ingestion via pandas/pyarr
       bybit/
         futures/          # perpetual trades (.csv.gz)
         spot/             # spot trades (.csv.gz)
+        orderbook_futures/  # futures orderbook ob200 snapshots (.zip)
+        orderbook_spot/     # spot orderbook ob200 snapshots (.zip)
       binance/
         futures/
           trades/                (.zip)
@@ -46,7 +48,10 @@ Output structure (archives kept compressed for direct ingestion via pandas/pyarr
 
 import argparse
 import asyncio
+import atexit
+import signal
 import sys
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -58,6 +63,16 @@ import aiohttp
 
 BYBIT_TRADING_URL = "https://public.bybit.com/trading/{symbol}/{symbol}{date}.csv.gz"
 BYBIT_SPOT_URL = "https://public.bybit.com/spot/{symbol}/{symbol}_{date}.csv.gz"
+
+# Bybit orderbook snapshots (ob200 depth)
+BYBIT_OB_FUTURES_URL = (
+    "https://quote-saver.bycsi.com/orderbook/linear/{symbol}/"
+    "{date}_{symbol}_ob200.data.zip"
+)
+BYBIT_OB_SPOT_URL = (
+    "https://quote-saver.bycsi.com/orderbook/spot/{symbol}/"
+    "{date}_{symbol}_ob200.data.zip"
+)
 
 BINANCE_FUTURES_URL = (
     "https://data.binance.vision/data/futures/um/daily/{dtype}/{symbol}/"
@@ -79,6 +94,8 @@ OKX_TRADES_URL = (
 ALL_SOURCES = [
     "bybit_futures",
     "bybit_spot",
+    "bybit_ob_futures",
+    "bybit_ob_spot",
     "binance_futures",
     "binance_spot",
     "okx_futures",
@@ -102,9 +119,25 @@ DEFAULT_KLINE_INTERVALS = [
     "1m", "5m", "15m", "30m", "1h", "4h", "1d",
 ]
 
-MAX_CONCURRENT = 5  # per-source concurrency
+DEFAULT_CONCURRENT = 5
 RETRY_ATTEMPTS = 3
 RETRY_BACKOFF = 2  # seconds
+
+# Track .tmp files for cleanup on interrupt
+_active_tmp_files: set[Path] = set()
+
+
+def _cleanup_tmp_files():
+    for tmp in list(_active_tmp_files):
+        try:
+            tmp.unlink(missing_ok=True)
+        except OSError:
+            pass
+
+
+atexit.register(_cleanup_tmp_files)
+for _sig in (signal.SIGINT, signal.SIGTERM):
+    signal.signal(_sig, lambda s, f: sys.exit(1))
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -155,6 +188,7 @@ async def download_file(
         return (url, True, "exists")
 
     tmp = dest.with_suffix(dest.suffix + ".tmp")
+    _active_tmp_files.add(tmp)
 
     for attempt in range(1, RETRY_ATTEMPTS + 1):
         try:
@@ -174,6 +208,7 @@ async def download_file(
             ensure_dir(dest.parent)
             tmp.write_bytes(data)
             tmp.rename(dest)
+            _active_tmp_files.discard(tmp)
 
             return (url, True, "ok")
 
@@ -188,6 +223,7 @@ async def download_file(
         if attempt < RETRY_ATTEMPTS:
             await asyncio.sleep(RETRY_BACKOFF * attempt)
 
+    _active_tmp_files.discard(tmp)
     return (url, False, msg)
 
 
@@ -256,6 +292,24 @@ def binance_spot_tasks(symbol: str, dates, output_dir: Path, data_types, kline_i
                 yield url, base / fname
 
 
+def bybit_ob_futures_tasks(symbol: str, dates, output_dir: Path):
+    """Build (url, dest) pairs for Bybit futures orderbook (ob200)."""
+    base = output_dir / symbol / "bybit" / "orderbook_futures"
+    for d in dates:
+        fname = f"{d}_{symbol}_ob200.data.zip"
+        url = BYBIT_OB_FUTURES_URL.format(symbol=symbol, date=d)
+        yield url, base / fname
+
+
+def bybit_ob_spot_tasks(symbol: str, dates, output_dir: Path):
+    """Build (url, dest) pairs for Bybit spot orderbook (ob200)."""
+    base = output_dir / symbol / "bybit" / "orderbook_spot"
+    for d in dates:
+        fname = f"{d}_{symbol}_ob200.data.zip"
+        url = BYBIT_OB_SPOT_URL.format(symbol=symbol, date=d)
+        yield url, base / fname
+
+
 def okx_futures_tasks(symbol: str, dates, output_dir: Path):
     """Build (url, dest) pairs for OKX perpetual swap trades."""
     pair = symbol_to_okx_pair(symbol)
@@ -284,7 +338,7 @@ def okx_spot_tasks(symbol: str, dates, output_dir: Path):
 # ---------------------------------------------------------------------------
 
 
-async def run(args):
+async def run(args, max_concurrent: int):
     symbol = args.symbol.upper()
     dates = list(date_range(args.start_date, args.end_date))
     output_dir = Path(args.output)
@@ -297,6 +351,7 @@ async def run(args):
     print(f"Binance futures:  {', '.join(args.binance_futures_data_types)}")
     print(f"Binance spot:     {', '.join(args.binance_spot_data_types)}")
     print(f"Kline intervals:  {', '.join(kline_intervals)}")
+    print(f"Concurrency:      {max_concurrent}")
     print(f"Output directory: {output_dir.resolve()}")
     print()
 
@@ -307,6 +362,10 @@ async def run(args):
         all_tasks.extend(bybit_futures_tasks(symbol, dates, output_dir))
     if "bybit_spot" in sources:
         all_tasks.extend(bybit_spot_tasks(symbol, dates, output_dir))
+    if "bybit_ob_futures" in sources:
+        all_tasks.extend(bybit_ob_futures_tasks(symbol, dates, output_dir))
+    if "bybit_ob_spot" in sources:
+        all_tasks.extend(bybit_ob_spot_tasks(symbol, dates, output_dir))
     if "binance_futures" in sources:
         all_tasks.extend(binance_futures_tasks(
             symbol, dates, output_dir, args.binance_futures_data_types, kline_intervals))
@@ -322,13 +381,14 @@ async def run(args):
     print(f"Total files to download: {total}")
     print("-" * 60)
 
-    semaphore = asyncio.Semaphore(MAX_CONCURRENT)
+    semaphore = asyncio.Semaphore(max_concurrent)
     success_count = 0
     skip_count = 0
     fail_count = 0
     not_found_count = 0
+    t0 = time.monotonic()
 
-    connector = aiohttp.TCPConnector(limit=MAX_CONCURRENT * 2, force_close=False)
+    connector = aiohttp.TCPConnector(limit=max_concurrent * 2, force_close=False)
     async with aiohttp.ClientSession(connector=connector) as session:
         coros = [
             download_file(session, url, dest, semaphore)
@@ -338,11 +398,15 @@ async def run(args):
         for i, coro in enumerate(asyncio.as_completed(coros), 1):
             url, ok, msg = await coro
             short = url.split("/")[-1]
+            elapsed = time.monotonic() - t0
+            rate = i / elapsed if elapsed > 0 else 0
+            eta = (total - i) / rate if rate > 0 else 0
+            ts = f"[{elapsed:.0f}s elapsed, ETA {eta:.0f}s]"
             if ok and msg == "exists":
                 skip_count += 1
             elif ok:
                 success_count += 1
-                print(f"  [{i}/{total}] ✓ {short}")
+                print(f"  [{i}/{total}] ✓ {short}  {ts}")
             elif "404" in msg:
                 not_found_count += 1
                 print(f"  [{i}/{total}] - {short}  (not available)")
@@ -350,9 +414,10 @@ async def run(args):
                 fail_count += 1
                 print(f"  [{i}/{total}] ✗ {short}  ({msg})")
 
+    total_elapsed = time.monotonic() - t0
     print()
     print("=" * 60)
-    print(f"Done.  downloaded={success_count}  skipped={skip_count}  not_found={not_found_count}  failed={fail_count}")
+    print(f"Done in {total_elapsed:.1f}s.  downloaded={success_count}  skipped={skip_count}  not_found={not_found_count}  failed={fail_count}")
     print(f"Data saved to: {output_dir.resolve() / symbol}")
 
     if fail_count > 0:
@@ -406,8 +471,8 @@ def parse_args():
     parser.add_argument(
         "--concurrency", "-c",
         type=int,
-        default=MAX_CONCURRENT,
-        help=f"Max concurrent downloads (default: {MAX_CONCURRENT})",
+        default=DEFAULT_CONCURRENT,
+        help=f"Max concurrent downloads (default: {DEFAULT_CONCURRENT})",
     )
     return parser.parse_args()
 
@@ -426,10 +491,7 @@ def main():
         print(f"Error: invalid date format: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    global MAX_CONCURRENT
-    MAX_CONCURRENT = args.concurrency
-
-    asyncio.run(run(args))
+    asyncio.run(run(args, max_concurrent=args.concurrency))
 
 
 if __name__ == "__main__":

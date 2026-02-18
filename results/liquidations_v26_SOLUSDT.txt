@@ -1,0 +1,112 @@
+======================================================================
+LIQUIDATIONS RESEARCH (v26)
+======================================================================
+Symbol: SOLUSDT
+Data directory: data
+Output directory: results
+======================================================================
+
+======================================================================
+Loading liquidations data: SOLUSDT
+======================================================================
+Found 197 liquidation files
+  Progress: 20/197 files (10.2%)
+  Progress: 40/197 files (20.3%)
+  Progress: 60/197 files (30.5%)
+  Progress: 80/197 files (40.6%)
+  Progress: 100/197 files (50.8%)
+  Progress: 120/197 files (60.9%)
+  Progress: 140/197 files (71.1%)
+  Progress: 160/197 files (81.2%)
+  Progress: 180/197 files (91.4%)
+  Progress: 197/197 files (100.0%)
+Loaded 8,147 liquidation events
+Period: 2026-02-09 19:32:52.585000 to 2026-02-18 03:52:13.826000
+Duration: 8 days
+
+======================================================================
+Liquidation Pattern Analysis
+======================================================================
+
+Overall Statistics:
+  Total events: 8,147
+  Total volume: 305,677.70 contracts
+  Total notional: $25,482,677
+  Avg event size: 37.5203 contracts ($3,128)
+  Median event size: 5.3000 contracts
+
+By Side:
+  Buy liquidations (longs stopped): 4,671 (57.3%)
+    Volume: 177,243.30 contracts (58.0%)
+  Sell liquidations (shorts stopped): 3,476 (42.7%)
+    Volume: 128,434.40 contracts (42.0%)
+
+Size Distribution (percentiles):
+  50th: 5.3000 contracts ($440)
+  75th: 22.0000 contracts ($1,836)
+  90th: 81.6400 contracts ($6,798)
+  95th: 172.8300 contracts ($14,306)
+  99th: 580.3540 contracts ($49,511)
+
+Temporal Patterns:
+  Most active hour: 15:00 UTC (1,010 events)
+  Least active hour: 10:00 UTC (126 events)
+  Peak volume hour: 15:00 UTC (42,128 contracts)
+
+Inter-Event Timing:
+  Mean: 88.5s
+  Median: 0.4s
+  Min: 0.000s
+  Max: 5970.2s
+  Rapid liquidations (<1s apart): 4,945 (60.70%)
+
+======================================================================
+Detecting liquidation cascades
+======================================================================
+Volume threshold: 95th percentile
+Time window: 60 seconds
+Volume threshold: 172.8300 contracts
+Large liquidations: 408 (5.01%)
+Detected 85 cascades (2+ events within 60s)
+
+Cascade Statistics:
+  Avg duration: 18.4s
+  Avg events: 3.0
+  Avg volume: 1323.82 contracts
+  Avg notional: $110,747
+  Buy-dominated: 52 (61.2%)
+  Sell-dominated: 33 (38.8%)
+
+Aggregating to 1min bars...
+Created 12,022 bars
+Non-zero bars: 1,668 (13.9%)
+
+======================================================================
+Liquidation Imbalance Predictive Power
+======================================================================
+
+Imbalance Statistics:
+  Mean imbalance: -0.0044
+  Std imbalance: 0.3716
+  Min imbalance: -1.0000 (extreme buy liquidations)
+  Max imbalance: 1.0000 (extreme sell liquidations)
+
+Extreme Imbalance Events:
+  Extreme buy liquidations (imbalance < -0.7): 858
+    Avg volume: 206.67 contracts
+    Avg notional: $16,955
+  Extreme sell liquidations (imbalance > 0.7): 803
+    Avg volume: 159.70 contracts
+    Avg notional: $13,605
+
+Rolling Imbalance Persistence:
+  5-min autocorrelation: 0.0972
+  15-min autocorrelation: 0.0222
+  60-min autocorrelation: 0.0014
+
+======================================================================
+COMPLETE
+======================================================================
+Total time: 0.6s
+Results saved to: results/liquidations_v26_SOLUSDT.txt
+======================================================================

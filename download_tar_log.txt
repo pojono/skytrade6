@@ -1,0 +1,41 @@
+======================================================================
+TICKER DATA DOWNLOAD - Efficient tar method
+======================================================================
+Period: 2025-05-11 to 2025-08-10
+Symbols: DOGEUSDT XRPUSDT
+======================================================================
+
+======================================================================
+Downloading DOGEUSDT
+======================================================================
+Creating tar archive on remote server...
+Archive created
+-rw-rw-r-- 1 ubuntu ubuntu 63M Feb 17 20:29 /tmp/ticker_DOGEUSDT_2025.tar.gz
+Downloading archive...
+Extracting and organizing files...
+
+Summary for DOGEUSDT:
+  Ticker files: 1569
+  Total size: 34G
+======================================================================
+
+======================================================================
+Downloading XRPUSDT
+======================================================================
+Creating tar archive on remote server...
+Archive created
+-rw-rw-r-- 1 ubuntu ubuntu 61M Feb 17 20:29 /tmp/ticker_XRPUSDT_2025.tar.gz
+Downloading archive...
+Extracting and organizing files...
+
+Summary for XRPUSDT:
+  Ticker files: 1569
+  Total size: 31G
+======================================================================
+
+======================================================================
+DOWNLOAD COMPLETE
+======================================================================
+  DOGEUSDT: 1569 ticker files, 34G
+  XRPUSDT: 1569 ticker files, 31G
+======================================================================

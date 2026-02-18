@@ -1,0 +1,176 @@
+/home/ubuntu/Projects/skytrade6/compare_binance_bybit.py:62: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  hourly = df.resample('1H').agg({
+/home/ubuntu/Projects/skytrade6/compare_binance_bybit.py:139: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged['ret_bybit'] = merged['close_bybit'].pct_change()
+/home/ubuntu/Projects/skytrade6/compare_binance_bybit.py:62: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  hourly = df.resample('1H').agg({
+/home/ubuntu/Projects/skytrade6/compare_binance_bybit.py:139: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged['ret_bybit'] = merged['close_bybit'].pct_change()
+/home/ubuntu/Projects/skytrade6/compare_binance_bybit.py:62: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  hourly = df.resample('1H').agg({
+/home/ubuntu/Projects/skytrade6/compare_binance_bybit.py:139: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged['ret_bybit'] = merged['close_bybit'].pct_change()
+======================================================================
+BINANCE vs BYBIT DATA COMPARISON
+======================================================================
+Period: May 11 - Aug 10, 2025
+Resolution: 1 hour
+Symbols: BTCUSDT, ETHUSDT, SOLUSDT
+======================================================================
+
+======================================================================
+Comparing BTCUSDT
+======================================================================
+  Loading 1569 Bybit ticker files for BTCUSDT...
+    Progress: 0/1569...
+    Progress: 200/1569...
+    Progress: 400/1569...
+    Progress: 600/1569...
+    Progress: 800/1569...
+    Progress: 1000/1569...
+    Progress: 1200/1569...
+    Progress: 1400/1569...
+
+Data Coverage:
+  Binance: 2211 bars, 2025-05-11 00:00:00 to 2025-08-10 23:00:00
+  Bybit:   2186 bars, 2025-05-11 19:00:00 to 2025-08-10 20:00:00
+
+Overlapping bars: 2189
+
+Price Comparison (Close):
+  Mean difference: -0.0004%
+  Std difference:  0.0147%
+  Max difference:  0.0953%
+  Min difference:  -0.0761%
+  Median diff:     0.0004%
+
+Price Correlation: 0.999994
+
+Returns Correlation: 0.749918
+
+Annualized Volatility:
+  Binance: 33.23%
+  Bybit:   32.50%
+  Ratio:   1.0224
+
+======================================================================
+Comparing ETHUSDT
+======================================================================
+  Loading 1569 Bybit ticker files for ETHUSDT...
+    Progress: 0/1569...
+    Progress: 200/1569...
+    Progress: 400/1569...
+    Progress: 600/1569...
+    Progress: 800/1569...
+    Progress: 1000/1569...
+    Progress: 1200/1569...
+    Progress: 1400/1569...
+
+Data Coverage:
+  Binance: 2211 bars, 2025-05-11 00:00:00 to 2025-08-10 23:00:00
+  Bybit:   2186 bars, 2025-05-11 19:00:00 to 2025-08-10 20:00:00
+
+Overlapping bars: 2189
+
+Price Comparison (Close):
+  Mean difference: 0.0001%
+  Std difference:  0.0224%
+  Max difference:  0.1474%
+  Min difference:  -0.1428%
+  Median diff:     -0.0004%
+
+Price Correlation: 0.999999
+
+Large discrepancies (>0.1%):
+  Count: 8
+  Max: 0.1474%
+  Examples:
+    2025-05-14 04:00:00: Binance=$2673.40, Bybit=$2669.46, Diff=0.1474%
+    2025-05-14 18:00:00: Binance=$2612.49, Bybit=$2609.61, Diff=0.1102%
+    2025-05-18 13:00:00: Binance=$2541.19, Bybit=$2544.82, Diff=-0.1428%
+
+Returns Correlation: 0.410883
+
+Annualized Volatility:
+  Binance: 65.31%
+  Bybit:   107.73%
+  Ratio:   0.6062
+
+======================================================================
+Comparing SOLUSDT
+======================================================================
+  Loading 1569 Bybit ticker files for SOLUSDT...
+    Progress: 0/1569...
+    Progress: 200/1569...
+    Progress: 400/1569...
+    Progress: 600/1569...
+    Progress: 800/1569...
+    Progress: 1000/1569...
+    Progress: 1200/1569...
+    Progress: 1400/1569...
+
+Data Coverage:
+  Binance: 2211 bars, 2025-05-11 00:00:00 to 2025-08-10 23:00:00
+  Bybit:   2186 bars, 2025-05-11 19:00:00 to 2025-08-10 20:00:00
+
+Overlapping bars: 2189
+
+Price Comparison (Close):
+  Mean difference: -0.0014%
+  Std difference:  0.0236%
+  Max difference:  0.1731%
+  Min difference:  -0.1603%
+  Median diff:     0.0000%
+
+Price Correlation: 0.999996
+
+Large discrepancies (>0.1%):
+  Count: 3
+  Max: 0.1731%
+  Examples:
+    2025-05-30 00:00:00: Binance=$161.77, Bybit=$161.49, Diff=0.1731%
+    2025-06-24 19:00:00: Binance=$143.52, Bybit=$143.75, Diff=-0.1603%
+    2025-08-04 22:00:00: Binance=$169.40, Bybit=$169.22, Diff=0.1063%
+
+Returns Correlation: 0.721403
+
+Annualized Volatility:
+  Binance: 70.84%
+  Bybit:   70.86%
+  Ratio:   0.9998
+
+======================================================================
+SUMMARY
+======================================================================
+
+BTCUSDT:
+  Overlapping bars: 2189
+  Price correlation: 0.999994
+  Returns correlation: 0.749918
+  Mean price diff: -0.0004%
+  Std price diff: 0.0147%
+
+ETHUSDT:
+  Overlapping bars: 2189
+  Price correlation: 0.999999
+  Returns correlation: 0.410883
+  Mean price diff: 0.0001%
+  Std price diff: 0.0224%
+
+SOLUSDT:
+  Overlapping bars: 2189
+  Price correlation: 0.999996
+  Returns correlation: 0.721403
+  Mean price diff: -0.0014%
+  Std price diff: 0.0236%
+
+======================================================================
+CONCLUSION
+======================================================================
+
+Average price correlation: 0.999996
+Average absolute price difference: 0.0145%
+
+✅ EXCELLENT: Binance and Bybit data are nearly identical
+   Both exchanges can be used interchangeably for research
+======================================================================

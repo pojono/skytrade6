@@ -1,0 +1,112 @@
+======================================================================
+LIQUIDATIONS RESEARCH (v26)
+======================================================================
+Symbol: ETHUSDT
+Data directory: data
+Output directory: results
+======================================================================
+
+======================================================================
+Loading liquidations data: ETHUSDT
+======================================================================
+Found 199 liquidation files
+  Progress: 20/199 files (10.1%)
+  Progress: 40/199 files (20.1%)
+  Progress: 60/199 files (30.2%)
+  Progress: 80/199 files (40.2%)
+  Progress: 100/199 files (50.3%)
+  Progress: 120/199 files (60.3%)
+  Progress: 140/199 files (70.4%)
+  Progress: 160/199 files (80.4%)
+  Progress: 180/199 files (90.5%)
+  Progress: 199/199 files (100.0%)
+Loaded 10,476 liquidation events
+Period: 2026-02-09 19:33:12.799000 to 2026-02-18 03:36:52.739000
+Duration: 8 days
+
+======================================================================
+Liquidation Pattern Analysis
+======================================================================
+
+Overall Statistics:
+  Total events: 10,476
+  Total volume: 43,815.93 contracts
+  Total notional: $87,121,189
+  Avg event size: 4.1825 contracts ($8,316)
+  Median event size: 0.4000 contracts
+
+By Side:
+  Buy liquidations (longs stopped): 6,495 (62.0%)
+    Volume: 26,445.16 contracts (60.4%)
+  Sell liquidations (shorts stopped): 3,981 (38.0%)
+    Volume: 17,370.77 contracts (39.6%)
+
+Size Distribution (percentiles):
+  50th: 0.4000 contracts ($789)
+  75th: 1.7000 contracts ($3,396)
+  90th: 6.6050 contracts ($13,179)
+  95th: 14.5800 contracts ($28,955)
+  99th: 73.8350 contracts ($148,940)
+
+Temporal Patterns:
+  Most active hour: 15:00 UTC (1,438 events)
+  Least active hour: 23:00 UTC (110 events)
+  Peak volume hour: 15:00 UTC (5,897 contracts)
+
+Inter-Event Timing:
+  Mean: 68.8s
+  Median: 0.2s
+  Min: 0.000s
+  Max: 6012.7s
+  Rapid liquidations (<1s apart): 7,378 (70.43%)
+
+======================================================================
+Detecting liquidation cascades
+======================================================================
+Volume threshold: 95th percentile
+Time window: 60 seconds
+Volume threshold: 14.5800 contracts
+Large liquidations: 524 (5.00%)
+Detected 101 cascades (2+ events within 60s)
+
+Cascade Statistics:
+  Avg duration: 21.9s
+  Avg events: 3.6
+  Avg volume: 212.44 contracts
+  Avg notional: $421,565
+  Buy-dominated: 71 (70.3%)
+  Sell-dominated: 30 (29.7%)
+
+Aggregating to 1min bars...
+Created 12,005 bars
+Non-zero bars: 1,566 (13.0%)
+
+======================================================================
+Liquidation Imbalance Predictive Power
+======================================================================
+
+Imbalance Statistics:
+  Mean imbalance: -0.0135
+  Std imbalance: 0.3601
+  Min imbalance: -1.0000 (extreme buy liquidations)
+  Max imbalance: 1.0000 (extreme sell liquidations)
+
+Extreme Imbalance Events:
+  Extreme buy liquidations (imbalance < -0.7): 861
+    Avg volume: 30.70 contracts
+    Avg notional: $60,345
+  Extreme sell liquidations (imbalance > 0.7): 700
+    Avg volume: 24.83 contracts
+    Avg notional: $50,210
+
+Rolling Imbalance Persistence:
+  5-min autocorrelation: 0.0807
+  15-min autocorrelation: 0.0439
+  60-min autocorrelation: -0.0047
+
+======================================================================
+COMPLETE
+======================================================================
+Total time: 0.8s
+Results saved to: results/liquidations_v26_ETHUSDT.txt
+======================================================================

@@ -1,0 +1,216 @@
+======================================================================
+HIGH-RESOLUTION OI/FUNDING RESEARCH (v25)
+======================================================================
+Symbol: BTCUSDT
+Data directory: data
+======================================================================
+
+Loading ticker data for BTCUSDT...
+  Found 1569 ticker files
+  Loading file 1/1569...
+  Loading file 101/1569...
+  Loading file 201/1569...
+  Loading file 301/1569...
+  Loading file 401/1569...
+  Loading file 501/1569...
+  Loading file 601/1569...
+  Loading file 701/1569...
+  Loading file 801/1569...
+  Loading file 901/1569...
+  Loading file 1001/1569...
+  Loading file 1101/1569...
+  Loading file 1201/1569...
+  Loading file 1301/1569...
+  Loading file 1401/1569...
+  Loading file 1501/1569...
+  Loaded 1,122,612 records
+  Skipped 44 corrupted lines
+  Period: 2025-05-11 19:56:05.809000 to 2025-08-10 20:59:55.017000
+  Avg interval: 0 days 00:00:07.007083671
+
+Loading long/short ratio for BTCUSDT...
+  Found 14 files
+  Loaded 2,208 records
+  Period: 2025-05-11 00:00:00 to 2025-08-10 23:00:00
+
+Aggregating to 5min bars...
+  Created 26,221 bars
+
+Building high-resolution features...
+  Built 54 new features
+
+Merging long/short ratio data...
+  Merged 26,221 records
+
+Building forward returns...
+
+Final dataset: 26,221 rows × 87 columns
+Period: 2025-05-11 19:55:00 to 2025-08-10 20:55:00
+
+======================================================================
+EXPERIMENT 1: OI SPIKE ANALYSIS
+======================================================================
+
+OI Spike Statistics:
+  Total spikes: 1,083
+  Spike rate: 4.13%
+
+  After 5min OI spike:
+    Avg return: -0.1bps
+    Win rate: 50.0%
+    Sharpe: -0.29
+    T-stat: -0.48 (p=0.6328)
+
+  After 15min OI spike:
+    Avg return: +0.8bps
+    Win rate: 50.2%
+    Sharpe: +1.13
+    T-stat: -0.00 (p=0.9983)
+
+  After 1h OI spike:
+    Avg return: +0.5bps
+    Win rate: 50.8%
+    Sharpe: +0.22
+    T-stat: -1.19 (p=0.2352)
+
+  After 4h OI spike:
+    Avg return: +7.9bps
+    Win rate: 52.2%
+    Sharpe: +0.93
+    T-stat: -1.11 (p=0.2667)
+
+======================================================================
+EXPERIMENT 2: OI VELOCITY BY REGIME
+======================================================================
+
+OI Velocity Statistics by Volatility Regime:
+Regime      Mean OI Vel   Std OI Vel   Spike Rate
+--------------------------------------------------
+Low              5.4283       8.6062        0.94%
+Med              9.1902      15.2136        6.31%
+High            16.0047      23.7195        5.17%
+
+======================================================================
+EXPERIMENT 3: FEATURE INFORMATION COEFFICIENT
+======================================================================
+
+Information Coefficient (Pearson correlation):
+Feature                                      5min    15min       1h       4h
+----------------------------------------------------------------------
+buy_ratio                                +0.0152 +0.0307 +0.0572 +0.0090
+buy_ratio_zscore_24h                     -0.0205 -0.0052 +0.0062 -0.0052
+funding_mean_15min                       -0.0420 -0.0425 -0.0523 -0.0258
+funding_mean_1h                          -0.0237 -0.0245 -0.0551 -0.0161
+funding_mean_4h                          -0.0151 -0.0263 -0.0803 -0.0088
+funding_mean_5min                        -0.0419 -0.0468 -0.0552 -0.0243
+funding_range_15min                      -0.0144 +0.0017 +0.0060 -0.0167
+funding_range_1h                         +0.0023 +0.0140 +0.0174 +0.0074
+funding_range_4h                         +0.0138 +0.0289 +0.0789 +0.0050
+funding_range_5min                       -0.0135 +0.0066 +0.0050 -0.0067
+funding_std_15min                        -0.0068 +0.0140 +0.0130 -0.0105
+funding_std_1h                           +0.0145 +0.0248 +0.0180 +0.0097
+funding_std_4h                           +0.0066 +0.0049 +0.0709 +0.0012
+funding_std_5min                         -0.0119 +0.0109 +0.0058 -0.0026
+is_oi_spike                              -0.0000 -0.0077 -0.0072 -0.0031
+ls_ratio                                 +0.0149 +0.0320 +0.0542 +0.0086
+ls_ratio_zscore_24h                      -0.0206 -0.0052 +0.0063 -0.0053
+mis_max_abs_15min                        +0.0368 +0.0356 +0.0317 +0.0231
+mis_max_abs_1h                           -0.0040 -0.0193 +0.0042 +0.0030
+mis_max_abs_4h                           -0.0028 -0.0083 +0.0115 -0.0004
+mis_max_abs_5min                         +0.0331 +0.0458 +0.0428 +0.0191
+mis_mean_15min                           -0.0302 -0.0442 -0.0300 -0.0158
+mis_mean_1h                              -0.0242 -0.0180 -0.0205 -0.0158
+mis_mean_4h                              -0.0060 +0.0015 -0.0058 -0.0037
+mis_mean_5min                            -0.0255 -0.0412 -0.0344 -0.0139
+mis_std_15min                            +0.0116 -0.0173 +0.0063 +0.0045
+mis_std_1h                               -0.0525 -0.0740 -0.0438 -0.0293
+mis_std_4h                               -0.0103 -0.0072 -0.0516 -0.0044
+mis_std_5min                             +0.0245 +0.0152 +0.0302 +0.0222
+oi_accel_15min                           +0.0036 +0.0007 +0.0003 +0.0061
+oi_accel_1h                              +0.0111 +0.0018 +0.0013 +0.0119
+oi_accel_5min                            +0.0022 +0.0005 -0.0005 -0.0016
+oi_change                                +0.0041 -0.0052 -0.0077 +0.0036
+oi_change_15min                          -0.0120 -0.0204 -0.0291 +0.0025
+oi_change_1h                             -0.0176 -0.0208 -0.0321 -0.0097
+oi_change_4h                             -0.0269 -0.0289 +0.0025 -0.0137
+oi_change_5min                           +0.0020 -0.0115 -0.0157 +0.0036
+oi_change_pct                            +0.0045 -0.0061 -0.0083 +0.0035
+oi_direction_15min                       -0.0209 -0.0434 -0.0327 -0.0067
+oi_direction_1h                          -0.0350 -0.0552 -0.0149 -0.0227
+oi_direction_5min                        -0.0070 -0.0310 -0.0222 -0.0066
+oi_spike_count_15min                     -0.0026 +0.0033 -0.0510 +0.0041
+oi_spike_count_1h                        -0.0163 -0.0344 -0.0258 -0.0103
+oi_spike_count_4h                        -0.0024 +0.0066 +0.0349 -0.0020
+oi_spike_count_5min                         +nan    +nan    +nan    +nan
+oi_velocity                              +0.0041 -0.0052 -0.0077 +0.0036
+oi_velocity_max_15min                    +0.0008 -0.0097 +0.0309 +0.0110
+oi_velocity_max_1h                       -0.0032 -0.0146 +0.0089 +0.0004
+oi_velocity_max_4h                       +0.0163 +0.0158 -0.0871 +0.0119
+oi_velocity_max_5min                     +0.0092 -0.0083 +0.0322 +0.0096
+oi_velocity_mean_15min                   -0.0120 -0.0204 -0.0291 +0.0025
+oi_velocity_mean_1h                      -0.0176 -0.0208 -0.0321 -0.0097
+oi_velocity_mean_4h                      -0.0269 -0.0289 +0.0025 -0.0137
+oi_velocity_mean_5min                    +0.0020 -0.0115 -0.0157 +0.0036
+oi_velocity_std_15min                    +0.0018 -0.0082 +0.0541 +0.0088
+oi_velocity_std_1h                       +0.0005 +0.0170 +0.0630 +0.0007
+oi_velocity_std_4h                       +0.0278 +0.0498 +0.0148 +0.0168
+oi_velocity_std_5min                     +0.0032 -0.0105 +0.0433 +0.0102
+sell_ratio                               -0.0152 -0.0307 -0.0572 -0.0090
+sell_ratio_zscore_24h                    +0.0205 +0.0052 -0.0062 +0.0052
+
+======================================================================
+EXPERIMENT 4: WALK-FORWARD PREDICTION (fwd_ret_1h)
+======================================================================
+
+Hi-Res Only (40 features):
+  IC: -0.0483
+  Rank IC: -0.0639
+
+  Quintile Performance:
+    Q1: avg= +10.7bps  wr=53.4%  n=2907
+    Q2: avg=  +4.2bps  wr=53.7%  n=2907
+    Q3: avg=  -2.4bps  wr=51.8%  n=2907
+    Q4: avg= -11.0bps  wr=44.2%  n=2907
+    Q5: avg=  -5.7bps  wr=49.1%  n=2907
+  Long-short (Q5-Q1): -16.5bps  sharpe=-5.04
+
+Hourly Only (6 features):
+  IC: -0.0604
+  Rank IC: -0.0425
+
+  Quintile Performance:
+    Q1: avg=  +1.0bps  wr=50.1%  n=2907
+    Q2: avg=  -0.7bps  wr=49.1%  n=2907
+    Q3: avg=  +2.6bps  wr=56.6%  n=2907
+    Q4: avg=  +9.7bps  wr=52.5%  n=2907
+    Q5: avg= -16.9bps  wr=44.0%  n=2907
+  Long-short (Q5-Q1): -17.9bps  sharpe=-5.85
+
+Hi-Res + Hourly (46 features):
+  IC: -0.0683
+  Rank IC: -0.0755
+
+  Quintile Performance:
+    Q1: avg=  +7.7bps  wr=53.1%  n=2907
+    Q2: avg= +10.2bps  wr=54.2%  n=2907
+    Q3: avg=  +0.1bps  wr=54.4%  n=2907
+    Q4: avg= -11.0bps  wr=43.1%  n=2907
+    Q5: avg= -11.2bps  wr=47.4%  n=2907
+  Long-short (Q5-Q1): -18.9bps  sharpe=-6.35
+
+Hi-Res + Hourly + L/S (52 features):
+  IC: -0.0800
+  Rank IC: -0.1121
+
+  Quintile Performance:
+    Q1: avg= +16.7bps  wr=56.3%  n=2904
+    Q2: avg=  +4.5bps  wr=55.5%  n=2904
+    Q3: avg=  -3.2bps  wr=49.8%  n=2904
+    Q4: avg= -13.5bps  wr=42.1%  n=2904
+    Q5: avg=  -8.6bps  wr=48.6%  n=2904
+  Long-short (Q5-Q1): -25.3bps  sharpe=-8.57
+
+======================================================================
+DONE — 72s total
+Results saved to: results/hires_oi_funding_v25_BTC.txt
+======================================================================

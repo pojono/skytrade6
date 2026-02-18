@@ -1,2 +1,4 @@
 data/
 parquet/
+.idea/
+__pycache__/

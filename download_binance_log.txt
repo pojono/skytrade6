@@ -1,0 +1,294 @@
+======================================================================
+BINANCE FUTURES DATA DOWNLOAD
+======================================================================
+Period: May 11 - Aug 10, 2025
+Symbols: BTCUSDT, ETHUSDT, SOLUSDT
+Output: data_binance/
+======================================================================
+
+
+Processing BTCUSDT...
+
+======================================================================
+Downloading Binance Long/Short Data: BTCUSDT
+======================================================================
+Fetching data for 14 chunks...
+  [1/14] 2025-05-11 to 2025-05-18...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1746921600000&endTime=1747526400000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1746921600000&endTime=1747526400000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1746921600000&endTime=1747526400000
+  [2/14] 2025-05-18 to 2025-05-25...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1747526401000&endTime=1748131201000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1747526401000&endTime=1748131201000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1747526401000&endTime=1748131201000
+  [3/14] 2025-05-25 to 2025-06-01...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1748131202000&endTime=1748736002000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1748131202000&endTime=1748736002000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1748131202000&endTime=1748736002000
+  [4/14] 2025-06-01 to 2025-06-08...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1748736003000&endTime=1749340803000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1748736003000&endTime=1749340803000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1748736003000&endTime=1749340803000
+  [5/14] 2025-06-08 to 2025-06-15...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1749340804000&endTime=1749945604000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1749340804000&endTime=1749945604000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1749340804000&endTime=1749945604000
+  [6/14] 2025-06-15 to 2025-06-22...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1749945605000&endTime=1750550405000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1749945605000&endTime=1750550405000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1749945605000&endTime=1750550405000
+  [7/14] 2025-06-22 to 2025-06-29...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1750550406000&endTime=1751155206000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1750550406000&endTime=1751155206000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1750550406000&endTime=1751155206000
+  [8/14] 2025-06-29 to 2025-07-06...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1751155207000&endTime=1751760007000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1751155207000&endTime=1751760007000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1751155207000&endTime=1751760007000
+  [9/14] 2025-07-06 to 2025-07-13...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1751760008000&endTime=1752364808000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1751760008000&endTime=1752364808000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1751760008000&endTime=1752364808000
+  [10/14] 2025-07-13 to 2025-07-20...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1752364809000&endTime=1752969609000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1752364809000&endTime=1752969609000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1752364809000&endTime=1752969609000
+  [11/14] 2025-07-20 to 2025-07-27...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1752969610000&endTime=1753574410000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1752969610000&endTime=1753574410000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1752969610000&endTime=1753574410000
+  [12/14] 2025-07-27 to 2025-08-03...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1753574411000&endTime=1754179211000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1753574411000&endTime=1754179211000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1753574411000&endTime=1754179211000
+  [13/14] 2025-08-03 to 2025-08-10...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1754179212000&endTime=1754784012000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1754179212000&endTime=1754784012000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1754179212000&endTime=1754784012000
+  [14/14] 2025-08-10 to 2025-08-10...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1754784013000&endTime=1754870399000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1754784013000&endTime=1754870399000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=BTCUSDT&period=1h&limit=500&startTime=1754784013000&endTime=1754870399000
+======================================================================
+
+======================================================================
+Downloading Binance Klines (1h): BTCUSDT
+======================================================================
+Fetching 1h klines from 2025-05-11 00:00:00 to 2025-08-10 23:59:59...
+  Fetched 721 klines up to 2025-06-10 00:00:00
+  Fetched 721 klines up to 2025-07-10 00:00:00
+  Fetched 721 klines up to 2025-08-09 00:00:00
+  Fetched 48 klines up to 2025-08-10 23:00:00
+  ✓ Saved 2211 klines → binance_klines_1h.csv.gz
+======================================================================
+
+======================================================================
+Comparing Binance vs Bybit: BTCUSDT
+======================================================================
+
+Binance data:
+  1h klines: 2211 records
+  Period: 2025-05-11 00:00:00 to 2025-08-10 23:00:00
+
+Bybit data:
+  L/S ratio: 2208 records
+  Ticker files: 1569 files
+======================================================================
+
+
+Processing ETHUSDT...
+
+======================================================================
+Downloading Binance Long/Short Data: ETHUSDT
+======================================================================
+Fetching data for 14 chunks...
+  [1/14] 2025-05-11 to 2025-05-18...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1746921600000&endTime=1747526400000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1746921600000&endTime=1747526400000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1746921600000&endTime=1747526400000
+  [2/14] 2025-05-18 to 2025-05-25...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1747526401000&endTime=1748131201000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1747526401000&endTime=1748131201000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1747526401000&endTime=1748131201000
+  [3/14] 2025-05-25 to 2025-06-01...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1748131202000&endTime=1748736002000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1748131202000&endTime=1748736002000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1748131202000&endTime=1748736002000
+  [4/14] 2025-06-01 to 2025-06-08...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1748736003000&endTime=1749340803000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1748736003000&endTime=1749340803000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1748736003000&endTime=1749340803000
+  [5/14] 2025-06-08 to 2025-06-15...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1749340804000&endTime=1749945604000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1749340804000&endTime=1749945604000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1749340804000&endTime=1749945604000
+  [6/14] 2025-06-15 to 2025-06-22...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1749945605000&endTime=1750550405000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1749945605000&endTime=1750550405000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1749945605000&endTime=1750550405000
+  [7/14] 2025-06-22 to 2025-06-29...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1750550406000&endTime=1751155206000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1750550406000&endTime=1751155206000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1750550406000&endTime=1751155206000
+  [8/14] 2025-06-29 to 2025-07-06...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1751155207000&endTime=1751760007000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1751155207000&endTime=1751760007000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1751155207000&endTime=1751760007000
+  [9/14] 2025-07-06 to 2025-07-13...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1751760008000&endTime=1752364808000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1751760008000&endTime=1752364808000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1751760008000&endTime=1752364808000
+  [10/14] 2025-07-13 to 2025-07-20...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1752364809000&endTime=1752969609000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1752364809000&endTime=1752969609000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1752364809000&endTime=1752969609000
+  [11/14] 2025-07-20 to 2025-07-27...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1752969610000&endTime=1753574410000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1752969610000&endTime=1753574410000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1752969610000&endTime=1753574410000
+  [12/14] 2025-07-27 to 2025-08-03...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1753574411000&endTime=1754179211000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1753574411000&endTime=1754179211000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1753574411000&endTime=1754179211000
+  [13/14] 2025-08-03 to 2025-08-10...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1754179212000&endTime=1754784012000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1754179212000&endTime=1754784012000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1754179212000&endTime=1754784012000
+  [14/14] 2025-08-10 to 2025-08-10...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1754784013000&endTime=1754870399000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1754784013000&endTime=1754870399000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1h&limit=500&startTime=1754784013000&endTime=1754870399000
+======================================================================
+
+======================================================================
+Downloading Binance Klines (1h): ETHUSDT
+======================================================================
+Fetching 1h klines from 2025-05-11 00:00:00 to 2025-08-10 23:59:59...
+  Fetched 721 klines up to 2025-06-10 00:00:00
+  Fetched 721 klines up to 2025-07-10 00:00:00
+  Fetched 721 klines up to 2025-08-09 00:00:00
+  Fetched 48 klines up to 2025-08-10 23:00:00
+  ✓ Saved 2211 klines → binance_klines_1h.csv.gz
+======================================================================
+
+======================================================================
+Comparing Binance vs Bybit: ETHUSDT
+======================================================================
+
+Binance data:
+  1h klines: 2211 records
+  Period: 2025-05-11 00:00:00 to 2025-08-10 23:00:00
+
+Bybit data:
+  L/S ratio: 2208 records
+  Ticker files: 1569 files
+======================================================================
+
+
+Processing SOLUSDT...
+
+======================================================================
+Downloading Binance Long/Short Data: SOLUSDT
+======================================================================
+Fetching data for 14 chunks...
+  [1/14] 2025-05-11 to 2025-05-18...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1746921600000&endTime=1747526400000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1746921600000&endTime=1747526400000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1746921600000&endTime=1747526400000
+  [2/14] 2025-05-18 to 2025-05-25...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1747526401000&endTime=1748131201000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1747526401000&endTime=1748131201000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1747526401000&endTime=1748131201000
+  [3/14] 2025-05-25 to 2025-06-01...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1748131202000&endTime=1748736002000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1748131202000&endTime=1748736002000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1748131202000&endTime=1748736002000
+  [4/14] 2025-06-01 to 2025-06-08...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1748736003000&endTime=1749340803000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1748736003000&endTime=1749340803000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1748736003000&endTime=1749340803000
+  [5/14] 2025-06-08 to 2025-06-15...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1749340804000&endTime=1749945604000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1749340804000&endTime=1749945604000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1749340804000&endTime=1749945604000
+  [6/14] 2025-06-15 to 2025-06-22...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1749945605000&endTime=1750550405000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1749945605000&endTime=1750550405000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1749945605000&endTime=1750550405000
+  [7/14] 2025-06-22 to 2025-06-29...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1750550406000&endTime=1751155206000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1750550406000&endTime=1751155206000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1750550406000&endTime=1751155206000
+  [8/14] 2025-06-29 to 2025-07-06...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1751155207000&endTime=1751760007000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1751155207000&endTime=1751760007000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1751155207000&endTime=1751760007000
+  [9/14] 2025-07-06 to 2025-07-13...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1751760008000&endTime=1752364808000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1751760008000&endTime=1752364808000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1751760008000&endTime=1752364808000
+  [10/14] 2025-07-13 to 2025-07-20...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1752364809000&endTime=1752969609000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1752364809000&endTime=1752969609000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1752364809000&endTime=1752969609000
+  [11/14] 2025-07-20 to 2025-07-27...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1752969610000&endTime=1753574410000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1752969610000&endTime=1753574410000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1752969610000&endTime=1753574410000
+  [12/14] 2025-07-27 to 2025-08-03...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1753574411000&endTime=1754179211000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1753574411000&endTime=1754179211000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1753574411000&endTime=1754179211000
+  [13/14] 2025-08-03 to 2025-08-10...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1754179212000&endTime=1754784012000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1754179212000&endTime=1754784012000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1754179212000&endTime=1754784012000
+  [14/14] 2025-08-10 to 2025-08-10...
+    ✗ Error fetching L/S ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1754784013000&endTime=1754870399000
+    ✗ Error fetching global L/S: 400 Client Error:  for url: https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1754784013000&endTime=1754870399000
+    ✗ Error fetching taker ratio: 400 Client Error:  for url: https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=SOLUSDT&period=1h&limit=500&startTime=1754784013000&endTime=1754870399000
+======================================================================
+
+======================================================================
+Downloading Binance Klines (1h): SOLUSDT
+======================================================================
+Fetching 1h klines from 2025-05-11 00:00:00 to 2025-08-10 23:59:59...
+  Fetched 721 klines up to 2025-06-10 00:00:00
+  Fetched 721 klines up to 2025-07-10 00:00:00
+  Fetched 721 klines up to 2025-08-09 00:00:00
+  Fetched 48 klines up to 2025-08-10 23:00:00
+  ✓ Saved 2211 klines → binance_klines_1h.csv.gz
+======================================================================
+
+======================================================================
+Comparing Binance vs Bybit: SOLUSDT
+======================================================================
+
+Binance data:
+  1h klines: 2211 records
+  Period: 2025-05-11 00:00:00 to 2025-08-10 23:00:00
+
+Bybit data:
+  L/S ratio: 2208 records
+  Ticker files: 1569 files
+======================================================================
+
+======================================================================
+DOWNLOAD COMPLETE
+======================================================================
+BTCUSDT:
+  Top L/S: 0 records
+  Global L/S: 0 records
+  Taker: 0 records
+  Klines: 2211 records
+ETHUSDT:
+  Top L/S: 0 records
+  Global L/S: 0 records
+  Taker: 0 records
+  Klines: 2211 records
+SOLUSDT:
+  Top L/S: 0 records
+  Global L/S: 0 records
+  Taker: 0 records
+  Klines: 2211 records
+======================================================================

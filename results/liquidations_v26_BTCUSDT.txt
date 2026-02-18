@@ -1,0 +1,112 @@
+======================================================================
+LIQUIDATIONS RESEARCH (v26)
+======================================================================
+Symbol: BTCUSDT
+Data directory: data
+Output directory: results
+======================================================================
+
+======================================================================
+Loading liquidations data: BTCUSDT
+======================================================================
+Found 197 liquidation files
+  Progress: 20/197 files (10.2%)
+  Progress: 40/197 files (20.3%)
+  Progress: 60/197 files (30.5%)
+  Progress: 80/197 files (40.6%)
+  Progress: 100/197 files (50.8%)
+  Progress: 120/197 files (60.9%)
+  Progress: 140/197 files (71.1%)
+  Progress: 160/197 files (81.2%)
+  Progress: 180/197 files (91.4%)
+  Progress: 197/197 files (100.0%)
+Loaded 16,756 liquidation events
+Period: 2026-02-09 19:33:09.426000 to 2026-02-18 03:56:12.235000
+Duration: 8 days
+
+======================================================================
+Liquidation Pattern Analysis
+======================================================================
+
+Overall Statistics:
+  Total events: 16,756
+  Total volume: 2,356.08 contracts
+  Total notional: $160,199,296
+  Avg event size: 0.1406 contracts ($9,561)
+  Median event size: 0.0140 contracts
+
+By Side:
+  Buy liquidations (longs stopped): 9,358 (55.8%)
+    Volume: 1,236.29 contracts (52.5%)
+  Sell liquidations (shorts stopped): 7,398 (44.2%)
+    Volume: 1,119.80 contracts (47.5%)
+
+Size Distribution (percentiles):
+  50th: 0.0140 contracts ($921)
+  75th: 0.0520 contracts ($3,570)
+  90th: 0.1955 contracts ($13,314)
+  95th: 0.4253 contracts ($29,172)
+  99th: 2.0000 contracts ($136,378)
+
+Temporal Patterns:
+  Most active hour: 15:00 UTC (2,647 events)
+  Least active hour: 23:00 UTC (166 events)
+  Peak volume hour: 15:00 UTC (467 contracts)
+
+Inter-Event Timing:
+  Mean: 43.1s
+  Median: 0.1s
+  Min: 0.000s
+  Max: 8028.2s
+  Rapid liquidations (<1s apart): 12,894 (76.95%)
+
+======================================================================
+Detecting liquidation cascades
+======================================================================
+Volume threshold: 95th percentile
+Time window: 60 seconds
+Volume threshold: 0.4253 contracts
+Large liquidations: 838 (5.00%)
+Detected 138 cascades (2+ events within 60s)
+
+Cascade Statistics:
+  Avg duration: 28.4s
+  Avg events: 4.7
+  Avg volume: 9.68 contracts
+  Avg notional: $658,190
+  Buy-dominated: 66 (47.8%)
+  Sell-dominated: 72 (52.2%)
+
+Aggregating to 1min bars...
+Created 12,025 bars
+Non-zero bars: 1,741 (14.5%)
+
+======================================================================
+Liquidation Imbalance Predictive Power
+======================================================================
+
+Imbalance Statistics:
+  Mean imbalance: -0.0052
+  Std imbalance: 0.3791
+  Min imbalance: -1.0000 (extreme buy liquidations)
+  Max imbalance: 1.0000 (extreme sell liquidations)
+
+Extreme Imbalance Events:
+  Extreme buy liquidations (imbalance < -0.7): 895
+    Avg volume: 1.38 contracts
+    Avg notional: $92,805
+  Extreme sell liquidations (imbalance > 0.7): 835
+    Avg volume: 1.34 contracts
+    Avg notional: $92,347
+
+Rolling Imbalance Persistence:
+  5-min autocorrelation: 0.1240
+  15-min autocorrelation: 0.0552
+  60-min autocorrelation: -0.0074
+
+======================================================================
+COMPLETE
+======================================================================
+Total time: 1.2s
+Results saved to: results/liquidations_v26_BTCUSDT.txt
+======================================================================

@@ -1,0 +1,171 @@
+======================================================================
+LIQUIDATIONS DATA DOWNLOAD - Efficient tar method
+======================================================================
+Period: 2026-02-09 to 2026-02-17
+Symbols: BTCUSDT ETHUSDT SOLUSDT DOGEUSDT XRPUSDT
+======================================================================
+
+======================================================================
+Processing BTCUSDT
+======================================================================
+Archive created
+-rw-rw-r-- 1 ubuntu ubuntu 293K Feb 18 04:37 /tmp/liquidation_BTCUSDT_2026.tar.gz
+  Downloading archive...
+  Extracting and organizing files...
+  ✓ Downloaded and organized 197 files for BTCUSDT
+  Sample file: liquidation_2026-02-09_19.jsonl.gz
+  Sample data:
+{
+    "ts": 1770665589949,
+    "exchange": "bybit",
+    "source": "ws",
+    "market": "linear",
+    "stream": "liquidation",
+    "symbol": "BTCUSDT",
+    "params": {
+        "topic": "allLiquidation.BTCUSDT"
+    },
+    "result": {
+        "topic": "allLiquidation.BTCUSDT",
+        "type": "snapshot",
+        "ts": 1770665589887,
+        "data": [
+            {
+                "T": 1770665589426,
+                "s": "BTCUSDT",
+                "S": "Sell",
+                "v": "0.017",
+
+======================================================================
+Processing ETHUSDT
+======================================================================
+Archive created
+-rw-rw-r-- 1 ubuntu ubuntu 217K Feb 18 04:37 /tmp/liquidation_ETHUSDT_2026.tar.gz
+  Downloading archive...
+  Extracting and organizing files...
+  ✓ Downloaded and organized 199 files for ETHUSDT
+  Sample file: liquidation_2026-02-09_19.jsonl.gz
+  Sample data:
+{
+    "ts": 1770665593299,
+    "exchange": "bybit",
+    "source": "ws",
+    "market": "linear",
+    "stream": "liquidation",
+    "symbol": "ETHUSDT",
+    "params": {
+        "topic": "allLiquidation.ETHUSDT"
+    },
+    "result": {
+        "topic": "allLiquidation.ETHUSDT",
+        "type": "snapshot",
+        "ts": 1770665593289,
+        "data": [
+            {
+                "T": 1770665592799,
+                "s": "ETHUSDT",
+                "S": "Sell",
+                "v": "0.01",
+
+======================================================================
+Processing SOLUSDT
+======================================================================
+Archive created
+-rw-rw-r-- 1 ubuntu ubuntu 181K Feb 18 04:37 /tmp/liquidation_SOLUSDT_2026.tar.gz
+  Downloading archive...
+  Extracting and organizing files...
+  ✓ Downloaded and organized 197 files for SOLUSDT
+  Sample file: liquidation_2026-02-09_19.jsonl.gz
+  Sample data:
+{
+    "ts": 1770665572717,
+    "exchange": "bybit",
+    "source": "ws",
+    "market": "linear",
+    "stream": "liquidation",
+    "symbol": "SOLUSDT",
+    "params": {
+        "topic": "allLiquidation.SOLUSDT"
+    },
+    "result": {
+        "topic": "allLiquidation.SOLUSDT",
+        "type": "snapshot",
+        "ts": 1770665572653,
+        "data": [
+            {
+                "T": 1770665572585,
+                "s": "SOLUSDT",
+                "S": "Sell",
+                "v": "11.6",
+
+======================================================================
+Processing DOGEUSDT
+======================================================================
+Archive created
+-rw-rw-r-- 1 ubuntu ubuntu 94K Feb 18 04:37 /tmp/liquidation_DOGEUSDT_2026.tar.gz
+  Downloading archive...
+  Extracting and organizing files...
+  ✓ Downloaded and organized 178 files for DOGEUSDT
+  Sample file: liquidation_2026-02-09_19.jsonl.gz
+  Sample data:
+{
+    "ts": 1770667073279,
+    "exchange": "bybit",
+    "source": "ws",
+    "market": "linear",
+    "stream": "liquidation",
+    "symbol": "DOGEUSDT",
+    "params": {
+        "topic": "allLiquidation.DOGEUSDT"
+    },
+    "result": {
+        "topic": "allLiquidation.DOGEUSDT",
+        "type": "snapshot",
+        "ts": 1770667073275,
+        "data": [
+            {
+                "T": 1770667073164,
+                "s": "DOGEUSDT",
+                "S": "Sell",
+                "v": "77",
+
+======================================================================
+Processing XRPUSDT
+======================================================================
+Archive created
+-rw-rw-r-- 1 ubuntu ubuntu 145K Feb 18 04:38 /tmp/liquidation_XRPUSDT_2026.tar.gz
+  Downloading archive...
+  Extracting and organizing files...
+  ✓ Downloaded and organized 192 files for XRPUSDT
+  Sample file: liquidation_2026-02-09_19.jsonl.gz
+  Sample data:
+{
+    "ts": 1770665595810,
+    "exchange": "bybit",
+    "source": "ws",
+    "market": "linear",
+    "stream": "liquidation",
+    "symbol": "XRPUSDT",
+    "params": {
+        "topic": "allLiquidation.XRPUSDT"
+    },
+    "result": {
+        "topic": "allLiquidation.XRPUSDT",
+        "type": "snapshot",
+        "ts": 1770665595766,
+        "data": [
+            {
+                "T": 1770665595309,
+                "s": "XRPUSDT",
+                "S": "Sell",
+                "v": "171.1",
+
+======================================================================
+DOWNLOAD COMPLETE
+======================================================================
+BTCUSDT: 197 files, 84G total
+ETHUSDT: 199 files, 69G total
+SOLUSDT: 197 files, 49G total
+DOGEUSDT: 178 files, 34G total
+XRPUSDT: 192 files, 32G total
+======================================================================

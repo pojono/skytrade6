@@ -1,0 +1,81 @@
+======================================================================
+BULK TICKER DATA DOWNLOAD (rsync)
+======================================================================
+Remote: ubuntu@13.251.79.76
+Period: 2025-05-11 to 2025-08-10
+Symbols: BTCUSDT ETHUSDT SOLUSDT
+======================================================================
+
+======================================================================
+Downloading BTCUSDT
+======================================================================
+receiving incremental file list
+created directory data/BTCUSDT/temp_rsync
+./
+data.jsonl.gz
+              0   0%    0.00kB/s    0:00:00            3,346 100%    3.19MB/s    0:00:00 (xfr#1, to-chk=1568/3138)
+
+sent 82 bytes  received 78,018 bytes  4,221.62 bytes/sec
+total size is 70,012,068  speedup is 896.44
+Reorganizing files...
+
+Summary for BTCUSDT:
+  Files downloaded: 9
+  Total size: 82G
+======================================================================
+
+======================================================================
+Downloading ETHUSDT
+======================================================================
+receiving incremental file list
+created directory data/ETHUSDT/temp_rsync
+./
+data.jsonl.gz
+              0   0%    0.00kB/s    0:00:00            3,467 100%    3.31MB/s    0:00:00 (xfr#1, to-chk=1568/3138)
+
+sent 82 bytes  received 78,117 bytes  17,377.56 bytes/sec
+total size is 72,938,691  speedup is 932.73
+Reorganizing files...
+
+Summary for ETHUSDT:
+  Files downloaded: 3
+  Total size: 66G
+======================================================================
+
+======================================================================
+Downloading SOLUSDT
+======================================================================
+receiving incremental file list
+created directory data/SOLUSDT/temp_rsync
+./
+data.jsonl.gz
+              0   0%    0.00kB/s    0:00:00            3,024 100%    2.88MB/s    0:00:00 (xfr#1, to-chk=1568/3138)
+
+sent 82 bytes  received 77,667 bytes  17,277.56 bytes/sec
+total size is 63,900,602  speedup is 821.88
+Reorganizing files...
+
+Summary for SOLUSDT:
+  Files downloaded: 3
+  Total size: 49G
+======================================================================
+
+======================================================================
+DOWNLOAD COMPLETE
+======================================================================
+Data location: data/
+  BTCUSDT: 9 files, 82G
+  ETHUSDT: 3 files, 66G
+  SOLUSDT: 3 files, 49G
+======================================================================
+======================================================================
+TICKER DATA DOWNLOAD - 2025 Data (May 11 - Aug 10)
+======================================================================
+Symbols: BTCUSDT ETHUSDT SOLUSDT
+Total dates: 92
+======================================================================
+
+======================================================================
+Downloading BTCUSDT
+======================================================================
+[2025-05-11] 

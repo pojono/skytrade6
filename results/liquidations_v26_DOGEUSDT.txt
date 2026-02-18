@@ -1,0 +1,111 @@
+======================================================================
+LIQUIDATIONS RESEARCH (v26)
+======================================================================
+Symbol: DOGEUSDT
+Data directory: data
+Output directory: results
+======================================================================
+
+======================================================================
+Loading liquidations data: DOGEUSDT
+======================================================================
+Found 178 liquidation files
+  Progress: 20/178 files (11.2%)
+  Progress: 40/178 files (22.5%)
+  Progress: 60/178 files (33.7%)
+  Progress: 80/178 files (44.9%)
+  Progress: 100/178 files (56.2%)
+  Progress: 120/178 files (67.4%)
+  Progress: 140/178 files (78.7%)
+  Progress: 160/178 files (89.9%)
+  Progress: 178/178 files (100.0%)
+Loaded 2,541 liquidation events
+Period: 2026-02-09 19:57:53.164000 to 2026-02-18 03:33:57.698000
+Duration: 8 days
+
+======================================================================
+Liquidation Pattern Analysis
+======================================================================
+
+Overall Statistics:
+  Total events: 2,541
+  Total volume: 79,947,680.00 contracts
+  Total notional: $8,094,650
+  Avg event size: 31463.0775 contracts ($3,186)
+  Median event size: 1891.0000 contracts
+
+By Side:
+  Buy liquidations (longs stopped): 1,447 (56.9%)
+    Volume: 56,061,108.00 contracts (70.1%)
+  Sell liquidations (shorts stopped): 1,094 (43.1%)
+    Volume: 23,886,572.00 contracts (29.9%)
+
+Size Distribution (percentiles):
+  50th: 1891.0000 contracts ($196)
+  75th: 10346.0000 contracts ($1,019)
+  90th: 49226.0000 contracts ($4,825)
+  95th: 100000.0000 contracts ($10,194)
+  99th: 563714.2000 contracts ($57,916)
+
+Temporal Patterns:
+  Most active hour: 14:00 UTC (253 events)
+  Least active hour: 7:00 UTC (22 events)
+  Peak volume hour: 15:00 UTC (13,699,905 contracts)
+
+Inter-Event Timing:
+  Mean: 282.9s
+  Median: 3.5s
+  Min: 0.000s
+  Max: 9847.2s
+  Rapid liquidations (<1s apart): 1,000 (39.35%)
+
+======================================================================
+Detecting liquidation cascades
+======================================================================
+Volume threshold: 95th percentile
+Time window: 60 seconds
+Volume threshold: 100000.0000 contracts
+Large liquidations: 131 (5.16%)
+Detected 24 cascades (2+ events within 60s)
+
+Cascade Statistics:
+  Avg duration: 14.3s
+  Avg events: 2.3
+  Avg volume: 982825.71 contracts
+  Avg notional: $101,155
+  Buy-dominated: 17 (70.8%)
+  Sell-dominated: 7 (29.2%)
+
+Aggregating to 1min bars...
+Created 11,978 bars
+Non-zero bars: 919 (7.7%)
+
+======================================================================
+Liquidation Imbalance Predictive Power
+======================================================================
+
+Imbalance Statistics:
+  Mean imbalance: -0.0067
+  Std imbalance: 0.2762
+  Min imbalance: -1.0000 (extreme buy liquidations)
+  Max imbalance: 1.0000 (extreme sell liquidations)
+
+Extreme Imbalance Events:
+  Extreme buy liquidations (imbalance < -0.7): 497
+    Avg volume: 112620.49 contracts
+    Avg notional: $11,243
+  Extreme sell liquidations (imbalance > 0.7): 417
+    Avg volume: 57094.49 contracts
+    Avg notional: $5,976
+
+Rolling Imbalance Persistence:
+  5-min autocorrelation: 0.0718
+  15-min autocorrelation: 0.0112
+  60-min autocorrelation: 0.0004
+
+======================================================================
+COMPLETE
+======================================================================
+Total time: 0.2s
+Results saved to: results/liquidations_v26_DOGEUSDT.txt
+======================================================================

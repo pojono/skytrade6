@@ -1,0 +1,112 @@
+======================================================================
+LIQUIDATIONS RESEARCH (v26)
+======================================================================
+Symbol: XRPUSDT
+Data directory: data
+Output directory: results
+======================================================================
+
+======================================================================
+Loading liquidations data: XRPUSDT
+======================================================================
+Found 192 liquidation files
+  Progress: 20/192 files (10.4%)
+  Progress: 40/192 files (20.8%)
+  Progress: 60/192 files (31.2%)
+  Progress: 80/192 files (41.7%)
+  Progress: 100/192 files (52.1%)
+  Progress: 120/192 files (62.5%)
+  Progress: 140/192 files (72.9%)
+  Progress: 160/192 files (83.3%)
+  Progress: 180/192 files (93.8%)
+  Progress: 192/192 files (100.0%)
+Loaded 5,122 liquidation events
+Period: 2026-02-09 19:33:15.309000 to 2026-02-18 03:39:09.850000
+Duration: 8 days
+
+======================================================================
+Liquidation Pattern Analysis
+======================================================================
+
+Overall Statistics:
+  Total events: 5,122
+  Total volume: 13,651,933.80 contracts
+  Total notional: $20,133,680
+  Avg event size: 2665.3522 contracts ($3,931)
+  Median event size: 248.2500 contracts
+
+By Side:
+  Buy liquidations (longs stopped): 2,882 (56.3%)
+    Volume: 8,285,041.90 contracts (60.7%)
+  Sell liquidations (shorts stopped): 2,240 (43.7%)
+    Volume: 5,366,891.90 contracts (39.3%)
+
+Size Distribution (percentiles):
+  50th: 248.2500 contracts ($359)
+  75th: 1168.2000 contracts ($1,689)
+  90th: 4858.2700 contracts ($6,980)
+  95th: 10936.1000 contracts ($16,005)
+  99th: 50000.0000 contracts ($71,777)
+
+Temporal Patterns:
+  Most active hour: 14:00 UTC (536 events)
+  Least active hour: 2:00 UTC (75 events)
+  Peak volume hour: 14:00 UTC (1,466,637 contracts)
+
+Inter-Event Timing:
+  Mean: 140.7s
+  Median: 1.1s
+  Min: 0.000s
+  Max: 10796.3s
+  Rapid liquidations (<1s apart): 2,499 (48.79%)
+
+======================================================================
+Detecting liquidation cascades
+======================================================================
+Volume threshold: 95th percentile
+Time window: 60 seconds
+Volume threshold: 10936.1000 contracts
+Large liquidations: 257 (5.02%)
+Detected 44 cascades (2+ events within 60s)
+
+Cascade Statistics:
+  Avg duration: 24.9s
+  Avg events: 3.0
+  Avg volume: 110950.61 contracts
+  Avg notional: $165,734
+  Buy-dominated: 28 (63.6%)
+  Sell-dominated: 16 (36.4%)
+
+Aggregating to 1min bars...
+Created 12,008 bars
+Non-zero bars: 1,354 (11.3%)
+
+======================================================================
+Liquidation Imbalance Predictive Power
+======================================================================
+
+Imbalance Statistics:
+  Mean imbalance: -0.0064
+  Std imbalance: 0.3355
+  Min imbalance: -1.0000 (extreme buy liquidations)
+  Max imbalance: 1.0000 (extreme sell liquidations)
+
+Extreme Imbalance Events:
+  Extreme buy liquidations (imbalance < -0.7): 715
+    Avg volume: 11586.88 contracts
+    Avg notional: $16,807
+  Extreme sell liquidations (imbalance > 0.7): 638
+    Avg volume: 8412.01 contracts
+    Avg notional: $12,720
+
+Rolling Imbalance Persistence:
+  5-min autocorrelation: 0.0946
+  15-min autocorrelation: 0.0493
+  60-min autocorrelation: 0.0109
+
+======================================================================
+COMPLETE
+======================================================================
+Total time: 0.4s
+Results saved to: results/liquidations_v26_XRPUSDT.txt
+======================================================================
