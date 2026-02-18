@@ -292,3 +292,65 @@ Conservative: TP=6/SL=3 for all symbols — consistent, no losing days
 Aggressive:   TP=10/SL=5 for high-vol (DOGE/SOL/XRP), TP=6/SL=3 for BTC/ETH
 Both:         Z-score filter (z > -0.5) + ML P90 filter for BTC
 ```
+
+---
+
+## v33d: Full TP/SL Ratio Spectrum (Inverse + Favorable)
+
+### Setup
+- **Same period**: May 12-16 + May 19-23 (10 days), all samples (no ML filter)
+- **5 symbols**: BTC, ETH, SOL, DOGE, XRP
+- **Ratios tested**: 1:2, 1:1.5, 1:1, 1.5:1, 2:1, 3:1 (SL=5 bps fixed for favorable side)
+
+### EV Per Trade (bps)
+
+| Symbol | 1:2 | 1:1.5 | 1:1 | 1.5:1 | 2:1 | 3:1 |
+|--------|-----|-------|-----|-------|-----|-----|
+| BTC | **+0.35** | +0.00 | 0.00 | -0.00 | -0.35 | -1.24 |
+| ETH | -0.60 | -0.35 | 0.00 | +0.35 | **+0.60** | **+0.72** |
+| SOL | -0.66 | -0.38 | 0.00 | +0.38 | **+0.66** | **+0.89** |
+| DOGE | -0.74 | -0.44 | 0.00 | +0.44 | **+0.74** | **+1.15** |
+| XRP | -0.47 | -0.27 | 0.00 | +0.27 | **+0.47** | +0.44 |
+| **AVG** | -0.42 | -0.29 | 0.00 | +0.29 | **+0.42** | +0.39 |
+
+### Combo Win Rate (% of resolved symmetric trades that profit)
+
+| Symbol | 1:2 | 1:1.5 | 1:1 | 1.5:1 | 2:1 | 3:1 |
+|--------|-----|-------|-----|-------|-----|-----|
+| BTC | 46% | 26% | 0% | 74% | 54% | 30% |
+| ETH | 29% | 17% | 0% | 83% | 71% | 53% |
+| SOL | 28% | 16% | 0% | 84% | 72% | 54% |
+| DOGE | 28% | 16% | 0% | 84% | 72% | 57% |
+| XRP | 31% | 18% | 0% | 82% | 69% | 50% |
+
+### Per-Side Win Rate (how often does one side's TP get hit?)
+
+| Symbol | 1:2 | 1:1.5 | 1:1 | 1.5:1 | 2:1 | 3:1 |
+|--------|-----|-------|-----|-------|-----|-----|
+| BTC | 69% | 60% | 50% | 40% | 32% | 20% |
+| ETH | 65% | 59% | 51% | 42% | 37% | 28% |
+| SOL | 65% | 59% | 51% | 43% | 37% | 28% |
+| DOGE | 64% | 59% | 51% | 43% | 37% | 29% |
+| XRP | 65% | 59% | 51% | 42% | 36% | 27% |
+
+### Key Discovery: Perfect Antisymmetry
+
+**The results are exactly mirrored.** 1:2 EV = negative of 2:1 EV. 1:1.5 EV = negative of 1.5:1 EV. 1:1 = exactly zero.
+
+This proves:
+1. **There is zero directional edge** — 1:1 is exactly 0.00 for all symbols
+2. **The edge comes purely from the asymmetric payoff structure**, not from any market inefficiency
+3. **Inverse ratios (1:2, 1:1.5) have higher win rates** (46-69% per side) but **negative EV** — you win often but lose more when you lose
+4. **Favorable ratios (2:1, 3:1) have lower win rates** (20-37% per side) but **positive EV** — you lose often but win more when you win
+
+### BTC is the Anomaly
+
+BTC is the **only** symbol where the inverse ratio (1:2) is profitable (+0.35 bps). This means BTC has a **mean-reverting** microstructure at the 5-min scale — price tends to return toward the entry point. For all other coins, price tends to **trend** (or at least move enough to hit wider TPs), making favorable ratios profitable.
+
+### Why This Matters
+
+The symmetric TP/SL strategy is **not** exploiting a market inefficiency. It's exploiting a **structural property of price distributions**:
+- Crypto prices at 5-min scale are slightly leptokurtic (fat-tailed)
+- Fat tails mean extreme moves happen more often than a normal distribution predicts
+- A 2:1 TP/SL ratio captures this: the TP (at 2× the SL distance) gets hit more often than a normal distribution would predict
+- This effect is stronger for higher-vol coins (DOGE > SOL > ETH > XRP > BTC)
