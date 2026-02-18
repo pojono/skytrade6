@@ -42,8 +42,8 @@ from collections import defaultdict
 warnings.filterwarnings("ignore")
 
 DATA_DIR = Path("data")
-SYMBOL = "BTCUSDT"
-DATES = [f"2025-05-{d:02d}" for d in range(11, 18)]  # 7 days first
+SYMBOL = "ETHUSDT"
+DATES = [f"2025-05-{d:02d}" for d in range(11, 18)]  # ETH week 1
 HORIZONS = [60, 300, 900, 3600]  # Skip 10s/30s — they're noise
 
 
@@ -66,33 +66,35 @@ def load_trades_day(date_str):
     df = pd.read_csv(path, compression='gzip',
                      usecols=['timestamp', 'price', 'size', 'side', 'tickDirection'])
     ts_s = df['timestamp'].values.astype(np.int64)
-    prices = df['price'].values.astype(np.float64)
-    sizes = df['size'].values.astype(np.float64)
+    prices = df['price'].values.astype(np.float32)
+    sizes = df['size'].values.astype(np.float32)
     notionals = prices * sizes
-    is_buy = (df['side'] == 'Buy').values.astype(np.float64)
-    is_plus_tick = df['tickDirection'].isin(['PlusTick', 'ZeroPlusTick']).values.astype(np.float64)
+    is_buy = (df['side'] == 'Buy').values.astype(np.float32)
+    is_plus_tick = df['tickDirection'].isin(['PlusTick', 'ZeroPlusTick']).values.astype(np.float32)
+    del df; gc.collect()
 
-    day_start = ts_s.min(); day_end = ts_s.max()
+    day_start = int(ts_s.min()); day_end = int(ts_s.max())
     n = day_end - day_start + 1
-    off = ts_s - day_start
+    off = (ts_s - day_start).astype(np.int32)
+    del ts_s
 
-    trade_count = np.bincount(off, minlength=n).astype(np.float64)
-    trade_notional = np.bincount(off, weights=notionals, minlength=n)
-    buy_notional = np.bincount(off, weights=notionals * is_buy, minlength=n)
-    buy_count = np.bincount(off, weights=is_buy, minlength=n)
-    plus_ticks = np.bincount(off, weights=is_plus_tick, minlength=n)
+    trade_count = np.bincount(off, minlength=n).astype(np.float32)
+    trade_notional = np.bincount(off, weights=notionals, minlength=n).astype(np.float32)
+    buy_notional = np.bincount(off, weights=notionals * is_buy, minlength=n).astype(np.float32)
+    buy_count = np.bincount(off, weights=is_buy, minlength=n).astype(np.float32)
+    plus_ticks = np.bincount(off, weights=is_plus_tick, minlength=n).astype(np.float32)
     p90_not = np.percentile(notionals, 90)
-    large_count = np.bincount(off, weights=(notionals > p90_not).astype(np.float64), minlength=n)
-    vwap_num = np.bincount(off, weights=prices * sizes, minlength=n)
-    vwap_den = np.bincount(off, weights=sizes, minlength=n)
+    large_count = np.bincount(off, weights=(notionals > p90_not).astype(np.float32), minlength=n).astype(np.float32)
+    vwap_num = np.bincount(off, weights=prices * sizes, minlength=n).astype(np.float32)
+    vwap_den = np.bincount(off, weights=sizes, minlength=n).astype(np.float32)
 
-    price_last = np.full(n, np.nan)
+    price_last = np.full(n, np.nan, dtype=np.float32)
     _, last_idx = np.unique(off[::-1], return_index=True)
     last_idx = len(off) - 1 - last_idx
     for uo, li in zip(np.unique(off), last_idx):
         price_last[uo] = prices[li]
 
-    del df; gc.collect()
+    del prices, sizes, notionals, is_buy, is_plus_tick, off; gc.collect()
     return {
         'day_start': day_start, 'n': n,
         'trade_count': trade_count, 'trade_notional': trade_notional,
