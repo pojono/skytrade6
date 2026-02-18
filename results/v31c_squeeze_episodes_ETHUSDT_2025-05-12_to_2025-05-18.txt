@@ -1,0 +1,46 @@
+v31c: Squeeze Episode Detection — ETHUSDT
+======================================================================
+Dates: 2025-05-12 to 2025-05-18 (7 days)
+
+EPISODES DETECTED: 9087
+
+
+LONG SQUEEZE (986 episodes):
+  [moderate]:
+    fwd=  30s: cont=53.5% ret=+0.8bps n=480
+    fwd=  60s: cont=55.0% ret=+0.6bps n=480
+    fwd= 120s: cont=53.1% ret=+0.5bps n=480
+    fwd= 300s: cont=51.2% ret=-0.3bps n=480
+    fwd= 600s: cont=48.5% ret=-0.5bps n=480
+  [strong]:
+    fwd=  30s: cont=51.8% ret=-0.0bps n=326
+    fwd=  60s: cont=54.0% ret=-0.0bps n=326
+    fwd= 120s: cont=51.5% ret=+0.2bps n=326
+    fwd= 300s: cont=49.7% ret=-0.7bps n=326
+    fwd= 600s: cont=46.6% ret=-1.3bps n=326
+  [extreme]:
+    fwd=  30s: cont=50.0% ret=-0.1bps n=180
+    fwd=  60s: cont=53.9% ret=+0.5bps n=180
+    fwd= 120s: cont=50.0% ret=-0.5bps n=180
+    fwd= 300s: cont=50.6% ret=-2.1bps n=180
+    fwd= 600s: cont=47.8% ret=-0.3bps n=180
+
+SHORT SQUEEZE (8101 episodes):
+  [moderate]:
+    fwd=  30s: cont=48.1% ret=+0.3bps n=3495
+    fwd=  60s: cont=48.8% ret=+0.3bps n=3495
+    fwd= 120s: cont=48.9% ret=-0.0bps n=3495
+    fwd= 300s: cont=48.2% ret=+0.1bps n=3495
+    fwd= 600s: cont=47.9% ret=-0.6bps n=3495
+  [strong]:
+    fwd=  30s: cont=49.7% ret=+0.3bps n=2780
+    fwd=  60s: cont=49.9% ret=+0.2bps n=2780
+    fwd= 120s: cont=47.8% ret=-0.0bps n=2780
+    fwd= 300s: cont=48.2% ret=-0.0bps n=2780
+    fwd= 600s: cont=46.4% ret=-0.7bps n=2780
+  [extreme]:
+    fwd=  30s: cont=50.0% ret=+0.2bps n=1826
+    fwd=  60s: cont=46.9% ret=-0.3bps n=1826
+    fwd= 120s: cont=47.4% ret=-0.4bps n=1826
+    fwd= 300s: cont=46.0% ret=-1.0bps n=1826
+    fwd= 600s: cont=45.2% ret=-1.4bps n=1826

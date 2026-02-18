@@ -1,0 +1,46 @@
+v31c: Squeeze Episode Detection — BTCUSDT
+======================================================================
+Dates: 2025-05-12 to 2025-05-18 (7 days)
+
+EPISODES DETECTED: 8136
+
+
+LONG SQUEEZE (1564 episodes):
+  [moderate]:
+    fwd=  30s: cont=51.2% ret=+0.2bps n=744
+    fwd=  60s: cont=53.5% ret=+0.5bps n=744
+    fwd= 120s: cont=53.9% ret=+0.4bps n=744
+    fwd= 300s: cont=51.9% ret=+0.8bps n=744
+    fwd= 600s: cont=53.1% ret=+1.0bps n=744
+  [strong]:
+    fwd=  30s: cont=48.6% ret=+0.1bps n=512
+    fwd=  60s: cont=52.3% ret=+0.5bps n=512
+    fwd= 120s: cont=54.3% ret=+0.6bps n=512
+    fwd= 300s: cont=54.7% ret=+1.6bps n=512
+    fwd= 600s: cont=55.3% ret=+1.5bps n=512
+  [extreme]:
+    fwd=  30s: cont=51.6% ret=+0.3bps n=308
+    fwd=  60s: cont=55.2% ret=+0.8bps n=308
+    fwd= 120s: cont=57.8% ret=+1.2bps n=308
+    fwd= 300s: cont=56.2% ret=+2.9bps n=308
+    fwd= 600s: cont=55.5% ret=+2.2bps n=308
+
+SHORT SQUEEZE (6572 episodes):
+  [moderate]:
+    fwd=  30s: cont=51.6% ret=+0.2bps n=2941
+    fwd=  60s: cont=49.5% ret=+0.0bps n=2941
+    fwd= 120s: cont=49.3% ret=-0.2bps n=2941
+    fwd= 300s: cont=49.6% ret=+0.1bps n=2941
+    fwd= 600s: cont=47.8% ret=-0.2bps n=2941
+  [strong]:
+    fwd=  30s: cont=50.9% ret=+0.0bps n=2206
+    fwd=  60s: cont=48.9% ret=-0.1bps n=2206
+    fwd= 120s: cont=49.0% ret=-0.2bps n=2206
+    fwd= 300s: cont=48.5% ret=-0.2bps n=2206
+    fwd= 600s: cont=47.4% ret=-0.6bps n=2206
+  [extreme]:
+    fwd=  30s: cont=50.9% ret=+0.1bps n=1425
+    fwd=  60s: cont=48.5% ret=-0.0bps n=1425
+    fwd= 120s: cont=48.1% ret=-0.2bps n=1425
+    fwd= 300s: cont=48.8% ret=-0.0bps n=1425
+    fwd= 600s: cont=46.6% ret=-0.3bps n=1425
