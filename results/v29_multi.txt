@@ -1,0 +1,18 @@
+
+################################################################################
+  v29-MULTI: COMBINED TICK-LEVEL ANALYSIS
+  Symbols: BTCUSDT, ETHUSDT, SOLUSDT, DOGEUSDT, XRPUSDT
+  Dates: 2025-05-11 to 2025-08-07 (89 days)
+  Streams: Trades + Liquidations + Open Interest + Funding Rate
+################################################################################
+  [RAM] used=11.8GB avail=4.7GB start
+
+################################################################################
+  PROCESSING: BTCUSDT
+################################################################################
+
+  Chunk 1/13: 2025-05-11 to 2025-05-17 (7 days)
+    604,798s, 10,040,655 trades, 10,566 liqs, 171 switches (40.6s)
+
+  Chunk 2/13: 2025-05-18 to 2025-05-24 (7 days)
+    604,799s, 16,301,646 trades, 23,380 liqs, 185 switches (54.0s)
