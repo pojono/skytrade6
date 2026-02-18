@@ -1,0 +1,1232 @@
+
+======================================================================
+  BTCUSDT — REGIME + LIQUIDATION RESEARCH
+======================================================================
+
+  --- Loading Data ---
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,986 ticks, 44 errors)
+  Built 21,054 5-min bars from 2025-05-11 19:55:00 to 2026-02-17 20:55:00
+  Loading 1613 liquidation files... 200 400 600 800 1000 1200 1400 1600 done (149,833 events)
+  Built 81,312 5-min liquidation bars
+
+  --- Computing Regime Features ---
+
+  --- Computing Liquidation Features ---
+
+  --- Merging Data ---
+  Merged: 21,053 bars (2025-05-11 20:00:00 to 2026-02-17 20:55:00)
+
+  --- Labeling Regimes (GMM K=2) ---
+  GMM K=2: quiet=19299 (91.7%), volatile=1754 (8.3%), transitions=284, silhouette=0.478
+         quiet: n=  143, median=   62 bars (310m), mean= 135.0
+      volatile: n=  142, median=    6 bars (30m), mean=  12.4
+
+======================================================================
+  EXP 1: LIQUIDATION FEATURE CORRELATION WITH REGIME — BTCUSDT
+======================================================================
+
+                              Feature      Corr    Quiet mean   Volatile mean     Ratio
+  -------------------------------------------------------------------------------------
+                            liq_count    +0.162        5.0252         30.0530      5.98x
+                         liq_notional    +0.139    66381.6197     494841.6805      7.45x
+                        liq_imbalance    -0.007       -0.0040         -0.0182     -4.50x
+                          liq_rate_1h    +0.493        4.4294         36.5234      8.25x
+                          liq_rate_2h    +0.508        4.8994         31.2962      6.39x
+                          liq_rate_4h    +0.493        5.4098         25.6409      4.74x
+                          liq_rate_8h    +0.370        6.0931         18.0057      2.96x
+                      liq_notional_1h    +0.428    57740.8625     589186.4315     10.20x
+                      liq_notional_2h    +0.439    66170.2007     495649.6532      7.49x
+                      liq_notional_4h    +0.429    74791.9780     400267.4012      5.35x
+                      liq_rate_zscore    +0.153       -0.0232          0.6034     26.04x
+                  liq_notional_zscore    +0.140       -0.0174          0.5683     32.58x
+                          liq_imb_30m    +0.013       -0.0064          0.0101      1.56x
+                           liq_imb_1h    +0.033       -0.0079          0.0268      3.39x
+                           liq_imb_2h    +0.046       -0.0082          0.0300      3.64x
+                       liq_imb_abs_1h    +0.365        0.3168          0.6129      1.93x
+                     liq_rate_roc_15m    +0.032        0.8565          1.7779      2.08x
+                     liq_rate_roc_30m    +0.076        2.0016          6.3328      3.16x
+                      liq_rate_roc_1h    +0.165        3.9883         21.6976      5.44x
+                   liq_active_bars_1h    +0.422        2.0094          5.5650      2.77x
+                        liq_buy_ratio    +0.106        0.1611          0.3033      1.88x
+                        liq_max_ratio    +0.100        0.4344          2.1651      4.98x
+                            liq_accel    +0.079       -0.3433          3.8779     11.30x
+                     liq_max_notional    +0.143    28640.8088     128193.3875      4.48x
+                        liq_buy_count    +0.130        2.7712         19.4230      7.01x
+                       liq_sell_count    +0.099        2.2540         10.6300      4.72x
+
+  Top 5 by |correlation|:
+                            liq_rate_2h  corr=+0.508  ratio=6.39x
+                            liq_rate_4h  corr=+0.493  ratio=4.74x
+                            liq_rate_1h  corr=+0.493  ratio=8.25x
+                        liq_notional_2h  corr=+0.439  ratio=7.49x
+                        liq_notional_4h  corr=+0.429  ratio=5.35x
+
+======================================================================
+  EXP 2: LIQUIDATION AS LEADING INDICATORS — BTCUSDT
+======================================================================
+  Total regime transitions: 284
+
+                              Feature    effect   p-val    effect   p-val    effect   p-val    effect   p-val
+  -----------------------------------  -------- -------  -------- -------  -------- -------  -------- -------
+                            liq_count  +17.9288 0.0000***  +16.6183 0.0000***  +18.7707 0.0000***  +15.3818 0.0000***
+                         liq_notional  +271178.7273 0.0000***  +250545.3753 0.0000***  +279309.8751 0.0000***  +229923.4313 0.0000***
+                        liq_imbalance   +0.0324 0.2990   +0.0158 0.9447   -0.0094 0.9617   +0.0163 0.2515
+                          liq_rate_1h  +18.2042 0.0000***  +17.4369 0.0000***  +16.6810 0.0000***  +13.6009 0.0000***
+                          liq_rate_2h  +14.9905 0.0000***  +14.3113 0.0000***  +13.5268 0.0000***  +10.8660 0.0000***
+                          liq_rate_4h  +11.1327 0.0000***  +10.6219 0.0000***  +10.4750 0.0000***   +9.3795 0.0000***
+                          liq_rate_8h   +8.2714 0.0000***   +7.8680 0.0000***   +7.4210 0.0000***   +6.6088 0.0000***
+                      liq_notional_1h  +271286.7381 0.0000***  +260799.1618 0.0000***  +250705.2091 0.0000***  +202534.8409 0.0000***
+                      liq_notional_2h  +220563.4581 0.0000***  +212343.9850 0.0000***  +200900.3649 0.0000***  +160213.9792 0.0000***
+                      liq_notional_4h  +166951.6445 0.0000***  +161452.8425 0.0000***  +164949.7398 0.0000***  +150857.6857 0.0000***
+                      liq_rate_zscore   +0.5155 0.0000***   +0.5018 0.0000***   +0.5282 0.0000***   +0.4354 0.0000***
+                  liq_notional_zscore   +0.4422 0.0000***   +0.4433 0.0000***   +0.4503 0.0000***   +0.3683 0.0000***
+                          liq_imb_30m   -0.0109 0.7364   -0.0198 0.6294   -0.0019 0.6530   +0.0142 0.3247
+                           liq_imb_1h   -0.0031 0.6173   -0.0113 0.9109   +0.0064 0.6779   +0.0161 0.3363
+                           liq_imb_2h   +0.0077 0.4965   +0.0009 0.8399   +0.0080 0.7559   +0.0107 0.6989
+
+======================================================================
+  EXP 3: REGIME SWITCH PREDICTION — BTCUSDT
+======================================================================
+  Base features: 16
+  Liquidation features: 26
+  Total features: 42
+
+  Horizon: 6 bars (30min = 0.5h)
+  Base rate: 0.070 (7.0%)
+  Transitions in test: 98
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.833     0.255     0.723     0.378     0.844
+        Base only    Gradient Boost     0.923     0.406     0.229     0.293     0.840
+         Liq only     Random Forest     0.825     0.176     0.410     0.246     0.705
+         Liq only    Gradient Boost     0.925     0.299     0.059     0.098     0.713
+       Base + Liq     Random Forest     0.838     0.257     0.698     0.375     0.838
+       Base + Liq    Gradient Boost     0.925     0.438     0.279     0.341     0.844
+
+  Horizon: 12 bars (60min = 1.0h)
+  Base rate: 0.123 (12.3%)
+  Transitions in test: 98
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.772     0.297     0.620     0.401     0.760
+        Base only    Gradient Boost     0.863     0.422     0.304     0.353     0.741
+         Liq only     Random Forest     0.799     0.270     0.368     0.312     0.664
+         Liq only    Gradient Boost     0.861     0.337     0.127     0.185     0.663
+       Base + Liq     Random Forest     0.813     0.350     0.602     0.442     0.759
+
+  Top 20 features (Base+Liq RF, 1h horizon):
+     1.                          parkvol_1h  imp=0.1160
+     2.                             rvol_1h  imp=0.1024
+     3.                             rvol_2h  imp=0.0871
+     4.                    vol_ratio_1h_24h  imp=0.0838
+     5.                         liq_rate_2h  imp=0.0780 ★
+     6.                         liq_rate_4h  imp=0.0558 ★
+     7.                         liq_rate_1h  imp=0.0534 ★
+     8.                     vol_ratio_1h_8h  imp=0.0445
+     9.                        vol_accel_1h  imp=0.0435
+    10.                             rvol_4h  imp=0.0305
+    11.                     liq_notional_4h  imp=0.0303 ★
+    12.                          parkvol_4h  imp=0.0295
+    13.                            rvol_24h  imp=0.0260
+    14.                     liq_notional_1h  imp=0.0234 ★
+    15.                         liq_rate_8h  imp=0.0222 ★
+    16.                     liq_notional_2h  imp=0.0220 ★
+    17.                             rvol_8h  imp=0.0199
+    18.                 liq_notional_zscore  imp=0.0134 ★
+    19.                           liq_accel  imp=0.0117 ★
+    20.                      liq_imb_abs_1h  imp=0.0105 ★
+       Base + Liq    Gradient Boost     0.857     0.416     0.385     0.400     0.753
+
+  Horizon: 24 bars (120min = 2.0h)
+  Base rate: 0.205 (20.5%)
+  Transitions in test: 98
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.729     0.382     0.517     0.439     0.694
+        Base only    Gradient Boost     0.754     0.392     0.358     0.374     0.666
+         Liq only     Random Forest     0.680     0.294     0.401     0.340     0.605
+         Liq only    Gradient Boost     0.697     0.243     0.225     0.234     0.602
+       Base + Liq     Random Forest     0.764     0.433     0.481     0.456     0.679
+       Base + Liq    Gradient Boost     0.775     0.449     0.425     0.437     0.693
+
+  Horizon: 48 bars (240min = 4.0h)
+  Base rate: 0.347 (34.7%)
+  Transitions in test: 98
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.682     0.550     0.452     0.496     0.672
+        Base only    Gradient Boost     0.669     0.532     0.374     0.439     0.656
+         Liq only     Random Forest     0.605     0.431     0.427     0.429     0.572
+         Liq only    Gradient Boost     0.611     0.406     0.264     0.320     0.561
+       Base + Liq     Random Forest     0.691     0.567     0.461     0.508     0.654
+       Base + Liq    Gradient Boost     0.675     0.543     0.404     0.463     0.649
+
+======================================================================
+  EXP 4: REGIME-CONDITIONAL LIQUIDATION PATTERNS — BTCUSDT
+======================================================================
+
+                          Metric    Quiet mean   Volatile mean     Ratio     Quiet std       Vol std
+  -----------------------------------------------------------------------------------------------
+           Liquidations per 5min        5.0252         30.0530      5.98x       29.3252      108.6457
+           Notional per 5min ($)    66381.6197     494841.6805      7.45x   516316.7460  2374956.1969
+            Imbalance (buy-sell)       -0.0040         -0.0182     -4.50x        0.5613        0.7688
+              Max single liq ($)    28640.8088     128193.3875      4.48x   162210.5350   378007.4055
+                       Buy ratio        0.1611          0.3033      1.88x        0.3604        0.4468
+                    Rate z-score       -0.0232          0.6034     26.04x        0.9375        2.3251
+                Notional z-score       -0.0174          0.5683     32.58x        0.9566        2.3825
+                Abs imbalance 1h        0.3168          0.6129      1.93x        0.2090        0.2016
+               Active bars in 1h        2.0094          5.5650      2.77x        2.0625        2.6110
+               Rate acceleration       -0.3433          3.8779     11.30x       10.1766       38.5515
+
+  --- Liquidation Behavior Around Regime Switches ---
+
+  Average liq count around transitions (±1h, 283 transitions):
+    Bar      Time   Avg Count    Avg Notional
+  ------------------------------------------
+    -12     -60min       42.47  $      677,298
+    -11     -55min       23.38  $      347,936
+    -10     -50min       24.82  $      358,510
+     -9     -45min       21.56  $      328,678
+     -8     -40min       14.33  $      170,851
+     -7     -35min       17.37  $      213,336
+     -6     -30min       14.01  $      187,383
+     -5     -25min       20.06  $      298,598
+     -4     -20min       22.99  $      344,009
+     -3     -15min       16.61  $      242,474
+     -2     -10min       14.51  $      226,078
+     -1      -5min       32.82  $      490,124
+     +0      +0min       57.81  $    1,010,835 ← SWITCH
+     +1      +5min       30.62  $      444,596
+     +2     +10min       18.51  $      330,293
+     +3     +15min       29.78  $      519,990
+     +4     +20min       20.64  $      308,336
+     +5     +25min       18.11  $      279,946
+     +6     +30min       15.65  $      258,067
+     +7     +35min       12.63  $      166,054
+     +8     +40min       13.69  $      176,010
+     +9     +45min       14.36  $      158,445
+    +10     +50min       13.01  $      195,536
+    +11     +55min       11.87  $      152,073
+
+======================================================================
+  EXP 5: REGIME DETECTION SPEED — BTCUSDT
+======================================================================
+
+  Base only:
+    Accuracy:        0.978
+    Median lag:      0 bars (0min)
+    Mean lag:        5.9 bars (30min)
+    % detected <3b:  79.6%
+    False sw/day:    0.0
+
+  Base + Liq:
+    Accuracy:        0.970
+    Median lag:      0 bars (0min)
+    Mean lag:        7.4 bars (37min)
+    % detected <3b:  76.5%
+    False sw/day:    0.0
+
+  --- Improvement from adding liquidation features ---
+    Accuracy:     0.978 → 0.970 (-0.8pp)
+    Median lag:   0 → 0 bars
+    Mean lag:     5.9 → 7.4 bars
+    False sw/day: 0.0 → 0.0
+
+======================================================================
+  BTCUSDT complete in 237.3s
+======================================================================
+
+======================================================================
+  ETHUSDT — REGIME + LIQUIDATION RESEARCH
+======================================================================
+
+  --- Loading Data ---
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,971 ticks, 44 errors)
+  Built 21,053 5-min bars from 2025-05-11 19:55:00 to 2026-02-17 20:55:00
+  Loading 1644 liquidation files... 200 400 600 800 1000 1200 1400 1600 done (169,432 events)
+  Built 81,309 5-min liquidation bars
+
+  --- Computing Regime Features ---
+
+  --- Computing Liquidation Features ---
+
+  --- Merging Data ---
+  Merged: 21,053 bars (2025-05-11 19:55:00 to 2026-02-17 20:55:00)
+
+  --- Labeling Regimes (GMM K=2) ---
+  GMM K=2: quiet=19442 (92.3%), volatile=1611 (7.7%), transitions=284, silhouette=0.531
+         quiet: n=  143, median=   61 bars (305m), mean= 136.0
+      volatile: n=  142, median=    8 bars (38m), mean=  11.3
+
+======================================================================
+  EXP 1: LIQUIDATION FEATURE CORRELATION WITH REGIME — ETHUSDT
+======================================================================
+
+                              Feature      Corr    Quiet mean   Volatile mean     Ratio
+  -------------------------------------------------------------------------------------
+                            liq_count    +0.174        5.3401         40.6816      7.62x
+                         liq_notional    +0.168    51168.6588     511597.4257     10.00x
+                        liq_imbalance    +0.007        0.0154          0.0333      2.16x
+                          liq_rate_1h    +0.476        4.9855         44.8561      9.00x
+                          liq_rate_2h    +0.514        5.4872         38.6160      7.04x
+                          liq_rate_4h    +0.488        6.1418         30.7499      5.01x
+                          liq_rate_8h    +0.387        6.8696         22.0121      3.20x
+                      liq_notional_1h    +0.463    47455.0436     555143.7670     11.70x
+                      liq_notional_2h    +0.502    53909.7470     474195.0375      8.80x
+                      liq_notional_4h    +0.477    62168.7885     375365.7546      6.04x
+                      liq_rate_zscore    +0.191       -0.0377          0.7661     20.33x
+                  liq_notional_zscore    +0.186       -0.0353          0.7614     21.56x
+                          liq_imb_30m    +0.029        0.0139          0.0537      3.85x
+                           liq_imb_1h    +0.048        0.0133          0.0633      4.76x
+                           liq_imb_2h    +0.055        0.0139          0.0572      4.12x
+                       liq_imb_abs_1h    +0.325        0.3859          0.6707      1.74x
+                     liq_rate_roc_15m    +0.054        0.6037          1.7430      2.89x
+                     liq_rate_roc_30m    +0.086        1.3272          4.7717      3.60x
+                      liq_rate_roc_1h    +0.173        2.5697         14.2135      5.53x
+                   liq_active_bars_1h    +0.402        2.7746          6.4935      2.34x
+                        liq_buy_ratio    +0.109        0.2048          0.3706      1.81x
+                        liq_max_ratio    +0.125        0.3793          2.1934      5.78x
+                            liq_accel    +0.074       -0.3911          4.9520     12.66x
+                     liq_max_notional    +0.189    23186.5250     115314.4605      4.97x
+                        liq_buy_count    +0.146        3.4275         31.9857      9.33x
+                       liq_sell_count    +0.139        1.9126          8.6958      4.55x
+
+  Top 5 by |correlation|:
+                            liq_rate_2h  corr=+0.514  ratio=7.04x
+                        liq_notional_2h  corr=+0.502  ratio=8.80x
+                            liq_rate_4h  corr=+0.488  ratio=5.01x
+                        liq_notional_4h  corr=+0.477  ratio=6.04x
+                            liq_rate_1h  corr=+0.476  ratio=9.00x
+
+======================================================================
+  EXP 2: LIQUIDATION AS LEADING INDICATORS — ETHUSDT
+======================================================================
+  Total regime transitions: 284
+
+                              Feature    effect   p-val    effect   p-val    effect   p-val    effect   p-val
+  -----------------------------------  -------- -------  -------- -------  -------- -------  -------- -------
+                            liq_count  +15.0771 0.0000***  +12.6897 0.0000***  +16.0856 0.0000***  +15.9856 0.0000***
+                         liq_notional  +175049.6218 0.0000***  +142600.7407 0.0000***  +183470.3059 0.0000***  +186417.8682 0.0000***
+                        liq_imbalance   +0.0065 0.8490   +0.0382 0.1584   +0.0071 0.7884   +0.0074 0.3747
+                          liq_rate_1h  +15.7824 0.0000***  +15.6262 0.0000***  +16.6762 0.0000***  +15.0053 0.0000***
+                          liq_rate_2h  +15.6276 0.0000***  +15.4471 0.0000***  +15.2343 0.0000***  +12.9211 0.0000***
+                          liq_rate_4h  +12.1800 0.0000***  +11.8312 0.0000***  +11.5353 0.0000***   +9.7997 0.0000***
+                          liq_rate_8h   +7.8239 0.0000***   +7.5490 0.0000***   +7.1104 0.0000***   +6.0427 0.0000***
+                      liq_notional_1h  +176367.9614 0.0000***  +175830.5444 0.0000***  +192919.3030 0.0000***  +175236.1670 0.0000***
+                      liq_notional_2h  +182625.1520 0.0000***  +181590.6362 0.0000***  +178565.9054 0.0000***  +150233.2365 0.0000***
+                      liq_notional_4h  +140947.5497 0.0000***  +138874.3138 0.0000***  +134514.6839 0.0000***  +113842.0838 0.0000***
+                      liq_rate_zscore   +0.5186 0.0000***   +0.3983 0.0000***   +0.5177 0.0000***   +0.4638 0.0000***
+                  liq_notional_zscore   +0.4455 0.0000***   +0.3623 0.0000***   +0.4711 0.0000***   +0.4067 0.0000***
+                          liq_imb_30m   -0.0025 0.8489   +0.0258 0.1768   -0.0098 0.5868   -0.0008 0.6404
+                           liq_imb_1h   -0.0063 0.7658   +0.0032 0.7888   -0.0121 0.5651   -0.0095 0.8811
+                           liq_imb_2h   -0.0087 0.9985   -0.0032 0.6645   -0.0052 0.8383   -0.0161 0.4989
+
+======================================================================
+  EXP 3: REGIME SWITCH PREDICTION — ETHUSDT
+======================================================================
+  Base features: 16
+  Liquidation features: 26
+  Total features: 42
+
+  Horizon: 6 bars (30min = 0.5h)
+  Base rate: 0.070 (7.0%)
+  Transitions in test: 88
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.882     0.334     0.694     0.451     0.851
+        Base only    Gradient Boost     0.929     0.484     0.302     0.372     0.837
+         Liq only     Random Forest     0.834     0.195     0.440     0.271     0.761
+         Liq only    Gradient Boost     0.927     0.268     0.025     0.046     0.748
+       Base + Liq     Random Forest     0.890     0.352     0.685     0.465     0.859
+       Base + Liq    Gradient Boost     0.935     0.551     0.345     0.424     0.836
+
+  Horizon: 12 bars (60min = 1.0h)
+  Base rate: 0.123 (12.3%)
+  Transitions in test: 88
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.848     0.421     0.627     0.504     0.807
+        Base only    Gradient Boost     0.895     0.584     0.502     0.540     0.794
+         Liq only     Random Forest     0.801     0.286     0.413     0.338     0.733
+         Liq only    Gradient Boost     0.872     0.395     0.085     0.140     0.723
+       Base + Liq     Random Forest     0.864     0.456     0.582     0.512     0.807
+
+  Top 20 features (Base+Liq RF, 1h horizon):
+     1.                             rvol_2h  imp=0.1137
+     2.                             rvol_1h  imp=0.1051
+     3.                          parkvol_1h  imp=0.1007
+     4.                         liq_rate_2h  imp=0.0753 ★
+     5.                         liq_rate_1h  imp=0.0740 ★
+     6.                    vol_ratio_1h_24h  imp=0.0519
+     7.                     liq_notional_1h  imp=0.0435 ★
+     8.                             rvol_4h  imp=0.0419
+     9.                         liq_rate_4h  imp=0.0348 ★
+    10.                          parkvol_4h  imp=0.0301
+    11.                             rvol_8h  imp=0.0297
+    12.                        vol_accel_1h  imp=0.0292
+    13.                         liq_rate_8h  imp=0.0245 ★
+    14.                     liq_notional_2h  imp=0.0227 ★
+    15.                            rvol_24h  imp=0.0209
+    16.                     vol_ratio_1h_8h  imp=0.0204
+    17.                     liq_notional_4h  imp=0.0183 ★
+    18.                         momentum_4h  imp=0.0168
+    19.                           liq_accel  imp=0.0159 ★
+    20.                      liq_imb_abs_1h  imp=0.0146 ★
+       Base + Liq    Gradient Boost     0.906     0.671     0.453     0.541     0.793
+
+  Horizon: 24 bars (120min = 2.0h)
+  Base rate: 0.193 (19.3%)
+  Transitions in test: 88
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.796     0.475     0.503     0.488     0.724
+        Base only    Gradient Boost     0.816     0.530     0.428     0.474     0.718
+         Liq only     Random Forest     0.758     0.371     0.363     0.367     0.649
+         Liq only    Gradient Boost     0.795     0.410     0.135     0.203     0.634
+       Base + Liq     Random Forest     0.804     0.494     0.462     0.477     0.694
+       Base + Liq    Gradient Boost     0.807     0.500     0.392     0.439     0.707
+
+  Horizon: 48 bars (240min = 4.0h)
+  Base rate: 0.315 (31.5%)
+  Transitions in test: 88
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.684     0.498     0.429     0.461     0.638
+        Base only    Gradient Boost     0.708     0.555     0.366     0.441     0.636
+         Liq only     Random Forest     0.636     0.429     0.470     0.449     0.594
+         Liq only    Gradient Boost     0.685     0.499     0.132     0.209     0.584
+       Base + Liq     Random Forest     0.707     0.549     0.386     0.453     0.616
+       Base + Liq    Gradient Boost     0.720     0.590     0.359     0.447     0.633
+
+======================================================================
+  EXP 4: REGIME-CONDITIONAL LIQUIDATION PATTERNS — ETHUSDT
+======================================================================
+
+                          Metric    Quiet mean   Volatile mean     Ratio     Quiet std       Vol std
+  -----------------------------------------------------------------------------------------------
+           Liquidations per 5min        5.3401         40.6816      7.62x       23.0414      174.6222
+           Notional per 5min ($)    51168.6588     511597.4257     10.00x   288899.5001  2387397.9012
+            Imbalance (buy-sell)        0.0154          0.0333      2.16x        0.6184        0.8174
+              Max single liq ($)    23186.5250     115314.4605      4.97x    99119.3332   305516.7631
+                       Buy ratio        0.2048          0.3706      1.81x        0.3977        0.4664
+                    Rate z-score       -0.0377          0.7661     20.33x        0.8708        2.5769
+                Notional z-score       -0.0353          0.7614     21.56x        0.8593        2.7374
+                Abs imbalance 1h        0.3859          0.6707      1.74x        0.2211        0.2133
+               Active bars in 1h        2.7746          6.4935      2.34x        2.2113        2.7229
+               Rate acceleration       -0.3911          4.9520     12.66x        8.8124       62.5403
+
+  --- Liquidation Behavior Around Regime Switches ---
+
+  Average liq count around transitions (±1h, 284 transitions):
+    Bar      Time   Avg Count    Avg Notional
+  ------------------------------------------
+    -12     -60min       45.40  $      504,047
+    -11     -55min       31.37  $      370,616
+    -10     -50min       19.75  $      216,214
+     -9     -45min       19.47  $      220,454
+     -8     -40min       13.12  $      111,458
+     -7     -35min       12.82  $      143,338
+     -6     -30min       15.94  $      174,826
+     -5     -25min       11.50  $      120,256
+     -4     -20min       17.08  $      152,845
+     -3     -15min       16.04  $      181,147
+     -2     -10min       19.95  $      224,127
+     -1      -5min       22.76  $      250,510
+     +0      +0min       83.62  $    1,130,638 ← SWITCH
+     +1      +5min       26.21  $      314,332
+     +2     +10min       29.83  $      348,549
+     +3     +15min       20.53  $      241,131
+     +4     +20min       14.27  $      146,520
+     +5     +25min       11.57  $      118,706
+     +6     +30min       24.96  $      312,233
+     +7     +35min       13.60  $      162,914
+     +8     +40min       11.48  $      124,990
+     +9     +45min       19.52  $      235,939
+    +10     +50min       13.33  $      166,285
+    +11     +55min       12.83  $      141,930
+
+======================================================================
+  EXP 5: REGIME DETECTION SPEED — ETHUSDT
+======================================================================
+
+  Base only:
+    Accuracy:        0.980
+    Median lag:      0 bars (0min)
+    Mean lag:        5.5 bars (27min)
+    % detected <3b:  84.1%
+    False sw/day:    0.0
+
+  Base + Liq:
+    Accuracy:        0.974
+    Median lag:      0 bars (0min)
+    Mean lag:        6.1 bars (31min)
+    % detected <3b:  83.0%
+    False sw/day:    0.0
+
+  --- Improvement from adding liquidation features ---
+    Accuracy:     0.980 → 0.974 (-0.5pp)
+    Median lag:   0 → 0 bars
+    Mean lag:     5.5 → 6.1 bars
+    False sw/day: 0.0 → 0.0
+
+======================================================================
+  ETHUSDT complete in 242.0s
+======================================================================
+
+======================================================================
+  SOLUSDT — REGIME + LIQUIDATION RESEARCH
+======================================================================
+
+  --- Loading Data ---
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,981 ticks, 44 errors)
+  Built 21,053 5-min bars from 2025-05-11 19:55:00 to 2026-02-17 20:55:00
+  Loading 1652 liquidation files... 200 400 600 800 1000 1200 1400 1600 done (98,875 events)
+  Built 81,312 5-min liquidation bars
+
+  --- Computing Regime Features ---
+
+  --- Computing Liquidation Features ---
+
+  --- Merging Data ---
+  Merged: 21,053 bars (2025-05-11 19:55:00 to 2026-02-17 20:55:00)
+
+  --- Labeling Regimes (GMM K=2) ---
+  GMM K=2: quiet=19210 (91.2%), volatile=1843 (8.8%), transitions=320, silhouette=0.480
+         quiet: n=  161, median=   39 bars (195m), mean= 119.3
+      volatile: n=  160, median=    6 bars (30m), mean=  11.5
+
+======================================================================
+  EXP 1: LIQUIDATION FEATURE CORRELATION WITH REGIME — SOLUSDT
+======================================================================
+
+                              Feature      Corr    Quiet mean   Volatile mean     Ratio
+  -------------------------------------------------------------------------------------
+                            liq_count    +0.140        3.2606         19.6213      6.02x
+                         liq_notional    +0.135    10907.5130      79695.7070      7.31x
+                        liq_imbalance    +0.012        0.0286          0.0556      1.94x
+                          liq_rate_1h    +0.451        2.8401         23.9189      8.42x
+                          liq_rate_2h    +0.495        3.1280         20.8707      6.67x
+                          liq_rate_4h    +0.479        3.5357         16.6422      4.71x
+                          liq_rate_8h    +0.373        4.0065         11.7133      2.92x
+                      liq_notional_1h    +0.428     9413.4133      94950.0799     10.09x
+                      liq_notional_2h    +0.473    10654.2101      81874.8096      7.68x
+                      liq_notional_4h    +0.458    12386.3921      63966.1775      5.16x
+                      liq_rate_zscore    +0.143       -0.0173          0.5648     32.71x
+                  liq_notional_zscore    +0.137       -0.0178          0.5382     30.27x
+                          liq_imb_30m    +0.048        0.0256          0.0890      3.48x
+                           liq_imb_1h    +0.079        0.0242          0.1047      4.33x
+                           liq_imb_2h    +0.111        0.0238          0.1099      4.62x
+                       liq_imb_abs_1h    +0.376        0.3774          0.6655      1.76x
+                     liq_rate_roc_15m    +0.052        0.3909          1.2084      3.09x
+                     liq_rate_roc_30m    +0.094        0.8220          3.3346      4.06x
+                      liq_rate_roc_1h    +0.150        1.6616          8.9611      5.39x
+                   liq_active_bars_1h    +0.433        2.4312          5.8638      2.41x
+                        liq_buy_ratio    +0.103        0.2074          0.3562      1.72x
+                        liq_max_ratio    +0.078        0.3829          1.2395      3.24x
+                            liq_accel    +0.058       -0.2013          2.1941     10.90x
+                     liq_max_notional    +0.160     4333.9171      13579.6608      3.13x
+                        liq_buy_count    +0.120        2.2056         15.8372      7.18x
+                       liq_sell_count    +0.111        1.0550          3.7840      3.59x
+
+  Top 5 by |correlation|:
+                            liq_rate_2h  corr=+0.495  ratio=6.67x
+                            liq_rate_4h  corr=+0.479  ratio=4.71x
+                        liq_notional_2h  corr=+0.473  ratio=7.68x
+                        liq_notional_4h  corr=+0.458  ratio=5.16x
+                            liq_rate_1h  corr=+0.451  ratio=8.42x
+
+======================================================================
+  EXP 2: LIQUIDATION AS LEADING INDICATORS — SOLUSDT
+======================================================================
+  Total regime transitions: 320
+
+                              Feature    effect   p-val    effect   p-val    effect   p-val    effect   p-val
+  -----------------------------------  -------- -------  -------- -------  -------- -------  -------- -------
+                            liq_count  +12.5948 0.0000***   +9.6780 0.0000***   +9.7477 0.0000***   +8.3428 0.0000***
+                         liq_notional  +47879.8041 0.0000***  +38153.0985 0.0000***  +38368.3421 0.0000***  +33379.9275 0.0000***
+                        liq_imbalance   +0.0553 0.0656   +0.0415 0.0449*   +0.0208 0.1130   +0.0251 0.1051
+                          liq_rate_1h   +9.4998 0.0000***   +8.8896 0.0000***   +8.6394 0.0000***   +7.5387 0.0000***
+                          liq_rate_2h   +8.1261 0.0000***   +7.8080 0.0000***   +7.5778 0.0000***   +6.5212 0.0000***
+                          liq_rate_4h   +6.3800 0.0000***   +6.0762 0.0000***   +6.0523 0.0000***   +5.4097 0.0000***
+                          liq_rate_8h   +4.7018 0.0000***   +4.4999 0.0000***   +4.2763 0.0000***   +3.7856 0.0000***
+                      liq_notional_1h  +38255.4792 0.0000***  +35984.1906 0.0000***  +34526.5492 0.0000***  +30566.5897 0.0000***
+                      liq_notional_2h  +32788.0202 0.0000***  +31845.1327 0.0000***  +30696.7187 0.0000***  +26164.6082 0.0000***
+                      liq_notional_4h  +25145.0236 0.0000***  +24016.1776 0.0000***  +23885.3344 0.0000***  +21210.4037 0.0000***
+                      liq_rate_zscore   +0.6269 0.0000***   +0.4907 0.0000***   +0.5354 0.0000***   +0.4136 0.0000***
+                  liq_notional_zscore   +0.5581 0.0000***   +0.4655 0.0000***   +0.4914 0.0000***   +0.3770 0.0000***
+                          liq_imb_30m   +0.0436 0.0134*   +0.0239 0.0896   +0.0234 0.1210   +0.0288 0.0546
+                           liq_imb_1h   +0.0266 0.0848   +0.0133 0.2751   +0.0231 0.1387   +0.0317 0.0328*
+                           liq_imb_2h   +0.0343 0.0123*   +0.0255 0.0594   +0.0324 0.0240*   +0.0357 0.0058**
+
+======================================================================
+  EXP 3: REGIME SWITCH PREDICTION — SOLUSDT
+======================================================================
+  Base features: 16
+  Liquidation features: 26
+  Total features: 42
+
+  Horizon: 6 bars (30min = 0.5h)
+  Base rate: 0.087 (8.7%)
+  Transitions in test: 128
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.858     0.353     0.775     0.485     0.886
+        Base only    Gradient Boost     0.920     0.572     0.303     0.397     0.883
+         Liq only     Random Forest     0.828     0.267     0.565     0.363     0.754
+         Liq only    Gradient Boost     0.907     0.230     0.031     0.055     0.752
+       Base + Liq     Random Forest     0.864     0.361     0.742     0.486     0.882
+       Base + Liq    Gradient Boost     0.926     0.634     0.342     0.444     0.881
+
+  Horizon: 12 bars (60min = 1.0h)
+  Base rate: 0.143 (14.3%)
+  Transitions in test: 128
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.826     0.431     0.675     0.526     0.821
+        Base only    Gradient Boost     0.880     0.629     0.381     0.475     0.819
+         Liq only     Random Forest     0.810     0.382     0.541     0.448     0.720
+         Liq only    Gradient Boost     0.850     0.397     0.101     0.161     0.714
+       Base + Liq     Random Forest     0.839     0.456     0.642     0.533     0.817
+
+  Top 20 features (Base+Liq RF, 1h horizon):
+     1.                          parkvol_1h  imp=0.1257
+     2.                             rvol_1h  imp=0.1195
+     3.                             rvol_2h  imp=0.0975
+     4.                    vol_ratio_1h_24h  imp=0.0694
+     5.                             rvol_4h  imp=0.0597
+     6.                         liq_rate_2h  imp=0.0593 ★
+     7.                         liq_rate_1h  imp=0.0449 ★
+     8.                         liq_rate_4h  imp=0.0387 ★
+     9.                          parkvol_4h  imp=0.0356
+    10.                     liq_notional_2h  imp=0.0312 ★
+    11.                     liq_notional_1h  imp=0.0311 ★
+    12.                     liq_notional_4h  imp=0.0265 ★
+    13.                     vol_ratio_1h_8h  imp=0.0251
+    14.                             rvol_8h  imp=0.0221
+    15.                         liq_rate_8h  imp=0.0201 ★
+    16.                       efficiency_4h  imp=0.0189
+    17.                           liq_accel  imp=0.0185 ★
+    18.                         momentum_4h  imp=0.0176
+    19.                            rvol_24h  imp=0.0165
+    20.                      liq_imb_abs_1h  imp=0.0151 ★
+       Base + Liq    Gradient Boost     0.872     0.576     0.399     0.472     0.822
+
+  Horizon: 24 bars (120min = 2.0h)
+  Base rate: 0.223 (22.3%)
+  Transitions in test: 128
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.778     0.502     0.580     0.538     0.748
+        Base only    Gradient Boost     0.807     0.602     0.400     0.481     0.742
+         Liq only     Random Forest     0.763     0.470     0.477     0.473     0.679
+         Liq only    Gradient Boost     0.782     0.535     0.161     0.248     0.674
+       Base + Liq     Random Forest     0.783     0.513     0.523     0.518     0.742
+       Base + Liq    Gradient Boost     0.816     0.655     0.369     0.472     0.737
+
+  Horizon: 48 bars (240min = 4.0h)
+  Base rate: 0.356 (35.6%)
+  Transitions in test: 128
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.718     0.636     0.487     0.552     0.712
+        Base only    Gradient Boost     0.693     0.594     0.433     0.501     0.694
+         Liq only     Random Forest     0.693     0.606     0.389     0.474     0.646
+         Liq only    Gradient Boost     0.693     0.675     0.266     0.381     0.646
+       Base + Liq     Random Forest     0.715     0.646     0.443     0.526     0.697
+       Base + Liq    Gradient Boost     0.711     0.661     0.383     0.485     0.678
+
+======================================================================
+  EXP 4: REGIME-CONDITIONAL LIQUIDATION PATTERNS — SOLUSDT
+======================================================================
+
+                          Metric    Quiet mean   Volatile mean     Ratio     Quiet std       Vol std
+  -----------------------------------------------------------------------------------------------
+           Liquidations per 5min        3.2606         19.6213      6.02x       15.2504       98.5846
+           Notional per 5min ($)    10907.5130      79695.7070      7.31x    57315.3212   444544.6900
+            Imbalance (buy-sell)        0.0286          0.0556      1.94x        0.6144        0.7913
+              Max single liq ($)     4333.9171      13579.6608      3.13x    12906.3600    35245.8411
+                       Buy ratio        0.2074          0.3562      1.72x        0.4015        0.4667
+                    Rate z-score       -0.0173          0.5648     32.71x        0.9615        2.2848
+                Notional z-score       -0.0178          0.5382     30.27x        0.9499        2.3123
+                Abs imbalance 1h        0.3774          0.6655      1.76x        0.2017        0.1884
+               Active bars in 1h        2.4312          5.8638      2.41x        1.9717        2.4861
+               Rate acceleration       -0.2013          2.1941     10.90x        5.6291       35.2618
+
+  --- Liquidation Behavior Around Regime Switches ---
+
+  Average liq count around transitions (±1h, 320 transitions):
+    Bar      Time   Avg Count    Avg Notional
+  ------------------------------------------
+    -12     -60min       23.73  $       92,483
+    -11     -55min       12.74  $       49,319
+    -10     -50min        8.46  $       34,387
+     -9     -45min        9.54  $       36,843
+     -8     -40min        7.06  $       23,508
+     -7     -35min        9.48  $       35,084
+     -6     -30min        8.05  $       34,334
+     -5     -25min        8.58  $       30,733
+     -4     -20min       11.40  $       43,304
+     -3     -15min       12.54  $       47,979
+     -2     -10min       13.22  $       53,464
+     -1      -5min       17.98  $       61,539
+     +0      +0min       39.13  $      164,006 ← SWITCH
+     +1      +5min       18.14  $       78,799
+     +2     +10min       20.93  $       94,713
+     +3     +15min       13.92  $       62,639
+     +4     +20min       10.71  $       47,961
+     +5     +25min        6.02  $       25,234
+     +6     +30min       10.36  $       41,403
+     +7     +35min        9.05  $       28,716
+     +8     +40min        7.97  $       22,028
+     +9     +45min        4.88  $       18,979
+    +10     +50min        7.35  $       26,285
+    +11     +55min        5.75  $       22,297
+
+======================================================================
+  EXP 5: REGIME DETECTION SPEED — SOLUSDT
+======================================================================
+
+  Base only:
+    Accuracy:        0.980
+    Median lag:      0 bars (0min)
+    Mean lag:        3.4 bars (17min)
+    % detected <3b:  85.9%
+    False sw/day:    0.0
+
+  Base + Liq:
+    Accuracy:        0.971
+    Median lag:      0 bars (0min)
+    Mean lag:        5.1 bars (26min)
+    % detected <3b:  82.8%
+    False sw/day:    0.0
+
+  --- Improvement from adding liquidation features ---
+    Accuracy:     0.980 → 0.971 (-0.9pp)
+    Median lag:   0 → 0 bars
+    Mean lag:     3.4 → 5.1 bars
+    False sw/day: 0.0 → 0.0
+
+======================================================================
+  SOLUSDT complete in 232.9s
+======================================================================
+
+======================================================================
+  DOGEUSDT — REGIME + LIQUIDATION RESEARCH
+======================================================================
+
+  --- Loading Data ---
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,993 ticks, 44 errors)
+  Built 21,054 5-min bars from 2025-05-11 19:55:00 to 2026-02-17 20:55:00
+  Loading 1598 liquidation files... 200 400 600 800 1000 1200 1400 done (48,227 events)
+  Built 81,307 5-min liquidation bars
+
+  --- Computing Regime Features ---
+
+  --- Computing Liquidation Features ---
+
+  --- Merging Data ---
+  Merged: 21,053 bars (2025-05-11 20:00:00 to 2026-02-17 20:55:00)
+
+  --- Labeling Regimes (GMM K=2) ---
+  GMM K=2: quiet=19019 (90.3%), volatile=2034 (9.7%), transitions=334, silhouette=0.470
+         quiet: n=  168, median=   35 bars (175m), mean= 113.2
+      volatile: n=  167, median=    8 bars (40m), mean=  12.2
+
+======================================================================
+  EXP 1: LIQUIDATION FEATURE CORRELATION WITH REGIME — DOGEUSDT
+======================================================================
+
+                              Feature      Corr    Quiet mean   Volatile mean     Ratio
+  -------------------------------------------------------------------------------------
+                            liq_count    +0.160        1.4738          9.9204      6.73x
+                         liq_notional    +0.155     4716.7950      35184.4329      7.46x
+                        liq_imbalance    -0.002        0.0407          0.0360      0.88x
+                          liq_rate_1h    +0.448        1.3414         11.1275      8.30x
+                          liq_rate_2h    +0.507        1.4573         10.0257      6.88x
+                          liq_rate_4h    +0.475        1.6914          7.8605      4.65x
+                          liq_rate_8h    +0.369        1.9326          5.6091      2.90x
+                      liq_notional_1h    +0.442     4304.5063      39228.3785      9.11x
+                      liq_notional_2h    +0.508     4697.4430      35583.9134      7.58x
+                      liq_notional_4h    +0.472     5573.4630      27506.5028      4.94x
+                      liq_rate_zscore    +0.139       -0.0276          0.5023     18.17x
+                  liq_notional_zscore    +0.111       -0.0214          0.3925     18.37x
+                          liq_imb_30m    +0.017        0.0386          0.0565      1.46x
+                           liq_imb_1h    +0.047        0.0365          0.0759      2.08x
+                           liq_imb_2h    +0.080        0.0355          0.0850      2.39x
+                       liq_imb_abs_1h    +0.441        0.2894          0.6114      2.11x
+                     liq_rate_roc_15m    +0.066        0.2693          1.1413      4.24x
+                     liq_rate_roc_30m    +0.108        0.5828          3.5916      6.16x
+                      liq_rate_roc_1h    +0.160        1.2567          9.0460      7.20x
+                   liq_active_bars_1h    +0.466        1.5125          4.4995      2.97x
+                        liq_buy_ratio    +0.119        0.1681          0.3221      1.92x
+                        liq_max_ratio    +0.066        0.6003          1.6080      2.68x
+                            liq_accel    +0.042       -0.0747          0.7309      9.78x
+                     liq_max_notional    +0.136     3137.6009      12711.7114      4.05x
+                        liq_buy_count    +0.143        1.0409          8.5118      8.18x
+                       liq_sell_count    +0.119        0.4329          1.4086      3.25x
+
+  Top 5 by |correlation|:
+                        liq_notional_2h  corr=+0.508  ratio=7.58x
+                            liq_rate_2h  corr=+0.507  ratio=6.88x
+                            liq_rate_4h  corr=+0.475  ratio=4.65x
+                        liq_notional_4h  corr=+0.472  ratio=4.94x
+                     liq_active_bars_1h  corr=+0.466  ratio=2.97x
+
+======================================================================
+  EXP 2: LIQUIDATION AS LEADING INDICATORS — DOGEUSDT
+======================================================================
+  Total regime transitions: 334
+
+                              Feature    effect   p-val    effect   p-val    effect   p-val    effect   p-val
+  -----------------------------------  -------- -------  -------- -------  -------- -------  -------- -------
+                            liq_count   +3.8776 0.0000***   +3.5466 0.0000***   +3.6200 0.0000***   +3.7192 0.0000***
+                         liq_notional  +14758.2986 0.0000***  +13527.6444 0.0000***  +13280.9570 0.0000***  +13577.9306 0.0000***
+                        liq_imbalance   -0.0302 0.1418   -0.0244 0.2566   -0.0172 0.1969   -0.0006 0.8229
+                          liq_rate_1h   +3.6214 0.0000***   +3.5305 0.0000***   +3.5913 0.0000***   +3.6946 0.0000***
+                          liq_rate_2h   +3.7201 0.0000***   +3.6818 0.0000***   +3.6952 0.0000***   +3.5160 0.0000***
+                          liq_rate_4h   +3.3299 0.0000***   +3.2469 0.0000***   +3.1387 0.0000***   +2.8056 0.0000***
+                          liq_rate_8h   +2.2614 0.0000***   +2.2023 0.0000***   +2.1492 0.0000***   +1.9643 0.0000***
+                      liq_notional_1h  +13308.4427 0.0000***  +12926.6058 0.0000***  +13083.4006 0.0000***  +13205.0873 0.0000***
+                      liq_notional_2h  +13622.4254 0.0000***  +13306.1461 0.0000***  +13205.8836 0.0000***  +12717.3358 0.0000***
+                      liq_notional_4h  +12219.6970 0.0000***  +11886.5244 0.0000***  +11445.0781 0.0000***  +10226.4475 0.0000***
+                      liq_rate_zscore   +0.4576 0.0000***   +0.4151 0.0000***   +0.3912 0.0000***   +0.3374 0.0000***
+                  liq_notional_zscore   +0.3927 0.0000***   +0.3622 0.0000***   +0.3416 0.0000***   +0.2822 0.0000***
+                          liq_imb_30m   -0.0010 0.8411   -0.0040 0.5406   -0.0075 0.5173   +0.0045 0.3496
+                           liq_imb_1h   +0.0064 0.9268   -0.0031 0.6821   +0.0007 0.7197   +0.0078 0.1295
+                           liq_imb_2h   +0.0147 0.0905   +0.0066 0.2685   +0.0078 0.1372   +0.0133 0.0558
+
+======================================================================
+  EXP 3: REGIME SWITCH PREDICTION — DOGEUSDT
+======================================================================
+  Base features: 16
+  Liquidation features: 26
+  Total features: 42
+
+  Horizon: 6 bars (30min = 0.5h)
+  Base rate: 0.088 (8.8%)
+  Transitions in test: 120
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.835     0.331     0.853     0.476     0.903
+        Base only    Gradient Boost     0.908     0.464     0.255     0.329     0.892
+         Liq only     Random Forest     0.822     0.275     0.624     0.382     0.801
+         Liq only    Gradient Boost     0.908     0.364     0.065     0.110     0.790
+       Base + Liq     Random Forest     0.850     0.348     0.811     0.487     0.895
+       Base + Liq    Gradient Boost     0.901     0.413     0.291     0.342     0.884
+
+  Horizon: 12 bars (60min = 1.0h)
+  Base rate: 0.149 (14.9%)
+  Transitions in test: 120
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.832     0.462     0.782     0.581     0.872
+        Base only    Gradient Boost     0.874     0.592     0.485     0.533     0.856
+         Liq only     Random Forest     0.819     0.422     0.590     0.492     0.783
+         Liq only    Gradient Boost     0.854     0.534     0.149     0.233     0.776
+       Base + Liq     Random Forest     0.849     0.494     0.763     0.600     0.868
+
+  Top 20 features (Base+Liq RF, 1h horizon):
+     1.                          parkvol_1h  imp=0.1432
+     2.                             rvol_1h  imp=0.1209
+     3.                             rvol_2h  imp=0.1158
+     4.                         liq_rate_1h  imp=0.0647 ★
+     5.                         liq_rate_2h  imp=0.0570 ★
+     6.                             rvol_4h  imp=0.0505
+     7.                         liq_rate_4h  imp=0.0391 ★
+     8.                    vol_ratio_1h_24h  imp=0.0349
+     9.                     vol_ratio_1h_8h  imp=0.0297
+    10.                        vol_accel_1h  imp=0.0295
+    11.                          parkvol_4h  imp=0.0290
+    12.                      liq_imb_abs_1h  imp=0.0275 ★
+    13.                     liq_notional_1h  imp=0.0240 ★
+    14.                             rvol_8h  imp=0.0220
+    15.                  liq_active_bars_1h  imp=0.0213 ★
+    16.                            rvol_24h  imp=0.0186
+    17.                     liq_notional_2h  imp=0.0171 ★
+    18.                     liq_notional_4h  imp=0.0162 ★
+    19.                         momentum_4h  imp=0.0143
+    20.                         liq_rate_8h  imp=0.0139 ★
+       Base + Liq    Gradient Boost     0.864     0.548     0.490     0.517     0.836
+
+  Horizon: 24 bars (120min = 2.0h)
+  Base rate: 0.232 (23.2%)
+  Transitions in test: 120
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.822     0.602     0.693     0.644     0.819
+        Base only    Gradient Boost     0.805     0.590     0.534     0.560     0.793
+         Liq only     Random Forest     0.801     0.575     0.546     0.560     0.759
+         Liq only    Gradient Boost     0.795     0.640     0.264     0.374     0.754
+       Base + Liq     Random Forest     0.831     0.628     0.668     0.648     0.820
+       Base + Liq    Gradient Boost     0.802     0.580     0.531     0.554     0.780
+
+  Horizon: 48 bars (240min = 4.0h)
+  Base rate: 0.352 (35.2%)
+  Transitions in test: 120
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.739     0.646     0.572     0.607     0.736
+        Base only    Gradient Boost     0.727     0.657     0.472     0.549     0.726
+         Liq only     Random Forest     0.727     0.657     0.470     0.548     0.699
+         Liq only    Gradient Boost     0.701     0.671     0.298     0.413     0.679
+       Base + Liq     Random Forest     0.722     0.613     0.572     0.592     0.750
+       Base + Liq    Gradient Boost     0.719     0.629     0.494     0.553     0.719
+
+======================================================================
+  EXP 4: REGIME-CONDITIONAL LIQUIDATION PATTERNS — DOGEUSDT
+======================================================================
+
+                          Metric    Quiet mean   Volatile mean     Ratio     Quiet std       Vol std
+  -----------------------------------------------------------------------------------------------
+           Liquidations per 5min        1.4738          9.9204      6.73x        5.9603       46.1833
+           Notional per 5min ($)     4716.7950      35184.4329      7.46x    27704.3661   163436.2760
+            Imbalance (buy-sell)        0.0407          0.0360      0.88x        0.5376        0.7631
+              Max single liq ($)     3137.6009      12711.7114      4.05x    17416.2935    39786.5503
+                       Buy ratio        0.1681          0.3221      1.92x        0.3717        0.4545
+                    Rate z-score       -0.0276          0.5023     18.17x        0.9229        2.1981
+                Notional z-score       -0.0214          0.3925     18.37x        0.9291        2.0647
+                Abs imbalance 1h        0.2894          0.6114      2.11x        0.1932        0.1985
+               Active bars in 1h        1.5125          4.4995      2.97x        1.5978        2.2850
+               Rate acceleration       -0.0747          0.7309      9.78x        2.4786       16.4884
+
+  --- Liquidation Behavior Around Regime Switches ---
+
+  Average liq count around transitions (±1h, 334 transitions):
+    Bar      Time   Avg Count    Avg Notional
+  ------------------------------------------
+    -12     -60min        9.69  $       31,489
+    -11     -55min        4.48  $       17,002
+    -10     -50min        3.58  $       13,320
+     -9     -45min        4.37  $       15,760
+     -8     -40min        3.77  $       14,160
+     -7     -35min        3.93  $       12,582
+     -6     -30min        4.06  $       15,613
+     -5     -25min        3.72  $       13,679
+     -4     -20min        4.68  $       16,810
+     -3     -15min        4.64  $       16,577
+     -2     -10min        4.67  $       17,688
+     -1      -5min        6.12  $       21,938
+     +0      +0min       20.30  $       65,017 ← SWITCH
+     +1      +5min        7.76  $       24,723
+     +2     +10min        5.19  $       18,389
+     +3     +15min        5.22  $       19,635
+     +4     +20min        7.19  $       21,488
+     +5     +25min        4.12  $       12,076
+     +6     +30min        3.85  $       15,461
+     +7     +35min        3.57  $       11,622
+     +8     +40min        3.73  $       11,970
+     +9     +45min        6.16  $       20,997
+    +10     +50min        2.89  $       10,974
+    +11     +55min        3.71  $       12,584
+
+======================================================================
+  EXP 5: REGIME DETECTION SPEED — DOGEUSDT
+======================================================================
+
+  Base only:
+    Accuracy:        0.981
+    Median lag:      0 bars (0min)
+    Mean lag:        2.9 bars (15min)
+    % detected <3b:  85.8%
+    False sw/day:    0.0
+
+  Base + Liq:
+    Accuracy:        0.978
+    Median lag:      0 bars (0min)
+    Mean lag:        2.8 bars (14min)
+    % detected <3b:  87.5%
+    False sw/day:    0.0
+
+  --- Improvement from adding liquidation features ---
+    Accuracy:     0.981 → 0.978 (-0.3pp)
+    Median lag:   0 → 0 bars
+    Mean lag:     2.9 → 2.8 bars
+    False sw/day: 0.0 → 0.0
+
+======================================================================
+  DOGEUSDT complete in 220.6s
+======================================================================
+
+======================================================================
+  XRPUSDT — REGIME + LIQUIDATION RESEARCH
+======================================================================
+
+  --- Loading Data ---
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,981 ticks, 44 errors)
+  Built 21,056 5-min bars from 2025-05-11 19:55:00 to 2026-02-17 20:55:00
+  Loading 1577 liquidation files... 200 400 600 800 1000 1200 1400 done (66,794 events)
+  Built 81,308 5-min liquidation bars
+
+  --- Computing Regime Features ---
+
+  --- Computing Liquidation Features ---
+
+  --- Merging Data ---
+  Merged: 21,055 bars (2025-05-11 20:00:00 to 2026-02-17 20:55:00)
+
+  --- Labeling Regimes (GMM K=2) ---
+  GMM K=2: quiet=18829 (89.4%), volatile=2226 (10.6%), transitions=304, silhouette=0.467
+         quiet: n=  153, median=   31 bars (155m), mean= 123.1
+      volatile: n=  152, median=    8 bars (40m), mean=  14.6
+
+======================================================================
+  EXP 1: LIQUIDATION FEATURE CORRELATION WITH REGIME — XRPUSDT
+======================================================================
+
+                              Feature      Corr    Quiet mean   Volatile mean     Ratio
+  -------------------------------------------------------------------------------------
+                            liq_count    +0.139        2.0971         12.2417      5.84x
+                         liq_notional    +0.135     9660.1884      63593.6057      6.58x
+                        liq_imbalance    -0.025        0.0436         -0.0034     -0.08x
+                          liq_rate_1h    +0.417        1.7814         14.8711      8.35x
+                          liq_rate_2h    +0.488        1.9020         13.8209      7.27x
+                          liq_rate_4h    +0.466        2.2292         11.0683      4.97x
+                          liq_rate_8h    +0.383        2.5704          8.1546      3.17x
+                      liq_notional_1h    +0.402     8055.3133      76890.1059      9.55x
+                      liq_notional_2h    +0.474     8700.1802      71233.3777      8.19x
+                      liq_notional_4h    +0.454    10460.2959      56419.3704      5.39x
+                      liq_rate_zscore    +0.126       -0.0145          0.4593     31.71x
+                  liq_notional_zscore    +0.116       -0.0148          0.4175     28.29x
+                          liq_imb_30m    -0.010        0.0398          0.0293      0.73x
+                           liq_imb_1h    +0.017        0.0372          0.0521      1.40x
+                           liq_imb_2h    +0.049        0.0354          0.0678      1.92x
+                       liq_imb_abs_1h    +0.397        0.2960          0.5808      1.96x
+                     liq_rate_roc_15m    +0.016        0.3440          0.4604      1.34x
+                     liq_rate_roc_30m    +0.046        0.8121          1.5434      1.90x
+                      liq_rate_roc_1h    +0.116        1.6316          4.8128      2.95x
+                   liq_active_bars_1h    +0.443        1.7198          4.7740      2.78x
+                        liq_buy_ratio    +0.088        0.1735          0.2839      1.64x
+                        liq_max_ratio    +0.073        0.5398          1.6297      3.02x
+                            liq_accel    +0.015       -0.0384          0.3769      9.82x
+                     liq_max_notional    +0.152     5087.7464      18739.9310      3.68x
+                        liq_buy_count    +0.116        1.5784          9.8854      6.26x
+                       liq_sell_count    +0.155        0.5187          2.3562      4.54x
+
+  Top 5 by |correlation|:
+                            liq_rate_2h  corr=+0.488  ratio=7.27x
+                        liq_notional_2h  corr=+0.474  ratio=8.19x
+                            liq_rate_4h  corr=+0.466  ratio=4.97x
+                        liq_notional_4h  corr=+0.454  ratio=5.39x
+                     liq_active_bars_1h  corr=+0.443  ratio=2.78x
+
+======================================================================
+  EXP 2: LIQUIDATION AS LEADING INDICATORS — XRPUSDT
+======================================================================
+  Total regime transitions: 304
+
+                              Feature    effect   p-val    effect   p-val    effect   p-val    effect   p-val
+  -----------------------------------  -------- -------  -------- -------  -------- -------  -------- -------
+                            liq_count   +8.6959 0.0000***   +7.2829 0.0000***   +6.8242 0.0000***   +6.9864 0.0000***
+                         liq_notional  +49391.2547 0.0000***  +41790.1054 0.0000***  +37345.1594 0.0000***  +38331.1572 0.0000***
+                        liq_imbalance   +0.0035 0.7004   +0.0221 0.5369   +0.0004 0.7056   +0.0157 0.3811
+                          liq_rate_1h   +6.5549 0.0000***   +6.3915 0.0000***   +6.5038 0.0000***   +6.5095 0.0000***
+                          liq_rate_2h   +6.7527 0.0000***   +6.7420 0.0000***   +6.5307 0.0000***   +5.8168 0.0000***
+                          liq_rate_4h   +5.4606 0.0000***   +5.4048 0.0000***   +5.2065 0.0000***   +4.7286 0.0000***
+                          liq_rate_8h   +3.7001 0.0000***   +3.6963 0.0000***   +3.4672 0.0000***   +3.1545 0.0000***
+                      liq_notional_1h  +35963.1402 0.0000***  +34986.4467 0.0000***  +35157.6644 0.0000***  +35493.2631 0.0000***
+                      liq_notional_2h  +37009.5835 0.0000***  +36972.3454 0.0000***  +35500.6613 0.0000***  +31517.2148 0.0000***
+                      liq_notional_4h  +29749.2352 0.0000***  +29314.0608 0.0000***  +27894.7487 0.0000***  +25273.3305 0.0000***
+                      liq_rate_zscore   +0.6363 0.0000***   +0.5316 0.0000***   +0.5569 0.0000***   +0.4841 0.0000***
+                  liq_notional_zscore   +0.5294 0.0000***   +0.4473 0.0000***   +0.4448 0.0000***   +0.3978 0.0000***
+                          liq_imb_30m   +0.0239 0.6480   +0.0119 0.7152   -0.0012 0.5430   +0.0219 0.1424
+                           liq_imb_1h   -0.0035 0.4570   -0.0034 0.4606   +0.0016 0.7654   +0.0271 0.0647
+                           liq_imb_2h   +0.0168 0.3288   +0.0189 0.2353   +0.0258 0.0869   +0.0364 0.0085**
+
+======================================================================
+  EXP 3: REGIME SWITCH PREDICTION — XRPUSDT
+======================================================================
+  Base features: 16
+  Liquidation features: 26
+  Total features: 42
+
+  Horizon: 6 bars (30min = 0.5h)
+  Base rate: 0.095 (9.5%)
+  Transitions in test: 130
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.795     0.283     0.755     0.411     0.848
+        Base only    Gradient Boost     0.905     0.492     0.217     0.301     0.859
+         Liq only     Random Forest     0.778     0.206     0.472     0.287     0.695
+         Liq only    Gradient Boost     0.902     0.355     0.037     0.067     0.705
+       Base + Liq     Random Forest     0.793     0.276     0.728     0.400     0.834
+       Base + Liq    Gradient Boost     0.901     0.444     0.192     0.268     0.860
+
+  Horizon: 12 bars (60min = 1.0h)
+  Base rate: 0.162 (16.2%)
+  Transitions in test: 130
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.752     0.365     0.723     0.485     0.806
+        Base only    Gradient Boost     0.838     0.497     0.409     0.449     0.799
+         Liq only     Random Forest     0.737     0.309     0.509     0.385     0.703
+         Liq only    Gradient Boost     0.828     0.393     0.116     0.179     0.693
+       Base + Liq     Random Forest     0.759     0.365     0.669     0.473     0.789
+
+  Top 20 features (Base+Liq RF, 1h horizon):
+     1.                          parkvol_1h  imp=0.1201
+     2.                             rvol_1h  imp=0.1096
+     3.                             rvol_2h  imp=0.1072
+     4.                         liq_rate_2h  imp=0.0791 ★
+     5.                         liq_rate_1h  imp=0.0768 ★
+     6.                         liq_rate_4h  imp=0.0575 ★
+     7.                    vol_ratio_1h_24h  imp=0.0310
+     8.                          parkvol_4h  imp=0.0291
+     9.                     liq_notional_4h  imp=0.0291 ★
+    10.                             rvol_4h  imp=0.0275
+    11.                     liq_notional_2h  imp=0.0274 ★
+    12.                  liq_active_bars_1h  imp=0.0266 ★
+    13.                     liq_notional_1h  imp=0.0259 ★
+    14.                     vol_ratio_1h_8h  imp=0.0258
+    15.                           liq_accel  imp=0.0196 ★
+    16.                      liq_imb_abs_1h  imp=0.0195 ★
+    17.                             rvol_8h  imp=0.0191
+    18.                         liq_rate_8h  imp=0.0163 ★
+    19.                         momentum_4h  imp=0.0154
+    20.                            rvol_24h  imp=0.0142
+       Base + Liq    Gradient Boost     0.840     0.508     0.387     0.439     0.805
+
+  Horizon: 24 bars (120min = 2.0h)
+  Base rate: 0.265 (26.5%)
+  Transitions in test: 130
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.730     0.493     0.687     0.574     0.768
+        Base only    Gradient Boost     0.779     0.604     0.481     0.535     0.752
+         Liq only     Random Forest     0.722     0.476     0.528     0.501     0.711
+         Liq only    Gradient Boost     0.751     0.567     0.247     0.344     0.710
+       Base + Liq     Random Forest     0.743     0.511     0.648     0.572     0.764
+       Base + Liq    Gradient Boost     0.778     0.594     0.503     0.545     0.767
+
+  Horizon: 48 bars (240min = 4.0h)
+  Base rate: 0.416 (41.6%)
+  Transitions in test: 130
+
+         Features             Model       Acc      Prec    Recall        F1       AUC
+  --------------------------------------------------------------------------------
+        Base only     Random Forest     0.691     0.627     0.638     0.633     0.750
+        Base only    Gradient Boost     0.725     0.745     0.514     0.608     0.757
+         Liq only     Random Forest     0.680     0.650     0.502     0.567     0.688
+         Liq only    Gradient Boost     0.650     0.682     0.301     0.417     0.670
+       Base + Liq     Random Forest     0.704     0.658     0.604     0.630     0.742
+       Base + Liq    Gradient Boost     0.697     0.679     0.517     0.587     0.733
+
+======================================================================
+  EXP 4: REGIME-CONDITIONAL LIQUIDATION PATTERNS — XRPUSDT
+======================================================================
+
+                          Metric    Quiet mean   Volatile mean     Ratio     Quiet std       Vol std
+  -----------------------------------------------------------------------------------------------
+           Liquidations per 5min        2.0971         12.2417      5.84x       10.8788       60.4395
+           Notional per 5min ($)     9660.1884      63593.6057      6.58x    62985.2964   327022.2087
+            Imbalance (buy-sell)        0.0436         -0.0034     -0.08x        0.5445        0.7396
+              Max single liq ($)     5087.7464      18739.9310      3.68x    23285.7036    49201.2377
+                       Buy ratio        0.1735          0.2839      1.64x        0.3756        0.4400
+                    Rate z-score       -0.0145          0.4593     31.71x        0.9869        2.0707
+                Notional z-score       -0.0148          0.4175     28.29x        0.9750        2.0668
+                Abs imbalance 1h        0.2960          0.5808      1.96x        0.1982        0.2335
+               Active bars in 1h        1.7198          4.7740      2.78x        1.7847        2.6954
+               Rate acceleration       -0.0384          0.3769      9.82x        3.0166       24.1375
+
+  --- Liquidation Behavior Around Regime Switches ---
+
+  Average liq count around transitions (±1h, 304 transitions):
+    Bar      Time   Avg Count    Avg Notional
+  ------------------------------------------
+    -12     -60min       11.94  $       66,227
+    -11     -55min        8.86  $       43,678
+    -10     -50min        5.35  $       23,682
+     -9     -45min        6.86  $       33,970
+     -8     -40min        6.95  $       36,165
+     -7     -35min        7.95  $       40,622
+     -6     -30min        7.17  $       39,259
+     -5     -25min        5.96  $       33,912
+     -4     -20min        8.24  $       45,626
+     -3     -15min        7.65  $       43,303
+     -2     -10min        9.16  $       48,968
+     -1      -5min       13.88  $       76,473
+     +0      +0min       23.88  $      128,250 ← SWITCH
+     +1      +5min       14.83  $       71,195
+     +2     +10min        8.16  $       41,140
+     +3     +15min        6.02  $       31,087
+     +4     +20min        9.61  $       40,951
+     +5     +25min        7.06  $       40,903
+     +6     +30min        5.82  $       30,745
+     +7     +35min        5.83  $       30,809
+     +8     +40min        3.41  $       16,085
+     +9     +45min        4.69  $       26,202
+    +10     +50min        3.85  $       21,344
+    +11     +55min        4.96  $       26,894
+
+======================================================================
+  EXP 5: REGIME DETECTION SPEED — XRPUSDT
+======================================================================
+
+  Base only:
+    Accuracy:        0.975
+    Median lag:      0 bars (0min)
+    Mean lag:        1.8 bars (9min)
+    % detected <3b:  86.9%
+    False sw/day:    0.5
+
+  Base + Liq:
+    Accuracy:        0.971
+    Median lag:      0 bars (0min)
+    Mean lag:        3.2 bars (16min)
+    % detected <3b:  85.4%
+    False sw/day:    0.5
+
+  --- Improvement from adding liquidation features ---
+    Accuracy:     0.975 → 0.971 (-0.3pp)
+    Median lag:   0 → 0 bars
+    Mean lag:     1.8 → 3.2 bars
+    False sw/day: 0.5 → 0.5
+
+======================================================================
+  XRPUSDT complete in 221.8s
+======================================================================
+
+
+======================================================================
+  GRAND SUMMARY — REGIME + LIQUIDATION RESEARCH
+======================================================================
+
+  --- Regime Switch Prediction: AUC Improvement from Liquidation Features ---
+      Symbol    Base  + Liq      Δ    Base  + Liq      Δ    Base  + Liq      Δ    Base  + Liq      Δ
+  ----------  ------ ------ ------  ------ ------ ------  ------ ------ ------  ------ ------ ------
+     BTCUSDT   0.840  0.844 +0.004   0.741  0.753 +0.013   0.666  0.693 +0.026   0.656  0.649 -0.007
+     ETHUSDT   0.837  0.836 -0.002   0.794  0.793 -0.001   0.718  0.707 -0.012   0.636  0.633 -0.004
+     SOLUSDT   0.883  0.881 -0.002   0.819  0.822 +0.003   0.742  0.737 -0.005   0.694  0.678 -0.016
+    DOGEUSDT   0.892  0.884 -0.008   0.856  0.836 -0.019   0.793  0.780 -0.012   0.726  0.719 -0.007
+     XRPUSDT   0.859  0.860 +0.001   0.799  0.805 +0.005   0.752  0.767 +0.015   0.757  0.733 -0.024
+
+  --- Detection Speed Improvement ---
+      Symbol  Base Acc  +Liq Acc  Base Lag  +Liq Lag  Base FalsSw  +Liq FalsSw
+  ---------------------------------------------------------------------------
+     BTCUSDT     0.978     0.970      5.9b      7.4b         0.0         0.0
+     ETHUSDT     0.980     0.974      5.5b      6.1b         0.0         0.0
+     SOLUSDT     0.980     0.971      3.4b      5.1b         0.0         0.0
+    DOGEUSDT     0.981     0.978      2.9b      2.8b         0.0         0.0
+     XRPUSDT     0.975     0.971      1.8b      3.2b         0.5         0.5
+
+======================================================================
+  Total elapsed: 1155s (19.2min)
+======================================================================
