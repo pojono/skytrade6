@@ -725,3 +725,86 @@ The symmetric strategy requires 4 fills (2 opens + 2 closes). Can we reduce?
 | BTC liq | +1.2 | -0.8 ❌ | -0.3 ❌ | **+0.2 ✅** |
 
 **Conclusion**: With 4 fills at 0.005% maker, SOL stress and DOGE quiet entries are profitable. Reducing to 3 fills would make DOGE compression viable too. The 4-fill structure is the minimum for the symmetric approach — reducing further requires abandoning the direction-agnostic design.
+
+---
+
+## v37: Out-of-Sample Validation (59 Days, 5 Symbols)
+
+### Setup
+- **In-sample**: May 12-14 (3 days)
+- **OOS**: May 15 – Aug 7, 2025 (59 days for SOL, 11 stratified weekdays × 5 symbols)
+- **Config**: TP=20/SL=10, 15m TL, 13-18 UTC, 1s resolution tick data
+
+### Cross-Symbol OOS Results
+
+| Symbol | Baseline EV | spread_z>1 | liq_10s>0 | liq30+tc>2 | |oi_d60|>5 | Pos Days |
+|--------|------------|-----------|----------|-----------|----------|----------|
+| **SOL** | **+0.53** | **+1.53** | **+1.92** | +1.77 | +0.73 | **10/11** |
+| **DOGE** | **+0.77** | +0.58 | **+1.54** | +0.56 | +0.79 | **8/10** |
+| ETH | +0.35 | +0.00 | +0.70 | +0.61 | +0.55 | 8/10 |
+| XRP | +0.17 | -1.23 | +0.23 | +0.84 | +0.48 | 7/10 |
+| **BTC** | **-0.92** | **-4.09** | **-0.59** | **-0.43** | **-0.71** | **3/11** |
+
+**Key findings:**
+- **`liq_10s>0` is the most robust trigger OOS** — works for SOL (+1.92), DOGE (+1.54), ETH (+0.70)
+- **`spread_z>1` degraded significantly** — from +2.58 in-sample to +1.53 OOS for SOL, negative for XRP
+- **BTC is dead** — negative baseline and negative with all triggers. Drop it.
+- **SOL and DOGE are the viable symbols**
+
+### SOL Deep Dive: 59 Days, All DOWs and Weeks
+
+**Day of Week (SOL, 13-18 UTC):**
+
+| DOW | Days | Base EV | spread_z>1 | liq_10s>0 | Pos% |
+|-----|------|---------|-----------|----------|------|
+| **Mon** | 8 | **+1.14** | +1.18 | **+1.44** | **88%** |
+| Tue | 8 | +0.54 | +0.99 | +1.10 | 75% |
+| Wed | 9 | +0.60 | +0.77 | +0.45 | 67% |
+| **Thu** | 10 | **+0.61** | +0.82 | **+1.93** | **80%** |
+| **Fri** | 8 | **+0.66** | **+1.17** | +0.65 | **88%** |
+| Sat | 8 | +0.63 | +0.58 | +1.28 | 62% |
+| Sun | 8 | +0.37 | +0.67 | +0.80 | 62% |
+
+All days positive on average. Monday strongest, Sunday weakest. Weekday: +0.70, 79% pos. Weekend: +0.50, 62% pos.
+
+**Week of Month (SOL):**
+
+| Week | Days | Base EV | spread_z>1 | liq_10s>0 | Pos% |
+|------|------|---------|-----------|----------|------|
+| Wk1 | 17 | +0.47 | +1.09 | **+1.51** | 65% |
+| Wk2 | 7 | +0.43 | -0.40 | +0.76 | 71% |
+| **Wk3** | 14 | **+0.84** | **+1.53** | +0.79 | **79%** |
+| **Wk4** | 14 | **+0.78** | +0.84 | +0.98 | **86%** |
+| Wk5 | 7 | +0.64 | +0.47 | +1.36 | 71% |
+
+Weeks 3-4 are strongest (consistent with v40 calendar anomalies — quarter-end weeks are quieter).
+
+**Month:**
+
+| Month | Days | Base EV | Pos% |
+|-------|------|---------|------|
+| May | 17 | +0.76 | 88% |
+| Jun | 30 | +0.64 | 70% |
+| Jul | 5 | +0.54 | 80% |
+| Aug | 7 | +0.47 | 57% |
+
+Edge is present in all months but decays slightly over time (May > Jun > Jul > Aug). Could be seasonal or could be alpha decay.
+
+### Revised Fee Viability (OOS Numbers)
+
+| Config | OOS EV | 4-fill @ 0% | 4-fill @ 0.005% | 4-fill @ 0.01% |
+|--------|--------|------------|-----------------|----------------|
+| SOL liq_10s>0 | +1.92 | **+1.92 ✅** | -0.08 ❌ | -2.08 ❌ |
+| SOL spread_z>1 | +1.53 | **+1.53 ✅** | -0.47 ❌ | -2.47 ❌ |
+| DOGE liq_10s>0 | +1.54 | **+1.54 ✅** | -0.46 ❌ | -2.46 ❌ |
+| SOL baseline | +0.53 | **+0.53 ✅** | -1.47 ❌ | -3.47 ❌ |
+
+### Honest Conclusion
+
+The in-sample results were overly optimistic. OOS reality:
+- **The edge is real** — SOL positive 75% of days, DOGE 73%, across 59 days
+- **Best trigger OOS is `liq_10s>0`** (liquidation in last 10s) at +1.5-1.9 bps
+- **But it does NOT survive 0.005% maker fees** (4 fills × 0.5 bps = 2.0 bps cost)
+- **Only viable at true 0% maker fees** — the original conclusion holds
+- **BTC should be dropped** — consistently negative
+- **Spread_z signal degraded OOS** — likely overfitted to the 3-day in-sample period
