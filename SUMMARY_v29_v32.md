@@ -438,10 +438,34 @@ Each entry involves **4 order fills** (open 2 + close 2):
 
 **Only profitable at Pro 1+ tier** (requires $100M+ monthly volume on Bybit).
 
+### Correction: All Orders CAN Be Limit (Maker)
+
+The SL does **not** need to be a stop-market. All 6 orders can be placed at entry time as resting limit orders:
+
+| Order | Side | Price (SOL@$170) | Rests as |
+|-------|------|-------------------|----------|
+| Open Long | Limit Buy | $170.00 | Bid |
+| Open Short | Limit Sell | $170.00 | Ask |
+| Long TP | Limit Sell | $170.17 (+10bps) | Ask |
+| Long SL | Limit Sell | $169.915 (-5bps) | Ask |
+| Short TP | Limit Buy | $169.83 (-10bps) | Bid |
+| Short SL | Limit Buy | $170.085 (+5bps) | Bid |
+
+All sit on the book → all fill as **maker**. Use `post_only` flag to guarantee maker-or-reject. Cancel remaining orders once a side resolves.
+
+### Revised Fee Analysis (All-Maker)
+
+| Maker Fee | Total Fee (4 fills) | DOGE Net | SOL Net | All 5 Profitable? |
+|-----------|--------------------:|----------|---------|-------------------|
+| 0.010% (Bybit regular) | 4.0 bps | -2.70 ❌ | -3.35 ❌ | No |
+| 0.005% | 2.0 bps | -0.70 ❌ | -1.35 ❌ | No |
+| **0.000%** | **0.0 bps** | **+1.30 ✅** | **+0.66 ✅** | **Yes** |
+| -0.005% (rebate) | -2.0 bps | +3.30 ✅ | +2.66 ✅ | Yes |
+
 ### Conclusion
 
-The fat-tail edge is **real but tiny** (~0.5-1.3 bps). Exchange fees at retail/VIP tiers are **10-20× larger** than the edge. This strategy:
-- ✅ Works in theory (proven by data)
-- ✅ Has a real structural source (excess kurtosis)
-- ❌ **Cannot be traded profitably** at normal fee tiers
-- ⚠️ Only viable at Pro market-maker tiers with negative maker fees
+With **all-limit orders** and **0% maker fee**, the strategy is profitable on all 5 symbols. The edge is real but requires either:
+- An exchange with true 0% maker fees on perps
+- Or maker rebates to amplify the edge
+
+Current gross EV (~0.5-1.3 bps) is too thin for any exchange charging maker fees. **Widening the TP/SL levels** (via volatility filtering) could increase gross EV to survive small maker fees.
