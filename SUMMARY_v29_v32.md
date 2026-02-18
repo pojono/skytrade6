@@ -469,3 +469,55 @@ With **all-limit orders** and **0% maker fee**, the strategy is profitable on al
 - Or maker rebates to amplify the edge
 
 Current gross EV (~0.5-1.3 bps) is too thin for any exchange charging maker fees. **Widening the TP/SL levels** (via volatility filtering) could increase gross EV to survive small maker fees.
+
+---
+
+## v34: Volatility Filter Optimization
+
+### Goal
+Use temporal patterns (v33) and volume signals (v38) to filter entries to high-vol periods, then test wider TP/SL with longer time limits.
+
+### Step 1: Filter Impact on TP=10/SL=5 (5m TL)
+
+| Filter | Avg Trades | EV | Improvement |
+|--------|-----------|-----|-------------|
+| No filter | 34,410 | +0.424 | baseline |
+| US hours (12-20 UTC) | 11,520 | +0.560 | +32% |
+| Peak hours (13-18 UTC) | 7,200 | +0.604 | +42% |
+| Weekday only | 28,650 | +0.507 | +20% |
+| Weekday + Peak (13-18) | 6,000 | +0.725 | **+71%** |
+| Vol surge z>1 | 4,844 | +0.631 | +49% |
+| **Weekday + Peak + VolZ>1** | **1,046** | **+0.966** | **+128%** |
+
+**Weekday + Peak hours is the best simple filter** (+71% EV). Adding vol z-score pushes to +128% but cuts sample count to 1K.
+
+### Step 2: Wider TP/SL + Longer Time Limits (weekday 13-18 UTC)
+
+| Config | Time Limit | Avg EV | Timeout |
+|--------|-----------|--------|---------|
+| 10/5 | 5m | +0.725 | 2% |
+| 10/5 | 15m | +0.821 | 0% |
+| **20/10** | **15m** | **+0.838** | **2%** |
+| **20/10** | **30m** | **+0.892** | **0%** |
+| 30/15 | 30m | +0.508 | 2% |
+
+**TP=20/SL=10 with 15-30m TL is the new sweet spot** — same EV as 10/5 but 2× the bps per winning trade.
+
+Per-symbol bests (weekday 13-18 UTC):
+- **SOL 20/10 15m**: +1.21 bps
+- **DOGE 30/15 30m**: +1.21 bps
+- **ETH 30/15 30m**: +1.02 bps
+- **XRP 20/10 30m**: +0.69 bps
+- **BTC 10/5 30m**: +0.86 bps
+
+### Fee Viability (all-limit, 4 maker fills)
+
+| Maker Fee | 4-Fill Cost | Portfolio Net (0.89 avg) | Best Symbol Net (1.21) |
+|-----------|------------|-------------------------|----------------------|
+| **0.000%** | **0 bps** | **+0.89 ✅** | **+1.21 ✅** |
+| 0.005% | 2 bps | -1.11 ❌ | -0.79 ❌ |
+| 0.010% | 4 bps | -3.11 ❌ | -2.79 ❌ |
+
+### Conclusion
+
+Temporal + vol filters boost EV by up to 128%, and wider TP/SL with longer TL adds another ~15%. But the maximum achievable gross EV (~1.2 bps on best symbols) still requires **true 0% maker fees** to be profitable. The 4-fill structure is the fundamental constraint — any non-zero per-fill fee quickly overwhelms the edge.
