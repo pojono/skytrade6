@@ -1,0 +1,259 @@
+
+################################################################################
+  v32: ASYMMETRIC TP/SL PREDICTION
+  Symbol: BTCUSDT
+  Dates: 2025-05-11 to 2025-05-17 (7 days)
+  Configs: 8 TP/SL combinations
+################################################################################
+  [RAM] used=12.5GB avail=3.9GB start
+  Loading trades...
+    2025-05-11: 1,353,538 trades
+    2025-05-12: 2,448,327 trades
+    2025-05-13: 1,567,220 trades
+    2025-05-14: 1,161,410 trades
+    2025-05-15: 1,695,265 trades
+    2025-05-16: 1,095,825 trades
+    2025-05-17: 719,070 trades
+  Loading liquidations...
+  [RAM] used=12.6GB avail=3.9GB after liqs
+  Built 604,798 seconds (16s)
+  [RAM] used=12.6GB avail=3.9GB raw done
+
+  --- Feature Engineering ---
+  Computed 43 features in 0.2s
+  [RAM] used=12.7GB avail=3.8GB features done
+
+################################################################################
+  v32: ASYMMETRIC TP/SL PREDICTION
+################################################################################
+  Features: 43
+  Train: 29,880, Test: 30,150
+
+================================================================================
+  PHASE 1: Baseline TP/SL Statistics
+================================================================================
+   TP bps   SL bps     TL    L-TP%    L-SL%    S-TP%    S-SL%     TO%       EV
+  -----------------------------------------------------------------
+      5.0      2.5    300    35.8%    64.2%    36.0%    64.0%    6.0%   +2.66  (0s)
+      5.0      2.5    600    36.2%    63.8%    36.9%    63.1%    1.0%   +2.93  (0s)
+     10.0      5.0    300    28.7%    71.3%    30.0%    70.0%   30.8%   +2.13  (0s)
+     10.0      5.0    600    31.9%    68.1%    33.7%    66.3%   11.4%   +3.98  (0s)
+     10.0      5.0    900    32.7%    67.3%    35.1%    64.9%    5.1%   +4.74  (0s)
+     15.0      7.5    600    28.3%    71.7%    28.8%    71.2%   30.2%   +2.77  (1s)
+     15.0      7.5    900    30.6%    69.4%    31.5%    68.5%   18.0%   +4.58  (0s)
+     20.0     10.0    900    26.8%    73.2%    28.0%    72.0%   34.3%   +2.73  (0s)
+
+================================================================================
+  PHASE 2: ML Prediction — Which Side Wins?
+================================================================================
+
+  --- TP=5 SL=2.5 TL=300s ---
+  Long TP base rate: 0.3506 (train: 0.3654)
+  AUC (long TP): 0.5046
+
+  Strategy: go long when P(long TP) > threshold, short when < (1-threshold)
+   Threshold    #Long   L-Win%   #Short   S-Win%   EV/trade    Lift
+  -------------------------------------------------------
+  P90          2,767    36.0%    2,770    66.8%     +1.36   10.5x
+  P80          5,533    35.1%    5,533    65.9%     +1.28    9.9x
+  P70          8,300    35.6%    8,300    65.0%     +1.27    9.9x
+  P60         11,066    35.2%   11,066    65.0%     +1.26    9.7x
+
+  Top 10 features:
+     1.                    hour_of_day  0.0693
+     2.             fr_time_to_funding  0.0557
+     3.                       vol_900s  0.0538
+     4.              trade_count_3600s  0.0503
+     5.                      vol_3600s  0.0442
+     6.                buy_ratio_3600s  0.0438
+     7.               large_count_900s  0.0389
+     8.            buy_not_ratio_3600s  0.0376
+     9.           avg_trade_size_3600s  0.0363
+    10.               trade_count_900s  0.0352
+
+  --- TP=5 SL=2.5 TL=600s ---
+  Long TP base rate: 0.3553 (train: 0.3679)
+  AUC (long TP): 0.5043
+
+  Strategy: go long when P(long TP) > threshold, short when < (1-threshold)
+   Threshold    #Long   L-Win%   #Short   S-Win%   EV/trade    Lift
+  -------------------------------------------------------
+  P90          2,964    37.1%    2,969    64.6%     +1.31    8.0x
+  P80          5,928    35.6%    5,928    66.1%     +1.32    8.0x
+  P70          8,891    34.7%    8,890    65.0%     +1.24    7.5x
+  P60         11,853    35.9%   11,853    65.1%     +1.29    7.8x
+
+  Top 10 features:
+     1.                    hour_of_day  0.0749
+     2.             fr_time_to_funding  0.0672
+     3.                       vol_900s  0.0539
+     4.              trade_count_3600s  0.0524
+     5.                      vol_3600s  0.0510
+     6.            buy_not_ratio_3600s  0.0479
+     7.           avg_trade_size_3600s  0.0402
+     8.                buy_ratio_3600s  0.0393
+     9.               trade_count_900s  0.0368
+    10.             buy_not_ratio_900s  0.0356
+
+  --- TP=10 SL=5 TL=300s ---
+  Long TP base rate: 0.2712 (train: 0.3013)
+  AUC (long TP): 0.5048
+
+  Strategy: go long when P(long TP) > threshold, short when < (1-threshold)
+   Threshold    #Long   L-Win%   #Short   S-Win%   EV/trade    Lift
+  -------------------------------------------------------
+  P90          1,934    23.9%    1,934    77.5%     +2.60    2.8x
+  P80          3,867    25.8%    3,868    75.1%     +2.56    2.7x
+  P70          5,800    27.3%    5,800    73.7%     +2.58    2.8x
+  P60          7,733    27.0%    7,733    73.2%     +2.52    2.7x
+
+  Top 10 features:
+     1.             fr_time_to_funding  0.0959
+     2.                    hour_of_day  0.0812
+     3.              liq_notional_900s  0.0600
+     4.                       vol_900s  0.0540
+     5.                      vol_3600s  0.0455
+     6.            tick_imbalance_900s  0.0434
+     7.            trade_notional_900s  0.0426
+     8.              trade_count_3600s  0.0395
+     9.            buy_not_ratio_3600s  0.0394
+    10.           trade_notional_3600s  0.0381
+
+  --- TP=10 SL=5 TL=600s ---
+  Long TP base rate: 0.2998 (train: 0.3362)
+  AUC (long TP): 0.4980
+
+  Strategy: go long when P(long TP) > threshold, short when < (1-threshold)
+   Threshold    #Long   L-Win%   #Short   S-Win%   EV/trade    Lift
+  -------------------------------------------------------
+  P90          2,546    27.2%    2,547    72.7%     +2.49    5.0x
+  P80          5,094    28.2%    5,093    70.3%     +2.38    4.7x
+  P70          7,638    29.6%    7,638    70.1%     +2.48    4.9x
+  P60         10,185    29.9%   10,185    69.9%     +2.48    4.9x
+
+  Top 10 features:
+     1.                    hour_of_day  0.0825
+     2.             fr_time_to_funding  0.0785
+     3.                      vol_3600s  0.0725
+     4.              trade_count_3600s  0.0725
+     5.                       vol_900s  0.0625
+     6.           avg_trade_size_3600s  0.0531
+     7.            buy_not_ratio_3600s  0.0427
+     8.            trade_notional_900s  0.0413
+     9.             liq_notional_3600s  0.0395
+    10.              liq_notional_900s  0.0394
+
+  --- TP=10 SL=5 TL=900s ---
+  Long TP base rate: 0.3103 (train: 0.3423)
+  AUC (long TP): 0.4800
+
+  Strategy: go long when P(long TP) > threshold, short when < (1-threshold)
+   Threshold    #Long   L-Win%   #Short   S-Win%   EV/trade    Lift
+  -------------------------------------------------------
+  P90          2,775    26.3%    2,772    66.2%     +1.94    5.6x
+  P80          5,544    29.3%    5,543    65.8%     +2.14    6.2x
+  P70          8,315    29.8%    8,316    67.3%     +2.28    6.6x
+  P60         11,086    29.9%   11,086    67.6%     +2.31    6.7x
+
+  Top 10 features:
+     1.             fr_time_to_funding  0.1013
+     2.                    hour_of_day  0.0858
+     3.                      vol_3600s  0.0708
+     4.              trade_count_3600s  0.0699
+     5.                       vol_900s  0.0584
+     6.             liq_notional_3600s  0.0443
+     7.           avg_trade_size_3600s  0.0416
+     8.                buy_ratio_3600s  0.0415
+     9.              liq_notional_900s  0.0414
+    10.                liq_count_3600s  0.0355
+
+  --- TP=15 SL=7.5 TL=600s ---
+  Long TP base rate: 0.2699 (train: 0.2949)
+  AUC (long TP): 0.4870
+
+  Strategy: go long when P(long TP) > threshold, short when < (1-threshold)
+   Threshold    #Long   L-Win%   #Short   S-Win%   EV/trade    Lift
+  -------------------------------------------------------
+  P90          1,938    21.0%    1,938    67.4%     +2.44    1.7x
+  P80          3,875    23.2%    3,876    70.9%     +3.09    2.2x
+  P70          5,814    25.6%    5,812    72.6%     +3.54    2.5x
+  P60          7,751    27.0%    7,750    73.4%     +3.80    2.7x
+
+  Top 10 features:
+     1.                    hour_of_day  0.1017
+     2.             fr_time_to_funding  0.0909
+     3.                       vol_900s  0.0675
+     4.                      vol_3600s  0.0652
+     5.              trade_count_3600s  0.0546
+     6.              liq_notional_300s  0.0469
+     7.           avg_trade_size_3600s  0.0406
+     8.            trade_notional_900s  0.0380
+     9.              liq_notional_900s  0.0367
+    10.            avg_trade_size_900s  0.0348
+
+  --- TP=15 SL=7.5 TL=900s ---
+  Long TP base rate: 0.2864 (train: 0.3235)
+  AUC (long TP): 0.4742
+
+  Strategy: go long when P(long TP) > threshold, short when < (1-threshold)
+   Threshold    #Long   L-Win%   #Short   S-Win%   EV/trade    Lift
+  -------------------------------------------------------
+  P90          2,306    21.4%    2,307    67.3%     +2.48    2.3x
+  P80          4,611    26.4%    4,618    68.6%     +3.18    3.0x
+  P70          6,917    26.9%    6,917    69.7%     +3.36    3.2x
+  P60          9,222    27.1%    9,222    69.9%     +3.41    3.2x
+
+  Top 10 features:
+     1.                    hour_of_day  0.1092
+     2.             fr_time_to_funding  0.0829
+     3.                      vol_3600s  0.0718
+     4.                       vol_900s  0.0641
+     5.              trade_count_3600s  0.0544
+     6.           avg_trade_size_3600s  0.0456
+     7.            buy_not_ratio_3600s  0.0411
+     8.              large_count_3600s  0.0384
+     9.                liq_count_3600s  0.0371
+    10.       liq_side_imbalance_3600s  0.0335
+
+  --- TP=20 SL=10 TL=900s ---
+  Long TP base rate: 0.2577 (train: 0.2773)
+  AUC (long TP): 0.4807
+
+  Strategy: go long when P(long TP) > threshold, short when < (1-threshold)
+   Threshold    #Long   L-Win%   #Short   S-Win%   EV/trade    Lift
+  -------------------------------------------------------
+  P90          1,802    23.4%    1,803    68.0%     +3.70    1.6x
+  P80          3,605    24.5%    3,607    68.9%     +4.00    1.8x
+  P70          5,412    26.2%    5,407    72.0%     +4.72    2.1x
+  P60          7,207    25.5%    7,209    73.0%     +4.77    2.1x
+
+  Top 10 features:
+     1.                    hour_of_day  0.1156
+     2.                       vol_900s  0.0709
+     3.             fr_time_to_funding  0.0700
+     4.              trade_count_3600s  0.0578
+     5.                      vol_3600s  0.0572
+     6.           trade_notional_3600s  0.0511
+     7.           avg_trade_size_3600s  0.0490
+     8.            avg_trade_size_900s  0.0453
+     9.             liq_notional_3600s  0.0446
+    10.            buy_not_ratio_3600s  0.0401
+
+
+################################################################################
+  SUMMARY: ALL CONFIGS
+################################################################################
+                          Config       AUC   Base Rate    2:1 EV
+  ------------------------------------------------------------
+             TP=5 SL=2.5 TL=300s    0.5046      0.3506    +0.13
+             TP=5 SL=2.5 TL=600s    0.5043      0.3553    +0.17
+              TP=10 SL=5 TL=300s    0.5048      0.2712    -0.93
+              TP=10 SL=5 TL=600s    0.4980      0.2998    -0.50
+              TP=10 SL=5 TL=900s    0.4800      0.3103    -0.35
+            TP=15 SL=7.5 TL=600s    0.4870      0.2699    -1.43
+            TP=15 SL=7.5 TL=900s    0.4742      0.2864    -1.06
+             TP=20 SL=10 TL=900s    0.4807      0.2577    -2.27
+
+################################################################################
+  COMPLETE: 345s (5.8min)
+################################################################################
