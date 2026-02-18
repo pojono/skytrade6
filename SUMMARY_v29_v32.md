@@ -808,3 +808,92 @@ The in-sample results were overly optimistic. OOS reality:
 - **Only viable at true 0% maker fees** — the original conclusion holds
 - **BTC should be dropped** — consistently negative
 - **Spread_z signal degraded OOS** — likely overfitted to the 3-day in-sample period
+
+---
+
+## v38: Combined Scoring Model (Continuous Probability)
+
+Instead of binary triggers, compute P(win) as a continuous score and trade above a threshold.
+
+**Setup**: SOL, train 21 weekdays (May 15 – Jun 12), test 22 weekdays (Jun 13 – Aug 7), 13 features.
+
+| Model | AUC Test | Best Test EV | N trades | Reliable? |
+|-------|----------|-------------|----------|-----------|
+| LightGBM P>0.80 | 0.49 | +2.24 | 232 | ⚠️ Overfits (train 8.7x) |
+| LogReg P>0.75 | 0.50 | +1.85 | 92 | ⚠️ Too few trades |
+| **Simple weighted score P95** | **0.51** | **+1.11** | **2,115** | **✅ Most honest** |
+
+ML models overfit badly (train EV 5-9×, test 0.6-2.2×). Simple weighted score has minimal train/test gap.
+
+---
+
+## v39: Exhaustive Feature Engineering (165 Features, 5 Models, 5 Targets)
+
+Replicated v29's exhaustive approach but targeting TP/SL win prediction.
+
+### Feature Generation
+- **165 features** across 8 horizons (5s–900s), 4 data streams
+- Categories: volatility, range, trade activity, acceleration, buy/sell imbalance, liquidations, spread, OI, momentum, cross-horizon ratios, clock, composites
+- After signal filter + redundancy removal: **51 non-redundant features**
+
+### Result: Win/Loss Prediction Is Impossible
+
+| Model | AUC Train | AUC Test | Verdict |
+|-------|-----------|----------|---------|
+| LogReg (C=0.1) | 0.540 | **0.503** | Random |
+| GBM_medium | 0.622 | **0.492** | Overfit |
+| GBM_deep | 0.666 | **0.489** | Overfit |
+| GBM_regularized | 0.559 | **0.495** | Overfit |
+| SimpleScore | 0.524 | **0.507** | Barely signal |
+| Ensemble | 0.562 | **0.506** | Barely signal |
+
+**All test AUCs ≈ 0.50.** 165 features, 51 after pruning, 5 model types → cannot predict win/loss.
+
+### Alternative Targets Tested
+
+| Target | Train Corr/AUC | Test Corr/AUC | Verdict |
+|--------|---------------|---------------|---------|
+| Binary win/loss | AUC 0.54 | AUC 0.50 | ❌ Random |
+| PnL regression | corr 0.39 | corr -0.01 | ❌ Pure overfit |
+| Top-quartile PnL | AUC 0.74 | AUC 0.50 | ❌ Pure overfit |
+| **|PnL| (vol timing)** | corr 0.39 | corr -0.02 | **⚠️ Marginal at tails** |
+| Resolution (hit TP/SL?) | AUC 1.00 | — | ❌ 99.9% resolve anyway |
+
+### New Discovery: Buy/Sell Imbalance
+
+Single-feature analysis revealed **buy_imbal** (buy/sell notional ratio) at 2-10 min horizons as a new useful predictor:
+
+| Feature | P95 Test EV | P95 N | Mechanism |
+|---------|------------|-------|-----------|
+| **buy_imbal_120** (2min) | **+1.74** | 1,429 | Sell-heavy → cascades |
+| **buy_imbal_600** (10min) | **+1.63** | 1,672 | Sell-heavy → fat tails |
+| **range_z_300** (5min) | **+1.89** | 1,479 | Low range → compression |
+| buy_imbal_300 (5min) | +1.41 | 1,686 | Sell-heavy |
+
+Sell-heavy periods correlate with liquidation cascades and wider spreads — exactly the conditions the symmetric strategy exploits.
+
+### v29 vs v39 Comparison
+
+| Metric | v29 (Regime Prediction) | v39 (TP/SL Win) |
+|--------|------------------------|-----------------|
+| Best univariate AUC | **0.565** | 0.514 |
+| Best ML AUC (test) | **0.600** | 0.507 |
+| Top horizon | 900s-3600s | 120s-600s |
+| Signal strength | Moderate | **Very weak** |
+
+Regime switches have 10× more signal than individual trade outcomes.
+
+### Honest Conclusion
+
+**Simple beats complex.** Single features (liq_10s, buy_imbal, range_z) at P90-P95 thresholds give +1.6-1.9 EV. No ML model reliably improves on this. The per-feature correlations are ~0.01 — too weak for ML to extract without overfitting.
+
+**Updated best approaches (all require 0% maker fees):**
+
+| Approach | Test EV | Trades/day | Reliable? |
+|----------|---------|-----------|-----------|
+| liq_10s>0 (v37) | +1.92 | ~65 | ✅ Robust OOS |
+| range_z_300 P95 | +1.89 | ~67 | ✅ New |
+| buy_imbal_120 P95 | +1.74 | ~65 | ✅ New |
+| buy_imbal_600 P95 | +1.63 | ~76 | ✅ New |
+| Simple score P95 | +1.11 | ~96 | ✅ Combined |
+| Baseline (no filter) | +0.63 | ~1,800 | ✅ |
