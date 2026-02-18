@@ -521,3 +521,24 @@ Per-symbol bests (weekday 13-18 UTC):
 ### Conclusion
 
 Temporal + vol filters boost EV by up to 128%, and wider TP/SL with longer TL adds another ~15%. But the maximum achievable gross EV (~1.2 bps on best symbols) still requires **true 0% maker fees** to be profitable. The 4-fill structure is the fundamental constraint — any non-zero per-fill fee quickly overwhelms the edge.
+
+### Step 3: Sequential Simulation (Realistic Execution)
+
+Previous backtests used overlapping entries (new trade every 30s). In reality you'd enter one trade, wait for resolution, then enter the next. Does the EV hold?
+
+**TP=10/SL=5, 5m TL, weekday 13-18 UTC:**
+
+| Symbol | Trades/day | Seq EV | Avg Duration | Overlap EV |
+|--------|-----------|--------|-------------|------------|
+| DOGE | 396 | +0.86 | 28s | +0.92 |
+| SOL | 323 | +0.97 | 39s | +0.91 |
+| XRP | 274 | +0.83 | 49s | +0.65 |
+| ETH | 308 | +0.66 | 42s | +0.71 |
+| BTC | 141 | +0.15 | 112s | +0.44 |
+| **Portfolio** | **1,442** | **+0.77** | **45s** | +0.73 |
+
+**EV is consistent between sequential and overlapping** — the edge is real per-entry, not an artifact of overlap.
+
+**Entry trigger**: There is no signal — it's purely temporal. Enter immediately at 13:00 UTC weekday, re-enter after each resolution until 18:00 UTC. Trades resolve in ~30-45s on average (not the full 5m TL).
+
+**TP=20/SL=10, 15m TL** gives ~610 trades/day across 5 symbols at +0.82 EV, with 132s avg duration. Higher EV per trade but fewer trades.
