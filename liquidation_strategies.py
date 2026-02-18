@@ -35,7 +35,7 @@ def load_liquidations(symbol, data_dir='data'):
     print(f"  Loading {len(liq_files)} liquidation files...", end='', flush=True)
     records = []
     for i, file in enumerate(liq_files, 1):
-        if i % 50 == 0:
+        if i % 200 == 0:
             print(f" {i}", end='', flush=True)
         with gzip.open(file, 'rt') as f:
             for line in f:
@@ -60,14 +60,14 @@ def load_liquidations(symbol, data_dir='data'):
 def load_ticker_prices(symbol, data_dir='data'):
     """Load 5-second ticker data and return price series."""
     symbol_dir = Path(data_dir) / symbol
-    ticker_files = sorted(symbol_dir.glob("ticker_2026-*.jsonl.gz"))
+    ticker_files = sorted(symbol_dir.glob("ticker_*.jsonl.gz"))
     if not ticker_files:
-        raise ValueError(f"No 2026 ticker files found for {symbol}")
+        raise ValueError(f"No ticker files found for {symbol}")
 
     print(f"  Loading {len(ticker_files)} ticker files...", end='', flush=True)
     records = []
     for i, file in enumerate(ticker_files, 1):
-        if i % 50 == 0:
+        if i % 200 == 0:
             print(f" {i}", end='', flush=True)
         with gzip.open(file, 'rt') as f:
             for line in f:

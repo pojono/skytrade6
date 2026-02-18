@@ -1,0 +1,1311 @@
+======================================================================
+  LIQUIDATION STRATEGIES BACKTEST (v26b)
+======================================================================
+  Symbols: BTCUSDT, ETHUSDT, SOLUSDT, DOGEUSDT, XRPUSDT
+  Strategies: 4
+    1. Cascade Fade (mean reversion)
+    2. Extreme Imbalance Reversal
+    3. Liquidation Rate Spike (vol breakout)
+    4. Time-of-Day Liquidation Fade (US hours)
+======================================================================
+
+======================================================================
+  BTCUSDT — LIQUIDATION STRATEGIES BACKTEST
+======================================================================
+  Loading 1613 liquidation files... 200 400 600 800 1000 1200 1400 1600 done (149,833 events)
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,986 ticks)
+  Building 1-min price bars... 105,197 bars
+  Building 1-min liquidation bars... 406,555 bars
+  Overlapping period: 2025-05-11 20:03:00 to 2026-02-17 20:59:00
+  Price bars: 105,190  Liq bars: 406,137
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 1: CASCADE FADE
+──────────────────────────────────────────────────────────────────────
+
+  Detecting cascades for strategy... 1021 cascades found
+
+  Cascade Fade (default):
+    Trades:      1020
+    Win rate:    53.1%
+    Avg return:  0.008%
+    Median ret:  0.014%
+    Total ret:   7.96%
+    Sharpe:      15.37
+    Best trade:  1.391%
+    Worst trade: -0.500%
+    Max drawdown:8.975%
+    Avg hold:    14.1 min
+    LONG  trades:  586  wr=52.7%  avg=+0.007%
+    SHORT trades:  434  wr=53.7%  avg=+0.009%
+
+  Parameter sweep: Cascade Fade
+    Sweep progress: 12/36
+    Sweep progress: 24/36
+    Sweep progress: 36/36
+
+    Top 5 parameter combos:
+      pct=95 hold=30m stop=0.008  →  total=+24.14%  n=1020  wr=54.7%  avg=+0.024%
+      pct=90 hold=30m stop=0.008  →  total=+22.08%  n=1664  wr=53.5%  avg=+0.013%
+      pct=90 hold=30m stop=0.005  →  total=+18.81%  n=1664  wr=51.8%  avg=+0.011%
+      pct=95 hold=30m stop=0.005  →  total=+18.50%  n=1020  wr=52.4%  avg=+0.018%
+      pct=95 hold=15m stop=0.008  →  total=+10.96%  n=1020  wr=54.2%  avg=+0.011%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 2: EXTREME IMBALANCE REVERSAL
+──────────────────────────────────────────────────────────────────────
+
+  Imbalance Reversal (default):
+    Trades:      704
+    Win rate:    52.0%
+    Avg return:  -0.000%
+    Median ret:  0.012%
+    Total ret:   -0.17%
+    Sharpe:      -0.54
+    Best trade:  1.179%
+    Worst trade: -0.500%
+    Max drawdown:9.327%
+    Avg hold:    14.4 min
+    LONG  trades:  366  wr=54.1%  avg=+0.010%
+    SHORT trades:  338  wr=49.7%  avg=-0.011%
+
+  Imbalance Reversal (thresh=0.5):
+    Trades:      1302
+    Win rate:    52.7%
+    Avg return:  -0.004%
+    Median ret:  0.011%
+    Total ret:   -5.12%
+    Sharpe:      -9.49
+    Best trade:  1.254%
+    Worst trade: -0.500%
+    Max drawdown:12.238%
+    Avg hold:    14.5 min
+    LONG  trades:  670  wr=53.9%  avg=+0.000%
+    SHORT trades:  632  wr=51.4%  avg=-0.009%
+
+  Imbalance Reversal (thresh=0.6):
+    Trades:      713
+    Win rate:    52.0%
+    Avg return:  -0.001%
+    Median ret:  0.012%
+    Total ret:   -0.79%
+    Sharpe:      -2.44
+    Best trade:  1.179%
+    Worst trade: -0.500%
+    Max drawdown:9.116%
+    Avg hold:    14.4 min
+    LONG  trades:  372  wr=54.3%  avg=+0.007%
+    SHORT trades:  341  wr=49.6%  avg=-0.010%
+
+  Imbalance Reversal (thresh=0.8):
+    Trades:      242
+    Win rate:    52.9%
+    Avg return:  -0.006%
+    Median ret:  0.015%
+    Total ret:   -1.41%
+    Sharpe:      -11.91
+    Best trade:  0.809%
+    Worst trade: -0.500%
+    Max drawdown:4.506%
+    Avg hold:    14.1 min
+    LONG  trades:  128  wr=53.9%  avg=-0.013%
+    SHORT trades:  114  wr=51.8%  avg=+0.002%
+
+  Imbalance Reversal (thresh=0.9):
+    Trades:      238
+    Win rate:    52.9%
+    Avg return:  -0.005%
+    Median ret:  0.015%
+    Total ret:   -1.24%
+    Sharpe:      -10.63
+    Best trade:  0.809%
+    Worst trade: -0.500%
+    Max drawdown:3.851%
+    Avg hold:    14.1 min
+    LONG  trades:  126  wr=54.8%  avg=-0.008%
+    SHORT trades:  112  wr=50.9%  avg=-0.003%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 3: LIQUIDATION RATE SPIKE
+──────────────────────────────────────────────────────────────────────
+
+  Liq Rate Spike (default):
+    Trades:      1366
+    Win rate:    49.1%
+    Avg return:  -0.008%
+    Median ret:  -0.004%
+    Total ret:   -11.45%
+    Sharpe:      -17.90
+    Best trade:  1.771%
+    Worst trade: -0.800%
+    Max drawdown:18.169%
+    Avg hold:    29.8 min
+    LONG  trades:  667  wr=49.6%  avg=-0.005%
+    SHORT trades:  699  wr=48.6%  avg=-0.012%
+
+  Liq Rate Spike (z=2.0):
+    Trades:      1558
+    Win rate:    48.0%
+    Avg return:  -0.010%
+    Median ret:  -0.009%
+    Total ret:   -15.51%
+    Sharpe:      -20.82
+    Best trade:  1.975%
+    Worst trade: -0.800%
+    Max drawdown:17.233%
+    Avg hold:    29.8 min
+    LONG  trades:  759  wr=49.1%  avg=-0.005%
+    SHORT trades:  799  wr=46.9%  avg=-0.014%
+
+  Liq Rate Spike (z=2.5):
+    Trades:      1480
+    Win rate:    48.4%
+    Avg return:  -0.011%
+    Median ret:  -0.008%
+    Total ret:   -16.08%
+    Sharpe:      -22.66
+    Best trade:  1.975%
+    Worst trade: -0.800%
+    Max drawdown:18.677%
+    Avg hold:    29.8 min
+    LONG  trades:  719  wr=48.7%  avg=-0.010%
+    SHORT trades:  761  wr=48.1%  avg=-0.012%
+
+  Liq Rate Spike (z=4.0):
+    Trades:      1216
+    Win rate:    48.7%
+    Avg return:  -0.006%
+    Median ret:  -0.005%
+    Total ret:   -7.28%
+    Sharpe:      -13.01
+    Best trade:  1.771%
+    Worst trade: -0.800%
+    Max drawdown:15.680%
+    Avg hold:    29.8 min
+    LONG  trades:  589  wr=49.4%  avg=+0.002%
+    SHORT trades:  627  wr=48.0%  avg=-0.013%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 4: TIME-OF-DAY LIQUIDATION FADE (US hours)
+──────────────────────────────────────────────────────────────────────
+
+  ToD Liq Fade (default):
+    Trades:      405
+    Win rate:    51.9%
+    Avg return:  0.006%
+    Median ret:  0.006%
+    Total ret:   2.27%
+    Sharpe:      12.99
+    Best trade:  0.981%
+    Worst trade: -0.400%
+    Max drawdown:5.950%
+    Avg hold:    9.5 min
+    LONG  trades:  216  wr=51.4%  avg=-0.001%
+    SHORT trades:  189  wr=52.4%  avg=+0.014%
+
+  ToD Liq Fade (thresh=0.3):
+    Trades:      637
+    Win rate:    51.6%
+    Avg return:  -0.000%
+    Median ret:  0.007%
+    Total ret:   -0.06%
+    Sharpe:      -0.24
+    Best trade:  1.109%
+    Worst trade: -0.400%
+    Max drawdown:7.011%
+    Avg hold:    9.5 min
+    LONG  trades:  321  wr=53.0%  avg=+0.006%
+    SHORT trades:  316  wr=50.3%  avg=-0.006%
+
+  ToD Liq Fade (thresh=0.4):
+    Trades:      408
+    Win rate:    51.0%
+    Avg return:  0.005%
+    Median ret:  0.005%
+    Total ret:   2.04%
+    Sharpe:      11.50
+    Best trade:  0.981%
+    Worst trade: -0.400%
+    Max drawdown:6.799%
+    Avg hold:    9.5 min
+    LONG  trades:  219  wr=51.1%  avg=+0.003%
+    SHORT trades:  189  wr=50.8%  avg=+0.007%
+
+  ToD Liq Fade (thresh=0.6):
+    Trades:      234
+    Win rate:    52.1%
+    Avg return:  0.007%
+    Median ret:  0.007%
+    Total ret:   1.63%
+    Sharpe:      15.29
+    Best trade:  0.894%
+    Worst trade: -0.400%
+    Max drawdown:3.766%
+    Avg hold:    9.4 min
+    LONG  trades:  131  wr=51.1%  avg=+0.008%
+    SHORT trades:  103  wr=53.4%  avg=+0.006%
+
+  ToD Liq Fade (thresh=0.7):
+    Trades:      230
+    Win rate:    51.7%
+    Avg return:  0.003%
+    Median ret:  0.007%
+    Total ret:   0.80%
+    Sharpe:      7.72
+    Best trade:  0.894%
+    Worst trade: -0.400%
+    Max drawdown:4.375%
+    Avg hold:    9.4 min
+    LONG  trades:  127  wr=51.2%  avg=+0.010%
+    SHORT trades:  103  wr=52.4%  avg=-0.005%
+
+──────────────────────────────────────────────────────────────────────
+  BTCUSDT complete in 269.9s
+──────────────────────────────────────────────────────────────────────
+
+======================================================================
+  ETHUSDT — LIQUIDATION STRATEGIES BACKTEST
+======================================================================
+  Loading 1644 liquidation files... 200 400 600 800 1000 1200 1400 1600 done (169,432 events)
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,971 ticks)
+  Building 1-min price bars... 105,193 bars
+  Building 1-min liquidation bars... 406,541 bars
+  Overlapping period: 2025-05-11 19:57:00 to 2026-02-17 20:59:00
+  Price bars: 105,192  Liq bars: 406,143
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 1: CASCADE FADE
+──────────────────────────────────────────────────────────────────────
+
+  Detecting cascades for strategy... 1141 cascades found
+
+  Cascade Fade (default):
+    Trades:      1141
+    Win rate:    48.2%
+    Avg return:  -0.003%
+    Median ret:  -0.028%
+    Total ret:   -2.88%
+    Sharpe:      -3.20
+    Best trade:  3.236%
+    Worst trade: -0.500%
+    Max drawdown:16.467%
+    Avg hold:    12.1 min
+    LONG  trades:  727  wr=48.8%  avg=+0.001%
+    SHORT trades:  414  wr=47.1%  avg=-0.008%
+
+  Parameter sweep: Cascade Fade
+    Sweep progress: 12/36
+    Sweep progress: 24/36
+    Sweep progress: 36/36
+
+    Top 5 parameter combos:
+      pct=90 hold=30m stop=0.003  →  total=+23.44%  n=1923  wr=36.5%  avg=+0.012%
+      pct=90 hold=15m stop=0.003  →  total=+22.11%  n=1923  wr=44.3%  avg=+0.011%
+      pct=95 hold=30m stop=0.003  →  total=+21.28%  n=1141  wr=34.9%  avg=+0.019%
+      pct=95 hold=30m stop=0.005  →  total=+18.90%  n=1141  wr=44.3%  avg=+0.017%
+      pct=90 hold=10m stop=0.003  →  total=+11.39%  n=1923  wr=46.7%  avg=+0.006%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 2: EXTREME IMBALANCE REVERSAL
+──────────────────────────────────────────────────────────────────────
+
+  Imbalance Reversal (default):
+    Trades:      864
+    Win rate:    51.9%
+    Avg return:  0.003%
+    Median ret:  0.018%
+    Total ret:   2.79%
+    Sharpe:      4.73
+    Best trade:  1.720%
+    Worst trade: -0.500%
+    Max drawdown:11.585%
+    Avg hold:    12.9 min
+    LONG  trades:  480  wr=51.0%  avg=-0.013%
+    SHORT trades:  384  wr=52.9%  avg=+0.023%
+
+  Imbalance Reversal (thresh=0.5):
+    Trades:      1686
+    Win rate:    51.9%
+    Avg return:  -0.001%
+    Median ret:  0.014%
+    Total ret:   -1.21%
+    Sharpe:      -1.15
+    Best trade:  2.250%
+    Worst trade: -0.500%
+    Max drawdown:19.049%
+    Avg hold:    13.3 min
+    LONG  trades:  917  wr=52.2%  avg=+0.003%
+    SHORT trades:  769  wr=51.5%  avg=-0.005%
+
+  Imbalance Reversal (thresh=0.6):
+    Trades:      869
+    Win rate:    51.8%
+    Avg return:  0.006%
+    Median ret:  0.017%
+    Total ret:   4.88%
+    Sharpe:      8.12
+    Best trade:  1.837%
+    Worst trade: -0.500%
+    Max drawdown:12.036%
+    Avg hold:    12.8 min
+    LONG  trades:  482  wr=50.6%  avg=-0.015%
+    SHORT trades:  387  wr=53.2%  avg=+0.032%
+
+  Imbalance Reversal (thresh=0.8):
+    Trades:      271
+    Win rate:    52.8%
+    Avg return:  0.004%
+    Median ret:  0.038%
+    Total ret:   1.05%
+    Sharpe:      5.42
+    Best trade:  1.233%
+    Worst trade: -0.500%
+    Max drawdown:7.001%
+    Avg hold:    12.5 min
+    LONG  trades:  159  wr=55.3%  avg=+0.009%
+    SHORT trades:  112  wr=49.1%  avg=-0.004%
+
+  Imbalance Reversal (thresh=0.9):
+    Trades:      268
+    Win rate:    52.6%
+    Avg return:  0.004%
+    Median ret:  0.037%
+    Total ret:   0.98%
+    Sharpe:      5.15
+    Best trade:  1.233%
+    Worst trade: -0.500%
+    Max drawdown:7.001%
+    Avg hold:    12.5 min
+    LONG  trades:  158  wr=55.1%  avg=+0.009%
+    SHORT trades:  110  wr=49.1%  avg=-0.004%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 3: LIQUIDATION RATE SPIKE
+──────────────────────────────────────────────────────────────────────
+
+  Liq Rate Spike (default):
+    Trades:      1405
+    Win rate:    44.4%
+    Avg return:  0.024%
+    Median ret:  -0.051%
+    Total ret:   33.84%
+    Sharpe:      10.74
+    Best trade:  46.799%
+    Worst trade: -0.800%
+    Max drawdown:22.196%
+    Avg hold:    28.9 min
+    LONG  trades:  666  wr=44.0%  avg=+0.049%
+    SHORT trades:  739  wr=44.8%  avg=+0.001%
+
+  Liq Rate Spike (z=2.0):
+    Trades:      1604
+    Win rate:    44.6%
+    Avg return:  0.026%
+    Median ret:  -0.044%
+    Total ret:   41.37%
+    Sharpe:      12.10
+    Best trade:  46.799%
+    Worst trade: -0.800%
+    Max drawdown:17.781%
+    Avg hold:    29.0 min
+    LONG  trades:  761  wr=44.7%  avg=+0.052%
+    SHORT trades:  843  wr=44.5%  avg=+0.002%
+
+  Liq Rate Spike (z=2.5):
+    Trades:      1487
+    Win rate:    44.7%
+    Avg return:  0.026%
+    Median ret:  -0.045%
+    Total ret:   38.80%
+    Sharpe:      11.89
+    Best trade:  46.799%
+    Worst trade: -0.800%
+    Max drawdown:20.777%
+    Avg hold:    28.9 min
+    LONG  trades:  712  wr=44.7%  avg=+0.054%
+    SHORT trades:  775  wr=44.6%  avg=+0.000%
+
+  Liq Rate Spike (z=4.0):
+    Trades:      1237
+    Win rate:    42.8%
+    Avg return:  -0.019%
+    Median ret:  -0.070%
+    Total ret:   -23.59%
+    Sharpe:      -21.40
+    Best trade:  3.171%
+    Worst trade: -0.800%
+    Max drawdown:34.068%
+    Avg hold:    28.6 min
+    LONG  trades:  584  wr=41.6%  avg=-0.024%
+    SHORT trades:  653  wr=44.0%  avg=-0.014%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 4: TIME-OF-DAY LIQUIDATION FADE (US hours)
+──────────────────────────────────────────────────────────────────────
+
+  ToD Liq Fade (default):
+    Trades:      472
+    Win rate:    55.3%
+    Avg return:  0.023%
+    Median ret:  0.038%
+    Total ret:   10.84%
+    Sharpe:      38.89
+    Best trade:  1.423%
+    Worst trade: -0.400%
+    Max drawdown:5.720%
+    Avg hold:    8.4 min
+    LONG  trades:  237  wr=51.1%  avg=-0.002%
+    SHORT trades:  235  wr=59.6%  avg=+0.048%
+
+  ToD Liq Fade (thresh=0.3):
+    Trades:      745
+    Win rate:    49.4%
+    Avg return:  -0.006%
+    Median ret:  -0.005%
+    Total ret:   -4.13%
+    Sharpe:      -9.71
+    Best trade:  2.096%
+    Worst trade: -0.400%
+    Max drawdown:10.230%
+    Avg hold:    8.6 min
+    LONG  trades:  378  wr=46.8%  avg=-0.017%
+    SHORT trades:  367  wr=52.0%  avg=+0.006%
+
+  ToD Liq Fade (thresh=0.4):
+    Trades:      475
+    Win rate:    55.6%
+    Avg return:  0.026%
+    Median ret:  0.038%
+    Total ret:   12.40%
+    Sharpe:      44.42
+    Best trade:  1.423%
+    Worst trade: -0.400%
+    Max drawdown:5.720%
+    Avg hold:    8.5 min
+    LONG  trades:  238  wr=51.3%  avg=-0.001%
+    SHORT trades:  237  wr=59.9%  avg=+0.053%
+
+  ToD Liq Fade (thresh=0.6):
+    Trades:      240
+    Win rate:    47.5%
+    Avg return:  -0.018%
+    Median ret:  -0.023%
+    Total ret:   -4.42%
+    Sharpe:      -30.22
+    Best trade:  1.423%
+    Worst trade: -0.400%
+    Max drawdown:8.902%
+    Avg hold:    8.1 min
+    LONG  trades:  133  wr=42.1%  avg=-0.038%
+    SHORT trades:  107  wr=54.2%  avg=+0.007%
+
+  ToD Liq Fade (thresh=0.7):
+    Trades:      240
+    Win rate:    47.9%
+    Avg return:  -0.013%
+    Median ret:  -0.017%
+    Total ret:   -3.17%
+    Sharpe:      -21.47
+    Best trade:  1.423%
+    Worst trade: -0.400%
+    Max drawdown:8.902%
+    Avg hold:    8.1 min
+    LONG  trades:  133  wr=42.1%  avg=-0.038%
+    SHORT trades:  107  wr=55.1%  avg=+0.018%
+
+──────────────────────────────────────────────────────────────────────
+  ETHUSDT complete in 278.0s
+──────────────────────────────────────────────────────────────────────
+
+======================================================================
+  SOLUSDT — LIQUIDATION STRATEGIES BACKTEST
+======================================================================
+  Loading 1652 liquidation files... 200 400 600 800 1000 1200 1400 1600 done (98,875 events)
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,981 ticks)
+  Building 1-min price bars... 105,195 bars
+  Building 1-min liquidation bars... 406,558 bars
+  Overlapping period: 2025-05-11 19:56:00 to 2026-02-17 20:59:00
+  Price bars: 105,195  Liq bars: 406,144
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 1: CASCADE FADE
+──────────────────────────────────────────────────────────────────────
+
+  Detecting cascades for strategy... 686 cascades found
+
+  Cascade Fade (default):
+    Trades:      686
+    Win rate:    47.4%
+    Avg return:  0.001%
+    Median ret:  -0.016%
+    Total ret:   0.77%
+    Sharpe:      1.43
+    Best trade:  1.903%
+    Worst trade: -0.500%
+    Max drawdown:20.980%
+    Avg hold:    12.2 min
+    LONG  trades:  493  wr=47.1%  avg=+0.001%
+    SHORT trades:  193  wr=48.2%  avg=+0.001%
+
+  Parameter sweep: Cascade Fade
+    Sweep progress: 12/36
+    Sweep progress: 24/36
+    Sweep progress: 36/36
+
+    Top 5 parameter combos:
+      pct=90 hold=30m stop=0.005  →  total=+31.09%  n=1293  wr=45.6%  avg=+0.024%
+      pct=90 hold=30m stop=0.008  →  total=+29.54%  n=1293  wr=51.3%  avg=+0.023%
+      pct=90 hold=30m stop=0.003  →  total=+22.19%  n=1293  wr=34.4%  avg=+0.017%
+      pct=90 hold=10m stop=0.008  →  total=+22.01%  n=1293  wr=53.0%  avg=+0.017%
+      pct=90 hold=10m stop=0.005  →  total=+18.02%  n=1293  wr=50.5%  avg=+0.014%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 2: EXTREME IMBALANCE REVERSAL
+──────────────────────────────────────────────────────────────────────
+
+  Imbalance Reversal (default):
+    Trades:      766
+    Win rate:    47.0%
+    Avg return:  -0.011%
+    Median ret:  -0.030%
+    Total ret:   -8.51%
+    Sharpe:      -16.28
+    Best trade:  1.869%
+    Worst trade: -0.500%
+    Max drawdown:17.709%
+    Avg hold:    13.1 min
+    LONG  trades:  458  wr=46.9%  avg=-0.021%
+    SHORT trades:  308  wr=47.1%  avg=+0.003%
+
+  Imbalance Reversal (thresh=0.5):
+    Trades:      1604
+    Win rate:    49.6%
+    Avg return:  0.006%
+    Median ret:  0.000%
+    Total ret:   9.84%
+    Sharpe:      9.16
+    Best trade:  2.169%
+    Worst trade: -0.500%
+    Max drawdown:12.169%
+    Avg hold:    13.3 min
+    LONG  trades:  908  wr=49.0%  avg=+0.004%
+    SHORT trades:  696  wr=50.4%  avg=+0.009%
+
+  Imbalance Reversal (thresh=0.6):
+    Trades:      769
+    Win rate:    47.3%
+    Avg return:  -0.008%
+    Median ret:  -0.028%
+    Total ret:   -6.51%
+    Sharpe:      -12.34
+    Best trade:  1.869%
+    Worst trade: -0.500%
+    Max drawdown:15.758%
+    Avg hold:    13.1 min
+    LONG  trades:  460  wr=47.2%  avg=-0.018%
+    SHORT trades:  309  wr=47.6%  avg=+0.005%
+
+  Imbalance Reversal (thresh=0.8):
+    Trades:      250
+    Win rate:    48.8%
+    Avg return:  -0.019%
+    Median ret:  -0.015%
+    Total ret:   -4.74%
+    Sharpe:      -25.51
+    Best trade:  1.770%
+    Worst trade: -0.500%
+    Max drawdown:15.158%
+    Avg hold:    12.4 min
+    LONG  trades:  163  wr=47.9%  avg=-0.020%
+    SHORT trades:   87  wr=50.6%  avg=-0.018%
+
+  Imbalance Reversal (thresh=0.9):
+    Trades:      248
+    Win rate:    49.2%
+    Avg return:  -0.015%
+    Median ret:  -0.009%
+    Total ret:   -3.74%
+    Sharpe:      -20.31
+    Best trade:  1.770%
+    Worst trade: -0.500%
+    Max drawdown:14.658%
+    Avg hold:    12.4 min
+    LONG  trades:  162  wr=48.1%  avg=-0.017%
+    SHORT trades:   86  wr=51.2%  avg=-0.012%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 3: LIQUIDATION RATE SPIKE
+──────────────────────────────────────────────────────────────────────
+
+  Liq Rate Spike (default):
+    Trades:      1440
+    Win rate:    46.8%
+    Avg return:  0.008%
+    Median ret:  -0.028%
+    Total ret:   12.15%
+    Sharpe:      9.01
+    Best trade:  3.863%
+    Worst trade: -0.800%
+    Max drawdown:24.329%
+    Avg hold:    28.5 min
+    LONG  trades:  659  wr=46.9%  avg=-0.005%
+    SHORT trades:  781  wr=46.7%  avg=+0.020%
+
+  Liq Rate Spike (z=2.0):
+    Trades:      1671
+    Win rate:    47.0%
+    Avg return:  0.009%
+    Median ret:  -0.024%
+    Total ret:   14.21%
+    Sharpe:      9.08
+    Best trade:  3.863%
+    Worst trade: -0.800%
+    Max drawdown:26.369%
+    Avg hold:    28.6 min
+    LONG  trades:  766  wr=47.0%  avg=+0.001%
+    SHORT trades:  905  wr=47.1%  avg=+0.015%
+
+  Liq Rate Spike (z=2.5):
+    Trades:      1545
+    Win rate:    46.6%
+    Avg return:  0.002%
+    Median ret:  -0.028%
+    Total ret:   3.12%
+    Sharpe:      2.17
+    Best trade:  3.863%
+    Worst trade: -0.800%
+    Max drawdown:24.567%
+    Avg hold:    28.6 min
+    LONG  trades:  711  wr=46.0%  avg=-0.019%
+    SHORT trades:  834  wr=47.1%  avg=+0.020%
+
+  Liq Rate Spike (z=4.0):
+    Trades:      1209
+    Win rate:    45.7%
+    Avg return:  -0.007%
+    Median ret:  -0.047%
+    Total ret:   -8.41%
+    Sharpe:      -7.34
+    Best trade:  3.863%
+    Worst trade: -0.800%
+    Max drawdown:21.164%
+    Avg hold:    28.3 min
+    LONG  trades:  531  wr=46.5%  avg=-0.011%
+    SHORT trades:  678  wr=45.1%  avg=-0.004%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 4: TIME-OF-DAY LIQUIDATION FADE (US hours)
+──────────────────────────────────────────────────────────────────────
+
+  ToD Liq Fade (default):
+    Trades:      453
+    Win rate:    47.7%
+    Avg return:  0.011%
+    Median ret:  -0.022%
+    Total ret:   4.95%
+    Sharpe:      17.01
+    Best trade:  2.454%
+    Worst trade: -0.400%
+    Max drawdown:5.914%
+    Avg hold:    8.5 min
+    LONG  trades:  265  wr=48.7%  avg=+0.013%
+    SHORT trades:  188  wr=46.3%  avg=+0.008%
+
+  ToD Liq Fade (thresh=0.3):
+    Trades:      719
+    Win rate:    46.5%
+    Avg return:  0.000%
+    Median ret:  -0.026%
+    Total ret:   0.35%
+    Sharpe:      0.80
+    Best trade:  2.693%
+    Worst trade: -0.400%
+    Max drawdown:13.989%
+    Avg hold:    8.5 min
+    LONG  trades:  396  wr=47.7%  avg=+0.004%
+    SHORT trades:  323  wr=44.9%  avg=-0.004%
+
+  ToD Liq Fade (thresh=0.4):
+    Trades:      459
+    Win rate:    47.7%
+    Avg return:  0.012%
+    Median ret:  -0.022%
+    Total ret:   5.68%
+    Sharpe:      18.92
+    Best trade:  2.454%
+    Worst trade: -0.400%
+    Max drawdown:5.511%
+    Avg hold:    8.5 min
+    LONG  trades:  266  wr=49.2%  avg=+0.013%
+    SHORT trades:  193  wr=45.6%  avg=+0.012%
+
+  ToD Liq Fade (thresh=0.6):
+    Trades:      239
+    Win rate:    48.1%
+    Avg return:  0.005%
+    Median ret:  -0.026%
+    Total ret:   1.16%
+    Sharpe:      7.72
+    Best trade:  1.642%
+    Worst trade: -0.400%
+    Max drawdown:6.808%
+    Avg hold:    8.5 min
+    LONG  trades:  145  wr=44.8%  avg=-0.012%
+    SHORT trades:   94  wr=53.2%  avg=+0.030%
+
+  ToD Liq Fade (thresh=0.7):
+    Trades:      239
+    Win rate:    48.1%
+    Avg return:  0.005%
+    Median ret:  -0.026%
+    Total ret:   1.16%
+    Sharpe:      7.72
+    Best trade:  1.642%
+    Worst trade: -0.400%
+    Max drawdown:6.808%
+    Avg hold:    8.5 min
+    LONG  trades:  145  wr=44.8%  avg=-0.012%
+    SHORT trades:   94  wr=53.2%  avg=+0.030%
+
+──────────────────────────────────────────────────────────────────────
+  SOLUSDT complete in 244.2s
+──────────────────────────────────────────────────────────────────────
+
+======================================================================
+  DOGEUSDT — LIQUIDATION STRATEGIES BACKTEST
+======================================================================
+  Loading 1598 liquidation files... 200 400 600 800 1000 1200 1400 done (48,227 events)
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,993 ticks)
+  Building 1-min price bars... 105,196 bars
+  Building 1-min liquidation bars... 406,535 bars
+  Overlapping period: 2025-05-11 20:00:00 to 2026-02-17 20:59:00
+  Price bars: 105,192  Liq bars: 406,140
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 1: CASCADE FADE
+──────────────────────────────────────────────────────────────────────
+
+  Detecting cascades for strategy... 363 cascades found
+
+  Cascade Fade (default):
+    Trades:      363
+    Win rate:    46.8%
+    Avg return:  0.083%
+    Median ret:  -0.042%
+    Total ret:   30.20%
+    Sharpe:      76.60
+    Best trade:  2.883%
+    Worst trade: -0.500%
+    Max drawdown:7.606%
+    Avg hold:    10.8 min
+    LONG  trades:  305  wr=48.5%  avg=+0.098%
+    SHORT trades:   58  wr=37.9%  avg=+0.004%
+
+  Parameter sweep: Cascade Fade
+    Sweep progress: 12/36
+    Sweep progress: 24/36
+    Sweep progress: 36/36
+
+    Top 5 parameter combos:
+      pct=90 hold=30m stop=0.005  →  total=+45.12%  n=682  wr=42.7%  avg=+0.066%
+      pct=95 hold=30m stop=0.005  →  total=+43.91%  n=363  wr=43.3%  avg=+0.121%
+      pct=95 hold=30m stop=0.008  →  total=+42.82%  n=363  wr=51.5%  avg=+0.118%
+      pct=90 hold=30m stop=0.008  →  total=+39.08%  n=682  wr=50.7%  avg=+0.057%
+      pct=90 hold=15m stop=0.005  →  total=+31.30%  n=682  wr=47.9%  avg=+0.046%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 2: EXTREME IMBALANCE REVERSAL
+──────────────────────────────────────────────────────────────────────
+
+  Imbalance Reversal (default):
+    Trades:      456
+    Win rate:    45.4%
+    Avg return:  0.011%
+    Median ret:  -0.068%
+    Total ret:   4.84%
+    Sharpe:      11.74
+    Best trade:  2.313%
+    Worst trade: -0.500%
+    Max drawdown:12.332%
+    Avg hold:    11.8 min
+    LONG  trades:  316  wr=44.9%  avg=+0.011%
+    SHORT trades:  140  wr=46.4%  avg=+0.011%
+
+  Imbalance Reversal (thresh=0.5):
+    Trades:      1039
+    Win rate:    50.0%
+    Avg return:  0.023%
+    Median ret:  0.000%
+    Total ret:   23.49%
+    Sharpe:      28.45
+    Best trade:  2.203%
+    Worst trade: -0.500%
+    Max drawdown:17.492%
+    Avg hold:    12.4 min
+    LONG  trades:  649  wr=47.8%  avg=+0.016%
+    SHORT trades:  390  wr=53.6%  avg=+0.034%
+
+  Imbalance Reversal (thresh=0.6):
+    Trades:      461
+    Win rate:    45.3%
+    Avg return:  0.012%
+    Median ret:  -0.069%
+    Total ret:   5.31%
+    Sharpe:      12.66
+    Best trade:  2.313%
+    Worst trade: -0.500%
+    Max drawdown:12.198%
+    Avg hold:    11.7 min
+    LONG  trades:  319  wr=44.8%  avg=+0.010%
+    SHORT trades:  142  wr=46.5%  avg=+0.015%
+
+  Imbalance Reversal (thresh=0.8):
+    Trades:      123
+    Win rate:    43.1%
+    Avg return:  0.001%
+    Median ret:  -0.119%
+    Total ret:   0.15%
+    Sharpe:      1.34
+    Best trade:  1.848%
+    Worst trade: -0.500%
+    Max drawdown:7.036%
+    Avg hold:    10.9 min
+    LONG  trades:   90  wr=43.3%  avg=-0.008%
+    SHORT trades:   33  wr=42.4%  avg=+0.027%
+
+  Imbalance Reversal (thresh=0.9):
+    Trades:      123
+    Win rate:    43.1%
+    Avg return:  0.001%
+    Median ret:  -0.119%
+    Total ret:   0.15%
+    Sharpe:      1.34
+    Best trade:  1.848%
+    Worst trade: -0.500%
+    Max drawdown:7.036%
+    Avg hold:    10.9 min
+    LONG  trades:   90  wr=43.3%  avg=-0.008%
+    SHORT trades:   33  wr=42.4%  avg=+0.027%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 3: LIQUIDATION RATE SPIKE
+──────────────────────────────────────────────────────────────────────
+
+  Liq Rate Spike (default):
+    Trades:      1431
+    Win rate:    44.8%
+    Avg return:  0.001%
+    Median ret:  -0.054%
+    Total ret:   0.74%
+    Sharpe:      0.48
+    Best trade:  4.600%
+    Worst trade: -0.800%
+    Max drawdown:22.302%
+    Avg hold:    27.5 min
+    LONG  trades:  605  wr=43.6%  avg=-0.027%
+    SHORT trades:  826  wr=45.6%  avg=+0.020%
+
+  Liq Rate Spike (z=2.0):
+    Trades:      1665
+    Win rate:    44.6%
+    Avg return:  0.005%
+    Median ret:  -0.061%
+    Total ret:   8.25%
+    Sharpe:      4.58
+    Best trade:  4.719%
+    Worst trade: -0.800%
+    Max drawdown:13.959%
+    Avg hold:    27.7 min
+    LONG  trades:  707  wr=44.0%  avg=-0.006%
+    SHORT trades:  958  wr=45.0%  avg=+0.013%
+
+  Liq Rate Spike (z=2.5):
+    Trades:      1549
+    Win rate:    45.7%
+    Avg return:  0.015%
+    Median ret:  -0.039%
+    Total ret:   23.89%
+    Sharpe:      14.14
+    Best trade:  4.719%
+    Worst trade: -0.800%
+    Max drawdown:11.873%
+    Avg hold:    27.7 min
+    LONG  trades:  650  wr=44.9%  avg=-0.004%
+    SHORT trades:  899  wr=46.3%  avg=+0.030%
+
+  Liq Rate Spike (z=4.0):
+    Trades:      1224
+    Win rate:    45.5%
+    Avg return:  0.001%
+    Median ret:  -0.043%
+    Total ret:   1.58%
+    Sharpe:      1.22
+    Best trade:  4.038%
+    Worst trade: -0.800%
+    Max drawdown:21.763%
+    Avg hold:    27.7 min
+    LONG  trades:  522  wr=45.4%  avg=-0.014%
+    SHORT trades:  702  wr=45.6%  avg=+0.012%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 4: TIME-OF-DAY LIQUIDATION FADE (US hours)
+──────────────────────────────────────────────────────────────────────
+
+  ToD Liq Fade (default):
+    Trades:      299
+    Win rate:    49.2%
+    Avg return:  0.020%
+    Median ret:  -0.015%
+    Total ret:   5.99%
+    Sharpe:      28.91
+    Best trade:  1.419%
+    Worst trade: -0.400%
+    Max drawdown:8.939%
+    Avg hold:    7.8 min
+    LONG  trades:  185  wr=44.3%  avg=-0.025%
+    SHORT trades:  114  wr=57.0%  avg=+0.093%
+
+  ToD Liq Fade (thresh=0.3):
+    Trades:      477
+    Win rate:    48.4%
+    Avg return:  0.004%
+    Median ret:  -0.055%
+    Total ret:   1.84%
+    Sharpe:      5.47
+    Best trade:  1.585%
+    Worst trade: -0.400%
+    Max drawdown:5.302%
+    Avg hold:    7.7 min
+    LONG  trades:  295  wr=50.2%  avg=+0.031%
+    SHORT trades:  182  wr=45.6%  avg=-0.040%
+
+  ToD Liq Fade (thresh=0.4):
+    Trades:      302
+    Win rate:    49.3%
+    Avg return:  0.027%
+    Median ret:  -0.010%
+    Total ret:   8.26%
+    Sharpe:      38.19
+    Best trade:  1.585%
+    Worst trade: -0.400%
+    Max drawdown:7.687%
+    Avg hold:    7.8 min
+    LONG  trades:  188  wr=45.2%  avg=-0.009%
+    SHORT trades:  114  wr=56.1%  avg=+0.087%
+
+  ToD Liq Fade (thresh=0.6):
+    Trades:      132
+    Win rate:    44.7%
+    Avg return:  -0.026%
+    Median ret:  -0.208%
+    Total ret:   -3.42%
+    Sharpe:      -33.97
+    Best trade:  2.027%
+    Worst trade: -0.400%
+    Max drawdown:7.124%
+    Avg hold:    7.2 min
+    LONG  trades:   89  wr=42.7%  avg=-0.020%
+    SHORT trades:   43  wr=48.8%  avg=-0.039%
+
+  ToD Liq Fade (thresh=0.7):
+    Trades:      130
+    Win rate:    46.9%
+    Avg return:  -0.003%
+    Median ret:  -0.098%
+    Total ret:   -0.38%
+    Sharpe:      -3.74
+    Best trade:  2.027%
+    Worst trade: -0.400%
+    Max drawdown:5.851%
+    Avg hold:    7.4 min
+    LONG  trades:   88  wr=45.5%  avg=+0.010%
+    SHORT trades:   42  wr=50.0%  avg=-0.030%
+
+──────────────────────────────────────────────────────────────────────
+  DOGEUSDT complete in 220.4s
+──────────────────────────────────────────────────────────────────────
+
+======================================================================
+  XRPUSDT — LIQUIDATION STRATEGIES BACKTEST
+======================================================================
+  Loading 1577 liquidation files... 200 400 600 800 1000 1200 1400 done (66,794 events)
+  Loading 1763 ticker files... 200 400 600 800 1000 1200 1400 1600 done (1,261,981 ticks)
+  Building 1-min price bars... 105,196 bars
+  Building 1-min liquidation bars... 406,538 bars
+  Overlapping period: 2025-05-11 20:03:00 to 2026-02-17 20:59:00
+  Price bars: 105,189  Liq bars: 406,137
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 1: CASCADE FADE
+──────────────────────────────────────────────────────────────────────
+
+  Detecting cascades for strategy... 472 cascades found
+
+  Cascade Fade (default):
+    Trades:      472
+    Win rate:    46.8%
+    Avg return:  0.019%
+    Median ret:  -0.052%
+    Total ret:   9.02%
+    Sharpe:      22.30
+    Best trade:  2.431%
+    Worst trade: -0.500%
+    Max drawdown:10.622%
+    Avg hold:    12.0 min
+    LONG  trades:  379  wr=48.3%  avg=+0.040%
+    SHORT trades:   93  wr=40.9%  avg=-0.065%
+
+  Parameter sweep: Cascade Fade
+    Sweep progress: 12/36
+    Sweep progress: 24/36
+    Sweep progress: 36/36
+
+    Top 5 parameter combos:
+      pct=90 hold=30m stop=0.008  →  total=+39.12%  n=946  wr=52.9%  avg=+0.041%
+      pct=95 hold=30m stop=0.008  →  total=+32.91%  n=472  wr=53.2%  avg=+0.070%
+      pct=90 hold=10m stop=0.008  →  total=+24.81%  n=946  wr=54.1%  avg=+0.026%
+      pct=95 hold=10m stop=0.008  →  total=+22.74%  n=472  wr=57.0%  avg=+0.048%
+      pct=90 hold=15m stop=0.008  →  total=+22.26%  n=946  wr=52.5%  avg=+0.024%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 2: EXTREME IMBALANCE REVERSAL
+──────────────────────────────────────────────────────────────────────
+
+  Imbalance Reversal (default):
+    Trades:      576
+    Win rate:    47.0%
+    Avg return:  0.004%
+    Median ret:  -0.019%
+    Total ret:   2.28%
+    Sharpe:      5.41
+    Best trade:  2.512%
+    Worst trade: -0.500%
+    Max drawdown:14.455%
+    Avg hold:    12.8 min
+    LONG  trades:  379  wr=49.3%  avg=+0.013%
+    SHORT trades:  197  wr=42.6%  avg=-0.014%
+
+  Imbalance Reversal (thresh=0.5):
+    Trades:      1189
+    Win rate:    50.0%
+    Avg return:  0.004%
+    Median ret:  0.000%
+    Total ret:   4.49%
+    Sharpe:      5.69
+    Best trade:  2.481%
+    Worst trade: -0.500%
+    Max drawdown:15.712%
+    Avg hold:    13.3 min
+    LONG  trades:  750  wr=50.7%  avg=+0.008%
+    SHORT trades:  439  wr=48.7%  avg=-0.003%
+
+  Imbalance Reversal (thresh=0.6):
+    Trades:      579
+    Win rate:    47.2%
+    Avg return:  0.005%
+    Median ret:  -0.018%
+    Total ret:   2.93%
+    Sharpe:      6.91
+    Best trade:  2.512%
+    Worst trade: -0.500%
+    Max drawdown:14.128%
+    Avg hold:    12.9 min
+    LONG  trades:  380  wr=49.5%  avg=+0.014%
+    SHORT trades:  199  wr=42.7%  avg=-0.012%
+
+  Imbalance Reversal (thresh=0.8):
+    Trades:      192
+    Win rate:    43.8%
+    Avg return:  -0.031%
+    Median ret:  -0.116%
+    Total ret:   -5.92%
+    Sharpe:      -39.76
+    Best trade:  1.367%
+    Worst trade: -0.500%
+    Max drawdown:13.002%
+    Avg hold:    12.2 min
+    LONG  trades:  124  wr=48.4%  avg=+0.010%
+    SHORT trades:   68  wr=35.3%  avg=-0.105%
+
+  Imbalance Reversal (thresh=0.9):
+    Trades:      190
+    Win rate:    44.2%
+    Avg return:  -0.026%
+    Median ret:  -0.112%
+    Total ret:   -4.92%
+    Sharpe:      -33.39
+    Best trade:  1.367%
+    Worst trade: -0.500%
+    Max drawdown:12.002%
+    Avg hold:    12.3 min
+    LONG  trades:  124  wr=48.4%  avg=+0.010%
+    SHORT trades:   66  wr=36.4%  avg=-0.093%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 3: LIQUIDATION RATE SPIKE
+──────────────────────────────────────────────────────────────────────
+
+  Liq Rate Spike (default):
+    Trades:      1396
+    Win rate:    46.7%
+    Avg return:  -0.001%
+    Median ret:  -0.021%
+    Total ret:   -0.95%
+    Sharpe:      -0.81
+    Best trade:  3.423%
+    Worst trade: -0.800%
+    Max drawdown:18.929%
+    Avg hold:    28.8 min
+    LONG  trades:  598  wr=47.5%  avg=+0.006%
+    SHORT trades:  798  wr=46.1%  avg=-0.006%
+
+  Liq Rate Spike (z=2.0):
+    Trades:      1612
+    Win rate:    46.8%
+    Avg return:  -0.004%
+    Median ret:  -0.021%
+    Total ret:   -6.12%
+    Sharpe:      -4.57
+    Best trade:  3.423%
+    Worst trade: -0.800%
+    Max drawdown:23.300%
+    Avg hold:    28.9 min
+    LONG  trades:  700  wr=47.7%  avg=+0.006%
+    SHORT trades:  912  wr=46.2%  avg=-0.012%
+
+  Liq Rate Spike (z=2.5):
+    Trades:      1513
+    Win rate:    47.0%
+    Avg return:  0.002%
+    Median ret:  -0.017%
+    Total ret:   2.46%
+    Sharpe:      1.93
+    Best trade:  3.423%
+    Worst trade: -0.800%
+    Max drawdown:17.542%
+    Avg hold:    28.9 min
+    LONG  trades:  657  wr=47.3%  avg=+0.008%
+    SHORT trades:  856  wr=46.7%  avg=-0.003%
+
+  Liq Rate Spike (z=4.0):
+    Trades:      1200
+    Win rate:    47.0%
+    Avg return:  0.010%
+    Median ret:  -0.018%
+    Total ret:   11.90%
+    Sharpe:      11.53
+    Best trade:  3.653%
+    Worst trade: -0.800%
+    Max drawdown:16.237%
+    Avg hold:    28.8 min
+    LONG  trades:  503  wr=48.1%  avg=+0.021%
+    SHORT trades:  697  wr=46.2%  avg=+0.002%
+
+──────────────────────────────────────────────────────────────────────
+  STRATEGY 4: TIME-OF-DAY LIQUIDATION FADE (US hours)
+──────────────────────────────────────────────────────────────────────
+
+  ToD Liq Fade (default):
+    Trades:      341
+    Win rate:    49.3%
+    Avg return:  0.004%
+    Median ret:  -0.004%
+    Total ret:   1.28%
+    Sharpe:      6.22
+    Best trade:  1.657%
+    Worst trade: -0.400%
+    Max drawdown:5.476%
+    Avg hold:    8.5 min
+    LONG  trades:  204  wr=45.1%  avg=-0.023%
+    SHORT trades:  137  wr=55.5%  avg=+0.044%
+
+  ToD Liq Fade (thresh=0.3):
+    Trades:      537
+    Win rate:    47.1%
+    Avg return:  -0.000%
+    Median ret:  -0.023%
+    Total ret:   -0.06%
+    Sharpe:      -0.18
+    Best trade:  1.425%
+    Worst trade: -0.400%
+    Max drawdown:8.379%
+    Avg hold:    8.7 min
+    LONG  trades:  315  wr=43.2%  avg=-0.017%
+    SHORT trades:  222  wr=52.7%  avg=+0.024%
+
+  ToD Liq Fade (thresh=0.4):
+    Trades:      342
+    Win rate:    49.4%
+    Avg return:  0.004%
+    Median ret:  -0.004%
+    Total ret:   1.47%
+    Sharpe:      7.15
+    Best trade:  1.657%
+    Worst trade: -0.400%
+    Max drawdown:5.476%
+    Avg hold:    8.5 min
+    LONG  trades:  204  wr=45.1%  avg=-0.023%
+    SHORT trades:  138  wr=55.8%  avg=+0.045%
+
+  ToD Liq Fade (thresh=0.6):
+    Trades:      177
+    Win rate:    43.5%
+    Avg return:  -0.026%
+    Median ret:  -0.049%
+    Total ret:   -4.52%
+    Sharpe:      -43.98
+    Best trade:  1.039%
+    Worst trade: -0.400%
+    Max drawdown:8.148%
+    Avg hold:    8.3 min
+    LONG  trades:  108  wr=40.7%  avg=-0.051%
+    SHORT trades:   69  wr=47.8%  avg=+0.014%
+
+  ToD Liq Fade (thresh=0.7):
+    Trades:      176
+    Win rate:    43.2%
+    Avg return:  -0.027%
+    Median ret:  -0.050%
+    Total ret:   -4.83%
+    Sharpe:      -47.24
+    Best trade:  1.039%
+    Worst trade: -0.400%
+    Max drawdown:8.457%
+    Avg hold:    8.3 min
+    LONG  trades:  108  wr=40.7%  avg=-0.051%
+    SHORT trades:   68  wr=47.1%  avg=+0.010%
+
+──────────────────────────────────────────────────────────────────────
+  XRPUSDT complete in 234.6s
+──────────────────────────────────────────────────────────────────────
+
+
+======================================================================
+  GRAND SUMMARY — ALL SYMBOLS × ALL STRATEGIES
+======================================================================
+Symbol     Strategy                     Trades  WinRate    AvgRet   TotalRet   Sharpe    MaxDD
+──────────────────────────────────────────────────────────────────────────────────────────────
+BTCUSDT    cascade_fade                   1020    53.1%   +0.008%     +7.96%  +15.37   8.975%
+BTCUSDT    imbalance_reversal              704    52.0%   -0.000%     -0.17%   -0.54   9.327%
+BTCUSDT    liq_rate_spike                 1366    49.1%   -0.008%    -11.45%  -17.90  18.169%
+BTCUSDT    tod_liq_fade                    405    51.9%   +0.006%     +2.27%  +12.99   5.950%
+ETHUSDT    cascade_fade                   1141    48.2%   -0.003%     -2.88%   -3.20  16.467%
+ETHUSDT    imbalance_reversal              864    51.9%   +0.003%     +2.79%   +4.73  11.585%
+ETHUSDT    liq_rate_spike                 1405    44.4%   +0.024%    +33.84%  +10.74  22.196%
+ETHUSDT    tod_liq_fade                    472    55.3%   +0.023%    +10.84%  +38.89   5.720%
+SOLUSDT    cascade_fade                    686    47.4%   +0.001%     +0.77%   +1.43  20.980%
+SOLUSDT    imbalance_reversal              766    47.0%   -0.011%     -8.51%  -16.28  17.709%
+SOLUSDT    liq_rate_spike                 1440    46.8%   +0.008%    +12.15%   +9.01  24.329%
+SOLUSDT    tod_liq_fade                    453    47.7%   +0.011%     +4.95%  +17.01   5.914%
+DOGEUSDT   cascade_fade                    363    46.8%   +0.083%    +30.20%  +76.60   7.606%
+DOGEUSDT   imbalance_reversal              456    45.4%   +0.011%     +4.84%  +11.74  12.332%
+DOGEUSDT   liq_rate_spike                 1431    44.8%   +0.001%     +0.74%   +0.48  22.302%
+DOGEUSDT   tod_liq_fade                    299    49.2%   +0.020%     +5.99%  +28.91   8.939%
+XRPUSDT    cascade_fade                    472    46.8%   +0.019%     +9.02%  +22.30  10.622%
+XRPUSDT    imbalance_reversal              576    47.0%   +0.004%     +2.28%   +5.41  14.455%
+XRPUSDT    liq_rate_spike                 1396    46.7%   -0.001%     -0.95%   -0.81  18.929%
+XRPUSDT    tod_liq_fade                    341    49.3%   +0.004%     +1.28%   +6.22   5.476%
+
+======================================================================
+  Total elapsed: 1247s
+======================================================================

@@ -1,0 +1,82 @@
+======================================================================
+DOWNLOAD 2025 DATA — Liquidations + Ticker
+======================================================================
+Period: 2025-05-11 to 2025-08-10 (92 days)
+Symbols: BTCUSDT ETHUSDT SOLUSDT DOGEUSDT XRPUSDT
+Streams: liquidation (ws), ticker (rest)
+======================================================================
+
+======================================================================
+Processing BTCUSDT
+======================================================================
+
+  [BTCUSDT] Downloading liquidation (ws)...
+    Creating archive on server...2.2M
+    Downloading... 2.2M
+    Extracting... 1416 files
+    ✓ Done: 1416 files for BTCUSDT liquidation
+
+  [BTCUSDT] Downloading ticker (rest)...
+    Already have 1569 files, skipping
+
+======================================================================
+Processing ETHUSDT
+======================================================================
+
+  [ETHUSDT] Downloading liquidation (ws)...
+    Creating archive on server...2.6M
+    Downloading... 2.6M
+    Extracting... 1445 files
+    ✓ Done: 1445 files for ETHUSDT liquidation
+
+  [ETHUSDT] Downloading ticker (rest)...
+    Already have 1569 files, skipping
+
+======================================================================
+Processing SOLUSDT
+======================================================================
+
+  [SOLUSDT] Downloading liquidation (ws)...
+    Creating archive on server...1.7M
+    Downloading... 1.7M
+    Extracting... 1455 files
+    ✓ Done: 1455 files for SOLUSDT liquidation
+
+  [SOLUSDT] Downloading ticker (rest)...
+    Already have 1569 files, skipping
+
+======================================================================
+Processing DOGEUSDT
+======================================================================
+
+  [DOGEUSDT] Downloading liquidation (ws)...
+    Creating archive on server...1.1M
+    Downloading... 1.1M
+    Extracting... 1420 files
+    ✓ Done: 1420 files for DOGEUSDT liquidation
+
+  [DOGEUSDT] Downloading ticker (rest)...
+    Already have 1569 files, skipping
+
+======================================================================
+Processing XRPUSDT
+======================================================================
+
+  [XRPUSDT] Downloading liquidation (ws)...
+    Creating archive on server...1.3M
+    Downloading... 1.3M
+    Extracting... 1385 files
+    ✓ Done: 1385 files for XRPUSDT liquidation
+
+  [XRPUSDT] Downloading ticker (rest)...
+    Already have 1569 files, skipping
+
+======================================================================
+DOWNLOAD COMPLETE — 92s elapsed
+======================================================================
+BTCUSDT: 1416 liquidation files, 1569 ticker files
+ETHUSDT: 1445 liquidation files, 1569 ticker files
+SOLUSDT: 1455 liquidation files, 1569 ticker files
+DOGEUSDT: 1420 liquidation files, 1569 ticker files
+XRPUSDT: 1385 liquidation files, 1569 ticker files
+======================================================================
