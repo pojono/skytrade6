@@ -1,0 +1,261 @@
+
+################################################################################
+  v30: TRADEABLE PREDICTION TARGETS
+  Symbol: BTCUSDT
+  Dates: 2025-05-11 to 2025-05-17 (7 days)
+################################################################################
+  [RAM] used=10.5GB avail=5.9GB start
+  Loading trades...
+    2025-05-11: 1,353,538 trades
+    2025-05-12: 2,448,327 trades
+    2025-05-13: 1,567,220 trades
+    2025-05-14: 1,161,410 trades
+    2025-05-15: 1,695,265 trades
+    2025-05-16: 1,095,825 trades
+    2025-05-17: 719,070 trades
+  Loading liquidations...
+  [RAM] used=10.8GB avail=5.7GB after liqs
+  Loading ticker...
+  [RAM] used=10.8GB avail=5.7GB before ticker
+    2025-05-11: 108,022 updates (RAM=10.8/5.7GB, ETA=5s)
+    2025-05-12: 743,214 updates (RAM=10.8/5.6GB, ETA=18s)
+    2025-05-13: 732,203 updates (RAM=10.8/5.7GB, ETA=17s)
+    2025-05-14: 690,238 updates (RAM=10.8/5.6GB, ETA=13s)
+    2025-05-15: 739,317 updates (RAM=10.8/5.6GB, ETA=9s)
+    2025-05-16: 707,711 updates (RAM=10.8/5.6GB, ETA=5s)
+    2025-05-17: 630,786 updates (RAM=10.8/5.6GB, ETA=0s)
+  Ticker: 4,351,491 total updates
+  Built 604,798 seconds (47s)
+  [RAM] used=10.8GB avail=5.6GB raw done
+
+  --- Feature Engineering ---
+  Computed 85 features in 0.5s
+
+  --- Building Targets ---
+  Detected 171 switches
+  Computing forward targets (vectorized)...
+  Range median=12.1 bps, P75=17.7 bps
+  |ret_300s| P75=10.8 bps
+  T1_vol_expansion: 0.5000 positive rate (604,798 valid)
+  T2_big_move: 0.2497 positive rate (604,798 valid)
+  T3_continuation: 0.5003 positive rate (392,983 valid)
+  T4_straight_line: 0.4254 positive rate (604,798 valid)
+  T5_direction_up: 0.4963 positive rate (490,716 valid)
+  Targets built (3.3s)
+
+################################################################################
+  v30: TRADEABLE TARGET EXPERIMENTS
+################################################################################
+  Features: 70
+  Train: 29,880, Test: 30,210
+
+================================================================================
+  TARGET: Vol Expansion (range > median)
+  Strategy: straddle
+================================================================================
+  Train: 29,880 samples, 17,158 pos (0.5742)
+  Test:  30,210 samples, 12,742 pos (0.4218)
+  Training GBM...
+  AUC: 0.7051
+
+  --- Precision-Recall Trade-off ---
+   Threshold   Precision    Recall    #Signals    Lift
+  --------------------------------------------------
+  P90=0.848      0.8302    0.1968       3,021   1.97x
+  P80=0.760      0.7380    0.3499       6,042   1.75x
+  P70=0.684      0.6671    0.4745       9,063   1.58x
+  P50=0.534      0.5547    0.6576      15,105   1.32x
+
+  --- Top 15 Features ---
+     1.                            vol_900s  0.1420
+     2.                             vol_60s  0.1253
+     3.                           vol_3600s  0.0842
+     4.                         hour_of_day  0.0799
+     5.                            vol_300s  0.0587
+     6.                  fr_time_to_funding  0.0420
+     7.                avg_trade_size_3600s  0.0395
+     8.                 buy_not_ratio_3600s  0.0338
+     9.                book_imbalance_3600s  0.0228
+    10.                 avg_trade_size_900s  0.0202
+    11.                  liq_notional_3600s  0.0202
+    12.             liq_not_imbalance_3600s  0.0184
+    13.                   large_count_3600s  0.0157
+    14.                      vwap_dev_3600s  0.0140
+    15.                        fr_abs_3600s  0.0135
+
+  --- Strategy Simulation (straddle) ---
+  Avg range (all):    12.8 bps
+  Avg range (signal): 21.4 bps
+  Range lift: 1.68x
+  Net after cost (2.0 bps): 19.4 bps per trade
+  Signals: 3,021 (10.0% of time)
+
+================================================================================
+  TARGET: Big Move (|ret| > P75)
+  Strategy: selective straddle
+================================================================================
+  Train: 29,880 samples, 8,448 pos (0.2827)
+  Test:  30,210 samples, 6,446 pos (0.2134)
+  Training GBM...
+  AUC: 0.6125
+
+  --- Precision-Recall Trade-off ---
+   Threshold   Precision    Recall    #Signals    Lift
+  --------------------------------------------------
+  P90=0.541      0.2966    0.1390       3,021   1.39x
+  P80=0.434      0.2925    0.2741       6,042   1.37x
+  P70=0.368      0.2886    0.4058       9,063   1.35x
+  P50=0.275      0.2676    0.6271      15,105   1.25x
+
+  --- Top 15 Features ---
+     1.                            vol_900s  0.1218
+     2.                avg_trade_size_3600s  0.0612
+     3.                         hour_of_day  0.0533
+     4.                            vol_300s  0.0511
+     5.                  fr_time_to_funding  0.0506
+     6.                           vol_3600s  0.0415
+     7.                 buy_not_ratio_3600s  0.0349
+     8.                      vwap_dev_3600s  0.0283
+     9.                      oi_delta_3600s  0.0254
+    10.                             vol_60s  0.0247
+    11.                 avg_trade_size_900s  0.0227
+    12.                   liq_notional_300s  0.0226
+    13.                book_imbalance_3600s  0.0224
+    14.                     liq_count_3600s  0.0218
+    15.             liq_not_imbalance_3600s  0.0206
+
+  --- Strategy Simulation (straddle) ---
+  Avg range (all):    12.8 bps
+  Avg range (signal): 16.0 bps
+  Range lift: 1.25x
+  Net after cost (2.0 bps): 14.0 bps per trade
+  Signals: 3,021 (10.0% of time)
+
+================================================================================
+  TARGET: Continuation (30s→300s)
+  Strategy: momentum
+================================================================================
+  Train: 20,201 samples, 10,139 pos (0.5019)
+  Test:  18,876 samples, 9,426 pos (0.4994)
+  Training GBM...
+  AUC: 0.5096
+
+  --- Precision-Recall Trade-off ---
+   Threshold   Precision    Recall    #Signals    Lift
+  --------------------------------------------------
+  P90=0.620      0.5048    0.1011       1,888   1.01x
+  P80=0.584      0.5101    0.2043       3,776   1.02x
+  P70=0.558      0.5110    0.3070       5,663   1.02x
+  P50=0.518      0.5054    0.5060       9,438   1.01x
+
+  --- Top 15 Features ---
+     1.                      vwap_dev_3600s  0.0434
+     2.                avg_trade_size_3600s  0.0328
+     3.                 book_imbalance_300s  0.0327
+     4.                 book_imbalance_900s  0.0326
+     5.                       vwap_dev_300s  0.0318
+     6.                  book_imbalance_60s  0.0302
+     7.                  fr_time_to_funding  0.0295
+     8.                        vwap_dev_60s  0.0284
+     9.                        oi_delta_60s  0.0260
+    10.                       oi_delta_300s  0.0243
+    11.                 avg_trade_size_300s  0.0242
+    12.                 avg_trade_size_900s  0.0238
+    13.                       oi_delta_900s  0.0228
+    14.                tick_imbalance_3600s  0.0227
+    15.                       vwap_dev_900s  0.0221
+
+  --- Strategy Simulation (momentum) ---
+  Signals: 3,776
+  Avg PnL (momentum): +0.34 bps
+  Win rate: 51.0%
+  Baseline PnL (all moves): +0.03 bps
+
+================================================================================
+  TARGET: Straight-Line (consistency > 0.75)
+  Strategy: trend-follow
+================================================================================
+  Train: 29,880 samples, 12,844 pos (0.4299)
+  Test:  30,210 samples, 12,764 pos (0.4225)
+  Training GBM...
+  AUC: 0.4974
+
+  --- Precision-Recall Trade-off ---
+   Threshold   Precision    Recall    #Signals    Lift
+  --------------------------------------------------
+  P90=0.568      0.4048    0.0958       3,021   0.96x
+  P80=0.514      0.4156    0.1967       6,042   0.98x
+  P70=0.485      0.4187    0.2973       9,063   0.99x
+  P50=0.449      0.4203    0.4974      15,105   0.99x
+
+  --- Top 15 Features ---
+     1.                      vwap_dev_3600s  0.0494
+     2.                 trade_notional_300s  0.0287
+     3.                       vwap_dev_900s  0.0286
+     4.                 book_imbalance_300s  0.0283
+     5.                       oi_delta_900s  0.0277
+     6.                 trade_notional_900s  0.0272
+     7.                    large_count_300s  0.0272
+     8.                      oi_delta_3600s  0.0265
+     9.                 book_imbalance_900s  0.0262
+    10.                 avg_trade_size_300s  0.0257
+    11.                            vol_900s  0.0254
+    12.                           vol_3600s  0.0245
+    13.                  fr_time_to_funding  0.0241
+    14.                 avg_trade_size_900s  0.0238
+    15.                  buy_not_ratio_900s  0.0229
+
+================================================================================
+  TARGET: Direction UP
+  Strategy: directional
+================================================================================
+  Train: 24,957 samples, 12,730 pos (0.5101)
+  Test:  23,816 samples, 11,523 pos (0.4838)
+  Training GBM...
+  AUC: 0.5041
+
+  --- Precision-Recall Trade-off ---
+   Threshold   Precision    Recall    #Signals    Lift
+  --------------------------------------------------
+  P90=0.766      0.5063    0.1047       2,382   1.05x
+  P80=0.705      0.5013    0.2072       4,764   1.04x
+  P70=0.658      0.4995    0.3097       7,145   1.03x
+  P50=0.565      0.4846    0.5008      11,908   1.00x
+
+  --- Top 15 Features ---
+     1.                  fr_time_to_funding  0.0542
+     2.                            vol_900s  0.0516
+     3.                         hour_of_day  0.0494
+     4.                avg_trade_size_3600s  0.0462
+     5.                      vwap_dev_3600s  0.0437
+     6.                   trade_count_3600s  0.0413
+     7.                     liq_count_3600s  0.0351
+     8.                           vol_3600s  0.0345
+     9.                book_imbalance_3600s  0.0345
+    10.                trade_notional_3600s  0.0334
+    11.                   liq_notional_900s  0.0278
+    12.                        fr_abs_3600s  0.0277
+    13.                   large_count_3600s  0.0262
+    14.              liq_not_imbalance_900s  0.0239
+    15.                 buy_not_ratio_3600s  0.0222
+
+  --- Strategy Simulation (directional) ---
+  Pred UP (12,614):  avg fwd ret = -0.13 bps
+  Pred DN (6,712):  avg fwd ret = +0.05 bps
+  Long-short spread: -0.17 bps
+
+
+################################################################################
+  SUMMARY: ALL TARGETS
+################################################################################
+                     Target       AUC   Base Rate         Strategy
+  -----------------------------------------------------------------
+  Vol Expansion (range > me    0.7051      0.4218         straddle
+     Big Move (|ret| > P75)    0.6125      0.2134  selective straddle
+    Continuation (30s→300s)    0.5096      0.4994         momentum
+  Straight-Line (consistenc    0.4974      0.4225     trend-follow
+               Direction UP    0.5041      0.4838      directional
+
+################################################################################
+  COMPLETE: 596s (9.9min)
+################################################################################
