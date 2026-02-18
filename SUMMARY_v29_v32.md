@@ -269,10 +269,26 @@ With TP=6/SL=3 (2:1 ratio):
 - Fewer timeouts = more resolved trades = more PnL opportunities
 - Works even on BTC because the threshold is within normal 5-min range
 
+### Walk-Forward Sanity Check (P90 ML filter)
+
+The baseline test (all samples, no filter) favored TP=6/SL=3. But with the **P90 ML filter** (walk-forward, 3 test days):
+
+| Config | Trades | EV/trade | Total PnL | z>-0.5 PnL |
+|--------|--------|----------|-----------|-------------|
+| **TP=10/SL=5** | 4,287 | **+0.76** | **+3,260** | **+2,440** |
+| TP=6/SL=3 | 4,295 | +0.69 | +2,955 | +2,319 |
+
+**TP=10/SL=5 wins with P90 filter** — higher EV and total PnL. But TP=6/SL=3 is more consistent (BTC +0.47 vs +0.31, no losing days).
+
+**Per-symbol breakdown:**
+- **BTC**: TP=6/SL=3 better (+0.47 vs +0.31) — tighter levels work in low vol
+- **DOGE/SOL/XRP**: TP=10/SL=5 better (+1.23, +0.88, +0.87) — wider levels capture bigger moves
+- **ETH**: TP=6/SL=3 slightly better (+0.70 vs +0.51)
+
 ### Updated Strategy Architecture
 
 ```
-Previous: TP=10/SL=5, BTC needs ML, others don't
-New:      TP=6/SL=3, ALL symbols profitable without ML
-          ML + z-score filter can further boost BTC
+Conservative: TP=6/SL=3 for all symbols — consistent, no losing days
+Aggressive:   TP=10/SL=5 for high-vol (DOGE/SOL/XRP), TP=6/SL=3 for BTC/ETH
+Both:         Z-score filter (z > -0.5) + ML P90 filter for BTC
 ```
