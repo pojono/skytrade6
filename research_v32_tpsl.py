@@ -35,8 +35,8 @@ from pathlib import Path
 warnings.filterwarnings("ignore")
 
 DATA_DIR = Path("data")
-SYMBOL = "BTCUSDT"
-DATES = [f"2025-05-{d:02d}" for d in range(11, 18)]  # 7 days
+SYMBOL = "ETHUSDT"
+DATES = [f"2025-05-{d:02d}" for d in range(11, 18)]  # ETH cross-symbol
 HORIZONS = [300, 900, 3600]  # Skip 60s — minimal signal, save RAM
 
 # TP/SL configs to test: (tp_bps, sl_bps, time_limit_s)
