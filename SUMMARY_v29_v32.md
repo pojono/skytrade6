@@ -702,3 +702,26 @@ Two distinct profitable regimes exist:
 | BTC liq | +1.2 | **+1.2 ✅** | -0.8 ❌ | -2.8 ❌ |
 
 **SOL and DOGE stress/quiet entries survive 0.005% maker fees** — first time any config has been viable above 0% maker.
+
+### Fill Reduction Analysis
+
+The symmetric strategy requires 4 fills (2 opens + 2 closes). Can we reduce?
+
+| Approach | Fills | Feasible? | Notes |
+|----------|-------|-----------|-------|
+| Single direction (2 fills) | 2 | ❌ | Requires directional edge (v30 proved AUC≈0.50) |
+| Drop SL, hold loser | 3 | ⚠️ | Unlimited risk on loser side |
+| OCO/netting on exchange | 3 | ⚠️ | Exchange-dependent, not universal |
+| Pre-positioned grid | 3 | ⚠️ | Different strategy (market-making) |
+| **Symmetric (current)** | **4** | **✅** | Proven edge, all-limit execution |
+
+**Impact of fill count on fee viability:**
+
+| Config | Gross EV | Net @ 4f×0.005% | Net @ 3f×0.005% | Net @ 2f×0.005% |
+|--------|---------|-----------------|-----------------|-----------------|
+| SOL stress | +2.8 | **+0.8 ✅** | +1.3 ✅ | +1.8 ✅ |
+| DOGE quiet | +2.4 | **+0.4 ✅** | +0.9 ✅ | +1.4 ✅ |
+| DOGE compression | +1.7 | -0.3 ❌ | **+0.2 ✅** | +0.7 ✅ |
+| BTC liq | +1.2 | -0.8 ❌ | -0.3 ❌ | **+0.2 ✅** |
+
+**Conclusion**: With 4 fills at 0.005% maker, SOL stress and DOGE quiet entries are profitable. Reducing to 3 fills would make DOGE compression viable too. The 4-fill structure is the minimum for the symmetric approach — reducing further requires abandoning the direction-agnostic design.
