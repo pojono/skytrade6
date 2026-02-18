@@ -1,0 +1,845 @@
+======================================================================
+  LS RATIO OOS VALIDATION
+  In-sample:      Nov 2025 - Jan 2026 (92 days)
+  Out-of-sample:  May - Oct 2025 (184 days)
+  Symbols:        BTCUSDT, SOLUSDT
+======================================================================
+
+######################################################################
+  BTCUSDT — OOS (May-Oct 2025)
+  Period: 2025-05-01 to 2025-10-31
+######################################################################
+
+Loading data...
+  Klines: 52992 bars, 1746057600000000 to 1761954900000000
+  Metrics: 184 days, 52989 rows, cols=['timestamp_us', 'open_interest', 'open_interest_value', 'top_trader_ls_ratio_accounts', 'top_trader_ls_ratio_positions', 'global_ls_ratio', 'taker_buy_sell_ratio']
+
+Building features...
+  Merged: 52992 bars, 52991 with metrics (100.0%)
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:114: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged[f"oi_change_{name}"] = merged["open_interest"].pct_change(window) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:114: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged[f"oi_change_{name}"] = merged["open_interest"].pct_change(window) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:114: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged[f"oi_change_{name}"] = merged["open_interest"].pct_change(window) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:114: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged[f"oi_change_{name}"] = merged["open_interest"].pct_change(window) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:119: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged["oi_value_change_1h"] = merged["open_interest_value"].pct_change(12) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:124: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged["ls_top_change_1h"] = merged["top_trader_ls_ratio_accounts"].pct_change(12) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:125: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged["ls_global_change_1h"] = merged["global_ls_ratio"].pct_change(12) * 100
+
+  Data summary:
+    Total bars:      52992
+    With LS ratio:   52949 (99.9%)
+    With fwd_ret_4h: 52944 (99.9%)
+
+  LS ratio stats:
+    Mean:   1.2356
+    Std:    0.4864
+    Min:    0.5338
+    Max:    2.8429
+    Median: 1.1320
+
+======================================================================
+  EXP 3: DIRECTIONAL SIGNAL — BTCUSDT OOS (May-Oct 2025)
+======================================================================
+
+  Information Coefficient (IC) — OI/funding vs forward returns:
+  Feature                                 5min       1h       4h
+  -----------------------------------------------------------
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_change_5m                            +nan     +nan     +nan
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_change_1h                            +nan     +nan     +nan
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_change_4h                            +nan     +nan     +nan
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_change_24h                           +nan     +nan     +nan
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+  oi_accel_1h                             +nan     +nan     +nan
+  oi_zscore_24h                        -0.0001  +0.0003  +0.0125
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_value_change_1h                      +nan     +nan     +nan
+  ls_ratio_top                         -0.0001  +0.0013  +0.0048
+  ls_ratio_global                      -0.0004  +0.0008  +0.0043
+  ls_top_change_1h                     -0.0117  -0.0129  -0.0183
+  ls_global_change_1h                  -0.0123  -0.0176  -0.0232
+  ls_top_zscore_24h                    -0.0040  -0.0058  +0.0033
+  ls_global_zscore_24h                 -0.0054  -0.0099  -0.0061
+  taker_ratio                          -0.0095  -0.0037  -0.0033
+  taker_ratio_1h                       -0.0029  +0.0049  +0.0018
+  taker_ratio_4h                       -0.0022  +0.0013  +0.0049
+  taker_zscore_24h                     -0.0129  -0.0050  -0.0060
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+  oi_x_taker                              +nan     +nan     +nan
+
+  Top 5 features by |IC| at 4h:
+    ls_global_change_1h                 IC_4h=-0.0232
+    ls_top_change_1h                    IC_4h=-0.0183
+    oi_zscore_24h                       IC_4h=+0.0125
+    ls_global_zscore_24h                IC_4h=-0.0061
+    taker_zscore_24h                    IC_4h=-0.0060
+
+  Simple backtest — z>1 long, z<-1 short (4h hold, 7bps fee):
+  Signal                               Trades    Avg PnL      WR         Long        Short
+  -----------------------------------------------------------------------------------
+     ls_top_zscore_24h                   18886       -7.6bps   47.7% L=-6.5(9735) S=-8.8(9151)
+     ls_global_zscore_24h                18896       -7.9bps   47.5% L=-6.0(9804) S=-10.0(9092)
+     oi_zscore_24h                       17055       -5.4bps   44.5% L=-3.2(8930) S=-7.9(8125)
+     taker_zscore_24h                    10877       -7.5bps   43.5% L=-6.7(6764) S=-9.0(4113)
+     oi_change_4h                         4639       -5.3bps   42.9% L=-0.8(2567) S=-10.9(2072)
+     oi_x_taker                             97       -8.3bps   42.3% L=-15.6(56) S=+1.8(41)
+
+======================================================================
+  EXP 5: CROWDING & EXTREMES — BTCUSDT OOS (May-Oct 2025)
+======================================================================
+
+  OI z-score (oi_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            4589      -10.1bps    43.5%    -8.97
+     z > +1.5 → short            8423      -10.7bps    44.7%   -12.70
+     z > +1.0 → short           13973      -10.5bps    44.4%   -16.66
+     z < -1.0 → long            15233       -6.1bps    44.5%   -10.75
+     z < -1.5 → long             8647       -6.5bps    44.7%    -7.81
+     z < -2.0 → long             4224       -7.7bps    44.7%    -5.80
+
+  Top trader LS z-score (ls_top_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            5035       -0.9bps    45.1%    -0.82
+     z > +1.5 → short            9841       -7.7bps    41.4%    -9.40
+     z > +1.0 → short           14869      -10.0bps    39.4%   -15.84
+     z < -1.0 → long            15499       -6.9bps    40.7%   -12.01
+     z < -1.5 → long             8744       -4.6bps    41.5%    -5.93
+     z < -2.0 → long             3966       -3.6bps    41.8%    -3.17
+
+    MOMENTUM test (follow the crowd):
+     z > +1.0 → LONG            14869       -4.0bps    49.9%    -6.36
+     z > +1.5 → LONG             9841       -6.3bps    48.3%    -7.80
+     z > +2.0 → LONG             5035      -13.1bps    43.9%   -11.51
+     z < -1.0 → SHORT           15499       -7.1bps    47.6%   -12.27
+     z < -1.5 → SHORT            8744       -9.4bps    46.9%   -12.01
+     z < -2.0 → SHORT            3966      -10.4bps    46.9%    -9.02
+
+  Global LS z-score (ls_global_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            5435       -3.2bps    43.0%    -2.91
+     z > +1.5 → short           10432       -8.2bps    39.7%   -10.70
+     z > +1.0 → short           16201       -9.0bps    39.2%   -15.18
+     z < -1.0 → long            16159       -5.9bps    41.9%   -10.38
+     z < -1.5 → long             9264       -4.1bps    42.9%    -5.31
+     z < -2.0 → long             4378       -3.0bps    43.0%    -2.75
+
+    MOMENTUM test (follow the crowd):
+     z > +1.0 → LONG            16201       -5.0bps    49.2%    -8.56
+     z > +1.5 → LONG            10432       -5.8bps    49.1%    -7.58
+     z > +2.0 → LONG             5435      -10.8bps    46.5%    -9.83
+     z < -1.0 → SHORT           16159       -8.1bps    46.6%   -14.22
+     z < -1.5 → SHORT            9264       -9.9bps    46.0%   -12.95
+     z < -2.0 → SHORT            4378      -11.0bps    45.3%   -10.23
+
+  Taker ratio z-score (taker_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            2360       -7.4bps    42.5%    -5.78
+     z > +1.5 → short            4029       -7.5bps    42.7%    -7.37
+     z > +1.0 → short            6854       -7.3bps    42.5%    -8.81
+     z < -1.0 → long             4286       -5.1bps    46.7%    -4.66
+     z < -1.5 → long              113       -7.0bps    46.0%    -1.05
+     z < -2.0 → long                5      -62.4bps    20.0%    -1.94
+
+======================================================================
+  EXP 6: WALK-FORWARD COMBINED SIGNAL — BTCUSDT OOS (May-Oct 2025)
+======================================================================
+
+  OHLCV only (8 features, 735 retrains):
+    IC=+0.0403  rank_IC=+0.0632  n=35264
+    Bottom  : avg=    -5.0bps  wr=45.6%  n=7052
+    Q2      : avg=    +1.3bps  wr=50.7%  n=7052
+    Q3      : avg=    +1.3bps  wr=50.0%  n=7052
+    Q4      : avg=    +2.8bps  wr=52.7%  n=7052
+    Top     : avg=    +2.9bps  wr=56.6%  n=7056
+     Long-short (Q5-Q1): avg=-3.1bps  wr=49.8%  sharpe=-4.59
+
+    Monthly IC breakdown:
+      2025-07: IC=-0.0363  avg_ret=+4.6bps  n=8816
+      2025-08: IC=+0.0163  avg_ret=-3.5bps  n=8928
+      2025-09: IC=+0.0534  avg_ret=+3.4bps  n=8640
+      2025-10: IC=+0.0839  avg_ret=-1.8bps  n=8880
+
+  OHLCV + OI/F (26 features, 731 retrains):
+    IC=-0.0180  rank_IC=-0.0069  n=35076
+    Bottom  : avg=    +2.4bps  wr=51.9%  n=7015
+    Q2      : avg=    +1.5bps  wr=52.6%  n=7015
+    Q3      : avg=    -1.0bps  wr=48.7%  n=7015
+    Q4      : avg=    +0.5bps  wr=50.0%  n=7015
+    Top     : avg=    +0.4bps  wr=53.0%  n=7016
+     Long-short (Q5-Q1): avg=-8.0bps  wr=44.7%  sharpe=-12.40
+
+    Monthly IC breakdown:
+      2025-07: IC=-0.0804  avg_ret=+5.1bps  n=8629
+      2025-08: IC=-0.0455  avg_ret=-3.5bps  n=8927
+      2025-09: IC=-0.0611  avg_ret=+3.4bps  n=8640
+      2025-10: IC=+0.0408  avg_ret=-1.8bps  n=8880
+
+  Completed in 31.8s
+
+######################################################################
+  BTCUSDT — IS (Nov 2025 - Jan 2026)
+  Period: 2025-11-01 to 2026-01-31
+######################################################################
+
+Loading data...
+  Klines: 26496 bars, 1761955200000000 to 1769903700000000
+  Metrics: 92 days, 26496 rows, cols=['timestamp_us', 'open_interest', 'open_interest_value', 'top_trader_ls_ratio_accounts', 'top_trader_ls_ratio_positions', 'global_ls_ratio', 'taker_buy_sell_ratio']
+
+Building features...
+  Merged: 26496 bars, 26496 with metrics (100.0%)
+
+  Data summary:
+    Total bars:      26496
+    With LS ratio:   26496 (100.0%)
+    With fwd_ret_4h: 26448 (99.8%)
+
+  LS ratio stats:
+    Mean:   2.4765
+    Std:    0.6373
+    Min:    1.0166
+    Max:    5.1768
+    Median: 2.5199
+
+======================================================================
+  EXP 3: DIRECTIONAL SIGNAL — BTCUSDT IS (Nov 2025 - Jan 2026)
+======================================================================
+
+  Information Coefficient (IC) — OI/funding vs forward returns:
+  Feature                                 5min       1h       4h
+  -----------------------------------------------------------
+  oi_change_5m                         -0.0068  -0.0045  +0.0013
+  oi_change_1h                         -0.0035  +0.0016  +0.0031
+  oi_change_4h                         +0.0006  +0.0018  -0.0070
+  oi_change_24h                        -0.0029  -0.0068  -0.0151
+  oi_accel_1h                          -0.0055  -0.0024  +0.0063
+  oi_zscore_24h                        -0.0011  +0.0019  +0.0099
+  oi_value_change_1h                   -0.0008  +0.0040  +0.0224
+  ls_ratio_top                         +0.0013  +0.0062  +0.0172
+  ls_ratio_global                      -0.0006  +0.0007  +0.0056
+  ls_top_change_1h                     -0.0079  -0.0230  +0.0099
+  ls_global_change_1h                  -0.0085  -0.0179  +0.0194
+  ls_top_zscore_24h                    -0.0005  +0.0119  +0.0393
+  ls_global_zscore_24h                 -0.0015  +0.0067  +0.0189
+  taker_ratio                          -0.0064  +0.0032  +0.0074
+  taker_ratio_1h                       +0.0025  +0.0158  +0.0396
+  taker_ratio_4h                       +0.0046  +0.0313  +0.0484
+  taker_zscore_24h                     -0.0069  +0.0020  +0.0051
+  oi_x_taker                           -0.0112  -0.0130  -0.0007
+
+  Top 5 features by |IC| at 4h:
+    taker_ratio_4h                      IC_4h=+0.0484
+    taker_ratio_1h                      IC_4h=+0.0396
+    ls_top_zscore_24h                   IC_4h=+0.0393
+    oi_value_change_1h                  IC_4h=+0.0224
+    ls_global_change_1h                 IC_4h=+0.0194
+
+  Simple backtest — z>1 long, z<-1 short (4h hold, 7bps fee):
+  Signal                               Trades    Avg PnL      WR         Long        Short
+  -----------------------------------------------------------------------------------
+  ✅ ls_top_zscore_24h                    9139       +2.9bps   51.4% L=-3.9(4323) S=+9.0(4816)
+     ls_global_zscore_24h                 9228       -2.8bps   48.7% L=-10.2(4434) S=+4.0(4794)
+     oi_zscore_24h                        9118       -9.6bps   41.6% L=-20.0(4536) S=+0.7(4582)
+     taker_zscore_24h                     5850       -7.0bps   45.4% L=-11.0(3448) S=-1.2(2402)
+     oi_change_4h                         6488       -8.0bps   45.9% L=-16.6(3223) S=+0.4(3265)
+     oi_x_taker                           3402       -9.2bps   43.7% L=-13.5(1730) S=-4.7(1672)
+
+======================================================================
+  EXP 5: CROWDING & EXTREMES — BTCUSDT IS (Nov 2025 - Jan 2026)
+======================================================================
+
+  OI z-score (oi_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+  ✅ z > +2.0 → short            2777       +1.6bps    47.2%    +0.76
+  ✅ z > +1.5 → short            4978       +6.0bps    50.6%    +3.94
+  ✅ z > +1.0 → short            7662       +1.1bps    49.0%    +0.91
+     z < -1.0 → long             7258      -15.4bps    43.5%   -16.52
+     z < -1.5 → long             3817      -16.2bps    45.0%   -12.10
+     z < -2.0 → long             1457      -25.9bps    41.2%   -11.73
+
+  Top trader LS z-score (ls_top_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            2622      -15.7bps    37.6%    -9.38
+     z > +1.5 → short            5172       -5.5bps    40.8%    -3.95
+  ✅ z > +1.0 → short            8304       +0.3bps    44.0%    +0.30
+     z < -1.0 → long             7675      -17.5bps    41.0%   -15.45
+     z < -1.5 → long             4767      -23.1bps    39.0%   -16.46
+     z < -2.0 → long             2178      -40.1bps    34.8%   -17.53
+
+    MOMENTUM test (follow the crowd):
+     z > +1.0 → LONG             8304      -14.3bps    46.3%   -12.98
+     z > +1.5 → LONG             5172       -8.5bps    49.8%    -6.15
+  ✅ z > +2.0 → LONG             2622       +1.7bps    54.4%    +1.04
+  ✅ z < -1.0 → SHORT            7675       +3.5bps    48.4%    +3.08
+  ✅ z < -1.5 → SHORT            4767       +9.1bps    50.8%    +6.48
+  ✅ z < -2.0 → SHORT            2178      +26.1bps    58.3%   +11.41
+
+  Global LS z-score (ls_global_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            2382       -9.0bps    39.4%    -5.16
+     z > +1.5 → short            5384       -0.6bps    43.8%    -0.51
+  ✅ z > +1.0 → short            8723       +2.1bps    45.6%    +2.03
+     z < -1.0 → long             7680      -16.8bps    40.7%   -15.10
+     z < -1.5 → long             4721      -18.1bps    38.8%   -12.91
+     z < -2.0 → long             2332      -26.1bps    40.4%   -11.90
+
+    MOMENTUM test (follow the crowd):
+     z > +1.0 → LONG             8723      -16.1bps    43.7%   -15.58
+     z > +1.5 → LONG             5384      -13.4bps    46.1%   -10.71
+     z > +2.0 → LONG             2382       -5.0bps    51.7%    -2.85
+  ✅ z < -1.0 → SHORT            7680       +2.8bps    47.6%    +2.48
+  ✅ z < -1.5 → SHORT            4721       +4.1bps    49.9%    +2.91
+  ✅ z < -2.0 → SHORT            2332      +12.1bps    52.1%    +5.51
+
+  Taker ratio z-score (taker_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            1163       -1.4bps    44.4%    -0.57
+     z > +1.5 → short            2001       -3.4bps    43.1%    -1.75
+     z > +1.0 → short            3528       -2.9bps    43.1%    -1.92
+     z < -1.0 → long             2519      -13.0bps    42.8%    -6.62
+     z < -1.5 → long              126      -20.2bps    43.7%    -2.22
+
+======================================================================
+  EXP 6: WALK-FORWARD COMBINED SIGNAL — BTCUSDT IS (Nov 2025 - Jan 2026)
+======================================================================
+
+  OHLCV only (8 features, 367 retrains):
+    IC=-0.0465  rank_IC=+0.0004  n=17600
+    Bottom  : avg=    -1.3bps  wr=49.5%  n=3520
+    Q2      : avg=    -2.1bps  wr=51.1%  n=3520
+    Q3      : avg=    +4.1bps  wr=54.1%  n=3520
+    Q4      : avg=    -1.7bps  wr=50.7%  n=3520
+    Top     : avg=    -8.8bps  wr=48.9%  n=3520
+     Long-short (Q5-Q1): avg=-10.8bps  wr=44.3%  sharpe=-9.11
+
+    Monthly IC breakdown:
+      2025-12: IC=-0.0005  avg_ret=+2.2bps  n=8720
+      2026-01: IC=-0.0847  avg_ret=-6.0bps  n=8880
+
+  OHLCV + OI/F (26 features, 364 retrains):
+    IC=-0.0188  rank_IC=-0.0275  n=17440
+    Bottom  : avg=    -2.6bps  wr=53.2%  n=3488
+    Q2      : avg=    +0.7bps  wr=50.7%  n=3488
+    Q3      : avg=    -4.7bps  wr=49.7%  n=3488
+    Q4      : avg=    -5.5bps  wr=50.9%  n=3488
+    Top     : avg=    -0.5bps  wr=48.6%  n=3488
+     Long-short (Q5-Q1): avg=-5.9bps  wr=40.9%  sharpe=-5.71
+
+    Monthly IC breakdown:
+      2025-12: IC=-0.0057  avg_ret=+1.1bps  n=8560
+      2026-01: IC=-0.0259  avg_ret=-6.0bps  n=8880
+
+  Completed in 7.2s
+
+======================================================================
+  COMPARISON: BTCUSDT — In-Sample vs Out-of-Sample
+======================================================================
+
+  IC at 4h horizon:
+  Feature                             IS (Nov-Jan)  OOS (May-Oct)        Δ
+  -----------------------------------------------------------------------
+  ⚠️ oi_zscore_24h                          +0.0099        +0.0125  +0.0026
+  ⚠️ ls_ratio_top                           +0.0172        +0.0048  -0.0124
+  ⚠️ ls_ratio_global                        +0.0056        +0.0043  -0.0013
+  ❌ ls_top_change_1h                       +0.0099        -0.0183  -0.0282
+  ❌ ls_global_change_1h                    +0.0194        -0.0232  -0.0426
+  ⚠️ ls_top_zscore_24h                      +0.0393        +0.0033  -0.0361
+  ❌ ls_global_zscore_24h                   +0.0189        -0.0061  -0.0250
+  ❌ taker_ratio                            +0.0074        -0.0033  -0.0107
+  ⚠️ taker_ratio_1h                         +0.0396        +0.0018  -0.0377
+  ⚠️ taker_ratio_4h                         +0.0484        +0.0049  -0.0435
+  ❌ taker_zscore_24h                       +0.0051        -0.0060  -0.0111
+
+  Walk-forward L/S results:
+  Feature Set                  IS IC  IS Sharpe   OOS IC  OOS Sharpe
+  ----------------------------------------------------------------
+  OHLCV only                 -0.0465      -9.11  +0.0403       -4.59
+  OHLCV + OI/F               -0.0188      -5.71  -0.0180      -12.40
+
+  Simple backtest (z-threshold, 4h hold, 7bps fee):
+  Signal                                IS Avg   IS WR   OOS Avg   OOS WR
+  ---------------------------------------------------------------------
+  ❌ ls_top_zscore_24h                     +2.9   51.4%      -7.6    47.7%
+  ❌ ls_global_zscore_24h                  -2.8   48.7%      -7.9    47.5%
+  ❌ oi_zscore_24h                         -9.6   41.6%      -5.4    44.5%
+  ❌ taker_zscore_24h                      -7.0   45.4%      -7.5    43.5%
+
+######################################################################
+  SOLUSDT — OOS (May-Oct 2025)
+  Period: 2025-05-01 to 2025-10-31
+######################################################################
+
+Loading data...
+  Klines: 52992 bars, 1746057600000000 to 1761954900000000
+  Metrics: 184 days, 52989 rows, cols=['timestamp_us', 'open_interest', 'open_interest_value', 'top_trader_ls_ratio_accounts', 'top_trader_ls_ratio_positions', 'global_ls_ratio', 'taker_buy_sell_ratio']
+
+Building features...
+  Merged: 52992 bars, 52991 with metrics (100.0%)
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:114: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged[f"oi_change_{name}"] = merged["open_interest"].pct_change(window) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:114: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged[f"oi_change_{name}"] = merged["open_interest"].pct_change(window) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:114: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged[f"oi_change_{name}"] = merged["open_interest"].pct_change(window) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:114: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged[f"oi_change_{name}"] = merged["open_interest"].pct_change(window) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:119: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged["oi_value_change_1h"] = merged["open_interest_value"].pct_change(12) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:124: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged["ls_top_change_1h"] = merged["top_trader_ls_ratio_accounts"].pct_change(12) * 100
+/home/ubuntu/Projects/skytrade6/oi_funding_oos_validation.py:125: FutureWarning: The default fill_method='pad' in Series.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  merged["ls_global_change_1h"] = merged["global_ls_ratio"].pct_change(12) * 100
+
+  Data summary:
+    Total bars:      52992
+    With LS ratio:   52948 (99.9%)
+    With fwd_ret_4h: 52944 (99.9%)
+
+  LS ratio stats:
+    Mean:   2.7045
+    Std:    0.6495
+    Min:    1.2439
+    Max:    5.0849
+    Median: 2.6344
+
+======================================================================
+  EXP 3: DIRECTIONAL SIGNAL — SOLUSDT OOS (May-Oct 2025)
+======================================================================
+
+  Information Coefficient (IC) — OI/funding vs forward returns:
+  Feature                                 5min       1h       4h
+  -----------------------------------------------------------
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_change_5m                            +nan     +nan     +nan
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_change_1h                            +nan     +nan     +nan
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_change_4h                            +nan     +nan     +nan
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_change_24h                           +nan     +nan     +nan
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+  oi_accel_1h                             +nan     +nan     +nan
+  oi_zscore_24h                        -0.0035  +0.0018  +0.0240
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2888: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+  oi_value_change_1h                      +nan     +nan     +nan
+  ls_ratio_top                         +0.0032  +0.0118  +0.0244
+  ls_ratio_global                      +0.0007  +0.0050  +0.0170
+  ls_top_change_1h                     -0.0046  -0.0137  +0.0145
+  ls_global_change_1h                  -0.0132  -0.0339  -0.0014
+  ls_top_zscore_24h                    +0.0017  +0.0102  +0.0271
+  ls_global_zscore_24h                 -0.0045  -0.0038  +0.0070
+  taker_ratio                          -0.0092  -0.0071  -0.0032
+  taker_ratio_1h                       -0.0053  -0.0168  -0.0019
+  taker_ratio_4h                       -0.0023  -0.0019  +0.0102
+  taker_zscore_24h                     -0.0096  -0.0090  -0.0064
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/home/ubuntu/.local/lib/python3.10/site-packages/numpy/_core/_methods.py:135: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+  oi_x_taker                              +nan     +nan     +nan
+
+  Top 5 features by |IC| at 4h:
+    ls_top_zscore_24h                   IC_4h=+0.0271
+    ls_ratio_top                        IC_4h=+0.0244
+    oi_zscore_24h                       IC_4h=+0.0240
+    ls_ratio_global                     IC_4h=+0.0170
+    ls_top_change_1h                    IC_4h=+0.0145
+
+  Simple backtest — z>1 long, z<-1 short (4h hold, 7bps fee):
+  Signal                               Trades    Avg PnL      WR         Long        Short
+  -----------------------------------------------------------------------------------
+     ls_top_zscore_24h                   18754       -1.0bps   50.2% L=+2.4(9197) S=-4.3(9557)
+     ls_global_zscore_24h                19128       -4.6bps   49.5% L=-1.4(9373) S=-7.7(9755)
+     oi_zscore_24h                       17931       -3.8bps   47.0% L=-0.8(9307) S=-6.9(8624)
+     taker_zscore_24h                    13901       -9.9bps   47.1% L=-4.7(7609) S=-16.1(6292)
+     oi_change_4h                         5838       -8.2bps   46.4% L=-6.3(3169) S=-10.4(2669)
+     oi_x_taker                           2081       -6.0bps   48.8% L=-6.2(1036) S=-5.7(1045)
+
+======================================================================
+  EXP 5: CROWDING & EXTREMES — SOLUSDT OOS (May-Oct 2025)
+======================================================================
+
+  OI z-score (oi_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            4469      -13.0bps    46.6%    -6.04
+     z > +1.5 → short            8630      -12.3bps    45.8%    -7.58
+     z > +1.0 → short           13976      -13.0bps    46.2%   -10.27
+     z < -1.0 → long            15403       -7.8bps    49.6%    -5.92
+     z < -1.5 → long             8424       -7.1bps    51.4%    -3.61
+     z < -2.0 → long             3896       -3.9bps    53.0%    -1.21
+
+  Top trader LS z-score (ls_top_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            4155      -24.4bps    42.0%   -10.20
+     z > +1.5 → short            8757      -16.6bps    42.4%    -9.37
+     z > +1.0 → short           14987      -11.7bps    44.7%    -9.02
+     z < -1.0 → long            13653       -8.1bps    47.0%    -6.20
+     z < -1.5 → long             7003      -14.0bps    45.3%    -7.57
+     z < -2.0 → long             2620      -29.3bps    44.0%    -9.87
+
+    MOMENTUM test (follow the crowd):
+     z > +1.0 → LONG            14987       -2.3bps    50.9%    -1.78
+  ✅ z > +1.5 → LONG             8757       +2.6bps    52.8%    +1.45
+  ✅ z > +2.0 → LONG             4155      +10.4bps    53.1%    +4.34
+     z < -1.0 → SHORT           13653       -5.9bps    47.7%    -4.52
+  ✅ z < -1.5 → SHORT            7003       +0.0bps    49.0%    +0.00
+  ✅ z < -2.0 → SHORT            2620      +15.3bps    49.7%    +5.16
+
+  Global LS z-score (ls_global_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            5236       -0.2bps    46.5%    -0.08
+     z > +1.5 → short           10018      -13.2bps    43.7%    -7.87
+     z > +1.0 → short           16507      -13.3bps    43.8%   -10.74
+     z < -1.0 → long            14253       -7.1bps    46.9%    -5.43
+     z < -1.5 → long             7826       -6.0bps    47.2%    -3.30
+     z < -2.0 → long             3514      -10.9bps    48.0%    -3.80
+
+    MOMENTUM test (follow the crowd):
+     z > +1.0 → LONG            16507       -0.7bps    51.4%    -0.58
+     z > +1.5 → LONG            10018       -0.8bps    51.6%    -0.48
+     z > +2.0 → LONG             5236      -13.8bps    48.3%    -5.60
+     z < -1.0 → SHORT           14253       -6.9bps    48.3%    -5.30
+     z < -1.5 → SHORT            7826       -8.0bps    47.6%    -4.40
+     z < -2.0 → SHORT            3514       -3.1bps    46.4%    -1.08
+
+  Taker ratio z-score (taker_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            2373       -9.6bps    46.1%    -3.30
+     z > +1.5 → short            4322       -9.1bps    46.1%    -4.14
+     z > +1.0 → short            7649       -9.5bps    46.2%    -5.64
+  ✅ z < -1.0 → long             6347       +1.9bps    50.4%    +1.03
+  ✅ z < -1.5 → long              448      +17.0bps    56.0%    +2.49
+  ✅ z < -2.0 → long               16     +107.0bps    93.8%    +3.46
+
+======================================================================
+  EXP 6: WALK-FORWARD COMBINED SIGNAL — SOLUSDT OOS (May-Oct 2025)
+======================================================================
+
+  OHLCV only (8 features, 735 retrains):
+    IC=+0.0438  rank_IC=+0.0225  n=35264
+    Bottom  : avg=    -1.4bps  wr=51.4%  n=7052
+    Q2      : avg=    +4.4bps  wr=52.8%  n=7052
+    Q3      : avg=    +4.6bps  wr=51.9%  n=7052
+    Q4      : avg=    +7.8bps  wr=52.5%  n=7052
+    Top     : avg=    +6.6bps  wr=52.2%  n=7056
+     Long-short (Q5-Q1): avg=-3.0bps  wr=47.7%  sharpe=-2.09
+
+    Monthly IC breakdown:
+      2025-07: IC=+0.0846  avg_ret=+8.4bps  n=8816
+      2025-08: IC=-0.0124  avg_ret=+9.8bps  n=8928
+      2025-09: IC=+0.0602  avg_ret=+3.3bps  n=8640
+      2025-10: IC=+0.0601  avg_ret=-4.0bps  n=8880
+
+  OHLCV + OI/F (26 features, 731 retrains):
+    IC=+0.0321  rank_IC=+0.0189  n=35075
+    Bottom  : avg=    +0.0bps  wr=52.0%  n=7015
+    Q2      : avg=   +11.7bps  wr=54.1%  n=7015
+    Q3      : avg=    -2.1bps  wr=49.8%  n=7015
+    Q4      : avg=    -2.3bps  wr=50.0%  n=7015
+    Top     : avg=   +15.6bps  wr=55.3%  n=7015
+  ✅ Long-short (Q5-Q1): avg=+0.8bps  wr=49.1%  sharpe=+0.55
+
+    Monthly IC breakdown:
+      2025-07: IC=+0.0133  avg_ret=+9.3bps  n=8628
+      2025-08: IC=+0.0468  avg_ret=+9.9bps  n=8927
+      2025-09: IC=-0.0453  avg_ret=+3.3bps  n=8640
+      2025-10: IC=+0.0599  avg_ret=-4.0bps  n=8880
+
+  Completed in 31.5s
+
+######################################################################
+  SOLUSDT — IS (Nov 2025 - Jan 2026)
+  Period: 2025-11-01 to 2026-01-31
+######################################################################
+
+Loading data...
+  Klines: 26496 bars, 1761955200000000 to 1769903700000000
+  Metrics: 92 days, 26496 rows, cols=['timestamp_us', 'open_interest', 'open_interest_value', 'top_trader_ls_ratio_accounts', 'top_trader_ls_ratio_positions', 'global_ls_ratio', 'taker_buy_sell_ratio']
+
+Building features...
+  Merged: 26496 bars, 26496 with metrics (100.0%)
+
+  Data summary:
+    Total bars:      26496
+    With LS ratio:   26496 (100.0%)
+    With fwd_ret_4h: 26448 (99.8%)
+
+  LS ratio stats:
+    Mean:   4.0240
+    Std:    0.8115
+    Min:    1.8242
+    Max:    6.3143
+    Median: 4.1811
+
+======================================================================
+  EXP 3: DIRECTIONAL SIGNAL — SOLUSDT IS (Nov 2025 - Jan 2026)
+======================================================================
+
+  Information Coefficient (IC) — OI/funding vs forward returns:
+  Feature                                 5min       1h       4h
+  -----------------------------------------------------------
+  oi_change_5m                         +0.0059  -0.0043  -0.0201
+  oi_change_1h                         -0.0034  -0.0291  -0.0565
+  oi_change_4h                         -0.0160  -0.0574  -0.0347
+  oi_change_24h                        -0.0020  -0.0112  -0.0114
+  oi_accel_1h                          +0.0119  +0.0147  -0.0180
+  oi_zscore_24h                        -0.0089  -0.0307  -0.0259
+  oi_value_change_1h                   +0.0083  +0.0160  -0.0010
+  ls_ratio_top                         +0.0054  +0.0234  +0.0514
+  ls_ratio_global                      +0.0051  +0.0230  +0.0492
+  ls_top_change_1h                     -0.0164  -0.0271  +0.0182
+  ls_global_change_1h                  -0.0158  -0.0174  +0.0337
+  ls_top_zscore_24h                    +0.0046  +0.0326  +0.0831
+  ls_global_zscore_24h                 +0.0038  +0.0312  +0.0791
+  taker_ratio                          -0.0005  +0.0051  +0.0077
+  taker_ratio_1h                       +0.0043  +0.0126  +0.0316
+  taker_ratio_4h                       +0.0060  +0.0290  +0.0730
+  taker_zscore_24h                     -0.0030  +0.0017  +0.0046
+  oi_x_taker                           -0.0010  -0.0029  +0.0009
+
+  Top 5 features by |IC| at 4h:
+    ls_top_zscore_24h                   IC_4h=+0.0831
+    ls_global_zscore_24h                IC_4h=+0.0791
+    taker_ratio_4h                      IC_4h=+0.0730
+    oi_change_1h                        IC_4h=-0.0565
+    ls_ratio_top                        IC_4h=+0.0514
+
+  Simple backtest — z>1 long, z<-1 short (4h hold, 7bps fee):
+  Signal                               Trades    Avg PnL      WR         Long        Short
+  -----------------------------------------------------------------------------------
+  ✅ ls_top_zscore_24h                    9176      +12.8bps   52.3% L=-8.7(4510) S=+33.6(4666)
+  ✅ ls_global_zscore_24h                 9310       +7.6bps   49.5% L=-5.3(4676) S=+20.6(4634)
+     oi_zscore_24h                        8602      -16.9bps   44.2% L=-24.5(4660) S=-7.8(3942)
+     taker_zscore_24h                     6755       -8.5bps   45.8% L=-18.0(3647) S=+2.7(3108)
+     oi_change_4h                         5572      -28.4bps   42.8% L=-38.9(2620) S=-19.1(2952)
+     oi_x_taker                           3278       -9.2bps   47.1% L=-20.5(1663) S=+2.4(1615)
+
+======================================================================
+  EXP 5: CROWDING & EXTREMES — SOLUSDT IS (Nov 2025 - Jan 2026)
+======================================================================
+
+  OI z-score (oi_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+  ✅ z > +2.0 → short            2456      +18.4bps    53.4%    +6.08
+  ✅ z > +1.5 → short            4768       +9.8bps    51.3%    +4.30
+  ✅ z > +1.0 → short            7032       +4.2bps    48.1%    +2.22
+     z < -1.0 → long             7083       -9.9bps    46.7%    -5.10
+     z < -1.5 → long             3746       -4.8bps    47.3%    -1.64
+     z < -2.0 → long             1855       -1.1bps    47.5%    -0.23
+
+  Top trader LS z-score (ls_top_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            2434       -2.7bps    46.9%    -0.77
+     z > +1.5 → short            4840       -5.9bps    44.6%    -2.54
+     z > +1.0 → short            7866       -6.5bps    44.9%    -3.73
+     z < -1.0 → long             7446      -35.8bps    43.7%   -18.21
+     z < -1.5 → long             4391      -48.8bps    38.3%   -17.52
+     z < -2.0 → long             2074      -69.3bps    33.0%   -15.00
+
+    MOMENTUM test (follow the crowd):
+     z > +1.0 → LONG             7866       -7.5bps    47.8%    -4.28
+     z > +1.5 → LONG             4840       -8.1bps    48.3%    -3.54
+     z > +2.0 → LONG             2434      -11.3bps    45.7%    -3.29
+  ✅ z < -1.0 → SHORT            7446      +21.8bps    50.6%   +11.08
+  ✅ z < -1.5 → SHORT            4391      +34.8bps    56.5%   +12.49
+  ✅ z < -2.0 → SHORT            2074      +55.3bps    62.0%   +11.97
+
+  Global LS z-score (ls_global_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+     z > +2.0 → short            2621      -20.8bps    42.1%    -6.52
+     z > +1.5 → short            5227       -7.8bps    46.8%    -3.83
+     z > +1.0 → short            8595       -6.7bps    45.4%    -3.86
+     z < -1.0 → long             7612      -36.7bps    43.0%   -18.61
+     z < -1.5 → long             4198      -35.5bps    42.0%   -12.60
+     z < -2.0 → long             1882      -63.9bps    35.7%   -13.27
+
+    MOMENTUM test (follow the crowd):
+     z > +1.0 → LONG             8595       -7.3bps    47.2%    -4.19
+     z > +1.5 → LONG             5227       -6.2bps    46.2%    -3.00
+  ✅ z > +2.0 → LONG             2621       +6.8bps    50.7%    +2.13
+  ✅ z < -1.0 → SHORT            7612      +22.7bps    51.2%   +11.51
+  ✅ z < -1.5 → SHORT            4198      +21.5bps    52.2%    +7.63
+  ✅ z < -2.0 → SHORT            1882      +49.9bps    60.5%   +10.36
+
+  Taker ratio z-score (taker_zscore_24h):
+    Condition                      N    Avg Ret       WR   Sharpe
+    -----------------------------------------------------------
+  ✅ z > +2.0 → short            1091       +4.5bps    48.9%    +1.03
+  ✅ z > +1.5 → short            2033       +4.3bps    49.4%    +1.30
+  ✅ z > +1.0 → short            3650       +4.1bps    48.7%    +1.58
+     z < -1.0 → long             3148      -16.6bps    45.2%    -6.21
+     z < -1.5 → long              324      -26.3bps    47.5%    -3.38
+     z < -2.0 → long                5      -67.6bps     0.0%    -2.09
+
+======================================================================
+  EXP 6: WALK-FORWARD COMBINED SIGNAL — SOLUSDT IS (Nov 2025 - Jan 2026)
+======================================================================
+
+  OHLCV only (8 features, 367 retrains):
+    IC=+0.0478  rank_IC=+0.0781  n=17600
+    Bottom  : avg=   -15.3bps  wr=45.7%  n=3520
+    Q2      : avg=    -4.2bps  wr=48.1%  n=3520
+    Q3      : avg=    -0.0bps  wr=48.3%  n=3520
+    Q4      : avg=   -13.8bps  wr=51.4%  n=3520
+    Top     : avg=   +13.3bps  wr=55.8%  n=3520
+  ✅ Long-short (Q5-Q1): avg=+7.3bps  wr=51.0%  sharpe=+4.08
+
+    Monthly IC breakdown:
+      2025-12: IC=+0.1124  avg_ret=+1.6bps  n=8720
+      2026-01: IC=-0.0119  avg_ret=-9.5bps  n=8880
+
+  OHLCV + OI/F (26 features, 364 retrains):
+    IC=+0.0772  rank_IC=+0.0724  n=17440
+    Bottom  : avg=   -15.8bps  wr=45.7%  n=3488
+    Q2      : avg=    -6.9bps  wr=46.4%  n=3488
+    Q3      : avg=    -4.5bps  wr=51.6%  n=3488
+    Q4      : avg=    -2.6bps  wr=53.3%  n=3488
+    Top     : avg=    +6.8bps  wr=51.7%  n=3488
+  ✅ Long-short (Q5-Q1): avg=+4.3bps  wr=49.4%  sharpe=+2.31
+
+    Monthly IC breakdown:
+      2025-12: IC=+0.1588  avg_ret=+0.5bps  n=8560
+      2026-01: IC=-0.0290  avg_ret=-9.5bps  n=8880
+
+  Completed in 7.6s
+
+======================================================================
+  COMPARISON: SOLUSDT — In-Sample vs Out-of-Sample
+======================================================================
+
+  IC at 4h horizon:
+  Feature                             IS (Nov-Jan)  OOS (May-Oct)        Δ
+  -----------------------------------------------------------------------
+  ❌ oi_zscore_24h                          -0.0259        +0.0240  +0.0499
+  ⚠️ ls_ratio_top                           +0.0514        +0.0244  -0.0270
+  ⚠️ ls_ratio_global                        +0.0492        +0.0170  -0.0322
+  ⚠️ ls_top_change_1h                       +0.0182        +0.0145  -0.0037
+  ❌ ls_global_change_1h                    +0.0337        -0.0014  -0.0351
+  ⚠️ ls_top_zscore_24h                      +0.0831        +0.0271  -0.0560
+  ⚠️ ls_global_zscore_24h                   +0.0791        +0.0070  -0.0721
+  ❌ taker_ratio                            +0.0077        -0.0032  -0.0109
+  ❌ taker_ratio_1h                         +0.0316        -0.0019  -0.0336
+  ⚠️ taker_ratio_4h                         +0.0730        +0.0102  -0.0628
+  ❌ taker_zscore_24h                       +0.0046        -0.0064  -0.0110
+
+  Walk-forward L/S results:
+  Feature Set                  IS IC  IS Sharpe   OOS IC  OOS Sharpe
+  ----------------------------------------------------------------
+  OHLCV only                 +0.0478      +4.08  +0.0438       -2.09
+  OHLCV + OI/F               +0.0772      +2.31  +0.0321       +0.55
+
+  Simple backtest (z-threshold, 4h hold, 7bps fee):
+  Signal                                IS Avg   IS WR   OOS Avg   OOS WR
+  ---------------------------------------------------------------------
+  ❌ ls_top_zscore_24h                    +12.8   52.3%      -1.0    50.2%
+  ❌ ls_global_zscore_24h                  +7.6   49.5%      -4.6    49.5%
+  ❌ oi_zscore_24h                        -16.9   44.2%      -3.8    47.0%
+  ❌ taker_zscore_24h                      -8.5   45.8%      -9.9    47.1%
+
+======================================================================
+  FINAL SUMMARY
+======================================================================
+
+  BTCUSDT:
+    ls_top_zscore_24h IC@4h:  IS=+0.0393  OOS=+0.0033
+    Walk-forward OHLCV+OI/F:  IS Sharpe=-5.71  OOS Sharpe=-12.40
+    Simple backtest (OOS):    avg=-7.6bps  wr=47.7%  trades=18886
+
+  SOLUSDT:
+    ls_top_zscore_24h IC@4h:  IS=+0.0831  OOS=+0.0271
+    Walk-forward OHLCV+OI/F:  IS Sharpe=+2.31  OOS Sharpe=+0.55
+    Simple backtest (OOS):    avg=-1.0bps  wr=50.2%  trades=18754
+
+======================================================================
+  DONE — 78s total
+======================================================================
