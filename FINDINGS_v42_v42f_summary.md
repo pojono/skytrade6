@@ -866,6 +866,31 @@ Strategy contribution (standalone):
 
 ---
 
+## v42w: Signal Combinations & Quality Filters (EXP FFF-HHH)
+
+### EXP FFF: OI/Spread as Quality Filters for Cascade MM
+
+Filters don't improve per-trade quality — cascade MM is already very high quality.
+- **Baseline**: 92% WR, +10.1 bps OOS
+- **OI filter (P20)**: 91% WR, +10.7 bps OOS (60% of trades kept)
+- **Spread filter (z>1)**: 90% WR, +10.7 bps OOS (32% of trades kept)
+
+### EXP GGG: Multi-Signal Alignment — 77% Overlap
+
+**77% of cascade signals align with microstructure MR** within ±5 min.
+- Aligned: +10.8 bps OOS, Sharpe 826
+- Not aligned: +8.7 bps OOS, Sharpe 864 — **both profitable**
+
+### EXP HHH: Conflicting Signals — STILL Profitable!
+
+**29% of cascades conflict with micro MR** (opposite direction).
+- Conflicting: +8.9 bps OOS, 96% WR, **Sharpe 1,095** — cascade dominates
+- Non-conflicting: +10.5 bps OOS, Sharpe 790
+
+**Key insight: The cascade signal is so strong it works even when other signals disagree.**
+
+---
+
 ## Scripts & Results
 
 | File | Description |
@@ -892,3 +917,4 @@ Strategy contribution (standalone):
 | `research_v42t_micro_mr_oos.py` | EXP ZZ: micro MR all 4 symbols OOS validation |
 | `research_v42u_final_portfolio.py` | EXP AAA: final mega portfolio, 4 strats × 4 symbols |
 | `research_v42v_oi_spread_signals.py` | EXP BBB-EEE: OI velocity, spread, funding signals |
+| `research_v42w_signal_combos.py` | EXP FFF-HHH: signal combos, quality filters, alignment |
