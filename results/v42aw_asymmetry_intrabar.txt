@@ -1,0 +1,403 @@
+================================================================================
+  v42aw: RETURN ASYMMETRY + INTRABAR MOM + WEIGHTED CLOSE + RANGE RATIO
+  2026-02-19 13:12:03  [RAM=0.1GB, avail=7.3GB]
+================================================================================
+  Loading ETHUSDT... [10/88 42s] [20/88 71s] [30/88 96s] [40/88 124s] [50/88 155s] [60/88 176s] [70/88 213s] [80/88 249s] [88/88 274s] 126,720 bars (274s) [RAM=0.5GB, avail=7.0GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP TTTT4: RETURN ASYMMETRY ---
+
+  Asymmetry(15) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3652  wr= 64.9%  avg=  +4.5bps  tot=+163.83%  sh=  +266.2
+  ✅ TEST                                                     n=1852  wr= 66.5%  avg=  +4.1bps  tot= +75.94%  sh=  +277.1
+    ✅ test=+2.712%/d
+
+  Asymmetry(15) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6433  wr= 63.4%  avg=  +4.1bps  tot=+264.63%  sh=  +256.8
+  ✅ TEST                                                     n=3315  wr= 65.2%  avg=  +3.6bps  tot=+120.01%  sh=  +249.9
+    ✅ test=+4.286%/d
+
+  Asymmetry(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4245  wr= 64.9%  avg=  +4.3bps  tot=+184.60%  sh=  +258.9
+  ✅ TEST                                                     n=2323  wr= 66.6%  avg=  +4.0bps  tot= +93.89%  sh=  +268.3
+    ✅ test=+3.353%/d
+
+  Asymmetry(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7192  wr= 63.4%  avg=  +3.8bps  tot=+272.49%  sh=  +234.8
+  ✅ TEST                                                     n=3797  wr= 66.2%  avg=  +3.8bps  tot=+145.82%  sh=  +261.0
+    ✅ test=+5.208%/d
+
+  --- EXP UUUU4: INTRABAR MOMENTUM ---
+
+  Intrabar mom(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3362  wr= 58.0%  avg=  +2.8bps  tot= +95.63%  sh=  +184.2
+  ✅ TEST                                                     n=1744  wr= 62.3%  avg=  +2.7bps  tot= +46.87%  sh=  +188.7
+    ✅ test=+1.674%/d
+
+  Intrabar mom(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6149  wr= 59.0%  avg=  +2.9bps  tot=+179.87%  sh=  +186.1
+  ✅ TEST                                                     n=3267  wr= 61.8%  avg=  +2.6bps  tot= +86.14%  sh=  +195.4
+    ✅ test=+3.077%/d
+
+  Intrabar mom(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4225  wr= 59.4%  avg=  +2.9bps  tot=+122.92%  sh=  +195.5
+  ✅ TEST                                                     n=2130  wr= 60.6%  avg=  +2.7bps  tot= +57.47%  sh=  +202.3
+    ✅ test=+2.053%/d
+
+  Intrabar mom(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7075  wr= 59.0%  avg=  +2.8bps  tot=+196.92%  sh=  +186.7
+  ✅ TEST                                                     n=3673  wr= 62.2%  avg=  +2.9bps  tot=+106.85%  sh=  +215.4
+    ✅ test=+3.816%/d
+
+  --- EXP VVVV4: WEIGHTED CLOSE DIVERGENCE ---
+
+  Weighted close div <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3728  wr= 80.9%  avg=  +6.0bps  tot=+222.51%  sh=  +433.0
+  ✅ TEST                                                     n=1856  wr= 87.3%  avg=  +6.1bps  tot=+113.40%  sh=  +633.5
+    ✅ test=+4.050%/d
+
+  Weighted close div <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6903  wr= 74.2%  avg=  +4.8bps  tot=+332.34%  sh=  +336.3
+  ✅ TEST                                                     n=3431  wr= 79.5%  avg=  +5.1bps  tot=+174.72%  sh=  +431.7
+    ✅ test=+6.240%/d
+
+  --- EXP WWWW4: RANGE RATIO ---
+
+  Range ratio(15) >95th pct (fade):
+  ✅ TRAIN                                                    n=2938  wr= 71.4%  avg=  +9.6bps  tot=+280.92%  sh=  +284.5
+  ✅ TEST                                                     n=1416  wr= 73.6%  avg=  +7.1bps  tot=+100.55%  sh=  +347.2
+    ✅ test=+3.591%/d
+
+  Range ratio(15) >99th pct (fade):
+  ✅ TRAIN                                                    n= 998  wr= 78.6%  avg= +14.4bps  tot=+143.69%  sh=  +310.2
+  ✅ TEST                                                     n= 488  wr= 78.9%  avg=  +9.6bps  tot= +47.07%  sh=  +382.5
+    ✅ test=+1.681%/d
+
+  Range ratio(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3031  wr= 72.3%  avg=  +9.8bps  tot=+297.97%  sh=  +287.8
+  ✅ TEST                                                     n=1499  wr= 73.4%  avg=  +7.3bps  tot=+110.06%  sh=  +363.1
+    ✅ test=+3.931%/d
+
+  Range ratio(30) >99th pct (fade):
+  ✅ TRAIN                                                    n=1056  wr= 80.1%  avg= +14.9bps  tot=+156.97%  sh=  +323.4
+  ✅ TEST                                                     n= 499  wr= 79.4%  avg=  +9.9bps  tot= +49.26%  sh=  +403.1
+    ✅ test=+1.759%/d
+  Loading SOLUSDT... [10/88 17s] [20/88 32s] [30/88 43s] [40/88 59s] [50/88 72s] [60/88 82s] [70/88 97s] [80/88 115s] [88/88 125s] 126,720 bars (125s) [RAM=0.4GB, avail=7.5GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP TTTT4: RETURN ASYMMETRY ---
+
+  Asymmetry(15) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3879  wr= 62.8%  avg=  +3.5bps  tot=+135.26%  sh=  +217.5
+  ✅ TEST                                                     n=1921  wr= 62.6%  avg=  +3.2bps  tot= +61.09%  sh=  +208.9
+    ✅ test=+2.182%/d
+
+  Asymmetry(15) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7091  wr= 63.2%  avg=  +3.4bps  tot=+240.77%  sh=  +216.4
+  ✅ TEST                                                     n=3355  wr= 62.2%  avg=  +3.0bps  tot=+101.74%  sh=  +201.9
+    ✅ test=+3.634%/d
+
+  Asymmetry(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4848  wr= 63.5%  avg=  +3.8bps  tot=+183.84%  sh=  +242.4
+  ✅ TEST                                                     n=2401  wr= 62.7%  avg=  +3.2bps  tot= +77.69%  sh=  +196.0
+    ✅ test=+2.775%/d
+
+  Asymmetry(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8110  wr= 62.9%  avg=  +3.5bps  tot=+281.51%  sh=  +229.9
+  ✅ TEST                                                     n=3957  wr= 62.2%  avg=  +3.1bps  tot=+123.61%  sh=  +201.4
+    ✅ test=+4.414%/d
+
+  --- EXP UUUU4: INTRABAR MOMENTUM ---
+
+  Intrabar mom(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3527  wr= 60.9%  avg=  +3.1bps  tot=+108.82%  sh=  +201.9
+  ✅ TEST                                                     n=1831  wr= 60.8%  avg=  +2.8bps  tot= +51.58%  sh=  +201.8
+    ✅ test=+1.842%/d
+
+  Intrabar mom(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6511  wr= 60.7%  avg=  +3.0bps  tot=+196.14%  sh=  +199.1
+  ✅ TEST                                                     n=3358  wr= 60.2%  avg=  +2.9bps  tot= +98.66%  sh=  +217.7
+    ✅ test=+3.524%/d
+
+  Intrabar mom(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4342  wr= 61.9%  avg=  +2.9bps  tot=+127.90%  sh=  +209.4
+  ✅ TEST                                                     n=2248  wr= 61.1%  avg=  +2.9bps  tot= +64.75%  sh=  +222.1
+    ✅ test=+2.312%/d
+
+  Intrabar mom(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7359  wr= 62.0%  avg=  +2.9bps  tot=+210.60%  sh=  +199.5
+  ✅ TEST                                                     n=3701  wr= 60.7%  avg=  +2.9bps  tot=+108.06%  sh=  +217.8
+    ✅ test=+3.859%/d
+
+  --- EXP VVVV4: WEIGHTED CLOSE DIVERGENCE ---
+
+  Weighted close div <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3972  wr= 86.7%  avg=  +6.1bps  tot=+242.60%  sh=  +575.6
+  ✅ TEST                                                     n=1935  wr= 90.8%  avg=  +6.1bps  tot=+117.98%  sh=  +663.5
+    ✅ test=+4.214%/d
+
+  Weighted close div <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7427  wr= 79.5%  avg=  +5.2bps  tot=+387.71%  sh=  +443.9
+  ✅ TEST                                                     n=3581  wr= 83.3%  avg=  +5.3bps  tot=+190.81%  sh=  +529.8
+    ✅ test=+6.815%/d
+
+  --- EXP WWWW4: RANGE RATIO ---
+
+  Range ratio(15) >95th pct (fade):
+  ✅ TRAIN                                                    n=3126  wr= 69.1%  avg=  +6.9bps  tot=+216.02%  sh=  +274.2
+  ✅ TEST                                                     n=1507  wr= 71.3%  avg=  +6.5bps  tot= +98.68%  sh=  +332.8
+    ✅ test=+3.524%/d
+
+  Range ratio(15) >99th pct (fade):
+  ✅ TRAIN                                                    n=1096  wr= 73.3%  avg=  +9.8bps  tot=+107.74%  sh=  +304.2
+  ✅ TEST                                                     n= 502  wr= 74.7%  avg=  +8.4bps  tot= +42.19%  sh=  +350.6
+    ✅ test=+1.507%/d
+
+  Range ratio(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3244  wr= 70.4%  avg=  +7.2bps  tot=+234.57%  sh=  +281.8
+  ✅ TEST                                                     n=1539  wr= 72.8%  avg=  +7.0bps  tot=+107.27%  sh=  +352.2
+    ✅ test=+3.831%/d
+
+  Range ratio(30) >99th pct (fade):
+  ✅ TRAIN                                                    n=1138  wr= 76.2%  avg= +10.5bps  tot=+119.03%  sh=  +314.9
+  ✅ TEST                                                     n= 549  wr= 74.5%  avg=  +8.1bps  tot= +44.72%  sh=  +347.6
+    ✅ test=+1.597%/d
+  Loading DOGEUSDT... [10/88 26s] [20/88 43s] [30/88 56s] [40/88 68s] [50/88 77s] [60/88 88s] [70/88 125s] [80/88 154s] [88/88 165s] 126,720 bars (165s) [RAM=0.4GB, avail=6.4GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP TTTT4: RETURN ASYMMETRY ---
+
+  Asymmetry(15) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4158  wr= 66.3%  avg=  +4.3bps  tot=+179.53%  sh=  +235.0
+  ✅ TEST                                                     n=2164  wr= 82.3%  avg=  +8.4bps  tot=+181.13%  sh=  +430.5
+    ✅ test=+6.469%/d
+
+  Asymmetry(15) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7344  wr= 65.3%  avg=  +4.1bps  tot=+301.65%  sh=  +232.2
+  ✅ TEST                                                     n=3882  wr= 81.4%  avg=  +8.0bps  tot=+312.21%  sh=  +420.9
+    ✅ test=+11.150%/d
+
+  Asymmetry(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4959  wr= 67.2%  avg=  +4.6bps  tot=+227.61%  sh=  +245.2
+  ✅ TEST                                                     n=2701  wr= 82.4%  avg=  +8.1bps  tot=+218.12%  sh=  +429.6
+    ✅ test=+7.790%/d
+
+  Asymmetry(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8141  wr= 66.5%  avg=  +4.4bps  tot=+354.85%  sh=  +239.3
+  ✅ TEST                                                     n=4366  wr= 81.9%  avg=  +7.8bps  tot=+339.55%  sh=  +436.7
+    ✅ test=+12.127%/d
+
+  --- EXP UUUU4: INTRABAR MOMENTUM ---
+
+  Intrabar mom(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3718  wr= 64.4%  avg=  +3.7bps  tot=+137.20%  sh=  +199.5
+  ✅ TEST                                                     n=1965  wr= 81.3%  avg=  +7.6bps  tot=+148.40%  sh=  +465.2
+    ✅ test=+5.300%/d
+
+  Intrabar mom(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6849  wr= 64.2%  avg=  +3.7bps  tot=+252.95%  sh=  +211.8
+  ✅ TEST                                                     n=3620  wr= 81.4%  avg=  +7.6bps  tot=+275.70%  sh=  +434.8
+    ✅ test=+9.847%/d
+
+  Intrabar mom(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4560  wr= 65.0%  avg=  +3.9bps  tot=+176.25%  sh=  +227.2
+  ✅ TEST                                                     n=2458  wr= 81.4%  avg=  +7.6bps  tot=+186.70%  sh=  +437.3
+    ✅ test=+6.668%/d
+
+  Intrabar mom(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7599  wr= 65.3%  avg=  +3.8bps  tot=+289.32%  sh=  +230.2
+  ✅ TEST                                                     n=4082  wr= 81.7%  avg=  +7.4bps  tot=+303.36%  sh=  +438.3
+    ✅ test=+10.834%/d
+
+  --- EXP VVVV4: WEIGHTED CLOSE DIVERGENCE ---
+
+  Weighted close div <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4087  wr= 89.6%  avg=  +6.6bps  tot=+270.39%  sh=  +600.7
+  ✅ TEST                                                     n=2039  wr= 97.5%  avg=  +7.8bps  tot=+158.54%  sh= +1018.8
+    ✅ test=+5.662%/d
+
+  Weighted close div <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7595  wr= 83.3%  avg=  +5.7bps  tot=+434.22%  sh=  +463.1
+  ✅ TEST                                                     n=3876  wr= 95.6%  avg=  +7.5bps  tot=+289.55%  sh=  +923.2
+    ✅ test=+10.341%/d
+
+  --- EXP WWWW4: RANGE RATIO ---
+
+  Range ratio(15) >95th pct (fade):
+  ✅ TRAIN                                                    n=3232  wr= 71.5%  avg=  +9.2bps  tot=+297.47%  sh=  +287.1
+  ✅ TEST                                                     n=1662  wr= 85.9%  avg= +14.6bps  tot=+242.56%  sh=  +458.9
+    ✅ test=+8.663%/d
+
+  Range ratio(15) >99th pct (fade):
+  ✅ TRAIN                                                    n=1129  wr= 73.7%  avg= +11.6bps  tot=+131.24%  sh=  +301.8
+  ✅ TEST                                                     n= 555  wr= 86.5%  avg= +18.8bps  tot=+104.14%  sh=  +465.4
+    ✅ test=+3.719%/d
+
+  Range ratio(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3336  wr= 72.7%  avg=  +9.5bps  tot=+315.40%  sh=  +289.7
+  ✅ TEST                                                     n=1719  wr= 86.2%  avg= +15.0bps  tot=+258.53%  sh=  +471.3
+    ✅ test=+9.233%/d
+
+  Range ratio(30) >99th pct (fade):
+  ✅ TRAIN                                                    n=1167  wr= 76.3%  avg= +13.3bps  tot=+155.57%  sh=  +322.8
+  ✅ TEST                                                     n= 604  wr= 87.6%  avg= +18.4bps  tot=+111.33%  sh=  +474.4
+    ✅ test=+3.976%/d
+  Loading XRPUSDT... [10/88 19s] [20/88 29s] [30/88 38s] [40/88 52s] [50/88 65s] [60/88 75s] [70/88 107s] [80/88 132s] [88/88 148s] 126,720 bars (148s) [RAM=0.4GB, avail=6.0GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP TTTT4: RETURN ASYMMETRY ---
+
+  Asymmetry(15) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3565  wr= 51.1%  avg=  +2.0bps  tot= +69.80%  sh=  +114.8
+  ✅ TEST                                                     n=2058  wr= 72.5%  avg=  +5.8bps  tot=+120.34%  sh=  +270.9
+    ✅ test=+4.298%/d
+
+  Asymmetry(15) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6277  wr= 51.0%  avg=  +1.8bps  tot=+115.40%  sh=  +118.3
+  ✅ TEST                                                     n=3603  wr= 72.5%  avg=  +5.7bps  tot=+205.16%  sh=  +296.3
+    ✅ test=+7.327%/d
+
+  Asymmetry(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4389  wr= 51.7%  avg=  +2.0bps  tot= +86.21%  sh=  +134.5
+  ✅ TEST                                                     n=2466  wr= 70.1%  avg=  +5.7bps  tot=+140.63%  sh=  +267.0
+    ✅ test=+5.022%/d
+
+  Asymmetry(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7142  wr= 51.7%  avg=  +1.8bps  tot=+131.31%  sh=  +125.1
+  ✅ TEST                                                     n=4127  wr= 70.1%  avg=  +5.4bps  tot=+224.68%  sh=  +283.1
+    ✅ test=+8.024%/d
+
+  --- EXP UUUU4: INTRABAR MOMENTUM ---
+
+  Intrabar mom(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3224  wr= 49.0%  avg=  +1.3bps  tot= +40.76%  sh=   +78.5
+  ✅ TEST                                                     n=1920  wr= 71.7%  avg=  +5.9bps  tot=+113.49%  sh=  +276.4
+    ✅ test=+4.053%/d
+
+  Intrabar mom(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=5986  wr= 49.6%  avg=  +1.4bps  tot= +84.45%  sh=   +91.7
+  ✅ TEST                                                     n=3481  wr= 70.5%  avg=  +5.7bps  tot=+198.34%  sh=  +292.3
+    ✅ test=+7.084%/d
+
+  Intrabar mom(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4008  wr= 48.7%  avg=  +1.2bps  tot= +49.48%  sh=   +79.5
+  ✅ TEST                                                     n=2334  wr= 70.9%  avg=  +5.5bps  tot=+128.82%  sh=  +271.0
+    ✅ test=+4.601%/d
+
+  Intrabar mom(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6768  wr= 49.1%  avg=  +1.3bps  tot= +87.87%  sh=   +87.0
+  ✅ TEST                                                     n=3941  wr= 70.6%  avg=  +5.3bps  tot=+209.90%  sh=  +278.2
+    ✅ test=+7.497%/d
+
+  --- EXP VVVV4: WEIGHTED CLOSE DIVERGENCE ---
+
+  Weighted close div <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3655  wr= 77.0%  avg=  +4.8bps  tot=+173.86%  sh=  +407.7
+  ✅ TEST                                                     n=2009  wr= 94.1%  avg=  +7.1bps  tot=+142.56%  sh=  +881.9
+    ✅ test=+5.092%/d
+
+  Weighted close div <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6607  wr= 68.9%  avg=  +3.7bps  tot=+241.75%  sh=  +284.2
+  ✅ TEST                                                     n=3781  wr= 90.2%  avg=  +6.6bps  tot=+250.34%  sh=  +766.4
+    ✅ test=+8.941%/d
+
+  --- EXP WWWW4: RANGE RATIO ---
+
+  Range ratio(15) >95th pct (fade):
+  ✅ TRAIN                                                    n=2801  wr= 58.2%  avg=  +4.9bps  tot=+137.94%  sh=  +194.6
+  ✅ TEST                                                     n=1577  wr= 77.0%  avg= +10.7bps  tot=+168.83%  sh=  +351.9
+    ✅ test=+6.030%/d
+
+  Range ratio(15) >99th pct (fade):
+  ✅ TRAIN                                                    n=1009  wr= 62.3%  avg=  +8.2bps  tot= +82.62%  sh=  +264.5
+  ✅ TEST                                                     n= 549  wr= 78.9%  avg= +13.3bps  tot= +73.27%  sh=  +344.4
+    ✅ test=+2.617%/d
+
+  Range ratio(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=2935  wr= 59.3%  avg=  +5.2bps  tot=+153.32%  sh=  +206.8
+  ✅ TEST                                                     n=1674  wr= 78.1%  avg= +10.7bps  tot=+179.30%  sh=  +362.1
+    ✅ test=+6.404%/d
+
+  Range ratio(30) >99th pct (fade):
+  ✅ TRAIN                                                    n=1061  wr= 63.3%  avg=  +8.4bps  tot= +89.56%  sh=  +273.1
+  ✅ TEST                                                     n= 581  wr= 80.2%  avg= +13.7bps  tot= +79.75%  sh=  +364.4
+    ✅ test=+2.848%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    asym_15_0.05           2164   82.3%    +8.4bp   +181.1%     +430
+  ✅ DOGEUSDT    asym_15_0.1            3882   81.4%    +8.0bp   +312.2%     +421
+  ✅ DOGEUSDT    asym_30_0.05           2701   82.4%    +8.1bp   +218.1%     +430
+  ✅ DOGEUSDT    asym_30_0.1            4366   81.9%    +7.8bp   +339.6%     +437
+  ✅ DOGEUSDT    intrabar_10_0.05       1965   81.3%    +7.6bp   +148.4%     +465
+  ✅ DOGEUSDT    intrabar_10_0.1        3620   81.4%    +7.6bp   +275.7%     +435
+  ✅ DOGEUSDT    intrabar_20_0.05       2458   81.4%    +7.6bp   +186.7%     +437
+  ✅ DOGEUSDT    intrabar_20_0.1        4082   81.7%    +7.4bp   +303.4%     +438
+  ✅ DOGEUSDT    rr_15_0.95             1662   85.9%   +14.6bp   +242.6%     +459
+  ✅ DOGEUSDT    rr_15_0.99              555   86.5%   +18.8bp   +104.1%     +465
+  ✅ DOGEUSDT    rr_30_0.95             1719   86.2%   +15.0bp   +258.5%     +471
+  ✅ DOGEUSDT    rr_30_0.99              604   87.6%   +18.4bp   +111.3%     +474
+  ✅ DOGEUSDT    wc_div_0.05            2039   97.5%    +7.8bp   +158.5%    +1019
+  ✅ DOGEUSDT    wc_div_0.1             3876   95.6%    +7.5bp   +289.6%     +923
+  ✅ ETHUSDT     asym_15_0.05           1852   66.5%    +4.1bp    +75.9%     +277
+  ✅ ETHUSDT     asym_15_0.1            3315   65.2%    +3.6bp   +120.0%     +250
+  ✅ ETHUSDT     asym_30_0.05           2323   66.6%    +4.0bp    +93.9%     +268
+  ✅ ETHUSDT     asym_30_0.1            3797   66.2%    +3.8bp   +145.8%     +261
+  ✅ ETHUSDT     intrabar_10_0.05       1744   62.3%    +2.7bp    +46.9%     +189
+  ✅ ETHUSDT     intrabar_10_0.1        3267   61.8%    +2.6bp    +86.1%     +195
+  ✅ ETHUSDT     intrabar_20_0.05       2130   60.6%    +2.7bp    +57.5%     +202
+  ✅ ETHUSDT     intrabar_20_0.1        3673   62.2%    +2.9bp   +106.8%     +215
+  ✅ ETHUSDT     rr_15_0.95             1416   73.6%    +7.1bp   +100.6%     +347
+  ✅ ETHUSDT     rr_15_0.99              488   78.9%    +9.6bp    +47.1%     +383
+  ✅ ETHUSDT     rr_30_0.95             1499   73.4%    +7.3bp   +110.1%     +363
+  ✅ ETHUSDT     rr_30_0.99              499   79.4%    +9.9bp    +49.3%     +403
+  ✅ ETHUSDT     wc_div_0.05            1856   87.3%    +6.1bp   +113.4%     +633
+  ✅ ETHUSDT     wc_div_0.1             3431   79.5%    +5.1bp   +174.7%     +432
+  ✅ SOLUSDT     asym_15_0.05           1921   62.6%    +3.2bp    +61.1%     +209
+  ✅ SOLUSDT     asym_15_0.1            3355   62.2%    +3.0bp   +101.7%     +202
+  ✅ SOLUSDT     asym_30_0.05           2401   62.7%    +3.2bp    +77.7%     +196
+  ✅ SOLUSDT     asym_30_0.1            3957   62.2%    +3.1bp   +123.6%     +201
+  ✅ SOLUSDT     intrabar_10_0.05       1831   60.8%    +2.8bp    +51.6%     +202
+  ✅ SOLUSDT     intrabar_10_0.1        3358   60.2%    +2.9bp    +98.7%     +218
+  ✅ SOLUSDT     intrabar_20_0.05       2248   61.1%    +2.9bp    +64.7%     +222
+  ✅ SOLUSDT     intrabar_20_0.1        3701   60.7%    +2.9bp   +108.1%     +218
+  ✅ SOLUSDT     rr_15_0.95             1507   71.3%    +6.5bp    +98.7%     +333
+  ✅ SOLUSDT     rr_15_0.99              502   74.7%    +8.4bp    +42.2%     +351
+  ✅ SOLUSDT     rr_30_0.95             1539   72.8%    +7.0bp   +107.3%     +352
+  ✅ SOLUSDT     rr_30_0.99              549   74.5%    +8.1bp    +44.7%     +348
+  ✅ SOLUSDT     wc_div_0.05            1935   90.8%    +6.1bp   +118.0%     +664
+  ✅ SOLUSDT     wc_div_0.1             3581   83.3%    +5.3bp   +190.8%     +530
+  ✅ XRPUSDT     asym_15_0.05           2058   72.5%    +5.8bp   +120.3%     +271
+  ✅ XRPUSDT     asym_15_0.1            3603   72.5%    +5.7bp   +205.2%     +296
+  ✅ XRPUSDT     asym_30_0.05           2466   70.1%    +5.7bp   +140.6%     +267
+  ✅ XRPUSDT     asym_30_0.1            4127   70.1%    +5.4bp   +224.7%     +283
+  ✅ XRPUSDT     intrabar_10_0.05       1920   71.7%    +5.9bp   +113.5%     +276
+  ✅ XRPUSDT     intrabar_10_0.1        3481   70.5%    +5.7bp   +198.3%     +292
+  ✅ XRPUSDT     intrabar_20_0.05       2334   70.9%    +5.5bp   +128.8%     +271
+  ✅ XRPUSDT     intrabar_20_0.1        3941   70.6%    +5.3bp   +209.9%     +278
+  ✅ XRPUSDT     rr_15_0.95             1577   77.0%   +10.7bp   +168.8%     +352
+  ✅ XRPUSDT     rr_15_0.99              549   78.9%   +13.3bp    +73.3%     +344
+  ✅ XRPUSDT     rr_30_0.95             1674   78.1%   +10.7bp   +179.3%     +362
+  ✅ XRPUSDT     rr_30_0.99              581   80.2%   +13.7bp    +79.8%     +364
+  ✅ XRPUSDT     wc_div_0.05            2009   94.1%    +7.1bp   +142.6%     +882
+  ✅ XRPUSDT     wc_div_0.1             3781   90.2%    +6.6bp   +250.3%     +766
+
+################################################################################
+  COMPLETE — 907s (15.1min) [RAM=0.3GB, avail=6.0GB]
+################################################################################
