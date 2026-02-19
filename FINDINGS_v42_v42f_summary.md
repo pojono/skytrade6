@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 110 Signal Types Discovered
+### 114 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -966,6 +966,10 @@ Strategy contribution (standalone):
 | 108 | Price Acceleration | Price only | 83% | +299%/28d | Low |
 | 109 | **Return IQR** | **Price only** | **86%** | **+704%/28d** | **Low** |
 | 110 | High-Low Position | Price only | 82% | +320%/28d | Low |
+| 111 | VWAP Deviation | Price only | 84% | +415%/28d | Low |
+| 112 | HL Correlation | Price only | 80% | +560%/28d | Low |
+| 113 | **MR Speed** | **Price only** | **88%** | **+660%/28d** | **Low** |
+| 114 | Vol Persistence | Price only | 80% | +422%/28d | Low |
 
 ---
 
@@ -1174,3 +1178,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42az_kurtosis_channel.py` | EXP FFFF5-IIII5: kurtosis, BB width, gap pressure, tail ratio |
 | `research_v42ba_oscillator_vptrend.py` | EXP JJJJ5-MMMM5: oscillator, vol ratio, autocorr, price pct |
 | `research_v42bb_hurst_accel2.py` | EXP NNNN5-QQQQ5: Hurst proxy, acceleration, IQR, HL position |
+| `research_v42bc_vwap_corr_mrspeed.py` | EXP RRRR5-UUUU5: VWAP dev, HL corr, MR speed, vol persistence |
