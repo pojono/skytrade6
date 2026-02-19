@@ -1,0 +1,89 @@
+================================================================================
+  v42p: CASCADE PREDICTION + REGIME ADAPTATION — SOLUSDT
+  2026-02-19 06:54:30  [RAM=0.1GB, avail=6.4GB]
+================================================================================
+  Loading SOLUSDT liqs... [15/88 2s] [30/88 4s] [45/88 7s] [60/88 7s] [75/88 7s] 90,669 (9s) [RAM=0.1GB, avail=6.3GB]
+  Loading SOLUSDT bars... [10/88 20s] [20/88 35s] [30/88 46s] [40/88 61s] [50/88 73s] [60/88 85s] [70/88 101s] [80/88 122s] [88/88 132s] 126,720 bars (132s) [RAM=0.4GB, avail=6.3GB]
+
+  [RAM=0.4GB, avail=6.3GB] data loaded
+  Cascades: 607
+
+################################################################################
+  EXP NN: PRE-CASCADE SIGNALS
+################################################################################
+
+  PRE-CASCADE PROFILE (avg of 607 cascades):
+  1min before: liq_vol=215421 (vs normal 22269, ratio=9.7x)  price_move=28.0bps (vs normal 11.1bps, ratio=2.5x)  liq_count=47.9
+  2min before: liq_vol=117870 (vs normal 21434, ratio=5.5x)  price_move=20.4bps (vs normal 10.9bps, ratio=1.9x)  liq_count=27.1
+  3min before: liq_vol=89791 (vs normal 19445, ratio=4.6x)  price_move=17.5bps (vs normal 10.8bps, ratio=1.6x)  liq_count=20.7
+  5min before: liq_vol=65328 (vs normal 16398, ratio=4.0x)  price_move=15.0bps (vs normal 10.6bps, ratio=1.4x)  liq_count=15.5
+  10min before: liq_vol=42683 (vs normal 14118, ratio=3.0x)  price_move=12.9bps (vs normal 10.2bps, ratio=1.3x)  liq_count=10.3
+
+  EARLY ENTRY: Enter at cascade START vs cascade END:
+  ✅ Cascade START                                            n= 524  wr= 95.4%  avg= +14.2bps  tot= +74.39%  sh=  +435.4
+  ✅ Cascade END                                              n= 525  wr= 94.7%  avg= +11.7bps  tot= +61.53%  sh=  +694.6
+
+  PRE-ENTRY: Enter N minutes BEFORE cascade start:
+  ✅ Entry 0min before start                                  n= 524  wr= 95.4%  avg= +14.2bps  tot= +74.39%  sh=  +435.4
+  ✅ Entry 1min before start                                  n= 511  wr= 95.1%  avg= +19.2bps  tot= +98.12%  sh=  +574.7
+  ✅ Entry 2min before start                                  n= 597  wr= 95.8%  avg=  +9.4bps  tot= +56.04%  sh=  +679.0
+  ✅ Entry 3min before start                                  n= 604  wr= 86.6%  avg=  +9.0bps  tot= +54.64%  sh=  +447.7
+  ✅ Entry 5min before start                                  n= 607  wr= 82.2%  avg=  +8.1bps  tot= +49.37%  sh=  +430.8
+
+################################################################################
+  EXP OO: REGIME DETECTION — VOLATILITY ADAPTATION
+################################################################################
+  60-min rolling vol median: 0.652%
+  High-vol cascades: 524
+  Low-vol cascades:  83
+
+  BASELINE (all cascades):
+  ✅ All cascades                                             n= 525  wr= 94.7%  avg= +11.7bps  tot= +61.53%  sh=  +694.6
+
+  BY REGIME:
+  ✅ High-vol regime                                          n= 471  wr= 96.0%  avg= +12.4bps  tot= +58.17%  sh=  +717.5
+  ✅ Low-vol regime                                           n=  54  wr= 83.3%  avg=  +6.2bps  tot=  +3.36%  sh=  +653.8
+
+  ADAPTIVE PARAMETERS:
+  ✅ High-vol (off=0.20 tp=0.20)                              n= 430  wr= 96.3%  avg= +14.9bps  tot= +63.97%  sh=  +904.6
+  ✅ Low-vol (off=0.10 tp=0.10)                               n=  66  wr= 75.8%  avg=  +2.5bps  tot=  +1.67%  sh=  +147.0
+  ✅ High-vol (off=0.15 tp=0.15)                              n= 471  wr= 96.0%  avg= +12.4bps  tot= +58.17%  sh=  +717.5
+  ✅ Low-vol (off=0.15 tp=0.15)                               n=  54  wr= 83.3%  avg=  +6.2bps  tot=  +3.36%  sh=  +653.8
+
+################################################################################
+  EXP PP: CASCADE DURATION AS REAL-TIME SIGNAL
+################################################################################
+
+  TRADE BY CASCADE DURATION:
+  ✅ dur <5s (184 cascades)                                   n= 156  wr= 94.2%  avg= +10.7bps  tot= +16.68%  sh=  +751.0
+  ✅ dur 5-15s (117 cascades)                                 n= 103  wr= 93.2%  avg= +10.2bps  tot= +10.53%  sh=  +768.4
+  ✅ dur 15-30s (88 cascades)                                 n=  75  wr= 94.7%  avg= +10.8bps  tot=  +8.11%  sh=  +983.8
+  ✅ dur 30-60s (144 cascades)                                n= 123  wr= 94.3%  avg= +11.9bps  tot= +14.59%  sh=  +732.5
+  ✅ dur >60s (74 cascades)                                   n=  68  wr= 98.5%  avg= +17.1bps  tot= +11.62%  sh=  +620.3
+
+  TRADE BY N_EVENTS:
+  ✅ n_ev=2 events (283 cascades)                             n= 239  wr= 91.6%  avg=  +9.2bps  tot= +21.87%  sh=  +722.7
+  ✅ n_ev=3-4 events (165 cascades)                           n= 141  wr= 95.7%  avg= +11.4bps  tot= +16.08%  sh=  +835.6
+  ✅ n_ev=5-9 events (97 cascades)                            n=  86  wr= 97.7%  avg= +13.8bps  tot= +11.86%  sh=  +903.5
+  ✅ n_ev=10+ events (59 cascades)                            n=  56  wr=100.0%  avg= +19.6bps  tot= +11.00%  sh=  +688.0
+
+  WALK-FORWARD: Duration filter
+
+  dur<=15s:
+  ✅ TRAIN                                                    n= 219  wr= 94.1%  avg= +10.8bps  tot= +23.65%  sh=  +754.5
+  ✅ TEST                                                     n=  40  wr= 92.5%  avg=  +8.9bps  tot=  +3.56%  sh=  +820.4
+    ✅ train=+0.394%/d  test=+0.127%/d
+
+  dur<=30s:
+  ✅ TRAIN                                                    n= 280  wr= 94.3%  avg= +10.8bps  tot= +30.19%  sh=  +788.3
+  ✅ TEST                                                     n=  54  wr= 92.6%  avg=  +9.5bps  tot=  +5.14%  sh=  +872.8
+    ✅ train=+0.503%/d  test=+0.183%/d
+
+  dur<=60s:
+  ✅ TRAIN                                                    n= 372  wr= 94.6%  avg= +11.2bps  tot= +41.69%  sh=  +764.6
+  ✅ TEST                                                     n=  85  wr= 91.8%  avg=  +9.7bps  tot=  +8.22%  sh=  +840.5
+    ✅ train=+0.695%/d  test=+0.294%/d
+
+################################################################################
+  COMPLETE — 145s (2.4min) [RAM=0.3GB, avail=6.5GB]
+################################################################################
