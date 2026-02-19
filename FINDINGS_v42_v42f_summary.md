@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 78 Signal Types Discovered
+### 82 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -934,6 +934,10 @@ Strategy contribution (standalone):
 | 76 | **Volume Climax** | **Price+Vol** | **89%** | **+155%/28d** | **Low** |
 | 77 | Multi-TF Z Agreement | Price only | 87% | +32%/28d | Low |
 | 78 | Oscillation Frequency | Price only | 81% | +322%/28d | Low |
+| 79 | Price Memory Revisit | Price only | 75% | +60%/28d | Low |
+| 80 | **Vol Breakout (Squeeze)** | **Price only** | **90%** | **+14%/28d** | **Low** |
+| 81 | **Trend Exhaustion** | **Price only** | **87%** | **+34%/28d** | **Low** |
+| 82 | Range Contraction→Expand | Price only | 80% | +9%/28d | Low |
 
 ---
 
@@ -1134,3 +1138,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ar_volprofile_cone.py` | EXP ZZZZ3-CCCC4: VWAP pct, vol cone, mom-vol div, rolling Sharpe |
 | `research_v42as_channel_imbalance.py` | EXP DDDD4-GGGG4: Donchian, Keltner, vol-adj mom, body ratio |
 | `research_v42at_accel_climax.py` | EXP HHHH4-KKKK4: acceleration, vol climax, multi-TF, oscillation |
+| `research_v42au_strength_memory.py` | EXP LLLL4-OOOO4: price memory, vol breakout, trend exhaust, range |
