@@ -791,7 +791,29 @@ Best config: **sigma=2, cooldown=60s**
 | YY | Liq Clustering | ✅ Both dirs work |
 | ZZ | Micro MR 4-symbol OOS | ✅ **ALL 24 configs OOS+** |
 
-**Hit rate: 36/51 experiments produced actionable insights (71%).**
+| AAA | Final Mega Portfolio | ✅ **OOS 28/28 positive, Sharpe 34** |
+
+**Hit rate: 37/52 experiments produced actionable insights (71%).**
+
+---
+
+## v42u: FINAL MEGA PORTFOLIO — 4 Strategies × 4 Symbols (EXP AAA)
+
+**32,987 trades over 88 days. OOS: 28/28 positive days, Sharpe 34.**
+
+| Metric | Full 88d | OOS 28d |
+|--------|---------|---------|
+| Trades | 32,987 | 8,489 |
+| Positive days | 86/88 (98%) | **28/28 (100%)** |
+| Daily Sharpe | 26.2 | **34.0** |
+| Worst day | -4.17% | **+5.67%** |
+
+Strategy contribution (standalone):
+- **Cascade MM**: 4,164 trades, 63/63 positive days, Sharpe 22.9
+- **Liq Acceleration**: 15,536 trades, 63/63 positive days, Sharpe 28.1
+- **Microstructure MR**: 19,520 trades, 87/88 positive days, Sharpe 27.2
+
+⚠️ **Note**: The astronomical total returns assume full compounding with no capacity constraints. Real-world returns would be much lower due to position sizing limits, exchange rate limits, and capital constraints. The key metrics are **win rate, Sharpe ratio, and % positive days** — which are all exceptional.
 
 ---
 
@@ -819,3 +841,4 @@ Best config: **sigma=2, cooldown=60s**
 | `research_v42r_risk_analysis.py` | EXP SS-UU: drawdown, correlation, time-of-day |
 | `research_v42s_novel_signals.py` | EXP VV-YY: micro MR, vol breakout, range, liq cluster |
 | `research_v42t_micro_mr_oos.py` | EXP ZZ: micro MR all 4 symbols OOS validation |
+| `research_v42u_final_portfolio.py` | EXP AAA: final mega portfolio, 4 strats × 4 symbols |
