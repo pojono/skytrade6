@@ -1,0 +1,132 @@
+================================================================================
+  v42z: AUTOCORRELATION + MOMENTUM PERSISTENCE PATTERNS
+  2026-02-19 08:25:26  [RAM=0.1GB, avail=6.3GB]
+================================================================================
+  Loading SOLUSDT... [10/88 18s] [20/88 34s] [30/88 46s] [40/88 61s] [50/88 74s] [60/88 85s] [70/88 101s] [80/88 122s] [88/88 132s] 126,720 bars (132s) [RAM=0.5GB, avail=5.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP OOO: RETURN AUTOCORRELATION ---
+  Autocorr stats: mean=-0.0532, P5=-0.3493, P95=0.2507
+
+  Neg autocorr P10 (fade in MR regime):
+  ✅ TRAIN                                                    n=6107  wr= 62.5%  avg=  +3.7bps  tot=+225.54%  sh=  +204.7
+  ✅ TEST                                                     n=3212  wr= 66.4%  avg=  +3.7bps  tot=+120.11%  sh=  +238.2
+
+  Neg autocorr P5 (fade in MR regime):
+  ✅ TRAIN                                                    n=3181  wr= 64.2%  avg=  +4.3bps  tot=+135.61%  sh=  +228.3
+  ✅ TEST                                                     n=1512  wr= 67.5%  avg=  +3.8bps  tot= +57.84%  sh=  +237.4
+
+  --- EXP PPP: CONSECUTIVE MOVE ---
+
+  Consecutive 3+ bars (fade):
+  ✅ TRAIN                                                    n=6482  wr= 61.1%  avg=  +3.0bps  tot=+196.05%  sh=  +194.5
+  ✅ TEST                                                     n=3243  wr= 59.2%  avg=  +2.9bps  tot= +94.14%  sh=  +199.9
+    ✅ train=+3.267%/d  test=+3.362%/d
+
+  Consecutive 5+ bars (fade):
+  ✅ TRAIN                                                    n=1319  wr= 63.8%  avg=  +3.4bps  tot= +44.88%  sh=  +222.7
+  ✅ TEST                                                     n= 719  wr= 58.8%  avg=  +3.1bps  tot= +22.27%  sh=  +229.8
+    ✅ train=+0.748%/d  test=+0.795%/d
+
+  Consecutive 7+ bars (fade):
+  ✅ TRAIN                                                    n= 279  wr= 66.7%  avg=  +3.5bps  tot=  +9.90%  sh=  +226.2
+  ✅ TEST                                                     n= 172  wr= 64.0%  avg=  +3.6bps  tot=  +6.22%  sh=  +318.1
+    ✅ train=+0.165%/d  test=+0.222%/d
+
+  --- EXP QQQ: VOLATILITY CLUSTERING ---
+
+  Vol cluster >2x (fade):
+  ✅ TRAIN                                                    n=1793  wr= 78.6%  avg= +10.0bps  tot=+179.78%  sh=  +343.7
+  ✅ TEST                                                     n= 747  wr= 76.2%  avg=  +7.4bps  tot= +55.09%  sh=  +382.0
+    ✅ train=+2.996%/d  test=+1.968%/d
+
+  Vol cluster >3x (fade):
+  ✅ TRAIN                                                    n= 200  wr= 90.5%  avg= +24.2bps  tot= +48.33%  sh=  +433.9
+  ✅ TEST                                                     n=  42  wr= 81.0%  avg= +10.4bps  tot=  +4.38%  sh=  +391.2
+    ✅ train=+0.805%/d  test=+0.156%/d
+
+  Vol cluster >5x (fade):
+  ✅ TRAIN                                                    n=  14  wr=100.0%  avg= +63.4bps  tot=  +8.88%  sh=  +551.3
+  ✅ TEST                                                     n=   3  wr=100.0%  avg=  +5.7bps  tot=  +0.17%  sh= +1671.8
+    ✅ train=+0.148%/d  test=+0.006%/d
+
+  --- EXP RRR: PRICE-VOLUME DIVERGENCE ---
+
+  Price-vol divergence (pr>0.1%, vol down):
+  ✅ TRAIN                                                    n=3575  wr= 65.0%  avg=  +3.2bps  tot=+114.60%  sh=  +219.2
+  ✅ TEST                                                     n=1883  wr= 63.0%  avg=  +3.5bps  tot= +65.89%  sh=  +260.4
+    ✅ train=+1.910%/d  test=+2.353%/d
+
+  Price-vol divergence (pr>0.2%, vol down):
+  ✅ TRAIN                                                    n=1696  wr= 71.2%  avg=  +4.5bps  tot= +76.22%  sh=  +317.6
+  ✅ TEST                                                     n= 935  wr= 69.3%  avg=  +4.8bps  tot= +44.48%  sh=  +352.7
+    ✅ train=+1.270%/d  test=+1.589%/d
+  Loading DOGEUSDT... [10/88 26s] [20/88 43s] [30/88 56s] [40/88 67s] [50/88 76s] [60/88 86s] [70/88 119s] [80/88 144s] [88/88 154s] 126,720 bars (154s) [RAM=0.5GB, avail=5.6GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP OOO: RETURN AUTOCORRELATION ---
+  Autocorr stats: mean=-0.0466, P5=-0.3417, P95=0.2544
+
+  Neg autocorr P10 (fade in MR regime):
+  ✅ TRAIN                                                    n=6466  wr= 64.8%  avg=  +4.5bps  tot=+293.57%  sh=  +241.8
+  ✅ TEST                                                     n=3262  wr= 80.8%  avg=  +7.7bps  tot=+252.09%  sh=  +470.5
+
+  Neg autocorr P5 (fade in MR regime):
+  ✅ TRAIN                                                    n=3330  wr= 66.4%  avg=  +5.0bps  tot=+165.88%  sh=  +252.6
+  ✅ TEST                                                     n=1604  wr= 82.2%  avg=  +8.0bps  tot=+127.69%  sh=  +502.2
+
+  --- EXP PPP: CONSECUTIVE MOVE ---
+
+  Consecutive 3+ bars (fade):
+  ✅ TRAIN                                                    n=6886  wr= 64.7%  avg=  +4.0bps  tot=+277.49%  sh=  +220.1
+  ✅ TEST                                                     n=3728  wr= 78.2%  avg=  +7.4bps  tot=+275.83%  sh=  +378.8
+    ✅ train=+4.625%/d  test=+9.851%/d
+
+  Consecutive 5+ bars (fade):
+  ✅ TRAIN                                                    n=1534  wr= 68.9%  avg=  +5.0bps  tot= +77.11%  sh=  +236.2
+  ✅ TEST                                                     n= 821  wr= 77.6%  avg=  +7.5bps  tot= +61.38%  sh=  +389.1
+    ✅ train=+1.285%/d  test=+2.192%/d
+
+  Consecutive 7+ bars (fade):
+  ✅ TRAIN                                                    n= 333  wr= 73.6%  avg=  +6.3bps  tot= +20.81%  sh=  +266.3
+  ✅ TEST                                                     n= 185  wr= 74.6%  avg=  +6.3bps  tot= +11.60%  sh=  +385.5
+    ✅ train=+0.347%/d  test=+0.414%/d
+
+  --- EXP QQQ: VOLATILITY CLUSTERING ---
+
+  Vol cluster >2x (fade):
+  ✅ TRAIN                                                    n=1871  wr= 80.2%  avg= +13.1bps  tot=+244.42%  sh=  +352.3
+  ✅ TEST                                                     n= 739  wr= 88.2%  avg= +16.6bps  tot=+122.67%  sh=  +474.7
+    ✅ train=+4.074%/d  test=+4.381%/d
+
+  Vol cluster >3x (fade):
+  ✅ TRAIN                                                    n= 200  wr= 93.0%  avg= +33.9bps  tot= +67.89%  sh=  +507.6
+  ✅ TEST                                                     n=  51  wr= 98.0%  avg= +23.7bps  tot= +12.11%  sh=  +499.6
+    ✅ train=+1.132%/d  test=+0.433%/d
+
+  Vol cluster >5x (fade):
+  ✅ TRAIN                                                    n=  10  wr=100.0%  avg= +87.0bps  tot=  +8.70%  sh=  +737.9
+  ✅ TEST                                                     n=   1  wr=100.0%  avg=  +8.4bps  tot=  +0.08%  sh=+5036533838.9
+    ✅ train=+0.145%/d  test=+0.003%/d
+
+  --- EXP RRR: PRICE-VOLUME DIVERGENCE ---
+
+  Price-vol divergence (pr>0.1%, vol down):
+  ✅ TRAIN                                                    n=3957  wr= 68.2%  avg=  +4.3bps  tot=+171.87%  sh=  +273.6
+  ✅ TEST                                                     n=2442  wr= 81.3%  avg=  +7.4bps  tot=+180.38%  sh=  +452.8
+    ✅ train=+2.864%/d  test=+6.442%/d
+
+  Price-vol divergence (pr>0.2%, vol down):
+  ✅ TRAIN                                                    n=2127  wr= 75.5%  avg=  +6.2bps  tot=+131.97%  sh=  +363.8
+  ✅ TEST                                                     n=1609  wr= 84.6%  avg=  +8.4bps  tot=+135.60%  sh=  +492.8
+    ✅ train=+2.199%/d  test=+4.843%/d
+
+################################################################################
+  COMPLETE — 353s (5.9min) [RAM=0.4GB, avail=5.8GB]
+################################################################################
