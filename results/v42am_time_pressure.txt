@@ -1,0 +1,247 @@
+================================================================================
+  v42am: TIME-OF-DAY + BUY/SELL PRESSURE + VOL ACCELERATION
+  2026-02-19 10:50:37  [RAM=0.1GB, avail=8.4GB]
+================================================================================
+  Loading ETHUSDT... [10/88 42s] [20/88 69s] [30/88 93s] [40/88 121s] [50/88 145s] [60/88 164s] [70/88 198s] [80/88 233s] [88/88 263s] 126,720 bars (263s) [RAM=0.7GB, avail=8.0GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP FFFF2: HOUR-OF-DAY VOLATILITY ---
+  Top 8 volatile hours (UTC): [0, 13, 14, 15, 16, 17, 18, 21]
+
+  MR all hours:
+  ✅ TRAIN                                                    n=3209  wr= 72.4%  avg=  +9.3bps  tot=+299.34%  sh=  +273.3
+  ✅ TEST                                                     n=1441  wr= 73.9%  avg=  +7.1bps  tot=+102.91%  sh=  +346.5
+    ✅ test=+3.675%/d
+
+  MR + high-vol hours:
+  ✅ TRAIN                                                    n=1278  wr= 79.0%  avg= +11.4bps  tot=+146.08%  sh=  +300.7
+  ✅ TEST                                                     n= 532  wr= 81.0%  avg=  +9.0bps  tot= +47.80%  sh=  +393.6
+    ✅ test=+1.707%/d
+
+  --- EXP GGGG2: BUY/SELL PRESSURE RATIO ---
+
+  B/S ratio z>2 (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  B/S ratio z>3 (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP HHHH2: VOLUME ACCELERATION ---
+
+  Vol accel z>2 (fade):
+  ✅ TRAIN                                                    n=3196  wr= 65.7%  avg=  +6.5bps  tot=+209.13%  sh=  +243.7
+  ✅ TEST                                                     n=1544  wr= 73.3%  avg=  +6.3bps  tot= +97.01%  sh=  +386.5
+    ✅ test=+3.465%/d
+
+  Vol accel z>3 (fade):
+  ✅ TRAIN                                                    n= 458  wr= 78.2%  avg= +14.0bps  tot= +64.17%  sh=  +362.3
+  ✅ TEST                                                     n= 253  wr= 79.4%  avg=  +8.0bps  tot= +20.22%  sh=  +439.5
+    ✅ test=+0.722%/d
+
+  --- EXP IIII2: MOMENTUM QUALITY ---
+
+  Low-quality momentum CV>0.5 (fade):
+  ✅ TRAIN                                                    n=4458  wr= 76.3%  avg=  +6.4bps  tot=+283.93%  sh=  +379.4
+  ✅ TEST                                                     n=2347  wr= 72.5%  avg=  +5.2bps  tot=+121.26%  sh=  +306.6
+    ✅ test=+4.331%/d
+
+  Low-quality momentum CV>1.0 (fade):
+  ✅ TRAIN                                                    n=2640  wr= 78.6%  avg=  +7.1bps  tot=+186.98%  sh=  +403.6
+  ✅ TEST                                                     n=1191  wr= 75.3%  avg=  +5.5bps  tot= +65.48%  sh=  +323.6
+    ✅ test=+2.338%/d
+  Loading SOLUSDT... [10/88 26s] [20/88 47s] [30/88 63s] [40/88 87s] [50/88 103s] [60/88 116s] [70/88 135s] [80/88 163s] [88/88 176s] 126,720 bars (176s) [RAM=0.5GB, avail=7.5GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP FFFF2: HOUR-OF-DAY VOLATILITY ---
+  Top 8 volatile hours (UTC): [0, 1, 13, 14, 15, 16, 17, 18]
+
+  MR all hours:
+  ✅ TRAIN                                                    n=3446  wr= 70.8%  avg=  +6.9bps  tot=+238.34%  sh=  +277.9
+  ✅ TEST                                                     n=1555  wr= 73.4%  avg=  +6.8bps  tot=+105.41%  sh=  +345.6
+    ✅ test=+3.765%/d
+
+  MR + high-vol hours:
+  ✅ TRAIN                                                    n=1354  wr= 78.9%  avg=  +9.3bps  tot=+125.27%  sh=  +316.8
+  ✅ TEST                                                     n= 599  wr= 81.3%  avg=  +8.9bps  tot= +53.50%  sh=  +416.8
+    ✅ test=+1.911%/d
+
+  --- EXP GGGG2: BUY/SELL PRESSURE RATIO ---
+
+  B/S ratio z>2 (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  B/S ratio z>3 (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP HHHH2: VOLUME ACCELERATION ---
+
+  Vol accel z>2 (fade):
+  ✅ TRAIN                                                    n=3245  wr= 68.0%  avg=  +5.7bps  tot=+184.91%  sh=  +240.3
+  ✅ TEST                                                     n=1545  wr= 71.5%  avg=  +6.2bps  tot= +95.17%  sh=  +346.1
+    ✅ test=+3.399%/d
+
+  Vol accel z>3 (fade):
+  ✅ TRAIN                                                    n= 413  wr= 75.3%  avg= +10.3bps  tot= +42.64%  sh=  +306.3
+  ✅ TEST                                                     n= 220  wr= 70.9%  avg=  +6.4bps  tot= +14.17%  sh=  +301.3
+    ✅ test=+0.506%/d
+
+  --- EXP IIII2: MOMENTUM QUALITY ---
+
+  Low-quality momentum CV>0.5 (fade):
+  ✅ TRAIN                                                    n=4746  wr= 71.4%  avg=  +5.2bps  tot=+245.20%  sh=  +318.0
+  ✅ TEST                                                     n=2283  wr= 67.8%  avg=  +4.0bps  tot= +92.13%  sh=  +236.7
+    ✅ test=+3.290%/d
+
+  Low-quality momentum CV>1.0 (fade):
+  ✅ TRAIN                                                    n=2397  wr= 72.3%  avg=  +5.7bps  tot=+137.56%  sh=  +314.0
+  ✅ TEST                                                     n= 725  wr= 67.0%  avg=  +4.0bps  tot= +28.83%  sh=  +239.3
+    ✅ test=+1.029%/d
+  Loading DOGEUSDT... [10/88 35s] [20/88 55s] [30/88 68s] [40/88 82s] [50/88 95s] [60/88 108s] [70/88 151s] [80/88 187s] [88/88 201s] 126,720 bars (201s) [RAM=0.5GB, avail=7.6GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP FFFF2: HOUR-OF-DAY VOLATILITY ---
+  Top 8 volatile hours (UTC): [0, 1, 13, 14, 15, 16, 17, 21]
+
+  MR all hours:
+  ✅ TRAIN                                                    n=3486  wr= 73.0%  avg=  +8.9bps  tot=+310.83%  sh=  +285.5
+  ✅ TEST                                                     n=1667  wr= 87.0%  avg= +13.7bps  tot=+227.88%  sh=  +439.0
+    ✅ test=+8.138%/d
+
+  MR + high-vol hours:
+  ✅ TRAIN                                                    n=1346  wr= 78.9%  avg= +11.2bps  tot=+151.08%  sh=  +332.7
+  ✅ TEST                                                     n= 619  wr= 89.8%  avg= +15.5bps  tot= +96.00%  sh=  +490.7
+    ✅ test=+3.429%/d
+
+  --- EXP GGGG2: BUY/SELL PRESSURE RATIO ---
+
+  B/S ratio z>2 (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  B/S ratio z>3 (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP HHHH2: VOLUME ACCELERATION ---
+
+  Vol accel z>2 (fade):
+  ✅ TRAIN                                                    n=3382  wr= 70.7%  avg=  +7.5bps  tot=+254.43%  sh=  +276.6
+  ✅ TEST                                                     n=1740  wr= 84.3%  avg= +11.5bps  tot=+199.85%  sh=  +436.1
+    ✅ test=+7.138%/d
+
+  Vol accel z>3 (fade):
+  ✅ TRAIN                                                    n= 450  wr= 74.2%  avg= +12.7bps  tot= +57.16%  sh=  +337.9
+  ✅ TEST                                                     n= 219  wr= 86.8%  avg= +16.2bps  tot= +35.56%  sh=  +414.5
+    ✅ test=+1.270%/d
+
+  --- EXP IIII2: MOMENTUM QUALITY ---
+
+  Low-quality momentum CV>0.5 (fade):
+  ✅ TRAIN                                                    n=4500  wr= 74.9%  avg=  +6.7bps  tot=+302.42%  sh=  +336.1
+  ✅ TEST                                                     n=2481  wr= 86.2%  avg=  +9.6bps  tot=+238.29%  sh=  +474.1
+    ✅ test=+8.510%/d
+
+  Low-quality momentum CV>1.0 (fade):
+  ✅ TRAIN                                                    n=2367  wr= 72.9%  avg=  +6.7bps  tot=+158.39%  sh=  +291.9
+  ✅ TEST                                                     n=1082  wr= 84.4%  avg=  +9.9bps  tot=+107.64%  sh=  +439.7
+    ✅ test=+3.844%/d
+  Loading XRPUSDT... [10/88 25s] [20/88 39s] [30/88 51s] [40/88 64s] [50/88 80s] [60/88 92s] [70/88 138s] [80/88 167s] [88/88 184s] 126,720 bars (184s) [RAM=0.6GB, avail=7.5GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP FFFF2: HOUR-OF-DAY VOLATILITY ---
+  Top 8 volatile hours (UTC): [0, 13, 14, 15, 16, 17, 18, 21]
+
+  MR all hours:
+  ✅ TRAIN                                                    n=3111  wr= 59.7%  avg=  +5.0bps  tot=+155.69%  sh=  +205.4
+  ✅ TEST                                                     n=1605  wr= 79.0%  avg= +10.7bps  tot=+172.07%  sh=  +344.0
+    ✅ test=+6.145%/d
+
+  MR + high-vol hours:
+  ✅ TRAIN                                                    n=1218  wr= 67.5%  avg=  +7.0bps  tot= +85.52%  sh=  +247.5
+  ✅ TEST                                                     n= 610  wr= 86.1%  avg= +14.5bps  tot= +88.56%  sh=  +386.9
+    ✅ test=+3.163%/d
+
+  --- EXP GGGG2: BUY/SELL PRESSURE RATIO ---
+
+  B/S ratio z>2 (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  B/S ratio z>3 (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP HHHH2: VOLUME ACCELERATION ---
+
+  Vol accel z>2 (fade):
+  ✅ TRAIN                                                    n=2932  wr= 57.7%  avg=  +4.2bps  tot=+123.14%  sh=  +180.9
+  ✅ TEST                                                     n=1605  wr= 75.8%  avg=  +9.1bps  tot=+145.29%  sh=  +328.6
+    ✅ test=+5.189%/d
+
+  Vol accel z>3 (fade):
+  ✅ TRAIN                                                    n= 417  wr= 66.9%  avg=  +9.8bps  tot= +40.77%  sh=  +277.2
+  ✅ TEST                                                     n= 250  wr= 80.0%  avg= +11.2bps  tot= +28.05%  sh=  +374.6
+    ✅ test=+1.002%/d
+
+  --- EXP IIII2: MOMENTUM QUALITY ---
+
+  Low-quality momentum CV>0.5 (fade):
+  ✅ TRAIN                                                    n=4247  wr= 60.3%  avg=  +3.4bps  tot=+143.14%  sh=  +221.3
+  ✅ TEST                                                     n=2394  wr= 74.9%  avg=  +6.9bps  tot=+166.04%  sh=  +312.7
+    ✅ test=+5.930%/d
+
+  Low-quality momentum CV>1.0 (fade):
+  ✅ TRAIN                                                    n=1718  wr= 60.9%  avg=  +3.7bps  tot= +64.23%  sh=  +219.9
+  ✅ TEST                                                     n= 480  wr= 68.5%  avg=  +5.7bps  tot= +27.56%  sh=  +239.3
+    ✅ test=+0.984%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                         n      WR      Avg     Total   Sharpe
+  ----------------------------------------------------------------------
+  ✅ DOGEUSDT    MR + high-vol hours          619   89.8%   +15.5bp    +96.0%     +491
+  ✅ DOGEUSDT    MR all hours                1667   87.0%   +13.7bp   +227.9%     +439
+  ✅ DOGEUSDT    mom_quality_cv0.5           2481   86.2%    +9.6bp   +238.3%     +474
+  ✅ DOGEUSDT    mom_quality_cv1.0           1082   84.4%    +9.9bp   +107.6%     +440
+  ✅ DOGEUSDT    vol_accel_z2                1740   84.3%   +11.5bp   +199.9%     +436
+  ✅ DOGEUSDT    vol_accel_z3                 219   86.8%   +16.2bp    +35.6%     +414
+  ✅ ETHUSDT     MR + high-vol hours          532   81.0%    +9.0bp    +47.8%     +394
+  ✅ ETHUSDT     MR all hours                1441   73.9%    +7.1bp   +102.9%     +347
+  ✅ ETHUSDT     mom_quality_cv0.5           2347   72.5%    +5.2bp   +121.3%     +307
+  ✅ ETHUSDT     mom_quality_cv1.0           1191   75.3%    +5.5bp    +65.5%     +324
+  ✅ ETHUSDT     vol_accel_z2                1544   73.3%    +6.3bp    +97.0%     +387
+  ✅ ETHUSDT     vol_accel_z3                 253   79.4%    +8.0bp    +20.2%     +439
+  ✅ SOLUSDT     MR + high-vol hours          599   81.3%    +8.9bp    +53.5%     +417
+  ✅ SOLUSDT     MR all hours                1555   73.4%    +6.8bp   +105.4%     +346
+  ✅ SOLUSDT     mom_quality_cv0.5           2283   67.8%    +4.0bp    +92.1%     +237
+  ✅ SOLUSDT     mom_quality_cv1.0            725   67.0%    +4.0bp    +28.8%     +239
+  ✅ SOLUSDT     vol_accel_z2                1545   71.5%    +6.2bp    +95.2%     +346
+  ✅ SOLUSDT     vol_accel_z3                 220   70.9%    +6.4bp    +14.2%     +301
+  ✅ XRPUSDT     MR + high-vol hours          610   86.1%   +14.5bp    +88.6%     +387
+  ✅ XRPUSDT     MR all hours                1605   79.0%   +10.7bp   +172.1%     +344
+  ✅ XRPUSDT     mom_quality_cv0.5           2394   74.9%    +6.9bp   +166.0%     +313
+  ✅ XRPUSDT     mom_quality_cv1.0            480   68.5%    +5.7bp    +27.6%     +239
+  ✅ XRPUSDT     vol_accel_z2                1605   75.8%    +9.1bp   +145.3%     +329
+  ✅ XRPUSDT     vol_accel_z3                 250   80.0%   +11.2bp    +28.0%     +375
+
+################################################################################
+  COMPLETE — 871s (14.5min) [RAM=0.5GB, avail=7.8GB]
+################################################################################
