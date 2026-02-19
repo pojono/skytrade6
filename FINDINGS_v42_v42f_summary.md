@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 74 Signal Types Discovered
+### 78 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -930,6 +930,10 @@ Strategy contribution (standalone):
 | 72 | **Keltner Channel** | **Price only** | **86%** | **+238%/28d** | **Low** |
 | 73 | Vol-Adjusted Momentum | Price only | 88% | +132%/28d | Low |
 | 74 | Bar Body Ratio | Price only | 71% | +7%/28d | Low |
+| 75 | Price Acceleration | Price only | 88% | +89%/28d | Low |
+| 76 | **Volume Climax** | **Price+Vol** | **89%** | **+155%/28d** | **Low** |
+| 77 | Multi-TF Z Agreement | Price only | 87% | +32%/28d | Low |
+| 78 | Oscillation Frequency | Price only | 81% | +322%/28d | Low |
 
 ---
 
@@ -1129,3 +1133,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42aq_support_distribution.py` | EXP VVVV2-YYYY3: S/R touch, kurtosis, MR speed, price pct |
 | `research_v42ar_volprofile_cone.py` | EXP ZZZZ3-CCCC4: VWAP pct, vol cone, mom-vol div, rolling Sharpe |
 | `research_v42as_channel_imbalance.py` | EXP DDDD4-GGGG4: Donchian, Keltner, vol-adj mom, body ratio |
+| `research_v42at_accel_climax.py` | EXP HHHH4-KKKK4: acceleration, vol climax, multi-TF, oscillation |
