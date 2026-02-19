@@ -1,0 +1,451 @@
+================================================================================
+  v42bh: GARMAN-KLASS VOL + EFFICIENCY RATIO + RETURN CONC + TICK INTENSITY
+  2026-02-19 16:26:52  [RAM=0.1GB, avail=6.8GB]
+================================================================================
+  Loading ETHUSDT... [10/88 31s] [20/88 53s] [30/88 71s] [40/88 94s] [50/88 113s] [60/88 128s] [70/88 156s] [80/88 181s] [88/88 200s] 126,720 bars (200s) [RAM=0.5GB, avail=6.6GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP LLLL6: GARMAN-KLASS VOLATILITY ---
+
+  GK vol(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=10169  wr= 67.2%  avg=  +5.9bps  tot=+600.21%  sh=  +247.2
+  ✅ TEST                                                     n=5253  wr= 71.2%  avg=  +5.2bps  tot=+275.67%  sh=  +318.3
+    ✅ test=+9.845%/d
+
+  GK vol(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=8200  wr= 68.9%  avg=  +6.5bps  tot=+531.26%  sh=  +259.6
+  ✅ TEST                                                     n=4143  wr= 72.7%  avg=  +5.7bps  tot=+236.48%  sh=  +334.1
+    ✅ test=+8.446%/d
+
+  GK vol(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=13662  wr= 66.9%  avg=  +5.4bps  tot=+744.01%  sh=  +252.0
+  ✅ TEST                                                     n=6846  wr= 72.2%  avg=  +5.2bps  tot=+357.71%  sh=  +341.5
+    ✅ test=+12.775%/d
+
+  GK vol(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=11482  wr= 68.5%  avg=  +5.9bps  tot=+680.60%  sh=  +264.7
+  ✅ TEST                                                     n=5593  wr= 73.3%  avg=  +5.5bps  tot=+308.85%  sh=  +364.4
+    ✅ test=+11.030%/d
+
+  --- EXP MMMM6: PRICE EFFICIENCY RATIO ---
+
+  Eff ratio(20) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=6468  wr= 72.3%  avg=  +6.6bps  tot=+426.08%  sh=  +276.0
+  ✅ TEST                                                     n=3311  wr= 72.1%  avg=  +5.3bps  tot=+176.82%  sh=  +335.9
+    ✅ test=+6.315%/d
+
+  Eff ratio(20) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=3662  wr= 73.9%  avg=  +7.7bps  tot=+280.25%  sh=  +275.0
+  ✅ TEST                                                     n=1879  wr= 75.1%  avg=  +6.1bps  tot=+113.86%  sh=  +387.1
+    ✅ test=+4.066%/d
+
+  Eff ratio(40) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=7204  wr= 73.2%  avg=  +6.6bps  tot=+474.10%  sh=  +285.7
+  ✅ TEST                                                     n=3612  wr= 74.7%  avg=  +6.0bps  tot=+216.40%  sh=  +386.6
+    ✅ test=+7.728%/d
+
+  Eff ratio(40) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4183  wr= 75.1%  avg=  +7.7bps  tot=+320.76%  sh=  +282.3
+  ✅ TEST                                                     n=2186  wr= 76.6%  avg=  +6.5bps  tot=+141.35%  sh=  +416.9
+    ✅ test=+5.048%/d
+
+  --- EXP NNNN6: RETURN CONCENTRATION ---
+
+  Ret conc(20) >90th pct (fade spiky):
+  ✅ TRAIN                                                    n=6888  wr= 58.1%  avg=  +4.0bps  tot=+272.62%  sh=  +162.8
+  ✅ TEST                                                     n=3397  wr= 63.9%  avg=  +3.7bps  tot=+126.77%  sh=  +225.7
+    ✅ test=+4.527%/d
+
+  Ret conc(20) >95th pct (fade spiky):
+  ✅ TRAIN                                                    n=4074  wr= 57.3%  avg=  +4.3bps  tot=+173.46%  sh=  +164.5
+  ✅ TEST                                                     n=2063  wr= 65.5%  avg=  +4.1bps  tot= +84.23%  sh=  +249.0
+    ✅ test=+3.008%/d
+
+  Ret conc(40) >90th pct (fade spiky):
+  ✅ TRAIN                                                    n=8234  wr= 58.3%  avg=  +3.9bps  tot=+318.48%  sh=  +167.0
+  ✅ TEST                                                     n=4006  wr= 63.8%  avg=  +3.8bps  tot=+153.84%  sh=  +232.9
+    ✅ test=+5.494%/d
+
+  Ret conc(40) >95th pct (fade spiky):
+  ✅ TRAIN                                                    n=5260  wr= 58.2%  avg=  +4.2bps  tot=+222.69%  sh=  +172.4
+  ✅ TEST                                                     n=2553  wr= 64.7%  avg=  +4.1bps  tot=+104.93%  sh=  +231.4
+    ✅ test=+3.747%/d
+
+  --- EXP OOOO6: TICK INTENSITY ---
+
+  Tick int(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8353  wr= 62.2%  avg=  +4.4bps  tot=+371.60%  sh=  +213.2
+  ✅ TEST                                                     n=3938  wr= 65.7%  avg=  +4.2bps  tot=+165.15%  sh=  +242.1
+    ✅ test=+5.898%/d
+
+  Tick int(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5526  wr= 64.6%  avg=  +5.2bps  tot=+290.03%  sh=  +232.3
+  ✅ TEST                                                     n=2705  wr= 67.3%  avg=  +4.5bps  tot=+121.09%  sh=  +266.4
+    ✅ test=+4.325%/d
+
+  Tick int(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=11630  wr= 62.0%  avg=  +4.3bps  tot=+502.53%  sh=  +211.7
+  ✅ TEST                                                     n=5753  wr= 65.9%  avg=  +4.1bps  tot=+235.11%  sh=  +251.4
+    ✅ test=+8.397%/d
+
+  Tick int(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8062  wr= 63.7%  avg=  +5.0bps  tot=+403.27%  sh=  +230.4
+  ✅ TEST                                                     n=4029  wr= 67.7%  avg=  +4.6bps  tot=+186.85%  sh=  +264.8
+    ✅ test=+6.673%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 36s] [40/88 47s] [50/88 58s] [60/88 66s] [70/88 79s] [80/88 95s] [88/88 103s] 126,720 bars (103s) [RAM=0.4GB, avail=6.8GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP LLLL6: GARMAN-KLASS VOLATILITY ---
+
+  GK vol(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=10471  wr= 72.0%  avg=  +6.0bps  tot=+631.91%  sh=  +305.0
+  ✅ TEST                                                     n=5511  wr= 74.8%  avg=  +6.4bps  tot=+353.05%  sh=  +375.5
+    ✅ test=+12.609%/d
+
+  GK vol(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=8409  wr= 73.9%  avg=  +6.6bps  tot=+558.10%  sh=  +322.5
+  ✅ TEST                                                     n=4346  wr= 76.1%  avg=  +6.9bps  tot=+298.46%  sh=  +396.3
+    ✅ test=+10.659%/d
+
+  GK vol(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=14381  wr= 70.9%  avg=  +5.5bps  tot=+787.04%  sh=  +298.4
+  ✅ TEST                                                     n=6999  wr= 74.1%  avg=  +6.2bps  tot=+435.36%  sh=  +373.6
+    ✅ test=+15.549%/d
+
+  GK vol(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=12023  wr= 72.3%  avg=  +5.9bps  tot=+713.38%  sh=  +315.2
+  ✅ TEST                                                     n=5842  wr= 75.9%  avg=  +6.6bps  tot=+386.10%  sh=  +395.7
+    ✅ test=+13.789%/d
+
+  --- EXP MMMM6: PRICE EFFICIENCY RATIO ---
+
+  Eff ratio(20) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=6998  wr= 69.1%  avg=  +5.0bps  tot=+346.90%  sh=  +270.2
+  ✅ TEST                                                     n=3359  wr= 69.8%  avg=  +5.1bps  tot=+172.34%  sh=  +313.7
+    ✅ test=+6.155%/d
+
+  Eff ratio(20) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=3985  wr= 69.9%  avg=  +5.5bps  tot=+218.93%  sh=  +269.5
+  ✅ TEST                                                     n=1939  wr= 70.6%  avg=  +5.3bps  tot=+102.12%  sh=  +317.4
+    ✅ test=+3.647%/d
+
+  Eff ratio(40) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=7830  wr= 71.0%  avg=  +5.3bps  tot=+417.11%  sh=  +292.4
+  ✅ TEST                                                     n=3820  wr= 71.6%  avg=  +5.4bps  tot=+208.03%  sh=  +331.0
+    ✅ test=+7.430%/d
+
+  Eff ratio(40) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4573  wr= 72.0%  avg=  +6.1bps  tot=+281.04%  sh=  +301.1
+  ✅ TEST                                                     n=2261  wr= 72.4%  avg=  +5.9bps  tot=+132.71%  sh=  +346.4
+    ✅ test=+4.740%/d
+
+  --- EXP NNNN6: RETURN CONCENTRATION ---
+
+  Ret conc(20) >90th pct (fade spiky):
+  ✅ TRAIN                                                    n=7566  wr= 62.0%  avg=  +3.7bps  tot=+281.26%  sh=  +191.2
+  ✅ TEST                                                     n=3438  wr= 62.4%  avg=  +3.7bps  tot=+128.87%  sh=  +244.9
+    ✅ test=+4.602%/d
+
+  Ret conc(20) >95th pct (fade spiky):
+  ✅ TRAIN                                                    n=4599  wr= 63.0%  avg=  +4.1bps  tot=+188.88%  sh=  +193.7
+  ✅ TEST                                                     n=2039  wr= 64.0%  avg=  +4.0bps  tot= +81.32%  sh=  +247.7
+    ✅ test=+2.904%/d
+
+  Ret conc(40) >90th pct (fade spiky):
+  ✅ TRAIN                                                    n=8809  wr= 61.8%  avg=  +3.8bps  tot=+334.32%  sh=  +196.2
+  ✅ TEST                                                     n=4269  wr= 62.9%  avg=  +3.6bps  tot=+152.11%  sh=  +226.5
+    ✅ test=+5.432%/d
+
+  Ret conc(40) >95th pct (fade spiky):
+  ✅ TRAIN                                                    n=5546  wr= 62.0%  avg=  +4.0bps  tot=+219.18%  sh=  +197.0
+  ✅ TEST                                                     n=2796  wr= 62.7%  avg=  +3.5bps  tot= +97.05%  sh=  +213.1
+    ✅ test=+3.466%/d
+
+  --- EXP OOOO6: TICK INTENSITY ---
+
+  Tick int(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8827  wr= 67.6%  avg=  +4.9bps  tot=+432.87%  sh=  +265.8
+  ✅ TEST                                                     n=4292  wr= 69.5%  avg=  +5.5bps  tot=+234.65%  sh=  +313.6
+    ✅ test=+8.380%/d
+
+  Tick int(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5842  wr= 69.1%  avg=  +5.6bps  tot=+329.51%  sh=  +283.7
+  ✅ TEST                                                     n=2813  wr= 69.7%  avg=  +5.6bps  tot=+158.56%  sh=  +327.3
+    ✅ test=+5.663%/d
+
+  Tick int(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=11724  wr= 66.2%  avg=  +4.6bps  tot=+534.92%  sh=  +253.5
+  ✅ TEST                                                     n=5930  wr= 70.1%  avg=  +5.4bps  tot=+323.00%  sh=  +335.5
+    ✅ test=+11.536%/d
+
+  Tick int(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8065  wr= 67.9%  avg=  +5.3bps  tot=+424.33%  sh=  +271.5
+  ✅ TEST                                                     n=4084  wr= 72.2%  avg=  +5.9bps  tot=+242.84%  sh=  +354.5
+    ✅ test=+8.673%/d
+  Loading DOGEUSDT... [10/88 20s] [20/88 34s] [30/88 43s] [40/88 52s] [50/88 60s] [60/88 67s] [70/88 93s] [80/88 114s] [88/88 122s] 126,720 bars (122s) [RAM=0.4GB, avail=6.7GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP LLLL6: GARMAN-KLASS VOLATILITY ---
+
+  GK vol(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=11027  wr= 73.8%  avg=  +7.3bps  tot=+808.63%  sh=  +317.6
+  ✅ TEST                                                     n=6112  wr= 89.0%  avg= +12.5bps  tot=+762.23%  sh=  +549.4
+    ✅ test=+27.222%/d
+
+  GK vol(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=8873  wr= 75.4%  avg=  +8.0bps  tot=+708.73%  sh=  +329.1
+  ✅ TEST                                                     n=4871  wr= 89.9%  avg= +13.2bps  tot=+643.09%  sh=  +561.2
+    ✅ test=+22.968%/d
+
+  GK vol(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=14895  wr= 73.1%  avg=  +6.9bps  tot=+1029.81%  sh=  +323.6
+  ✅ TEST                                                     n=7989  wr= 87.8%  avg= +11.8bps  tot=+944.62%  sh=  +549.6
+    ✅ test=+33.736%/d
+
+  GK vol(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=12576  wr= 74.5%  avg=  +7.5bps  tot=+937.56%  sh=  +338.1
+  ✅ TEST                                                     n=6621  wr= 88.7%  avg= +12.2bps  tot=+809.49%  sh=  +559.2
+    ✅ test=+28.910%/d
+
+  --- EXP MMMM6: PRICE EFFICIENCY RATIO ---
+
+  Eff ratio(20) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=7183  wr= 72.2%  avg=  +6.5bps  tot=+467.03%  sh=  +304.7
+  ✅ TEST                                                     n=3743  wr= 85.4%  avg= +10.4bps  tot=+389.73%  sh=  +472.5
+    ✅ test=+13.919%/d
+
+  Eff ratio(20) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4104  wr= 74.0%  avg=  +7.2bps  tot=+297.41%  sh=  +304.9
+  ✅ TEST                                                     n=2146  wr= 85.8%  avg= +10.8bps  tot=+232.43%  sh=  +479.9
+    ✅ test=+8.301%/d
+
+  Eff ratio(40) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=7982  wr= 74.5%  avg=  +6.7bps  tot=+534.80%  sh=  +316.3
+  ✅ TEST                                                     n=4098  wr= 88.1%  avg= +10.6bps  tot=+433.10%  sh=  +526.5
+    ✅ test=+15.468%/d
+
+  Eff ratio(40) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4672  wr= 76.2%  avg=  +7.5bps  tot=+350.71%  sh=  +316.7
+  ✅ TEST                                                     n=2418  wr= 88.5%  avg= +11.3bps  tot=+272.55%  sh=  +525.3
+    ✅ test=+9.734%/d
+
+  --- EXP NNNN6: RETURN CONCENTRATION ---
+
+  Ret conc(20) >90th pct (fade spiky):
+  ✅ TRAIN                                                    n=7528  wr= 64.7%  avg=  +4.8bps  tot=+357.61%  sh=  +205.0
+  ✅ TEST                                                     n=3896  wr= 81.1%  avg=  +9.0bps  tot=+349.88%  sh=  +408.9
+    ✅ test=+12.496%/d
+
+  Ret conc(20) >95th pct (fade spiky):
+  ✅ TRAIN                                                    n=4522  wr= 65.0%  avg=  +5.0bps  tot=+224.01%  sh=  +198.5
+  ✅ TEST                                                     n=2386  wr= 81.4%  avg=  +9.2bps  tot=+218.36%  sh=  +388.0
+    ✅ test=+7.799%/d
+
+  Ret conc(40) >90th pct (fade spiky):
+  ✅ TRAIN                                                    n=9165  wr= 64.3%  avg=  +4.8bps  tot=+438.93%  sh=  +210.1
+  ✅ TEST                                                     n=4627  wr= 81.2%  avg=  +8.6bps  tot=+399.18%  sh=  +401.8
+    ✅ test=+14.257%/d
+
+  Ret conc(40) >95th pct (fade spiky):
+  ✅ TRAIN                                                    n=5924  wr= 64.5%  avg=  +5.0bps  tot=+297.54%  sh=  +205.9
+  ✅ TEST                                                     n=3041  wr= 80.4%  avg=  +8.7bps  tot=+264.03%  sh=  +383.5
+    ✅ test=+9.430%/d
+
+  --- EXP OOOO6: TICK INTENSITY ---
+
+  Tick int(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=9016  wr= 68.8%  avg=  +6.0bps  tot=+538.12%  sh=  +264.0
+  ✅ TEST                                                     n=4620  wr= 83.9%  avg= +10.3bps  tot=+477.61%  sh=  +469.2
+    ✅ test=+17.058%/d
+
+  Tick int(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5842  wr= 70.3%  avg=  +6.7bps  tot=+389.65%  sh=  +277.5
+  ✅ TEST                                                     n=3065  wr= 85.2%  avg= +11.0bps  tot=+336.89%  sh=  +479.3
+    ✅ test=+12.032%/d
+
+  Tick int(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=12230  wr= 68.2%  avg=  +5.7bps  tot=+703.12%  sh=  +264.2
+  ✅ TEST                                                     n=6314  wr= 84.0%  avg= +10.4bps  tot=+658.56%  sh=  +489.4
+    ✅ test=+23.520%/d
+
+  Tick int(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8388  wr= 70.1%  avg=  +6.5bps  tot=+549.27%  sh=  +278.4
+  ✅ TEST                                                     n=4260  wr= 85.1%  avg= +11.0bps  tot=+470.18%  sh=  +502.1
+    ✅ test=+16.792%/d
+  Loading XRPUSDT... [10/88 15s] [20/88 24s] [30/88 31s] [40/88 40s] [50/88 50s] [60/88 58s] [70/88 85s] [80/88 102s] [88/88 112s] 126,720 bars (112s) [RAM=0.4GB, avail=6.9GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP LLLL6: GARMAN-KLASS VOLATILITY ---
+
+  GK vol(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=10173  wr= 61.1%  avg=  +4.1bps  tot=+417.48%  sh=  +206.1
+  ✅ TEST                                                     n=5988  wr= 81.5%  avg=  +9.6bps  tot=+576.76%  sh=  +419.8
+    ✅ test=+20.598%/d
+
+  GK vol(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=8123  wr= 63.3%  avg=  +4.7bps  tot=+379.71%  sh=  +227.2
+  ✅ TEST                                                     n=4755  wr= 82.8%  avg= +10.3bps  tot=+488.49%  sh=  +430.7
+    ✅ test=+17.446%/d
+
+  GK vol(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=13174  wr= 60.7%  avg=  +3.8bps  tot=+506.13%  sh=  +209.7
+  ✅ TEST                                                     n=7696  wr= 80.8%  avg=  +9.5bps  tot=+730.55%  sh=  +420.7
+    ✅ test=+26.091%/d
+
+  GK vol(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=11064  wr= 62.4%  avg=  +4.2bps  tot=+464.49%  sh=  +223.0
+  ✅ TEST                                                     n=6420  wr= 81.8%  avg=  +9.8bps  tot=+631.93%  sh=  +423.0
+    ✅ test=+22.569%/d
+
+  --- EXP MMMM6: PRICE EFFICIENCY RATIO ---
+
+  Eff ratio(20) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=6263  wr= 58.3%  avg=  +3.4bps  tot=+214.97%  sh=  +201.7
+  ✅ TEST                                                     n=3482  wr= 75.7%  avg=  +7.7bps  tot=+268.04%  sh=  +336.1
+    ✅ test=+9.573%/d
+
+  Eff ratio(20) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=3529  wr= 60.2%  avg=  +4.1bps  tot=+146.36%  sh=  +218.6
+  ✅ TEST                                                     n=1971  wr= 77.1%  avg=  +8.7bps  tot=+171.55%  sh=  +345.6
+    ✅ test=+6.127%/d
+
+  Eff ratio(40) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=6976  wr= 61.8%  avg=  +3.8bps  tot=+264.89%  sh=  +221.9
+  ✅ TEST                                                     n=4020  wr= 77.2%  avg=  +7.9bps  tot=+318.46%  sh=  +351.2
+    ✅ test=+11.373%/d
+
+  Eff ratio(40) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4135  wr= 64.5%  avg=  +4.5bps  tot=+186.04%  sh=  +237.2
+  ✅ TEST                                                     n=2487  wr= 77.4%  avg=  +8.5bps  tot=+210.78%  sh=  +351.0
+    ✅ test=+7.528%/d
+
+  --- EXP NNNN6: RETURN CONCENTRATION ---
+
+  Ret conc(20) >90th pct (fade spiky):
+  ✅ TRAIN                                                    n=6937  wr= 50.0%  avg=  +1.8bps  tot=+127.83%  sh=  +101.3
+  ✅ TEST                                                     n=3772  wr= 70.4%  avg=  +6.2bps  tot=+234.57%  sh=  +272.2
+    ✅ test=+8.378%/d
+
+  Ret conc(20) >95th pct (fade spiky):
+  ✅ TRAIN                                                    n=4162  wr= 50.9%  avg=  +2.2bps  tot= +91.65%  sh=  +107.9
+  ✅ TEST                                                     n=2307  wr= 71.0%  avg=  +6.5bps  tot=+149.43%  sh=  +266.6
+    ✅ test=+5.337%/d
+
+  Ret conc(40) >90th pct (fade spiky):
+  ✅ TRAIN                                                    n=8374  wr= 51.3%  avg=  +1.9bps  tot=+161.74%  sh=  +104.8
+  ✅ TEST                                                     n=4523  wr= 68.9%  avg=  +5.8bps  tot=+263.50%  sh=  +267.2
+    ✅ test=+9.411%/d
+
+  Ret conc(40) >95th pct (fade spiky):
+  ✅ TRAIN                                                    n=5442  wr= 51.0%  avg=  +2.1bps  tot=+115.34%  sh=  +109.0
+  ✅ TEST                                                     n=2956  wr= 69.5%  avg=  +6.1bps  tot=+179.46%  sh=  +272.9
+    ✅ test=+6.409%/d
+
+  --- EXP OOOO6: TICK INTENSITY ---
+
+  Tick int(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8078  wr= 56.1%  avg=  +3.0bps  tot=+240.92%  sh=  +162.7
+  ✅ TEST                                                     n=4616  wr= 75.8%  avg=  +7.4bps  tot=+341.86%  sh=  +350.9
+    ✅ test=+12.209%/d
+
+  Tick int(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5277  wr= 58.4%  avg=  +3.6bps  tot=+192.12%  sh=  +187.9
+  ✅ TEST                                                     n=2981  wr= 78.0%  avg=  +8.1bps  tot=+242.27%  sh=  +370.3
+    ✅ test=+8.653%/d
+
+  Tick int(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=10948  wr= 55.4%  avg=  +2.8bps  tot=+301.12%  sh=  +150.4
+  ✅ TEST                                                     n=6296  wr= 76.5%  avg=  +7.6bps  tot=+480.54%  sh=  +353.2
+    ✅ test=+17.162%/d
+
+  Tick int(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=7618  wr= 58.3%  avg=  +3.5bps  tot=+264.12%  sh=  +186.1
+  ✅ TEST                                                     n=4296  wr= 77.9%  avg=  +8.1bps  tot=+349.71%  sh=  +363.8
+    ✅ test=+12.490%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    er_20_0.9                3743   85.4%   +10.4bp   +389.7%     +472
+  ✅ DOGEUSDT    er_20_0.95               2146   85.8%   +10.8bp   +232.4%     +480
+  ✅ DOGEUSDT    er_40_0.9                4098   88.1%   +10.6bp   +433.1%     +526
+  ✅ DOGEUSDT    er_40_0.95               2418   88.5%   +11.3bp   +272.5%     +525
+  ✅ DOGEUSDT    gk_30_0.9                6112   89.0%   +12.5bp   +762.2%     +549
+  ✅ DOGEUSDT    gk_30_0.95               4871   89.9%   +13.2bp   +643.1%     +561
+  ✅ DOGEUSDT    gk_60_0.9                7989   87.8%   +11.8bp   +944.6%     +550
+  ✅ DOGEUSDT    gk_60_0.95               6621   88.7%   +12.2bp   +809.5%     +559
+  ✅ DOGEUSDT    rc_20_0.9                3896   81.1%    +9.0bp   +349.9%     +409
+  ✅ DOGEUSDT    rc_20_0.95               2386   81.4%    +9.2bp   +218.4%     +388
+  ✅ DOGEUSDT    rc_40_0.9                4627   81.2%    +8.6bp   +399.2%     +402
+  ✅ DOGEUSDT    rc_40_0.95               3041   80.4%    +8.7bp   +264.0%     +383
+  ✅ DOGEUSDT    ti_30_0.9                4620   83.9%   +10.3bp   +477.6%     +469
+  ✅ DOGEUSDT    ti_30_0.95               3065   85.2%   +11.0bp   +336.9%     +479
+  ✅ DOGEUSDT    ti_60_0.9                6314   84.0%   +10.4bp   +658.6%     +489
+  ✅ DOGEUSDT    ti_60_0.95               4260   85.1%   +11.0bp   +470.2%     +502
+  ✅ ETHUSDT     er_20_0.9                3311   72.1%    +5.3bp   +176.8%     +336
+  ✅ ETHUSDT     er_20_0.95               1879   75.1%    +6.1bp   +113.9%     +387
+  ✅ ETHUSDT     er_40_0.9                3612   74.7%    +6.0bp   +216.4%     +387
+  ✅ ETHUSDT     er_40_0.95               2186   76.6%    +6.5bp   +141.4%     +417
+  ✅ ETHUSDT     gk_30_0.9                5253   71.2%    +5.2bp   +275.7%     +318
+  ✅ ETHUSDT     gk_30_0.95               4143   72.7%    +5.7bp   +236.5%     +334
+  ✅ ETHUSDT     gk_60_0.9                6846   72.2%    +5.2bp   +357.7%     +341
+  ✅ ETHUSDT     gk_60_0.95               5593   73.3%    +5.5bp   +308.8%     +364
+  ✅ ETHUSDT     rc_20_0.9                3397   63.9%    +3.7bp   +126.8%     +226
+  ✅ ETHUSDT     rc_20_0.95               2063   65.5%    +4.1bp    +84.2%     +249
+  ✅ ETHUSDT     rc_40_0.9                4006   63.8%    +3.8bp   +153.8%     +233
+  ✅ ETHUSDT     rc_40_0.95               2553   64.7%    +4.1bp   +104.9%     +231
+  ✅ ETHUSDT     ti_30_0.9                3938   65.7%    +4.2bp   +165.2%     +242
+  ✅ ETHUSDT     ti_30_0.95               2705   67.3%    +4.5bp   +121.1%     +266
+  ✅ ETHUSDT     ti_60_0.9                5753   65.9%    +4.1bp   +235.1%     +251
+  ✅ ETHUSDT     ti_60_0.95               4029   67.7%    +4.6bp   +186.9%     +265
+  ✅ SOLUSDT     er_20_0.9                3359   69.8%    +5.1bp   +172.3%     +314
+  ✅ SOLUSDT     er_20_0.95               1939   70.6%    +5.3bp   +102.1%     +317
+  ✅ SOLUSDT     er_40_0.9                3820   71.6%    +5.4bp   +208.0%     +331
+  ✅ SOLUSDT     er_40_0.95               2261   72.4%    +5.9bp   +132.7%     +346
+  ✅ SOLUSDT     gk_30_0.9                5511   74.8%    +6.4bp   +353.0%     +375
+  ✅ SOLUSDT     gk_30_0.95               4346   76.1%    +6.9bp   +298.5%     +396
+  ✅ SOLUSDT     gk_60_0.9                6999   74.1%    +6.2bp   +435.4%     +374
+  ✅ SOLUSDT     gk_60_0.95               5842   75.9%    +6.6bp   +386.1%     +396
+  ✅ SOLUSDT     rc_20_0.9                3438   62.4%    +3.7bp   +128.9%     +245
+  ✅ SOLUSDT     rc_20_0.95               2039   64.0%    +4.0bp    +81.3%     +248
+  ✅ SOLUSDT     rc_40_0.9                4269   62.9%    +3.6bp   +152.1%     +227
+  ✅ SOLUSDT     rc_40_0.95               2796   62.7%    +3.5bp    +97.0%     +213
+  ✅ SOLUSDT     ti_30_0.9                4292   69.5%    +5.5bp   +234.6%     +314
+  ✅ SOLUSDT     ti_30_0.95               2813   69.7%    +5.6bp   +158.6%     +327
+  ✅ SOLUSDT     ti_60_0.9                5930   70.1%    +5.4bp   +323.0%     +335
+  ✅ SOLUSDT     ti_60_0.95               4084   72.2%    +5.9bp   +242.8%     +354
+  ✅ XRPUSDT     er_20_0.9                3482   75.7%    +7.7bp   +268.0%     +336
+  ✅ XRPUSDT     er_20_0.95               1971   77.1%    +8.7bp   +171.5%     +346
+  ✅ XRPUSDT     er_40_0.9                4020   77.2%    +7.9bp   +318.5%     +351
+  ✅ XRPUSDT     er_40_0.95               2487   77.4%    +8.5bp   +210.8%     +351
+  ✅ XRPUSDT     gk_30_0.9                5988   81.5%    +9.6bp   +576.8%     +420
+  ✅ XRPUSDT     gk_30_0.95               4755   82.8%   +10.3bp   +488.5%     +431
+  ✅ XRPUSDT     gk_60_0.9                7696   80.8%    +9.5bp   +730.6%     +421
+  ✅ XRPUSDT     gk_60_0.95               6420   81.8%    +9.8bp   +631.9%     +423
+  ✅ XRPUSDT     rc_20_0.9                3772   70.4%    +6.2bp   +234.6%     +272
+  ✅ XRPUSDT     rc_20_0.95               2307   71.0%    +6.5bp   +149.4%     +267
+  ✅ XRPUSDT     rc_40_0.9                4523   68.9%    +5.8bp   +263.5%     +267
+  ✅ XRPUSDT     rc_40_0.95               2956   69.5%    +6.1bp   +179.5%     +273
+  ✅ XRPUSDT     ti_30_0.9                4616   75.8%    +7.4bp   +341.9%     +351
+  ✅ XRPUSDT     ti_30_0.95               2981   78.0%    +8.1bp   +242.3%     +370
+  ✅ XRPUSDT     ti_60_0.9                6296   76.5%    +7.6bp   +480.5%     +353
+  ✅ XRPUSDT     ti_60_0.95               4296   77.9%    +8.1bp   +349.7%     +364
+
+################################################################################
+  COMPLETE — 818s (13.6min) [RAM=0.4GB, avail=6.8GB]
+################################################################################
