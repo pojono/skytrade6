@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 146 Signal Types Discovered
+### 150 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -1002,6 +1002,10 @@ Strategy contribution (standalone):
 | 144 | Weighted Close Dev | Price only | 84% | +384%/28d | Low |
 | 145 | **Mom Accel Ratio** | **Price only** | **85%** | **+315%/28d** | **Low** |
 | 146 | Intrabar Reversal | Price only | 80% | +394%/28d | Low |
+| 147 | **Price Velocity Ratio** | **Price only** | **88%** | **+425%/28d** | **Low** |
+| 148 | Rolling Sharpe | Price only | 83% | +416%/28d | Low |
+| 149 | CO Gap Persistence | Price only | 84% | +357%/28d | Low |
+| 150 | **MAD of Returns** | **Price only** | **87%** | **+695%/28d** | **Low** |
 
 ---
 
@@ -1219,3 +1223,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bi_yz_persistence.py` | EXP PPPP6-SSSS6: YZ vol, mom persistence, return dispersion, body ratio |
 | `research_v42bj_rs_shadow.py` | EXP TTTT6-WWWW6: RS vol, accel persistence, shadow ratio, range ratio |
 | `research_v42bk_ccvol_wclose.py` | EXP XXXX6-AAAA7: CC vol ratio, wt close dev, mom accel, intrabar rev |
+| `research_v42bl_velocity_sharpe.py` | EXP BBBB7-EEEE7: vel ratio, rolling Sharpe, CO gap persist, MAD |
