@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 50 Signal Types Discovered
+### 54 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -906,6 +906,10 @@ Strategy contribution (standalone):
 | 48 | Hour-of-Day Vol Filter | Price only | 90% | +96%/28d | Low |
 | 49 | Volume Acceleration | Price+Vol | 87% | +200%/28d | Low |
 | 50 | **Momentum Quality** | **Price+Vol** | **86%** | **+238%/28d** | **Low** |
+| 51 | Doji Pattern | Price only | 85% | +54%/28d | Low |
+| 52 | **Hammer/Inv Hammer** | **Price only** | **92%** | **+58%/28d** | **Low** |
+| 53 | Inside Bar Fade | Price only | 81% | +340%/28d | Low |
+| 54 | **Pin Bar (Rejection)** | **Price only** | **96%** | **+52%/28d** | **Low** |
 
 ---
 
@@ -1099,3 +1103,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ak_toxicity_efficiency.py` | EXP XXXX2-AAAA2: VPIN, efficiency, noise, dispersion |
 | `research_v42al_fractal_wavelets.py` | EXP CCCC2-EEEE2: multi-scale, meta-Z, multi-MA distance |
 | `research_v42am_time_pressure.py` | EXP FFFF2-IIII2: hour-of-day, vol accel, momentum quality |
+| `research_v42an_candle_patterns.py` | EXP JJJJ2-MMMM2: doji, hammer, inside bar, pin bar, 3-bar |
