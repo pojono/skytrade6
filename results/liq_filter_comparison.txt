@@ -1,0 +1,383 @@
+
+==============================================================================================================
+  DOGEUSDT — FILTER COMPARISON
+==============================================================================================================
+  Loading 3018 liq files... 500 1000 1500 2000 2500 3000 done (93,913)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,993)
+  Building 1-min bars... 105,196 bars
+  Period: 282 days, 93,913 liquidations
+  Detecting cascades... 1,243 cascades
+
+  ── Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                         925   84.9%   +0.0111%    +10.25%     +1.6   7.34%  TP=  85% SL=  14% TO=   1%  mo=3/10
+  B: + Bad hours (skip 08,09,13,16)                739   85.3%   +0.0136%    +10.08%     +1.8   7.70%  TP=  85% SL=  14% TO=   1%  mo=2/10
+  C: + Long-only (fade buy-side)                   629   85.4%   +0.0150%     +9.43%     +1.8   5.65%  TP=  85% SL=  13% TO=   1%  mo=3/10
+  D: + Displacement ≥10 bps                        506   88.5%   +0.0342%    +17.29%     +4.1   2.21%  TP=  89% SL=  11% TO=   1%  mo=5/10
+  E: + Weekday only (Mon-Fri)                      711   84.0%   +0.0064%     +4.52%     +0.8   7.21%  TP=  84% SL=  14% TO=   2%  mo=3/10
+  F: ALL FILTERS combined                          233   88.0%   +0.0323%     +7.53%     +2.6   2.08%  TP=  88% SL=  11% TO=   1%  mo=5/10
+  G: ALL + US-hours only (13-18 UTC)                69   95.7%   +0.0802%     +5.54%     +5.4   1.15%  TP=  96% SL=   4% TO=   0%  mo=4/10
+
+  ── Config2 AGGR (off=0.15 TP=0.12 SL=none 60m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                         925   94.4%   +0.0226%    +20.86%     +2.4   6.12%  TP=  94% SL=   0% TO=   6%  mo=4/10
+  B: + Bad hours (skip 08,09,13,16)                739   94.6%   +0.0223%    +16.46%     +2.1   5.44%  TP=  95% SL=   0% TO=   5%  mo=4/10
+  C: + Long-only (fade buy-side)                   629   94.1%   +0.0176%    +11.06%     +1.4   5.44%  TP=  94% SL=   0% TO=   6%  mo=4/10
+  D: + Displacement ≥10 bps                        506   96.8%   +0.0378%    +19.12%     +2.9   5.44%  TP=  97% SL=   0% TO=   3%  mo=5/10
+  E: + Weekday only (Mon-Fri)                      711   93.8%   +0.0204%    +14.51%     +1.9   6.12%  TP=  94% SL=   0% TO=   6%  mo=5/10
+  F: ALL FILTERS combined                          233   94.8%   +0.0004%     +0.09%     +0.0   6.91%  TP=  95% SL=   0% TO=   5%  mo=3/10
+  G: ALL + US-hours only (13-18 UTC)                69   98.6%   +0.0653%     +4.51%     +5.1   0.93%  TP=  99% SL=   0% TO=   1%  mo=4/10
+
+  ── Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                         802   85.3%   +0.0198%    +15.89%     +2.8   5.05%  TP=  85% SL=  11% TO=   3%  mo=3/10
+  B: + Bad hours (skip 08,09,13,16)                643   85.8%   +0.0244%    +15.66%     +3.2   3.37%  TP=  86% SL=  11% TO=   4%  mo=3/10
+  C: + Long-only (fade buy-side)                   541   85.0%   +0.0192%    +10.39%     +2.3   5.09%  TP=  85% SL=  11% TO=   4%  mo=2/10
+  D: + Displacement ≥10 bps                        460   88.5%   +0.0395%    +18.18%     +4.8   2.34%  TP=  88% SL=   9% TO=   2%  mo=4/10
+  E: + Weekday only (Mon-Fri)                      623   85.2%   +0.0195%    +12.12%     +2.5   4.37%  TP=  85% SL=  11% TO=   4%  mo=3/10
+  F: ALL FILTERS combined                          213   89.7%   +0.0466%     +9.93%     +4.0   1.73%  TP=  90% SL=   8% TO=   2%  mo=5/10
+  G: ALL + US-hours only (13-18 UTC)                63   93.7%   +0.0665%     +4.19%     +3.6   1.15%  TP=  94% SL=   6% TO=   0%  mo=4/10
+
+  ── MONTHLY BREAKDOWN (ALL FILTERS) ──
+
+  Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m):
+    ✅ 2025-05: n= 112  WR=88%  total=+3.92%
+    ✅ 2025-06: n=  64  WR=89%  total=+2.25%
+    ✅ 2025-07: n=  26  WR=85%  total=+0.12%
+    ✅ 2025-08: n=  26  WR=85%  total=+0.69%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=   5  WR=100%  total=+0.55%
+    Positive months: 5/10
+
+  Config2 AGGR (off=0.15 TP=0.12 SL=none 60m):
+       2025-05: n= 112  WR=96%  total=-0.36%
+       2025-06: n=  64  WR=94%  total=-2.12%
+    ✅ 2025-07: n=  26  WR=96%  total=+1.07%
+    ✅ 2025-08: n=  26  WR=92%  total=+1.10%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=   5  WR=100%  total=+0.40%
+    Positive months: 3/10
+
+  Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m):
+    ✅ 2025-05: n= 100  WR=93%  total=+6.57%
+    ✅ 2025-06: n=  58  WR=84%  total=+1.24%
+    ✅ 2025-07: n=  25  WR=88%  total=+0.70%
+    ✅ 2025-08: n=  25  WR=88%  total=+0.88%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=   5  WR=100%  total=+0.55%
+    Positive months: 5/10
+
+  DOGEUSDT done in 378s
+
+==============================================================================================================
+  SOLUSDT — FILTER COMPARISON
+==============================================================================================================
+  Loading 3107 liq files... 500 1000 1500 2000 2500 3000 done (189,603)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,981)
+  Building 1-min bars... 105,195 bars
+  Period: 282 days, 189,603 liquidations
+  Detecting cascades... 1,930 cascades
+
+  ── Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                        1302   82.9%   +0.0041%     +5.38%     +0.7  11.56%  TP=  83% SL=  14% TO=   3%  mo=3/10
+  B: + Bad hours (skip 08,09,13,16)               1049   82.8%   +0.0040%     +4.22%     +0.6   8.49%  TP=  83% SL=  14% TO=   3%  mo=3/10
+  C: + Long-only (fade buy-side)                   806   83.4%   +0.0077%     +6.22%     +1.1   8.86%  TP=  83% SL=  13% TO=   3%  mo=3/10
+  D: + Displacement ≥10 bps                        633   87.7%   +0.0297%    +18.81%     +3.9   2.54%  TP=  88% SL=  11% TO=   1%  mo=5/10
+  E: + Weekday only (Mon-Fri)                     1024   84.1%   +0.0082%     +8.42%     +1.3   9.32%  TP=  84% SL=  14% TO=   2%  mo=3/10
+  F: ALL FILTERS combined                          287   89.5%   +0.0436%    +12.52%     +4.2   2.37%  TP=  90% SL=   9% TO=   1%  mo=5/10
+  G: ALL + US-hours only (13-18 UTC)               106   90.6%   +0.0454%     +4.81%     +2.7   1.53%  TP=  91% SL=   9% TO=   0%  mo=4/10
+
+  ── Config2 AGGR (off=0.15 TP=0.12 SL=none 60m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                        1302   92.2%   +0.0197%    +25.59%     +3.0   6.99%  TP=  92% SL=   0% TO=   8%  mo=5/10
+  B: + Bad hours (skip 08,09,13,16)               1049   92.4%   +0.0235%    +24.63%     +3.6   6.48%  TP=  92% SL=   0% TO=   8%  mo=5/10
+  C: + Long-only (fade buy-side)                   806   92.1%   +0.0135%    +10.86%     +1.5   7.21%  TP=  92% SL=   0% TO=   8%  mo=3/10
+  D: + Displacement ≥10 bps                        633   94.8%   +0.0387%    +24.48%     +5.2   5.75%  TP=  95% SL=   0% TO=   5%  mo=5/10
+  E: + Weekday only (Mon-Fri)                     1024   92.6%   +0.0221%    +22.59%     +3.1   6.30%  TP=  92% SL=   0% TO=   8%  mo=4/10
+  F: ALL FILTERS combined                          287   94.8%   +0.0288%     +8.27%     +2.1   4.88%  TP=  95% SL=   0% TO=   5%  mo=4/10
+  G: ALL + US-hours only (13-18 UTC)               106   95.3%   +0.0288%     +3.06%     +1.4   3.22%  TP=  95% SL=   0% TO=   5%  mo=4/10
+
+  ── Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                        1099   81.1%   +0.0094%    +10.36%     +1.6  10.07%  TP=  81% SL=  11% TO=   8%  mo=5/10
+  B: + Bad hours (skip 08,09,13,16)                894   80.8%   +0.0071%     +6.32%     +1.1   8.90%  TP=  80% SL=  11% TO=   8%  mo=3/10
+  C: + Long-only (fade buy-side)                   683   82.7%   +0.0147%    +10.06%     +2.0   6.48%  TP=  82% SL=  11% TO=   6%  mo=4/10
+  D: + Displacement ≥10 bps                        540   85.7%   +0.0286%    +15.46%     +3.6   5.15%  TP=  86% SL=  10% TO=   5%  mo=4/10
+  E: + Weekday only (Mon-Fri)                      866   80.9%   +0.0074%     +6.37%     +1.1   8.82%  TP=  80% SL=  12% TO=   8%  mo=5/10
+  F: ALL FILTERS combined                          245   86.9%   +0.0278%     +6.81%     +2.3   3.68%  TP=  87% SL=  11% TO=   2%  mo=4/10
+  G: ALL + US-hours only (13-18 UTC)                92   87.0%   +0.0284%     +2.62%     +1.4   1.66%  TP=  87% SL=  11% TO=   2%  mo=4/10
+
+  ── MONTHLY BREAKDOWN (ALL FILTERS) ──
+
+  Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m):
+    ✅ 2025-05: n= 107  WR=86%  total=+2.20%
+    ✅ 2025-06: n= 105  WR=90%  total=+4.81%
+    ✅ 2025-07: n=  26  WR=85%  total=+0.12%
+    ✅ 2025-08: n=  32  WR=100%  total=+3.52%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=  17  WR=100%  total=+1.87%
+    Positive months: 5/10
+
+  Config2 AGGR (off=0.15 TP=0.12 SL=none 60m):
+    ✅ 2025-05: n= 107  WR=95%  total=+5.14%
+       2025-06: n= 105  WR=91%  total=-2.06%
+    ✅ 2025-07: n=  26  WR=96%  total=+1.27%
+    ✅ 2025-08: n=  32  WR=100%  total=+2.56%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=  17  WR=100%  total=+1.36%
+    Positive months: 4/10
+
+  Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m):
+    ✅ 2025-05: n=  93  WR=85%  total=+1.41%
+    ✅ 2025-06: n=  90  WR=87%  total=+2.37%
+       2025-07: n=  19  WR=68%  total=-1.70%
+    ✅ 2025-08: n=  28  WR=100%  total=+3.08%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=  15  WR=100%  total=+1.65%
+    Positive months: 4/10
+
+  SOLUSDT done in 392s
+
+==============================================================================================================
+  ETHUSDT — FILTER COMPARISON
+==============================================================================================================
+  Loading 3089 liq files... 500 1000 1500 2000 2500 3000 done (328,388)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,971)
+  Building 1-min bars... 105,193 bars
+  Period: 282 days, 328,388 liquidations
+  Detecting cascades... 2,631 cascades
+
+  ── Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                        1675   82.0%   -0.0014%     -2.43%     -0.3  14.08%  TP=  82% SL=  15% TO=   3%  mo=2/10
+  B: + Bad hours (skip 08,09,13,16)               1359   82.3%   -0.0006%     -0.76%     -0.1  13.15%  TP=  82% SL=  15% TO=   3%  mo=3/10
+  C: + Long-only (fade buy-side)                   987   82.7%   +0.0018%     +1.76%     +0.3  11.91%  TP=  83% SL=  14% TO=   3%  mo=3/10
+  D: + Displacement ≥10 bps                        808   87.7%   +0.0292%    +23.57%     +4.3   4.66%  TP=  88% SL=  11% TO=   1%  mo=5/10
+  E: + Weekday only (Mon-Fri)                     1371   82.3%   +0.0001%     +0.17%     +0.0  12.92%  TP=  82% SL=  14% TO=   3%  mo=2/10
+  F: ALL FILTERS combined                          327   89.3%   +0.0383%    +12.54%     +3.8   2.94%  TP=  89% SL=  10% TO=   1%  mo=4/10
+  G: ALL + US-hours only (13-18 UTC)               108   88.0%   +0.0300%     +3.24%     +1.6   2.10%  TP=  88% SL=  11% TO=   1%  mo=4/10
+
+  ── Config2 AGGR (off=0.15 TP=0.12 SL=none 60m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                        1675   91.0%   +0.0064%    +10.73%     +1.0  14.48%  TP=  91% SL=   0% TO=   9%  mo=3/10
+  B: + Bad hours (skip 08,09,13,16)               1359   91.2%   +0.0052%     +7.12%     +0.7  15.67%  TP=  91% SL=   0% TO=   9%  mo=3/10
+  C: + Long-only (fade buy-side)                   987   91.5%   +0.0141%    +13.95%     +1.7  12.73%  TP=  91% SL=   0% TO=   9%  mo=4/10
+  D: + Displacement ≥10 bps                        808   95.4%   +0.0351%    +28.32%     +4.5   3.56%  TP=  95% SL=   0% TO=   5%  mo=5/10
+  E: + Weekday only (Mon-Fri)                     1371   91.0%   +0.0117%    +16.10%     +1.9   8.78%  TP=  91% SL=   0% TO=   9%  mo=4/10
+  F: ALL FILTERS combined                          327   96.3%   +0.0462%    +15.10%     +4.8   3.12%  TP=  96% SL=   0% TO=   4%  mo=5/10
+  G: ALL + US-hours only (13-18 UTC)               108   95.4%   +0.0204%     +2.20%     +0.8   1.27%  TP=  95% SL=   0% TO=   5%  mo=4/10
+
+  ── Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                        1380   80.5%   +0.0053%     +7.37%     +1.0   5.98%  TP=  80% SL=  12% TO=   8%  mo=3/10
+  B: + Bad hours (skip 08,09,13,16)               1127   80.5%   +0.0046%     +5.13%     +0.7   5.69%  TP=  80% SL=  12% TO=   7%  mo=2/10
+  C: + Long-only (fade buy-side)                   811   80.3%   +0.0029%     +2.38%     +0.4   9.57%  TP=  80% SL=  13% TO=   8%  mo=4/10
+  D: + Displacement ≥10 bps                        694   86.0%   +0.0288%    +19.99%     +4.1   3.60%  TP=  86% SL=  10% TO=   4%  mo=5/10
+  E: + Weekday only (Mon-Fri)                     1134   80.4%   +0.0052%     +5.85%     +0.9   7.94%  TP=  80% SL=  12% TO=   8%  mo=3/10
+  F: ALL FILTERS combined                          281   85.8%   +0.0214%     +6.02%     +1.8   5.15%  TP=  85% SL=  12% TO=   2%  mo=3/10
+  G: ALL + US-hours only (13-18 UTC)                95   86.3%   +0.0195%     +1.85%     +0.9   1.56%  TP=  86% SL=  13% TO=   1%  mo=4/10
+
+  ── MONTHLY BREAKDOWN (ALL FILTERS) ──
+
+  Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m):
+    ✅ 2025-05: n= 135  WR=95%  total=+10.06%
+       2025-06: n= 128  WR=82%  total=-1.13%
+    ✅ 2025-07: n=  24  WR=88%  total=+0.59%
+    ✅ 2025-08: n=  25  WR=92%  total=+1.38%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=  15  WR=100%  total=+1.65%
+    Positive months: 4/10
+
+  Config2 AGGR (off=0.15 TP=0.12 SL=none 60m):
+    ✅ 2025-05: n= 135  WR=98%  total=+6.71%
+    ✅ 2025-06: n= 128  WR=94%  total=+4.01%
+    ✅ 2025-07: n=  24  WR=96%  total=+1.18%
+    ✅ 2025-08: n=  25  WR=100%  total=+2.00%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=  15  WR=100%  total=+1.20%
+    Positive months: 5/10
+
+  Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m):
+    ✅ 2025-05: n= 114  WR=91%  total=+6.51%
+       2025-06: n= 109  WR=80%  total=-2.42%
+       2025-07: n=  23  WR=83%  total=-0.21%
+    ✅ 2025-08: n=  23  WR=83%  total=+0.83%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=  12  WR=100%  total=+1.32%
+    Positive months: 3/10
+
+  ETHUSDT done in 425s
+
+==============================================================================================================
+  XRPUSDT — FILTER COMPARISON
+==============================================================================================================
+  Loading 2962 liq files... 500 1000 1500 2000 2500 done (128,466)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,981)
+  Building 1-min bars... 105,196 bars
+  Period: 282 days, 128,466 liquidations
+  Detecting cascades... 1,491 cascades
+
+  ── Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                         971   82.4%   +0.0016%     +1.54%     +0.2   6.63%  TP=  82% SL=  15% TO=   3%  mo=1/10
+  B: + Bad hours (skip 08,09,13,16)                800   83.1%   +0.0065%     +5.23%     +0.9   5.32%  TP=  83% SL=  14% TO=   3%  mo=3/10
+  C: + Long-only (fade buy-side)                   672   84.8%   +0.0142%     +9.56%     +1.8   4.59%  TP=  85% SL=  13% TO=   2%  mo=4/10
+  D: + Displacement ≥10 bps                        447   87.2%   +0.0277%    +12.38%     +3.0   5.15%  TP=  87% SL=  11% TO=   2%  mo=4/10
+  E: + Weekday only (Mon-Fri)                      758   83.5%   +0.0060%     +4.56%     +0.8   4.76%  TP=  83% SL=  14% TO=   3%  mo=4/10
+  F: ALL FILTERS combined                          217   87.1%   +0.0237%     +5.15%     +1.8   4.21%  TP=  87% SL=  12% TO=   1%  mo=4/10
+  G: ALL + US-hours only (13-18 UTC)                71   81.7%   -0.0080%     -0.57%     -0.3   2.78%  TP=  82% SL=  17% TO=   1%  mo=3/10
+
+  ── Config2 AGGR (off=0.15 TP=0.12 SL=none 60m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                         971   91.8%   +0.0096%     +9.31%     +1.1  10.72%  TP=  92% SL=   0% TO=   8%  mo=4/10
+  B: + Bad hours (skip 08,09,13,16)                800   91.2%   +0.0084%     +6.74%     +0.9   7.73%  TP=  91% SL=   0% TO=   9%  mo=4/10
+  C: + Long-only (fade buy-side)                   672   93.5%   +0.0192%    +12.89%     +1.9   5.52%  TP=  93% SL=   0% TO=   7%  mo=5/10
+  D: + Displacement ≥10 bps                        447   95.3%   +0.0436%    +19.51%     +5.3   2.53%  TP=  95% SL=   0% TO=   5%  mo=5/10
+  E: + Weekday only (Mon-Fri)                      758   92.9%   +0.0187%    +14.18%     +2.1   6.93%  TP=  93% SL=   0% TO=   7%  mo=4/10
+  F: ALL FILTERS combined                          217   95.4%   +0.0361%     +7.84%     +2.6   2.49%  TP=  95% SL=   0% TO=   5%  mo=5/10
+  G: ALL + US-hours only (13-18 UTC)                71   93.0%   +0.0066%     +0.47%     +0.2   2.03%  TP=  93% SL=   0% TO=   7%  mo=3/10
+
+  ── Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m) ──
+  filter                                         fills     WR   avg_net     total   Sharpe  maxDD             exit breakdown  months
+  A: BASELINE (no filters)                         819   79.1%   +0.0023%     +1.88%     +0.3   7.79%  TP=  78% SL=  11% TO=  10%  mo=4/10
+  B: + Bad hours (skip 08,09,13,16)                673   79.8%   +0.0066%     +4.43%     +0.9   5.15%  TP=  79% SL=  11% TO=  10%  mo=4/10
+  C: + Long-only (fade buy-side)                   580   80.5%   +0.0123%     +7.16%     +1.6   3.86%  TP=  80% SL=  10% TO=  10%  mo=5/10
+  D: + Displacement ≥10 bps                        390   85.6%   +0.0291%    +11.34%     +3.1   2.23%  TP=  85% SL=   9% TO=   5%  mo=5/10
+  E: + Weekday only (Mon-Fri)                      644   79.8%   +0.0085%     +5.47%     +1.1   6.60%  TP=  79% SL=  11% TO=  11%  mo=4/10
+  F: ALL FILTERS combined                          186   87.1%   +0.0374%     +6.95%     +2.9   1.67%  TP=  87% SL=   8% TO=   5%  mo=5/10
+  G: ALL + US-hours only (13-18 UTC)                61   86.9%   +0.0315%     +1.92%     +1.4   1.15%  TP=  87% SL=   8% TO=   5%  mo=4/10
+
+  ── MONTHLY BREAKDOWN (ALL FILTERS) ──
+
+  Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m):
+       2025-05: n=  94  WR=83%  total=-0.09%
+    ✅ 2025-06: n=  53  WR=87%  total=+0.97%
+    ✅ 2025-07: n=  29  WR=90%  total=+1.14%
+    ✅ 2025-08: n=  33  WR=97%  total=+2.95%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=   8  WR=88%  total=+0.20%
+    Positive months: 4/10
+
+  Config2 AGGR (off=0.15 TP=0.12 SL=none 60m):
+    ✅ 2025-05: n=  94  WR=94%  total=+1.69%
+    ✅ 2025-06: n=  53  WR=94%  total=+2.15%
+    ✅ 2025-07: n=  29  WR=97%  total=+0.72%
+    ✅ 2025-08: n=  33  WR=100%  total=+2.64%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=   8  WR=100%  total=+0.64%
+    Positive months: 5/10
+
+  Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m):
+    ✅ 2025-05: n=  82  WR=87%  total=+2.19%
+    ✅ 2025-06: n=  45  WR=84%  total=+1.53%
+    ✅ 2025-07: n=  24  WR=92%  total=+1.39%
+    ✅ 2025-08: n=  29  WR=86%  total=+1.17%
+       2025-09: n=   0  WR=nan%  total=+0.00%
+       2025-10: n=   0  WR=nan%  total=+0.00%
+       2025-11: n=   0  WR=nan%  total=+0.00%
+       2025-12: n=   0  WR=nan%  total=+0.00%
+       2026-01: n=   0  WR=nan%  total=+0.00%
+    ✅ 2026-02: n=   6  WR=100%  total=+0.66%
+    Positive months: 5/10
+
+  XRPUSDT done in 379s
+
+==============================================================================================================
+  CROSS-SYMBOL SUMMARY
+==============================================================================================================
+
+  ── Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m) ──
+  filter                                               DOGE      SOLU      ETHU      XRPU    COMBINED  avg_Sharpe
+  A: BASELINE (no filters)                           +10.3%     +5.4%     -2.4%     +1.5%      +14.7%       +0.6
+  B: + Bad hours (skip 08,09,13,16)                  +10.1%     +4.2%     -0.8%     +5.2%      +18.8%       +0.8
+  C: + Long-only (fade buy-side)                      +9.4%     +6.2%     +1.8%     +9.6%      +27.0%       +1.2
+  D: + Displacement ≥10 bps                          +17.3%    +18.8%    +23.6%    +12.4%      +72.1%       +3.8
+  E: + Weekday only (Mon-Fri)                         +4.5%     +8.4%     +0.2%     +4.6%      +17.7%       +0.7
+  F: ALL FILTERS combined                             +7.5%    +12.5%    +12.5%     +5.2%      +37.7%       +3.1
+  G: ALL + US-hours only (13-18 UTC)                  +5.5%     +4.8%     +3.2%     -0.6%      +13.0%       +2.4
+
+  ── Config2 AGGR (off=0.15 TP=0.12 SL=none 60m) ──
+  filter                                               DOGE      SOLU      ETHU      XRPU    COMBINED  avg_Sharpe
+  A: BASELINE (no filters)                           +20.9%    +25.6%    +10.7%     +9.3%      +66.5%       +1.9
+  B: + Bad hours (skip 08,09,13,16)                  +16.5%    +24.6%     +7.1%     +6.7%      +54.9%       +1.8
+  C: + Long-only (fade buy-side)                     +11.1%    +10.9%    +13.9%    +12.9%      +48.8%       +1.6
+  D: + Displacement ≥10 bps                          +19.1%    +24.5%    +28.3%    +19.5%      +91.4%       +4.5
+  E: + Weekday only (Mon-Fri)                        +14.5%    +22.6%    +16.1%    +14.2%      +67.4%       +2.2
+  F: ALL FILTERS combined                             +0.1%     +8.3%    +15.1%     +7.8%      +31.3%       +2.4
+  G: ALL + US-hours only (13-18 UTC)                  +4.5%     +3.1%     +2.2%     +0.5%      +10.2%       +1.9
+
+  ── Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m) ──
+  filter                                               DOGE      SOLU      ETHU      XRPU    COMBINED  avg_Sharpe
+  A: BASELINE (no filters)                           +15.9%    +10.4%     +7.4%     +1.9%      +35.5%       +1.4
+  B: + Bad hours (skip 08,09,13,16)                  +15.7%     +6.3%     +5.1%     +4.4%      +31.5%       +1.5
+  C: + Long-only (fade buy-side)                     +10.4%    +10.1%     +2.4%     +7.2%      +30.0%       +1.5
+  D: + Displacement ≥10 bps                          +18.2%    +15.5%    +20.0%    +11.3%      +65.0%       +3.9
+  E: + Weekday only (Mon-Fri)                        +12.1%     +6.4%     +5.8%     +5.5%      +29.8%       +1.4
+  F: ALL FILTERS combined                             +9.9%     +6.8%     +6.0%     +7.0%      +29.7%       +2.8
+  G: ALL + US-hours only (13-18 UTC)                  +4.2%     +2.6%     +1.8%     +1.9%      +10.6%       +1.8
+
+==============================================================================================================
+  FILTER IMPACT SUMMARY (ALL FILTERS vs BASELINE)
+==============================================================================================================
+  config                                           symbol  base_total  filt_total     delta   base_mo   filt_mo
+  Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m)        DOGE      +10.3%       +7.5%     -2.7%      3/10      5/10
+  Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m)        SOLU       +5.4%      +12.5%     +7.1%      3/10      5/10
+  Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m)        ETHU       -2.4%      +12.5%    +15.0%      2/10      4/10
+  Config1 SAFE (off=0.15 TP=0.15 SL=0.50 60m)        XRPU       +1.5%       +5.2%     +3.6%      1/10      4/10
+  Config2 AGGR (off=0.15 TP=0.12 SL=none 60m)        DOGE      +20.9%       +0.1%    -20.8%      4/10      3/10
+  Config2 AGGR (off=0.15 TP=0.12 SL=none 60m)        SOLU      +25.6%       +8.3%    -17.3%      5/10      4/10
+  Config2 AGGR (off=0.15 TP=0.12 SL=none 60m)        ETHU      +10.7%      +15.1%     +4.4%      3/10      5/10
+  Config2 AGGR (off=0.15 TP=0.12 SL=none 60m)        XRPU       +9.3%       +7.8%     -1.5%      4/10      5/10
+  Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m)        DOGE      +15.9%       +9.9%     -6.0%      3/10      5/10
+  Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m)        SOLU      +10.4%       +6.8%     -3.5%      5/10      4/10
+  Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m)        ETHU       +7.4%       +6.0%     -1.4%      3/10      3/10
+  Config3 QUAL (off=0.20 TP=0.15 SL=0.50 30m)        XRPU       +1.9%       +7.0%     +5.1%      4/10      5/10
+
+==============================================================================================================
+  DONE — 1575s total
+==============================================================================================================
