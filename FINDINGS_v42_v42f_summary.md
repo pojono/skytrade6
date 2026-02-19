@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 166 Signal Types Discovered
+### 170 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -1022,6 +1022,10 @@ Strategy contribution (standalone):
 | 164 | **Price Accel Magnitude** | **Price only** | **86%** | **+401%/28d** | **Low** |
 | 165 | Ret-Range Correlation | Price only | 81% | +433%/28d | Low |
 | 166 | Consecutive Range Exp | Price only | 82% | +387%/28d | Low |
+| 167 | **MR Speed Ratio** | **Price only** | **88%** | **+282%/28d** | **Low** |
+| 168 | Price Density | Price only | 75% | +221%/28d | Low |
+| 169 | Rolling Beta | Price only | 82% | +426%/28d | Low |
+| 170 | Tail Ratio | Price only | 83% | +407%/28d | Low |
 
 ---
 
@@ -1244,3 +1248,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bn_gapret_hlmom.py` | EXP JJJJ7-MMMM7: gap ratio, ret sign persist, HL mom, candle eff std |
 | `research_v42bo_wrange_skew.py` | EXP NNNN7-QQQQ7: wt range, CLV persist, ret skewness, osc amplitude |
 | `research_v42bp_kurt_accel.py` | EXP RRRR7-UUUU7: ret kurtosis, price accel mag, ret-range corr, consec range |
+| `research_v42bq_mrspeed_density.py` | EXP VVVV7-YYYY7: MR speed, price density, rolling beta, tail ratio |
