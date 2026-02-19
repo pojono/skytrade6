@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 106 Signal Types Discovered
+### 110 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -962,6 +962,10 @@ Strategy contribution (standalone):
 | 104 | Realized Vol Ratio | Price only | 82% | +351%/28d | Low |
 | 105 | Return Autocorrelation | Price only | 81% | +465%/28d | Low |
 | 106 | **Price Percentile Rank** | **Price only** | **84%** | **+525%/28d** | **Low** |
+| 107 | Hurst Exponent Proxy | Price only | 81% | +649%/28d | Low |
+| 108 | Price Acceleration | Price only | 83% | +299%/28d | Low |
+| 109 | **Return IQR** | **Price only** | **86%** | **+704%/28d** | **Low** |
+| 110 | High-Low Position | Price only | 82% | +320%/28d | Low |
 
 ---
 
@@ -1169,3 +1173,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ay_velocity_skew.py` | EXP BBBB5-EEEE5: velocity, skewness, mom divergence, vol-of-vol |
 | `research_v42az_kurtosis_channel.py` | EXP FFFF5-IIII5: kurtosis, BB width, gap pressure, tail ratio |
 | `research_v42ba_oscillator_vptrend.py` | EXP JJJJ5-MMMM5: oscillator, vol ratio, autocorr, price pct |
+| `research_v42bb_hurst_accel2.py` | EXP NNNN5-QQQQ5: Hurst proxy, acceleration, IQR, HL position |
