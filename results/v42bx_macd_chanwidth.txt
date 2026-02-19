@@ -1,0 +1,451 @@
+================================================================================
+  v42bx: MACD HIST VEL + CHANNEL WIDTH + RET SIGN RATIO + HL POSITION
+  2026-02-19 21:01:35  [RAM=0.1GB, avail=6.9GB]
+================================================================================
+  Loading ETHUSDT... [10/88 33s] [20/88 55s] [30/88 75s] [40/88 99s] [50/88 120s] [60/88 136s] [70/88 165s] [80/88 192s] [88/88 213s] 126,720 bars (213s) [RAM=0.5GB, avail=6.4GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP XXXX8: MACD HISTOGRAM VELOCITY ---
+
+  MACD hist vel(3) >90th pct (fade):
+  ✅ TRAIN                                                    n=6432  wr= 66.9%  avg=  +5.8bps  tot=+374.41%  sh=  +236.4
+  ✅ TEST                                                     n=3096  wr= 70.4%  avg=  +5.0bps  tot=+155.51%  sh=  +299.6
+    ✅ test=+5.554%/d
+
+  MACD hist vel(3) >95th pct (fade):
+  ✅ TRAIN                                                    n=3502  wr= 69.8%  avg=  +7.0bps  tot=+246.21%  sh=  +243.3
+  ✅ TEST                                                     n=1671  wr= 73.1%  avg=  +5.6bps  tot= +93.12%  sh=  +314.0
+    ✅ test=+3.326%/d
+
+  MACD hist vel(5) >90th pct (fade):
+  ✅ TRAIN                                                    n=6484  wr= 66.4%  avg=  +5.6bps  tot=+361.72%  sh=  +230.2
+  ✅ TEST                                                     n=3196  wr= 69.6%  avg=  +4.8bps  tot=+153.07%  sh=  +290.5
+    ✅ test=+5.467%/d
+
+  MACD hist vel(5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3647  wr= 68.4%  avg=  +6.5bps  tot=+238.19%  sh=  +231.0
+  ✅ TEST                                                     n=1808  wr= 70.7%  avg=  +5.1bps  tot= +91.74%  sh=  +306.9
+    ✅ test=+3.276%/d
+
+  --- EXP YYYY8: CHANNEL WIDTH RATIO ---
+
+  Chan width(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6212  wr= 62.1%  avg=  +4.7bps  tot=+288.86%  sh=  +190.0
+  ✅ TEST                                                     n=3086  wr= 66.1%  avg=  +4.5bps  tot=+139.26%  sh=  +295.1
+    ✅ test=+4.974%/d
+
+  Chan width(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3457  wr= 63.8%  avg=  +5.5bps  tot=+190.37%  sh=  +194.4
+  ✅ TEST                                                     n=1701  wr= 68.3%  avg=  +4.9bps  tot= +82.59%  sh=  +306.8
+    ✅ test=+2.950%/d
+
+  Chan width(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6360  wr= 62.7%  avg=  +4.7bps  tot=+301.89%  sh=  +196.9
+  ✅ TEST                                                     n=3140  wr= 66.9%  avg=  +4.5bps  tot=+140.58%  sh=  +282.8
+    ✅ test=+5.021%/d
+
+  Chan width(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3643  wr= 63.5%  avg=  +5.5bps  tot=+198.72%  sh=  +200.9
+  ✅ TEST                                                     n=1801  wr= 66.3%  avg=  +4.5bps  tot= +81.79%  sh=  +270.9
+    ✅ test=+2.921%/d
+
+  --- EXP ZZZZ8: RETURN SIGN RATIO ---
+
+  Sign ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3919  wr= 62.4%  avg=  +3.5bps  tot=+135.70%  sh=  +223.4
+  ✅ TEST                                                     n=2061  wr= 64.1%  avg=  +3.5bps  tot= +72.59%  sh=  +269.8
+    ✅ test=+2.592%/d
+
+  Sign ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6707  wr= 61.1%  avg=  +3.2bps  tot=+217.29%  sh=  +208.0
+  ✅ TEST                                                     n=3514  wr= 62.9%  avg=  +3.2bps  tot=+112.13%  sh=  +235.6
+    ✅ test=+4.005%/d
+
+  Sign ratio(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5066  wr= 60.8%  avg=  +3.4bps  tot=+171.86%  sh=  +216.6
+  ✅ TEST                                                     n=2757  wr= 64.2%  avg=  +3.4bps  tot= +93.54%  sh=  +247.8
+    ✅ test=+3.341%/d
+
+  Sign ratio(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8019  wr= 60.0%  avg=  +3.1bps  tot=+245.28%  sh=  +200.9
+  ✅ TEST                                                     n=4478  wr= 63.4%  avg=  +3.3bps  tot=+146.90%  sh=  +237.1
+    ✅ test=+5.246%/d
+
+  --- EXP AAAA9: HIGH-LOW POSITION ---
+
+  HL pos(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=2636  wr= 65.7%  avg=  +3.7bps  tot= +96.34%  sh=  +265.2
+  ✅ TEST                                                     n=1585  wr= 65.2%  avg=  +3.6bps  tot= +56.85%  sh=  +260.3
+    ✅ test=+2.030%/d
+
+  HL pos(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=5516  wr= 65.4%  avg=  +3.9bps  tot=+215.13%  sh=  +266.7
+  ✅ TEST                                                     n=3165  wr= 64.7%  avg=  +3.6bps  tot=+112.53%  sh=  +255.0
+    ✅ test=+4.019%/d
+
+  HL pos(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=2109  wr= 71.1%  avg=  +5.1bps  tot=+107.82%  sh=  +349.0
+  ✅ TEST                                                     n=1393  wr= 68.7%  avg=  +4.0bps  tot= +56.15%  sh=  +287.1
+    ✅ test=+2.005%/d
+
+  HL pos(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=4823  wr= 69.2%  avg=  +4.9bps  tot=+236.38%  sh=  +312.9
+  ✅ TEST                                                     n=3009  wr= 66.4%  avg=  +3.7bps  tot=+110.13%  sh=  +249.6
+    ✅ test=+3.933%/d
+  Loading SOLUSDT... [10/88 16s] [20/88 28s] [30/88 38s] [40/88 49s] [50/88 60s] [60/88 69s] [70/88 82s] [80/88 99s] [88/88 107s] 126,720 bars (107s) [RAM=0.3GB, avail=6.6GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP XXXX8: MACD HISTOGRAM VELOCITY ---
+
+  MACD hist vel(3) >90th pct (fade):
+  ✅ TRAIN                                                    n=6748  wr= 68.9%  avg=  +5.2bps  tot=+349.46%  sh=  +259.9
+  ✅ TEST                                                     n=3231  wr= 70.9%  avg=  +5.4bps  tot=+174.87%  sh=  +336.2
+    ✅ test=+6.245%/d
+
+  MACD hist vel(3) >95th pct (fade):
+  ✅ TRAIN                                                    n=3677  wr= 71.4%  avg=  +6.1bps  tot=+225.29%  sh=  +273.9
+  ✅ TEST                                                     n=1738  wr= 73.0%  avg=  +6.0bps  tot=+105.05%  sh=  +364.4
+    ✅ test=+3.752%/d
+
+  MACD hist vel(5) >90th pct (fade):
+  ✅ TRAIN                                                    n=6873  wr= 68.8%  avg=  +5.0bps  tot=+344.20%  sh=  +254.5
+  ✅ TEST                                                     n=3298  wr= 71.6%  avg=  +5.3bps  tot=+176.23%  sh=  +339.7
+    ✅ test=+6.294%/d
+
+  MACD hist vel(5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3883  wr= 71.0%  avg=  +5.6bps  tot=+217.84%  sh=  +263.7
+  ✅ TEST                                                     n=1823  wr= 72.7%  avg=  +5.7bps  tot=+104.13%  sh=  +354.3
+    ✅ test=+3.719%/d
+
+  --- EXP YYYY8: CHANNEL WIDTH RATIO ---
+
+  Chan width(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6591  wr= 65.4%  avg=  +4.4bps  tot=+288.09%  sh=  +227.6
+  ✅ TEST                                                     n=3201  wr= 68.4%  avg=  +5.1bps  tot=+163.78%  sh=  +309.1
+    ✅ test=+5.849%/d
+
+  Chan width(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3634  wr= 66.9%  avg=  +5.0bps  tot=+182.94%  sh=  +235.0
+  ✅ TEST                                                     n=1761  wr= 71.0%  avg=  +5.5bps  tot= +97.56%  sh=  +328.4
+    ✅ test=+3.484%/d
+
+  Chan width(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6657  wr= 65.7%  avg=  +4.7bps  tot=+311.25%  sh=  +234.1
+  ✅ TEST                                                     n=3239  wr= 68.5%  avg=  +4.9bps  tot=+159.10%  sh=  +304.0
+    ✅ test=+5.682%/d
+
+  Chan width(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3748  wr= 66.6%  avg=  +5.3bps  tot=+196.89%  sh=  +240.0
+  ✅ TEST                                                     n=1756  wr= 68.1%  avg=  +5.1bps  tot= +89.66%  sh=  +312.1
+    ✅ test=+3.202%/d
+
+  --- EXP ZZZZ8: RETURN SIGN RATIO ---
+
+  Sign ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4277  wr= 63.9%  avg=  +3.4bps  tot=+146.30%  sh=  +237.5
+  ✅ TEST                                                     n=2176  wr= 62.6%  avg=  +3.1bps  tot= +67.72%  sh=  +233.6
+    ✅ test=+2.419%/d
+
+  Sign ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7218  wr= 62.8%  avg=  +3.1bps  tot=+226.56%  sh=  +216.0
+  ✅ TEST                                                     n=3733  wr= 61.5%  avg=  +3.0bps  tot=+112.72%  sh=  +220.4
+    ✅ test=+4.026%/d
+
+  Sign ratio(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5669  wr= 61.6%  avg=  +3.0bps  tot=+167.99%  sh=  +212.0
+  ✅ TEST                                                     n=2850  wr= 60.3%  avg=  +2.5bps  tot= +71.77%  sh=  +175.3
+    ✅ test=+2.563%/d
+
+  Sign ratio(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8810  wr= 61.8%  avg=  +2.9bps  tot=+254.12%  sh=  +203.5
+  ✅ TEST                                                     n=4521  wr= 61.1%  avg=  +2.7bps  tot=+121.32%  sh=  +191.1
+    ✅ test=+4.333%/d
+
+  --- EXP AAAA9: HIGH-LOW POSITION ---
+
+  HL pos(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3473  wr= 65.0%  avg=  +3.4bps  tot=+118.90%  sh=  +262.0
+  ✅ TEST                                                     n=2255  wr= 60.3%  avg=  +3.0bps  tot= +68.29%  sh=  +207.9
+    ✅ test=+2.439%/d
+
+  HL pos(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6935  wr= 64.3%  avg=  +3.5bps  tot=+240.37%  sh=  +246.8
+  ✅ TEST                                                     n=4156  wr= 58.8%  avg=  +2.6bps  tot=+109.71%  sh=  +178.2
+    ✅ test=+3.918%/d
+
+  HL pos(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3153  wr= 67.5%  avg=  +3.7bps  tot=+117.72%  sh=  +281.5
+  ✅ TEST                                                     n=2093  wr= 61.7%  avg=  +3.0bps  tot= +63.23%  sh=  +188.7
+    ✅ test=+2.258%/d
+
+  HL pos(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6549  wr= 66.0%  avg=  +3.6bps  tot=+238.66%  sh=  +259.9
+  ✅ TEST                                                     n=3940  wr= 61.0%  avg=  +2.9bps  tot=+113.11%  sh=  +188.2
+    ✅ test=+4.040%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 34s] [30/88 44s] [40/88 53s] [50/88 61s] [60/88 69s] [70/88 96s] [80/88 118s] [88/88 128s] 126,720 bars (128s) [RAM=0.4GB, avail=6.5GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP XXXX8: MACD HISTOGRAM VELOCITY ---
+
+  MACD hist vel(3) >90th pct (fade):
+  ✅ TRAIN                                                    n=6908  wr= 71.8%  avg=  +6.2bps  tot=+430.29%  sh=  +274.0
+  ✅ TEST                                                     n=3572  wr= 85.2%  avg= +10.4bps  tot=+372.36%  sh=  +468.0
+    ✅ test=+13.298%/d
+
+  MACD hist vel(3) >95th pct (fade):
+  ✅ TRAIN                                                    n=3751  wr= 73.8%  avg=  +7.4bps  tot=+278.87%  sh=  +289.3
+  ✅ TEST                                                     n=1926  wr= 86.0%  avg= +11.2bps  tot=+215.69%  sh=  +465.7
+    ✅ test=+7.703%/d
+
+  MACD hist vel(5) >90th pct (fade):
+  ✅ TRAIN                                                    n=7077  wr= 71.2%  avg=  +5.9bps  tot=+420.79%  sh=  +266.7
+  ✅ TEST                                                     n=3651  wr= 84.9%  avg=  +9.9bps  tot=+362.82%  sh=  +460.4
+    ✅ test=+12.958%/d
+
+  MACD hist vel(5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3959  wr= 73.0%  avg=  +6.9bps  tot=+274.68%  sh=  +285.6
+  ✅ TEST                                                     n=1988  wr= 85.7%  avg= +11.0bps  tot=+219.38%  sh=  +472.5
+    ✅ test=+7.835%/d
+
+  --- EXP YYYY8: CHANNEL WIDTH RATIO ---
+
+  Chan width(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6760  wr= 67.0%  avg=  +5.4bps  tot=+367.19%  sh=  +234.2
+  ✅ TEST                                                     n=3438  wr= 83.0%  avg= +10.2bps  tot=+349.63%  sh=  +445.4
+    ✅ test=+12.487%/d
+
+  Chan width(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3685  wr= 68.0%  avg=  +6.3bps  tot=+231.86%  sh=  +245.2
+  ✅ TEST                                                     n=1843  wr= 85.0%  avg= +10.6bps  tot=+194.81%  sh=  +446.2
+    ✅ test=+6.958%/d
+
+  Chan width(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6796  wr= 68.5%  avg=  +5.7bps  tot=+388.51%  sh=  +244.8
+  ✅ TEST                                                     n=3484  wr= 84.0%  avg= +10.1bps  tot=+350.68%  sh=  +459.9
+    ✅ test=+12.524%/d
+
+  Chan width(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3719  wr= 69.8%  avg=  +6.7bps  tot=+248.72%  sh=  +256.5
+  ✅ TEST                                                     n=1936  wr= 85.1%  avg= +10.5bps  tot=+203.06%  sh=  +500.4
+    ✅ test=+7.252%/d
+
+  --- EXP ZZZZ8: RETURN SIGN RATIO ---
+
+  Sign ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4256  wr= 65.9%  avg=  +4.0bps  tot=+168.93%  sh=  +229.0
+  ✅ TEST                                                     n=2416  wr= 81.4%  avg=  +7.4bps  tot=+177.67%  sh=  +416.6
+    ✅ test=+6.345%/d
+
+  Sign ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7257  wr= 65.9%  avg=  +3.9bps  tot=+282.14%  sh=  +231.0
+  ✅ TEST                                                     n=4005  wr= 81.2%  avg=  +7.4bps  tot=+294.42%  sh=  +428.3
+    ✅ test=+10.515%/d
+
+  Sign ratio(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5545  wr= 67.2%  avg=  +4.4bps  tot=+245.24%  sh=  +252.8
+  ✅ TEST                                                     n=3214  wr= 81.6%  avg=  +7.6bps  tot=+245.62%  sh=  +446.7
+    ✅ test=+8.772%/d
+
+  Sign ratio(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8843  wr= 66.8%  avg=  +4.2bps  tot=+374.48%  sh=  +248.8
+  ✅ TEST                                                     n=5091  wr= 81.3%  avg=  +7.5bps  tot=+380.30%  sh=  +450.7
+    ✅ test=+13.582%/d
+
+  --- EXP AAAA9: HIGH-LOW POSITION ---
+
+  HL pos(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3604  wr= 67.5%  avg=  +4.2bps  tot=+152.41%  sh=  +260.1
+  ✅ TEST                                                     n=2224  wr= 81.6%  avg=  +7.5bps  tot=+165.78%  sh=  +440.2
+    ✅ test=+5.921%/d
+
+  HL pos(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7036  wr= 67.1%  avg=  +4.4bps  tot=+311.91%  sh=  +259.7
+  ✅ TEST                                                     n=4137  wr= 80.9%  avg=  +7.7bps  tot=+319.50%  sh=  +431.2
+    ✅ test=+11.411%/d
+
+  HL pos(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3053  wr= 70.0%  avg=  +5.1bps  tot=+156.44%  sh=  +283.3
+  ✅ TEST                                                     n=1922  wr= 82.2%  avg=  +7.7bps  tot=+147.94%  sh=  +451.4
+    ✅ test=+5.284%/d
+
+  HL pos(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6266  wr= 70.0%  avg=  +5.1bps  tot=+318.82%  sh=  +288.8
+  ✅ TEST                                                     n=3697  wr= 81.9%  avg=  +7.9bps  tot=+291.89%  sh=  +421.1
+    ✅ test=+10.425%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 25s] [30/88 32s] [40/88 41s] [50/88 50s] [60/88 58s] [70/88 88s] [80/88 106s] [88/88 117s] 126,720 bars (117s) [RAM=0.4GB, avail=6.4GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP XXXX8: MACD HISTOGRAM VELOCITY ---
+
+  MACD hist vel(3) >90th pct (fade):
+  ✅ TRAIN                                                    n=6192  wr= 57.6%  avg=  +3.5bps  tot=+215.11%  sh=  +178.7
+  ✅ TEST                                                     n=3383  wr= 78.5%  avg=  +8.2bps  tot=+276.61%  sh=  +350.5
+    ✅ test=+9.879%/d
+
+  MACD hist vel(3) >95th pct (fade):
+  ✅ TRAIN                                                    n=3363  wr= 60.4%  avg=  +4.4bps  tot=+147.09%  sh=  +202.9
+  ✅ TEST                                                     n=1895  wr= 79.7%  avg=  +9.2bps  tot=+174.54%  sh=  +349.8
+    ✅ test=+6.234%/d
+
+  MACD hist vel(5) >90th pct (fade):
+  ✅ TRAIN                                                    n=6352  wr= 57.4%  avg=  +3.2bps  tot=+206.36%  sh=  +172.2
+  ✅ TEST                                                     n=3459  wr= 78.8%  avg=  +7.7bps  tot=+266.96%  sh=  +351.1
+    ✅ test=+9.534%/d
+
+  MACD hist vel(5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3519  wr= 60.1%  avg=  +3.9bps  tot=+138.73%  sh=  +187.2
+  ✅ TEST                                                     n=1969  wr= 80.5%  avg=  +8.4bps  tot=+165.31%  sh=  +347.9
+    ✅ test=+5.904%/d
+
+  --- EXP YYYY8: CHANNEL WIDTH RATIO ---
+
+  Chan width(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5950  wr= 53.6%  avg=  +2.7bps  tot=+160.60%  sh=  +141.4
+  ✅ TEST                                                     n=3253  wr= 73.2%  avg=  +7.3bps  tot=+239.01%  sh=  +320.9
+    ✅ test=+8.536%/d
+
+  Chan width(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3245  wr= 56.0%  avg=  +3.4bps  tot=+110.94%  sh=  +163.8
+  ✅ TEST                                                     n=1775  wr= 75.0%  avg=  +8.0bps  tot=+142.23%  sh=  +316.1
+    ✅ test=+5.080%/d
+
+  Chan width(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6078  wr= 53.8%  avg=  +2.7bps  tot=+166.13%  sh=  +144.9
+  ✅ TEST                                                     n=3392  wr= 74.1%  avg=  +7.5bps  tot=+254.39%  sh=  +316.1
+    ✅ test=+9.085%/d
+
+  Chan width(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3458  wr= 56.2%  avg=  +3.2bps  tot=+111.85%  sh=  +155.1
+  ✅ TEST                                                     n=1928  wr= 74.2%  avg=  +8.1bps  tot=+156.43%  sh=  +323.4
+    ✅ test=+5.587%/d
+
+  --- EXP ZZZZ8: RETURN SIGN RATIO ---
+
+  Sign ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3809  wr= 52.5%  avg=  +1.9bps  tot= +72.53%  sh=  +118.6
+  ✅ TEST                                                     n=2199  wr= 71.5%  avg=  +5.7bps  tot=+126.16%  sh=  +283.9
+    ✅ test=+4.506%/d
+
+  Sign ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6639  wr= 52.5%  avg=  +1.9bps  tot=+129.12%  sh=  +125.7
+  ✅ TEST                                                     n=3764  wr= 72.1%  avg=  +5.5bps  tot=+205.19%  sh=  +281.7
+    ✅ test=+7.328%/d
+
+  Sign ratio(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5114  wr= 53.0%  avg=  +1.9bps  tot= +96.90%  sh=  +127.0
+  ✅ TEST                                                     n=2919  wr= 70.3%  avg=  +5.4bps  tot=+158.75%  sh=  +278.3
+    ✅ test=+5.670%/d
+
+  Sign ratio(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8232  wr= 52.3%  avg=  +1.8bps  tot=+146.64%  sh=  +123.6
+  ✅ TEST                                                     n=4661  wr= 70.2%  avg=  +5.3bps  tot=+246.36%  sh=  +279.2
+    ✅ test=+8.798%/d
+
+  --- EXP AAAA9: HIGH-LOW POSITION ---
+
+  HL pos(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3534  wr= 53.4%  avg=  +2.0bps  tot= +70.95%  sh=  +148.1
+  ✅ TEST                                                     n=2351  wr= 70.1%  avg=  +5.5bps  tot=+128.13%  sh=  +268.1
+    ✅ test=+4.576%/d
+
+  HL pos(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6662  wr= 52.0%  avg=  +1.7bps  tot=+113.39%  sh=  +120.7
+  ✅ TEST                                                     n=4218  wr= 70.6%  avg=  +5.5bps  tot=+231.31%  sh=  +277.6
+    ✅ test=+8.261%/d
+
+  HL pos(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3089  wr= 56.5%  avg=  +2.4bps  tot= +75.38%  sh=  +170.2
+  ✅ TEST                                                     n=2114  wr= 71.0%  avg=  +5.8bps  tot=+123.05%  sh=  +275.4
+    ✅ test=+4.395%/d
+
+  HL pos(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6169  wr= 54.9%  avg=  +2.2bps  tot=+133.06%  sh=  +150.8
+  ✅ TEST                                                     n=3936  wr= 71.0%  avg=  +5.9bps  tot=+232.94%  sh=  +294.4
+    ✅ test=+8.319%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    cw_20_0.9                3438   83.0%   +10.2bp   +349.6%     +445
+  ✅ DOGEUSDT    cw_20_0.95               1843   85.0%   +10.6bp   +194.8%     +446
+  ✅ DOGEUSDT    cw_40_0.9                3484   84.0%   +10.1bp   +350.7%     +460
+  ✅ DOGEUSDT    cw_40_0.95               1936   85.1%   +10.5bp   +203.1%     +500
+  ✅ DOGEUSDT    hl_30_0.05               2224   81.6%    +7.5bp   +165.8%     +440
+  ✅ DOGEUSDT    hl_30_0.1                4137   80.9%    +7.7bp   +319.5%     +431
+  ✅ DOGEUSDT    hl_60_0.05               1922   82.2%    +7.7bp   +147.9%     +451
+  ✅ DOGEUSDT    hl_60_0.1                3697   81.9%    +7.9bp   +291.9%     +421
+  ✅ DOGEUSDT    mhv_3_0.9                3572   85.2%   +10.4bp   +372.4%     +468
+  ✅ DOGEUSDT    mhv_3_0.95               1926   86.0%   +11.2bp   +215.7%     +466
+  ✅ DOGEUSDT    mhv_5_0.9                3651   84.9%    +9.9bp   +362.8%     +460
+  ✅ DOGEUSDT    mhv_5_0.95               1988   85.7%   +11.0bp   +219.4%     +473
+  ✅ DOGEUSDT    sr_20_0.05               2416   81.4%    +7.4bp   +177.7%     +417
+  ✅ DOGEUSDT    sr_20_0.1                4005   81.2%    +7.4bp   +294.4%     +428
+  ✅ DOGEUSDT    sr_40_0.05               3214   81.6%    +7.6bp   +245.6%     +447
+  ✅ DOGEUSDT    sr_40_0.1                5091   81.3%    +7.5bp   +380.3%     +451
+  ✅ ETHUSDT     cw_20_0.9                3086   66.1%    +4.5bp   +139.3%     +295
+  ✅ ETHUSDT     cw_20_0.95               1701   68.3%    +4.9bp    +82.6%     +307
+  ✅ ETHUSDT     cw_40_0.9                3140   66.9%    +4.5bp   +140.6%     +283
+  ✅ ETHUSDT     cw_40_0.95               1801   66.3%    +4.5bp    +81.8%     +271
+  ✅ ETHUSDT     hl_30_0.05               1585   65.2%    +3.6bp    +56.8%     +260
+  ✅ ETHUSDT     hl_30_0.1                3165   64.7%    +3.6bp   +112.5%     +255
+  ✅ ETHUSDT     hl_60_0.05               1393   68.7%    +4.0bp    +56.2%     +287
+  ✅ ETHUSDT     hl_60_0.1                3009   66.4%    +3.7bp   +110.1%     +250
+  ✅ ETHUSDT     mhv_3_0.9                3096   70.4%    +5.0bp   +155.5%     +300
+  ✅ ETHUSDT     mhv_3_0.95               1671   73.1%    +5.6bp    +93.1%     +314
+  ✅ ETHUSDT     mhv_5_0.9                3196   69.6%    +4.8bp   +153.1%     +291
+  ✅ ETHUSDT     mhv_5_0.95               1808   70.7%    +5.1bp    +91.7%     +307
+  ✅ ETHUSDT     sr_20_0.05               2061   64.1%    +3.5bp    +72.6%     +270
+  ✅ ETHUSDT     sr_20_0.1                3514   62.9%    +3.2bp   +112.1%     +236
+  ✅ ETHUSDT     sr_40_0.05               2757   64.2%    +3.4bp    +93.5%     +248
+  ✅ ETHUSDT     sr_40_0.1                4478   63.4%    +3.3bp   +146.9%     +237
+  ✅ SOLUSDT     cw_20_0.9                3201   68.4%    +5.1bp   +163.8%     +309
+  ✅ SOLUSDT     cw_20_0.95               1761   71.0%    +5.5bp    +97.6%     +328
+  ✅ SOLUSDT     cw_40_0.9                3239   68.5%    +4.9bp   +159.1%     +304
+  ✅ SOLUSDT     cw_40_0.95               1756   68.1%    +5.1bp    +89.7%     +312
+  ✅ SOLUSDT     hl_30_0.05               2255   60.3%    +3.0bp    +68.3%     +208
+  ✅ SOLUSDT     hl_30_0.1                4156   58.8%    +2.6bp   +109.7%     +178
+  ✅ SOLUSDT     hl_60_0.05               2093   61.7%    +3.0bp    +63.2%     +189
+  ✅ SOLUSDT     hl_60_0.1                3940   61.0%    +2.9bp   +113.1%     +188
+  ✅ SOLUSDT     mhv_3_0.9                3231   70.9%    +5.4bp   +174.9%     +336
+  ✅ SOLUSDT     mhv_3_0.95               1738   73.0%    +6.0bp   +105.0%     +364
+  ✅ SOLUSDT     mhv_5_0.9                3298   71.6%    +5.3bp   +176.2%     +340
+  ✅ SOLUSDT     mhv_5_0.95               1823   72.7%    +5.7bp   +104.1%     +354
+  ✅ SOLUSDT     sr_20_0.05               2176   62.6%    +3.1bp    +67.7%     +234
+  ✅ SOLUSDT     sr_20_0.1                3733   61.5%    +3.0bp   +112.7%     +220
+  ✅ SOLUSDT     sr_40_0.05               2850   60.3%    +2.5bp    +71.8%     +175
+  ✅ SOLUSDT     sr_40_0.1                4521   61.1%    +2.7bp   +121.3%     +191
+  ✅ XRPUSDT     cw_20_0.9                3253   73.2%    +7.3bp   +239.0%     +321
+  ✅ XRPUSDT     cw_20_0.95               1775   75.0%    +8.0bp   +142.2%     +316
+  ✅ XRPUSDT     cw_40_0.9                3392   74.1%    +7.5bp   +254.4%     +316
+  ✅ XRPUSDT     cw_40_0.95               1928   74.2%    +8.1bp   +156.4%     +323
+  ✅ XRPUSDT     hl_30_0.05               2351   70.1%    +5.5bp   +128.1%     +268
+  ✅ XRPUSDT     hl_30_0.1                4218   70.6%    +5.5bp   +231.3%     +278
+  ✅ XRPUSDT     hl_60_0.05               2114   71.0%    +5.8bp   +123.0%     +275
+  ✅ XRPUSDT     hl_60_0.1                3936   71.0%    +5.9bp   +232.9%     +294
+  ✅ XRPUSDT     mhv_3_0.9                3383   78.5%    +8.2bp   +276.6%     +351
+  ✅ XRPUSDT     mhv_3_0.95               1895   79.7%    +9.2bp   +174.5%     +350
+  ✅ XRPUSDT     mhv_5_0.9                3459   78.8%    +7.7bp   +267.0%     +351
+  ✅ XRPUSDT     mhv_5_0.95               1969   80.5%    +8.4bp   +165.3%     +348
+  ✅ XRPUSDT     sr_20_0.05               2199   71.5%    +5.7bp   +126.2%     +284
+  ✅ XRPUSDT     sr_20_0.1                3764   72.1%    +5.5bp   +205.2%     +282
+  ✅ XRPUSDT     sr_40_0.05               2919   70.3%    +5.4bp   +158.7%     +278
+  ✅ XRPUSDT     sr_40_0.1                4661   70.2%    +5.3bp   +246.4%     +279
+
+################################################################################
+  COMPLETE — 769s (12.8min) [RAM=0.4GB, avail=6.5GB]
+################################################################################
