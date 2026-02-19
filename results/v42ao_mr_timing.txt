@@ -1,0 +1,235 @@
+================================================================================
+  v42ao: MR TIMING + VOL REGIME DETECTION
+  2026-02-19 11:22:08  [RAM=0.1GB, avail=7.7GB]
+================================================================================
+  Loading ETHUSDT... [10/88 42s] [20/88 69s] [30/88 94s] [40/88 124s] [50/88 150s] [60/88 171s] [70/88 202s] [80/88 228s] [88/88 248s] 126,720 bars (248s) [RAM=0.5GB, avail=8.0GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP NNNN2: BB SQUEEZE BREAKOUT FADE ---
+
+  BB squeeze breakout (fade):
+  ✅ TRAIN                                                    n= 539  wr= 59.2%  avg=  +2.9bps  tot= +15.43%  sh=  +222.3
+  ✅ TEST                                                     n= 244  wr= 59.8%  avg=  +2.5bps  tot=  +6.07%  sh=  +156.0
+    ✅ test=+0.217%/d
+
+  --- EXP OOOO2: ATR RATIO ---
+
+  ATR ratio z>2 (fade vol spike):
+  ✅ TRAIN                                                    n=3603  wr= 67.3%  avg=  +7.2bps  tot=+258.05%  sh=  +250.4
+  ✅ TEST                                                     n=1674  wr= 71.9%  avg=  +5.8bps  tot= +96.55%  sh=  +323.3
+    ✅ test=+3.448%/d
+
+  ATR ratio z>3 (fade vol spike):
+  ✅ TRAIN                                                    n=1006  wr= 74.8%  avg= +11.5bps  tot=+115.90%  sh=  +302.1
+  ✅ TEST                                                     n= 424  wr= 76.2%  avg=  +6.7bps  tot= +28.51%  sh=  +344.0
+    ✅ test=+1.018%/d
+
+  --- EXP PPPP2: CLOSE LOCATION VALUE ---
+
+  CLV(5) <0.15/0.85 (fade):
+  ✅ TRAIN                                                    n= 303  wr= 51.8%  avg=  +2.7bps  tot=  +8.14%  sh=   +68.2
+  ✅ TEST                                                     n= 156  wr= 61.5%  avg=  +3.1bps  tot=  +4.81%  sh=  +223.6
+    ✅ test=+0.172%/d
+
+  CLV(5) <0.1/0.90 (fade):
+     TRAIN                                                    n=  82  wr= 40.2%  avg=  -0.5bps  tot=  -0.42%  sh=   -30.5
+  ✅ TEST                                                     n=  50  wr= 56.0%  avg=  +2.2bps  tot=  +1.10%  sh=  +122.8
+    ✅ test=+0.039%/d
+
+  --- EXP QQQQ2: CONSECUTIVE WICK DIRECTION ---
+
+  3 consec wick dominant (fade exhaustion):
+  ✅ TRAIN                                                    n=1280  wr= 59.9%  avg=  +2.8bps  tot= +35.46%  sh=  +174.8
+  ✅ TEST                                                     n= 506  wr= 66.2%  avg=  +3.4bps  tot= +17.03%  sh=  +289.5
+    ✅ test=+0.608%/d
+
+  5 consec wick dominant (fade exhaustion):
+  ✅ TRAIN                                                    n= 113  wr= 62.8%  avg=  +4.7bps  tot=  +5.30%  sh=  +279.3
+  ✅ TEST                                                     n=  24  wr= 70.8%  avg=  +4.6bps  tot=  +1.09%  sh=  +407.6
+    ✅ test=+0.039%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 37s] [40/88 48s] [50/88 59s] [60/88 67s] [70/88 80s] [80/88 97s] [88/88 105s] 126,720 bars (105s) [RAM=0.4GB, avail=8.1GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP NNNN2: BB SQUEEZE BREAKOUT FADE ---
+
+  BB squeeze breakout (fade):
+  ✅ TRAIN                                                    n= 609  wr= 57.5%  avg=  +2.5bps  tot= +15.07%  sh=  +200.5
+  ✅ TEST                                                     n= 274  wr= 55.5%  avg=  +2.1bps  tot=  +5.62%  sh=  +131.0
+    ✅ test=+0.201%/d
+
+  --- EXP OOOO2: ATR RATIO ---
+
+  ATR ratio z>2 (fade vol spike):
+  ✅ TRAIN                                                    n=3546  wr= 69.5%  avg=  +6.2bps  tot=+219.42%  sh=  +259.9
+  ✅ TEST                                                     n=1610  wr= 69.8%  avg=  +5.5bps  tot= +89.16%  sh=  +317.8
+    ✅ test=+3.184%/d
+
+  ATR ratio z>3 (fade vol spike):
+  ✅ TRAIN                                                    n= 806  wr= 76.8%  avg= +10.8bps  tot= +86.72%  sh=  +303.4
+  ✅ TEST                                                     n= 361  wr= 74.5%  avg=  +7.3bps  tot= +26.31%  sh=  +327.7
+    ✅ test=+0.940%/d
+
+  --- EXP PPPP2: CLOSE LOCATION VALUE ---
+
+  CLV(5) <0.15/0.85 (fade):
+  ✅ TRAIN                                                    n= 311  wr= 59.2%  avg=  +1.8bps  tot=  +5.72%  sh=  +147.6
+  ✅ TEST                                                     n= 165  wr= 69.1%  avg=  +4.0bps  tot=  +6.60%  sh=  +366.3
+    ✅ test=+0.236%/d
+
+  CLV(5) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=  68  wr= 60.3%  avg=  +1.7bps  tot=  +1.19%  sh=  +196.7
+  ✅ TEST                                                     n=  49  wr= 65.3%  avg=  +3.2bps  tot=  +1.58%  sh=  +291.7
+    ✅ test=+0.056%/d
+
+  --- EXP QQQQ2: CONSECUTIVE WICK DIRECTION ---
+
+  3 consec wick dominant (fade exhaustion):
+  ✅ TRAIN                                                    n=1315  wr= 64.0%  avg=  +3.3bps  tot= +43.35%  sh=  +187.0
+  ✅ TEST                                                     n= 532  wr= 67.7%  avg=  +3.7bps  tot= +19.88%  sh=  +275.0
+    ✅ test=+0.710%/d
+
+  5 consec wick dominant (fade exhaustion):
+  ✅ TRAIN                                                    n= 117  wr= 63.2%  avg=  +3.2bps  tot=  +3.74%  sh=  +271.5
+  ✅ TEST                                                     n=  30  wr= 60.0%  avg=  +0.9bps  tot=  +0.26%  sh=   +41.5
+    ✅ test=+0.009%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 34s] [30/88 43s] [40/88 53s] [50/88 61s] [60/88 69s] [70/88 95s] [80/88 116s] [88/88 125s] 126,720 bars (125s) [RAM=0.4GB, avail=8.1GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP NNNN2: BB SQUEEZE BREAKOUT FADE ---
+
+  BB squeeze breakout (fade):
+  ✅ TRAIN                                                    n= 491  wr= 58.0%  avg=  +3.4bps  tot= +16.56%  sh=  +215.1
+  ✅ TEST                                                     n= 258  wr= 79.1%  avg=  +7.0bps  tot= +18.01%  sh=  +426.5
+    ✅ test=+0.643%/d
+
+  --- EXP OOOO2: ATR RATIO ---
+
+  ATR ratio z>2 (fade vol spike):
+  ✅ TRAIN                                                    n=3534  wr= 72.3%  avg=  +8.0bps  tot=+283.82%  sh=  +275.9
+  ✅ TEST                                                     n=1757  wr= 84.2%  avg= +12.2bps  tot=+214.20%  sh=  +446.5
+    ✅ test=+7.650%/d
+
+  ATR ratio z>3 (fade vol spike):
+  ✅ TRAIN                                                    n= 792  wr= 79.2%  avg= +14.6bps  tot=+115.41%  sh=  +345.1
+  ✅ TEST                                                     n= 433  wr= 89.6%  avg= +16.5bps  tot= +71.61%  sh=  +478.1
+    ✅ test=+2.558%/d
+
+  --- EXP PPPP2: CLOSE LOCATION VALUE ---
+
+  CLV(5) <0.15/0.85 (fade):
+  ✅ TRAIN                                                    n= 380  wr= 59.7%  avg=  +2.7bps  tot= +10.13%  sh=  +155.6
+  ✅ TEST                                                     n= 159  wr= 84.3%  avg= +10.0bps  tot= +15.87%  sh=  +496.0
+    ✅ test=+0.567%/d
+
+  CLV(5) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n= 112  wr= 58.0%  avg=  +1.6bps  tot=  +1.85%  sh=  +129.6
+  ✅ TEST                                                     n=  48  wr= 87.5%  avg=  +9.4bps  tot=  +4.49%  sh=  +632.9
+    ✅ test=+0.161%/d
+
+  --- EXP QQQQ2: CONSECUTIVE WICK DIRECTION ---
+
+  3 consec wick dominant (fade exhaustion):
+  ✅ TRAIN                                                    n=1304  wr= 67.8%  avg=  +4.7bps  tot= +61.28%  sh=  +229.4
+  ✅ TEST                                                     n= 646  wr= 82.5%  avg=  +8.5bps  tot= +55.11%  sh=  +540.8
+    ✅ test=+1.968%/d
+
+  5 consec wick dominant (fade exhaustion):
+  ✅ TRAIN                                                    n=  92  wr= 60.9%  avg=  +3.5bps  tot=  +3.25%  sh=  +176.5
+  ✅ TEST                                                     n=  57  wr= 80.7%  avg=  +6.5bps  tot=  +3.70%  sh=  +627.8
+    ✅ test=+0.132%/d
+  Loading XRPUSDT... [10/88 15s] [20/88 24s] [30/88 31s] [40/88 40s] [50/88 50s] [60/88 58s] [70/88 86s] [80/88 103s] [88/88 114s] 126,720 bars (114s) [RAM=0.3GB, avail=8.1GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP NNNN2: BB SQUEEZE BREAKOUT FADE ---
+
+  BB squeeze breakout (fade):
+  ✅ TRAIN                                                    n= 461  wr= 43.0%  avg=  +0.2bps  tot=  +1.14%  sh=   +19.3
+  ✅ TEST                                                     n= 264  wr= 60.6%  avg=  +3.9bps  tot= +10.39%  sh=  +237.9
+    ✅ test=+0.371%/d
+
+  --- EXP OOOO2: ATR RATIO ---
+
+  ATR ratio z>2 (fade vol spike):
+  ✅ TRAIN                                                    n=3135  wr= 58.8%  avg=  +4.7bps  tot=+146.55%  sh=  +199.3
+  ✅ TEST                                                     n=1734  wr= 77.8%  avg=  +9.8bps  tot=+169.22%  sh=  +346.2
+    ✅ test=+6.044%/d
+
+  ATR ratio z>3 (fade vol spike):
+  ✅ TRAIN                                                    n= 711  wr= 68.1%  avg= +10.1bps  tot= +72.15%  sh=  +300.6
+  ✅ TEST                                                     n= 417  wr= 82.3%  avg= +14.2bps  tot= +59.30%  sh=  +347.6
+    ✅ test=+2.118%/d
+
+  --- EXP PPPP2: CLOSE LOCATION VALUE ---
+
+  CLV(5) <0.15/0.85 (fade):
+  ✅ TRAIN                                                    n= 351  wr= 44.7%  avg=  +0.1bps  tot=  +0.43%  sh=    +8.7
+  ✅ TEST                                                     n= 191  wr= 70.2%  avg=  +6.5bps  tot= +12.41%  sh=  +275.7
+    ✅ test=+0.443%/d
+
+  CLV(5) <0.1/0.90 (fade):
+     TRAIN                                                    n=  94  wr= 40.4%  avg=  -0.6bps  tot=  -0.58%  sh=   -42.7
+  ✅ TEST                                                     n=  56  wr= 75.0%  avg=  +7.5bps  tot=  +4.18%  sh=  +261.4
+    ✅ test=+0.149%/d
+
+  --- EXP QQQQ2: CONSECUTIVE WICK DIRECTION ---
+
+  3 consec wick dominant (fade exhaustion):
+  ✅ TRAIN                                                    n=1102  wr= 52.1%  avg=  +1.7bps  tot= +18.53%  sh=  +111.9
+  ✅ TEST                                                     n= 577  wr= 72.1%  avg=  +5.6bps  tot= +32.47%  sh=  +375.3
+    ✅ test=+1.160%/d
+
+  5 consec wick dominant (fade exhaustion):
+  ✅ TRAIN                                                    n=  88  wr= 56.8%  avg=  +2.5bps  tot=  +2.21%  sh=  +201.5
+  ✅ TEST                                                     n=  53  wr= 71.7%  avg=  +4.8bps  tot=  +2.53%  sh=  +367.7
+    ✅ test=+0.090%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    atr_ratio_z2           1757   84.2%   +12.2bp   +214.2%     +446
+  ✅ DOGEUSDT    atr_ratio_z3            433   89.6%   +16.5bp    +71.6%     +478
+  ✅ DOGEUSDT    bb_squeeze              258   79.1%    +7.0bp    +18.0%     +426
+  ✅ DOGEUSDT    clv_0.1                  48   87.5%    +9.4bp     +4.5%     +633
+  ✅ DOGEUSDT    clv_0.15                159   84.3%   +10.0bp    +15.9%     +496
+  ✅ DOGEUSDT    wick_consec_3           646   82.5%    +8.5bp    +55.1%     +541
+  ✅ DOGEUSDT    wick_consec_5            57   80.7%    +6.5bp     +3.7%     +628
+  ✅ ETHUSDT     atr_ratio_z2           1674   71.9%    +5.8bp    +96.5%     +323
+  ✅ ETHUSDT     atr_ratio_z3            424   76.2%    +6.7bp    +28.5%     +344
+  ✅ ETHUSDT     bb_squeeze              244   59.8%    +2.5bp     +6.1%     +156
+  ✅ ETHUSDT     clv_0.1                  50   56.0%    +2.2bp     +1.1%     +123
+  ✅ ETHUSDT     clv_0.15                156   61.5%    +3.1bp     +4.8%     +224
+  ✅ ETHUSDT     wick_consec_3           506   66.2%    +3.4bp    +17.0%     +289
+  ✅ ETHUSDT     wick_consec_5            24   70.8%    +4.6bp     +1.1%     +408
+  ✅ SOLUSDT     atr_ratio_z2           1610   69.8%    +5.5bp    +89.2%     +318
+  ✅ SOLUSDT     atr_ratio_z3            361   74.5%    +7.3bp    +26.3%     +328
+  ✅ SOLUSDT     bb_squeeze              274   55.5%    +2.1bp     +5.6%     +131
+  ✅ SOLUSDT     clv_0.1                  49   65.3%    +3.2bp     +1.6%     +292
+  ✅ SOLUSDT     clv_0.15                165   69.1%    +4.0bp     +6.6%     +366
+  ✅ SOLUSDT     wick_consec_3           532   67.7%    +3.7bp    +19.9%     +275
+  ✅ SOLUSDT     wick_consec_5            30   60.0%    +0.9bp     +0.3%      +42
+  ✅ XRPUSDT     atr_ratio_z2           1734   77.8%    +9.8bp   +169.2%     +346
+  ✅ XRPUSDT     atr_ratio_z3            417   82.3%   +14.2bp    +59.3%     +348
+  ✅ XRPUSDT     bb_squeeze              264   60.6%    +3.9bp    +10.4%     +238
+  ✅ XRPUSDT     clv_0.1                  56   75.0%    +7.5bp     +4.2%     +261
+  ✅ XRPUSDT     clv_0.15                191   70.2%    +6.5bp    +12.4%     +276
+  ✅ XRPUSDT     wick_consec_3           577   72.1%    +5.6bp    +32.5%     +375
+  ✅ XRPUSDT     wick_consec_5            53   71.7%    +4.8bp     +2.5%     +368
+
+################################################################################
+  COMPLETE — 607s (10.1min) [RAM=0.3GB, avail=8.2GB]
+################################################################################
