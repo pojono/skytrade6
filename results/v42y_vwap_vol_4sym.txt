@@ -1,0 +1,121 @@
+================================================================================
+  v42y: VWAP + VOL SPIKE — DOGE + XRP VALIDATION
+  2026-02-19 08:17:04  [RAM=0.1GB, avail=5.8GB]
+================================================================================
+  Loading DOGEUSDT bars+vol... [10/88 24s] [20/88 39s] [30/88 49s] [40/88 60s] [50/88 70s] [60/88 81s] [70/88 122s] [80/88 150s] [88/88 161s] 126,720 bars (161s) [RAM=0.4GB, avail=5.6GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- VWAP DEVIATION ---
+
+  VWAP dev >10bps:
+  ✅ TRAIN                                                    n=24592  wr= 68.7%  avg=  +4.4bps  tot=+1083.35%  sh=  +273.2
+  ✅ TEST                                                     n=14490  wr= 82.4%  avg=  +7.5bps  tot=+1087.76%  sh=  +449.4
+    ✅ train=+18.056%/d  test=+38.849%/d
+
+  VWAP dev >20bps:
+  ✅ TRAIN                                                    n=18310  wr= 73.4%  avg=  +5.4bps  tot=+981.21%  sh=  +331.4
+  ✅ TEST                                                     n=11802  wr= 84.7%  avg=  +8.2bps  tot=+965.35%  sh=  +481.5
+    ✅ train=+16.353%/d  test=+34.477%/d
+
+  VWAP dev >30bps:
+  ✅ TRAIN                                                    n=13080  wr= 78.6%  avg=  +6.5bps  tot=+847.46%  sh=  +394.6
+  ✅ TEST                                                     n=9299  wr= 86.9%  avg=  +8.9bps  tot=+831.05%  sh=  +518.5
+    ✅ train=+14.124%/d  test=+29.680%/d
+
+  --- VOL SPIKE ---
+
+  Vol spike >3x:
+  ✅ TRAIN                                                    n=3793  wr= 77.3%  avg=  +9.7bps  tot=+366.05%  sh=  +332.6
+  ✅ TEST                                                     n=1884  wr= 88.6%  avg= +14.7bps  tot=+276.51%  sh=  +503.8
+    ✅ train=+6.101%/d  test=+9.875%/d
+
+  Vol spike >5x:
+  ✅ TRAIN                                                    n=1453  wr= 80.5%  avg= +13.8bps  tot=+200.86%  sh=  +357.2
+  ✅ TEST                                                     n= 696  wr= 88.2%  avg= +17.8bps  tot=+124.06%  sh=  +488.4
+    ✅ train=+3.348%/d  test=+4.431%/d
+
+  Vol spike >10x:
+  ✅ TRAIN                                                    n= 370  wr= 81.9%  avg= +21.3bps  tot= +78.72%  sh=  +405.2
+  ✅ TEST                                                     n= 144  wr= 94.4%  avg= +25.8bps  tot= +37.13%  sh=  +525.4
+    ✅ train=+1.312%/d  test=+1.326%/d
+
+  --- COMBINED VWAP + VOL SPIKE ---
+
+  VWAP>20bps + Vol>3x:
+  ✅ TRAIN                                                    n=2886  wr= 83.0%  avg= +11.8bps  tot=+339.23%  sh=  +383.8
+  ✅ TEST                                                     n=1595  wr= 91.8%  avg= +16.0bps  tot=+254.88%  sh=  +538.8
+    ✅ train=+5.654%/d  test=+9.103%/d
+  Loading XRPUSDT bars+vol... [10/88 18s] [20/88 28s] [30/88 37s] [40/88 47s] [50/88 57s] [60/88 67s] [70/88 100s] [80/88 119s] [88/88 131s] 126,720 bars (131s) [RAM=0.6GB, avail=5.5GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- VWAP DEVIATION ---
+
+  VWAP dev >10bps:
+  ✅ TRAIN                                                    n=20434  wr= 55.1%  avg=  +2.1bps  tot=+429.70%  sh=  +152.0
+  ✅ TEST                                                     n=13837  wr= 73.1%  avg=  +5.5bps  tot=+765.07%  sh=  +326.8
+    ✅ train=+7.162%/d  test=+27.324%/d
+
+  VWAP dev >20bps:
+  ✅ TRAIN                                                    n=13476  wr= 61.3%  avg=  +3.2bps  tot=+430.47%  sh=  +228.5
+  ✅ TEST                                                     n=10792  wr= 76.1%  avg=  +6.3bps  tot=+678.18%  sh=  +367.8
+    ✅ train=+7.175%/d  test=+24.221%/d
+
+  VWAP dev >30bps:
+  ✅ TRAIN                                                    n=8232  wr= 68.0%  avg=  +4.4bps  tot=+365.13%  sh=  +298.6
+  ✅ TEST                                                     n=8191  wr= 79.1%  avg=  +7.2bps  tot=+585.88%  sh=  +397.1
+    ✅ train=+6.086%/d  test=+20.924%/d
+
+  --- VOL SPIKE ---
+
+  Vol spike >3x:
+  ✅ TRAIN                                                    n=2985  wr= 67.1%  avg=  +6.6bps  tot=+196.95%  sh=  +272.3
+  ✅ TEST                                                     n=1452  wr= 83.2%  avg= +12.2bps  tot=+176.63%  sh=  +415.8
+    ✅ train=+3.282%/d  test=+6.308%/d
+
+  Vol spike >5x:
+  ✅ TRAIN                                                    n=1085  wr= 73.0%  avg= +10.7bps  tot=+116.09%  sh=  +327.5
+  ✅ TEST                                                     n= 430  wr= 87.0%  avg= +16.0bps  tot= +68.79%  sh=  +457.6
+    ✅ train=+1.935%/d  test=+2.457%/d
+
+  Vol spike >10x:
+  ✅ TRAIN                                                    n= 207  wr= 72.9%  avg= +19.8bps  tot= +40.99%  sh=  +371.1
+  ✅ TEST                                                     n=  77  wr= 93.5%  avg= +22.1bps  tot= +17.02%  sh=  +510.2
+    ✅ train=+0.683%/d  test=+0.608%/d
+
+  --- COMBINED VWAP + VOL SPIKE ---
+
+  VWAP>20bps + Vol>3x:
+  ✅ TRAIN                                                    n=2069  wr= 78.2%  avg=  +9.1bps  tot=+187.43%  sh=  +354.2
+  ✅ TEST                                                     n=1237  wr= 86.4%  avg= +13.3bps  tot=+163.98%  sh=  +451.9
+    ✅ train=+3.124%/d  test=+5.856%/d
+
+################################################################################
+  SUMMARY: ALL 4 SYMBOLS
+################################################################################
+
+  Symbol      Signal            OOS n   OOS WR   OOS avg   OOS tot   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    VWAP>10bps        14490    82.4%     +7.5bp  +1087.8%     +449
+  ✅ DOGEUSDT    VWAP>20bps        11802    84.7%     +8.2bp   +965.4%     +482
+  ✅ DOGEUSDT    VWAP>30bps         9299    86.9%     +8.9bp   +831.1%     +518
+  ✅ DOGEUSDT    Vol>3x             1884    88.6%    +14.7bp   +276.5%     +504
+  ✅ DOGEUSDT    Vol>5x              696    88.2%    +17.8bp   +124.1%     +488
+  ✅ DOGEUSDT    Vol>10x             144    94.4%    +25.8bp    +37.1%     +525
+  ✅ DOGEUSDT    Combined           1595    91.8%    +16.0bp   +254.9%     +539
+  ✅ XRPUSDT     VWAP>10bps        13837    73.1%     +5.5bp   +765.1%     +327
+  ✅ XRPUSDT     VWAP>20bps        10792    76.1%     +6.3bp   +678.2%     +368
+  ✅ XRPUSDT     VWAP>30bps         8191    79.1%     +7.2bp   +585.9%     +397
+  ✅ XRPUSDT     Vol>3x             1452    83.2%    +12.2bp   +176.6%     +416
+  ✅ XRPUSDT     Vol>5x              430    87.0%    +16.0bp    +68.8%     +458
+  ✅ XRPUSDT     Vol>10x              77    93.5%    +22.1bp    +17.0%     +510
+  ✅ XRPUSDT     Combined           1237    86.4%    +13.3bp   +164.0%     +452
+
+################################################################################
+  COMPLETE — 358s (6.0min) [RAM=0.5GB, avail=6.0GB]
+################################################################################
