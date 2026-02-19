@@ -1,0 +1,369 @@
+====================================================================================================
+  TRAILING STOP RESEARCH — Liquidation Cascade Strategy
+  Baseline: off=0.15%, TP=0.12%, no SL, 60min timeout, disp≥10bps, min_ev=1
+====================================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+  Loading DOGEUSDT...
+────────────────────────────────────────────────────────────────────────────────
+  Loading 3018 liq files... 500 1000 1500 2000 2500 3000 done (93,913)
+  Loading ticker CSV (WS ~100ms re 1000 1500.. done (5,063,470)
+  Building bars... 89,174 bars
+  Signals: 1226
+
+────────────────────────────────────────────────────────────────────────────────
+  Loading SOLUSDT...
+────────────────────────────────────────────────────────────────────────────────
+  Loading 3107 liq files... 500 1000 1500 2000 2500 3000 done (189,603)
+  Loading ticker CSV (WS ~100ms resolution)... done (5,710,595)
+  Building bars... 89,177 bars
+  Signals: 1854
+
+────────────────────────────────────────────────────────────────────────────────
+  Loading ETHUSDT...
+────────────────────────────────────────────────────────────────────────────────
+  Loading 3089 liq files... 500 1000 1500 2000 2500 3000 done (328,388)
+  Loading ticker CSV (WS ~100ms resolution)... done (9,473,055)
+  Building bars... 89,177 bars
+  Signals: 2550
+
+────────────────────────────────────────────────────────────────────────────────
+  Loading XRPUSDT...
+────────────────────────────────────────────────────────────────────────────────
+  Loading 2962 liq files... 500 1000 1500 2000 2500 done (128,466)
+  Loading ticker CSV (WS ~100ms resolution)... done (5,184,610)
+  Building bars... 89,177 bars
+  Signals: 1447
+
+####################################################################################################
+  PART 1: TIMEOUT TRADE PATH ANALYSIS
+  Understanding what happens during timeout trades bar-by-bar
+####################################################################################################
+
+  ── DOGEUSDT ──
+    Total trades: 507
+    TP trades: 500
+    Timeout trades: 7
+    Timeout peak profit before reversal:
+      Mean:  +8.5 bps
+      P25:   +5.3 bps
+      P50:   +10.0 bps
+      P75:   +11.3 bps
+      P90:   +11.6 bps
+    Timeout trades that were profitable at some point:
+      7/7 (100%)
+      Trail  5 bps would catch   5/7 (est avg PnL: -0.0245%)
+      Trail  8 bps would catch   4/7 (est avg PnL: -0.0437%)
+      Trail 10 bps would catch   4/7 (est avg PnL: -0.0637%)
+
+  ── SOLUSDT ──
+    Total trades: 622
+    TP trades: 605
+    Timeout trades: 17
+    Timeout peak profit before reversal:
+      Mean:  +7.5 bps
+      P25:   +5.3 bps
+      P50:   +7.8 bps
+      P75:   +10.3 bps
+      P90:   +11.0 bps
+    Timeout trades that were profitable at some point:
+      17/17 (100%)
+      Trail  5 bps would catch  15/17 (est avg PnL: -0.0422%)
+      Trail  8 bps would catch   7/17 (est avg PnL: -0.0525%)
+      Trail 10 bps would catch   5/17 (est avg PnL: -0.0656%)
+
+  ── ETHUSDT ──
+    Total trades: 803
+    TP trades: 789
+    Timeout trades: 14
+    Timeout peak profit before reversal:
+      Mean:  +8.4 bps
+      P25:   +7.6 bps
+      P50:   +8.1 bps
+      P75:   +10.0 bps
+      P90:   +10.8 bps
+    Timeout trades that were profitable at some point:
+      14/14 (100%)
+      Trail  5 bps would catch  13/14 (est avg PnL: -0.0383%)
+      Trail  8 bps would catch   9/14 (est avg PnL: -0.0604%)
+      Trail 10 bps would catch   4/14 (est avg PnL: -0.0669%)
+
+  ── XRPUSDT ──
+    Total trades: 439
+    TP trades: 431
+    Timeout trades: 8
+    Timeout peak profit before reversal:
+      Mean:  +8.7 bps
+      P25:   +7.6 bps
+      P50:   +9.0 bps
+      P75:   +11.3 bps
+      P90:   +11.4 bps
+    Timeout trades that were profitable at some point:
+      8/8 (100%)
+      Trail  5 bps would catch   7/8 (est avg PnL: -0.0298%)
+      Trail  8 bps would catch   5/8 (est avg PnL: -0.0508%)
+      Trail 10 bps would catch   3/8 (est avg PnL: -0.0611%)
+
+  ── AGGREGATE (46 timeout trades) ──
+    Peak profit distribution (bps):
+      P10: +4.6 bps
+      P25: +6.3 bps
+      P50: +8.1 bps
+      P75: +10.4 bps
+      P90: +11.5 bps
+      P95: +11.7 bps
+      P99: +11.9 bps
+
+    Timeout trade categories:
+      Never profitable (peak ≤ 0 bps):  0 (0%)
+      Small peak (0-5 bps):              6 (13%)
+      Medium peak (5-12 bps):            40 (87%)
+      Large peak (>12 bps = above TP):   0 (0%)
+
+    Max adverse excursion (worst point during trade, bps):
+      P10: -174.1 bps
+      P25: -127.7 bps
+      P50: -81.6 bps
+      P75: -44.9 bps
+      P90: -21.8 bps
+      P95: -13.9 bps
+      P99: -5.5 bps
+
+####################################################################################################
+  PART 2: TRAILING STOP WIDTH SWEEP
+  Testing various trail widths with TP=0.12% and 60min timeout
+####################################################################################################
+
+  Config                                                       n      WR       avg     total   Sharpe      DD    TO    TS
+  ───────────────────────────────────────────────────────  ─────  ──────  ────────  ────────  ───────  ──────  ────  ────
+  BASELINE: TP=12bps, no trail, 60min TO                    2371   98.1%  +0.0674%  +159.72%   +28.2   1.62%    46     0
+
+  --- TP=12bps + Trailing Stop (active from entry) ---
+  TP=12bps + Trail=3bps (from entry)                        2371   91.6%  +0.0960%  +227.60%   +34.1   0.18%     0  2371
+  TP=12bps + Trail=5bps (from entry)                        2371   88.2%  +0.0760%  +180.19%   +27.0   0.23%     0  2371
+  TP=12bps + Trail=8bps (from entry)                        2371   69.5%  +0.0463%  +109.71%   +16.5   0.45%     0  2371
+  TP=12bps + Trail=10bps (from entry)                       2371   51.3%  +0.0271%   +64.18%    +9.7   1.32%     0  2367
+  TP=12bps + Trail=12bps (from entry)                       2371   39.1%  +0.0080%   +18.92%    +2.9   4.68%     1  2358
+  TP=12bps + Trail=15bps (from entry)                       2371   28.4%  -0.0181%   -43.00%    -6.5  45.72%     1  2318
+  TP=12bps + Trail=20bps (from entry)                       2371   31.6%  -0.0355%   -84.14%   -12.0  84.37%     2  1956
+  TP=12bps + Trail=25bps (from entry)                       2371   43.1%  -0.0354%   -84.00%   -10.9  84.33%     3  1539
+  TP=12bps + Trail=30bps (from entry)                       2371   55.5%  -0.0255%   -60.57%    -7.2  60.97%     7  1153
+  TP=12bps + Trail=40bps (from entry)                       2371   75.2%  +0.0003%    +0.60%    +0.1   9.09%     9   622
+  TP=12bps + Trail=50bps (from entry)                       2371   86.5%  +0.0263%   +62.35%    +7.0   3.73%    10   332
+
+  --- TP=12bps + Trailing Stop (active after 5 bps profit) ---
+  TP=12bps + Trail=3bps (after 5bps)                        2371   92.4%  +0.0958%  +227.14%   +32.7   1.12%     6  2365
+  TP=12bps + Trail=5bps (after 5bps)                        2371   88.7%  +0.0758%  +179.81%   +25.9   1.19%     6  2365
+  TP=12bps + Trail=8bps (after 5bps)                        2371   69.7%  +0.0461%  +109.26%   +15.8   1.44%     6  2365
+  TP=12bps + Trail=10bps (after 5bps)                       2371   51.5%  +0.0270%   +63.92%    +9.3   1.57%     6  2359
+  TP=12bps + Trail=12bps (after 5bps)                       2371   39.3%  +0.0079%   +18.74%    +2.7   4.89%     7  2350
+  TP=12bps + Trail=15bps (after 5bps)                       2371   28.6%  -0.0181%   -42.95%    -6.3  45.75%     7  2309
+  TP=12bps + Trail=20bps (after 5bps)                       2371   31.8%  -0.0352%   -83.44%   -11.6  83.66%     8  1945
+  TP=12bps + Trail=25bps (after 5bps)                       2371   43.3%  -0.0351%   -83.33%   -10.6  83.66%     9  1528
+  TP=12bps + Trail=30bps (after 5bps)                       2371   55.6%  -0.0254%   -60.17%    -7.1  60.57%    11  1145
+  TP=12bps + Trail=40bps (after 5bps)                       2371   75.4%  +0.0007%    +1.70%    +0.2   7.83%    14   613
+  TP=12bps + Trail=50bps (after 5bps)                       2371   86.6%  +0.0265%   +62.86%    +7.0   3.73%    14   326
+
+  --- TP=12bps + Trailing Stop (active after 8 bps profit) ---
+  TP=12bps + Trail=3bps (after 8bps)                        2371   94.3%  +0.0942%  +223.29%   +28.3   1.62%    21  2350
+  TP=12bps + Trail=5bps (after 8bps)                        2371   90.1%  +0.0743%  +176.26%   +22.5   1.62%    21  2350
+  TP=12bps + Trail=8bps (after 8bps)                        2371   70.5%  +0.0447%  +105.99%   +13.7   1.62%    21  2349
+  TP=12bps + Trail=10bps (after 8bps)                       2371   52.1%  +0.0256%   +60.64%    +7.9   2.06%    21  2340
+  TP=12bps + Trail=12bps (after 8bps)                       2371   39.9%  +0.0068%   +16.15%    +2.1   6.73%    22  2328
+  TP=12bps + Trail=15bps (after 8bps)                       2371   29.3%  -0.0190%   -45.05%    -5.9  47.89%    22  2284
+  TP=12bps + Trail=20bps (after 8bps)                       2371   32.4%  -0.0360%   -85.24%   -10.8  85.47%    23  1919
+  TP=12bps + Trail=25bps (after 8bps)                       2371   43.8%  -0.0358%   -84.85%   -10.0  85.18%    23  1504
+  TP=12bps + Trail=30bps (after 8bps)                       2371   56.1%  -0.0258%   -61.10%    -6.7  61.50%    25  1122
+  TP=12bps + Trail=40bps (after 8bps)                       2371   75.7%  +0.0006%    +1.49%    +0.2   8.49%    26   593
+  TP=12bps + Trail=50bps (after 8bps)                       2371   86.9%  +0.0265%   +62.94%    +6.7   3.73%    26   308
+
+  --- Trail ONLY (no fixed TP), 60min timeout ---
+  Trail=3bps ONLY (no TP)                                   2371   91.6%  +0.0960%  +227.60%   +34.1   0.18%     0  2371
+  Trail=5bps ONLY (no TP)                                   2371   88.2%  +0.0760%  +180.19%   +27.0   0.23%     0  2371
+  Trail=8bps ONLY (no TP)                                   2371   69.5%  +0.0463%  +109.71%   +16.5   0.45%     0  2371
+  Trail=10bps ONLY (no TP)                                  2371   51.3%  +0.0270%   +64.12%    +9.6   1.32%     1  2370
+  Trail=12bps ONLY (no TP)                                  2371   38.9%  +0.0077%   +18.31%    +2.8   4.83%     2  2369
+  Trail=15bps ONLY (no TP)                                  2371   27.3%  -0.0196%   -46.36%    -7.0  48.82%     2  2369
+  Trail=20bps ONLY (no TP)                                  2371   22.2%  -0.0471%  -111.68%   -15.0  111.91%     9  2362
+  Trail=25bps ONLY (no TP)                                  2371   22.1%  -0.0615%  -145.75%   -16.1  145.67%    21  2350
+  Trail=30bps ONLY (no TP)                                  2371   22.6%  -0.0680%  -161.17%   -14.4  161.01%    39  2332
+  Trail=40bps ONLY (no TP)                                  2371   28.6%  -0.0637%  -150.96%    -9.1  150.69%    97  2274
+  Trail=50bps ONLY (no TP)                                  2371   32.6%  -0.0475%  -112.61%    -5.0  114.11%   216  2155
+
+  --- Fixed SL + TP=12bps, 60min timeout (comparison) ---
+  TP=12bps + SL=0.10%                                       2371   55.4%  -0.0336%   -79.66%   -11.9  79.97%     2  1055
+  TP=12bps + SL=0.15%                                       2371   69.0%  -0.0142%   -33.71%    -4.5  34.33%     3   731
+  TP=12bps + SL=0.20%                                       2371   77.1%  -0.0009%    -2.23%    -0.3   9.60%     4   539
+  TP=12bps + SL=0.30%                                       2371   87.6%  +0.0243%   +57.66%    +7.4   3.76%     9   286
+  TP=12bps + SL=0.50%                                       2371   94.5%  +0.0464%  +109.91%   +14.6   2.17%    14   117
+  TP=12bps + SL=0.75%                                       2371   96.8%  +0.0557%  +132.00%   +17.6   1.49%    21    56
+  TP=12bps + SL=1.00%                                       2371   97.6%  +0.0599%  +141.97%   +19.0   1.75%    27    32
+
+  --- Best trail configs + shorter timeouts ---
+  TP=12 + Trail=8bps(5act) + TO=15min                       2212   71.4%  +0.0492%  +108.90%   +17.1   1.09%     7  2205
+  TP=12 + Trail=10bps(5act) + TO=15min                      2212   52.4%  +0.0299%   +66.04%   +10.4   1.49%     7  2201
+  TP=12 + Trail=12bps(5act) + TO=15min                      2212   40.0%  +0.0106%   +23.45%    +3.7   3.13%     9  2192
+  TP=12 + Trail=15bps(5act) + TO=15min                      2212   28.2%  -0.0167%   -36.92%    -5.8  39.02%    11  2166
+  TP=12 + Trail=20bps(5act) + TO=15min                      2212   30.5%  -0.0353%   -78.11%   -11.8  78.34%    17  1837
+  TP=12 + Trail=8bps(5act) + TO=30min                       2302   70.6%  +0.0479%  +110.25%   +16.2   1.68%     5  2297
+  TP=12 + Trail=10bps(5act) + TO=30min                      2302   52.0%  +0.0286%   +65.74%    +9.7   2.24%     5  2292
+  TP=12 + Trail=12bps(5act) + TO=30min                      2302   39.8%  +0.0093%   +21.43%    +3.2   5.00%     7  2283
+  TP=12 + Trail=15bps(5act) + TO=30min                      2302   28.8%  -0.0172%   -39.71%    -5.9  42.22%     8  2248
+  TP=12 + Trail=20bps(5act) + TO=30min                      2302   31.4%  -0.0351%   -80.77%   -11.4  81.00%    11  1901
+  TP=12 + Trail=8bps(5act) + TO=45min                       2339   70.0%  +0.0463%  +108.32%   +15.4   1.69%     4  2335
+  TP=12 + Trail=10bps(5act) + TO=45min                      2339   51.6%  +0.0271%   +63.28%    +9.0   1.90%     4  2330
+  TP=12 + Trail=12bps(5act) + TO=45min                      2339   39.4%  +0.0079%   +18.47%    +2.6   5.77%     4  2323
+  TP=12 + Trail=15bps(5act) + TO=45min                      2339   28.7%  -0.0182%   -42.58%    -6.1  45.10%     5  2282
+  TP=12 + Trail=20bps(5act) + TO=45min                      2339   31.6%  -0.0357%   -83.44%   -11.4  83.66%     7  1926
+  TP=12 + Trail=8bps(5act) + TO=60min                       2371   69.7%  +0.0461%  +109.26%   +15.8   1.44%     6  2365
+  TP=12 + Trail=10bps(5act) + TO=60min                      2371   51.5%  +0.0270%   +63.92%    +9.3   1.57%     6  2359
+  TP=12 + Trail=12bps(5act) + TO=60min                      2371   39.3%  +0.0079%   +18.74%    +2.7   4.89%     7  2350
+  TP=12 + Trail=15bps(5act) + TO=60min                      2371   28.6%  -0.0181%   -42.95%    -6.3  45.75%     7  2309
+  TP=12 + Trail=20bps(5act) + TO=60min                      2371   31.8%  -0.0352%   -83.44%   -11.6  83.66%     8  1945
+
+####################################################################################################
+  PART 3: BEST CONFIGS — PER-SYMBOL BREAKDOWN
+####################################################################################################
+
+  ── BASELINE: TP=12bps, no trail, 60min ──
+    DOGEUSDT      n=  507  WR= 98.8%  tot= +35.23%  sh= +28.8  dd= 1.62%  TP= 500  TS=   0  TO=   7  SL=   0
+               Timeout PnL: avg=-0.6813%  worst=-1.6182%  best=+0.0215%
+    SOLUSDT       n=  622  WR= 97.3%  tot= +40.80%  sh= +26.8  dd= 1.49%  TP= 605  TS=   0  TO=  17  SL=   0
+               Timeout PnL: avg=-0.4473%  worst=-1.4925%  best=-0.0354%
+    ETHUSDT       n=  803  WR= 98.3%  tot= +53.05%  sh= +25.6  dd= 1.36%  TP= 789  TS=   0  TO=  14  SL=   0
+               Timeout PnL: avg=-0.7192%  worst=-1.3205%  best=-0.0571%
+    XRPUSDT       n=  439  WR= 98.2%  tot= +30.64%  sh= +37.7  dd= 0.93%  TP= 431  TS=   0  TO=   8  SL=   0
+               Timeout PnL: avg=-0.4803%  worst=-0.8553%  best=-0.0218%
+    COMBINED      n= 2371  WR= 98.1%  tot=+159.72%  sh= +28.2  dd= 1.62%  TP=2325  TS=   0  TO=  46
+
+  ── TP=12 + Trail=10bps(from entry) ──
+    DOGEUSDT      n=  507  WR= 59.4%  tot= +22.95%  sh= +17.6  dd= 0.33%  TP=   0  TS= 507  TO=   0  SL=   0
+               Trail  PnL: avg=+0.0453%  worst=-0.1425%  best=+1.2539%
+    SOLUSDT       n=  622  WR= 47.9%  tot=  +9.83%  sh=  +8.6  dd= 1.01%  TP=   2  TS= 620  TO=   0  SL=   0
+               Trail  PnL: avg=+0.0156%  worst=-0.1678%  best=+0.6745%
+    ETHUSDT       n=  803  WR= 49.6%  tot= +22.44%  sh=  +7.6  dd= 0.75%  TP=   1  TS= 802  TO=   0  SL=   0
+               Trail  PnL: avg=+0.0279%  worst=-0.1402%  best=+3.8920%
+    XRPUSDT       n=  439  WR= 50.1%  tot=  +8.96%  sh=  +9.2  dd= 1.32%  TP=   1  TS= 438  TO=   0  SL=   0
+               Trail  PnL: avg=+0.0203%  worst=-0.1481%  best=+0.7702%
+    COMBINED      n= 2371  WR= 51.3%  tot= +64.18%  sh=  +9.7  dd= 1.32%  TP=   4  TS=2367  TO=   0
+
+  ── TP=12 + Trail=15bps(from entry) ──
+    DOGEUSDT      n=  507  WR= 35.3%  tot=  -0.50%  sh=  -0.4  dd= 3.32%  TP=   8  TS= 499  TO=   0  SL=   0
+               Trail  PnL: avg=-0.0023%  worst=-0.1897%  best=+1.2032%
+    SOLUSDT       n=  622  WR= 24.1%  tot= -18.31%  sh= -16.1  dd=18.73%  TP=  12  TS= 609  TO=   1  SL=   0
+               Timeout PnL: avg=-0.0666%  worst=-0.0666%  best=-0.0666%
+               Trail  PnL: avg=-0.0315%  worst=-0.2178%  best=+0.6241%
+    ETHUSDT       n=  803  WR= 28.0%  tot= -14.04%  sh=  -4.8  dd=15.28%  TP=  18  TS= 785  TO=   0  SL=   0
+               Trail  PnL: avg=-0.0197%  worst=-0.1902%  best=+3.8399%
+    XRPUSDT       n=  439  WR= 27.1%  tot= -10.15%  sh= -10.4  dd=11.49%  TP=  14  TS= 425  TO=   0  SL=   0
+               Trail  PnL: avg=-0.0265%  worst=-0.1981%  best=+0.7197%
+    COMBINED      n= 2371  WR= 28.4%  tot= -43.00%  sh=  -6.5  dd=45.72%  TP=  52  TS=2318  TO=   1
+
+  ── TP=12 + Trail=10bps(after 5bps) ──
+    DOGEUSDT      n=  507  WR= 59.4%  tot= +23.06%  sh= +17.7  dd= 0.36%  TP=   0  TS= 505  TO=   2  SL=   0
+               Timeout PnL: avg=-0.2393%  worst=-0.2862%  best=-0.1925%
+               Trail  PnL: avg=+0.0466%  worst=-0.1232%  best=+1.2539%
+    SOLUSDT       n=  622  WR= 48.2%  tot=  +9.93%  sh=  +7.7  dd= 1.36%  TP=   3  TS= 617  TO=   2  SL=   0
+               Timeout PnL: avg=-0.6613%  worst=-1.1242%  best=-0.1984%
+               Trail  PnL: avg=+0.0178%  worst=-0.1237%  best=+0.6745%
+    ETHUSDT       n=  803  WR= 49.8%  tot= +22.11%  sh=  +7.3  dd= 1.57%  TP=   2  TS= 800  TO=   1  SL=   0
+               Timeout PnL: avg=-1.1230%  worst=-1.1230%  best=-1.1230%
+               Trail  PnL: avg=+0.0288%  worst=-0.1246%  best=+3.8920%
+    XRPUSDT       n=  439  WR= 50.1%  tot=  +8.81%  sh=  +8.6  dd= 1.45%  TP=   1  TS= 437  TO=   1  SL=   0
+               Timeout PnL: avg=-0.7128%  worst=-0.7128%  best=-0.7128%
+               Trail  PnL: avg=+0.0216%  worst=-0.1203%  best=+0.7702%
+    COMBINED      n= 2371  WR= 51.5%  tot= +63.92%  sh=  +9.3  dd= 1.57%  TP=   6  TS=2359  TO=   6
+
+  ── TP=12 + Trail=15bps(after 5bps) ──
+    DOGEUSDT      n=  507  WR= 35.5%  tot=  -0.17%  sh=  -0.1  dd= 3.33%  TP=   9  TS= 496  TO=   2  SL=   0
+               Timeout PnL: avg=-0.2393%  worst=-0.2862%  best=-0.1925%
+               Trail  PnL: avg=-0.0008%  worst=-0.1732%  best=+1.2032%
+    SOLUSDT       n=  622  WR= 24.6%  tot= -18.03%  sh= -14.2  dd=18.45%  TP=  14  TS= 605  TO=   3  SL=   0
+               Timeout PnL: avg=-0.4630%  worst=-1.1242%  best=-0.0666%
+               Trail  PnL: avg=-0.0294%  worst=-0.1737%  best=+0.6241%
+    ETHUSDT       n=  803  WR= 28.1%  tot= -14.60%  sh=  -4.8  dd=15.84%  TP=  18  TS= 784  TO=   1  SL=   0
+               Timeout PnL: avg=-1.1230%  worst=-1.1230%  best=-1.1230%
+               Trail  PnL: avg=-0.0190%  worst=-0.1746%  best=+3.8399%
+    XRPUSDT       n=  439  WR= 27.3%  tot= -10.15%  sh= -10.0  dd=11.49%  TP=  14  TS= 424  TO=   1  SL=   0
+               Timeout PnL: avg=-0.7128%  worst=-0.7128%  best=-0.7128%
+               Trail  PnL: avg=-0.0249%  worst=-0.1704%  best=+0.7197%
+    COMBINED      n= 2371  WR= 28.6%  tot= -42.95%  sh=  -6.3  dd=45.75%  TP=  55  TS=2309  TO=   7
+
+  ── TP=12 + Trail=12bps(after 8bps) ──
+    DOGEUSDT      n=  507  WR= 48.9%  tot= +12.69%  sh=  +8.3  dd= 1.62%  TP=   3  TS= 501  TO=   3  SL=   0
+               Timeout PnL: avg=-0.6990%  worst=-1.6182%  best=-0.1925%
+               Trail  PnL: avg=+0.0290%  worst=-0.1039%  best=+1.2336%
+    SOLUSDT       n=  622  WR= 35.4%  tot=  -4.16%  sh=  -2.5  dd= 5.45%  TP=   6  TS= 605  TO=  11  SL=   0
+               Timeout PnL: avg=-0.5058%  worst=-1.4925%  best=-0.0354%
+               Trail  PnL: avg=+0.0015%  worst=-0.1128%  best=+0.6543%
+    ETHUSDT       n=  803  WR= 39.4%  tot=  +5.93%  sh=  +1.8  dd= 3.73%  TP=   8  TS= 790  TO=   5  SL=   0
+               Timeout PnL: avg=-0.9104%  worst=-1.3205%  best=-0.2503%
+               Trail  PnL: avg=+0.0125%  worst=-0.1148%  best=+3.8711%
+    XRPUSDT       n=  439  WR= 36.9%  tot=  +1.68%  sh=  +1.6  dd= 3.13%  TP=   4  TS= 432  TO=   3  SL=   0
+               Timeout PnL: avg=-0.4331%  worst=-0.7128%  best=-0.0218%
+               Trail  PnL: avg=+0.0062%  worst=-0.1146%  best=+0.7500%
+    COMBINED      n= 2371  WR= 39.9%  tot= +16.15%  sh=  +2.1  dd= 6.73%  TP=  21  TS=2328  TO=  22
+
+  ── Trail=12bps ONLY (no TP) ──
+    DOGEUSDT      n=  507  WR= 48.5%  tot= +13.50%  sh= +10.4  dd= 0.72%  TP=   0  TS= 507  TO=   0  SL=   0
+               Trail  PnL: avg=+0.0266%  worst=-0.1625%  best=+1.2336%
+    SOLUSDT       n=  622  WR= 34.6%  tot=  -2.34%  sh=  -2.1  dd= 4.83%  TP=   0  TS= 620  TO=   2  SL=   0
+               Timeout PnL: avg=-0.0100%  worst=-0.0666%  best=+0.0466%
+               Trail  PnL: avg=-0.0037%  worst=-0.1878%  best=+0.6543%
+    ETHUSDT       n=  803  WR= 38.1%  tot=  +6.81%  sh=  +2.3  dd= 3.15%  TP=   0  TS= 803  TO=   0  SL=   0
+               Trail  PnL: avg=+0.0085%  worst=-0.1602%  best=+3.8711%
+    XRPUSDT       n=  439  WR= 35.3%  tot=  +0.35%  sh=  +0.4  dd= 3.39%  TP=   0  TS= 439  TO=   0  SL=   0
+               Trail  PnL: avg=+0.0008%  worst=-0.1681%  best=+0.7500%
+    COMBINED      n= 2371  WR= 38.9%  tot= +18.31%  sh=  +2.8  dd= 4.83%  TP=   0  TS=2369  TO=   2
+
+  ── Trail=15bps ONLY (no TP) ──
+    DOGEUSDT      n=  507  WR= 34.9%  tot=  -0.13%  sh=  -0.1  dd= 2.68%  TP=   0  TS= 507  TO=   0  SL=   0
+               Trail  PnL: avg=-0.0002%  worst=-0.1897%  best=+1.2032%
+    SOLUSDT       n=  622  WR= 23.2%  tot= -19.33%  sh= -17.1  dd=19.65%  TP=   0  TS= 620  TO=   2  SL=   0
+               Timeout PnL: avg=-0.0100%  worst=-0.0666%  best=+0.0466%
+               Trail  PnL: avg=-0.0311%  worst=-0.2178%  best=+0.6241%
+    ETHUSDT       n=  803  WR= 26.8%  tot= -15.83%  sh=  -5.4  dd=17.07%  TP=   0  TS= 803  TO=   0  SL=   0
+               Trail  PnL: avg=-0.0197%  worst=-0.1902%  best=+3.8399%
+    XRPUSDT       n=  439  WR= 25.5%  tot= -11.07%  sh= -11.3  dd=12.41%  TP=   0  TS= 439  TO=   0  SL=   0
+               Trail  PnL: avg=-0.0252%  worst=-0.1981%  best=+0.7197%
+    COMBINED      n= 2371  WR= 27.3%  tot= -46.36%  sh=  -7.0  dd=48.82%  TP=   0  TS=2369  TO=   2
+
+####################################################################################################
+  PART 4: WORST-CASE COMPARISON — Does trailing stop reduce tail risk?
+####################################################################################################
+
+  ── BASELINE: TP=12bps, no trail, 60min ──
+    Worst single trade:     -1.6182%
+    Worst 5 trades avg:     -1.3781%
+    Worst 10 trades avg:    -1.2044%
+    P1 PnL:                 -0.4841%
+    P5 PnL:                 +0.0800%
+    Max consecutive losses: 1
+
+  ── TP=12 + Trail=10bps(from entry) ──
+    Worst single trade:     -0.1678%
+    Worst 5 trades avg:     -0.1549%
+    Worst 10 trades avg:    -0.1483%
+    P1 PnL:                 -0.1316%
+    P5 PnL:                 -0.0884%
+    Max consecutive losses: 15
+
+  ── TP=12 + Trail=15bps(from entry) ──
+    Worst single trade:     -0.2178%
+    Worst 5 trades avg:     -0.2049%
+    Worst 10 trades avg:    -0.1979%
+    P1 PnL:                 -0.1812%
+    P5 PnL:                 -0.1306%
+    Max consecutive losses: 27
+
+  ── TP=12 + Trail=10bps(after 5bps) ──
+    Worst single trade:     -1.1242%
+    Worst 5 trades avg:     -0.6889%
+    Worst 10 trades avg:    -0.4132%
+    P1 PnL:                 -0.1155%
+    P5 PnL:                 -0.0825%
+    Max consecutive losses: 15
+
+====================================================================================================
+  TRAILING STOP RESEARCH COMPLETE — 110s
+====================================================================================================

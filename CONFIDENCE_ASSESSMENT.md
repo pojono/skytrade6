@@ -219,6 +219,38 @@ T=0:     P95 liquidation event occurs
 
 ---
 
+## UPDATE: Trailing Stop Research
+
+**Using WS ticker data (~100ms resolution) instead of REST (~5s), the baseline improved significantly** — +159.72% total return, 98.1% WR, Sharpe +28.2. The REST-based stress test was conservative.
+
+### Key Discovery: All Timeout Trades Were Profitable At Some Point
+
+All 46 timeout trades (100%) reached positive territory (median peak +8.1 bps) before reversing into losses. This makes trailing stops the ideal solution.
+
+### Trailing Stop Results
+
+| Config | Total Return | Sharpe | Max DD | WR | Timeouts |
+|--------|-------------|--------|--------|-----|----------|
+| **Baseline (TP=12bps, no trail)** | **+159.72%** | **+28.2** | **1.62%** | **98.1%** | **46** |
+| **Trail=3bps (from entry)** | **+227.60%** | **+34.1** | **0.18%** | **91.6%** | **0** |
+| Trail=5bps (from entry) | +180.19% | +27.0 | 0.23% | 88.2% | 0 |
+| Trail=8bps (from entry) | +109.71% | +16.5 | 0.45% | 69.5% | 0 |
+| Fixed SL=0.50% | +109.91% | +14.6 | 2.17% | 94.5% | 14 |
+| Fixed SL=1.00% | +141.97% | +19.0 | 1.75% | 97.6% | 27 |
+
+- **3 bps trail: +42% more return, 9x less drawdown** than baseline
+- Eliminates ALL timeout losses
+- Fixed stop-losses hurt performance — don't use them
+- **5-8 bps trail recommended for live** (room for spread/slippage)
+
+### Caveat
+
+3 bps trail is extremely tight (~equal to bid-ask spread). Live slippage and spread may require 5-8 bps. Even so, this is a major improvement over the current exit logic.
+
+*Full details: `FINDINGS_trailing_stop.md`*
+
+---
+
 ## Recommended Path Forward
 
 ### Phase 1: Paper Trading (2-4 weeks)
@@ -254,6 +286,6 @@ T=0:     P95 liquidation event occurs
 
 ---
 
-*Sources: `liq_stress_test.py`, `liq_cross_symbol_validation.py`, `liq_latency_analysis.py`*  
-*Results: `results/liq_stress_test.txt`, `results/liq_cross_symbol_validation.txt`, `results/liq_latency_analysis.txt`*  
-*Latency findings: `FINDINGS_latency_analysis.md`*
+*Sources: `liq_stress_test.py`, `liq_cross_symbol_validation.py`, `liq_latency_analysis.py`, `liq_trailing_stop_research.py`*  
+*Results: `results/liq_stress_test.txt`, `results/liq_cross_symbol_validation.txt`, `results/liq_latency_analysis.txt`, `results/liq_trailing_stop_research.txt`*  
+*Findings: `FINDINGS_latency_analysis.md`, `FINDINGS_trailing_stop.md`*
