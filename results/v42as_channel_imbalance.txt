@@ -1,0 +1,307 @@
+================================================================================
+  v42as: PRICE CHANNEL + VOL-ADJ MOMENTUM + BODY RATIO
+  2026-02-19 12:14:21  [RAM=0.1GB, avail=8.1GB]
+================================================================================
+  Loading ETHUSDT... [10/88 31s] [20/88 53s] [30/88 73s] [40/88 96s] [50/88 115s] [60/88 131s] [70/88 159s] [80/88 184s] [88/88 204s] 126,720 bars (204s) [RAM=0.5GB, avail=8.1GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP DDDD4: DONCHIAN CHANNEL FADE ---
+
+  Donchian(20) touch (fade):
+  ✅ TRAIN                                                    n=6595  wr= 65.7%  avg=  +4.5bps  tot=+295.07%  sh=  +263.4
+  ✅ TEST                                                     n=3375  wr= 67.8%  avg=  +4.3bps  tot=+144.85%  sh=  +281.8
+    ✅ test=+5.173%/d
+
+  Donchian(40) touch (fade):
+  ✅ TRAIN                                                    n=4114  wr= 71.9%  avg=  +5.9bps  tot=+240.91%  sh=  +320.9
+  ✅ TEST                                                     n=2211  wr= 71.5%  avg=  +5.2bps  tot=+114.55%  sh=  +327.8
+    ✅ test=+4.091%/d
+
+  --- EXP EEEE4: KELTNER CHANNEL ---
+
+  Keltner(2x ATR) (fade):
+  ✅ TRAIN                                                    n=4541  wr= 72.3%  avg=  +6.0bps  tot=+270.66%  sh=  +328.4
+  ✅ TEST                                                     n=2144  wr= 72.8%  avg=  +5.6bps  tot=+120.36%  sh=  +339.2
+    ✅ test=+4.299%/d
+
+  Keltner(3x ATR) (fade):
+  ✅ TRAIN                                                    n=1300  wr= 80.8%  avg=  +9.5bps  tot=+124.11%  sh=  +420.1
+  ✅ TEST                                                     n= 551  wr= 83.5%  avg=  +8.0bps  tot= +44.02%  sh=  +411.8
+    ✅ test=+1.572%/d
+
+  --- EXP FFFF4: VOL-ADJUSTED MOMENTUM ---
+
+  Vol-adj mom(15) z>2 (fade):
+  ✅ TRAIN                                                    n=2165  wr= 64.2%  avg=  +4.3bps  tot= +93.47%  sh=  +270.5
+  ✅ TEST                                                     n=1007  wr= 61.5%  avg=  +3.0bps  tot= +30.71%  sh=  +197.7
+    ✅ test=+1.097%/d
+
+  Vol-adj mom(15) z>3 (fade):
+  ✅ TRAIN                                                    n= 181  wr= 59.7%  avg=  +4.2bps  tot=  +7.53%  sh=  +220.7
+  ✅ TEST                                                     n=  72  wr= 62.5%  avg=  +1.6bps  tot=  +1.13%  sh=  +104.3
+    ✅ test=+0.040%/d
+
+  Vol-adj mom(30) z>2 (fade):
+  ✅ TRAIN                                                    n=3055  wr= 63.3%  avg=  +4.1bps  tot=+125.62%  sh=  +247.4
+  ✅ TEST                                                     n=1351  wr= 66.5%  avg=  +3.8bps  tot= +50.96%  sh=  +280.8
+    ✅ test=+1.820%/d
+
+  Vol-adj mom(30) z>3 (fade):
+  ✅ TRAIN                                                    n= 304  wr= 66.4%  avg=  +5.1bps  tot= +15.45%  sh=  +290.7
+  ✅ TEST                                                     n= 100  wr= 72.0%  avg=  +4.3bps  tot=  +4.28%  sh=  +255.5
+    ✅ test=+0.153%/d
+
+  --- EXP GGGG4: BAR BODY RATIO ---
+
+  Body ratio(5) >0.8 (fade conviction):
+     TRAIN                                                    n= 445  wr= 35.3%  avg=  -1.1bps  tot=  -4.72%  sh=   -79.5
+  ✅ TEST                                                     n= 226  wr= 50.4%  avg=  +0.8bps  tot=  +1.70%  sh=   +62.1
+    ✅ test=+0.061%/d
+
+  Body ratio(5) >0.9 (fade conviction):
+     TRAIN                                                    n=  43  wr= 27.9%  avg=  -2.5bps  tot=  -1.09%  sh=  -159.6
+     TEST                                                     n=  17  wr= 41.2%  avg=  -0.1bps  tot=  -0.01%  sh=    -9.3
+    ❌ test=-0.000%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 36s] [40/88 48s] [50/88 59s] [60/88 67s] [70/88 80s] [80/88 96s] [88/88 104s] 126,720 bars (104s) [RAM=0.5GB, avail=7.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP DDDD4: DONCHIAN CHANNEL FADE ---
+
+  Donchian(20) touch (fade):
+  ✅ TRAIN                                                    n=7994  wr= 65.3%  avg=  +3.9bps  tot=+310.25%  sh=  +254.9
+  ✅ TEST                                                     n=4277  wr= 60.6%  avg=  +3.1bps  tot=+130.67%  sh=  +198.1
+    ✅ test=+4.667%/d
+
+  Donchian(40) touch (fade):
+  ✅ TRAIN                                                    n=5313  wr= 68.4%  avg=  +4.5bps  tot=+237.05%  sh=  +284.6
+  ✅ TEST                                                     n=2974  wr= 63.3%  avg=  +3.5bps  tot=+103.68%  sh=  +212.5
+    ✅ test=+3.703%/d
+
+  --- EXP EEEE4: KELTNER CHANNEL ---
+
+  Keltner(2x ATR) (fade):
+  ✅ TRAIN                                                    n=5042  wr= 69.5%  avg=  +4.7bps  tot=+238.78%  sh=  +286.3
+  ✅ TEST                                                     n=2509  wr= 65.0%  avg=  +3.9bps  tot= +97.84%  sh=  +233.3
+    ✅ test=+3.494%/d
+
+  Keltner(3x ATR) (fade):
+  ✅ TRAIN                                                    n=1225  wr= 77.9%  avg=  +7.4bps  tot= +90.85%  sh=  +359.8
+  ✅ TEST                                                     n= 596  wr= 72.5%  avg=  +5.6bps  tot= +33.56%  sh=  +317.1
+    ✅ test=+1.199%/d
+
+  --- EXP FFFF4: VOL-ADJUSTED MOMENTUM ---
+
+  Vol-adj mom(15) z>2 (fade):
+  ✅ TRAIN                                                    n=2321  wr= 65.9%  avg=  +3.7bps  tot= +86.63%  sh=  +265.6
+  ✅ TEST                                                     n=1105  wr= 61.0%  avg=  +3.2bps  tot= +35.28%  sh=  +238.2
+    ✅ test=+1.260%/d
+
+  Vol-adj mom(15) z>3 (fade):
+  ✅ TRAIN                                                    n= 180  wr= 66.7%  avg=  +4.0bps  tot=  +7.18%  sh=  +255.9
+  ✅ TEST                                                     n= 101  wr= 62.4%  avg=  +2.4bps  tot=  +2.46%  sh=  +241.8
+    ✅ test=+0.088%/d
+
+  Vol-adj mom(30) z>2 (fade):
+  ✅ TRAIN                                                    n=3232  wr= 64.4%  avg=  +3.7bps  tot=+118.65%  sh=  +238.4
+  ✅ TEST                                                     n=1423  wr= 61.0%  avg=  +2.8bps  tot= +40.49%  sh=  +193.1
+    ✅ test=+1.446%/d
+
+  Vol-adj mom(30) z>3 (fade):
+  ✅ TRAIN                                                    n= 260  wr= 70.8%  avg=  +4.7bps  tot= +12.15%  sh=  +326.3
+  ✅ TEST                                                     n= 111  wr= 66.7%  avg=  +3.7bps  tot=  +4.09%  sh=  +226.8
+    ✅ test=+0.146%/d
+
+  --- EXP GGGG4: BAR BODY RATIO ---
+
+  Body ratio(5) >0.8 (fade conviction):
+  ✅ TRAIN                                                    n= 346  wr= 53.5%  avg=  +1.9bps  tot=  +6.68%  sh=  +154.3
+  ✅ TEST                                                     n= 180  wr= 59.4%  avg=  +2.6bps  tot=  +4.62%  sh=  +262.2
+    ✅ test=+0.165%/d
+
+  Body ratio(5) >0.9 (fade conviction):
+  ✅ TRAIN                                                    n=  16  wr= 62.5%  avg=  +1.4bps  tot=  +0.22%  sh=  +172.7
+     TEST                                                     n=   5  wr= 20.0%  avg=  -0.2bps  tot=  -0.01%  sh=   -36.8
+    ❌ test=-0.000%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 34s] [30/88 43s] [40/88 53s] [50/88 60s] [60/88 69s] [70/88 95s] [80/88 116s] [88/88 125s] 126,720 bars (125s) [RAM=0.4GB, avail=7.9GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP DDDD4: DONCHIAN CHANNEL FADE ---
+
+  Donchian(20) touch (fade):
+  ✅ TRAIN                                                    n=8011  wr= 67.8%  avg=  +4.8bps  tot=+385.83%  sh=  +258.3
+  ✅ TEST                                                     n=4491  wr= 82.4%  avg=  +8.1bps  tot=+363.00%  sh=  +431.8
+    ✅ test=+12.964%/d
+
+  Donchian(40) touch (fade):
+  ✅ TRAIN                                                    n=5177  wr= 71.2%  avg=  +5.7bps  tot=+297.12%  sh=  +294.1
+  ✅ TEST                                                     n=3027  wr= 84.1%  avg=  +8.6bps  tot=+260.75%  sh=  +434.1
+    ✅ test=+9.312%/d
+
+  --- EXP EEEE4: KELTNER CHANNEL ---
+
+  Keltner(2x ATR) (fade):
+  ✅ TRAIN                                                    n=5419  wr= 70.7%  avg=  +5.6bps  tot=+302.50%  sh=  +275.8
+  ✅ TEST                                                     n=2486  wr= 83.9%  avg=  +9.6bps  tot=+237.44%  sh=  +437.7
+    ✅ test=+8.480%/d
+
+  Keltner(3x ATR) (fade):
+  ✅ TRAIN                                                    n=1533  wr= 77.1%  avg=  +8.0bps  tot=+123.17%  sh=  +303.3
+  ✅ TEST                                                     n= 630  wr= 86.0%  avg= +12.3bps  tot= +77.75%  sh=  +435.9
+    ✅ test=+2.777%/d
+
+  --- EXP FFFF4: VOL-ADJUSTED MOMENTUM ---
+
+  Vol-adj mom(15) z>2 (fade):
+  ✅ TRAIN                                                    n=2488  wr= 65.2%  avg=  +4.0bps  tot=+100.74%  sh=  +229.9
+  ✅ TEST                                                     n=1240  wr= 78.9%  avg=  +7.2bps  tot= +88.71%  sh=  +387.8
+    ✅ test=+3.168%/d
+
+  Vol-adj mom(15) z>3 (fade):
+  ✅ TRAIN                                                    n= 196  wr= 63.3%  avg=  +3.9bps  tot=  +7.69%  sh=  +234.8
+  ✅ TEST                                                     n= 108  wr= 77.8%  avg=  +7.1bps  tot=  +7.70%  sh=  +318.1
+    ✅ test=+0.275%/d
+
+  Vol-adj mom(30) z>2 (fade):
+  ✅ TRAIN                                                    n=3415  wr= 66.3%  avg=  +4.3bps  tot=+147.22%  sh=  +254.6
+  ✅ TEST                                                     n=1765  wr= 81.7%  avg=  +7.5bps  tot=+132.01%  sh=  +458.3
+    ✅ test=+4.715%/d
+
+  Vol-adj mom(30) z>3 (fade):
+  ✅ TRAIN                                                    n= 241  wr= 72.6%  avg=  +5.2bps  tot= +12.51%  sh=  +302.6
+  ✅ TEST                                                     n= 105  wr= 87.6%  avg= +10.0bps  tot= +10.50%  sh=  +620.8
+    ✅ test=+0.375%/d
+
+  --- EXP GGGG4: BAR BODY RATIO ---
+
+  Body ratio(5) >0.8 (fade conviction):
+  ✅ TRAIN                                                    n= 490  wr= 49.4%  avg=  +1.7bps  tot=  +8.18%  sh=   +61.7
+  ✅ TEST                                                     n= 146  wr= 70.5%  avg=  +4.9bps  tot=  +7.09%  sh=  +252.7
+    ✅ test=+0.253%/d
+
+  Body ratio(5) >0.9 (fade conviction):
+     TRAIN                                                    n=  41  wr= 41.5%  avg=  -2.4bps  tot=  -0.99%  sh=  -150.3
+     TEST                                                     n=   2  wr=  0.0%  avg=  -3.2bps  tot=  -0.06%  sh= -3413.6
+    ❌ test=-0.002%/d
+  Loading XRPUSDT... [10/88 15s] [20/88 24s] [30/88 32s] [40/88 40s] [50/88 50s] [60/88 58s] [70/88 86s] [80/88 103s] [88/88 114s] 126,720 bars (114s) [RAM=0.4GB, avail=7.9GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP DDDD4: DONCHIAN CHANNEL FADE ---
+
+  Donchian(20) touch (fade):
+  ✅ TRAIN                                                    n=7466  wr= 53.4%  avg=  +2.2bps  tot=+160.68%  sh=  +137.9
+  ✅ TEST                                                     n=4382  wr= 71.3%  avg=  +5.8bps  tot=+256.27%  sh=  +295.2
+    ✅ test=+9.152%/d
+
+  Donchian(40) touch (fade):
+  ✅ TRAIN                                                    n=4930  wr= 55.8%  avg=  +2.7bps  tot=+134.83%  sh=  +171.3
+  ✅ TEST                                                     n=2979  wr= 71.8%  avg=  +6.4bps  tot=+189.25%  sh=  +297.1
+    ✅ test=+6.759%/d
+
+  --- EXP EEEE4: KELTNER CHANNEL ---
+
+  Keltner(2x ATR) (fade):
+  ✅ TRAIN                                                    n=4702  wr= 56.6%  avg=  +2.9bps  tot=+137.10%  sh=  +177.9
+  ✅ TEST                                                     n=2494  wr= 70.8%  avg=  +6.4bps  tot=+159.44%  sh=  +272.7
+    ✅ test=+5.694%/d
+
+  Keltner(3x ATR) (fade):
+  ✅ TRAIN                                                    n=1258  wr= 65.1%  avg=  +5.4bps  tot= +68.36%  sh=  +257.2
+  ✅ TEST                                                     n= 655  wr= 73.4%  avg=  +8.5bps  tot= +55.73%  sh=  +257.7
+    ✅ test=+1.990%/d
+
+  --- EXP FFFF4: VOL-ADJUSTED MOMENTUM ---
+
+  Vol-adj mom(15) z>2 (fade):
+  ✅ TRAIN                                                    n=2039  wr= 51.0%  avg=  +1.7bps  tot= +34.35%  sh=   +99.8
+  ✅ TEST                                                     n=1301  wr= 71.0%  avg=  +5.8bps  tot= +75.15%  sh=  +250.0
+    ✅ test=+2.684%/d
+
+  Vol-adj mom(15) z>3 (fade):
+  ✅ TRAIN                                                    n= 156  wr= 59.0%  avg=  +3.1bps  tot=  +4.79%  sh=  +132.4
+  ✅ TEST                                                     n= 122  wr= 73.0%  avg=  +9.3bps  tot= +11.29%  sh=  +186.9
+    ✅ test=+0.403%/d
+
+  Vol-adj mom(30) z>2 (fade):
+  ✅ TRAIN                                                    n=2897  wr= 51.3%  avg=  +2.0bps  tot= +58.01%  sh=  +135.3
+  ✅ TEST                                                     n=1695  wr= 68.3%  avg=  +5.3bps  tot= +89.52%  sh=  +241.4
+    ✅ test=+3.197%/d
+
+  Vol-adj mom(30) z>3 (fade):
+  ✅ TRAIN                                                    n= 211  wr= 57.3%  avg=  +2.2bps  tot=  +4.62%  sh=  +161.8
+  ✅ TEST                                                     n= 103  wr= 69.9%  avg=  +9.0bps  tot=  +9.32%  sh=  +176.8
+    ✅ test=+0.333%/d
+
+  --- EXP GGGG4: BAR BODY RATIO ---
+
+  Body ratio(5) >0.8 (fade conviction):
+     TRAIN                                                    n= 437  wr= 34.6%  avg=  -0.9bps  tot=  -3.78%  sh=   -61.4
+  ✅ TEST                                                     n= 207  wr= 59.9%  avg=  +3.2bps  tot=  +6.63%  sh=  +193.1
+    ✅ test=+0.237%/d
+
+  Body ratio(5) >0.9 (fade conviction):
+     TRAIN                                                    n=  33  wr= 24.2%  avg=  -3.3bps  tot=  -1.09%  sh=  -185.1
+  ✅ TEST                                                     n=  10  wr= 50.0%  avg=  +1.2bps  tot=  +0.12%  sh=  +132.1
+    ✅ test=+0.004%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    body_ratio_0.8          146   70.5%    +4.9bp     +7.1%     +253
+     DOGEUSDT    body_ratio_0.9            2    0.0%    -3.2bp     -0.1%    -3414
+  ✅ DOGEUSDT    donchian_20            4491   82.4%    +8.1bp   +363.0%     +432
+  ✅ DOGEUSDT    donchian_40            3027   84.1%    +8.6bp   +260.7%     +434
+  ✅ DOGEUSDT    keltner_2x             2486   83.9%    +9.6bp   +237.4%     +438
+  ✅ DOGEUSDT    keltner_3x              630   86.0%   +12.3bp    +77.8%     +436
+  ✅ DOGEUSDT    vam_15_z2              1240   78.9%    +7.2bp    +88.7%     +388
+  ✅ DOGEUSDT    vam_15_z3               108   77.8%    +7.1bp     +7.7%     +318
+  ✅ DOGEUSDT    vam_30_z2              1765   81.7%    +7.5bp   +132.0%     +458
+  ✅ DOGEUSDT    vam_30_z3               105   87.6%   +10.0bp    +10.5%     +621
+  ✅ ETHUSDT     body_ratio_0.8          226   50.4%    +0.8bp     +1.7%      +62
+     ETHUSDT     body_ratio_0.9           17   41.2%    -0.1bp     -0.0%       -9
+  ✅ ETHUSDT     donchian_20            3375   67.8%    +4.3bp   +144.8%     +282
+  ✅ ETHUSDT     donchian_40            2211   71.5%    +5.2bp   +114.5%     +328
+  ✅ ETHUSDT     keltner_2x             2144   72.8%    +5.6bp   +120.4%     +339
+  ✅ ETHUSDT     keltner_3x              551   83.5%    +8.0bp    +44.0%     +412
+  ✅ ETHUSDT     vam_15_z2              1007   61.5%    +3.0bp    +30.7%     +198
+  ✅ ETHUSDT     vam_15_z3                72   62.5%    +1.6bp     +1.1%     +104
+  ✅ ETHUSDT     vam_30_z2              1351   66.5%    +3.8bp    +51.0%     +281
+  ✅ ETHUSDT     vam_30_z3               100   72.0%    +4.3bp     +4.3%     +256
+  ✅ SOLUSDT     body_ratio_0.8          180   59.4%    +2.6bp     +4.6%     +262
+     SOLUSDT     body_ratio_0.9            5   20.0%    -0.2bp     -0.0%      -37
+  ✅ SOLUSDT     donchian_20            4277   60.6%    +3.1bp   +130.7%     +198
+  ✅ SOLUSDT     donchian_40            2974   63.3%    +3.5bp   +103.7%     +213
+  ✅ SOLUSDT     keltner_2x             2509   65.0%    +3.9bp    +97.8%     +233
+  ✅ SOLUSDT     keltner_3x              596   72.5%    +5.6bp    +33.6%     +317
+  ✅ SOLUSDT     vam_15_z2              1105   61.0%    +3.2bp    +35.3%     +238
+  ✅ SOLUSDT     vam_15_z3               101   62.4%    +2.4bp     +2.5%     +242
+  ✅ SOLUSDT     vam_30_z2              1423   61.0%    +2.8bp    +40.5%     +193
+  ✅ SOLUSDT     vam_30_z3               111   66.7%    +3.7bp     +4.1%     +227
+  ✅ XRPUSDT     body_ratio_0.8          207   59.9%    +3.2bp     +6.6%     +193
+  ✅ XRPUSDT     body_ratio_0.9           10   50.0%    +1.2bp     +0.1%     +132
+  ✅ XRPUSDT     donchian_20            4382   71.3%    +5.8bp   +256.3%     +295
+  ✅ XRPUSDT     donchian_40            2979   71.8%    +6.4bp   +189.3%     +297
+  ✅ XRPUSDT     keltner_2x             2494   70.8%    +6.4bp   +159.4%     +273
+  ✅ XRPUSDT     keltner_3x              655   73.4%    +8.5bp    +55.7%     +258
+  ✅ XRPUSDT     vam_15_z2              1301   71.0%    +5.8bp    +75.1%     +250
+  ✅ XRPUSDT     vam_15_z3               122   73.0%    +9.3bp    +11.3%     +187
+  ✅ XRPUSDT     vam_30_z2              1695   68.3%    +5.3bp    +89.5%     +241
+  ✅ XRPUSDT     vam_30_z3               103   69.9%    +9.0bp     +9.3%     +177
+
+################################################################################
+  COMPLETE — 606s (10.1min) [RAM=0.2GB, avail=8.2GB]
+################################################################################
