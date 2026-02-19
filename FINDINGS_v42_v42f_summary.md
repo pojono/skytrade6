@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 102 Signal Types Discovered
+### 106 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -958,6 +958,10 @@ Strategy contribution (standalone):
 | 100 | **BB Width Expansion** | **Price only** | **88%** | **+540%/28d** | **Low** |
 | 101 | Close-Open Gap Pressure | Price only | 82% | +330%/28d | Low |
 | 102 | Tail Ratio | Price only | 83% | +407%/28d | Low |
+| 103 | **Price Oscillator** | **Price only** | **85%** | **+406%/28d** | **Low** |
+| 104 | Realized Vol Ratio | Price only | 82% | +351%/28d | Low |
+| 105 | Return Autocorrelation | Price only | 81% | +465%/28d | Low |
+| 106 | **Price Percentile Rank** | **Price only** | **84%** | **+525%/28d** | **Low** |
 
 ---
 
@@ -1164,3 +1168,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ax_median_gap.py` | EXP XXXX4-AAAA5: median dev, OC ratio, wick ratio, EMA distance |
 | `research_v42ay_velocity_skew.py` | EXP BBBB5-EEEE5: velocity, skewness, mom divergence, vol-of-vol |
 | `research_v42az_kurtosis_channel.py` | EXP FFFF5-IIII5: kurtosis, BB width, gap pressure, tail ratio |
+| `research_v42ba_oscillator_vptrend.py` | EXP JJJJ5-MMMM5: oscillator, vol ratio, autocorr, price pct |
