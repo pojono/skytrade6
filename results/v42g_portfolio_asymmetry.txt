@@ -1,0 +1,122 @@
+================================================================================
+  v42g: PORTFOLIO + ASYMMETRY — 60 DAYS (RAM-SAFE)
+  2026-02-19 05:16:50  [RAM=0.1GB, avail=5.9GB]
+================================================================================
+  Loading ETHUSDT liqs... [15/60 5s] [30/60 9s] [45/60 13s] [60/60 14s] 133,669 (15s) [RAM=0.2GB, avail=5.6GB]
+  ETHUSDT: 888 cascades
+  Loading SOLUSDT liqs... [15/60 2s] [30/60 4s] [45/60 6s] [60/60 7s] 75,588 (7s) [RAM=0.1GB, avail=5.6GB]
+  SOLUSDT: 507 cascades
+  Loading DOGEUSDT liqs... [15/60 1s] [30/60 2s] [45/60 3s] [60/60 4s] 37,100 (4s) [RAM=0.1GB, avail=5.5GB]
+  DOGEUSDT: 281 cascades
+  Loading ETHUSDT bars (chunked)... [10/60 39s] [20/60 69s] [30/60 95s] [40/60 126s] [50/60 153s] [60/60 172s] 86,400 bars (172s) [RAM=0.5GB, avail=5.8GB]
+  Loading SOLUSDT bars (chunked)... [10/60 20s] [20/60 34s] [30/60 47s] [40/60 62s] [50/60 76s] [60/60 87s] 86,400 bars (87s) [RAM=0.4GB, avail=6.1GB]
+  Loading DOGEUSDT bars (chunked)... [10/60 28s] [20/60 45s] [30/60 57s] [40/60 68s] [50/60 78s] [60/60 88s] 86,400 bars (88s) [RAM=0.3GB, avail=6.2GB]
+
+  [RAM=0.3GB, avail=6.2GB] all data loaded
+  ETHUSDT: 616 trades from combined triggers
+  SOLUSDT: 765 trades from combined triggers
+  DOGEUSDT: 688 trades from combined triggers
+
+================================================================================
+  EXP P: CASCADE DIRECTION ASYMMETRY — ETHUSDT
+================================================================================
+  ✅ ALL                                            n= 616  wr= 92.0%  avg=  +5.8bps  tot= +35.84%  sh=  +195.5
+  ✅ LONG only (fade buy-cascade)                   n= 391  wr= 93.1%  avg=  +6.5bps  tot= +25.59%  sh=  +237.2
+  ✅ SHORT only (fade sell-cascade)                 n= 225  wr= 90.2%  avg=  +4.6bps  tot= +10.25%  sh=  +137.7
+
+  ⚡ LONG is better by 2.0 bps
+
+================================================================================
+  EXP P: CASCADE DIRECTION ASYMMETRY — SOLUSDT
+================================================================================
+  ✅ ALL                                            n= 765  wr= 91.0%  avg=  +4.9bps  tot= +37.55%  sh=  +152.7
+  ✅ LONG only (fade buy-cascade)                   n= 484  wr= 92.4%  avg=  +5.8bps  tot= +28.23%  sh=  +195.8
+  ✅ SHORT only (fade sell-cascade)                 n= 281  wr= 88.6%  avg=  +3.3bps  tot=  +9.33%  sh=   +92.9
+
+  ⚡ LONG is better by 2.5 bps
+
+================================================================================
+  EXP P: CASCADE DIRECTION ASYMMETRY — DOGEUSDT
+================================================================================
+  ✅ ALL                                            n= 688  wr= 90.6%  avg=  +4.7bps  tot= +32.35%  sh=  +144.1
+  ✅ LONG only (fade buy-cascade)                   n= 451  wr= 92.0%  avg=  +5.7bps  tot= +25.68%  sh=  +189.0
+  ✅ SHORT only (fade sell-cascade)                 n= 237  wr= 87.8%  avg=  +2.8bps  tot=  +6.67%  sh=   +76.7
+
+  ⚡ LONG is better by 2.9 bps
+
+================================================================================
+  EXP R: CASCADE CLUSTERING (back-to-back cascades)
+================================================================================
+
+  BY GAP SINCE PREVIOUS CASCADE:
+  ✅ Isolated (>30 min gap)                         n= 475  wr= 90.9%  avg=  +5.1bps  tot= +24.42%  sh=  +164.3
+  ✅ Clustered (5-30 min gap)                       n= 402  wr= 93.5%  avg=  +6.7bps  tot= +26.98%  sh=  +244.4
+  ✅ Rapid (<5 min gap)                             n=1192  wr= 90.4%  avg=  +4.6bps  tot= +54.34%  sh=  +138.2
+
+================================================================================
+  EXP S: TIME-SINCE-LAST-CASCADE AS SIGNAL
+================================================================================
+  Gap distribution: P25=0m  P50=0m  P75=26m
+  ✅ Gap <10 min                                    n=1369  wr= 90.6%  avg=  +4.6bps  tot= +63.54%  sh=  +141.4
+  ✅ Gap 10-30 min                                  n= 225  wr= 95.1%  avg=  +7.9bps  tot= +17.78%  sh=  +337.1
+  ✅ Gap 30-60 min                                  n= 163  wr= 92.0%  avg=  +5.5bps  tot=  +9.03%  sh=  +179.7
+  ✅ Gap 1-2 hours                                  n= 135  wr= 92.6%  avg=  +6.3bps  tot=  +8.56%  sh=  +227.2
+  ✅ Gap >2 hours                                   n= 176  wr= 88.6%  avg=  +3.8bps  tot=  +6.72%  sh=  +112.3
+
+  (Using all symbols merged)
+
+================================================================================
+  EXP T: CASCADE SIZE × DIRECTION INTERACTION
+================================================================================
+  ✅ Small (<P50) + LONG                            n= 674  wr= 93.0%  avg=  +6.4bps  tot= +43.28%  sh=  +229.6
+  ✅ Small (<P50) + SHORT                           n= 358  wr= 88.8%  avg=  +3.4bps  tot= +12.32%  sh=   +96.9
+  ✅ Large (>P50) + LONG                            n= 652  wr= 91.9%  avg=  +5.6bps  tot= +36.21%  sh=  +181.8
+  ✅ Large (>P50) + SHORT                           n= 385  wr= 88.8%  avg=  +3.6bps  tot= +13.93%  sh=  +103.1
+  ✅ XL (>P75) + LONG                               n= 318  wr= 91.8%  avg=  +5.5bps  tot= +17.40%  sh=  +177.4
+  ✅ XL (>P75) + SHORT                              n= 200  wr= 88.5%  avg=  +3.1bps  tot=  +6.24%  sh=   +86.1
+
+================================================================================
+  EXP Q: MULTI-SYMBOL PORTFOLIO SIMULATION
+================================================================================
+  Total trades across all symbols: 2069
+    ETHUSDT: 616 trades
+    SOLUSDT: 765 trades
+    DOGEUSDT: 688 trades
+
+  PORTFOLIO EQUITY CURVE:
+    Total return:  +186.74%
+    Max drawdown:  -3.66%
+    Final equity:  2.8674
+    Total trades:  2069
+
+  DAILY STATS:
+    Trading days:    53
+    Positive days:   49/53 (92%)
+    Avg daily ret:   +1.995%
+    Daily std:       1.738%
+    Daily Sharpe:    21.9
+    Worst day:       -3.280%
+    Best day:        +6.355%
+
+  SYMBOL CORRELATION (daily returns):
+    ETH vs SOL: ρ=0.487 (51 days)
+    ETH vs DOG: ρ=0.306 (51 days)
+    SOL vs DOG: ρ=0.244 (52 days)
+
+  WEEKLY BREAKDOWN:
+  Week             Trades    Return      WR
+  ----------------------------------------
+  ✅ 2025-W20          430   +23.67%   91.9%
+  ✅ 2025-W21          305   +25.33%   96.1%
+  ✅ 2025-W22          253   +11.67%   90.1%
+  ✅ 2025-W23          155    +9.40%   92.3%
+  ✅ 2025-W24          331    +3.83%   85.5%
+  ✅ 2025-W25          295   +16.15%   91.5%
+  ✅ 2025-W26          207    +9.57%   90.3%
+  ✅ 2025-W27           93    +6.12%   93.5%
+
+  Positive weeks: 8/8 (100%)
+
+################################################################################
+  COMPLETE — 376s (6.3min) [RAM=0.3GB, avail=6.2GB]
+################################################################################
