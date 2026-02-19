@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 193 Signal Types Discovered
+### 197 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -1049,6 +1049,10 @@ Strategy contribution (standalone):
 | 191 | ATR Ratio | Price only | 85% | +440%/28d | Low |
 | 192 | **Spread Persistence** | **Price only** | **90%** | **+810%/28d** | **Low** |
 | 193 | Ret Momentum Decay | Price only | 85% | +315%/28d | Low |
+| 194 | MACD Hist Velocity | Price only | 86% | +320%/28d | Low |
+| 195 | Channel Width Ratio | Price only | 85% | +351%/28d | Low |
+| 196 | Return Sign Ratio | Price only | 82% | +380%/28d | Low |
+| 197 | HL Position | Price only | 82% | +320%/28d | Low |
 
 ---
 
@@ -1278,3 +1282,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bu_sortino_copen.py` | EXP LLLL8-OOOO8: rolling Sortino, close-open ratio, fractal dim, intrabar trend |
 | `research_v42bv_channel_regime.py` | EXP PPPP8-SSSS8: Boll %B vel, regime persist, vol ratio, price curvature |
 | `research_v42bw_rsi_atr_spread.py` | EXP TTTT8-WWWW8: RSI speed, ATR ratio, spread persist, mom decay |
+| `research_v42bx_macd_chanwidth.py` | EXP XXXX8-AAAA9: MACD hist vel, chan width, ret sign ratio, HL position |
