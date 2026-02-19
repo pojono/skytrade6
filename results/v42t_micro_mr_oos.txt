@@ -1,0 +1,187 @@
+================================================================================
+  v42t: MICROSTRUCTURE MEAN-REVERSION — ALL 4 SYMBOLS OOS
+  2026-02-19 07:24:54  [RAM=0.1GB, avail=5.9GB]
+  Train: May 12–Jul 10 (60d), Test: Jul 11–Aug 7 (28d)
+================================================================================
+  Loading ETHUSDT bars... [10/88 35s] [20/88 59s] [30/88 80s] [40/88 106s] [50/88 128s] [60/88 146s] [70/88 177s] [80/88 204s] [88/88 226s] 126,720 bars (226s) [RAM=0.5GB, avail=5.8GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  sigma=2 cd=60s:
+  ✅ TRAIN                                                    n=1612  wr= 75.2%  avg= +10.9bps  tot=+175.29%  sh=  +271.8
+  ✅ TEST                                                     n= 716  wr= 74.7%  avg=  +7.3bps  tot= +51.93%  sh=  +374.2
+    ✅ train=+2.922%/d  test=+1.855%/d
+
+  sigma=2 cd=300s:
+  ✅ TRAIN                                                    n=1303  wr= 72.3%  avg=  +9.0bps  tot=+116.71%  sh=  +231.3
+  ✅ TEST                                                     n= 602  wr= 72.1%  avg=  +6.4bps  tot= +38.33%  sh=  +336.3
+    ✅ train=+1.945%/d  test=+1.369%/d
+
+  sigma=3 cd=60s:
+  ✅ TRAIN                                                    n= 398  wr= 86.7%  avg= +23.0bps  tot= +91.65%  sh=  +347.6
+  ✅ TEST                                                     n= 147  wr= 81.0%  avg= +10.4bps  tot= +15.32%  sh=  +465.3
+    ✅ train=+1.528%/d  test=+0.547%/d
+
+  sigma=3 cd=300s:
+  ✅ TRAIN                                                    n= 349  wr= 85.1%  avg= +20.3bps  tot= +70.75%  sh=  +305.6
+  ✅ TEST                                                     n= 135  wr= 80.0%  avg= +10.6bps  tot= +14.34%  sh=  +459.3
+    ✅ train=+1.179%/d  test=+0.512%/d
+
+  sigma=4 cd=60s:
+  ✅ TRAIN                                                    n= 106  wr= 96.2%  avg= +48.2bps  tot= +51.12%  sh=  +450.3
+  ✅ TEST                                                     n=  39  wr= 92.3%  avg= +16.8bps  tot=  +6.54%  sh=  +560.8
+    ✅ train=+0.852%/d  test=+0.233%/d
+
+  sigma=4 cd=300s:
+  ✅ TRAIN                                                    n=  95  wr= 95.8%  avg= +45.4bps  tot= +43.14%  sh=  +409.7
+  ✅ TEST                                                     n=  37  wr= 94.6%  avg= +17.6bps  tot=  +6.53%  sh=  +589.8
+    ✅ train=+0.719%/d  test=+0.233%/d
+
+  ROLLING WINDOW STABILITY (sigma=2, cd=60s):
+  ✅ Window 1: 05/12-06/03                                    n= 658  wr= 80.1%  avg= +13.3bps  tot= +87.28%  sh=  +342.8
+  ✅ Window 2: 06/03-06/25                                    n= 602  wr= 73.1%  avg= +11.2bps  tot= +67.19%  sh=  +231.9
+  ✅ Window 3: 06/25-07/17                                    n= 503  wr= 69.0%  avg=  +6.1bps  tot= +30.87%  sh=  +282.8
+  ✅ Window 4: 07/17-08/08                                    n= 577  wr= 76.6%  avg=  +7.4bps  tot= +42.65%  sh=  +394.6
+  Loading SOLUSDT bars... [10/88 16s] [20/88 29s] [30/88 38s] [40/88 51s] [50/88 63s] [60/88 72s] [70/88 85s] [80/88 103s] [88/88 112s] 126,720 bars (112s) [RAM=0.4GB, avail=6.0GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  sigma=2 cd=60s:
+  ✅ TRAIN                                                    n=1770  wr= 72.8%  avg=  +7.8bps  tot=+138.61%  sh=  +285.3
+  ✅ TEST                                                     n= 838  wr= 79.0%  avg=  +8.0bps  tot= +66.66%  sh=  +414.4
+    ✅ train=+2.310%/d  test=+2.381%/d
+
+  sigma=2 cd=300s:
+  ✅ TRAIN                                                    n=1490  wr= 70.9%  avg=  +6.5bps  tot= +96.15%  sh=  +305.9
+  ✅ TEST                                                     n= 710  wr= 78.2%  avg=  +7.5bps  tot= +53.45%  sh=  +400.9
+    ✅ train=+1.603%/d  test=+1.909%/d
+
+  sigma=3 cd=60s:
+  ✅ TRAIN                                                    n= 338  wr= 83.1%  avg= +14.9bps  tot= +50.23%  sh=  +323.4
+  ✅ TEST                                                     n= 147  wr= 87.1%  avg= +10.4bps  tot= +15.23%  sh=  +465.8
+    ✅ train=+0.837%/d  test=+0.544%/d
+
+  sigma=3 cd=300s:
+  ✅ TRAIN                                                    n= 310  wr= 82.3%  avg= +11.8bps  tot= +36.43%  sh=  +383.2
+  ✅ TEST                                                     n= 137  wr= 86.9%  avg= +10.5bps  tot= +14.36%  sh=  +460.2
+    ✅ train=+0.607%/d  test=+0.513%/d
+
+  sigma=4 cd=60s:
+  ✅ TRAIN                                                    n=  74  wr= 94.6%  avg= +32.0bps  tot= +23.71%  sh=  +402.4
+  ✅ TEST                                                     n=  25  wr= 92.0%  avg= +17.2bps  tot=  +4.29%  sh=  +510.0
+    ✅ train=+0.395%/d  test=+0.153%/d
+
+  sigma=4 cd=300s:
+  ✅ TRAIN                                                    n=  68  wr= 94.1%  avg= +28.1bps  tot= +19.13%  sh=  +374.8
+  ✅ TEST                                                     n=  24  wr= 91.7%  avg= +16.8bps  tot=  +4.02%  sh=  +490.3
+    ✅ train=+0.319%/d  test=+0.144%/d
+
+  ROLLING WINDOW STABILITY (sigma=2, cd=60s):
+  ✅ Window 1: 05/12-06/03                                    n= 729  wr= 76.7%  avg=  +9.1bps  tot= +66.34%  sh=  +330.1
+  ✅ Window 2: 06/03-06/25                                    n= 655  wr= 71.5%  avg=  +8.0bps  tot= +52.49%  sh=  +250.6
+  ✅ Window 3: 06/25-07/17                                    n= 555  wr= 69.5%  avg=  +5.7bps  tot= +31.58%  sh=  +347.7
+  ✅ Window 4: 07/17-08/08                                    n= 678  wr= 80.2%  avg=  +8.2bps  tot= +55.27%  sh=  +416.5
+  Loading DOGEUSDT bars... [10/88 22s] [20/88 37s] [30/88 46s] [40/88 56s] [50/88 64s] [60/88 73s] [70/88 100s] [80/88 123s] [88/88 133s] 126,720 bars (133s) [RAM=0.3GB, avail=6.1GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  sigma=2 cd=60s:
+  ✅ TRAIN                                                    n=1812  wr= 74.8%  avg= +10.1bps  tot=+183.47%  sh=  +308.2
+  ✅ TEST                                                     n= 873  wr= 88.8%  avg= +14.7bps  tot=+128.69%  sh=  +476.2
+    ✅ train=+3.058%/d  test=+4.596%/d
+
+  sigma=2 cd=300s:
+  ✅ TRAIN                                                    n=1511  wr= 72.5%  avg=  +8.4bps  tot=+127.64%  sh=  +290.9
+  ✅ TEST                                                     n= 735  wr= 87.9%  avg= +13.9bps  tot=+101.90%  sh=  +467.7
+    ✅ train=+2.127%/d  test=+3.639%/d
+
+  sigma=3 cd=60s:
+  ✅ TRAIN                                                    n= 337  wr= 83.7%  avg= +20.3bps  tot= +68.58%  sh=  +379.8
+  ✅ TEST                                                     n= 141  wr= 92.2%  avg= +21.0bps  tot= +29.58%  sh=  +483.3
+    ✅ train=+1.143%/d  test=+1.057%/d
+
+  sigma=3 cd=300s:
+  ✅ TRAIN                                                    n= 309  wr= 82.8%  avg= +18.1bps  tot= +55.84%  sh=  +369.8
+  ✅ TEST                                                     n= 129  wr= 91.5%  avg= +19.8bps  tot= +25.51%  sh=  +462.1
+    ✅ train=+0.931%/d  test=+0.911%/d
+
+  sigma=4 cd=60s:
+  ✅ TRAIN                                                    n=  78  wr= 88.5%  avg= +39.3bps  tot= +30.63%  sh=  +522.1
+  ✅ TEST                                                     n=  29  wr= 93.1%  avg= +32.6bps  tot=  +9.46%  sh=  +480.5
+    ✅ train=+0.511%/d  test=+0.338%/d
+
+  sigma=4 cd=300s:
+  ✅ TRAIN                                                    n=  74  wr= 87.8%  avg= +35.8bps  tot= +26.52%  sh=  +493.6
+  ✅ TEST                                                     n=  28  wr= 92.9%  avg= +32.5bps  tot=  +9.09%  sh=  +470.2
+    ✅ train=+0.442%/d  test=+0.325%/d
+
+  ROLLING WINDOW STABILITY (sigma=2, cd=60s):
+  ✅ Window 1: 05/12-06/03                                    n= 777  wr= 83.7%  avg= +14.0bps  tot=+108.51%  sh=  +394.4
+  ✅ Window 2: 06/03-06/25                                    n= 644  wr= 71.7%  avg=  +8.9bps  tot= +57.05%  sh=  +290.4
+  ✅ Window 3: 06/25-07/17                                    n= 577  wr= 69.7%  avg=  +7.4bps  tot= +42.93%  sh=  +263.7
+  ✅ Window 4: 07/17-08/08                                    n= 691  wr= 89.4%  avg= +15.0bps  tot=+103.71%  sh=  +464.8
+  Loading XRPUSDT bars... [10/88 17s] [20/88 26s] [30/88 35s] [40/88 45s] [50/88 55s] [60/88 65s] [70/88 96s] [80/88 114s] [88/88 127s] 126,720 bars (127s) [RAM=0.4GB, avail=6.0GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  sigma=2 cd=60s:
+  ✅ TRAIN                                                    n=1665  wr= 62.6%  avg=  +5.5bps  tot= +91.59%  sh=  +217.2
+  ✅ TEST                                                     n= 808  wr= 82.7%  avg= +12.5bps  tot=+101.01%  sh=  +371.4
+    ✅ train=+1.526%/d  test=+3.607%/d
+
+  sigma=2 cd=300s:
+  ✅ TRAIN                                                    n=1417  wr= 60.1%  avg=  +4.4bps  tot= +62.60%  sh=  +189.2
+  ✅ TEST                                                     n= 693  wr= 82.3%  avg= +11.7bps  tot= +81.00%  sh=  +358.1
+    ✅ train=+1.043%/d  test=+2.893%/d
+
+  sigma=3 cd=60s:
+  ✅ TRAIN                                                    n= 312  wr= 70.8%  avg= +12.4bps  tot= +38.82%  sh=  +285.4
+  ✅ TEST                                                     n= 142  wr= 89.4%  avg= +21.2bps  tot= +30.12%  sh=  +414.7
+    ✅ train=+0.647%/d  test=+1.076%/d
+
+  sigma=3 cd=300s:
+  ✅ TRAIN                                                    n= 284  wr= 69.4%  avg= +11.2bps  tot= +31.82%  sh=  +262.6
+  ✅ TEST                                                     n= 129  wr= 88.4%  avg= +17.6bps  tot= +22.74%  sh=  +393.9
+    ✅ train=+0.530%/d  test=+0.812%/d
+
+  sigma=4 cd=60s:
+  ✅ TRAIN                                                    n=  71  wr= 77.5%  avg= +29.0bps  tot= +20.57%  sh=  +402.8
+  ✅ TEST                                                     n=  25  wr= 92.0%  avg= +35.2bps  tot=  +8.80%  sh=  +385.4
+    ✅ train=+0.343%/d  test=+0.314%/d
+
+  sigma=4 cd=300s:
+  ✅ TRAIN                                                    n=  68  wr= 76.5%  avg= +28.6bps  tot= +19.44%  sh=  +396.0
+  ✅ TEST                                                     n=  24  wr= 91.7%  avg= +31.4bps  tot=  +7.53%  sh=  +358.0
+    ✅ train=+0.324%/d  test=+0.269%/d
+
+  ROLLING WINDOW STABILITY (sigma=2, cd=60s):
+  ✅ Window 1: 05/12-06/03                                    n= 714  wr= 71.7%  avg=  +7.6bps  tot= +54.35%  sh=  +310.2
+  ✅ Window 2: 06/03-06/25                                    n= 546  wr= 56.4%  avg=  +4.9bps  tot= +26.67%  sh=  +162.8
+  ✅ Window 3: 06/25-07/17                                    n= 575  wr= 63.8%  avg=  +7.0bps  tot= +40.45%  sh=  +213.7
+  ✅ Window 4: 07/17-08/08                                    n= 642  wr= 81.9%  avg= +11.1bps  tot= +71.31%  sh=  +406.6
+
+################################################################################
+  SUMMARY: MICROSTRUCTURE MR IS A 4TH INDEPENDENT STRATEGY FAMILY
+################################################################################
+
+  Strategy families discovered:
+  1. CASCADE MM (trail stop)     — needs liquidation data
+  2. LIQ ACCELERATION            — needs liquidation data
+  3. LIQ IMBALANCE               — needs liquidation data
+  4. MICROSTRUCTURE MR            — PRICE DATA ONLY (no liq needed!)
+
+  The microstructure MR signal is completely independent and can be
+  deployed on ANY exchange/symbol with just price data.
+
+
+################################################################################
+  COMPLETE — 613s (10.2min) [RAM=0.3GB, avail=6.2GB]
+################################################################################
