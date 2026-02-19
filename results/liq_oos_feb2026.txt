@@ -1,0 +1,182 @@
+====================================================================================================
+  OUT-OF-SAMPLE TEST — Feb 2026 (11 days)
+  Parameters frozen from in-sample (May-Aug 2025)
+  P95 thresholds computed from 2025 data (no peeking)
+====================================================================================================
+
+####################################################################################################
+  STEP 1: Compute P95 thresholds from IN-SAMPLE (2025) data
+####################################################################################################
+
+  BTCUSDT (in-sample):
+  Loading 2832 liq files... 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500 2600 2700 2800 done (266,154)
+    P95 threshold: $46,996
+    Liquidations: 266,154
+
+  DOGEUSDT (in-sample):
+  Loading 2840 liq files... 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500 2600 2700 2800 done (91,372)
+    P95 threshold: $12,414
+    Liquidations: 91,372
+
+  SOLUSDT (in-sample):
+  Loading 2910 liq files... 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500 2600 2700 2800 2900 done (181,456)
+    P95 threshold: $18,534
+    Liquidations: 181,456
+
+  ETHUSDT (in-sample):
+  Loading 2890 liq files... 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500 2600 2700 2800 done (317,912)
+    P95 threshold: $36,438
+    Liquidations: 317,912
+
+  XRPUSDT (in-sample):
+  Loading 2770 liq files... 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500 2600 2700 done (123,344)
+    P95 threshold: $19,893
+    Liquidations: 123,344
+
+
+####################################################################################################
+  STEP 2: Load OUT-OF-SAMPLE (Feb 2026) data
+####################################################################################################
+
+  BTCUSDT (OOS):
+  Loading 433 liq files... 100 200 300 400 done (36,332)
+  Loading ticker_prices_feb2026.csv.gz... done (1,611,892)
+  Building bars... 14,428 bars
+    Signals (using IS P95=$46,996): 294
+    OOS P95 would be: $29,513 (ratio: 0.63x)
+    Period: 2026-02-09 to 2026-02-19 (10 days)
+
+  DOGEUSDT (OOS):
+  Loading 391 liq files... 100 200 300 done (5,543)
+  Loading ticker_prices_feb2026.csv.gz... done (467,479)
+  Building bars... 14,427 bars
+    Signals (using IS P95=$12,414): 98
+    OOS P95 would be: $9,883 (ratio: 0.80x)
+    Period: 2026-02-09 to 2026-02-19 (10 days)
+
+  SOLUSDT (OOS):
+  Loading 434 liq files... 100 200 300 400 done (17,765)
+  Loading ticker_prices_feb2026.csv.gz... done (664,635)
+  Building bars... 14,428 bars
+    Signals (using IS P95=$18,534): 236
+    OOS P95 would be: $14,362 (ratio: 0.77x)
+    Period: 2026-02-09 to 2026-02-19 (10 days)
+
+  ETHUSDT (OOS):
+  Loading 438 liq files... 100 200 300 400 done (22,892)
+  Loading ticker_prices_feb2026.csv.gz... done (1,556,170)
+  Building bars... 14,428 bars
+    Signals (using IS P95=$36,438): 276
+    OOS P95 would be: $28,838 (ratio: 0.79x)
+    Period: 2026-02-09 to 2026-02-19 (10 days)
+
+  XRPUSDT (OOS):
+  Loading 422 liq files... 100 200 300 400 done (11,139)
+  Loading ticker_prices_feb2026.csv.gz... done (789,231)
+  Building bars... 14,427 bars
+    Signals (using IS P95=$19,893): 172
+    OOS P95 would be: $16,190 (ratio: 0.81x)
+    Period: 2026-02-09 to 2026-02-19 (10 days)
+
+
+####################################################################################################
+  STEP 3: OOS RESULTS — All Configs
+####################################################################################################
+
+  Config                                                 n      WR       avg    total   Sharpe      DD   TO
+  ──────────────────────────────────────────────────  ────  ──────  ────────  ───────  ───────  ──────  ───
+  ✅ BASELINE: Trail 3bps (taker)                       366   97.8%  +0.1343%   +49.14%   +70.7   0.05%    0
+  ✅ BASELINE: Trail 5bps (taker)                       366   94.5%  +0.1142%   +41.81%   +60.2   0.08%    0
+  ✅ BASELINE: TP 12bps (maker)                         366   98.4%  +0.0619%   +22.66%   +18.3   1.67%    6
+  ✅ A1: 70% TP@12bps + 30% trail@3bps                  366   97.8%  +0.0919%   +33.65%  +118.5   0.05%    0
+  ✅ A2: 50% TP@8bps + 50% trail@3bps                   366   97.8%  +0.0860%   +31.49%   +86.2   0.05%    0
+  ✅ A3: 50% TP@8bps + 50% trail@5bps                   366   95.4%  +0.0756%   +27.66%   +74.0   0.08%    0
+  ✅ A4: 30% TP@12bps + 70% trail@3bps                  366   97.8%  +0.1161%   +42.50%   +83.0   0.05%    0
+  ✅ C1: 50% TP@10bps, trail 5→3bps                     366   94.5%  +0.1164%   +42.61%   +81.4   0.08%    0
+  ✅ C2: 50% TP@8bps, trail 5→3bps                      366   95.4%  +0.1082%   +39.62%   +79.0   0.08%    0
+  ✅ D1: 50%@8+25%@15+12.5%@30, trail 5                 366   95.4%  +0.0562%   +20.55%   +91.5   0.08%    0
+
+####################################################################################################
+  STEP 4: Per-Symbol Breakdown (OOS)
+####################################################################################################
+
+  ── BASELINE: Trail 5bps (taker) ──
+    ✅ BTCUSDT       n=  81  WR= 87.7%  tot=  +8.05%  sh= +51.7  dd= 0.06%  TO=0
+    ✅ DOGEUSDT      n=  47  WR=100.0%  tot=  +5.29%  sh= +71.7  dd= 0.00%  TO=0
+    ✅ SOLUSDT       n=  79  WR= 97.5%  tot=  +9.00%  sh= +64.9  dd= 0.05%  TO=0
+    ✅ ETHUSDT       n=  95  WR= 92.6%  tot= +10.91%  sh= +53.0  dd= 0.08%  TO=0
+    ✅ XRPUSDT       n=  64  WR= 98.4%  tot=  +8.56%  sh= +76.6  dd= 0.01%  TO=0
+    ✅ COMBINED      n= 366  WR= 94.5%  tot= +41.81%  sh= +60.2  dd= 0.08%  TO=0
+
+  ── A1: 70% TP@12bps + 30% trail@3bps ──
+    ✅ BTCUSDT       n=  81  WR= 93.8%  tot=  +6.72%  sh= +89.5  dd= 0.04%  TO=0
+    ✅ DOGEUSDT      n=  47  WR=100.0%  tot=  +4.46%  sh=+183.1  dd= 0.00%  TO=0
+    ✅ SOLUSDT       n=  79  WR= 98.7%  tot=  +7.37%  sh=+137.9  dd= 0.03%  TO=0
+    ✅ ETHUSDT       n=  95  WR= 97.9%  tot=  +8.67%  sh=+104.5  dd= 0.05%  TO=0
+    ✅ XRPUSDT       n=  64  WR=100.0%  tot=  +6.43%  sh=+165.1  dd= 0.00%  TO=0
+    ✅ COMBINED      n= 366  WR= 97.8%  tot= +33.65%  sh=+118.5  dd= 0.05%  TO=0
+
+  ── A2: 50% TP@8bps + 50% trail@3bps ──
+    ✅ BTCUSDT       n=  81  WR= 93.8%  tot=  +6.27%  sh= +73.6  dd= 0.04%  TO=0
+    ✅ DOGEUSDT      n=  47  WR=100.0%  tot=  +4.06%  sh=+109.9  dd= 0.00%  TO=0
+    ✅ SOLUSDT       n=  79  WR= 98.7%  tot=  +6.82%  sh= +95.1  dd= 0.03%  TO=0
+    ✅ ETHUSDT       n=  95  WR= 97.9%  tot=  +8.15%  sh= +75.0  dd= 0.05%  TO=0
+    ✅ XRPUSDT       n=  64  WR=100.0%  tot=  +6.19%  sh=+109.2  dd= 0.00%  TO=0
+    ✅ COMBINED      n= 366  WR= 97.8%  tot= +31.49%  sh= +86.2  dd= 0.05%  TO=0
+
+  ── C1: 50% TP@10bps, trail 5→3bps ──
+    ✅ BTCUSDT       n=  81  WR= 87.7%  tot=  +7.85%  sh= +70.7  dd= 0.06%  TO=0
+    ✅ DOGEUSDT      n=  47  WR=100.0%  tot=  +6.25%  sh= +73.8  dd= 0.00%  TO=0
+    ✅ SOLUSDT       n=  79  WR= 97.5%  tot=  +9.29%  sh= +96.2  dd= 0.05%  TO=0
+    ✅ ETHUSDT       n=  95  WR= 92.6%  tot= +10.67%  sh= +78.1  dd= 0.08%  TO=0
+    ✅ XRPUSDT       n=  64  WR= 98.4%  tot=  +8.55%  sh=+108.5  dd= 0.01%  TO=0
+    ✅ COMBINED      n= 366  WR= 94.5%  tot= +42.61%  sh= +81.4  dd= 0.08%  TO=0
+
+
+####################################################################################################
+  STEP 5: Worst-Case Analysis (OOS)
+####################################################################################################
+
+  ── BASELINE: Trail 5bps (taker) ──
+    Worst single trade:     -0.0685%
+    Worst 5 trades avg:     -0.0521%
+    Worst 10 trades avg:    -0.0375%
+    Best single trade:      +0.6536%
+    Max consecutive losses: 2
+
+  ── A1: 70% TP@12bps + 30% trail@3bps ──
+    Worst single trade:     -0.0486%
+    Worst 5 trades avg:     -0.0322%
+    Worst 10 trades avg:    -0.0176%
+    Best single trade:      +0.2581%
+    Max consecutive losses: 1
+
+  ── A2: 50% TP@8bps + 50% trail@3bps ──
+    Worst single trade:     -0.0486%
+    Worst 5 trades avg:     -0.0322%
+    Worst 10 trades avg:    -0.0176%
+    Best single trade:      +0.3569%
+    Max consecutive losses: 1
+
+  ── C1: 50% TP@10bps, trail 5→3bps ──
+    Worst single trade:     -0.0685%
+    Worst 5 trades avg:     -0.0521%
+    Worst 10 trades avg:    -0.0375%
+    Best single trade:      +0.5300%
+    Max consecutive losses: 2
+
+
+####################################################################################################
+  STEP 6: IN-SAMPLE vs OUT-OF-SAMPLE Comparison
+####################################################################################################
+
+  Config                                 IS avg   OOS avg   Ratio   IS WR  OOS WR   IS Sh  OOS Sh
+  ───────────────────────────────────  ────────  ────────  ──────  ──────  ──────  ──────  ──────
+  Trail 5bps (taker)                   +0.1051%  +0.1142%    1.1x   92.3%   94.5%  +38.4  +60.2
+  A1: 70% TP@12 + 30% trail@3          +0.0869%  +0.0919%    1.1x   95.1%   97.8%  +83.2  +118.5
+  A2: 50% TP@8 + 50% trail@3           +0.0808%  +0.0860%    1.1x   95.1%   97.8%  +56.7  +86.2
+  C1: 50% TP@10, trail 5→3             +0.1104%  +0.1164%    1.1x   92.3%   94.5%  +58.2  +81.4
+
+====================================================================================================
+  OOS TEST COMPLETE — 94s
+====================================================================================================
