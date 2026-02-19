@@ -1,0 +1,451 @@
+================================================================================
+  v42ax: MEDIAN DEV + OC RATIO + WICK RATIO + EMA DISTANCE
+  2026-02-19 13:29:34  [RAM=0.1GB, avail=7.0GB]
+================================================================================
+  Loading ETHUSDT... [10/88 44s] [20/88 73s] [30/88 100s] [40/88 129s] [50/88 154s] [60/88 176s] [70/88 209s] [80/88 244s] [88/88 268s] 126,720 bars (268s) [RAM=0.5GB, avail=6.8GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP XXXX4: ROLLING MEDIAN DEVIATION ---
+
+  Median dev(30) z>2 (fade):
+  ✅ TRAIN                                                    n=3038  wr= 76.7%  avg=  +6.8bps  tot=+206.08%  sh=  +397.3
+  ✅ TEST                                                     n=1185  wr= 74.9%  avg=  +5.9bps  tot= +69.88%  sh=  +365.1
+    ✅ test=+2.496%/d
+
+  Median dev(30) z>3 (fade):
+  ✅ TRAIN                                                    n=1289  wr= 82.1%  avg=  +9.1bps  tot=+116.75%  sh=  +449.5
+  ✅ TEST                                                     n= 398  wr= 79.9%  avg=  +7.6bps  tot= +30.18%  sh=  +383.5
+    ✅ test=+1.078%/d
+
+  Median dev(60) z>2 (fade):
+  ✅ TRAIN                                                    n=2981  wr= 78.8%  avg=  +7.3bps  tot=+218.74%  sh=  +401.3
+  ✅ TEST                                                     n=1305  wr= 75.7%  avg=  +5.7bps  tot= +74.78%  sh=  +359.1
+    ✅ test=+2.671%/d
+
+  Median dev(60) z>3 (fade):
+  ✅ TRAIN                                                    n=1316  wr= 84.5%  avg=  +9.1bps  tot=+119.99%  sh=  +454.3
+  ✅ TEST                                                     n= 527  wr= 79.1%  avg=  +6.7bps  tot= +35.23%  sh=  +381.0
+    ✅ test=+1.258%/d
+
+  --- EXP YYYY4: OPEN-CLOSE RATIO ---
+
+  OC ratio(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3349  wr= 62.1%  avg=  +3.6bps  tot=+120.68%  sh=  +239.2
+  ✅ TEST                                                     n=1654  wr= 64.4%  avg=  +3.4bps  tot= +56.65%  sh=  +246.2
+    ✅ test=+2.023%/d
+
+  OC ratio(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6095  wr= 60.7%  avg=  +3.2bps  tot=+197.67%  sh=  +211.5
+  ✅ TEST                                                     n=3067  wr= 63.6%  avg=  +3.2bps  tot= +97.66%  sh=  +227.7
+    ✅ test=+3.488%/d
+
+  OC ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3922  wr= 61.8%  avg=  +3.3bps  tot=+131.09%  sh=  +219.7
+  ✅ TEST                                                     n=2077  wr= 63.4%  avg=  +3.2bps  tot= +67.46%  sh=  +243.9
+    ✅ test=+2.409%/d
+
+  OC ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6706  wr= 60.4%  avg=  +3.3bps  tot=+219.77%  sh=  +215.0
+  ✅ TEST                                                     n=3538  wr= 63.8%  avg=  +3.3bps  tot=+117.59%  sh=  +244.6
+    ✅ test=+4.200%/d
+
+  --- EXP ZZZZ4: WICK RATIO ---
+
+  Wick ratio(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3467  wr= 58.7%  avg=  +2.6bps  tot= +88.95%  sh=  +172.8
+  ✅ TEST                                                     n=1793  wr= 58.8%  avg=  +2.7bps  tot= +48.85%  sh=  +189.6
+    ✅ test=+1.745%/d
+
+  Wick ratio(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6394  wr= 58.1%  avg=  +2.7bps  tot=+169.53%  sh=  +180.1
+  ✅ TEST                                                     n=3282  wr= 59.4%  avg=  +2.8bps  tot= +92.63%  sh=  +200.7
+    ✅ test=+3.308%/d
+
+  Wick ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4229  wr= 58.8%  avg=  +2.9bps  tot=+123.67%  sh=  +192.7
+  ✅ TEST                                                     n=2260  wr= 60.0%  avg=  +3.2bps  tot= +72.37%  sh=  +223.2
+    ✅ test=+2.585%/d
+
+  Wick ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7074  wr= 57.9%  avg=  +2.6bps  tot=+186.62%  sh=  +172.7
+  ✅ TEST                                                     n=3622  wr= 60.6%  avg=  +3.1bps  tot=+112.87%  sh=  +219.2
+    ✅ test=+4.031%/d
+
+  --- EXP AAAA5: EMA DISTANCE ---
+
+  EMA(20) dist <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3712  wr= 72.6%  avg=  +6.3bps  tot=+234.37%  sh=  +333.6
+  ✅ TEST                                                     n=1891  wr= 75.2%  avg=  +5.7bps  tot=+107.40%  sh=  +346.3
+    ✅ test=+3.836%/d
+
+  EMA(20) dist <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6702  wr= 69.1%  avg=  +5.2bps  tot=+346.35%  sh=  +296.6
+  ✅ TEST                                                     n=3358  wr= 71.3%  avg=  +4.8bps  tot=+161.89%  sh=  +308.3
+    ✅ test=+5.782%/d
+
+  EMA(50) dist <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4662  wr= 71.1%  avg=  +5.7bps  tot=+266.79%  sh=  +318.0
+  ✅ TEST                                                     n=2466  wr= 73.0%  avg=  +5.0bps  tot=+124.34%  sh=  +318.6
+    ✅ test=+4.441%/d
+
+  EMA(50) dist <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7789  wr= 68.3%  avg=  +4.8bps  tot=+371.81%  sh=  +288.0
+  ✅ TEST                                                     n=4031  wr= 69.6%  avg=  +4.5bps  tot=+181.13%  sh=  +287.9
+    ✅ test=+6.469%/d
+  Loading SOLUSDT... [10/88 19s] [20/88 35s] [30/88 46s] [40/88 63s] [50/88 76s] [60/88 88s] [70/88 104s] [80/88 125s] [88/88 137s] 126,720 bars (137s) [RAM=0.3GB, avail=6.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP XXXX4: ROLLING MEDIAN DEVIATION ---
+
+  Median dev(30) z>2 (fade):
+  ✅ TRAIN                                                    n=2838  wr= 72.4%  avg=  +5.7bps  tot=+160.45%  sh=  +315.8
+  ✅ TEST                                                     n=1129  wr= 67.9%  avg=  +4.4bps  tot= +50.19%  sh=  +293.2
+    ✅ test=+1.793%/d
+
+  Median dev(30) z>3 (fade):
+  ✅ TRAIN                                                    n=1160  wr= 79.0%  avg=  +7.7bps  tot= +89.39%  sh=  +369.8
+  ✅ TEST                                                     n= 405  wr= 72.6%  avg=  +5.4bps  tot= +21.74%  sh=  +324.3
+    ✅ test=+0.777%/d
+
+  Median dev(60) z>2 (fade):
+  ✅ TRAIN                                                    n=2668  wr= 75.5%  avg=  +6.5bps  tot=+173.22%  sh=  +354.7
+  ✅ TEST                                                     n=1329  wr= 70.6%  avg=  +4.7bps  tot= +62.53%  sh=  +261.4
+    ✅ test=+2.233%/d
+
+  Median dev(60) z>3 (fade):
+  ✅ TRAIN                                                    n= 962  wr= 83.3%  avg=  +9.0bps  tot= +86.88%  sh=  +431.6
+  ✅ TEST                                                     n= 410  wr= 77.6%  avg=  +6.6bps  tot= +27.17%  sh=  +322.9
+    ✅ test=+0.970%/d
+
+  --- EXP YYYY4: OPEN-CLOSE RATIO ---
+
+  OC ratio(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3546  wr= 62.4%  avg=  +3.5bps  tot=+122.46%  sh=  +228.4
+  ✅ TEST                                                     n=1720  wr= 60.9%  avg=  +2.9bps  tot= +49.63%  sh=  +210.2
+    ✅ test=+1.772%/d
+
+  OC ratio(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6646  wr= 62.2%  avg=  +3.4bps  tot=+226.76%  sh=  +222.8
+  ✅ TEST                                                     n=3235  wr= 60.6%  avg=  +2.9bps  tot= +95.21%  sh=  +209.9
+    ✅ test=+3.400%/d
+
+  OC ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4204  wr= 62.7%  avg=  +3.3bps  tot=+137.95%  sh=  +230.9
+  ✅ TEST                                                     n=2140  wr= 62.0%  avg=  +3.1bps  tot= +65.35%  sh=  +207.3
+    ✅ test=+2.334%/d
+
+  OC ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7252  wr= 62.7%  avg=  +3.2bps  tot=+231.35%  sh=  +226.2
+  ✅ TEST                                                     n=3565  wr= 61.7%  avg=  +2.9bps  tot=+104.95%  sh=  +192.9
+    ✅ test=+3.748%/d
+
+  --- EXP ZZZZ4: WICK RATIO ---
+
+  Wick ratio(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3869  wr= 61.9%  avg=  +2.7bps  tot=+104.72%  sh=  +172.5
+  ✅ TEST                                                     n=1822  wr= 62.2%  avg=  +2.8bps  tot= +51.61%  sh=  +193.4
+    ✅ test=+1.843%/d
+
+  Wick ratio(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6943  wr= 62.3%  avg=  +2.9bps  tot=+198.67%  sh=  +191.1
+  ✅ TEST                                                     n=3308  wr= 63.2%  avg=  +3.1bps  tot=+102.38%  sh=  +208.5
+    ✅ test=+3.656%/d
+
+  Wick ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4800  wr= 62.3%  avg=  +3.1bps  tot=+148.32%  sh=  +198.9
+  ✅ TEST                                                     n=2179  wr= 65.9%  avg=  +3.4bps  tot= +74.19%  sh=  +226.3
+    ✅ test=+2.650%/d
+
+  Wick ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7903  wr= 62.1%  avg=  +3.0bps  tot=+233.94%  sh=  +193.6
+  ✅ TEST                                                     n=3580  wr= 65.2%  avg=  +3.3bps  tot=+117.12%  sh=  +214.3
+    ✅ test=+4.183%/d
+
+  --- EXP AAAA5: EMA DISTANCE ---
+
+  EMA(20) dist <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4021  wr= 69.8%  avg=  +5.2bps  tot=+210.44%  sh=  +300.2
+  ✅ TEST                                                     n=1949  wr= 69.4%  avg=  +4.8bps  tot= +94.31%  sh=  +311.0
+    ✅ test=+3.368%/d
+
+  EMA(20) dist <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7294  wr= 67.2%  avg=  +4.4bps  tot=+323.06%  sh=  +274.8
+  ✅ TEST                                                     n=3480  wr= 66.6%  avg=  +4.2bps  tot=+145.44%  sh=  +276.0
+    ✅ test=+5.194%/d
+
+  EMA(50) dist <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5248  wr= 67.6%  avg=  +4.6bps  tot=+243.55%  sh=  +279.9
+  ✅ TEST                                                     n=2580  wr= 67.0%  avg=  +4.2bps  tot=+109.35%  sh=  +257.4
+    ✅ test=+3.905%/d
+
+  EMA(50) dist <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8631  wr= 66.0%  avg=  +4.1bps  tot=+352.82%  sh=  +254.0
+  ✅ TEST                                                     n=4124  wr= 64.4%  avg=  +3.7bps  tot=+152.03%  sh=  +234.4
+    ✅ test=+5.430%/d
+  Loading DOGEUSDT... [10/88 30s] [20/88 45s] [30/88 56s] [40/88 68s] [50/88 78s] [60/88 89s] [70/88 123s] [80/88 148s] [88/88 161s] 126,720 bars (161s) [RAM=0.4GB, avail=6.9GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP XXXX4: ROLLING MEDIAN DEVIATION ---
+
+  Median dev(30) z>2 (fade):
+  ✅ TRAIN                                                    n=2769  wr= 75.7%  avg=  +6.5bps  tot=+179.53%  sh=  +306.2
+  ✅ TEST                                                     n=1356  wr= 84.6%  avg= +10.0bps  tot=+135.79%  sh=  +424.7
+    ✅ test=+4.850%/d
+
+  Median dev(30) z>3 (fade):
+  ✅ TRAIN                                                    n=1040  wr= 81.7%  avg=  +8.8bps  tot= +91.13%  sh=  +326.7
+  ✅ TEST                                                     n= 513  wr= 85.4%  avg= +12.6bps  tot= +64.55%  sh=  +434.2
+    ✅ test=+2.305%/d
+
+  Median dev(60) z>2 (fade):
+  ✅ TRAIN                                                    n=2777  wr= 78.8%  avg=  +7.2bps  tot=+198.67%  sh=  +341.3
+  ✅ TEST                                                     n=1597  wr= 86.3%  avg= +10.2bps  tot=+162.39%  sh=  +470.0
+    ✅ test=+5.800%/d
+
+  Median dev(60) z>3 (fade):
+  ✅ TRAIN                                                    n= 922  wr= 83.9%  avg=  +9.4bps  tot= +87.09%  sh=  +360.8
+  ✅ TEST                                                     n= 634  wr= 90.5%  avg= +12.5bps  tot= +79.37%  sh=  +494.0
+    ✅ test=+2.835%/d
+
+  --- EXP YYYY4: OPEN-CLOSE RATIO ---
+
+  OC ratio(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3720  wr= 65.1%  avg=  +4.0bps  tot=+149.41%  sh=  +220.1
+  ✅ TEST                                                     n=2008  wr= 82.1%  avg=  +8.1bps  tot=+161.99%  sh=  +458.8
+    ✅ test=+5.785%/d
+
+  OC ratio(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6801  wr= 64.7%  avg=  +3.8bps  tot=+258.98%  sh=  +217.2
+  ✅ TEST                                                     n=3633  wr= 81.1%  avg=  +7.7bps  tot=+280.24%  sh=  +428.2
+    ✅ test=+10.008%/d
+
+  OC ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4511  wr= 65.2%  avg=  +4.1bps  tot=+183.74%  sh=  +238.6
+  ✅ TEST                                                     n=2390  wr= 83.8%  avg=  +8.1bps  tot=+193.42%  sh=  +468.7
+    ✅ test=+6.908%/d
+
+  OC ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7523  wr= 65.4%  avg=  +4.0bps  tot=+302.60%  sh=  +239.9
+  ✅ TEST                                                     n=4081  wr= 82.2%  avg=  +7.7bps  tot=+313.72%  sh=  +449.3
+    ✅ test=+11.204%/d
+
+  --- EXP ZZZZ4: WICK RATIO ---
+
+  Wick ratio(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3922  wr= 66.5%  avg=  +3.7bps  tot=+145.19%  sh=  +222.1
+  ✅ TEST                                                     n=2144  wr= 81.6%  avg=  +7.4bps  tot=+158.42%  sh=  +422.2
+    ✅ test=+5.658%/d
+
+  Wick ratio(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7156  wr= 66.2%  avg=  +3.7bps  tot=+267.78%  sh=  +232.0
+  ✅ TEST                                                     n=3793  wr= 82.1%  avg=  +7.4bps  tot=+280.57%  sh=  +445.1
+    ✅ test=+10.020%/d
+
+  Wick ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4990  wr= 67.2%  avg=  +3.9bps  tot=+195.72%  sh=  +233.7
+  ✅ TEST                                                     n=2676  wr= 82.1%  avg=  +7.6bps  tot=+204.66%  sh=  +434.5
+    ✅ test=+7.309%/d
+
+  Wick ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8181  wr= 66.6%  avg=  +3.8bps  tot=+309.62%  sh=  +230.0
+  ✅ TEST                                                     n=4299  wr= 82.8%  avg=  +7.8bps  tot=+334.37%  sh=  +458.9
+    ✅ test=+11.942%/d
+
+  --- EXP AAAA5: EMA DISTANCE ---
+
+  EMA(20) dist <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4287  wr= 72.1%  avg=  +6.2bps  tot=+266.24%  sh=  +290.8
+  ✅ TEST                                                     n=2218  wr= 84.0%  avg= +10.0bps  tot=+221.59%  sh=  +448.2
+    ✅ test=+7.914%/d
+
+  EMA(20) dist <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7443  wr= 69.7%  avg=  +5.4bps  tot=+399.07%  sh=  +272.5
+  ✅ TEST                                                     n=3865  wr= 83.0%  avg=  +9.1bps  tot=+353.01%  sh=  +443.9
+    ✅ test=+12.607%/d
+
+  EMA(50) dist <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5369  wr= 70.6%  avg=  +5.8bps  tot=+309.94%  sh=  +282.7
+  ✅ TEST                                                     n=2853  wr= 83.9%  avg=  +9.3bps  tot=+265.08%  sh=  +452.6
+    ✅ test=+9.467%/d
+
+  EMA(50) dist <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8828  wr= 69.2%  avg=  +5.1bps  tot=+449.51%  sh=  +274.4
+  ✅ TEST                                                     n=4609  wr= 84.0%  avg=  +8.8bps  tot=+406.16%  sh=  +453.4
+    ✅ test=+14.506%/d
+  Loading XRPUSDT... [10/88 19s] [20/88 29s] [30/88 38s] [40/88 50s] [50/88 64s] [60/88 73s] [70/88 110s] [80/88 135s] [88/88 149s] 126,720 bars (149s) [RAM=0.4GB, avail=6.7GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP XXXX4: ROLLING MEDIAN DEVIATION ---
+
+  Median dev(30) z>2 (fade):
+  ✅ TRAIN                                                    n=2443  wr= 60.1%  avg=  +3.8bps  tot= +92.08%  sh=  +215.5
+  ✅ TEST                                                     n=1277  wr= 76.0%  avg=  +7.8bps  tot= +99.36%  sh=  +296.6
+    ✅ test=+3.549%/d
+
+  Median dev(30) z>3 (fade):
+  ✅ TRAIN                                                    n= 766  wr= 67.5%  avg=  +5.8bps  tot= +44.39%  sh=  +288.4
+  ✅ TEST                                                     n= 426  wr= 78.9%  avg= +10.4bps  tot= +44.45%  sh=  +289.8
+    ✅ test=+1.588%/d
+
+  Median dev(60) z>2 (fade):
+  ✅ TRAIN                                                    n=2492  wr= 63.5%  avg=  +4.3bps  tot=+107.27%  sh=  +267.0
+  ✅ TEST                                                     n=1537  wr= 75.6%  avg=  +6.9bps  tot=+106.39%  sh=  +283.7
+    ✅ test=+3.800%/d
+
+  Median dev(60) z>3 (fade):
+  ✅ TRAIN                                                    n= 837  wr= 75.1%  avg=  +6.8bps  tot= +56.98%  sh=  +396.8
+  ✅ TEST                                                     n= 568  wr= 78.5%  avg=  +8.6bps  tot= +49.04%  sh=  +278.8
+    ✅ test=+1.751%/d
+
+  --- EXP YYYY4: OPEN-CLOSE RATIO ---
+
+  OC ratio(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3244  wr= 50.7%  avg=  +1.6bps  tot= +52.69%  sh=  +101.4
+  ✅ TEST                                                     n=1798  wr= 70.6%  avg=  +5.5bps  tot= +98.39%  sh=  +246.7
+    ✅ test=+3.514%/d
+
+  OC ratio(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=5930  wr= 51.2%  avg=  +1.7bps  tot= +98.39%  sh=  +108.6
+  ✅ TEST                                                     n=3412  wr= 71.4%  avg=  +5.5bps  tot=+188.51%  sh=  +278.4
+    ✅ test=+6.733%/d
+
+  OC ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3952  wr= 51.0%  avg=  +1.7bps  tot= +65.75%  sh=  +105.8
+  ✅ TEST                                                     n=2187  wr= 71.1%  avg=  +5.5bps  tot=+121.22%  sh=  +264.0
+    ✅ test=+4.329%/d
+
+  OC ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6586  wr= 50.7%  avg=  +1.6bps  tot=+107.95%  sh=  +102.5
+  ✅ TEST                                                     n=3751  wr= 72.1%  avg=  +5.6bps  tot=+211.49%  sh=  +286.4
+    ✅ test=+7.553%/d
+
+  --- EXP ZZZZ4: WICK RATIO ---
+
+  Wick ratio(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3531  wr= 49.2%  avg=  +1.3bps  tot= +47.46%  sh=   +94.4
+  ✅ TEST                                                     n=1997  wr= 72.7%  avg=  +5.0bps  tot= +99.03%  sh=  +348.5
+    ✅ test=+3.537%/d
+
+  Wick ratio(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6399  wr= 49.7%  avg=  +1.4bps  tot= +87.95%  sh=   +96.0
+  ✅ TEST                                                     n=3598  wr= 72.5%  avg=  +5.1bps  tot=+184.27%  sh=  +331.1
+    ✅ test=+6.581%/d
+
+  Wick ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4361  wr= 50.5%  avg=  +1.2bps  tot= +54.32%  sh=   +84.5
+  ✅ TEST                                                     n=2355  wr= 72.6%  avg=  +4.9bps  tot=+116.28%  sh=  +319.4
+    ✅ test=+4.153%/d
+
+  Wick ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7174  wr= 50.6%  avg=  +1.4bps  tot= +98.51%  sh=   +94.1
+  ✅ TEST                                                     n=3975  wr= 72.0%  avg=  +5.0bps  tot=+200.25%  sh=  +318.7
+    ✅ test=+7.152%/d
+
+  --- EXP AAAA5: EMA DISTANCE ---
+
+  EMA(20) dist <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3544  wr= 56.6%  avg=  +3.2bps  tot=+115.12%  sh=  +174.6
+  ✅ TEST                                                     n=2053  wr= 74.6%  avg=  +7.3bps  tot=+149.66%  sh=  +312.1
+    ✅ test=+5.345%/d
+
+  EMA(20) dist <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6421  wr= 55.0%  avg=  +2.6bps  tot=+169.80%  sh=  +156.0
+  ✅ TEST                                                     n=3647  wr= 73.6%  avg=  +6.7bps  tot=+244.39%  sh=  +321.6
+    ✅ test=+8.728%/d
+
+  EMA(50) dist <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4516  wr= 55.4%  avg=  +2.9bps  tot=+129.25%  sh=  +160.9
+  ✅ TEST                                                     n=2689  wr= 73.0%  avg=  +6.5bps  tot=+176.08%  sh=  +303.2
+    ✅ test=+6.289%/d
+
+  EMA(50) dist <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7522  wr= 54.3%  avg=  +2.5bps  tot=+184.45%  sh=  +148.3
+  ✅ TEST                                                     n=4314  wr= 72.0%  avg=  +6.3bps  tot=+269.65%  sh=  +312.4
+    ✅ test=+9.631%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    ema_20_0.05            2218   84.0%   +10.0bp   +221.6%     +448
+  ✅ DOGEUSDT    ema_20_0.1             3865   83.0%    +9.1bp   +353.0%     +444
+  ✅ DOGEUSDT    ema_50_0.05            2853   83.9%    +9.3bp   +265.1%     +453
+  ✅ DOGEUSDT    ema_50_0.1             4609   84.0%    +8.8bp   +406.2%     +453
+  ✅ DOGEUSDT    median_30_z2           1356   84.6%   +10.0bp   +135.8%     +425
+  ✅ DOGEUSDT    median_30_z3            513   85.4%   +12.6bp    +64.5%     +434
+  ✅ DOGEUSDT    median_60_z2           1597   86.3%   +10.2bp   +162.4%     +470
+  ✅ DOGEUSDT    median_60_z3            634   90.5%   +12.5bp    +79.4%     +494
+  ✅ DOGEUSDT    oc_10_0.05             2008   82.1%    +8.1bp   +162.0%     +459
+  ✅ DOGEUSDT    oc_10_0.1              3633   81.1%    +7.7bp   +280.2%     +428
+  ✅ DOGEUSDT    oc_20_0.05             2390   83.8%    +8.1bp   +193.4%     +469
+  ✅ DOGEUSDT    oc_20_0.1              4081   82.2%    +7.7bp   +313.7%     +449
+  ✅ DOGEUSDT    wick_10_0.05           2144   81.6%    +7.4bp   +158.4%     +422
+  ✅ DOGEUSDT    wick_10_0.1            3793   82.1%    +7.4bp   +280.6%     +445
+  ✅ DOGEUSDT    wick_20_0.05           2676   82.1%    +7.6bp   +204.7%     +435
+  ✅ DOGEUSDT    wick_20_0.1            4299   82.8%    +7.8bp   +334.4%     +459
+  ✅ ETHUSDT     ema_20_0.05            1891   75.2%    +5.7bp   +107.4%     +346
+  ✅ ETHUSDT     ema_20_0.1             3358   71.3%    +4.8bp   +161.9%     +308
+  ✅ ETHUSDT     ema_50_0.05            2466   73.0%    +5.0bp   +124.3%     +319
+  ✅ ETHUSDT     ema_50_0.1             4031   69.6%    +4.5bp   +181.1%     +288
+  ✅ ETHUSDT     median_30_z2           1185   74.9%    +5.9bp    +69.9%     +365
+  ✅ ETHUSDT     median_30_z3            398   79.9%    +7.6bp    +30.2%     +384
+  ✅ ETHUSDT     median_60_z2           1305   75.7%    +5.7bp    +74.8%     +359
+  ✅ ETHUSDT     median_60_z3            527   79.1%    +6.7bp    +35.2%     +381
+  ✅ ETHUSDT     oc_10_0.05             1654   64.4%    +3.4bp    +56.6%     +246
+  ✅ ETHUSDT     oc_10_0.1              3067   63.6%    +3.2bp    +97.7%     +228
+  ✅ ETHUSDT     oc_20_0.05             2077   63.4%    +3.2bp    +67.5%     +244
+  ✅ ETHUSDT     oc_20_0.1              3538   63.8%    +3.3bp   +117.6%     +245
+  ✅ ETHUSDT     wick_10_0.05           1793   58.8%    +2.7bp    +48.8%     +190
+  ✅ ETHUSDT     wick_10_0.1            3282   59.4%    +2.8bp    +92.6%     +201
+  ✅ ETHUSDT     wick_20_0.05           2260   60.0%    +3.2bp    +72.4%     +223
+  ✅ ETHUSDT     wick_20_0.1            3622   60.6%    +3.1bp   +112.9%     +219
+  ✅ SOLUSDT     ema_20_0.05            1949   69.4%    +4.8bp    +94.3%     +311
+  ✅ SOLUSDT     ema_20_0.1             3480   66.6%    +4.2bp   +145.4%     +276
+  ✅ SOLUSDT     ema_50_0.05            2580   67.0%    +4.2bp   +109.4%     +257
+  ✅ SOLUSDT     ema_50_0.1             4124   64.4%    +3.7bp   +152.0%     +234
+  ✅ SOLUSDT     median_30_z2           1129   67.9%    +4.4bp    +50.2%     +293
+  ✅ SOLUSDT     median_30_z3            405   72.6%    +5.4bp    +21.7%     +324
+  ✅ SOLUSDT     median_60_z2           1329   70.6%    +4.7bp    +62.5%     +261
+  ✅ SOLUSDT     median_60_z3            410   77.6%    +6.6bp    +27.2%     +323
+  ✅ SOLUSDT     oc_10_0.05             1720   60.9%    +2.9bp    +49.6%     +210
+  ✅ SOLUSDT     oc_10_0.1              3235   60.6%    +2.9bp    +95.2%     +210
+  ✅ SOLUSDT     oc_20_0.05             2140   62.0%    +3.1bp    +65.3%     +207
+  ✅ SOLUSDT     oc_20_0.1              3565   61.7%    +2.9bp   +105.0%     +193
+  ✅ SOLUSDT     wick_10_0.05           1822   62.2%    +2.8bp    +51.6%     +193
+  ✅ SOLUSDT     wick_10_0.1            3308   63.2%    +3.1bp   +102.4%     +208
+  ✅ SOLUSDT     wick_20_0.05           2179   65.9%    +3.4bp    +74.2%     +226
+  ✅ SOLUSDT     wick_20_0.1            3580   65.2%    +3.3bp   +117.1%     +214
+  ✅ XRPUSDT     ema_20_0.05            2053   74.6%    +7.3bp   +149.7%     +312
+  ✅ XRPUSDT     ema_20_0.1             3647   73.6%    +6.7bp   +244.4%     +322
+  ✅ XRPUSDT     ema_50_0.05            2689   73.0%    +6.5bp   +176.1%     +303
+  ✅ XRPUSDT     ema_50_0.1             4314   72.0%    +6.3bp   +269.7%     +312
+  ✅ XRPUSDT     median_30_z2           1277   76.0%    +7.8bp    +99.4%     +297
+  ✅ XRPUSDT     median_30_z3            426   78.9%   +10.4bp    +44.5%     +290
+  ✅ XRPUSDT     median_60_z2           1537   75.6%    +6.9bp   +106.4%     +284
+  ✅ XRPUSDT     median_60_z3            568   78.5%    +8.6bp    +49.0%     +279
+  ✅ XRPUSDT     oc_10_0.05             1798   70.6%    +5.5bp    +98.4%     +247
+  ✅ XRPUSDT     oc_10_0.1              3412   71.4%    +5.5bp   +188.5%     +278
+  ✅ XRPUSDT     oc_20_0.05             2187   71.1%    +5.5bp   +121.2%     +264
+  ✅ XRPUSDT     oc_20_0.1              3751   72.1%    +5.6bp   +211.5%     +286
+  ✅ XRPUSDT     wick_10_0.05           1997   72.7%    +5.0bp    +99.0%     +349
+  ✅ XRPUSDT     wick_10_0.1            3598   72.5%    +5.1bp   +184.3%     +331
+  ✅ XRPUSDT     wick_20_0.05           2355   72.6%    +4.9bp   +116.3%     +319
+  ✅ XRPUSDT     wick_20_0.1            3975   72.0%    +5.0bp   +200.2%     +319
+
+################################################################################
+  COMPLETE — 978s (16.3min) [RAM=0.2GB, avail=7.0GB]
+################################################################################
