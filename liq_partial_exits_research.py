@@ -50,7 +50,7 @@ np.random.seed(42)
 
 MAKER_FEE = 0.02    # percent
 TAKER_FEE = 0.055   # percent
-SYMBOLS = ['DOGEUSDT', 'SOLUSDT', 'ETHUSDT', 'XRPUSDT']
+SYMBOLS = ['BTCUSDT', 'DOGEUSDT', 'SOLUSDT', 'ETHUSDT', 'XRPUSDT']
 
 
 # ============================================================================
