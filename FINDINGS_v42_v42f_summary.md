@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 114 Signal Types Discovered
+### 118 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -970,6 +970,10 @@ Strategy contribution (standalone):
 | 112 | HL Correlation | Price only | 80% | +560%/28d | Low |
 | 113 | **MR Speed** | **Price only** | **88%** | **+660%/28d** | **Low** |
 | 114 | Vol Persistence | Price only | 80% | +422%/28d | Low |
+| 115 | Return Entropy | Price only | 75% | +552%/28d | Low |
+| 116 | Fractal Dimension | Price only | 79% | +240%/28d | Low |
+| 117 | **Momentum Quality** | **Price only** | **88%** | **+312%/28d** | **Low** |
+| 118 | Range Expansion Rate | Price only | 85% | +389%/28d | Low |
 
 ---
 
@@ -1179,3 +1183,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ba_oscillator_vptrend.py` | EXP JJJJ5-MMMM5: oscillator, vol ratio, autocorr, price pct |
 | `research_v42bb_hurst_accel2.py` | EXP NNNN5-QQQQ5: Hurst proxy, acceleration, IQR, HL position |
 | `research_v42bc_vwap_corr_mrspeed.py` | EXP RRRR5-UUUU5: VWAP dev, HL corr, MR speed, vol persistence |
+| `research_v42bd_entropy_fractal.py` | EXP VVVV5-YYYY5: entropy, fractal dim, mom quality, range expansion |
