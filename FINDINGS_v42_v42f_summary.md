@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 70 Signal Types Discovered
+### 74 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -926,6 +926,10 @@ Strategy contribution (standalone):
 | 68 | **Realized Vol Cone** | **Price only** | **88%** | **+667%/28d** | **Low** |
 | 69 | Mom-Vol Divergence | Price+Vol | 78% | +214%/28d | Low |
 | 70 | Rolling Sharpe | Price only | 84% | +116%/28d | Low |
+| 71 | Donchian Channel Fade | Price only | 84% | +363%/28d | Low |
+| 72 | **Keltner Channel** | **Price only** | **86%** | **+238%/28d** | **Low** |
+| 73 | Vol-Adjusted Momentum | Price only | 88% | +132%/28d | Low |
+| 74 | Bar Body Ratio | Price only | 71% | +7%/28d | Low |
 
 ---
 
@@ -1124,3 +1128,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ap_gap_volterm.py` | EXP RRRR2-UUUU2: gap, vol term, price-return div, tick runs |
 | `research_v42aq_support_distribution.py` | EXP VVVV2-YYYY3: S/R touch, kurtosis, MR speed, price pct |
 | `research_v42ar_volprofile_cone.py` | EXP ZZZZ3-CCCC4: VWAP pct, vol cone, mom-vol div, rolling Sharpe |
+| `research_v42as_channel_imbalance.py` | EXP DDDD4-GGGG4: Donchian, Keltner, vol-adj mom, body ratio |
