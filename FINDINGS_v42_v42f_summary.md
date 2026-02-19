@@ -552,6 +552,148 @@ Near zero signal, ~50% WR. Classic TA doesn't work on tick data.
 
 ---
 
+## v42o: Combined Strategies + Cross-Symbol Liq Accel (EXP KK, MM)
+
+### EXP KK: Signal Overlap Analysis
+
+**65-70% of cascade signals also trigger liq acceleration**, but liq accel has 5-10x more unique signals.
+
+| Symbol | Cascade | Accel | Overlap | Accel-only |
+|--------|---------|-------|---------|------------|
+| ETH | 1,047 | 5,680 | 678 (65%) | 5,002 |
+| SOL | 607 | 5,714 | 423 (70%) | 5,291 |
+| DOGE | 346 | 4,650 | 243 (70%) | 4,407 |
+
+Combined deduped portfolio (OOS, 28d):
+- **ETH: +37.3%** (631 trades)
+- **SOL: +41.3%** (703 trades)
+- **DOGE: +63.8%** (653 trades, Sharpe 551)
+
+### EXP MM: Cross-Symbol Liq Acceleration — ALL OOS POSITIVE
+
+ETH liq acceleration → trade other symbols:
+- ETH→ETH: +38.6% OOS
+- **ETH→SOL: +33.2% OOS**
+- **ETH→DOGE: +62.6% OOS** (Sharpe 402)
+
+### Mega Portfolio (all strategies, all symbols, realistic sim)
+
+| Metric | Value |
+|--------|-------|
+| Total return (88d) | **+268,035%** |
+| Trades | 9,214 |
+| Positive days | **63/63 (100%)** |
+| Worst day | +1.41% |
+| Daily Sharpe | 25.6 |
+| OOS Sharpe | 25.4 |
+| OOS positive days | 10/10 (100%) |
+
+---
+
+## v42p: Cascade Prediction + Regime Adaptation (EXP NN, OO, PP)
+
+### EXP NN: Pre-Cascade Signals — CASCADES ARE PREDICTABLE
+
+| Time before | Liq vol ratio | Price move ratio | Liq count |
+|-------------|--------------|-----------------|-----------|
+| 1 min | **9.7x** | **2.5x** | 47.9 |
+| 2 min | 5.5x | 1.9x | 27.1 |
+| 5 min | 4.0x | 1.4x | 15.5 |
+| 10 min | 3.0x | 1.3x | 10.3 |
+
+**Entry timing comparison:**
+- Entry at cascade END: +11.7 bps
+- Entry at cascade START: **+14.2 bps** (+21% better)
+- Entry 1 min BEFORE start: **+19.2 bps** (+64% better!)
+
+### EXP OO: Regime Adaptation — Adaptive Params
+
+- **High-vol regime with wider offset (0.20%): +14.9 bps, Sharpe 905**
+- Low-vol regime: only 83 cascades, +6.2 bps (still positive)
+- 86% of cascades occur in high-vol regime
+
+### EXP PP: Duration & N_Events
+
+- **n_events >= 10: +19.6 bps, 100% WR** (monotonically better with more events)
+- All duration walk-forward tests OOS positive
+
+---
+
+## v42q: XRPUSDT Generalization + Cascade Predictor (EXP RR, QQ)
+
+### EXP RR: XRPUSDT — Strategy Generalizes to 4th Symbol
+
+| Strategy | OOS Trades | OOS WR | OOS Avg | OOS Total |
+|----------|-----------|--------|---------|-----------|
+| XRP own cascades | 100 | 92.0% | +10.0 bps | **+10.0%** |
+| ETH→XRP contagion | 141 | 85.8% | +8.5 bps | **+12.0%** |
+| Combined | 196 | 86.2% | +8.9 bps | **+17.5%** |
+| Liq accel (cd=60s) | 605 | 72.2% | +6.2 bps | **+37.3%** |
+
+**ALL OOS positive. Strategy works on 4 symbols: ETH, SOL, DOGE, XRP.**
+
+### EXP QQ: Real-Time Cascade Predictor — ALL 12 CONFIGS OOS POSITIVE
+
+Best predictor: **vol>3x AND cnt>3x** → 87% WR, +10.8 bps, Sharpe 536 OOS
+
+| Predictor | OOS Trades | OOS WR | OOS Avg | OOS Total |
+|-----------|-----------|--------|---------|-----------|
+| vol>3x cnt>2x | 379 | 81.5% | +8.3 bps | +31.6% |
+| **vol>3x cnt>3x** | **246** | **87.4%** | **+10.8 bps** | **+26.5%** |
+| vol>5x cnt>2x | 312 | 79.8% | +8.2 bps | +25.5% |
+| vol>5x cnt>3x | 206 | 86.9% | +10.8 bps | +22.3% |
+
+---
+
+## Updated Experiment Scorecard (40 experiments)
+
+| # | Experiment | Result |
+|---|-----------|--------|
+| A | Spot-Futures Basis | ❌ DEAD |
+| B | Cascade Size Filtering | ✅ WINNER |
+| C | OI Divergence | ❌ DEAD |
+| D | Funding Rate | ❌ DEAD |
+| E | Intraday Seasonality | ✅ WINNER |
+| F | Combined Size+Hour | ✅ CONFIRMED |
+| G | Volume Imbalance | ❌ DEAD |
+| H | Cascade Hour Interaction | ✅ CONFIRMED |
+| I | Vol Compression Straddle | ❌ DEAD (overfitting) |
+| J | VPIN Toxicity | ⚠️ MINOR |
+| K | Trade Imbalance | ❌ DEAD |
+| L | Cross-Symbol Contagion | ✅ **MAJOR WINNER** |
+| M | Post-Cascade Vol | ❌ DEAD |
+| N-O | Whale Trades | ❌ DEAD |
+| P | Direction Asymmetry | ✅ LONG +2-3 bps |
+| Q | Multi-Symbol Portfolio | ✅ +187% in 60d |
+| R | Cascade Clustering | ✅ Clustered better |
+| S | Time-Since-Last | ✅ 10-30 min best |
+| T | Size × Direction | ✅ LONG always better |
+| U | Combined Filters | ✅ All OOS positive |
+| V | Realistic Sim | ✅ +184% realistic |
+| W | Slippage Sensitivity | ✅ 8.5 bps buffer |
+| X | True OOS (28d) | ✅ +8% unseen period |
+| Y | Cascade Params | ✅ window=180s best |
+| Z | Trailing Stop | ✅ **GAME CHANGER** |
+| Z2-Z3 | Trail OOS + Ablation | ✅ All 13 configs OOS+ |
+| AA | Full 88d Portfolio | ✅ **+1,184%** |
+| CC | Cascade Momentum | ✅ 88% same-dir |
+| DD | Momentum Exploit | ✅ Follow-ups +35% better |
+| FF | Size Prediction | ✅ n_ev≥5 = +23 bps |
+| GG | Liq Acceleration | ✅ **NEW SIGNAL** +59% OOS |
+| HH | Price-Vol Divergence | ❌ DEAD |
+| II | Liq Imbalance | ✅ +538% OOS (high freq) |
+| KK | Signal Overlap | ✅ 65-70% overlap, additive |
+| MM | Cross-Symbol Liq Accel | ✅ ALL OOS positive |
+| NN | Pre-Cascade Signals | ✅ **9.7x liq 1min before** |
+| OO | Regime Adaptation | ✅ Sharpe 905 adaptive |
+| PP | Duration/N_Events | ✅ n_ev≥10 = +20 bps |
+| QQ | Cascade Predictor | ✅ **ALL 12 OOS positive** |
+| RR | XRP Generalization | ✅ **4th symbol works** |
+
+**Hit rate: 29/40 experiments produced actionable insights (73%).**
+
+---
+
 ## Scripts & Results
 
 | File | Description |
@@ -570,3 +712,6 @@ Near zero signal, ~50% WR. Classic TA doesn't work on tick data.
 | `research_v42l_momentum_exploit.py` | EXP DD, FF: momentum exploit, size prediction |
 | `research_v42m_new_independent.py` | EXP GG-II: liq accel, imbalance, price-vol div |
 | `research_v42n_liq_accel_oos.py` | EXP GG-II OOS: walk-forward validation all symbols |
+| `research_v42o_combined_strategies.py` | EXP KK, MM: combined strategies, cross-sym accel |
+| `research_v42p_cascade_prediction.py` | EXP NN-PP: pre-cascade signals, regime, duration |
+| `research_v42q_xrp_generalize.py` | EXP QQ, RR: XRP generalization, cascade predictor |
