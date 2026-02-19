@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 94 Signal Types Discovered
+### 98 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -950,6 +950,10 @@ Strategy contribution (standalone):
 | 92 | Open-Close Ratio | Price only | 84% | +314%/28d | Low |
 | 93 | Wick Ratio | Price only | 83% | +334%/28d | Low |
 | 94 | **EMA Distance** | **Price only** | **84%** | **+406%/28d** | **Low** |
+| 95 | **Price Velocity** | **Price only** | **90%** | **+133%/28d** | **Low** |
+| 96 | Rolling Skewness | Price only | 81% | +400%/28d | Low |
+| 97 | Mom Divergence (S/L) | Price only | 81% | +125%/28d | Low |
+| 98 | **Vol-of-Vol** | **Price only** | **83%** | **+437%/28d** | **Low** |
 
 ---
 
@@ -1154,3 +1158,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42av_consec_efficiency.py` | EXP PPPP4-SSSS4: consecutive bars, efficiency, CC/HL vol, cum ret |
 | `research_v42aw_asymmetry_intrabar.py` | EXP TTTT4-WWWW4: asymmetry, intrabar mom, weighted close, range ratio |
 | `research_v42ax_median_gap.py` | EXP XXXX4-AAAA5: median dev, OC ratio, wick ratio, EMA distance |
+| `research_v42ay_velocity_skew.py` | EXP BBBB5-EEEE5: velocity, skewness, mom divergence, vol-of-vol |
