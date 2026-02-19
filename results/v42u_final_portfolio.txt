@@ -1,0 +1,66 @@
+================================================================================
+  v42u: FINAL MEGA PORTFOLIO — 4 STRATEGIES × 4 SYMBOLS
+  2026-02-19 07:37:55  [RAM=0.1GB, avail=5.7GB]
+================================================================================
+  Loading ETHUSDT liqs... [15/88 3s] [30/88 4s] [45/88 7s] [60/88 7s] [75/88 7s] 158,765 (9s) [RAM=0.2GB, avail=5.6GB]
+  Loading SOLUSDT liqs... [15/88 1s] [30/88 2s] [45/88 4s] [60/88 4s] [75/88 4s] 90,669 (5s) [RAM=0.2GB, avail=5.6GB]
+  Loading DOGEUSDT liqs... [15/88 1s] [30/88 1s] [45/88 2s] [60/88 2s] [75/88 2s] 45,630 (3s) [RAM=0.2GB, avail=5.7GB]
+  Loading XRPUSDT liqs... [15/88 1s] [30/88 2s] [45/88 3s] [60/88 4s] [75/88 4s] 61,648 (4s) [RAM=0.2GB, avail=5.7GB]
+  Loading ETHUSDT bars... [10/88 33s] [20/88 57s] [30/88 78s] [40/88 103s] [50/88 125s] [60/88 142s] [70/88 173s] [80/88 201s] [88/88 222s] 126,720 bars (222s) [RAM=0.6GB, avail=5.6GB]
+  Loading SOLUSDT bars... [10/88 16s] [20/88 29s] [30/88 40s] [40/88 53s] [50/88 63s] [60/88 72s] [70/88 85s] [80/88 104s] [88/88 113s] 126,720 bars (113s) [RAM=0.4GB, avail=6.6GB]
+  Loading DOGEUSDT bars... [10/88 21s] [20/88 35s] [30/88 44s] [40/88 54s] [50/88 62s] [60/88 70s] [70/88 97s] [80/88 120s] [88/88 129s] 126,720 bars (129s) [RAM=0.4GB, avail=6.5GB]
+  Loading XRPUSDT bars... [10/88 16s] [20/88 25s] [30/88 32s] [40/88 41s] [50/88 51s] [60/88 61s] [70/88 90s] [80/88 107s] [88/88 118s] 126,720 bars (118s) [RAM=0.5GB, avail=6.5GB]
+
+  [RAM=0.3GB, avail=6.5GB] all data loaded
+  ETHUSDT: signals generated [RAM=0.3GB, avail=6.5GB]
+  SOLUSDT: signals generated [RAM=0.3GB, avail=6.5GB]
+  DOGEUSDT: signals generated [RAM=0.3GB, avail=6.6GB]
+  XRPUSDT: signals generated [RAM=0.3GB, avail=6.6GB]
+
+  Total signals: 53,258
+
+################################################################################
+  REALISTIC PORTFOLIO SIMULATION
+################################################################################
+
+  FULL 88-DAY RESULTS:
+    Trades taken:    32,987
+    Total return:    +3,320,282,308,075.78%
+    Final equity:    33,202,823,081.7578
+    ETHUSDT: 8,009 trades
+    SOLUSDT: 8,776 trades
+    DOGEUSDT: 8,400 trades
+    XRPUSDT: 7,802 trades
+    From cascade: 1,784
+    From accel: 15,446
+    From micro_mr: 15,757
+
+    Trading days:    88
+    Positive days:   86/88 (98%)
+    Avg daily ret:   +27.579%
+    Daily Sharpe:    26.2
+    Worst day:       -4.170%
+    Best day:        +101.707%
+
+    OOS ONLY (Jul 11–Aug 7):
+    OOS trades:      8,489
+    OOS return:      +170,531.22%
+    OOS days:        28
+    OOS positive:    28/28 (100%)
+    OOS avg daily:   +26.622%
+    OOS Sharpe:      34.0
+    OOS worst day:   +5.670%
+
+################################################################################
+  INDIVIDUAL STRATEGY PERFORMANCE (standalone)
+################################################################################
+
+  CASCADE       trades=4,164  total=+8,248.1%  pos_days=63/63  sharpe=22.9
+
+  ACCEL         trades=15,536  total=+13,402,039.5%  pos_days=63/63  sharpe=28.1
+
+  MICRO_MR      trades=19,520  total=+971,903,965.1%  pos_days=87/88  sharpe=27.2
+
+################################################################################
+  COMPLETE — 641s (10.7min) [RAM=0.3GB, avail=6.8GB]
+################################################################################
