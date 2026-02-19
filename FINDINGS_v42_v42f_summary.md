@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 185 Signal Types Discovered
+### 189 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -1041,6 +1041,10 @@ Strategy contribution (standalone):
 | 183 | Close-Open Ratio | Price only | 82% | +394%/28d | Low |
 | 184 | Price Fractal Dim | Price only | 80% | +278%/28d | Low |
 | 185 | Intrabar Trend Str | Price only | 80% | +360%/28d | Low |
+| 186 | Boll %B Velocity | Price only | 83% | +300%/28d | Low |
+| 187 | **Regime Persistence** | **Price only** | **88%** | **+691%/28d** | **Low** |
+| 188 | Vol Ratio Extreme | Price only | 83% | +387%/28d | Low |
+| 189 | **Price Curvature** | **Price only** | **86%** | **+401%/28d** | **Low** |
 
 ---
 
@@ -1268,3 +1272,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bs_asymm_diverge.py` | EXP DDDD8-GGGG8: range asymm, ret concentration, mom diverge, wick trend |
 | `research_v42bt_zscore_entropy.py` | EXP HHHH8-KKKK8: z-score vel, gap fill, mom exhaustion (entropy dropped) |
 | `research_v42bu_sortino_copen.py` | EXP LLLL8-OOOO8: rolling Sortino, close-open ratio, fractal dim, intrabar trend |
+| `research_v42bv_channel_regime.py` | EXP PPPP8-SSSS8: Boll %B vel, regime persist, vol ratio, price curvature |
