@@ -1,0 +1,451 @@
+================================================================================
+  v42br: MOM QUALITY + RANGE CONTRACTION + CLOSE-HIGH + VOL OF VOL
+  2026-02-19 19:15:57  [RAM=0.1GB, avail=6.6GB]
+================================================================================
+  Loading ETHUSDT... [10/88 33s] [20/88 56s] [30/88 76s] [40/88 100s] [50/88 121s] [60/88 137s] [70/88 168s] [80/88 197s] [88/88 220s] 126,720 bars (220s) [RAM=0.5GB, avail=4.9GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP ZZZZ7: MOMENTUM QUALITY RATIO ---
+
+  Mom quality(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6528  wr= 66.5%  avg=  +5.9bps  tot=+386.04%  sh=  +236.7
+  ✅ TEST                                                     n=3306  wr= 69.6%  avg=  +5.1bps  tot=+168.95%  sh=  +315.7
+    ✅ test=+6.034%/d
+
+  Mom quality(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3696  wr= 68.6%  avg=  +7.0bps  tot=+259.62%  sh=  +243.1
+  ✅ TEST                                                     n=1862  wr= 72.9%  avg=  +5.8bps  tot=+107.88%  sh=  +353.9
+    ✅ test=+3.853%/d
+
+  Mom quality(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7285  wr= 66.4%  avg=  +5.9bps  tot=+428.72%  sh=  +238.0
+  ✅ TEST                                                     n=3630  wr= 71.2%  avg=  +5.5bps  tot=+199.05%  sh=  +336.7
+    ✅ test=+7.109%/d
+
+  Mom quality(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4261  wr= 68.7%  avg=  +7.0bps  tot=+299.28%  sh=  +243.6
+  ✅ TEST                                                     n=2230  wr= 73.1%  avg=  +6.0bps  tot=+133.79%  sh=  +354.0
+    ✅ test=+4.778%/d
+
+  --- EXP AAAA8: RANGE CONTRACTION RATIO ---
+
+  Range contract(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6139  wr= 64.8%  avg=  +6.3bps  tot=+385.01%  sh=  +231.8
+  ✅ TEST                                                     n=3003  wr= 68.6%  avg=  +5.5bps  tot=+164.66%  sh=  +298.2
+    ✅ test=+5.881%/d
+
+  Range contract(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3179  wr= 69.9%  avg=  +8.6bps  tot=+273.29%  sh=  +262.6
+  ✅ TEST                                                     n=1543  wr= 71.4%  avg=  +6.9bps  tot=+106.83%  sh=  +340.2
+    ✅ test=+3.815%/d
+
+  Range contract(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6505  wr= 65.4%  avg=  +6.3bps  tot=+412.73%  sh=  +234.8
+  ✅ TEST                                                     n=3171  wr= 68.9%  avg=  +5.6bps  tot=+176.13%  sh=  +310.6
+    ✅ test=+6.290%/d
+
+  Range contract(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3382  wr= 69.3%  avg=  +8.6bps  tot=+292.06%  sh=  +266.6
+  ✅ TEST                                                     n=1663  wr= 70.5%  avg=  +6.8bps  tot=+113.85%  sh=  +346.1
+    ✅ test=+4.066%/d
+
+  --- EXP BBBB8: CLOSE-TO-HIGH RATIO ---
+
+  Close-high(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4199  wr= 61.9%  avg=  +3.4bps  tot=+141.80%  sh=  +207.1
+  ✅ TEST                                                     n=2153  wr= 64.8%  avg=  +4.2bps  tot= +91.01%  sh=  +272.9
+    ✅ test=+3.250%/d
+
+  Close-high(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7018  wr= 61.5%  avg=  +3.3bps  tot=+233.18%  sh=  +195.9
+  ✅ TEST                                                     n=3542  wr= 64.9%  avg=  +4.0bps  tot=+143.32%  sh=  +275.0
+    ✅ test=+5.119%/d
+
+  Close-high(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5132  wr= 61.1%  avg=  +3.4bps  tot=+175.31%  sh=  +169.0
+  ✅ TEST                                                     n=2678  wr= 66.3%  avg=  +4.2bps  tot=+113.42%  sh=  +267.8
+    ✅ test=+4.051%/d
+
+  Close-high(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8180  wr= 60.2%  avg=  +3.2bps  tot=+260.45%  sh=  +174.3
+  ✅ TEST                                                     n=4176  wr= 66.1%  avg=  +4.1bps  tot=+169.66%  sh=  +268.8
+    ✅ test=+6.059%/d
+
+  --- EXP CCCC8: VOLATILITY OF VOLATILITY ---
+
+  Vol of vol(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7509  wr= 60.0%  avg=  +4.3bps  tot=+324.37%  sh=  +187.6
+  ✅ TEST                                                     n=3603  wr= 62.9%  avg=  +3.2bps  tot=+115.85%  sh=  +196.7
+    ✅ test=+4.138%/d
+
+  Vol of vol(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5157  wr= 60.9%  avg=  +4.7bps  tot=+242.33%  sh=  +194.7
+  ✅ TEST                                                     n=2498  wr= 64.0%  avg=  +3.4bps  tot= +85.56%  sh=  +208.3
+    ✅ test=+3.056%/d
+
+  Vol of vol(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9631  wr= 58.9%  avg=  +3.7bps  tot=+351.61%  sh=  +171.0
+  ✅ TEST                                                     n=4543  wr= 62.8%  avg=  +3.2bps  tot=+146.50%  sh=  +204.1
+    ✅ test=+5.232%/d
+
+  Vol of vol(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=7884  wr= 58.9%  avg=  +3.8bps  tot=+299.60%  sh=  +171.2
+  ✅ TEST                                                     n=3699  wr= 63.2%  avg=  +3.3bps  tot=+121.58%  sh=  +206.4
+    ✅ test=+4.342%/d
+  Loading SOLUSDT... [10/88 18s] [20/88 33s] [30/88 44s] [40/88 58s] [50/88 69s] [60/88 78s] [70/88 91s] [80/88 107s] [88/88 116s] 126,720 bars (116s) [RAM=0.3GB, avail=7.1GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP ZZZZ7: MOMENTUM QUALITY RATIO ---
+
+  Mom quality(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6966  wr= 66.0%  avg=  +4.7bps  tot=+324.06%  sh=  +232.8
+  ✅ TEST                                                     n=3379  wr= 68.9%  avg=  +5.1bps  tot=+173.75%  sh=  +326.4
+    ✅ test=+6.205%/d
+
+  Mom quality(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3979  wr= 68.5%  avg=  +5.4bps  tot=+214.45%  sh=  +250.8
+  ✅ TEST                                                     n=1939  wr= 69.7%  avg=  +5.2bps  tot=+101.60%  sh=  +327.0
+    ✅ test=+3.629%/d
+
+  Mom quality(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7819  wr= 67.3%  avg=  +5.1bps  tot=+402.50%  sh=  +256.8
+  ✅ TEST                                                     n=3864  wr= 70.5%  avg=  +5.3bps  tot=+205.97%  sh=  +337.9
+    ✅ test=+7.356%/d
+
+  Mom quality(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4626  wr= 69.0%  avg=  +6.0bps  tot=+275.40%  sh=  +263.1
+  ✅ TEST                                                     n=2312  wr= 72.1%  avg=  +5.9bps  tot=+135.92%  sh=  +359.6
+    ✅ test=+4.854%/d
+
+  --- EXP AAAA8: RANGE CONTRACTION RATIO ---
+
+  Range contract(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6664  wr= 65.9%  avg=  +5.1bps  tot=+340.38%  sh=  +240.8
+  ✅ TEST                                                     n=3123  wr= 68.4%  avg=  +5.5bps  tot=+170.98%  sh=  +316.8
+    ✅ test=+6.106%/d
+
+  Range contract(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3476  wr= 68.7%  avg=  +6.5bps  tot=+224.24%  sh=  +268.7
+  ✅ TEST                                                     n=1611  wr= 70.8%  avg=  +6.5bps  tot=+104.06%  sh=  +342.5
+    ✅ test=+3.716%/d
+
+  Range contract(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6885  wr= 66.3%  avg=  +5.2bps  tot=+358.71%  sh=  +245.5
+  ✅ TEST                                                     n=3287  wr= 69.4%  avg=  +5.7bps  tot=+187.99%  sh=  +323.8
+    ✅ test=+6.714%/d
+
+  Range contract(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3668  wr= 68.5%  avg=  +6.4bps  tot=+234.10%  sh=  +261.9
+  ✅ TEST                                                     n=1733  wr= 70.6%  avg=  +6.4bps  tot=+111.25%  sh=  +340.5
+    ✅ test=+3.973%/d
+
+  --- EXP BBBB8: CLOSE-TO-HIGH RATIO ---
+
+  Close-high(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4370  wr= 64.4%  avg=  +3.4bps  tot=+147.75%  sh=  +203.4
+  ✅ TEST                                                     n=2325  wr= 72.1%  avg=  +5.3bps  tot=+123.34%  sh=  +325.1
+    ✅ test=+4.405%/d
+
+  Close-high(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7350  wr= 63.6%  avg=  +3.5bps  tot=+254.46%  sh=  +202.8
+  ✅ TEST                                                     n=3828  wr= 70.0%  avg=  +4.7bps  tot=+180.24%  sh=  +290.7
+    ✅ test=+6.437%/d
+
+  Close-high(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5653  wr= 64.6%  avg=  +3.7bps  tot=+209.82%  sh=  +235.6
+  ✅ TEST                                                     n=2982  wr= 71.9%  avg=  +5.3bps  tot=+156.72%  sh=  +335.4
+    ✅ test=+5.597%/d
+
+  Close-high(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8917  wr= 64.2%  avg=  +3.6bps  tot=+317.61%  sh=  +217.6
+  ✅ TEST                                                     n=4601  wr= 71.5%  avg=  +5.0bps  tot=+230.12%  sh=  +326.8
+    ✅ test=+8.219%/d
+
+  --- EXP CCCC8: VOLATILITY OF VOLATILITY ---
+
+  Vol of vol(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7894  wr= 62.4%  avg=  +4.0bps  tot=+319.61%  sh=  +212.7
+  ✅ TEST                                                     n=4022  wr= 66.3%  avg=  +4.3bps  tot=+172.33%  sh=  +281.2
+    ✅ test=+6.154%/d
+
+  Vol of vol(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5485  wr= 63.5%  avg=  +4.4bps  tot=+240.66%  sh=  +215.3
+  ✅ TEST                                                     n=2828  wr= 66.2%  avg=  +4.3bps  tot=+120.69%  sh=  +287.5
+    ✅ test=+4.310%/d
+
+  Vol of vol(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=10300  wr= 62.8%  avg=  +3.8bps  tot=+388.94%  sh=  +213.1
+  ✅ TEST                                                     n=4856  wr= 66.7%  avg=  +4.2bps  tot=+204.91%  sh=  +266.5
+    ✅ test=+7.318%/d
+
+  Vol of vol(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8486  wr= 63.4%  avg=  +3.9bps  tot=+334.45%  sh=  +216.6
+  ✅ TEST                                                     n=3980  wr= 67.2%  avg=  +4.4bps  tot=+174.88%  sh=  +277.9
+    ✅ test=+6.246%/d
+  Loading DOGEUSDT... [10/88 22s] [20/88 36s] [30/88 45s] [40/88 55s] [50/88 63s] [60/88 71s] [70/88 99s] [80/88 121s] [88/88 130s] 126,720 bars (130s) [RAM=0.4GB, avail=7.0GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP ZZZZ7: MOMENTUM QUALITY RATIO ---
+
+  Mom quality(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7117  wr= 68.7%  avg=  +6.2bps  tot=+440.82%  sh=  +274.4
+  ✅ TEST                                                     n=3723  wr= 84.4%  avg= +10.6bps  tot=+395.18%  sh=  +460.8
+    ✅ test=+14.114%/d
+
+  Mom quality(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4080  wr= 70.7%  avg=  +6.9bps  tot=+283.00%  sh=  +282.0
+  ✅ TEST                                                     n=2144  wr= 85.0%  avg= +11.0bps  tot=+235.53%  sh=  +485.4
+    ✅ test=+8.412%/d
+
+  Mom quality(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7913  wr= 70.6%  avg=  +6.5bps  tot=+517.88%  sh=  +286.5
+  ✅ TEST                                                     n=4097  wr= 85.6%  avg= +10.8bps  tot=+440.78%  sh=  +493.7
+    ✅ test=+15.742%/d
+
+  Mom quality(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4675  wr= 72.5%  avg=  +7.3bps  tot=+343.45%  sh=  +295.5
+  ✅ TEST                                                     n=2424  wr= 86.2%  avg= +11.3bps  tot=+273.47%  sh=  +506.1
+    ✅ test=+9.767%/d
+
+  --- EXP AAAA8: RANGE CONTRACTION RATIO ---
+
+  Range contract(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6715  wr= 68.6%  avg=  +6.7bps  tot=+450.35%  sh=  +262.8
+  ✅ TEST                                                     n=3431  wr= 84.2%  avg= +11.8bps  tot=+403.56%  sh=  +441.8
+    ✅ test=+14.413%/d
+
+  Range contract(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3530  wr= 70.5%  avg=  +8.3bps  tot=+293.18%  sh=  +275.3
+  ✅ TEST                                                     n=1791  wr= 85.6%  avg= +13.7bps  tot=+245.77%  sh=  +457.4
+    ✅ test=+8.778%/d
+
+  Range contract(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6958  wr= 69.2%  avg=  +6.9bps  tot=+482.68%  sh=  +264.3
+  ✅ TEST                                                     n=3600  wr= 84.3%  avg= +11.8bps  tot=+426.14%  sh=  +449.4
+    ✅ test=+15.219%/d
+
+  Range contract(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3693  wr= 71.2%  avg=  +8.4bps  tot=+311.66%  sh=  +282.6
+  ✅ TEST                                                     n=1925  wr= 85.1%  avg= +13.6bps  tot=+261.59%  sh=  +447.1
+    ✅ test=+9.342%/d
+
+  --- EXP BBBB8: CLOSE-TO-HIGH RATIO ---
+
+  Close-high(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4435  wr= 67.1%  avg=  +4.5bps  tot=+198.56%  sh=  +253.9
+  ✅ TEST                                                     n=2339  wr= 84.6%  avg=  +9.8bps  tot=+228.46%  sh=  +469.4
+    ✅ test=+8.159%/d
+
+  Close-high(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7539  wr= 67.5%  avg=  +4.6bps  tot=+348.16%  sh=  +264.1
+  ✅ TEST                                                     n=3902  wr= 85.3%  avg=  +9.6bps  tot=+372.82%  sh=  +484.2
+    ✅ test=+13.315%/d
+
+  Close-high(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5702  wr= 68.3%  avg=  +5.0bps  tot=+282.48%  sh=  +262.4
+  ✅ TEST                                                     n=2867  wr= 84.8%  avg=  +9.9bps  tot=+282.84%  sh=  +513.6
+    ✅ test=+10.101%/d
+
+  Close-high(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9034  wr= 68.4%  avg=  +4.8bps  tot=+434.20%  sh=  +267.7
+  ✅ TEST                                                     n=4624  wr= 85.5%  avg=  +9.6bps  tot=+442.18%  sh=  +522.6
+    ✅ test=+15.792%/d
+
+  --- EXP CCCC8: VOLATILITY OF VOLATILITY ---
+
+  Vol of vol(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7860  wr= 66.3%  avg=  +5.3bps  tot=+416.47%  sh=  +235.8
+  ✅ TEST                                                     n=4210  wr= 82.6%  avg=  +9.3bps  tot=+393.27%  sh=  +431.3
+    ✅ test=+14.045%/d
+
+  Vol of vol(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5439  wr= 66.8%  avg=  +5.7bps  tot=+309.03%  sh=  +237.6
+  ✅ TEST                                                     n=2870  wr= 83.6%  avg=  +9.7bps  tot=+278.25%  sh=  +442.8
+    ✅ test=+9.937%/d
+
+  Vol of vol(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=10628  wr= 64.9%  avg=  +4.9bps  tot=+520.43%  sh=  +228.5
+  ✅ TEST                                                     n=5358  wr= 82.6%  avg=  +9.0bps  tot=+484.23%  sh=  +452.5
+    ✅ test=+17.294%/d
+
+  Vol of vol(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8853  wr= 65.4%  avg=  +5.2bps  tot=+457.76%  sh=  +235.3
+  ✅ TEST                                                     n=4380  wr= 82.9%  avg=  +9.3bps  tot=+406.15%  sh=  +450.6
+    ✅ test=+14.505%/d
+  Loading XRPUSDT... [10/88 18s] [20/88 29s] [30/88 39s] [40/88 49s] [50/88 60s] [60/88 69s] [70/88 102s] [80/88 120s] [88/88 131s] 126,720 bars (131s) [RAM=0.4GB, avail=6.8GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP ZZZZ7: MOMENTUM QUALITY RATIO ---
+
+  Mom quality(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6282  wr= 55.6%  avg=  +3.0bps  tot=+189.71%  sh=  +166.8
+  ✅ TEST                                                     n=3460  wr= 74.3%  avg=  +7.7bps  tot=+265.94%  sh=  +323.3
+    ✅ test=+9.498%/d
+
+  Mom quality(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3551  wr= 58.0%  avg=  +3.8bps  tot=+135.17%  sh=  +192.2
+  ✅ TEST                                                     n=1968  wr= 75.3%  avg=  +8.7bps  tot=+170.64%  sh=  +333.9
+    ✅ test=+6.094%/d
+
+  Mom quality(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7001  wr= 57.7%  avg=  +3.3bps  tot=+229.88%  sh=  +174.7
+  ✅ TEST                                                     n=3984  wr= 75.8%  avg=  +8.0bps  tot=+318.98%  sh=  +340.7
+    ✅ test=+11.392%/d
+
+  Mom quality(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4188  wr= 60.7%  avg=  +3.9bps  tot=+165.42%  sh=  +193.4
+  ✅ TEST                                                     n=2480  wr= 75.8%  avg=  +8.4bps  tot=+209.52%  sh=  +344.2
+    ✅ test=+7.483%/d
+
+  --- EXP AAAA8: RANGE CONTRACTION RATIO ---
+
+  Range contract(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=5966  wr= 55.6%  avg=  +3.4bps  tot=+203.89%  sh=  +163.0
+  ✅ TEST                                                     n=3282  wr= 75.3%  avg=  +8.9bps  tot=+290.84%  sh=  +341.1
+    ✅ test=+10.387%/d
+
+  Range contract(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3141  wr= 56.7%  avg=  +4.5bps  tot=+141.11%  sh=  +187.2
+  ✅ TEST                                                     n=1691  wr= 76.5%  avg= +10.4bps  tot=+176.64%  sh=  +346.6
+    ✅ test=+6.309%/d
+
+  Range contract(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6263  wr= 56.5%  avg=  +3.6bps  tot=+225.34%  sh=  +172.3
+  ✅ TEST                                                     n=3467  wr= 76.3%  avg=  +8.9bps  tot=+310.20%  sh=  +352.6
+    ✅ test=+11.079%/d
+
+  Range contract(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3308  wr= 58.8%  avg=  +4.7bps  tot=+154.52%  sh=  +190.0
+  ✅ TEST                                                     n=1811  wr= 77.2%  avg= +10.1bps  tot=+183.49%  sh=  +353.1
+    ✅ test=+6.553%/d
+
+  --- EXP BBBB8: CLOSE-TO-HIGH RATIO ---
+
+  Close-high(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4038  wr= 51.3%  avg=  +1.8bps  tot= +72.27%  sh=  +115.7
+  ✅ TEST                                                     n=2323  wr= 76.5%  avg=  +6.9bps  tot=+160.59%  sh=  +384.0
+    ✅ test=+5.735%/d
+
+  Close-high(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6827  wr= 51.8%  avg=  +1.7bps  tot=+117.88%  sh=  +110.2
+  ✅ TEST                                                     n=3915  wr= 76.3%  avg=  +6.7bps  tot=+261.65%  sh=  +378.9
+    ✅ test=+9.345%/d
+
+  Close-high(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5110  wr= 54.3%  avg=  +2.1bps  tot=+108.43%  sh=  +138.8
+  ✅ TEST                                                     n=2931  wr= 77.4%  avg=  +6.9bps  tot=+203.25%  sh=  +386.9
+    ✅ test=+7.259%/d
+
+  Close-high(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8049  wr= 54.1%  avg=  +2.2bps  tot=+174.55%  sh=  +136.3
+  ✅ TEST                                                     n=4652  wr= 76.4%  avg=  +6.6bps  tot=+307.51%  sh=  +385.8
+    ✅ test=+10.983%/d
+
+  --- EXP CCCC8: VOLATILITY OF VOLATILITY ---
+
+  Vol of vol(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7180  wr= 52.3%  avg=  +2.4bps  tot=+170.57%  sh=  +124.2
+  ✅ TEST                                                     n=4150  wr= 73.0%  avg=  +6.6bps  tot=+271.97%  sh=  +314.9
+    ✅ test=+9.713%/d
+
+  Vol of vol(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4992  wr= 53.4%  avg=  +2.6bps  tot=+129.04%  sh=  +129.6
+  ✅ TEST                                                     n=2887  wr= 72.6%  avg=  +6.6bps  tot=+190.81%  sh=  +311.9
+    ✅ test=+6.815%/d
+
+  Vol of vol(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9217  wr= 52.8%  avg=  +2.3bps  tot=+212.29%  sh=  +128.4
+  ✅ TEST                                                     n=4888  wr= 72.8%  avg=  +6.5bps  tot=+319.88%  sh=  +332.8
+    ✅ test=+11.424%/d
+
+  Vol of vol(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=7549  wr= 53.4%  avg=  +2.4bps  tot=+184.38%  sh=  +132.2
+  ✅ TEST                                                     n=3988  wr= 73.3%  avg=  +6.6bps  tot=+264.89%  sh=  +335.5
+    ✅ test=+9.460%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    ch_20_0.05               2339   84.6%    +9.8bp   +228.5%     +469
+  ✅ DOGEUSDT    ch_20_0.1                3902   85.3%    +9.6bp   +372.8%     +484
+  ✅ DOGEUSDT    ch_40_0.05               2867   84.8%    +9.9bp   +282.8%     +514
+  ✅ DOGEUSDT    ch_40_0.1                4624   85.5%    +9.6bp   +442.2%     +523
+  ✅ DOGEUSDT    mq_20_0.9                3723   84.4%   +10.6bp   +395.2%     +461
+  ✅ DOGEUSDT    mq_20_0.95               2144   85.0%   +11.0bp   +235.5%     +485
+  ✅ DOGEUSDT    mq_40_0.9                4097   85.6%   +10.8bp   +440.8%     +494
+  ✅ DOGEUSDT    mq_40_0.95               2424   86.2%   +11.3bp   +273.5%     +506
+  ✅ DOGEUSDT    rc_30_0.9                3431   84.2%   +11.8bp   +403.6%     +442
+  ✅ DOGEUSDT    rc_30_0.95               1791   85.6%   +13.7bp   +245.8%     +457
+  ✅ DOGEUSDT    rc_60_0.9                3600   84.3%   +11.8bp   +426.1%     +449
+  ✅ DOGEUSDT    rc_60_0.95               1925   85.1%   +13.6bp   +261.6%     +447
+  ✅ DOGEUSDT    vov_30_0.9               4210   82.6%    +9.3bp   +393.3%     +431
+  ✅ DOGEUSDT    vov_30_0.95              2870   83.6%    +9.7bp   +278.2%     +443
+  ✅ DOGEUSDT    vov_60_0.9               5358   82.6%    +9.0bp   +484.2%     +453
+  ✅ DOGEUSDT    vov_60_0.95              4380   82.9%    +9.3bp   +406.1%     +451
+  ✅ ETHUSDT     ch_20_0.05               2153   64.8%    +4.2bp    +91.0%     +273
+  ✅ ETHUSDT     ch_20_0.1                3542   64.9%    +4.0bp   +143.3%     +275
+  ✅ ETHUSDT     ch_40_0.05               2678   66.3%    +4.2bp   +113.4%     +268
+  ✅ ETHUSDT     ch_40_0.1                4176   66.1%    +4.1bp   +169.7%     +269
+  ✅ ETHUSDT     mq_20_0.9                3306   69.6%    +5.1bp   +169.0%     +316
+  ✅ ETHUSDT     mq_20_0.95               1862   72.9%    +5.8bp   +107.9%     +354
+  ✅ ETHUSDT     mq_40_0.9                3630   71.2%    +5.5bp   +199.1%     +337
+  ✅ ETHUSDT     mq_40_0.95               2230   73.1%    +6.0bp   +133.8%     +354
+  ✅ ETHUSDT     rc_30_0.9                3003   68.6%    +5.5bp   +164.7%     +298
+  ✅ ETHUSDT     rc_30_0.95               1543   71.4%    +6.9bp   +106.8%     +340
+  ✅ ETHUSDT     rc_60_0.9                3171   68.9%    +5.6bp   +176.1%     +311
+  ✅ ETHUSDT     rc_60_0.95               1663   70.5%    +6.8bp   +113.9%     +346
+  ✅ ETHUSDT     vov_30_0.9               3603   62.9%    +3.2bp   +115.9%     +197
+  ✅ ETHUSDT     vov_30_0.95              2498   64.0%    +3.4bp    +85.6%     +208
+  ✅ ETHUSDT     vov_60_0.9               4543   62.8%    +3.2bp   +146.5%     +204
+  ✅ ETHUSDT     vov_60_0.95              3699   63.2%    +3.3bp   +121.6%     +206
+  ✅ SOLUSDT     ch_20_0.05               2325   72.1%    +5.3bp   +123.3%     +325
+  ✅ SOLUSDT     ch_20_0.1                3828   70.0%    +4.7bp   +180.2%     +291
+  ✅ SOLUSDT     ch_40_0.05               2982   71.9%    +5.3bp   +156.7%     +335
+  ✅ SOLUSDT     ch_40_0.1                4601   71.5%    +5.0bp   +230.1%     +327
+  ✅ SOLUSDT     mq_20_0.9                3379   68.9%    +5.1bp   +173.8%     +326
+  ✅ SOLUSDT     mq_20_0.95               1939   69.7%    +5.2bp   +101.6%     +327
+  ✅ SOLUSDT     mq_40_0.9                3864   70.5%    +5.3bp   +206.0%     +338
+  ✅ SOLUSDT     mq_40_0.95               2312   72.1%    +5.9bp   +135.9%     +360
+  ✅ SOLUSDT     rc_30_0.9                3123   68.4%    +5.5bp   +171.0%     +317
+  ✅ SOLUSDT     rc_30_0.95               1611   70.8%    +6.5bp   +104.1%     +342
+  ✅ SOLUSDT     rc_60_0.9                3287   69.4%    +5.7bp   +188.0%     +324
+  ✅ SOLUSDT     rc_60_0.95               1733   70.6%    +6.4bp   +111.3%     +340
+  ✅ SOLUSDT     vov_30_0.9               4022   66.3%    +4.3bp   +172.3%     +281
+  ✅ SOLUSDT     vov_30_0.95              2828   66.2%    +4.3bp   +120.7%     +288
+  ✅ SOLUSDT     vov_60_0.9               4856   66.7%    +4.2bp   +204.9%     +267
+  ✅ SOLUSDT     vov_60_0.95              3980   67.2%    +4.4bp   +174.9%     +278
+  ✅ XRPUSDT     ch_20_0.05               2323   76.5%    +6.9bp   +160.6%     +384
+  ✅ XRPUSDT     ch_20_0.1                3915   76.3%    +6.7bp   +261.7%     +379
+  ✅ XRPUSDT     ch_40_0.05               2931   77.4%    +6.9bp   +203.2%     +387
+  ✅ XRPUSDT     ch_40_0.1                4652   76.4%    +6.6bp   +307.5%     +386
+  ✅ XRPUSDT     mq_20_0.9                3460   74.3%    +7.7bp   +265.9%     +323
+  ✅ XRPUSDT     mq_20_0.95               1968   75.3%    +8.7bp   +170.6%     +334
+  ✅ XRPUSDT     mq_40_0.9                3984   75.8%    +8.0bp   +319.0%     +341
+  ✅ XRPUSDT     mq_40_0.95               2480   75.8%    +8.4bp   +209.5%     +344
+  ✅ XRPUSDT     rc_30_0.9                3282   75.3%    +8.9bp   +290.8%     +341
+  ✅ XRPUSDT     rc_30_0.95               1691   76.5%   +10.4bp   +176.6%     +347
+  ✅ XRPUSDT     rc_60_0.9                3467   76.3%    +8.9bp   +310.2%     +353
+  ✅ XRPUSDT     rc_60_0.95               1811   77.2%   +10.1bp   +183.5%     +353
+  ✅ XRPUSDT     vov_30_0.9               4150   73.0%    +6.6bp   +272.0%     +315
+  ✅ XRPUSDT     vov_30_0.95              2887   72.6%    +6.6bp   +190.8%     +312
+  ✅ XRPUSDT     vov_60_0.9               4888   72.8%    +6.5bp   +319.9%     +333
+  ✅ XRPUSDT     vov_60_0.95              3988   73.3%    +6.6bp   +264.9%     +335
+
+################################################################################
+  COMPLETE — 844s (14.1min) [RAM=0.2GB, avail=7.1GB]
+################################################################################
