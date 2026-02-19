@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 86 Signal Types Discovered
+### 90 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -942,6 +942,10 @@ Strategy contribution (standalone):
 | 84 | Price Efficiency Ratio | Price only | 84% | +176%/28d | Low |
 | 85 | CC/HL Vol Ratio | Price only | 79% | +336%/28d | Low |
 | 86 | **Cumulative Return Dev** | **Price only** | **92%** | **+140%/28d** | **Low** |
+| 87 | Return Asymmetry | Price only | 82% | +340%/28d | Low |
+| 88 | Intrabar Momentum | Price only | 81% | +303%/28d | Low |
+| 89 | **Weighted Close Div** | **Price only** | **98%** | **+290%/28d** | **Low** |
+| 90 | Range Ratio Expansion | Price only | 88% | +259%/28d | Low |
 
 ---
 
@@ -1144,3 +1148,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42at_accel_climax.py` | EXP HHHH4-KKKK4: acceleration, vol climax, multi-TF, oscillation |
 | `research_v42au_strength_memory.py` | EXP LLLL4-OOOO4: price memory, vol breakout, trend exhaust, range |
 | `research_v42av_consec_efficiency.py` | EXP PPPP4-SSSS4: consecutive bars, efficiency, CC/HL vol, cum ret |
+| `research_v42aw_asymmetry_intrabar.py` | EXP TTTT4-WWWW4: asymmetry, intrabar mom, weighted close, range ratio |
