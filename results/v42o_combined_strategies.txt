@@ -1,0 +1,138 @@
+================================================================================
+  v42o: COMBINED STRATEGIES + CROSS-SYMBOL LIQ ACCEL
+  2026-02-19 06:42:30  [RAM=0.1GB, avail=6.9GB]
+================================================================================
+  Loading ETHUSDT liqs... [15/88 3s] [30/88 6s] [45/88 9s] [60/88 9s] [75/88 9s] 158,765 (11s) [RAM=0.2GB, avail=6.8GB]
+  Loading SOLUSDT liqs... [15/88 1s] [30/88 2s] [45/88 4s] [60/88 5s] [75/88 5s] 90,669 (6s) [RAM=0.2GB, avail=6.8GB]
+  Loading DOGEUSDT liqs... [15/88 1s] [30/88 2s] [45/88 3s] [60/88 3s] [75/88 3s] 45,630 (4s) [RAM=0.2GB, avail=6.8GB]
+  Loading ETHUSDT bars... [10/88 42s] [20/88 70s] [30/88 93s] [40/88 121s] [50/88 145s] [60/88 164s] [70/88 198s] [80/88 228s] [88/88 253s] 126,720 bars (253s) [RAM=0.6GB, avail=6.7GB]
+  Loading SOLUSDT bars... [10/88 19s] [20/88 35s] [30/88 46s] [40/88 60s] [50/88 74s] [60/88 85s] [70/88 100s] [80/88 120s] [88/88 130s] 126,720 bars (130s) [RAM=0.6GB, avail=6.6GB]
+  Loading DOGEUSDT bars... [10/88 26s] [20/88 43s] [30/88 53s] [40/88 63s] [50/88 72s] [60/88 82s] [70/88 112s] [80/88 138s] [88/88 148s] 126,720 bars (148s) [RAM=0.5GB, avail=6.7GB]
+
+  [RAM=0.5GB, avail=6.7GB] all data loaded
+
+################################################################################
+  EXP KK: SIGNAL OVERLAP — CASCADE MM vs LIQ ACCELERATION
+################################################################################
+
+  === ETHUSDT ===
+  Cascade signals: 1047
+  Accel signals:   5680
+  Overlap:         678 (65% of cascades)
+  Cascade-only:    369
+  Accel-only:      5002
+
+  === SOLUSDT ===
+  Cascade signals: 607
+  Accel signals:   5714
+  Overlap:         423 (70% of cascades)
+  Cascade-only:    184
+  Accel-only:      5291
+
+  === DOGEUSDT ===
+  Cascade signals: 346
+  Accel signals:   4650
+  Overlap:         243 (70% of cascades)
+  Cascade-only:    103
+  Accel-only:      4407
+
+################################################################################
+  EXP KK-b: COMBINED PORTFOLIO (cascade MM + liq accel)
+################################################################################
+
+  === ETHUSDT ===
+  Cascade trades: 900, Accel trades: 4162
+  Trade overlap (same minute): 191
+
+  INDIVIDUAL:
+  ✅ Cascade TRAIN                                            n= 763  wr= 95.0%  avg= +12.1bps  tot= +92.34%  sh=  +614.8
+  ✅ Cascade TEST                                             n= 137  wr= 83.9%  avg=  +7.5bps  tot= +10.28%  sh=  +641.7
+  ✅ Accel TRAIN                                              n=3528  wr= 78.4%  avg=  +8.9bps  tot=+315.28%  sh=  +310.2
+  ✅ Accel TEST                                               n= 634  wr= 73.5%  avg=  +6.1bps  tot= +38.57%  sh=  +337.7
+
+  COMBINED (deduped):
+  ✅ Combined TRAIN                                           n=3535  wr= 79.7%  avg=  +8.2bps  tot=+290.91%  sh=  +344.4
+  ✅ Combined TEST                                            n= 631  wr= 74.0%  avg=  +5.9bps  tot= +37.29%  sh=  +383.5
+    test=+1.332%/d
+
+  === SOLUSDT ===
+  Cascade trades: 1171, Accel trades: 4329
+  Trade overlap (same minute): 263
+
+  INDIVIDUAL:
+  ✅ Cascade TRAIN                                            n= 984  wr= 92.7%  avg= +10.7bps  tot=+105.31%  sh=  +630.0
+  ✅ Cascade TEST                                             n= 187  wr= 84.0%  avg=  +7.8bps  tot= +14.57%  sh=  +523.8
+  ✅ Accel TRAIN                                              n=3697  wr= 74.7%  avg=  +6.7bps  tot=+247.87%  sh=  +302.6
+  ✅ Accel TEST                                               n= 632  wr= 71.4%  avg=  +5.7bps  tot= +35.91%  sh=  +294.9
+
+  COMBINED (deduped):
+  ✅ Combined TRAIN                                           n=3906  wr= 77.1%  avg=  +6.8bps  tot=+265.05%  sh=  +359.3
+  ✅ Combined TEST                                            n= 703  wr= 72.3%  avg=  +5.9bps  tot= +41.32%  sh=  +336.2
+    test=+1.476%/d
+
+  === DOGEUSDT ===
+  Cascade trades: 1061, Accel trades: 3686
+  Trade overlap (same minute): 225
+
+  INDIVIDUAL:
+  ✅ Cascade TRAIN                                            n= 878  wr= 95.2%  avg= +12.8bps  tot=+112.64%  sh=  +573.1
+  ✅ Cascade TEST                                             n= 183  wr= 91.8%  avg= +11.0bps  tot= +20.15%  sh=  +733.1
+  ✅ Accel TRAIN                                              n=3114  wr= 80.6%  avg=  +9.5bps  tot=+295.21%  sh=  +359.1
+  ✅ Accel TEST                                               n= 572  wr= 85.8%  avg= +10.3bps  tot= +59.17%  sh=  +516.6
+
+  COMBINED (deduped):
+  ✅ Combined TRAIN                                           n=3444  wr= 82.8%  avg=  +9.3bps  tot=+321.57%  sh=  +394.2
+  ✅ Combined TEST                                            n= 653  wr= 86.5%  avg=  +9.8bps  tot= +63.77%  sh=  +551.0
+    test=+2.278%/d
+
+################################################################################
+  EXP MM: CROSS-SYMBOL LIQ ACCELERATION
+################################################################################
+  ETH accel signals: 5680
+
+  ETH accel → ETHUSDT:
+  ✅ TRAIN                                                    n=3528  wr= 78.4%  avg=  +8.9bps  tot=+315.28%  sh=  +310.2
+  ✅ TEST                                                     n= 634  wr= 73.5%  avg=  +6.1bps  tot= +38.57%  sh=  +337.7
+    ✅ train=+5.255%/d  test=+1.378%/d
+
+  ETH accel → SOLUSDT:
+  ✅ TRAIN                                                    n=3611  wr= 74.8%  avg=  +6.5bps  tot=+235.19%  sh=  +313.5
+  ✅ TEST                                                     n= 644  wr= 70.0%  avg=  +5.2bps  tot= +33.19%  sh=  +259.6
+    ✅ train=+3.920%/d  test=+1.185%/d
+
+  ETH accel → DOGEUSDT:
+  ✅ TRAIN                                                    n=3712  wr= 78.4%  avg=  +8.3bps  tot=+307.73%  sh=  +353.9
+  ✅ TEST                                                     n= 694  wr= 82.9%  avg=  +9.0bps  tot= +62.56%  sh=  +401.7
+    ✅ train=+5.129%/d  test=+2.234%/d
+
+################################################################################
+  MEGA PORTFOLIO: ALL STRATEGIES, ALL SYMBOLS, REALISTIC SIM
+################################################################################
+
+  MEGA PORTFOLIO RESULTS (full 88 days):
+    Trades taken:    9214
+    Trades skipped:  6332
+    Total return:    +268034.93%
+    Final equity:    2681.3493
+    ETHUSDT: 2934 trades
+    SOLUSDT: 3216 trades
+    DOGEUSDT: 3064 trades
+    From cascade:    1113
+    From accel:      8101
+
+    Trading days:    63
+    Positive days:   63/63 (100%)
+    Avg daily ret:   +12.552%
+    Daily Sharpe:    25.6
+    Worst day:       +1.408%
+    Best day:        +42.539%
+
+    OOS ONLY (Jul 11–Aug 7):
+    OOS days:        10
+    OOS positive:    10/10 (100%)
+    OOS avg daily:   +10.183%
+    OOS Sharpe:      25.4
+
+################################################################################
+  COMPLETE — 584s (9.7min) [RAM=0.6GB, avail=6.7GB]
+################################################################################
