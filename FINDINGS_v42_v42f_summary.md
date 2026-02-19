@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 9 Signal Types Discovered
+### 13 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -865,6 +865,10 @@ Strategy contribution (standalone):
 | 7 | Funding Rate | Ticker (FR) | 77% | +5%/28d | Low |
 | 8 | **Vol Spike Fade** | **Price only** | **85%** | **+132%/28d** | **Low** |
 | 9 | **VWAP Deviation** | **Price only** | **66%** | **+328%/28d** | **Low** |
+| 10 | Autocorrelation | Price only | 81% | +252%/28d | Low |
+| 11 | Consecutive Move | Price only | 78% | +276%/28d | Low |
+| 12 | **Vol Clustering** | **Price only** | **98%** | **+123%/28d** | **Low** |
+| 13 | Price-Vol Divergence | Price+Vol | 85% | +136%/28d | Low |
 
 ---
 
@@ -988,3 +992,4 @@ Fade price deviations from 60-min rolling VWAP.
 | `research_v42w_signal_combos.py` | EXP FFF-HHH: signal combos, quality filters, alignment |
 | `research_v42x_orderflow.py` | EXP III, JJJ, KKK: order flow, vol spike, VWAP deviation |
 | `research_v42y_vwap_vol_4sym.py` | EXP LLL-NNN: VWAP+vol spike DOGE+XRP validation |
+| `research_v42z_autocorr_patterns.py` | EXP OOO-RRR: autocorr, consecutive, vol cluster, PV div |
