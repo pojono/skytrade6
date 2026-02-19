@@ -1,0 +1,63 @@
+================================================================================
+  v42w: SIGNAL COMBINATIONS & QUALITY FILTERS — SOLUSDT
+  2026-02-19 07:57:53  [RAM=0.1GB, avail=6.2GB]
+================================================================================
+  Loading SOLUSDT liqs... [15/88 1s] [30/88 2s] [45/88 4s] [60/88 4s] [75/88 4s] 90,669 (5s) [RAM=0.1GB, avail=6.2GB]
+  Loading SOLUSDT bars... [10/88 16s] [20/88 29s] [30/88 38s] [40/88 50s] [50/88 61s] [60/88 70s] [70/88 84s] [80/88 101s] [88/88 110s] 126,720 bars (110s) [RAM=0.4GB, avail=6.0GB]
+  Loading SOLUSDT ticker... [15/88 15s] [30/88 30s] [45/88 45s] [60/88 53s] [75/88 53s] 89,633 1m bars (63s) [RAM=0.8GB, avail=5.7GB]
+  Cascades: 607
+
+################################################################################
+  EXP FFF: OI/SPREAD QUALITY FILTERS FOR CASCADE MM
+################################################################################
+
+  BASELINE (all cascades):
+  ✅ TRAIN                                                    n= 431  wr= 95.4%  avg= +12.1bps  tot= +52.01%  sh=  +683.3
+  ✅ TEST                                                     n=  94  wr= 91.5%  avg= +10.1bps  tot=  +9.52%  sh=  +823.1
+
+  FILTER: OI dropping (P20):
+  ✅ TRAIN (OI filter)                                        n= 253  wr= 96.0%  avg= +12.1bps  tot= +30.57%  sh=  +662.6
+  ✅ TEST (OI filter)                                         n=  65  wr= 90.8%  avg= +10.7bps  tot=  +6.94%  sh=  +823.1
+    Filtered: 318 / 525 trades kept
+
+  FILTER: Wide spread (z>1):
+  ✅ TRAIN (spread filter)                                    n= 130  wr= 97.7%  avg= +12.6bps  tot= +16.34%  sh=  +563.6
+  ✅ TEST (spread filter)                                     n=  38  wr= 89.5%  avg= +10.7bps  tot=  +4.08%  sh=  +807.5
+    Filtered: 168 / 525 trades kept
+
+  FILTER: OI drop OR wide spread:
+  ✅ TRAIN (OI OR spread)                                     n= 310  wr= 95.8%  avg= +12.0bps  tot= +37.07%  sh=  +661.0
+  ✅ TEST (OI OR spread)                                      n=  70  wr= 90.0%  avg= +10.4bps  tot=  +7.27%  sh=  +806.7
+    Filtered: 380 / 525 trades kept
+
+################################################################################
+  EXP GGG: MULTI-SIGNAL ALIGNMENT
+################################################################################
+
+  Cascade + Micro MR alignment: 402/525 (77%)
+
+  ALIGNED (cascade + micro MR agree):
+  ✅ TRAIN                                                    n= 339  wr= 95.6%  avg= +12.4bps  tot= +41.98%  sh=  +678.0
+  ✅ TEST                                                     n=  63  wr= 92.1%  avg= +10.8bps  tot=  +6.82%  sh=  +825.9
+
+  NOT ALIGNED (cascade only):
+  ✅ TRAIN                                                    n=  92  wr= 94.6%  avg= +10.9bps  tot= +10.02%  sh=  +723.3
+  ✅ TEST                                                     n=  31  wr= 90.3%  avg=  +8.7bps  tot=  +2.70%  sh=  +864.0
+
+################################################################################
+  EXP HHH: SIGNAL CONFLICT DETECTION
+################################################################################
+
+  Conflicting signals: 153/525 (29%)
+
+  CONFLICTING (cascade vs micro MR disagree):
+  ✅ TRAIN                                                    n= 130  wr= 97.7%  avg= +13.9bps  tot= +18.01%  sh=  +652.5
+  ✅ TEST                                                     n=  23  wr= 95.7%  avg=  +8.9bps  tot=  +2.05%  sh= +1094.7
+
+  NON-CONFLICTING (no opposing signal):
+  ✅ TRAIN                                                    n= 301  wr= 94.4%  avg= +11.3bps  tot= +33.99%  sh=  +719.5
+  ✅ TEST                                                     n=  71  wr= 90.1%  avg= +10.5bps  tot=  +7.47%  sh=  +790.1
+
+################################################################################
+  COMPLETE — 180s (3.0min) [RAM=0.3GB, avail=6.2GB]
+################################################################################
