@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 33 Signal Types Discovered
+### 36 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -889,6 +889,9 @@ Strategy contribution (standalone):
 | 31 | Return Entropy | Price only | 84% | +230%/28d | Medium |
 | 32 | **Dir. Persistence** | **Price only** | **93%** | **+597%/28d** | **Low** |
 | 33 | Momentum Exhaustion | Price only | 88% | +33%/28d | Low |
+| 34 | Price Impact (Kyle) | Price+Vol | 78% | +124%/28d | Low |
+| 35 | **Variance Ratio** | **Price only** | **80%** | **+1735%/28d** | **Low** |
+| 36 | Parkinson Vol Ratio | Price only | 81% | +212%/28d | Low |
 
 ---
 
@@ -1077,3 +1080,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42af_ta_signals.py` | EXP HHHH-KKKK: RSI, Bollinger, EMA divergence, Stochastic |
 | `research_v42ag_mega_ensemble.py` | MEGA ENSEMBLE: top 10 signals × 4 symbols definitive |
 | `research_v42ah_entropy_info.py` | EXP LLLL-OOOO: entropy, persistence, gap-fill, exhaustion |
+| `research_v42ai_price_impact.py` | EXP PPPP-SSSS: price impact, variance ratio, Parkinson vol |
