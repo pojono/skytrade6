@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 170 Signal Types Discovered
+### 174 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -1026,6 +1026,10 @@ Strategy contribution (standalone):
 | 168 | Price Density | Price only | 75% | +221%/28d | Low |
 | 169 | Rolling Beta | Price only | 82% | +426%/28d | Low |
 | 170 | Tail Ratio | Price only | 83% | +407%/28d | Low |
+| 171 | **Mom Quality Ratio** | **Price only** | **86%** | **+441%/28d** | **Low** |
+| 172 | Range Contraction | Price only | 86% | +426%/28d | Low |
+| 173 | **Close-High Ratio** | **Price only** | **86%** | **+442%/28d** | **Low** |
+| 174 | Vol of Vol | Price only | 83% | +484%/28d | Low |
 
 ---
 
@@ -1249,3 +1253,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bo_wrange_skew.py` | EXP NNNN7-QQQQ7: wt range, CLV persist, ret skewness, osc amplitude |
 | `research_v42bp_kurt_accel.py` | EXP RRRR7-UUUU7: ret kurtosis, price accel mag, ret-range corr, consec range |
 | `research_v42bq_mrspeed_density.py` | EXP VVVV7-YYYY7: MR speed, price density, rolling beta, tail ratio |
+| `research_v42br_momqual_rangecon.py` | EXP ZZZZ7-CCCC8: mom quality, range contraction, close-high, vol of vol |
