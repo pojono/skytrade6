@@ -1,0 +1,110 @@
+================================================================================
+  v42s: NOVEL SIGNAL IDEAS — SOLUSDT
+  2026-02-19 07:20:55  [RAM=0.1GB, avail=6.3GB]
+================================================================================
+  Loading SOLUSDT liqs... [15/88 1s] [30/88 3s] [45/88 4s] [60/88 5s] [75/88 5s] 90,669 (6s) [RAM=0.1GB, avail=6.2GB]
+  Loading SOLUSDT bars... [10/88 17s] [20/88 29s] [30/88 39s] [40/88 52s] [50/88 63s] [60/88 72s] [70/88 86s] [80/88 104s] [88/88 113s] 126,720 bars (113s) [RAM=0.4GB, avail=6.2GB]
+
+  [RAM=0.3GB, avail=6.3GB] data loaded
+
+################################################################################
+  EXP VV: MICROSTRUCTURE MEAN-REVERSION
+################################################################################
+
+  SIGMA=2:
+    Extreme down: 3501, Extreme up: 3294
+  ✅ TRAIN (fade)                                             n=1770  wr= 72.8%  avg=  +7.8bps  tot=+138.61%  sh=  +285.3
+  ✅ TEST (fade)                                              n= 838  wr= 79.0%  avg=  +8.0bps  tot= +66.66%  sh=  +414.4
+    ✅ train=+2.310%/d  test=+2.381%/d
+
+  SIGMA=3:
+    Extreme down: 632, Extreme up: 606
+  ✅ TRAIN (fade)                                             n= 338  wr= 83.1%  avg= +14.9bps  tot= +50.23%  sh=  +323.4
+  ✅ TEST (fade)                                              n= 147  wr= 87.1%  avg= +10.4bps  tot= +15.23%  sh=  +465.8
+    ✅ train=+0.837%/d  test=+0.544%/d
+
+  SIGMA=4:
+    Extreme down: 121, Extreme up: 122
+  ✅ TRAIN (fade)                                             n=  74  wr= 94.6%  avg= +32.0bps  tot= +23.71%  sh=  +402.4
+  ✅ TEST (fade)                                              n=  25  wr= 92.0%  avg= +17.2bps  tot=  +4.29%  sh=  +510.0
+    ✅ train=+0.395%/d  test=+0.153%/d
+
+  SIGMA=5:
+    Extreme down: 27, Extreme up: 33
+  ✅ TRAIN (fade)                                             n=  13  wr= 84.6%  avg= +71.5bps  tot=  +9.29%  sh=  +515.1
+  ✅ TEST (fade)                                              n=  13  wr= 92.3%  avg= +21.1bps  tot=  +2.74%  sh=  +582.2
+    ✅ train=+0.155%/d  test=+0.098%/d
+
+################################################################################
+  EXP WW: VOLATILITY BREAKOUT (long vol after compression)
+################################################################################
+
+  VOL < P10 (2534 signals):
+     TRAIN (fade after compression)                           n=1110  wr= 35.3%  avg=  -1.1bps  tot= -12.12%  sh=   -79.6
+     TEST (fade after compression)                            n= 358  wr= 33.0%  avg=  -1.6bps  tot=  -5.78%  sh=  -126.9
+    ❌ train=-0.202%/d  test=-0.206%/d
+
+  VOL < P20 (5068 signals):
+     TRAIN (fade after compression)                           n=2310  wr= 40.3%  avg=  -0.6bps  tot= -13.34%  sh=   -43.6
+     TEST (fade after compression)                            n= 809  wr= 37.7%  avg=  -0.9bps  tot=  -7.65%  sh=   -74.5
+    ❌ train=-0.222%/d  test=-0.273%/d
+
+  VOL < P30 (7602 signals):
+     TRAIN (fade after compression)                           n=3529  wr= 42.9%  avg=  -0.2bps  tot=  -7.40%  sh=   -16.1
+     TEST (fade after compression)                            n=1274  wr= 40.4%  avg=  -0.4bps  tot=  -5.37%  sh=   -34.2
+    ❌ train=-0.123%/d  test=-0.192%/d
+
+################################################################################
+  EXP XX: INTRADAY RANGE BREAKOUT
+################################################################################
+
+  LOOKBACK=30min:
+    Breakout up: 6420, Breakout down: 5751
+     TRAIN (momentum)                                         n=2266  wr= 23.9%  avg=  -1.3bps  tot= -29.15%  sh=  -161.9
+     TEST (momentum)                                          n=1217  wr= 17.9%  avg=  -2.0bps  tot= -24.52%  sh=  -315.9
+    ❌ train=-0.486%/d  test=-0.876%/d
+  ✅ TRAIN (fade)                                             n=1591  wr= 67.1%  avg=  +4.6bps  tot= +73.16%  sh=  +261.8
+  ✅ TEST (fade)                                              n= 882  wr= 61.5%  avg=  +3.6bps  tot= +32.03%  sh=  +244.1
+    ✅ train=+1.219%/d  test=+1.144%/d
+
+  LOOKBACK=60min:
+    Breakout up: 4351, Breakout down: 3750
+     TRAIN (momentum)                                         n=1541  wr= 26.3%  avg=  -1.0bps  tot= -15.71%  sh=  -123.5
+     TEST (momentum)                                          n= 835  wr= 21.6%  avg=  -1.6bps  tot= -13.78%  sh=  -236.7
+    ❌ train=-0.262%/d  test=-0.492%/d
+  ✅ TRAIN (fade)                                             n=1071  wr= 68.8%  avg=  +5.1bps  tot= +54.32%  sh=  +267.8
+  ✅ TEST (fade)                                              n= 612  wr= 66.0%  avg=  +4.4bps  tot= +26.87%  sh=  +277.1
+    ✅ train=+0.905%/d  test=+0.960%/d
+
+  LOOKBACK=120min:
+    Breakout up: 2871, Breakout down: 2405
+     TRAIN (momentum)                                         n=1030  wr= 30.9%  avg=  -0.4bps  tot=  -3.80%  sh=   -37.9
+     TEST (momentum)                                          n= 566  wr= 22.8%  avg=  -1.4bps  tot=  -7.76%  sh=  -190.7
+    ❌ train=-0.063%/d  test=-0.277%/d
+  ✅ TRAIN (fade)                                             n= 709  wr= 73.5%  avg=  +6.4bps  tot= +45.69%  sh=  +295.5
+  ✅ TEST (fade)                                              n= 422  wr= 68.2%  avg=  +5.0bps  tot= +20.96%  sh=  +304.5
+    ✅ train=+0.761%/d  test=+0.749%/d
+
+################################################################################
+  EXP YY: LIQ CLUSTERING — MOMENTUM vs MEAN-REVERSION
+################################################################################
+
+  LIQ 5min > P90 (12669 signals):
+  ✅ TRAIN (mean-reversion/fade)                              n=8674  wr= 81.2%  avg=  +7.9bps  tot=+686.63%  sh=  +395.7
+  ✅ TEST (mean-reversion/fade)                               n=1520  wr= 81.3%  avg=  +7.1bps  tot=+107.29%  sh=  +467.2
+    ✅ train=+11.444%/d  test=+3.832%/d
+  ✅ TRAIN (momentum/follow)                                  n=8953  wr= 80.8%  avg=  +7.5bps  tot=+670.30%  sh=  +442.3
+  ✅ TEST (momentum/follow)                                   n=1582  wr= 82.2%  avg=  +6.7bps  tot=+105.37%  sh=  +500.5
+    ✅ train=+11.172%/d  test=+3.763%/d
+
+  LIQ 5min > P95 (6336 signals):
+  ✅ TRAIN (mean-reversion/fade)                              n=4447  wr= 86.0%  avg= +10.3bps  tot=+456.99%  sh=  +438.8
+  ✅ TEST (mean-reversion/fade)                               n= 780  wr= 87.9%  avg=  +8.9bps  tot= +69.04%  sh=  +535.5
+    ✅ train=+7.617%/d  test=+2.466%/d
+  ✅ TRAIN (momentum/follow)                                  n=4612  wr= 85.6%  avg=  +9.5bps  tot=+438.35%  sh=  +509.1
+  ✅ TEST (momentum/follow)                                   n= 814  wr= 89.4%  avg=  +8.4bps  tot= +68.54%  sh=  +589.8
+    ✅ train=+7.306%/d  test=+2.448%/d
+
+################################################################################
+  COMPLETE — 140s (2.3min) [RAM=0.3GB, avail=6.3GB]
+################################################################################
