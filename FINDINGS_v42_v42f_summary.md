@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 58 Signal Types Discovered
+### 62 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -914,6 +914,10 @@ Strategy contribution (standalone):
 | 56 | **ATR Ratio** | **Price only** | **90%** | **+214%/28d** | **Low** |
 | 57 | Close Location Value | Price only | 88% | +16%/28d | Low |
 | 58 | Consec Wick Direction | Price only | 83% | +55%/28d | Low |
+| 59 | Intrabar Gap | Price only | 82% | +77%/28d | Low |
+| 60 | Vol Term Structure | Price only | 86% | +183%/28d | Low |
+| 61 | **Price-Return Div** | **Price only** | **93%** | **+196%/28d** | **Low** |
+| 62 | Tick Direction Runs | Price only | 78% | +61%/28d | Low |
 
 ---
 
@@ -1109,3 +1113,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42am_time_pressure.py` | EXP FFFF2-IIII2: hour-of-day, vol accel, momentum quality |
 | `research_v42an_candle_patterns.py` | EXP JJJJ2-MMMM2: doji, hammer, inside bar, pin bar, 3-bar |
 | `research_v42ao_mr_timing.py` | EXP NNNN2-QQQQ2: BB squeeze, ATR ratio, CLV, wick consec |
+| `research_v42ap_gap_volterm.py` | EXP RRRR2-UUUU2: gap, vol term, price-return div, tick runs |
