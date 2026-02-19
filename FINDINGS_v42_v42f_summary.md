@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 30 Signal Types Discovered
+### 33 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -886,6 +886,9 @@ Strategy contribution (standalone):
 | 28 | Bollinger Band Touch | Price only | 85% | +219%/28d | Low |
 | 29 | **EMA Divergence** | **Price only** | **86%** | **+352%/28d** | **Low** |
 | 30 | **Stochastic Extreme** | **Price only** | **86%** | **+309%/28d** | **Low** |
+| 31 | Return Entropy | Price only | 84% | +230%/28d | Medium |
+| 32 | **Dir. Persistence** | **Price only** | **93%** | **+597%/28d** | **Low** |
+| 33 | Momentum Exhaustion | Price only | 88% | +33%/28d | Low |
 
 ---
 
@@ -1073,3 +1076,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ae_regime_adaptive.py` | EXP DDDD-GGGG: Hurst, vol gap, acceleration, tick imbalance |
 | `research_v42af_ta_signals.py` | EXP HHHH-KKKK: RSI, Bollinger, EMA divergence, Stochastic |
 | `research_v42ag_mega_ensemble.py` | MEGA ENSEMBLE: top 10 signals × 4 symbols definitive |
+| `research_v42ah_entropy_info.py` | EXP LLLL-OOOO: entropy, persistence, gap-fill, exhaustion |
