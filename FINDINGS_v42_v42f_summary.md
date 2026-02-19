@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 13 Signal Types Discovered
+### 16 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -869,6 +869,9 @@ Strategy contribution (standalone):
 | 11 | Consecutive Move | Price only | 78% | +276%/28d | Low |
 | 12 | **Vol Clustering** | **Price only** | **98%** | **+123%/28d** | **Low** |
 | 13 | Price-Vol Divergence | Price+Vol | 85% | +136%/28d | Low |
+| 14 | Cross-Sym Lead-Lag | Multi-symbol | 73% | +7%/28d | Low |
+| 15 | **Hourly Seasonality** | **Price only** | **86%** | **+25%/28d** | **Low** |
+| 16 | Cross-Sym Divergence | Multi-symbol | 79% | +25%/28d | Low |
 
 ---
 
@@ -1029,3 +1032,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42y_vwap_vol_4sym.py` | EXP LLL-NNN: VWAP+vol spike DOGE+XRP validation |
 | `research_v42z_autocorr_patterns.py` | EXP OOO-RRR: autocorr, consecutive, vol cluster, PV div |
 | `research_v42aa_best_of_portfolio.py` | BEST-OF: 6 signals × 4 symbols definitive comparison |
+| `research_v42ab_cross_sym_seasonality.py` | EXP SSS-UUU: cross-sym lead-lag, seasonality, divergence |
