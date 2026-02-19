@@ -1,0 +1,451 @@
+================================================================================
+  v42bg: Z-SCORE RANGE + CUM IMBALANCE + OSCILLATION FREQ + PARKINSON VOL
+  2026-02-19 16:11:30  [RAM=0.1GB, avail=6.9GB]
+================================================================================
+  Loading ETHUSDT... [10/88 31s] [20/88 53s] [30/88 71s] [40/88 94s] [50/88 113s] [60/88 128s] [70/88 156s] [80/88 181s] [88/88 200s] 126,720 bars (200s) [RAM=0.5GB, avail=6.5GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP HHHH6: Z-SCORE OF RANGE ---
+
+  Range z(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=5958  wr= 66.4%  avg=  +6.9bps  tot=+410.48%  sh=  +248.8
+  ✅ TEST                                                     n=2869  wr= 70.1%  avg=  +5.8bps  tot=+166.34%  sh=  +324.0
+    ✅ test=+5.941%/d
+
+  Range z(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3049  wr= 71.0%  avg=  +9.0bps  tot=+275.14%  sh=  +273.8
+  ✅ TEST                                                     n=1426  wr= 73.4%  avg=  +7.3bps  tot=+103.46%  sh=  +351.5
+    ✅ test=+3.695%/d
+
+  Range z(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6080  wr= 67.2%  avg=  +7.1bps  tot=+433.11%  sh=  +254.3
+  ✅ TEST                                                     n=3007  wr= 70.6%  avg=  +6.0bps  tot=+179.86%  sh=  +327.0
+    ✅ test=+6.424%/d
+
+  Range z(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3143  wr= 71.3%  avg=  +9.6bps  tot=+301.86%  sh=  +283.7
+  ✅ TEST                                                     n=1526  wr= 74.0%  avg=  +7.5bps  tot=+113.81%  sh=  +363.9
+    ✅ test=+4.065%/d
+
+  --- EXP IIII6: CUMULATIVE RETURN IMBALANCE ---
+
+  Imbalance(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3924  wr= 64.9%  avg=  +4.4bps  tot=+173.95%  sh=  +264.9
+  ✅ TEST                                                     n=2024  wr= 67.5%  avg=  +4.0bps  tot= +80.74%  sh=  +269.5
+    ✅ test=+2.884%/d
+
+  Imbalance(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6727  wr= 63.4%  avg=  +3.9bps  tot=+261.76%  sh=  +238.2
+  ✅ TEST                                                     n=3565  wr= 66.3%  avg=  +3.7bps  tot=+132.23%  sh=  +260.0
+    ✅ test=+4.722%/d
+
+  Imbalance(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4655  wr= 65.6%  avg=  +4.3bps  tot=+201.31%  sh=  +256.8
+  ✅ TEST                                                     n=2567  wr= 66.8%  avg=  +3.9bps  tot= +99.45%  sh=  +268.7
+    ✅ test=+3.552%/d
+
+  Imbalance(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7634  wr= 63.2%  avg=  +3.8bps  tot=+293.81%  sh=  +229.2
+  ✅ TEST                                                     n=4132  wr= 65.4%  avg=  +3.6bps  tot=+148.91%  sh=  +238.6
+    ✅ test=+5.318%/d
+
+  --- EXP JJJJ6: PRICE OSCILLATION FREQUENCY ---
+
+  Osc freq(20) >90th pct (fade choppy):
+  ✅ TRAIN                                                    n=6805  wr= 54.7%  avg=  +2.0bps  tot=+135.05%  sh=  +133.5
+  ✅ TEST                                                     n=3254  wr= 58.2%  avg=  +2.7bps  tot= +88.63%  sh=  +188.1
+    ✅ test=+3.165%/d
+
+  Osc freq(20) >95th pct (fade choppy):
+  ✅ TRAIN                                                    n=3877  wr= 54.1%  avg=  +1.9bps  tot= +72.34%  sh=  +131.3
+  ✅ TEST                                                     n=1863  wr= 58.4%  avg=  +2.7bps  tot= +49.98%  sh=  +178.9
+    ✅ test=+1.785%/d
+
+  Osc freq(40) >90th pct (fade choppy):
+  ✅ TRAIN                                                    n=8219  wr= 54.8%  avg=  +2.0bps  tot=+166.74%  sh=  +137.7
+  ✅ TEST                                                     n=4147  wr= 59.2%  avg=  +2.9bps  tot=+119.20%  sh=  +194.6
+    ✅ test=+4.257%/d
+
+  Osc freq(40) >95th pct (fade choppy):
+  ✅ TRAIN                                                    n=5165  wr= 54.2%  avg=  +2.0bps  tot=+101.15%  sh=  +135.4
+  ✅ TEST                                                     n=2530  wr= 58.7%  avg=  +2.9bps  tot= +74.10%  sh=  +191.4
+    ✅ test=+2.646%/d
+
+  --- EXP KKKK6: PARKINSON VOLATILITY ---
+
+  Parkinson(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=10141  wr= 67.4%  avg=  +5.9bps  tot=+599.73%  sh=  +247.9
+  ✅ TEST                                                     n=5177  wr= 71.5%  avg=  +5.3bps  tot=+272.02%  sh=  +319.9
+    ✅ test=+9.715%/d
+
+  Parkinson(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=8171  wr= 69.1%  avg=  +6.4bps  tot=+526.85%  sh=  +258.3
+  ✅ TEST                                                     n=4162  wr= 72.6%  avg=  +5.6bps  tot=+233.56%  sh=  +327.7
+    ✅ test=+8.341%/d
+
+  Parkinson(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=13508  wr= 67.1%  avg=  +5.5bps  tot=+738.88%  sh=  +250.2
+  ✅ TEST                                                     n=6846  wr= 72.0%  avg=  +5.1bps  tot=+351.88%  sh=  +332.4
+    ✅ test=+12.567%/d
+
+  Parkinson(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=11299  wr= 69.1%  avg=  +6.1bps  tot=+684.24%  sh=  +266.7
+  ✅ TEST                                                     n=5588  wr= 73.4%  avg=  +5.5bps  tot=+308.22%  sh=  +360.3
+    ✅ test=+11.008%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 36s] [40/88 48s] [50/88 58s] [60/88 67s] [70/88 79s] [80/88 96s] [88/88 104s] 126,720 bars (104s) [RAM=0.4GB, avail=6.6GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP HHHH6: Z-SCORE OF RANGE ---
+
+  Range z(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6399  wr= 66.6%  avg=  +5.5bps  tot=+352.44%  sh=  +252.3
+  ✅ TEST                                                     n=2971  wr= 69.6%  avg=  +5.9bps  tot=+174.49%  sh=  +330.5
+    ✅ test=+6.232%/d
+
+  Range z(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3221  wr= 69.3%  avg=  +6.8bps  tot=+218.49%  sh=  +274.7
+  ✅ TEST                                                     n=1517  wr= 70.9%  avg=  +6.5bps  tot= +98.22%  sh=  +334.2
+    ✅ test=+3.508%/d
+
+  Range z(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6529  wr= 67.8%  avg=  +5.8bps  tot=+380.58%  sh=  +264.6
+  ✅ TEST                                                     n=3107  wr= 70.5%  avg=  +6.1bps  tot=+189.73%  sh=  +338.3
+    ✅ test=+6.776%/d
+
+  Range z(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3383  wr= 70.2%  avg=  +7.1bps  tot=+239.47%  sh=  +284.6
+  ✅ TEST                                                     n=1599  wr= 72.0%  avg=  +6.9bps  tot=+110.02%  sh=  +351.0
+    ✅ test=+3.929%/d
+
+  --- EXP IIII6: CUMULATIVE RETURN IMBALANCE ---
+
+  Imbalance(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4275  wr= 62.9%  avg=  +3.4bps  tot=+145.61%  sh=  +218.7
+  ✅ TEST                                                     n=2142  wr= 61.8%  avg=  +3.0bps  tot= +64.31%  sh=  +201.5
+    ✅ test=+2.297%/d
+
+  Imbalance(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7383  wr= 62.4%  avg=  +3.3bps  tot=+247.04%  sh=  +220.9
+  ✅ TEST                                                     n=3558  wr= 61.7%  avg=  +3.2bps  tot=+112.53%  sh=  +202.7
+    ✅ test=+4.019%/d
+
+  Imbalance(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5297  wr= 62.7%  avg=  +3.4bps  tot=+181.97%  sh=  +226.8
+  ✅ TEST                                                     n=2687  wr= 60.6%  avg=  +3.1bps  tot= +82.02%  sh=  +206.2
+    ✅ test=+2.929%/d
+
+  Imbalance(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8647  wr= 62.6%  avg=  +3.2bps  tot=+279.58%  sh=  +216.3
+  ✅ TEST                                                     n=4251  wr= 61.6%  avg=  +3.1bps  tot=+130.72%  sh=  +198.2
+    ✅ test=+4.669%/d
+
+  --- EXP JJJJ6: PRICE OSCILLATION FREQUENCY ---
+
+  Osc freq(20) >90th pct (fade choppy):
+  ✅ TRAIN                                                    n=7316  wr= 61.1%  avg=  +2.9bps  tot=+213.83%  sh=  +195.5
+  ✅ TEST                                                     n=3447  wr= 64.0%  avg=  +3.5bps  tot=+120.92%  sh=  +226.3
+    ✅ test=+4.319%/d
+
+  Osc freq(20) >95th pct (fade choppy):
+  ✅ TRAIN                                                    n=4329  wr= 61.7%  avg=  +3.2bps  tot=+136.99%  sh=  +210.7
+  ✅ TEST                                                     n=1982  wr= 63.1%  avg=  +3.6bps  tot= +70.56%  sh=  +231.2
+    ✅ test=+2.520%/d
+
+  Osc freq(40) >90th pct (fade choppy):
+  ✅ TRAIN                                                    n=9117  wr= 60.7%  avg=  +3.0bps  tot=+277.32%  sh=  +197.9
+  ✅ TEST                                                     n=4265  wr= 63.3%  avg=  +3.4bps  tot=+145.22%  sh=  +225.3
+    ✅ test=+5.186%/d
+
+  Osc freq(40) >95th pct (fade choppy):
+  ✅ TRAIN                                                    n=5872  wr= 60.5%  avg=  +3.1bps  tot=+180.27%  sh=  +202.3
+  ✅ TEST                                                     n=2679  wr= 62.7%  avg=  +3.3bps  tot= +88.70%  sh=  +216.2
+    ✅ test=+3.168%/d
+
+  --- EXP KKKK6: PARKINSON VOLATILITY ---
+
+  Parkinson(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=10397  wr= 71.8%  avg=  +6.0bps  tot=+622.36%  sh=  +304.9
+  ✅ TEST                                                     n=5360  wr= 74.9%  avg=  +6.5bps  tot=+348.97%  sh=  +385.0
+    ✅ test=+12.463%/d
+
+  Parkinson(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=8283  wr= 73.7%  avg=  +6.6bps  tot=+548.48%  sh=  +324.5
+  ✅ TEST                                                     n=4265  wr= 76.6%  avg=  +7.0bps  tot=+296.74%  sh=  +405.6
+    ✅ test=+10.598%/d
+
+  Parkinson(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=14150  wr= 70.9%  avg=  +5.5bps  tot=+781.60%  sh=  +302.3
+  ✅ TEST                                                     n=6946  wr= 74.2%  avg=  +6.2bps  tot=+428.97%  sh=  +370.1
+    ✅ test=+15.320%/d
+
+  Parkinson(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=11795  wr= 72.5%  avg=  +6.0bps  tot=+706.75%  sh=  +318.2
+  ✅ TEST                                                     n=5721  wr= 75.9%  avg=  +6.6bps  tot=+376.80%  sh=  +399.4
+    ✅ test=+13.457%/d
+  Loading DOGEUSDT... [10/88 20s] [20/88 33s] [30/88 42s] [40/88 51s] [50/88 59s] [60/88 67s] [70/88 92s] [80/88 113s] [88/88 122s] 126,720 bars (122s) [RAM=0.4GB, avail=6.8GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP HHHH6: Z-SCORE OF RANGE ---
+
+  Range z(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6485  wr= 69.5%  avg=  +7.3bps  tot=+472.03%  sh=  +270.0
+  ✅ TEST                                                     n=3331  wr= 84.4%  avg= +12.4bps  tot=+412.31%  sh=  +452.3
+    ✅ test=+14.726%/d
+
+  Range z(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3312  wr= 71.7%  avg=  +9.0bps  tot=+297.54%  sh=  +285.0
+  ✅ TEST                                                     n=1665  wr= 86.3%  avg= +14.5bps  tot=+240.74%  sh=  +466.9
+    ✅ test=+8.598%/d
+
+  Range z(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6694  wr= 70.5%  avg=  +7.6bps  tot=+510.34%  sh=  +279.4
+  ✅ TEST                                                     n=3453  wr= 84.9%  avg= +12.7bps  tot=+437.68%  sh=  +457.0
+    ✅ test=+15.631%/d
+
+  Range z(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3468  wr= 72.4%  avg=  +9.3bps  tot=+323.38%  sh=  +297.4
+  ✅ TEST                                                     n=1786  wr= 86.7%  avg= +14.6bps  tot=+260.05%  sh=  +458.1
+    ✅ test=+9.288%/d
+
+  --- EXP IIII6: CUMULATIVE RETURN IMBALANCE ---
+
+  Imbalance(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4478  wr= 66.1%  avg=  +4.4bps  tot=+198.55%  sh=  +241.4
+  ✅ TEST                                                     n=2384  wr= 83.4%  avg=  +8.5bps  tot=+202.21%  sh=  +450.6
+    ✅ test=+7.222%/d
+
+  Imbalance(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7630  wr= 65.7%  avg=  +4.2bps  tot=+319.33%  sh=  +237.1
+  ✅ TEST                                                     n=4018  wr= 82.2%  avg=  +8.1bps  tot=+324.67%  sh=  +431.7
+    ✅ test=+11.595%/d
+
+  Imbalance(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5439  wr= 66.6%  avg=  +4.5bps  tot=+242.07%  sh=  +238.1
+  ✅ TEST                                                     n=2970  wr= 83.3%  avg=  +8.4bps  tot=+249.07%  sh=  +462.0
+    ✅ test=+8.895%/d
+
+  Imbalance(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8734  wr= 66.6%  avg=  +4.3bps  tot=+377.44%  sh=  +242.5
+  ✅ TEST                                                     n=4791  wr= 83.1%  avg=  +8.1bps  tot=+386.85%  sh=  +451.9
+    ✅ test=+13.816%/d
+
+  --- EXP JJJJ6: PRICE OSCILLATION FREQUENCY ---
+
+  Osc freq(20) >90th pct (fade choppy):
+  ✅ TRAIN                                                    n=7517  wr= 64.3%  avg=  +4.1bps  tot=+304.93%  sh=  +229.6
+  ✅ TEST                                                     n=3887  wr= 80.6%  avg=  +8.0bps  tot=+309.69%  sh=  +452.6
+    ✅ test=+11.060%/d
+
+  Osc freq(20) >95th pct (fade choppy):
+  ✅ TRAIN                                                    n=4408  wr= 64.6%  avg=  +3.9bps  tot=+173.96%  sh=  +235.3
+  ✅ TEST                                                     n=2187  wr= 80.6%  avg=  +7.8bps  tot=+171.00%  sh=  +451.9
+    ✅ test=+6.107%/d
+
+  Osc freq(40) >90th pct (fade choppy):
+  ✅ TRAIN                                                    n=9113  wr= 64.2%  avg=  +4.0bps  tot=+363.03%  sh=  +218.3
+  ✅ TEST                                                     n=4527  wr= 80.7%  avg=  +7.8bps  tot=+350.92%  sh=  +449.2
+    ✅ test=+12.533%/d
+
+  Osc freq(40) >95th pct (fade choppy):
+  ✅ TRAIN                                                    n=5778  wr= 64.0%  avg=  +4.1bps  tot=+237.97%  sh=  +217.4
+  ✅ TEST                                                     n=2857  wr= 80.6%  avg=  +7.8bps  tot=+221.64%  sh=  +444.7
+    ✅ test=+7.916%/d
+
+  --- EXP KKKK6: PARKINSON VOLATILITY ---
+
+  Parkinson(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=11019  wr= 73.6%  avg=  +7.3bps  tot=+805.83%  sh=  +315.3
+  ✅ TEST                                                     n=6065  wr= 88.6%  avg= +12.3bps  tot=+746.64%  sh=  +537.0
+    ✅ test=+26.666%/d
+
+  Parkinson(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=8795  wr= 75.2%  avg=  +8.0bps  tot=+706.26%  sh=  +329.4
+  ✅ TEST                                                     n=4861  wr= 89.6%  avg= +13.1bps  tot=+634.81%  sh=  +545.4
+    ✅ test=+22.672%/d
+
+  Parkinson(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=14898  wr= 73.0%  avg=  +6.9bps  tot=+1022.45%  sh=  +318.6
+  ✅ TEST                                                     n=7870  wr= 87.3%  avg= +11.7bps  tot=+922.72%  sh=  +534.2
+    ✅ test=+32.954%/d
+
+  Parkinson(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=12468  wr= 74.9%  avg=  +7.5bps  tot=+939.11%  sh=  +338.4
+  ✅ TEST                                                     n=6530  wr= 88.1%  avg= +12.2bps  tot=+795.59%  sh=  +548.8
+    ✅ test=+28.414%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 24s] [30/88 32s] [40/88 40s] [50/88 49s] [60/88 57s] [70/88 85s] [80/88 102s] [88/88 113s] 126,720 bars (113s) [RAM=0.4GB, avail=6.7GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP HHHH6: Z-SCORE OF RANGE ---
+
+  Range z(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=5726  wr= 56.9%  avg=  +3.8bps  tot=+216.87%  sh=  +176.2
+  ✅ TEST                                                     n=3206  wr= 76.3%  avg=  +9.1bps  tot=+292.29%  sh=  +346.0
+    ✅ test=+10.439%/d
+
+  Range z(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=2889  wr= 58.0%  avg=  +4.8bps  tot=+138.61%  sh=  +192.1
+  ✅ TEST                                                     n=1618  wr= 76.8%  avg= +10.6bps  tot=+170.95%  sh=  +343.4
+    ✅ test=+6.105%/d
+
+  Range z(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=5972  wr= 57.3%  avg=  +3.9bps  tot=+232.94%  sh=  +179.9
+  ✅ TEST                                                     n=3353  wr= 76.7%  avg=  +9.3bps  tot=+311.79%  sh=  +349.8
+    ✅ test=+11.135%/d
+
+  Range z(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3028  wr= 59.6%  avg=  +5.2bps  tot=+158.60%  sh=  +206.5
+  ✅ TEST                                                     n=1734  wr= 77.2%  avg= +10.6bps  tot=+183.85%  sh=  +357.1
+    ✅ test=+6.566%/d
+
+  --- EXP IIII6: CUMULATIVE RETURN IMBALANCE ---
+
+  Imbalance(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3831  wr= 51.8%  avg=  +2.1bps  tot= +81.45%  sh=  +135.2
+  ✅ TEST                                                     n=2179  wr= 72.3%  avg=  +6.0bps  tot=+130.65%  sh=  +286.8
+    ✅ test=+4.666%/d
+
+  Imbalance(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6600  wr= 51.3%  avg=  +1.8bps  tot=+121.18%  sh=  +118.4
+  ✅ TEST                                                     n=3711  wr= 71.8%  avg=  +5.5bps  tot=+202.79%  sh=  +283.8
+    ✅ test=+7.243%/d
+
+  Imbalance(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4804  wr= 52.7%  avg=  +2.1bps  tot= +98.91%  sh=  +136.2
+  ✅ TEST                                                     n=2947  wr= 70.1%  avg=  +5.5bps  tot=+162.76%  sh=  +268.7
+    ✅ test=+5.813%/d
+
+  Imbalance(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7709  wr= 52.4%  avg=  +1.9bps  tot=+147.74%  sh=  +129.4
+  ✅ TEST                                                     n=4606  wr= 70.1%  avg=  +5.3bps  tot=+245.09%  sh=  +280.2
+    ✅ test=+8.753%/d
+
+  --- EXP JJJJ6: PRICE OSCILLATION FREQUENCY ---
+
+  Osc freq(20) >90th pct (fade choppy):
+  ✅ TRAIN                                                    n=6579  wr= 49.8%  avg=  +1.4bps  tot= +91.43%  sh=  +100.2
+  ✅ TEST                                                     n=3645  wr= 70.9%  avg=  +5.5bps  tot=+199.44%  sh=  +327.2
+    ✅ test=+7.123%/d
+
+  Osc freq(20) >95th pct (fade choppy):
+  ✅ TRAIN                                                    n=3845  wr= 48.9%  avg=  +1.3bps  tot= +49.11%  sh=   +95.4
+  ✅ TEST                                                     n=2135  wr= 71.3%  avg=  +5.4bps  tot=+116.33%  sh=  +339.4
+    ✅ test=+4.155%/d
+
+  Osc freq(40) >90th pct (fade choppy):
+  ✅ TRAIN                                                    n=8061  wr= 49.0%  avg=  +1.2bps  tot= +97.44%  sh=   +84.9
+  ✅ TEST                                                     n=4553  wr= 72.3%  avg=  +5.7bps  tot=+258.47%  sh=  +351.8
+    ✅ test=+9.231%/d
+
+  Osc freq(40) >95th pct (fade choppy):
+  ✅ TRAIN                                                    n=5091  wr= 48.5%  avg=  +1.1bps  tot= +54.36%  sh=   +74.4
+  ✅ TEST                                                     n=2932  wr= 71.6%  avg=  +5.6bps  tot=+164.80%  sh=  +347.7
+    ✅ test=+5.886%/d
+
+  --- EXP KKKK6: PARKINSON VOLATILITY ---
+
+  Parkinson(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=10248  wr= 61.1%  avg=  +4.1bps  tot=+419.01%  sh=  +205.0
+  ✅ TEST                                                     n=5923  wr= 81.2%  avg=  +9.6bps  tot=+567.02%  sh=  +415.9
+    ✅ test=+20.251%/d
+
+  Parkinson(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=8072  wr= 63.5%  avg=  +4.7bps  tot=+383.33%  sh=  +231.3
+  ✅ TEST                                                     n=4615  wr= 82.2%  avg= +10.2bps  tot=+471.07%  sh=  +423.7
+    ✅ test=+16.824%/d
+
+  Parkinson(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=13177  wr= 60.8%  avg=  +3.8bps  tot=+505.36%  sh=  +209.2
+  ✅ TEST                                                     n=7632  wr= 80.9%  avg=  +9.5bps  tot=+721.48%  sh=  +414.5
+    ✅ test=+25.767%/d
+
+  Parkinson(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=10929  wr= 62.6%  avg=  +4.2bps  tot=+461.27%  sh=  +223.0
+  ✅ TEST                                                     n=6321  wr= 81.9%  avg=  +9.8bps  tot=+622.38%  sh=  +417.5
+    ✅ test=+22.228%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    imb_20_0.05              2384   83.4%    +8.5bp   +202.2%     +451
+  ✅ DOGEUSDT    imb_20_0.1               4018   82.2%    +8.1bp   +324.7%     +432
+  ✅ DOGEUSDT    imb_40_0.05              2970   83.3%    +8.4bp   +249.1%     +462
+  ✅ DOGEUSDT    imb_40_0.1               4791   83.1%    +8.1bp   +386.8%     +452
+  ✅ DOGEUSDT    osc_20_0.9               3887   80.6%    +8.0bp   +309.7%     +453
+  ✅ DOGEUSDT    osc_20_0.95              2187   80.6%    +7.8bp   +171.0%     +452
+  ✅ DOGEUSDT    osc_40_0.9               4527   80.7%    +7.8bp   +350.9%     +449
+  ✅ DOGEUSDT    osc_40_0.95              2857   80.6%    +7.8bp   +221.6%     +445
+  ✅ DOGEUSDT    park_30_0.9              6065   88.6%   +12.3bp   +746.6%     +537
+  ✅ DOGEUSDT    park_30_0.95             4861   89.6%   +13.1bp   +634.8%     +545
+  ✅ DOGEUSDT    park_60_0.9              7870   87.3%   +11.7bp   +922.7%     +534
+  ✅ DOGEUSDT    park_60_0.95             6530   88.1%   +12.2bp   +795.6%     +549
+  ✅ DOGEUSDT    rz_30_0.9                3331   84.4%   +12.4bp   +412.3%     +452
+  ✅ DOGEUSDT    rz_30_0.95               1665   86.3%   +14.5bp   +240.7%     +467
+  ✅ DOGEUSDT    rz_60_0.9                3453   84.9%   +12.7bp   +437.7%     +457
+  ✅ DOGEUSDT    rz_60_0.95               1786   86.7%   +14.6bp   +260.1%     +458
+  ✅ ETHUSDT     imb_20_0.05              2024   67.5%    +4.0bp    +80.7%     +270
+  ✅ ETHUSDT     imb_20_0.1               3565   66.3%    +3.7bp   +132.2%     +260
+  ✅ ETHUSDT     imb_40_0.05              2567   66.8%    +3.9bp    +99.5%     +269
+  ✅ ETHUSDT     imb_40_0.1               4132   65.4%    +3.6bp   +148.9%     +239
+  ✅ ETHUSDT     osc_20_0.9               3254   58.2%    +2.7bp    +88.6%     +188
+  ✅ ETHUSDT     osc_20_0.95              1863   58.4%    +2.7bp    +50.0%     +179
+  ✅ ETHUSDT     osc_40_0.9               4147   59.2%    +2.9bp   +119.2%     +195
+  ✅ ETHUSDT     osc_40_0.95              2530   58.7%    +2.9bp    +74.1%     +191
+  ✅ ETHUSDT     park_30_0.9              5177   71.5%    +5.3bp   +272.0%     +320
+  ✅ ETHUSDT     park_30_0.95             4162   72.6%    +5.6bp   +233.6%     +328
+  ✅ ETHUSDT     park_60_0.9              6846   72.0%    +5.1bp   +351.9%     +332
+  ✅ ETHUSDT     park_60_0.95             5588   73.4%    +5.5bp   +308.2%     +360
+  ✅ ETHUSDT     rz_30_0.9                2869   70.1%    +5.8bp   +166.3%     +324
+  ✅ ETHUSDT     rz_30_0.95               1426   73.4%    +7.3bp   +103.5%     +351
+  ✅ ETHUSDT     rz_60_0.9                3007   70.6%    +6.0bp   +179.9%     +327
+  ✅ ETHUSDT     rz_60_0.95               1526   74.0%    +7.5bp   +113.8%     +364
+  ✅ SOLUSDT     imb_20_0.05              2142   61.8%    +3.0bp    +64.3%     +202
+  ✅ SOLUSDT     imb_20_0.1               3558   61.7%    +3.2bp   +112.5%     +203
+  ✅ SOLUSDT     imb_40_0.05              2687   60.6%    +3.1bp    +82.0%     +206
+  ✅ SOLUSDT     imb_40_0.1               4251   61.6%    +3.1bp   +130.7%     +198
+  ✅ SOLUSDT     osc_20_0.9               3447   64.0%    +3.5bp   +120.9%     +226
+  ✅ SOLUSDT     osc_20_0.95              1982   63.1%    +3.6bp    +70.6%     +231
+  ✅ SOLUSDT     osc_40_0.9               4265   63.3%    +3.4bp   +145.2%     +225
+  ✅ SOLUSDT     osc_40_0.95              2679   62.7%    +3.3bp    +88.7%     +216
+  ✅ SOLUSDT     park_30_0.9              5360   74.9%    +6.5bp   +349.0%     +385
+  ✅ SOLUSDT     park_30_0.95             4265   76.6%    +7.0bp   +296.7%     +406
+  ✅ SOLUSDT     park_60_0.9              6946   74.2%    +6.2bp   +429.0%     +370
+  ✅ SOLUSDT     park_60_0.95             5721   75.9%    +6.6bp   +376.8%     +399
+  ✅ SOLUSDT     rz_30_0.9                2971   69.6%    +5.9bp   +174.5%     +331
+  ✅ SOLUSDT     rz_30_0.95               1517   70.9%    +6.5bp    +98.2%     +334
+  ✅ SOLUSDT     rz_60_0.9                3107   70.5%    +6.1bp   +189.7%     +338
+  ✅ SOLUSDT     rz_60_0.95               1599   72.0%    +6.9bp   +110.0%     +351
+  ✅ XRPUSDT     imb_20_0.05              2179   72.3%    +6.0bp   +130.6%     +287
+  ✅ XRPUSDT     imb_20_0.1               3711   71.8%    +5.5bp   +202.8%     +284
+  ✅ XRPUSDT     imb_40_0.05              2947   70.1%    +5.5bp   +162.8%     +269
+  ✅ XRPUSDT     imb_40_0.1               4606   70.1%    +5.3bp   +245.1%     +280
+  ✅ XRPUSDT     osc_20_0.9               3645   70.9%    +5.5bp   +199.4%     +327
+  ✅ XRPUSDT     osc_20_0.95              2135   71.3%    +5.4bp   +116.3%     +339
+  ✅ XRPUSDT     osc_40_0.9               4553   72.3%    +5.7bp   +258.5%     +352
+  ✅ XRPUSDT     osc_40_0.95              2932   71.6%    +5.6bp   +164.8%     +348
+  ✅ XRPUSDT     park_30_0.9              5923   81.2%    +9.6bp   +567.0%     +416
+  ✅ XRPUSDT     park_30_0.95             4615   82.2%   +10.2bp   +471.1%     +424
+  ✅ XRPUSDT     park_60_0.9              7632   80.9%    +9.5bp   +721.5%     +414
+  ✅ XRPUSDT     park_60_0.95             6321   81.9%    +9.8bp   +622.4%     +417
+  ✅ XRPUSDT     rz_30_0.9                3206   76.3%    +9.1bp   +292.3%     +346
+  ✅ XRPUSDT     rz_30_0.95               1618   76.8%   +10.6bp   +170.9%     +343
+  ✅ XRPUSDT     rz_60_0.9                3353   76.7%    +9.3bp   +311.8%     +350
+  ✅ XRPUSDT     rz_60_0.95               1734   77.2%   +10.6bp   +183.9%     +357
+
+################################################################################
+  COMPLETE — 781s (13.0min) [RAM=0.2GB, avail=6.9GB]
+################################################################################
