@@ -1,0 +1,210 @@
+================================================================================
+  v42h: FILTERS + SLIPPAGE + REALISTIC SIM — 60 DAYS
+  2026-02-19 05:25:16  [RAM=0.1GB, avail=5.7GB]
+================================================================================
+  Loading ETHUSDT liqs... [15/60 5s] [30/60 9s] [45/60 14s] [60/60 15s] 133,669 (15s) [RAM=0.2GB, avail=5.5GB]
+  ETHUSDT: 888 cascades
+  Loading SOLUSDT liqs... [15/60 2s] [30/60 4s] [45/60 6s] [60/60 7s] 75,588 (7s) [RAM=0.1GB, avail=5.4GB]
+  SOLUSDT: 507 cascades
+  Loading DOGEUSDT liqs... [15/60 1s] [30/60 2s] [45/60 4s] [60/60 4s] 37,100 (4s) [RAM=0.1GB, avail=5.5GB]
+  DOGEUSDT: 281 cascades
+  Loading ETHUSDT bars (chunked)... [10/60 40s] [20/60 69s] [30/60 95s] [40/60 124s] [50/60 150s] [60/60 170s] 86,400 bars (170s) [RAM=0.5GB, avail=5.4GB]
+  Loading SOLUSDT bars (chunked)... [10/60 20s] [20/60 36s] [30/60 49s] [40/60 64s] [50/60 79s] [60/60 90s] 86,400 bars (90s) [RAM=0.4GB, avail=5.5GB]
+  Loading DOGEUSDT bars (chunked)... [10/60 27s] [20/60 45s] [30/60 58s] [40/60 70s] [50/60 80s] [60/60 90s] 86,400 bars (90s) [RAM=0.4GB, avail=5.7GB]
+
+  [RAM=0.4GB, avail=5.7GB] all data loaded
+
+================================================================================
+  EXP U: COMBINED FILTERS — ETHUSDT
+================================================================================
+  ✅ BASELINE (no filters)                               n= 616  wr= 92.0%  avg=  +5.8bps  tot= +35.84%  sh=  +195.5
+  ✅ LONG only                                           n= 393  wr= 93.1%  avg=  +6.6bps  tot= +25.81%  sh=  +238.6
+  ✅ Exclude bad hours                                   n= 496  wr= 92.1%  avg=  +5.9bps  tot= +29.49%  sh=  +202.7
+  ✅ LONG + exclude bad hours                            n= 314  wr= 93.3%  avg=  +6.8bps  tot= +21.23%  sh=  +252.0
+
+  WALK-FORWARD (train=42d, test=18d):
+
+  Baseline:
+  ✅ TRAIN                                               n= 527  wr= 92.0%  avg=  +5.8bps  tot= +30.51%  sh=  +193.7
+  ✅ TEST                                                n=  89  wr= 92.1%  avg=  +6.0bps  tot=  +5.34%  sh=  +206.9
+    ✅ train=+0.726%/d  test=+0.296%/d
+
+  LONG only:
+  ✅ TRAIN                                               n= 353  wr= 92.6%  avg=  +6.2bps  tot= +21.76%  sh=  +213.9
+  ✅ TEST                                                n=  40  wr= 97.5%  avg= +10.1bps  tot=  +4.06%  sh= +1137.3
+    ✅ train=+0.518%/d  test=+0.225%/d
+
+  LONG + no bad hrs:
+  ✅ TRAIN                                               n= 283  wr= 92.9%  avg=  +6.4bps  tot= +18.17%  sh=  +229.2
+  ✅ TEST                                                n=  31  wr= 96.8%  avg=  +9.9bps  tot=  +3.07%  sh=  +980.2
+    ✅ train=+0.433%/d  test=+0.170%/d
+
+================================================================================
+  EXP U: COMBINED FILTERS — SOLUSDT
+================================================================================
+  ✅ BASELINE (no filters)                               n= 765  wr= 91.0%  avg=  +4.9bps  tot= +37.55%  sh=  +152.7
+  ✅ LONG only                                           n= 488  wr= 92.4%  avg=  +5.9bps  tot= +28.67%  sh=  +198.0
+  ✅ Exclude bad hours                                   n= 617  wr= 90.6%  avg=  +4.7bps  tot= +28.81%  sh=  +142.9
+  ✅ LONG + exclude bad hours                            n= 389  wr= 92.8%  avg=  +6.2bps  tot= +23.94%  sh=  +213.5
+
+  WALK-FORWARD (train=42d, test=18d):
+
+  Baseline:
+  ✅ TRAIN                                               n= 646  wr= 90.9%  avg=  +4.8bps  tot= +31.31%  sh=  +150.3
+  ✅ TEST                                                n= 119  wr= 91.6%  avg=  +5.2bps  tot=  +6.24%  sh=  +166.2
+    ✅ train=+0.746%/d  test=+0.347%/d
+
+  LONG only:
+  ✅ TRAIN                                               n= 432  wr= 91.7%  avg=  +5.4bps  tot= +23.19%  sh=  +173.4
+  ✅ TEST                                                n=  56  wr= 98.2%  avg=  +9.8bps  tot=  +5.48%  sh=  +649.2
+    ✅ train=+0.552%/d  test=+0.304%/d
+
+  LONG + no bad hrs:
+  ✅ TRAIN                                               n= 344  wr= 92.2%  avg=  +5.7bps  tot= +19.68%  sh=  +190.8
+  ✅ TEST                                                n=  45  wr= 97.8%  avg=  +9.5bps  tot=  +4.27%  sh=  +565.4
+    ✅ train=+0.468%/d  test=+0.237%/d
+
+================================================================================
+  EXP U: COMBINED FILTERS — DOGEUSDT
+================================================================================
+  ✅ BASELINE (no filters)                               n= 688  wr= 90.6%  avg=  +4.7bps  tot= +32.35%  sh=  +144.1
+  ✅ LONG only                                           n= 453  wr= 92.1%  avg=  +5.7bps  tot= +25.90%  sh=  +190.2
+  ✅ Exclude bad hours                                   n= 543  wr= 91.0%  avg=  +4.9bps  tot= +26.79%  sh=  +153.4
+  ✅ LONG + exclude bad hours                            n= 352  wr= 92.9%  avg=  +6.2bps  tot= +21.75%  sh=  +213.3
+
+  WALK-FORWARD (train=42d, test=18d):
+
+  Baseline:
+  ✅ TRAIN                                               n= 596  wr= 90.6%  avg=  +4.7bps  tot= +28.24%  sh=  +145.5
+  ✅ TEST                                                n=  92  wr= 90.2%  avg=  +4.5bps  tot=  +4.11%  sh=  +135.4
+    ✅ train=+0.672%/d  test=+0.228%/d
+
+  LONG only:
+  ✅ TRAIN                                               n= 407  wr= 91.9%  avg=  +5.6bps  tot= +22.73%  sh=  +183.4
+  ✅ TEST                                                n=  46  wr= 93.5%  avg=  +6.9bps  tot=  +3.16%  sh=  +263.3
+    ✅ train=+0.541%/d  test=+0.176%/d
+
+  LONG + no bad hrs:
+  ✅ TRAIN                                               n= 317  wr= 93.1%  avg=  +6.2bps  tot= +19.80%  sh=  +216.1
+  ✅ TEST                                                n=  35  wr= 91.4%  avg=  +5.6bps  tot=  +1.95%  sh=  +188.4
+    ✅ train=+0.471%/d  test=+0.108%/d
+
+================================================================================
+  EXP W: SLIPPAGE SENSITIVITY — ETHUSDT
+================================================================================
+
+  ENTRY SLIPPAGE (exit slippage = 0):
+  ✅ entry_slip=0.0bps                                   n= 616  wr= 92.0%  avg=  +5.8bps  tot= +35.84%  sh=  +195.5
+  ✅ entry_slip=0.5bps                                   n= 621  wr= 91.6%  avg=  +5.5bps  tot= +33.99%  sh=  +178.0
+  ✅ entry_slip=1.0bps                                   n= 625  wr= 91.4%  avg=  +5.3bps  tot= +33.27%  sh=  +171.4
+  ✅ entry_slip=1.5bps                                   n= 629  wr= 90.5%  avg=  +4.7bps  tot= +29.55%  sh=  +144.2
+  ✅ entry_slip=2.0bps                                   n= 633  wr= 90.0%  avg=  +4.3bps  tot= +27.52%  sh=  +129.9
+  ✅ entry_slip=3.0bps                                   n= 641  wr= 89.5%  avg=  +4.1bps  tot= +26.54%  sh=  +122.5
+  ✅ entry_slip=5.0bps                                   n= 660  wr= 87.9%  avg=  +2.8bps  tot= +18.61%  sh=   +76.7
+
+  EXIT SLIPPAGE on SL/timeout (entry slippage = 0):
+  ✅ exit_slip=0.0bps                                    n= 616  wr= 92.0%  avg=  +5.8bps  tot= +35.84%  sh=  +195.5
+  ✅ exit_slip=0.5bps                                    n= 616  wr= 92.0%  avg=  +5.8bps  tot= +35.60%  sh=  +192.8
+  ✅ exit_slip=1.0bps                                    n= 616  wr= 92.0%  avg=  +5.7bps  tot= +35.35%  sh=  +190.0
+  ✅ exit_slip=2.0bps                                    n= 616  wr= 92.0%  avg=  +5.7bps  tot= +34.86%  sh=  +184.7
+  ✅ exit_slip=3.0bps                                    n= 616  wr= 92.0%  avg=  +5.6bps  tot= +34.37%  sh=  +179.5
+  ✅ exit_slip=5.0bps                                    n= 616  wr= 92.0%  avg=  +5.4bps  tot= +33.39%  sh=  +169.6
+
+  BOTH ENTRY + EXIT SLIPPAGE:
+  ✅ both_slip=0.0bps                                    n= 616  wr= 92.0%  avg=  +5.8bps  tot= +35.84%  sh=  +195.5
+  ✅ both_slip=0.5bps                                    n= 621  wr= 91.6%  avg=  +5.4bps  tot= +33.73%  sh=  +175.3
+  ✅ both_slip=1.0bps                                    n= 625  wr= 91.4%  avg=  +5.2bps  tot= +32.73%  sh=  +166.2
+  ✅ both_slip=1.5bps                                    n= 629  wr= 90.5%  avg=  +4.6bps  tot= +28.65%  sh=  +136.8
+  ✅ both_slip=2.0bps                                    n= 633  wr= 90.0%  avg=  +4.1bps  tot= +26.26%  sh=  +120.4
+  ✅ both_slip=3.0bps                                    n= 641  wr= 89.5%  avg=  +3.8bps  tot= +24.54%  sh=  +108.4
+
+  BREAKEVEN SLIPPAGE SEARCH:
+  ⚠️ Breakeven at ~8.5 bps both-way slippage
+
+================================================================================
+  EXP W: SLIPPAGE SENSITIVITY — SOLUSDT
+================================================================================
+
+  ENTRY SLIPPAGE (exit slippage = 0):
+  ✅ entry_slip=0.0bps                                   n= 765  wr= 91.0%  avg=  +4.9bps  tot= +37.55%  sh=  +152.7
+  ✅ entry_slip=0.5bps                                   n= 768  wr= 90.5%  avg=  +4.7bps  tot= +35.80%  sh=  +142.4
+  ✅ entry_slip=1.0bps                                   n= 774  wr= 90.3%  avg=  +4.6bps  tot= +35.29%  sh=  +138.3
+  ✅ entry_slip=1.5bps                                   n= 782  wr= 90.4%  avg=  +4.6bps  tot= +36.14%  sh=  +140.8
+  ✅ entry_slip=2.0bps                                   n= 789  wr= 89.5%  avg=  +4.0bps  tot= +31.53%  sh=  +116.7
+  ✅ entry_slip=3.0bps                                   n= 804  wr= 88.6%  avg=  +3.5bps  tot= +28.02%  sh=   +98.8
+  ✅ entry_slip=5.0bps                                   n= 827  wr= 87.9%  avg=  +3.0bps  tot= +25.14%  sh=   +84.3
+
+  EXIT SLIPPAGE on SL/timeout (entry slippage = 0):
+  ✅ exit_slip=0.0bps                                    n= 765  wr= 91.0%  avg=  +4.9bps  tot= +37.55%  sh=  +152.7
+  ✅ exit_slip=0.5bps                                    n= 765  wr= 90.8%  avg=  +4.9bps  tot= +37.20%  sh=  +150.1
+  ✅ exit_slip=1.0bps                                    n= 765  wr= 90.8%  avg=  +4.8bps  tot= +36.84%  sh=  +147.6
+  ✅ exit_slip=2.0bps                                    n= 765  wr= 90.8%  avg=  +4.7bps  tot= +36.13%  sh=  +142.7
+  ✅ exit_slip=3.0bps                                    n= 765  wr= 90.8%  avg=  +4.6bps  tot= +35.42%  sh=  +137.9
+  ✅ exit_slip=5.0bps                                    n= 765  wr= 90.8%  avg=  +4.4bps  tot= +34.00%  sh=  +128.8
+
+  BOTH ENTRY + EXIT SLIPPAGE:
+  ✅ both_slip=0.0bps                                    n= 765  wr= 91.0%  avg=  +4.9bps  tot= +37.55%  sh=  +152.7
+  ✅ both_slip=0.5bps                                    n= 768  wr= 90.5%  avg=  +4.6bps  tot= +35.43%  sh=  +139.9
+  ✅ both_slip=1.0bps                                    n= 774  wr= 90.3%  avg=  +4.5bps  tot= +34.53%  sh=  +133.3
+  ✅ both_slip=1.5bps                                    n= 782  wr= 90.4%  avg=  +4.5bps  tot= +35.00%  sh=  +133.4
+  ✅ both_slip=2.0bps                                    n= 789  wr= 89.5%  avg=  +3.8bps  tot= +29.87%  sh=  +107.4
+  ✅ both_slip=3.0bps                                    n= 804  wr= 88.6%  avg=  +3.1bps  tot= +25.26%  sh=   +85.3
+
+  BREAKEVEN SLIPPAGE SEARCH:
+  ⚠️ Breakeven at ~8.5 bps both-way slippage
+
+================================================================================
+  EXP W: SLIPPAGE SENSITIVITY — DOGEUSDT
+================================================================================
+
+  ENTRY SLIPPAGE (exit slippage = 0):
+  ✅ entry_slip=0.0bps                                   n= 688  wr= 90.6%  avg=  +4.7bps  tot= +32.35%  sh=  +144.1
+  ✅ entry_slip=0.5bps                                   n= 697  wr= 89.5%  avg=  +4.0bps  tot= +27.84%  sh=  +116.7
+  ✅ entry_slip=1.0bps                                   n= 703  wr= 89.3%  avg=  +3.8bps  tot= +26.65%  sh=  +109.1
+  ✅ entry_slip=1.5bps                                   n= 709  wr= 89.7%  avg=  +4.0bps  tot= +28.67%  sh=  +118.2
+  ✅ entry_slip=2.0bps                                   n= 712  wr= 89.6%  avg=  +4.0bps  tot= +28.61%  sh=  +117.6
+  ✅ entry_slip=3.0bps                                   n= 720  wr= 88.9%  avg=  +3.5bps  tot= +24.88%  sh=   +97.5
+  ✅ entry_slip=5.0bps                                   n= 742  wr= 88.1%  avg=  +3.1bps  tot= +22.70%  sh=   +84.7
+
+  EXIT SLIPPAGE on SL/timeout (entry slippage = 0):
+  ✅ exit_slip=0.0bps                                    n= 688  wr= 90.6%  avg=  +4.7bps  tot= +32.35%  sh=  +144.1
+  ✅ exit_slip=0.5bps                                    n= 688  wr= 90.6%  avg=  +4.7bps  tot= +32.02%  sh=  +141.6
+  ✅ exit_slip=1.0bps                                    n= 688  wr= 90.6%  avg=  +4.6bps  tot= +31.70%  sh=  +139.2
+  ✅ exit_slip=2.0bps                                    n= 688  wr= 90.6%  avg=  +4.5bps  tot= +31.05%  sh=  +134.4
+  ✅ exit_slip=3.0bps                                    n= 688  wr= 90.6%  avg=  +4.4bps  tot= +30.40%  sh=  +129.7
+  ✅ exit_slip=5.0bps                                    n= 688  wr= 90.6%  avg=  +4.2bps  tot= +29.10%  sh=  +120.7
+
+  BOTH ENTRY + EXIT SLIPPAGE:
+  ✅ both_slip=0.0bps                                    n= 688  wr= 90.6%  avg=  +4.7bps  tot= +32.35%  sh=  +144.1
+  ✅ both_slip=0.5bps                                    n= 697  wr= 89.5%  avg=  +3.9bps  tot= +27.47%  sh=  +114.3
+  ✅ both_slip=1.0bps                                    n= 703  wr= 89.3%  avg=  +3.7bps  tot= +25.90%  sh=  +104.5
+  ✅ both_slip=1.5bps                                    n= 709  wr= 89.7%  avg=  +3.9bps  tot= +27.57%  sh=  +111.3
+  ✅ both_slip=2.0bps                                    n= 712  wr= 89.6%  avg=  +3.8bps  tot= +27.13%  sh=  +108.3
+  ✅ both_slip=3.0bps                                    n= 720  wr= 88.8%  avg=  +3.1bps  tot= +22.46%  sh=   +84.3
+
+  BREAKEVEN SLIPPAGE SEARCH:
+  ⚠️ Breakeven at ~8.5 bps both-way slippage
+
+================================================================================
+  EXP V: REALISTIC CONCURRENT SIMULATION
+================================================================================
+
+  REALISTIC SIMULATION RESULTS:
+    Trades taken:    2008
+    Trades skipped:  101 (already in position)
+    Total return:    +183.61%
+    Max drawdown:    -3.72%
+    Final equity:    2.8361
+    ETHUSDT: 604 trades
+    SOLUSDT: 731 trades
+    DOGEUSDT: 673 trades
+
+  DAILY STATS (realistic):
+    Trading days:    53
+    Positive days:   49/53 (92%)
+    Avg daily ret:   +2.001%
+    Daily Sharpe:    22.4
+
+################################################################################
+  COMPLETE — 404s (6.7min) [RAM=0.4GB, avail=5.7GB]
+################################################################################
