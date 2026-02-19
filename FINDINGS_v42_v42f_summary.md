@@ -926,6 +926,39 @@ Fade price deviations from 60-min rolling VWAP.
 
 ---
 
+## v42y: VWAP + Vol Spike — DOGE + XRP Validation (EXP LLL-NNN)
+
+**ALL 14 configs OOS positive. DOGE is the standout performer.**
+
+### VWAP Deviation — 4-Symbol Summary (>20bps fade)
+
+| Symbol | OOS Trades | OOS WR | OOS Avg | OOS Total | Sharpe |
+|--------|-----------|--------|---------|-----------|--------|
+| SOL | 9,032 | 65.7% | +3.6 bps | +328% | 247 |
+| ETH | 8,067 | 68.7% | +4.1 bps | +331% | 281 |
+| **DOGE** | **11,802** | **84.7%** | **+8.2 bps** | **+965%** | **482** |
+| **XRP** | **10,792** | **76.1%** | **+6.3 bps** | **+678%** | **368** |
+
+### Vol Spike — 4-Symbol Summary (>3x fade)
+
+| Symbol | OOS Trades | OOS WR | OOS Avg | OOS Total | Sharpe |
+|--------|-----------|--------|---------|-----------|--------|
+| SOL | 1,630 | 78.3% | +8.1 bps | +132% | 392 |
+| ETH | 1,710 | 80.3% | +8.4 bps | +144% | 436 |
+| **DOGE** | **1,884** | **88.6%** | **+14.7 bps** | **+277%** | **504** |
+| **XRP** | **1,452** | **83.2%** | **+12.2 bps** | **+177%** | **416** |
+
+### EXP NNN: Combined VWAP>20bps + Vol>3x
+
+| Symbol | OOS Trades | OOS WR | OOS Avg | OOS Total | Sharpe |
+|--------|-----------|--------|---------|-----------|--------|
+| **DOGE** | **1,595** | **91.8%** | **+16.0 bps** | **+255%** | **539** |
+| **XRP** | **1,237** | **86.4%** | **+13.3 bps** | **+164%** | **452** |
+
+**DOGE combined: 92% WR, Sharpe 539 — highest quality price-only signal.**
+
+---
+
 ## Scripts & Results
 
 | File | Description |
@@ -954,3 +987,4 @@ Fade price deviations from 60-min rolling VWAP.
 | `research_v42v_oi_spread_signals.py` | EXP BBB-EEE: OI velocity, spread, funding signals |
 | `research_v42w_signal_combos.py` | EXP FFF-HHH: signal combos, quality filters, alignment |
 | `research_v42x_orderflow.py` | EXP III, JJJ, KKK: order flow, vol spike, VWAP deviation |
+| `research_v42y_vwap_vol_4sym.py` | EXP LLL-NNN: VWAP+vol spike DOGE+XRP validation |
