@@ -1,0 +1,134 @@
+================================================================================
+  v42ac: TICK-LEVEL MICROSTRUCTURE PATTERNS
+  2026-02-19 09:08:34  [RAM=0.1GB, avail=5.5GB]
+================================================================================
+  Loading SOLUSDT... [10/88 25s] [20/88 42s] [30/88 56s] [40/88 73s] [50/88 89s] [60/88 103s] [70/88 122s] [80/88 149s] [88/88 161s] 126,720 bars (161s) [RAM=0.5GB, avail=5.5GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP VVV: TRADE SIZE DISTRIBUTION ---
+  Avg size z stats: mean=0.003, std=1.025
+  Max size z stats: mean=0.010, std=1.026
+
+  Big avg trade size (z>2, fade):
+  ✅ TRAIN                                                    n=2963  wr= 60.8%  avg=  +3.1bps  tot= +91.62%  sh=  +179.7
+  ✅ TEST                                                     n=1433  wr= 65.5%  avg=  +4.1bps  tot= +58.86%  sh=  +267.9
+    ✅ test=+2.102%/d
+
+  Big avg trade size (z>3, fade):
+  ✅ TRAIN                                                    n= 949  wr= 60.6%  avg=  +2.8bps  tot= +26.99%  sh=  +174.6
+  ✅ TEST                                                     n= 453  wr= 66.2%  avg=  +4.4bps  tot= +19.96%  sh=  +282.7
+    ✅ test=+0.713%/d
+
+  Whale trade (max z>2, fade):
+  ✅ TRAIN                                                    n=2978  wr= 66.6%  avg=  +5.4bps  tot=+159.43%  sh=  +230.9
+  ✅ TEST                                                     n=1354  wr= 70.0%  avg=  +6.0bps  tot= +81.29%  sh=  +317.3
+    ✅ test=+2.903%/d
+
+  Whale trade (max z>3, fade):
+  ✅ TRAIN                                                    n=1653  wr= 67.3%  avg=  +6.4bps  tot=+105.10%  sh=  +241.5
+  ✅ TEST                                                     n= 790  wr= 71.4%  avg=  +6.5bps  tot= +51.50%  sh=  +312.7
+    ✅ test=+1.839%/d
+
+  --- EXP WWW: TRADE ARRIVAL RATE ---
+
+  Trade rate >3x (fade):
+  ✅ TRAIN                                                    n=2101  wr= 82.3%  avg= +11.6bps  tot=+242.73%  sh=  +394.7
+  ✅ TEST                                                     n= 976  wr= 82.8%  avg= +10.5bps  tot=+102.19%  sh=  +444.5
+    ✅ test=+3.650%/d
+
+  Trade rate >5x (fade):
+  ✅ TRAIN                                                    n= 610  wr= 88.7%  avg= +18.1bps  tot=+110.21%  sh=  +435.5
+  ✅ TEST                                                     n= 246  wr= 87.4%  avg= +15.3bps  tot= +37.56%  sh=  +496.1
+    ✅ test=+1.341%/d
+
+  Trade rate >10x (fade):
+  ✅ TRAIN                                                    n=  95  wr= 92.6%  avg= +37.5bps  tot= +35.64%  sh=  +521.3
+  ✅ TEST                                                     n=  24  wr=100.0%  avg= +34.1bps  tot=  +8.20%  sh=  +525.0
+    ✅ test=+0.293%/d
+
+  --- EXP YYY: MULTI-SIGNAL ENSEMBLE ---
+
+  Ensemble score >=2 (5 signals):
+  ✅ TRAIN                                                    n=2431  wr= 78.4%  avg=  +8.5bps  tot=+206.61%  sh=  +337.9
+  ✅ TEST                                                     n=1214  wr= 82.1%  avg=  +9.0bps  tot=+109.37%  sh=  +469.7
+    ✅ test=+3.906%/d
+
+  Ensemble score >=3 (5 signals):
+  ✅ TRAIN                                                    n= 808  wr= 84.8%  avg= +13.1bps  tot=+105.72%  sh=  +365.8
+  ✅ TEST                                                     n= 372  wr= 85.5%  avg= +12.0bps  tot= +44.77%  sh=  +524.6
+    ✅ test=+1.599%/d
+
+  Ensemble score >=4 (5 signals):
+  ✅ TRAIN                                                    n= 180  wr= 93.3%  avg= +24.5bps  tot= +44.02%  sh=  +429.3
+  ✅ TEST                                                     n=  75  wr= 90.7%  avg= +15.0bps  tot= +11.26%  sh=  +551.2
+    ✅ test=+0.402%/d
+  Loading DOGEUSDT... [10/88 30s] [20/88 52s] [30/88 64s] [40/88 77s] [50/88 89s] [60/88 99s] [70/88 134s] [80/88 159s] [88/88 170s] 126,720 bars (170s) [RAM=0.5GB, avail=5.5GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP VVV: TRADE SIZE DISTRIBUTION ---
+  Avg size z stats: mean=0.003, std=1.019
+  Max size z stats: mean=0.007, std=1.023
+
+  Big avg trade size (z>2, fade):
+  ✅ TRAIN                                                    n=2994  wr= 64.0%  avg=  +3.8bps  tot=+114.21%  sh=  +213.2
+  ✅ TEST                                                     n=1539  wr= 80.9%  avg=  +8.8bps  tot=+136.10%  sh=  +404.8
+    ✅ test=+4.861%/d
+
+  Big avg trade size (z>3, fade):
+  ✅ TRAIN                                                    n= 961  wr= 64.1%  avg=  +3.8bps  tot= +36.26%  sh=  +182.2
+  ✅ TEST                                                     n= 584  wr= 82.4%  avg=  +9.0bps  tot= +52.53%  sh=  +468.4
+    ✅ test=+1.876%/d
+
+  Whale trade (max z>2, fade):
+  ✅ TRAIN                                                    n=2878  wr= 68.4%  avg=  +7.0bps  tot=+200.19%  sh=  +262.8
+  ✅ TEST                                                     n=1504  wr= 84.2%  avg= +12.0bps  tot=+179.99%  sh=  +435.3
+    ✅ test=+6.428%/d
+
+  Whale trade (max z>3, fade):
+  ✅ TRAIN                                                    n=1595  wr= 72.4%  avg=  +8.3bps  tot=+132.79%  sh=  +283.4
+  ✅ TEST                                                     n= 910  wr= 86.4%  avg= +12.9bps  tot=+117.63%  sh=  +441.0
+    ✅ test=+4.201%/d
+
+  --- EXP WWW: TRADE ARRIVAL RATE ---
+
+  Trade rate >3x (fade):
+  ✅ TRAIN                                                    n=3360  wr= 81.4%  avg= +11.0bps  tot=+370.14%  sh=  +369.2
+  ✅ TEST                                                     n=1470  wr= 91.1%  avg= +16.3bps  tot=+239.77%  sh=  +529.3
+    ✅ test=+8.563%/d
+
+  Trade rate >5x (fade):
+  ✅ TRAIN                                                    n=1414  wr= 81.7%  avg= +13.2bps  tot=+187.11%  sh=  +351.8
+  ✅ TEST                                                     n= 468  wr= 92.9%  avg= +19.9bps  tot= +93.35%  sh=  +533.4
+    ✅ test=+3.334%/d
+
+  Trade rate >10x (fade):
+  ✅ TRAIN                                                    n= 333  wr= 79.3%  avg= +19.4bps  tot= +64.52%  sh=  +354.4
+  ✅ TEST                                                     n=  56  wr= 94.6%  avg= +31.6bps  tot= +17.70%  sh=  +515.5
+    ✅ test=+0.632%/d
+
+  --- EXP YYY: MULTI-SIGNAL ENSEMBLE ---
+
+  Ensemble score >=2 (5 signals):
+  ✅ TRAIN                                                    n=2685  wr= 79.7%  avg= +10.5bps  tot=+282.98%  sh=  +372.0
+  ✅ TEST                                                     n=1399  wr= 91.5%  avg= +15.5bps  tot=+216.85%  sh=  +568.1
+    ✅ test=+7.745%/d
+
+  Ensemble score >=3 (5 signals):
+  ✅ TRAIN                                                    n= 858  wr= 86.1%  avg= +16.7bps  tot=+143.60%  sh=  +421.8
+  ✅ TEST                                                     n= 448  wr= 94.9%  avg= +20.6bps  tot= +92.37%  sh=  +555.2
+    ✅ test=+3.299%/d
+
+  Ensemble score >=4 (5 signals):
+  ✅ TRAIN                                                    n= 194  wr= 91.8%  avg= +31.7bps  tot= +61.49%  sh=  +549.3
+  ✅ TEST                                                     n= 101  wr= 99.0%  avg= +28.0bps  tot= +28.25%  sh=  +571.6
+    ✅ test=+1.009%/d
+
+################################################################################
+  COMPLETE — 362s (6.0min) [RAM=0.5GB, avail=5.8GB]
+################################################################################
