@@ -1,0 +1,135 @@
+================================================================================
+  v42ae: REGIME-ADAPTIVE TRADING + NOVEL PATTERNS
+  2026-02-19 09:23:18  [RAM=0.1GB, avail=5.9GB]
+================================================================================
+  Loading SOLUSDT... [10/88 16s] [20/88 29s] [30/88 38s] [40/88 50s] [50/88 61s] [60/88 69s] [70/88 82s] [80/88 99s] [88/88 108s] 126,720 bars (108s) [RAM=0.4GB, avail=6.0GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP DDDD: HURST EXPONENT ---
+  Computing Hurst (this takes a moment)...
+  Hurst stats: mean=0.515, P10=0.446, P90=0.582
+
+  Hurst < 0.35 (MR regime, fade):
+  ✅ TRAIN                                                    n=  56  wr= 66.1%  avg=  +4.3bps  tot=  +2.43%  sh=  +345.6
+  ✅ TEST                                                     n=  15  wr= 80.0%  avg=  +6.9bps  tot=  +1.03%  sh=  +508.5
+    ✅ test=+0.037%/d
+
+  Hurst < 0.4 (MR regime, fade):
+  ✅ TRAIN                                                    n= 873  wr= 57.7%  avg=  +2.5bps  tot= +21.86%  sh=  +202.0
+  ✅ TEST                                                     n= 437  wr= 62.5%  avg=  +2.7bps  tot= +11.79%  sh=  +234.7
+    ✅ test=+0.421%/d
+
+  --- EXP EEEE: REALIZED VS RANGE VOL ---
+  Vol gap stats: mean=-0.281, std=0.088
+
+  Vol gap >1 (realized > range, fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Vol gap >2 (realized > range, fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP FFFF: PRICE ACCELERATION ---
+
+  Deceleration z>2 (fade):
+  ✅ TRAIN                                                    n=  56  wr= 80.4%  avg=  +8.2bps  tot=  +4.61%  sh=  +534.9
+  ✅ TEST                                                     n=  18  wr= 94.4%  avg=  +5.9bps  tot=  +1.07%  sh=  +636.4
+    ✅ test=+0.038%/d
+
+  Deceleration z>3 (fade):
+  ✅ TRAIN                                                    n=   2  wr=100.0%  avg= +14.6bps  tot=  +0.29%  sh= +2668.1
+    TEST                                                     NO TRADES
+
+  --- EXP GGGG: TICK IMBALANCE ---
+
+  Tick imbalance 10m |>6| (fade):
+  ✅ TRAIN                                                    n= 577  wr= 65.5%  avg=  +3.9bps  tot= +22.63%  sh=  +234.8
+  ✅ TEST                                                     n= 319  wr= 65.8%  avg=  +3.8bps  tot= +12.15%  sh=  +284.0
+    ✅ test=+0.434%/d
+
+  Tick imbalance 10m |>8| (fade):
+  ✅ TRAIN                                                    n=  36  wr= 66.7%  avg=  +4.8bps  tot=  +1.71%  sh=  +187.4
+  ✅ TEST                                                     n=  38  wr= 60.5%  avg=  +4.1bps  tot=  +1.54%  sh=  +318.8
+    ✅ test=+0.055%/d
+
+  Tick imbalance 30m |>12| (fade):
+  ✅ TRAIN                                                    n= 445  wr= 64.3%  avg=  +3.4bps  tot= +15.24%  sh=  +274.6
+  ✅ TEST                                                     n= 329  wr= 69.6%  avg=  +4.1bps  tot= +13.33%  sh=  +330.7
+    ✅ test=+0.476%/d
+
+  Tick imbalance 30m |>16| (fade):
+  ✅ TRAIN                                                    n=  23  wr= 87.0%  avg=  +3.4bps  tot=  +0.78%  sh=  +147.9
+  ✅ TEST                                                     n=  43  wr= 81.4%  avg=  +5.7bps  tot=  +2.46%  sh=  +587.1
+    ✅ test=+0.088%/d
+  Loading DOGEUSDT... [10/88 20s] [20/88 34s] [30/88 43s] [40/88 53s] [50/88 61s] [60/88 69s] [70/88 95s] [80/88 117s] [88/88 126s] 126,720 bars (126s) [RAM=0.4GB, avail=6.0GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP DDDD: HURST EXPONENT ---
+  Computing Hurst (this takes a moment)...
+  Hurst stats: mean=0.518, P10=0.448, P90=0.587
+
+  Hurst < 0.35 (MR regime, fade):
+  ✅ TRAIN                                                    n=  38  wr= 65.8%  avg=  +2.1bps  tot=  +0.81%  sh=   +78.7
+  ✅ TEST                                                     n=  24  wr= 79.2%  avg=  +8.3bps  tot=  +1.99%  sh=  +438.5
+    ✅ test=+0.071%/d
+
+  Hurst < 0.4 (MR regime, fade):
+  ✅ TRAIN                                                    n=1014  wr= 61.4%  avg=  +3.5bps  tot= +35.64%  sh=  +209.7
+  ✅ TEST                                                     n= 446  wr= 77.4%  avg=  +6.0bps  tot= +26.88%  sh=  +378.4
+    ✅ test=+0.960%/d
+
+  --- EXP EEEE: REALIZED VS RANGE VOL ---
+  Vol gap stats: mean=-0.275, std=0.093
+
+  Vol gap >1 (realized > range, fade):
+  ✅ TRAIN                                                    n=   2  wr=100.0%  avg= +67.3bps  tot=  +1.35%  sh=+27862.8
+    TEST                                                     NO TRADES
+
+  Vol gap >2 (realized > range, fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP FFFF: PRICE ACCELERATION ---
+
+  Deceleration z>2 (fade):
+  ✅ TRAIN                                                    n=  54  wr= 87.0%  avg=  +9.7bps  tot=  +5.21%  sh=  +666.0
+  ✅ TEST                                                     n=  23  wr= 95.7%  avg= +17.1bps  tot=  +3.93%  sh=  +652.4
+    ✅ test=+0.140%/d
+
+  Deceleration z>3 (fade):
+  ✅ TRAIN                                                    n=   4  wr=100.0%  avg=  +7.7bps  tot=  +0.31%  sh= +1452.7
+  ✅ TEST                                                     n=   1  wr=100.0%  avg= +33.3bps  tot=  +0.33%  sh=+20030663954.7
+    ✅ test=+0.012%/d
+
+  --- EXP GGGG: TICK IMBALANCE ---
+
+  Tick imbalance 10m |>6| (fade):
+  ✅ TRAIN                                                    n= 626  wr= 67.4%  avg=  +5.0bps  tot= +31.11%  sh=  +181.6
+  ✅ TEST                                                     n= 322  wr= 81.7%  avg=  +8.1bps  tot= +25.96%  sh=  +412.6
+    ✅ test=+0.927%/d
+
+  Tick imbalance 10m |>8| (fade):
+  ✅ TRAIN                                                    n=  55  wr= 74.5%  avg=  +4.1bps  tot=  +2.28%  sh=  +124.6
+  ✅ TEST                                                     n=  32  wr= 90.6%  avg=  +8.8bps  tot=  +2.81%  sh=  +628.4
+    ✅ test=+0.100%/d
+
+  Tick imbalance 30m |>12| (fade):
+  ✅ TRAIN                                                    n= 479  wr= 74.3%  avg=  +6.3bps  tot= +30.28%  sh=  +294.7
+  ✅ TEST                                                     n= 347  wr= 85.3%  avg=  +9.3bps  tot= +32.21%  sh=  +497.3
+    ✅ test=+1.150%/d
+
+  Tick imbalance 30m |>16| (fade):
+  ✅ TRAIN                                                    n=  45  wr= 82.2%  avg=  +6.6bps  tot=  +2.98%  sh=  +567.7
+  ✅ TEST                                                     n=  42  wr= 92.9%  avg= +13.4bps  tot=  +5.65%  sh=  +673.8
+    ✅ test=+0.202%/d
+
+################################################################################
+  COMPLETE — 249s (4.1min) [RAM=0.2GB, avail=6.2GB]
+################################################################################
