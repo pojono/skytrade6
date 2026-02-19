@@ -1,0 +1,307 @@
+================================================================================
+  v42av: CONSECUTIVE BARS + EFFICIENCY + CC/HL VOL + CUM RETURN
+  2026-02-19 12:56:11  [RAM=0.1GB, avail=7.2GB]
+================================================================================
+  Loading ETHUSDT... [10/88 43s] [20/88 73s] [30/88 97s] [40/88 124s] [50/88 148s] [60/88 168s] [70/88 203s] [80/88 238s] [88/88 264s] 126,720 bars (264s) [RAM=0.5GB, avail=6.7GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP PPPP4: CONSECUTIVE BARS ---
+
+  Consecutive >=4 bars (fade):
+  ✅ TRAIN                                                    n=3079  wr= 61.5%  avg=  +3.7bps  tot=+113.79%  sh=  +221.7
+  ✅ TEST                                                     n=1558  wr= 62.9%  avg=  +3.3bps  tot= +51.51%  sh=  +219.7
+    ✅ test=+1.840%/d
+
+  Consecutive >=6 bars (fade):
+  ✅ TRAIN                                                    n= 620  wr= 66.3%  avg=  +4.8bps  tot= +29.98%  sh=  +277.2
+  ✅ TEST                                                     n= 341  wr= 64.2%  avg=  +3.3bps  tot= +11.27%  sh=  +214.1
+    ✅ test=+0.403%/d
+
+  --- EXP QQQQ4: PRICE EFFICIENCY ---
+
+  Efficiency(15) >90th + extreme (fade):
+  ✅ TRAIN                                                    n=3201  wr= 69.0%  avg=  +5.4bps  tot=+173.51%  sh=  +316.3
+  ✅ TEST                                                     n=1637  wr= 66.9%  avg=  +4.4bps  tot= +71.84%  sh=  +280.7
+    ✅ test=+2.566%/d
+
+  Efficiency(30) >90th + extreme (fade):
+  ✅ TRAIN                                                    n=3441  wr= 71.2%  avg=  +5.5bps  tot=+190.63%  sh=  +323.1
+  ✅ TEST                                                     n=1752  wr= 69.6%  avg=  +4.7bps  tot= +82.97%  sh=  +291.6
+    ✅ test=+2.963%/d
+
+  --- EXP RRRR4: CC/HL VOL RATIO ---
+
+  CC/HL vol ratio >90th pct (fade):
+  ✅ TRAIN                                                    n=8152  wr= 54.6%  avg=  +1.9bps  tot=+156.61%  sh=  +102.9
+  ✅ TEST                                                     n=3830  wr= 58.9%  avg=  +2.5bps  tot= +95.74%  sh=  +171.8
+    ✅ test=+3.419%/d
+
+  CC/HL vol ratio >95th pct (fade):
+  ✅ TRAIN                                                    n=5146  wr= 54.2%  avg=  +1.8bps  tot= +92.22%  sh=   +96.1
+  ✅ TEST                                                     n=2405  wr= 58.5%  avg=  +2.5bps  tot= +59.57%  sh=  +161.8
+    ✅ test=+2.127%/d
+
+  --- EXP SSSS4: CUMULATIVE RETURN DEVIATION ---
+
+  Cum ret(15) z>2 (fade):
+  ✅ TRAIN                                                    n=2032  wr= 76.6%  avg=  +7.8bps  tot=+159.02%  sh=  +399.2
+  ✅ TEST                                                     n= 993  wr= 74.6%  avg=  +5.9bps  tot= +59.02%  sh=  +335.1
+    ✅ test=+2.108%/d
+
+  Cum ret(15) z>3 (fade):
+  ✅ TRAIN                                                    n= 402  wr= 92.3%  avg= +14.4bps  tot= +57.73%  sh=  +565.4
+  ✅ TEST                                                     n= 169  wr= 85.8%  avg=  +9.3bps  tot= +15.69%  sh=  +441.0
+    ✅ test=+0.560%/d
+
+  Cum ret(30) z>2 (fade):
+  ✅ TRAIN                                                    n=2647  wr= 74.9%  avg=  +6.9bps  tot=+181.36%  sh=  +370.3
+  ✅ TEST                                                     n=1205  wr= 74.5%  avg=  +5.4bps  tot= +65.14%  sh=  +323.6
+    ✅ test=+2.327%/d
+
+  Cum ret(30) z>3 (fade):
+  ✅ TRAIN                                                    n= 385  wr= 91.7%  avg= +14.0bps  tot= +53.82%  sh=  +541.8
+  ✅ TEST                                                     n= 190  wr= 80.0%  avg=  +7.1bps  tot= +13.43%  sh=  +390.0
+    ✅ test=+0.480%/d
+  Loading SOLUSDT... [10/88 18s] [20/88 32s] [30/88 43s] [40/88 58s] [50/88 72s] [60/88 83s] [70/88 98s] [80/88 118s] [88/88 130s] 126,720 bars (130s) [RAM=0.4GB, avail=6.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP PPPP4: CONSECUTIVE BARS ---
+
+  Consecutive >=4 bars (fade):
+  ✅ TRAIN                                                    n=2954  wr= 62.2%  avg=  +3.3bps  tot= +96.69%  sh=  +209.8
+  ✅ TEST                                                     n=1498  wr= 59.8%  avg=  +3.0bps  tot= +44.57%  sh=  +203.3
+    ✅ test=+1.592%/d
+
+  Consecutive >=6 bars (fade):
+  ✅ TRAIN                                                    n= 611  wr= 66.0%  avg=  +3.6bps  tot= +22.04%  sh=  +242.4
+  ✅ TEST                                                     n= 348  wr= 61.2%  avg=  +3.4bps  tot= +11.91%  sh=  +285.6
+    ✅ test=+0.425%/d
+
+  --- EXP QQQQ4: PRICE EFFICIENCY ---
+
+  Efficiency(15) >90th + extreme (fade):
+  ✅ TRAIN                                                    n=3225  wr= 66.3%  avg=  +4.1bps  tot=+131.48%  sh=  +251.2
+  ✅ TEST                                                     n=1615  wr= 61.2%  avg=  +3.0bps  tot= +48.39%  sh=  +194.4
+    ✅ test=+1.728%/d
+
+  Efficiency(30) >90th + extreme (fade):
+  ✅ TRAIN                                                    n=3583  wr= 67.8%  avg=  +4.5bps  tot=+161.69%  sh=  +278.6
+  ✅ TEST                                                     n=1772  wr= 62.9%  avg=  +3.5bps  tot= +61.75%  sh=  +232.0
+    ✅ test=+2.205%/d
+
+  --- EXP RRRR4: CC/HL VOL RATIO ---
+
+  CC/HL vol ratio >90th pct (fade):
+  ✅ TRAIN                                                    n=8335  wr= 60.3%  avg=  +2.6bps  tot=+220.16%  sh=  +165.0
+  ✅ TEST                                                     n=4053  wr= 62.9%  avg=  +3.1bps  tot=+124.25%  sh=  +213.4
+    ✅ test=+4.438%/d
+
+  CC/HL vol ratio >95th pct (fade):
+  ✅ TRAIN                                                    n=5302  wr= 59.4%  avg=  +2.6bps  tot=+135.55%  sh=  +153.3
+  ✅ TEST                                                     n=2531  wr= 62.6%  avg=  +3.1bps  tot= +78.04%  sh=  +206.4
+    ✅ test=+2.787%/d
+
+  --- EXP SSSS4: CUMULATIVE RETURN DEVIATION ---
+
+  Cum ret(15) z>2 (fade):
+  ✅ TRAIN                                                    n=2159  wr= 72.9%  avg=  +6.1bps  tot=+132.11%  sh=  +334.9
+  ✅ TEST                                                     n= 960  wr= 73.4%  avg=  +5.7bps  tot= +54.63%  sh=  +351.7
+    ✅ test=+1.951%/d
+
+  Cum ret(15) z>3 (fade):
+  ✅ TRAIN                                                    n= 342  wr= 88.3%  avg= +13.4bps  tot= +45.69%  sh=  +481.1
+  ✅ TEST                                                     n= 119  wr= 89.1%  avg=  +9.5bps  tot= +11.36%  sh=  +609.5
+    ✅ test=+0.406%/d
+
+  Cum ret(30) z>2 (fade):
+  ✅ TRAIN                                                    n=2656  wr= 70.0%  avg=  +5.6bps  tot=+150.05%  sh=  +312.1
+  ✅ TEST                                                     n=1222  wr= 72.0%  avg=  +5.2bps  tot= +63.18%  sh=  +318.9
+    ✅ test=+2.256%/d
+
+  Cum ret(30) z>3 (fade):
+  ✅ TRAIN                                                    n= 367  wr= 85.3%  avg= +11.7bps  tot= +42.80%  sh=  +465.4
+  ✅ TEST                                                     n= 140  wr= 80.7%  avg=  +7.5bps  tot= +10.48%  sh=  +446.0
+    ✅ test=+0.374%/d
+  Loading DOGEUSDT... [10/88 26s] [20/88 44s] [30/88 55s] [40/88 67s] [50/88 76s] [60/88 86s] [70/88 121s] [80/88 148s] [88/88 159s] 126,720 bars (159s) [RAM=0.4GB, avail=7.1GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP PPPP4: CONSECUTIVE BARS ---
+
+  Consecutive >=4 bars (fade):
+  ✅ TRAIN                                                    n=3260  wr= 67.0%  avg=  +4.4bps  tot=+144.64%  sh=  +229.2
+  ✅ TEST                                                     n=1749  wr= 78.2%  avg=  +7.7bps  tot=+134.68%  sh=  +396.1
+    ✅ test=+4.810%/d
+
+  Consecutive >=6 bars (fade):
+  ✅ TRAIN                                                    n= 720  wr= 70.4%  avg=  +5.7bps  tot= +40.95%  sh=  +248.6
+  ✅ TEST                                                     n= 398  wr= 75.6%  avg=  +7.2bps  tot= +28.75%  sh=  +354.5
+    ✅ test=+1.027%/d
+
+  --- EXP QQQQ4: PRICE EFFICIENCY ---
+
+  Efficiency(15) >90th + extreme (fade):
+  ✅ TRAIN                                                    n=3436  wr= 68.6%  avg=  +5.0bps  tot=+171.39%  sh=  +255.5
+  ✅ TEST                                                     n=1792  wr= 82.0%  avg=  +8.6bps  tot=+153.43%  sh=  +432.7
+    ✅ test=+5.480%/d
+
+  Efficiency(30) >90th + extreme (fade):
+  ✅ TRAIN                                                    n=3559  wr= 71.3%  avg=  +5.5bps  tot=+194.53%  sh=  +272.3
+  ✅ TEST                                                     n=1987  wr= 84.0%  avg=  +8.8bps  tot=+175.73%  sh=  +439.2
+    ✅ test=+6.276%/d
+
+  --- EXP RRRR4: CC/HL VOL RATIO ---
+
+  CC/HL vol ratio >90th pct (fade):
+  ✅ TRAIN                                                    n=8767  wr= 60.1%  avg=  +3.0bps  tot=+261.67%  sh=  +151.9
+  ✅ TEST                                                     n=4451  wr= 78.8%  avg=  +7.5bps  tot=+335.94%  sh=  +395.7
+    ✅ test=+11.998%/d
+
+  CC/HL vol ratio >95th pct (fade):
+  ✅ TRAIN                                                    n=5526  wr= 60.3%  avg=  +3.0bps  tot=+164.61%  sh=  +144.1
+  ✅ TEST                                                     n=2778  wr= 77.9%  avg=  +7.2bps  tot=+201.14%  sh=  +367.6
+    ✅ test=+7.183%/d
+
+  --- EXP SSSS4: CUMULATIVE RETURN DEVIATION ---
+
+  Cum ret(15) z>2 (fade):
+  ✅ TRAIN                                                    n=2224  wr= 76.3%  avg=  +7.7bps  tot=+171.28%  sh=  +336.0
+  ✅ TEST                                                     n=1129  wr= 86.4%  avg= +10.8bps  tot=+121.95%  sh=  +448.9
+    ✅ test=+4.355%/d
+
+  Cum ret(15) z>3 (fade):
+  ✅ TRAIN                                                    n= 335  wr= 85.4%  avg= +14.1bps  tot= +47.33%  sh=  +369.5
+  ✅ TEST                                                     n= 131  wr= 91.6%  avg= +17.3bps  tot= +22.60%  sh=  +527.5
+    ✅ test=+0.807%/d
+
+  Cum ret(30) z>2 (fade):
+  ✅ TRAIN                                                    n=2810  wr= 73.5%  avg=  +6.7bps  tot=+189.05%  sh=  +294.3
+  ✅ TEST                                                     n=1375  wr= 87.0%  avg= +10.2bps  tot=+140.26%  sh=  +501.0
+    ✅ test=+5.009%/d
+
+  Cum ret(30) z>3 (fade):
+  ✅ TRAIN                                                    n= 340  wr= 81.2%  avg= +13.1bps  tot= +44.70%  sh=  +338.5
+  ✅ TEST                                                     n= 187  wr= 89.8%  avg= +11.9bps  tot= +22.20%  sh=  +473.7
+    ✅ test=+0.793%/d
+  Loading XRPUSDT... [10/88 22s] [20/88 33s] [30/88 43s] [40/88 54s] [50/88 66s] [60/88 76s] [70/88 112s] [80/88 135s] [88/88 150s] 126,720 bars (150s) [RAM=0.4GB, avail=7.1GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP PPPP4: CONSECUTIVE BARS ---
+
+  Consecutive >=4 bars (fade):
+  ✅ TRAIN                                                    n=2923  wr= 54.9%  avg=  +2.4bps  tot= +69.14%  sh=  +141.0
+  ✅ TEST                                                     n=1719  wr= 71.7%  avg=  +6.4bps  tot=+109.47%  sh=  +279.6
+    ✅ test=+3.910%/d
+
+  Consecutive >=6 bars (fade):
+  ✅ TRAIN                                                    n= 670  wr= 57.0%  avg=  +2.4bps  tot= +15.88%  sh=  +128.4
+  ✅ TEST                                                     n= 390  wr= 76.4%  avg=  +8.2bps  tot= +32.14%  sh=  +258.8
+    ✅ test=+1.148%/d
+
+  --- EXP QQQQ4: PRICE EFFICIENCY ---
+
+  Efficiency(15) >90th + extreme (fade):
+  ✅ TRAIN                                                    n=2980  wr= 55.4%  avg=  +2.7bps  tot= +81.57%  sh=  +165.1
+  ✅ TEST                                                     n=1849  wr= 72.2%  avg=  +6.3bps  tot=+115.94%  sh=  +280.0
+    ✅ test=+4.141%/d
+
+  Efficiency(30) >90th + extreme (fade):
+  ✅ TRAIN                                                    n=3139  wr= 56.1%  avg=  +2.7bps  tot= +84.31%  sh=  +176.2
+  ✅ TEST                                                     n=2030  wr= 70.0%  avg=  +6.2bps  tot=+126.24%  sh=  +263.3
+    ✅ test=+4.509%/d
+
+  --- EXP RRRR4: CC/HL VOL RATIO ---
+
+  CC/HL vol ratio >90th pct (fade):
+  ✅ TRAIN                                                    n=7531  wr= 48.0%  avg=  +0.9bps  tot= +66.07%  sh=   +51.0
+  ✅ TEST                                                     n=4159  wr= 70.0%  avg=  +4.8bps  tot=+198.61%  sh=  +289.4
+    ✅ test=+7.093%/d
+
+  CC/HL vol ratio >95th pct (fade):
+  ✅ TRAIN                                                    n=4747  wr= 48.0%  avg=  +1.0bps  tot= +45.31%  sh=   +52.0
+  ✅ TEST                                                     n=2611  wr= 68.7%  avg=  +4.6bps  tot=+120.82%  sh=  +269.1
+    ✅ test=+4.315%/d
+
+  --- EXP SSSS4: CUMULATIVE RETURN DEVIATION ---
+
+  Cum ret(15) z>2 (fade):
+  ✅ TRAIN                                                    n=1990  wr= 60.6%  avg=  +4.4bps  tot= +88.28%  sh=  +217.4
+  ✅ TEST                                                     n=1110  wr= 79.0%  avg=  +8.5bps  tot= +94.46%  sh=  +323.9
+    ✅ test=+3.374%/d
+
+  Cum ret(15) z>3 (fade):
+  ✅ TRAIN                                                    n= 320  wr= 72.5%  avg= +10.0bps  tot= +31.99%  sh=  +340.1
+  ✅ TEST                                                     n= 115  wr= 85.2%  avg= +15.4bps  tot= +17.66%  sh=  +293.6
+    ✅ test=+0.631%/d
+
+  Cum ret(30) z>2 (fade):
+  ✅ TRAIN                                                    n=2427  wr= 61.7%  avg=  +4.3bps  tot=+103.94%  sh=  +250.4
+  ✅ TEST                                                     n=1363  wr= 74.1%  avg=  +6.7bps  tot= +91.70%  sh=  +265.0
+    ✅ test=+3.275%/d
+
+  Cum ret(30) z>3 (fade):
+  ✅ TRAIN                                                    n= 325  wr= 72.3%  avg=  +8.8bps  tot= +28.68%  sh=  +343.7
+  ✅ TEST                                                     n= 162  wr= 78.4%  avg= +12.1bps  tot= +19.57%  sh=  +255.5
+    ✅ test=+0.699%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    cchl_0.9               4451   78.8%    +7.5bp   +335.9%     +396
+  ✅ DOGEUSDT    cchl_0.95              2778   77.9%    +7.2bp   +201.1%     +368
+  ✅ DOGEUSDT    consec_4               1749   78.2%    +7.7bp   +134.7%     +396
+  ✅ DOGEUSDT    consec_6                398   75.6%    +7.2bp    +28.7%     +354
+  ✅ DOGEUSDT    cumret_15_z2           1129   86.4%   +10.8bp   +121.9%     +449
+  ✅ DOGEUSDT    cumret_15_z3            131   91.6%   +17.3bp    +22.6%     +527
+  ✅ DOGEUSDT    cumret_30_z2           1375   87.0%   +10.2bp   +140.3%     +501
+  ✅ DOGEUSDT    cumret_30_z3            187   89.8%   +11.9bp    +22.2%     +474
+  ✅ DOGEUSDT    efficiency_15          1792   82.0%    +8.6bp   +153.4%     +433
+  ✅ DOGEUSDT    efficiency_30          1987   84.0%    +8.8bp   +175.7%     +439
+  ✅ ETHUSDT     cchl_0.9               3830   58.9%    +2.5bp    +95.7%     +172
+  ✅ ETHUSDT     cchl_0.95              2405   58.5%    +2.5bp    +59.6%     +162
+  ✅ ETHUSDT     consec_4               1558   62.9%    +3.3bp    +51.5%     +220
+  ✅ ETHUSDT     consec_6                341   64.2%    +3.3bp    +11.3%     +214
+  ✅ ETHUSDT     cumret_15_z2            993   74.6%    +5.9bp    +59.0%     +335
+  ✅ ETHUSDT     cumret_15_z3            169   85.8%    +9.3bp    +15.7%     +441
+  ✅ ETHUSDT     cumret_30_z2           1205   74.5%    +5.4bp    +65.1%     +324
+  ✅ ETHUSDT     cumret_30_z3            190   80.0%    +7.1bp    +13.4%     +390
+  ✅ ETHUSDT     efficiency_15          1637   66.9%    +4.4bp    +71.8%     +281
+  ✅ ETHUSDT     efficiency_30          1752   69.6%    +4.7bp    +83.0%     +292
+  ✅ SOLUSDT     cchl_0.9               4053   62.9%    +3.1bp   +124.3%     +213
+  ✅ SOLUSDT     cchl_0.95              2531   62.6%    +3.1bp    +78.0%     +206
+  ✅ SOLUSDT     consec_4               1498   59.8%    +3.0bp    +44.6%     +203
+  ✅ SOLUSDT     consec_6                348   61.2%    +3.4bp    +11.9%     +286
+  ✅ SOLUSDT     cumret_15_z2            960   73.4%    +5.7bp    +54.6%     +352
+  ✅ SOLUSDT     cumret_15_z3            119   89.1%    +9.5bp    +11.4%     +609
+  ✅ SOLUSDT     cumret_30_z2           1222   72.0%    +5.2bp    +63.2%     +319
+  ✅ SOLUSDT     cumret_30_z3            140   80.7%    +7.5bp    +10.5%     +446
+  ✅ SOLUSDT     efficiency_15          1615   61.2%    +3.0bp    +48.4%     +194
+  ✅ SOLUSDT     efficiency_30          1772   62.9%    +3.5bp    +61.7%     +232
+  ✅ XRPUSDT     cchl_0.9               4159   70.0%    +4.8bp   +198.6%     +289
+  ✅ XRPUSDT     cchl_0.95              2611   68.7%    +4.6bp   +120.8%     +269
+  ✅ XRPUSDT     consec_4               1719   71.7%    +6.4bp   +109.5%     +280
+  ✅ XRPUSDT     consec_6                390   76.4%    +8.2bp    +32.1%     +259
+  ✅ XRPUSDT     cumret_15_z2           1110   79.0%    +8.5bp    +94.5%     +324
+  ✅ XRPUSDT     cumret_15_z3            115   85.2%   +15.4bp    +17.7%     +294
+  ✅ XRPUSDT     cumret_30_z2           1363   74.1%    +6.7bp    +91.7%     +265
+  ✅ XRPUSDT     cumret_30_z3            162   78.4%   +12.1bp    +19.6%     +255
+  ✅ XRPUSDT     efficiency_15          1849   72.2%    +6.3bp   +115.9%     +280
+  ✅ XRPUSDT     efficiency_30          2030   70.0%    +6.2bp   +126.2%     +263
+
+################################################################################
+  COMPLETE — 810s (13.5min) [RAM=0.4GB, avail=7.3GB]
+################################################################################
