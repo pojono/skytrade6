@@ -1,0 +1,320 @@
+====================================================================================================
+  COMPREHENSIVE STRESS TEST — Liquidation Cascade Strategy
+  Config 2 AGGR: off=0.15%, TP=0.12%, no SL, 60min, disp≥10bps, min_ev=1
+====================================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+  Loading DOGEUSDT...
+────────────────────────────────────────────────────────────────────────────────
+  Loading 3018 liq files... 500 1000 1500 2000 2500 3000 done (93,913)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,993)
+  Building bars... 105,196 bars
+  Global P95 signals: 1313
+
+────────────────────────────────────────────────────────────────────────────────
+  Loading SOLUSDT...
+────────────────────────────────────────────────────────────────────────────────
+  Loading 3107 liq files... 500 1000 1500 2000 2500 3000 done (189,603)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,981)
+  Building bars... 105,195 bars
+  Global P95 signals: 2064
+
+────────────────────────────────────────────────────────────────────────────────
+  Loading ETHUSDT...
+────────────────────────────────────────────────────────────────────────────────
+  Loading 3089 liq files... 500 1000 1500 2000 2500 3000 done (328,388)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,971)
+  Building bars... 105,193 bars
+  Global P95 signals: 2782
+
+────────────────────────────────────────────────────────────────────────────────
+  Loading XRPUSDT...
+────────────────────────────────────────────────────────────────────────────────
+  Loading 2962 liq files... 500 1000 1500 2000 2500 done (128,466)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,981)
+  Building bars... 105,196 bars
+  Global P95 signals: 1597
+
+####################################################################################################
+  TEST 1: LOOK-AHEAD BIAS — Rolling P95 vs Global P95
+  (Global uses ALL data to compute threshold; Rolling uses only past 1000 events)
+####################################################################################################
+
+  ── DOGEUSDT ──
+  ✅ Global P95 (potential bias)                         n=  539  WR= 97.0%  avg=+0.0404%  tot= +21.76%  sh=  +5.6  dd= 5.44%
+    Rolling P95 signals: 4663
+  ✅ Rolling P95 (no look-ahead)                         n=  567  WR= 96.5%  avg=+0.0290%  tot= +16.44%  sh=  +3.6  dd= 5.44%
+    Delta: -5.33% (global better)
+
+  ── SOLUSDT ──
+  ✅ Global P95 (potential bias)                         n=  670  WR= 95.1%  avg=+0.0410%  tot= +27.44%  sh=  +8.8  dd= 5.75%
+    Rolling P95 signals: 9615
+  ✅ Rolling P95 (no look-ahead)                         n=  739  WR= 95.0%  avg=+0.0370%  tot= +27.36%  sh=  +7.0  dd= 5.86%
+    Delta: -0.08% (global better)
+
+  ── ETHUSDT ──
+  ✅ Global P95 (potential bias)                         n=  852  WR= 95.4%  avg=+0.0343%  tot= +29.20%  sh=  +6.1  dd= 3.56%
+    Rolling P95 signals: 16704
+  ✅ Rolling P95 (no look-ahead)                         n=  956  WR= 95.7%  avg=+0.0416%  tot= +39.77%  sh=  +8.2  dd= 3.56%
+    Delta: +10.57% (rolling better)
+
+  ── XRPUSDT ──
+  ✅ Global P95 (potential bias)                         n=  477  WR= 95.6%  avg=+0.0459%  tot= +21.91%  sh= +10.8  dd= 2.53%
+    Rolling P95 signals: 6509
+  ✅ Rolling P95 (no look-ahead)                         n=  503  WR= 95.8%  avg=+0.0502%  tot= +25.24%  sh= +13.5  dd= 1.52%
+    Delta: +3.33% (rolling better)
+
+####################################################################################################
+  TEST 2: FILL PESSIMISM — Can't fill on signal bar (1-bar delay)
+  (Tests if we're getting unrealistic fills on the same bar as the signal)
+####################################################################################################
+
+  ── DOGEUSDT ──
+  ✅ Baseline (fill on signal bar)                       n=  539  WR= 97.0%  avg=+0.0404%  tot= +21.76%  sh=  +5.6  dd= 5.44%
+  ✅ 1-bar delay (fill from bar+1)                       n=  506  WR= 94.9%  avg=+0.0193%  tot=  +9.75%  sh=  +2.4  dd= 5.44%
+
+  ── SOLUSDT ──
+  ✅ Baseline (fill on signal bar)                       n=  670  WR= 95.1%  avg=+0.0410%  tot= +27.44%  sh=  +8.8  dd= 5.75%
+  ✅ 1-bar delay (fill from bar+1)                       n=  617  WR= 91.6%  avg=+0.0100%  tot=  +6.18%  sh=  +1.6  dd=11.09%
+
+  ── ETHUSDT ──
+  ✅ Baseline (fill on signal bar)                       n=  852  WR= 95.4%  avg=+0.0343%  tot= +29.20%  sh=  +6.1  dd= 3.56%
+  ✅ 1-bar delay (fill from bar+1)                       n=  793  WR= 92.2%  avg=+0.0057%  tot=  +4.49%  sh=  +0.8  dd= 6.20%
+
+  ── XRPUSDT ──
+  ✅ Baseline (fill on signal bar)                       n=  477  WR= 95.6%  avg=+0.0459%  tot= +21.91%  sh= +10.8  dd= 2.53%
+  ✅ 1-bar delay (fill from bar+1)                       n=  452  WR= 93.1%  avg=+0.0280%  tot= +12.66%  sh=  +4.7  dd= 5.43%
+
+####################################################################################################
+  TEST 3: WALK-FORWARD OOS — 60-day train / 30-day test windows
+  (Strategy params are fixed, but tests if edge persists across time)
+####################################################################################################
+
+  ── DOGEUSDT (2025-05-11 to 2026-02-17) ──
+    ✅ OOS 2025-07-10 to 2025-08-09: n= 89  WR= 95.5%  tot= +3.48%
+    ⚪ OOS 2025-08-09 to 2025-09-08: no cascades in window
+    ⚪ OOS 2025-09-08 to 2025-10-08: no cascades in window
+    ⚪ OOS 2025-10-08 to 2025-11-07: no cascades in window
+    ⚪ OOS 2025-11-07 to 2025-12-07: no cascades in window
+    ⚪ OOS 2025-12-07 to 2026-01-06: no cascades in window
+    ⚪ OOS 2026-01-06 to 2026-02-05: no cascades in window
+    Summary: 1/1 OOS windows positive (100%)
+
+  ── SOLUSDT (2025-05-11 to 2026-02-17) ──
+    ✅ OOS 2025-07-10 to 2025-08-09: n= 95  WR= 95.8%  tot= +4.50%
+    ⚪ OOS 2025-08-09 to 2025-09-08: no cascades in window
+    ⚪ OOS 2025-09-08 to 2025-10-08: no cascades in window
+    ⚪ OOS 2025-10-08 to 2025-11-07: no cascades in window
+    ⚪ OOS 2025-11-07 to 2025-12-07: no cascades in window
+    ⚪ OOS 2025-12-07 to 2026-01-06: no cascades in window
+    ⚪ OOS 2026-01-06 to 2026-02-05: no cascades in window
+    Summary: 1/1 OOS windows positive (100%)
+
+  ── ETHUSDT (2025-05-11 to 2026-02-17) ──
+    ✅ OOS 2025-07-10 to 2025-08-09: n=105  WR= 95.2%  tot= +4.16%
+    ⚪ OOS 2025-08-09 to 2025-09-08: no cascades in window
+    ⚪ OOS 2025-09-08 to 2025-10-08: no cascades in window
+    ⚪ OOS 2025-10-08 to 2025-11-07: no cascades in window
+    ⚪ OOS 2025-11-07 to 2025-12-07: no cascades in window
+    ⚪ OOS 2025-12-07 to 2026-01-06: no cascades in window
+    ⚪ OOS 2026-01-06 to 2026-02-05: no cascades in window
+    Summary: 1/1 OOS windows positive (100%)
+
+  ── XRPUSDT (2025-05-11 to 2026-02-17) ──
+    ✅ OOS 2025-07-10 to 2025-08-09: n=110  WR= 99.1%  tot= +7.82%
+    ⚪ OOS 2025-08-09 to 2025-09-08: no cascades in window
+    ⚪ OOS 2025-09-08 to 2025-10-08: no cascades in window
+    ⚪ OOS 2025-10-08 to 2025-11-07: no cascades in window
+    ⚪ OOS 2025-11-07 to 2025-12-07: no cascades in window
+    ⚪ OOS 2025-12-07 to 2026-01-06: no cascades in window
+    ⚪ OOS 2026-01-06 to 2026-02-05: no cascades in window
+    Summary: 1/1 OOS windows positive (100%)
+
+####################################################################################################
+  TEST 4: FEE SENSITIVITY — At what fee does the edge die?
+####################################################################################################
+  ✅ 0% maker / 0% taker (ideal)                    n= 2538  tot=+205.68%
+  ✅ 1 bps / 3 bps (VIP)                            n= 2538  tot=+152.72%
+  ✅ 2 bps / 5.5 bps (CURRENT)                      n= 2538  tot=+100.31%
+  ✅ 3 bps / 6 bps (pessimistic)                    n= 2538  tot= +50.10%
+  ❌ 4 bps / 7 bps (very pessimistic)               n= 2538  tot=  -0.66%
+  ❌ 5 bps / 8 bps (worst case)                     n= 2538  tot= -51.42%
+  ❌ 6 bps / 10 bps (extreme)                       n= 2538  tot=-103.28%
+
+####################################################################################################
+  TEST 5: RANDOM DIRECTION — Same signals, random long/short
+  (Tests if direction signal matters or if it's just mean-reversion at any time)
+####################################################################################################
+  Real strategy (correct direction):  +100.31%
+  Random direction (mean of 20 trials):  +72.52%
+  Random direction (std):                 8.38%
+  Random direction (min):              +59.75%
+  Random direction (max):              +87.50%
+  Z-score of real vs random:            +3.32
+  Real beats random:                   20/20 trials (100%)
+
+####################################################################################################
+  TEST 6: OPPOSITE DIRECTION — What if we trade the wrong way?
+  (If strategy works in both directions, it's just mean-reversion noise)
+####################################################################################################
+
+  ── DOGEUSDT ──
+  ✅ Correct direction                                   n=  539  WR= 97.0%  avg=+0.0404%  tot= +21.76%  sh=  +5.6  dd= 5.44%
+  ✅ OPPOSITE direction                                  n=  555  WR= 95.0%  avg=+0.0276%  tot= +15.30%  sh=  +4.7  dd= 4.69%
+
+  ── SOLUSDT ──
+  ✅ Correct direction                                   n=  670  WR= 95.1%  avg=+0.0410%  tot= +27.44%  sh=  +8.8  dd= 5.75%
+  ✅ OPPOSITE direction                                  n=  672  WR= 92.6%  avg=+0.0133%  tot=  +8.94%  sh=  +2.1  dd= 6.53%
+
+  ── ETHUSDT ──
+  ✅ Correct direction                                   n=  852  WR= 95.4%  avg=+0.0343%  tot= +29.20%  sh=  +6.1  dd= 3.56%
+  ✅ OPPOSITE direction                                  n=  864  WR= 91.7%  avg=+0.0102%  tot=  +8.81%  sh=  +1.6  dd= 5.02%
+
+  ── XRPUSDT ──
+  ✅ Correct direction                                   n=  477  WR= 95.6%  avg=+0.0459%  tot= +21.91%  sh= +10.8  dd= 2.53%
+  ✅ OPPOSITE direction                                  n=  495  WR= 93.5%  avg=+0.0320%  tot= +15.84%  sh=  +6.6  dd= 2.54%
+
+####################################################################################################
+  TEST 7: TIMEOUT SLIPPAGE — Add 5/10/20 bps slippage on timeout exits
+####################################################################################################
+  ✅ Slippage= 0 bps:  n= 2538  tot=+100.31%
+  ✅ Slippage= 5 bps:  n= 2538  tot= +94.83%
+  ✅ Slippage=10 bps:  n= 2538  tot= +89.35%
+  ✅ Slippage=20 bps:  n= 2538  tot= +78.38%
+  ✅ Slippage=50 bps:  n= 2538  tot= +45.48%
+
+####################################################################################################
+  TEST 8: WORST-CASE ANALYSIS — Consecutive losses, worst periods
+####################################################################################################
+
+  ── DOGEUSDT (539 trades) ──
+    Max consecutive losses:    1
+    Worst single trade:        -5.4424%
+    Worst 10-trade window:     -4.7224%
+    Worst 20-trade window:     -3.9224%
+    Worst 50-trade window:     -2.8721%
+    Max trades underwater:     70
+    Timeout trades:            16 (3.0%)
+    Timeout avg PnL:           -1.2548%
+    Timeout worst:             -5.4424%
+    Timeout best:              -0.0078%
+
+  ── SOLUSDT (670 trades) ──
+    Max consecutive losses:    1
+    Worst single trade:        -2.2320%
+    Worst 10-trade window:     -3.7357%
+    Worst 20-trade window:     -3.9043%
+    Worst 50-trade window:     -5.6659%
+    Max trades underwater:     126
+    Timeout trades:            33 (4.9%)
+    Timeout avg PnL:           -0.7126%
+    Timeout worst:             -2.2320%
+    Timeout best:              -0.0779%
+
+  ── ETHUSDT (852 trades) ──
+    Max consecutive losses:    2
+    Worst single trade:        -3.5446%
+    Worst 10-trade window:     -3.3225%
+    Worst 20-trade window:     -2.5225%
+    Worst 50-trade window:     -2.7183%
+    Max trades underwater:     83
+    Timeout trades:            39 (4.6%)
+    Timeout avg PnL:           -0.9191%
+    Timeout worst:             -3.5446%
+    Timeout best:              -0.0506%
+
+  ── XRPUSDT (477 trades) ──
+    Max consecutive losses:    2
+    Worst single trade:        -2.0326%
+    Worst 10-trade window:     -2.2769%
+    Worst 20-trade window:     -2.1267%
+    Worst 50-trade window:     -1.2157%
+    Max trades underwater:     63
+    Timeout trades:            22 (4.6%)
+    Timeout avg PnL:           -0.6588%
+    Timeout worst:             -2.0326%
+    Timeout best:              +0.0443%
+
+####################################################################################################
+  TEST 9: MONTHLY REGIME — Does it work in all market conditions?
+####################################################################################################
+
+  ── DOGEUSDT ──
+    ✅ 2025-05: n=244  WR= 97.1%  tot= +9.41%
+    ✅ 2025-06: n=150  WR= 96.7%  tot= +4.39%
+    ✅ 2025-07: n= 42  WR= 97.6%  tot= +2.35%
+    ✅ 2025-08: n= 60  WR= 95.0%  tot= +2.18%
+    ✅ 2026-02: n= 43  WR=100.0%  tot= +3.44%
+
+  ── SOLUSDT ──
+    ✅ 2025-05: n=213  WR= 95.8%  tot=+12.11%
+    ✅ 2025-06: n=274  WR= 93.4%  tot= +5.24%
+    ✅ 2025-07: n= 39  WR= 94.9%  tot= +1.68%
+    ✅ 2025-08: n= 74  WR= 94.6%  tot= +2.82%
+    ✅ 2026-02: n= 70  WR=100.0%  tot= +5.60%
+
+  ── ETHUSDT ──
+    ✅ 2025-05: n=328  WR= 97.3%  tot=+15.54%
+    ✅ 2025-06: n=324  WR= 93.8%  tot= +5.65%
+    ✅ 2025-07: n= 44  WR= 93.2%  tot= +2.45%
+    ✅ 2025-08: n= 76  WR= 94.7%  tot= +2.58%
+    ✅ 2026-02: n= 80  WR= 96.2%  tot= +2.98%
+
+  ── XRPUSDT ──
+    ✅ 2025-05: n=170  WR= 93.5%  tot= +5.71%
+    ✅ 2025-06: n=130  WR= 94.6%  tot= +5.96%
+    ✅ 2025-07: n= 47  WR= 97.9%  tot= +2.16%
+    ✅ 2025-08: n= 79  WR= 98.7%  tot= +5.34%
+    ✅ 2026-02: n= 51  WR= 98.0%  tot= +2.73%
+
+####################################################################################################
+  TEST 10: DATA COVERAGE — Check for gaps in price data
+####################################################################################################
+
+  ── DOGEUSDT ──
+    Date range: 2025-05-11 to 2026-02-17 (282 days)
+    Bars: 105,196 / 406,080 expected (25.9% coverage)
+    Gaps > 5min: 40
+    Biggest gap: 182 days 22:26:00
+      2026-02-09 19:25:00 — gap of 182 days 22:26:00
+      2025-07-29 14:38:00 — gap of 25 days 15:39:00
+      2025-08-07 12:20:00 — gap of 0 days 01:21:00
+      2025-07-03 17:09:00 — gap of 0 days 01:10:00
+      2025-08-10 12:59:00 — gap of 0 days 00:55:00
+
+  ── SOLUSDT ──
+    Date range: 2025-05-11 to 2026-02-17 (282 days)
+    Bars: 105,195 / 406,080 expected (25.9% coverage)
+    Gaps > 5min: 40
+    Biggest gap: 182 days 22:26:00
+      2026-02-09 19:25:00 — gap of 182 days 22:26:00
+      2025-07-29 14:38:00 — gap of 25 days 15:39:00
+      2025-08-07 12:20:00 — gap of 0 days 01:21:00
+      2025-07-03 17:09:00 — gap of 0 days 01:10:00
+      2025-08-10 12:59:00 — gap of 0 days 00:55:00
+
+  ── ETHUSDT ──
+    Date range: 2025-05-11 to 2026-02-17 (282 days)
+    Bars: 105,193 / 406,080 expected (25.9% coverage)
+    Gaps > 5min: 40
+    Biggest gap: 182 days 22:26:00
+      2026-02-09 19:25:00 — gap of 182 days 22:26:00
+      2025-07-29 14:38:00 — gap of 25 days 15:39:00
+      2025-08-07 12:20:00 — gap of 0 days 01:21:00
+      2025-07-03 17:09:00 — gap of 0 days 01:10:00
+      2025-08-10 12:59:00 — gap of 0 days 00:55:00
+
+  ── XRPUSDT ──
+    Date range: 2025-05-11 to 2026-02-17 (282 days)
+    Bars: 105,196 / 406,080 expected (25.9% coverage)
+    Gaps > 5min: 41
+    Biggest gap: 182 days 22:26:00
+      2026-02-09 19:25:00 — gap of 182 days 22:26:00
+      2025-07-29 14:38:00 — gap of 25 days 15:39:00
+      2025-08-07 12:20:00 — gap of 0 days 01:21:00
+      2025-07-03 17:09:00 — gap of 0 days 01:10:00
+      2025-08-10 12:59:00 — gap of 0 days 00:55:00
+
+====================================================================================================
+  STRESS TEST COMPLETE — 1617s
+====================================================================================================
