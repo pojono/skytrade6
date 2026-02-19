@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 40 Signal Types Discovered
+### 44 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -896,6 +896,10 @@ Strategy contribution (standalone):
 | 38 | Multi-TF VWAP | Price+Vol | 88% | +325%/28d | Low |
 | 39 | **Volume-Weighted RSI** | **Price+Vol** | **87%** | **+456%/28d** | **Low** |
 | 40 | Price-Volume Trend | Price+Vol | 87% | +191%/28d | Low |
+| 41 | VPIN (Flow Toxicity) | Price+Vol | 78% | +154%/28d | Low |
+| 42 | **Price Efficiency** | **Price only** | **79%** | **+495%/28d** | **Low** |
+| 43 | Noise Ratio | Price only | 85% | +29%/28d | Low |
+| 44 | **Return Dispersion** | **Price only** | **88%** | **+230%/28d** | **Low** |
 
 ---
 
@@ -1086,3 +1090,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ah_entropy_info.py` | EXP LLLL-OOOO: entropy, persistence, gap-fill, exhaustion |
 | `research_v42ai_price_impact.py` | EXP PPPP-SSSS: price impact, variance ratio, Parkinson vol |
 | `research_v42aj_macd_vwap_adv.py` | EXP TTTT-WWWW: MACD, multi-TF VWAP, VW-RSI, PVT |
+| `research_v42ak_toxicity_efficiency.py` | EXP XXXX2-AAAA2: VPIN, efficiency, noise, dispersion |
