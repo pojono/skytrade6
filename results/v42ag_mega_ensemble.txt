@@ -1,0 +1,191 @@
+================================================================================
+  v42ag: MEGA ENSEMBLE — TOP 10 SIGNALS × 4 SYMBOLS
+  2026-02-19 09:36:39  [RAM=0.1GB, avail=5.8GB]
+================================================================================
+  Loading ETHUSDT... [10/88 38s] [20/88 63s] [30/88 85s] [40/88 111s] [50/88 134s] [60/88 152s] [70/88 185s] [80/88 215s] [88/88 237s] 126,720 bars (237s) [RAM=0.6GB, avail=5.7GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  Ensemble score distribution:
+    score=-6:    705 bars (0.6%)
+    score=-5:   1389 bars (1.1%)
+    score=-4:   2622 bars (2.1%)
+    score=-3:   4371 bars (3.4%)
+    score=-2:  10990 bars (8.7%)
+    score=-1:  19368 bars (15.3%)
+    score=+0:  52999 bars (41.8%)
+    score=+1:  16029 bars (12.6%)
+    score=+2:   8386 bars (6.6%)
+    score=+3:   3847 bars (3.0%)
+    score=+4:   2529 bars (2.0%)
+    score=+5:   1346 bars (1.1%)
+    score=+6:    776 bars (0.6%)
+
+  ✅ score>=2  OOS: n= 4275  wr= 78.9%  avg=  +6.6bps  tot=  +283.8%  sh=   +455
+       TRAIN: n= 8564  wr= 77.6%  avg=  +7.2bps  tot=  +615.3%
+       OOS days: 27/28 positive (96%)
+       OOS worst day: -1.332%
+
+  ✅ score>=3  OOS: n= 2266  wr= 82.3%  avg=  +7.7bps  tot=  +174.6%  sh=   +514
+       TRAIN: n= 4458  wr= 81.4%  avg=  +9.2bps  tot=  +412.1%
+       OOS days: 27/28 positive (96%)
+       OOS worst day: -0.576%
+
+  ✅ score>=4  OOS: n= 1375  wr= 84.3%  avg=  +8.6bps  tot=  +118.8%  sh=   +549
+       TRAIN: n= 2584  wr= 85.1%  avg= +11.6bps  tot=  +299.4%
+       OOS days: 27/28 positive (96%)
+       OOS worst day: -0.357%
+
+  ✅ score>=5  OOS: n=  704  wr= 87.1%  avg= +10.2bps  tot=   +71.7%  sh=   +578
+       TRAIN: n= 1387  wr= 88.5%  avg= +15.0bps  tot=  +207.4%
+       OOS days: 28/28 positive (100%)
+       OOS worst day: +0.031%
+  Loading SOLUSDT... [10/88 17s] [20/88 31s] [30/88 41s] [40/88 55s] [50/88 66s] [60/88 76s] [70/88 90s] [80/88 110s] [88/88 119s] 126,720 bars (119s) [RAM=0.6GB, avail=5.8GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  Ensemble score distribution:
+    score=-6:    869 bars (0.7%)
+    score=-5:   1667 bars (1.3%)
+    score=-4:   3139 bars (2.5%)
+    score=-3:   5240 bars (4.1%)
+    score=-2:  11800 bars (9.3%)
+    score=-1:  18693 bars (14.8%)
+    score=+0:  46516 bars (36.7%)
+    score=+1:  16872 bars (13.3%)
+    score=+2:  10210 bars (8.1%)
+    score=+3:   4589 bars (3.6%)
+    score=+4:   3125 bars (2.5%)
+    score=+5:   1811 bars (1.4%)
+    score=+6:    924 bars (0.7%)
+
+  ✅ score>=2  OOS: n= 5231  wr= 78.7%  avg=  +6.9bps  tot=  +362.3%  sh=   +432
+       TRAIN: n=11170  wr= 73.9%  avg=  +5.6bps  tot=  +626.8%
+       OOS days: 27/28 positive (96%)
+       OOS worst day: -0.093%
+
+  ✅ score>=3  OOS: n= 2779  wr= 79.3%  avg=  +7.6bps  tot=  +210.0%  sh=   +437
+       TRAIN: n= 5743  wr= 76.1%  avg=  +6.7bps  tot=  +386.0%
+       OOS days: 27/28 positive (96%)
+       OOS worst day: -0.689%
+
+  ✅ score>=4  OOS: n= 1686  wr= 81.6%  avg=  +8.6bps  tot=  +144.3%  sh=   +476
+       TRAIN: n= 3371  wr= 78.6%  avg=  +7.8bps  tot=  +264.3%
+       OOS days: 27/28 positive (96%)
+       OOS worst day: -0.222%
+
+  ✅ score>=5  OOS: n=  912  wr= 84.8%  avg=  +9.6bps  tot=   +87.4%  sh=   +504
+       TRAIN: n= 1772  wr= 82.1%  avg=  +9.8bps  tot=  +173.2%
+       OOS days: 28/28 positive (100%)
+       OOS worst day: +0.006%
+  Loading DOGEUSDT... [10/88 24s] [20/88 39s] [30/88 49s] [40/88 60s] [50/88 68s] [60/88 77s] [70/88 109s] [80/88 133s] [88/88 143s] 126,720 bars (143s) [RAM=0.6GB, avail=5.6GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  Ensemble score distribution:
+    score=-6:    950 bars (0.7%)
+    score=-5:   1720 bars (1.4%)
+    score=-4:   3039 bars (2.4%)
+    score=-3:   4964 bars (3.9%)
+    score=-2:  12065 bars (9.5%)
+    score=-1:  20168 bars (15.9%)
+    score=+0:  42366 bars (33.4%)
+    score=+1:  18368 bars (14.5%)
+    score=+2:  11039 bars (8.7%)
+    score=+3:   4768 bars (3.8%)
+    score=+4:   3189 bars (2.5%)
+    score=+5:   1726 bars (1.4%)
+    score=+6:    968 bars (0.8%)
+
+  ✅ score>=2  OOS: n= 6041  wr= 90.4%  avg= +11.5bps  tot=  +693.0%  sh=   +580
+       TRAIN: n=11783  wr= 76.6%  avg=  +7.0bps  tot=  +821.0%
+       OOS days: 28/28 positive (100%)
+       OOS worst day: +3.079%
+
+  ✅ score>=3  OOS: n= 2895  wr= 91.7%  avg= +13.3bps  tot=  +385.6%  sh=   +580
+       TRAIN: n= 6189  wr= 78.2%  avg=  +8.2bps  tot=  +506.2%
+       OOS days: 28/28 positive (100%)
+       OOS worst day: +1.329%
+
+  ✅ score>=4  OOS: n= 1720  wr= 93.0%  avg= +14.8bps  tot=  +254.3%  sh=   +592
+       TRAIN: n= 3636  wr= 79.6%  avg=  +9.6bps  tot=  +348.3%
+       OOS days: 28/28 positive (100%)
+       OOS worst day: +0.007%
+
+  ✅ score>=5  OOS: n=  913  wr= 94.3%  avg= +17.4bps  tot=  +159.0%  sh=   +608
+       TRAIN: n= 1892  wr= 82.9%  avg= +12.0bps  tot=  +227.6%
+       OOS days: 27/28 positive (96%)
+       OOS worst day: -0.281%
+  Loading XRPUSDT... [10/88 17s] [20/88 27s] [30/88 35s] [40/88 45s] [50/88 56s] [60/88 65s] [70/88 97s] [80/88 117s] [88/88 130s] 126,720 bars (130s) [RAM=0.7GB, avail=5.6GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  Ensemble score distribution:
+    score=-6:    956 bars (0.8%)
+    score=-5:   1815 bars (1.4%)
+    score=-4:   3056 bars (2.4%)
+    score=-3:   4869 bars (3.8%)
+    score=-2:  11402 bars (9.0%)
+    score=-1:  19063 bars (15.0%)
+    score=+0:  48414 bars (38.2%)
+    score=+1:  16580 bars (13.1%)
+    score=+2:   9372 bars (7.4%)
+    score=+3:   4461 bars (3.5%)
+    score=+4:   2936 bars (2.3%)
+    score=+5:   1636 bars (1.3%)
+    score=+6:    939 bars (0.7%)
+
+  ✅ score>=2  OOS: n= 5434  wr= 82.7%  avg=  +9.1bps  tot=  +492.1%  sh=   +450
+       TRAIN: n= 9343  wr= 67.1%  avg=  +4.5bps  tot=  +421.4%
+       OOS days: 28/28 positive (100%)
+       OOS worst day: +1.696%
+
+  ✅ score>=3  OOS: n= 2702  wr= 83.9%  avg= +10.3bps  tot=  +278.6%  sh=   +456
+       TRAIN: n= 5104  wr= 69.3%  avg=  +5.3bps  tot=  +271.3%
+       OOS days: 27/28 positive (96%)
+       OOS worst day: -0.481%
+
+  ✅ score>=4  OOS: n= 1591  wr= 87.4%  avg= +11.9bps  tot=  +189.0%  sh=   +470
+       TRAIN: n= 2997  wr= 72.1%  avg=  +6.4bps  tot=  +192.1%
+       OOS days: 27/28 positive (96%)
+       OOS worst day: -0.140%
+
+  ✅ score>=5  OOS: n=  870  wr= 88.6%  avg= +13.7bps  tot=  +118.8%  sh=   +515
+       TRAIN: n= 1561  wr= 77.2%  avg=  +8.5bps  tot=  +132.2%
+       OOS days: 25/27 positive (93%)
+       OOS worst day: -0.073%
+
+################################################################################
+  GRAND SUMMARY: MEGA ENSEMBLE (OOS only)
+################################################################################
+
+  Symbol       Score      n      WR      Avg     Total   Sharpe
+  -------------------------------------------------------
+  ✅ DOGEUSDT    >=2      6041   90.4%   +11.5bp   +693.0%     +580
+  ✅ DOGEUSDT    >=3      2895   91.7%   +13.3bp   +385.6%     +580
+  ✅ DOGEUSDT    >=4      1720   93.0%   +14.8bp   +254.3%     +592
+  ✅ DOGEUSDT    >=5       913   94.3%   +17.4bp   +159.0%     +608
+  ✅ ETHUSDT     >=2      4275   78.9%    +6.6bp   +283.8%     +455
+  ✅ ETHUSDT     >=3      2266   82.3%    +7.7bp   +174.6%     +514
+  ✅ ETHUSDT     >=4      1375   84.3%    +8.6bp   +118.8%     +549
+  ✅ ETHUSDT     >=5       704   87.1%   +10.2bp    +71.7%     +578
+  ✅ SOLUSDT     >=2      5231   78.7%    +6.9bp   +362.3%     +432
+  ✅ SOLUSDT     >=3      2779   79.3%    +7.6bp   +210.0%     +437
+  ✅ SOLUSDT     >=4      1686   81.6%    +8.6bp   +144.3%     +476
+  ✅ SOLUSDT     >=5       912   84.8%    +9.6bp    +87.4%     +504
+  ✅ XRPUSDT     >=2      5434   82.7%    +9.1bp   +492.1%     +450
+  ✅ XRPUSDT     >=3      2702   83.9%   +10.3bp   +278.6%     +456
+  ✅ XRPUSDT     >=4      1591   87.4%   +11.9bp   +189.0%     +470
+  ✅ XRPUSDT     >=5       870   88.6%   +13.7bp   +118.8%     +515
+
+################################################################################
+  COMPLETE — 696s (11.6min) [RAM=0.6GB, avail=5.8GB]
+################################################################################
