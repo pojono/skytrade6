@@ -792,8 +792,12 @@ Best config: **sigma=2, cooldown=60s**
 | ZZ | Micro MR 4-symbol OOS | ✅ **ALL 24 configs OOS+** |
 
 | AAA | Final Mega Portfolio | ✅ **OOS 28/28 positive, Sharpe 34** |
+| BBB | OI Velocity | ✅ +12% OOS, 90% WR |
+| CCC | Bid-Ask Spread | ✅ +16% OOS |
+| DDD | Funding Rate Extreme | ✅ +5% OOS, Sharpe 516 |
+| EEE | Combined OI+Spread | ✅ +4% OOS, 90% WR |
 
-**Hit rate: 37/52 experiments produced actionable insights (71%).**
+**Hit rate: 41/56 experiments produced actionable insights (73%).**
 
 ---
 
@@ -814,6 +818,51 @@ Strategy contribution (standalone):
 - **Microstructure MR**: 19,520 trades, 87/88 positive days, Sharpe 27.2
 
 ⚠️ **Note**: The astronomical total returns assume full compounding with no capacity constraints. Real-world returns would be much lower due to position sizing limits, exchange rate limits, and capital constraints. The key metrics are **win rate, Sharpe ratio, and % positive days** — which are all exceptional.
+
+---
+
+## v42v: OI + Spread + Funding Rate Signals (EXP BBB-EEE)
+
+**3 new signal types from ticker data (5-second OI, spread, funding). ALL OOS positive.**
+
+### EXP BBB: OI Velocity — Positions Closing = Squeeze Reversal
+
+| Config | OOS Trades | OOS WR | OOS Avg | OOS Total |
+|--------|-----------|--------|---------|-----------|
+| OI drop P5 (5m) | 148 | 90.5% | +7.9 bps | **+11.7%** |
+| OI drop P10 (5m) | 253 | 83.0% | +5.5 bps | +13.9% |
+
+### EXP CCC: Bid-Ask Spread — Wide Spread = Stressed Market
+
+| Config | OOS Trades | OOS WR | OOS Avg | OOS Total |
+|--------|-----------|--------|---------|-----------|
+| z>1 | 507 | 65.5% | +3.2 bps | **+16.1%** |
+| z>2 | 224 | 71.0% | +4.5 bps | +10.1% |
+| z>3 | 122 | 77.9% | +6.3 bps | +7.7% |
+
+### EXP DDD: Funding Rate Extreme — Fade Crowded Positions
+
+| Config | OOS Trades | OOS WR | OOS Avg | OOS Total | OOS Sharpe |
+|--------|-----------|--------|---------|-----------|------------|
+| z>1 | 494 | 64.6% | +3.0 bps | +14.9% | 160 |
+| z>2 | 155 | 67.1% | +3.4 bps | +5.3% | 378 |
+| z>3 | 53 | 77.4% | +4.5 bps | +2.4% | **516** |
+
+### EXP EEE: Combined OI Drop + Wide Spread
+
+**OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
+
+### 7 Signal Types Discovered
+
+| # | Signal | Data Needed | Best OOS WR | Complexity |
+|---|--------|------------|------------|-----------|
+| 1 | Cascade MM (trail) | Liquidation | 92% | Medium |
+| 2 | Liq Acceleration | Liquidation | 86% | Low |
+| 3 | Liq Imbalance | Liquidation | 82% | Low |
+| 4 | Microstructure MR | Price only | 89% | Low |
+| 5 | OI Velocity | Ticker (OI) | 90% | Low |
+| 6 | Bid-Ask Spread | Ticker (spread) | 78% | Low |
+| 7 | Funding Rate | Ticker (FR) | 77% | Low |
 
 ---
 
@@ -842,3 +891,4 @@ Strategy contribution (standalone):
 | `research_v42s_novel_signals.py` | EXP VV-YY: micro MR, vol breakout, range, liq cluster |
 | `research_v42t_micro_mr_oos.py` | EXP ZZ: micro MR all 4 symbols OOS validation |
 | `research_v42u_final_portfolio.py` | EXP AAA: final mega portfolio, 4 strats × 4 symbols |
+| `research_v42v_oi_spread_signals.py` | EXP BBB-EEE: OI velocity, spread, funding signals |
