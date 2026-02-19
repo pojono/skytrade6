@@ -1,0 +1,451 @@
+================================================================================
+  v42bl: VELOCITY RATIO + ROLLING SHARPE + CO GAP PERSIST + MAD
+  2026-02-19 17:29:56  [RAM=0.1GB, avail=6.4GB]
+================================================================================
+  Loading ETHUSDT... [10/88 32s] [20/88 54s] [30/88 74s] [40/88 97s] [50/88 117s] [60/88 133s] [70/88 161s] [80/88 188s] [88/88 208s] 126,720 bars (208s) [RAM=0.5GB, avail=6.1GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP BBBB7: PRICE VELOCITY RATIO ---
+
+  Vel ratio(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6377  wr= 71.8%  avg=  +6.4bps  tot=+406.69%  sh=  +266.4
+  ✅ TEST                                                     n=3239  wr= 71.6%  avg=  +5.3bps  tot=+170.63%  sh=  +329.5
+    ✅ test=+6.094%/d
+
+  Vel ratio(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3605  wr= 73.4%  avg=  +7.5bps  tot=+269.80%  sh=  +265.6
+  ✅ TEST                                                     n=1809  wr= 73.9%  avg=  +6.0bps  tot=+108.69%  sh=  +358.6
+    ✅ test=+3.882%/d
+
+  Vel ratio(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7107  wr= 72.7%  avg=  +6.5bps  tot=+462.31%  sh=  +280.2
+  ✅ TEST                                                     n=3530  wr= 74.2%  avg=  +5.8bps  tot=+205.78%  sh=  +380.0
+    ✅ test=+7.349%/d
+
+  Vel ratio(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4130  wr= 74.4%  avg=  +7.4bps  tot=+305.84%  sh=  +273.5
+  ✅ TEST                                                     n=2076  wr= 76.2%  avg=  +6.3bps  tot=+131.24%  sh=  +402.6
+    ✅ test=+4.687%/d
+
+  --- EXP CCCC7: ROLLING SHARPE ---
+
+  Roll Sharpe(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4288  wr= 64.7%  avg=  +4.3bps  tot=+183.34%  sh=  +258.8
+  ✅ TEST                                                     n=2282  wr= 66.1%  avg=  +3.9bps  tot= +88.55%  sh=  +267.2
+    ✅ test=+3.162%/d
+
+  Roll Sharpe(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7135  wr= 63.0%  avg=  +3.7bps  tot=+266.80%  sh=  +231.5
+  ✅ TEST                                                     n=3809  wr= 65.9%  avg=  +3.7bps  tot=+140.71%  sh=  +255.6
+    ✅ test=+5.025%/d
+
+  Roll Sharpe(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5483  wr= 63.1%  avg=  +3.9bps  tot=+211.96%  sh=  +229.5
+  ✅ TEST                                                     n=3058  wr= 67.0%  avg=  +3.7bps  tot=+113.32%  sh=  +246.0
+    ✅ test=+4.047%/d
+
+  Roll Sharpe(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8787  wr= 62.2%  avg=  +3.5bps  tot=+309.07%  sh=  +215.0
+  ✅ TEST                                                     n=4693  wr= 65.9%  avg=  +3.6bps  tot=+166.95%  sh=  +236.7
+    ✅ test=+5.963%/d
+
+  --- EXP DDDD7: CO GAP PERSISTENCE ---
+
+  Gap persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6793  wr= 56.2%  avg=  +2.3bps  tot=+158.35%  sh=  +144.8
+  ✅ TEST                                                     n=3384  wr= 60.6%  avg=  +2.7bps  tot= +90.79%  sh=  +191.3
+    ✅ test=+3.242%/d
+
+  Gap persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4039  wr= 56.2%  avg=  +2.2bps  tot= +90.81%  sh=  +139.6
+  ✅ TEST                                                     n=1923  wr= 61.9%  avg=  +2.8bps  tot= +53.19%  sh=  +189.8
+    ✅ test=+1.900%/d
+
+  Gap persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8227  wr= 57.4%  avg=  +2.4bps  tot=+199.54%  sh=  +151.5
+  ✅ TEST                                                     n=3873  wr= 59.5%  avg=  +2.8bps  tot=+106.89%  sh=  +204.4
+    ✅ test=+3.817%/d
+
+  Gap persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5252  wr= 56.8%  avg=  +2.3bps  tot=+120.12%  sh=  +144.8
+  ✅ TEST                                                     n=2449  wr= 59.7%  avg=  +2.8bps  tot= +69.09%  sh=  +204.6
+    ✅ test=+2.468%/d
+
+  --- EXP EEEE7: MEDIAN ABSOLUTE DEVIATION ---
+
+  MAD(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8965  wr= 65.6%  avg=  +5.2bps  tot=+466.56%  sh=  +243.5
+  ✅ TEST                                                     n=4326  wr= 70.8%  avg=  +4.8bps  tot=+206.57%  sh=  +301.6
+    ✅ test=+7.377%/d
+
+  MAD(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6142  wr= 66.9%  avg=  +5.6bps  tot=+346.77%  sh=  +261.1
+  ✅ TEST                                                     n=2896  wr= 72.8%  avg=  +5.1bps  tot=+146.37%  sh=  +328.0
+    ✅ test=+5.227%/d
+
+  MAD(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=11592  wr= 66.0%  avg=  +5.0bps  tot=+574.17%  sh=  +256.9
+  ✅ TEST                                                     n=5576  wr= 70.8%  avg=  +4.7bps  tot=+262.96%  sh=  +315.8
+    ✅ test=+9.391%/d
+
+  MAD(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8308  wr= 68.0%  avg=  +5.5bps  tot=+456.79%  sh=  +274.4
+  ✅ TEST                                                     n=3945  wr= 71.5%  avg=  +4.9bps  tot=+193.16%  sh=  +319.1
+    ✅ test=+6.898%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 28s] [30/88 38s] [40/88 52s] [50/88 63s] [60/88 72s] [70/88 85s] [80/88 102s] [88/88 110s] 126,720 bars (110s) [RAM=0.3GB, avail=6.4GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP BBBB7: PRICE VELOCITY RATIO ---
+
+  Vel ratio(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6990  wr= 69.8%  avg=  +5.0bps  tot=+352.19%  sh=  +269.5
+  ✅ TEST                                                     n=3326  wr= 70.9%  avg=  +5.2bps  tot=+173.43%  sh=  +321.5
+    ✅ test=+6.194%/d
+
+  Vel ratio(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4003  wr= 71.0%  avg=  +5.6bps  tot=+224.23%  sh=  +276.7
+  ✅ TEST                                                     n=1924  wr= 71.4%  avg=  +5.5bps  tot=+106.66%  sh=  +338.1
+    ✅ test=+3.809%/d
+
+  Vel ratio(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7813  wr= 71.1%  avg=  +5.3bps  tot=+413.61%  sh=  +292.5
+  ✅ TEST                                                     n=3829  wr= 71.6%  avg=  +5.5bps  tot=+210.09%  sh=  +330.9
+    ✅ test=+7.503%/d
+
+  Vel ratio(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4526  wr= 72.5%  avg=  +6.0bps  tot=+270.59%  sh=  +294.2
+  ✅ TEST                                                     n=2308  wr= 73.0%  avg=  +6.0bps  tot=+137.36%  sh=  +349.3
+    ✅ test=+4.906%/d
+
+  --- EXP CCCC7: ROLLING SHARPE ---
+
+  Roll Sharpe(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4928  wr= 63.2%  avg=  +3.7bps  tot=+181.39%  sh=  +240.5
+  ✅ TEST                                                     n=2408  wr= 61.5%  avg=  +3.0bps  tot= +72.07%  sh=  +188.3
+    ✅ test=+2.574%/d
+
+  Roll Sharpe(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8108  wr= 62.9%  avg=  +3.5bps  tot=+281.76%  sh=  +237.3
+  ✅ TEST                                                     n=3949  wr= 62.1%  avg=  +3.0bps  tot=+118.48%  sh=  +195.8
+    ✅ test=+4.232%/d
+
+  Roll Sharpe(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6331  wr= 63.2%  avg=  +3.5bps  tot=+222.49%  sh=  +233.2
+  ✅ TEST                                                     n=3074  wr= 63.8%  avg=  +3.3bps  tot=+100.90%  sh=  +211.7
+    ✅ test=+3.604%/d
+
+  Roll Sharpe(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9840  wr= 62.9%  avg=  +3.3bps  tot=+322.00%  sh=  +222.5
+  ✅ TEST                                                     n=4773  wr= 62.4%  avg=  +3.2bps  tot=+154.81%  sh=  +219.6
+    ✅ test=+5.529%/d
+
+  --- EXP DDDD7: CO GAP PERSISTENCE ---
+
+  Gap persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7367  wr= 63.4%  avg=  +3.3bps  tot=+242.46%  sh=  +229.7
+  ✅ TEST                                                     n=3428  wr= 64.4%  avg=  +3.4bps  tot=+117.30%  sh=  +229.9
+    ✅ test=+4.189%/d
+
+  Gap persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4347  wr= 63.0%  avg=  +3.2bps  tot=+138.08%  sh=  +229.5
+  ✅ TEST                                                     n=2033  wr= 64.1%  avg=  +3.1bps  tot= +63.99%  sh=  +210.7
+    ✅ test=+2.285%/d
+
+  Gap persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8763  wr= 63.3%  avg=  +3.2bps  tot=+278.96%  sh=  +214.9
+  ✅ TEST                                                     n=4076  wr= 65.2%  avg=  +3.6bps  tot=+145.31%  sh=  +262.4
+    ✅ test=+5.190%/d
+
+  Gap persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5537  wr= 63.0%  avg=  +3.1bps  tot=+173.61%  sh=  +220.6
+  ✅ TEST                                                     n=2586  wr= 65.0%  avg=  +3.4bps  tot= +88.87%  sh=  +244.9
+    ✅ test=+3.174%/d
+
+  --- EXP EEEE7: MEDIAN ABSOLUTE DEVIATION ---
+
+  MAD(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=9324  wr= 69.9%  avg=  +5.4bps  tot=+501.94%  sh=  +296.4
+  ✅ TEST                                                     n=4525  wr= 72.0%  avg=  +5.8bps  tot=+263.55%  sh=  +358.9
+    ✅ test=+9.412%/d
+
+  MAD(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6199  wr= 71.1%  avg=  +6.0bps  tot=+369.28%  sh=  +327.6
+  ✅ TEST                                                     n=3071  wr= 73.5%  avg=  +6.1bps  tot=+187.04%  sh=  +363.3
+    ✅ test=+6.680%/d
+
+  MAD(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=11821  wr= 70.6%  avg=  +5.1bps  tot=+607.56%  sh=  +306.4
+  ✅ TEST                                                     n=5675  wr= 73.6%  avg=  +5.7bps  tot=+325.76%  sh=  +370.1
+    ✅ test=+11.634%/d
+
+  MAD(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8531  wr= 72.6%  avg=  +5.6bps  tot=+480.12%  sh=  +326.9
+  ✅ TEST                                                     n=4027  wr= 74.9%  avg=  +6.2bps  tot=+248.69%  sh=  +395.9
+    ✅ test=+8.882%/d
+  Loading DOGEUSDT... [10/88 31s] [20/88 52s] [30/88 65s] [40/88 82s] [50/88 94s] [60/88 107s] [70/88 147s] [80/88 173s] [88/88 183s] 126,720 bars (183s) [RAM=0.4GB, avail=6.0GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP BBBB7: PRICE VELOCITY RATIO ---
+
+  Vel ratio(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7196  wr= 72.6%  avg=  +6.4bps  tot=+461.78%  sh=  +304.0
+  ✅ TEST                                                     n=3673  wr= 85.4%  avg= +10.3bps  tot=+378.26%  sh=  +473.7
+    ✅ test=+13.509%/d
+
+  Vel ratio(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4009  wr= 73.2%  avg=  +6.9bps  tot=+277.71%  sh=  +289.9
+  ✅ TEST                                                     n=2106  wr= 85.6%  avg= +10.6bps  tot=+223.25%  sh=  +471.2
+    ✅ test=+7.973%/d
+
+  Vel ratio(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8023  wr= 74.6%  avg=  +6.6bps  tot=+525.89%  sh=  +303.2
+  ✅ TEST                                                     n=4094  wr= 87.3%  avg= +10.4bps  tot=+425.39%  sh=  +515.0
+    ✅ test=+15.192%/d
+
+  Vel ratio(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4758  wr= 75.7%  avg=  +7.4bps  tot=+351.19%  sh=  +307.7
+  ✅ TEST                                                     n=2438  wr= 87.5%  avg= +10.9bps  tot=+265.02%  sh=  +501.9
+    ✅ test=+9.465%/d
+
+  --- EXP CCCC7: ROLLING SHARPE ---
+
+  Roll Sharpe(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4967  wr= 67.3%  avg=  +4.5bps  tot=+221.06%  sh=  +260.6
+  ✅ TEST                                                     n=2689  wr= 82.5%  avg=  +8.0bps  tot=+214.94%  sh=  +461.7
+    ✅ test=+7.676%/d
+
+  Roll Sharpe(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8125  wr= 66.2%  avg=  +4.3bps  tot=+347.07%  sh=  +237.1
+  ✅ TEST                                                     n=4358  wr= 82.0%  avg=  +7.7bps  tot=+336.12%  sh=  +448.6
+    ✅ test=+12.004%/d
+
+  Roll Sharpe(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6523  wr= 65.8%  avg=  +4.0bps  tot=+264.09%  sh=  +239.2
+  ✅ TEST                                                     n=3328  wr= 83.1%  avg=  +8.1bps  tot=+268.62%  sh=  +435.0
+    ✅ test=+9.594%/d
+
+  Roll Sharpe(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=10188  wr= 65.8%  avg=  +4.0bps  tot=+406.90%  sh=  +235.5
+  ✅ TEST                                                     n=5215  wr= 83.3%  avg=  +8.0bps  tot=+415.92%  sh=  +441.5
+    ✅ test=+14.854%/d
+
+  --- EXP DDDD7: CO GAP PERSISTENCE ---
+
+  Gap persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7395  wr= 66.8%  avg=  +4.0bps  tot=+293.75%  sh=  +245.6
+  ✅ TEST                                                     n=3904  wr= 83.3%  avg=  +7.8bps  tot=+303.55%  sh=  +481.0
+    ✅ test=+10.841%/d
+
+  Gap persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4304  wr= 67.6%  avg=  +4.1bps  tot=+176.10%  sh=  +256.6
+  ✅ TEST                                                     n=2288  wr= 83.7%  avg=  +7.8bps  tot=+179.61%  sh=  +488.2
+    ✅ test=+6.414%/d
+
+  Gap persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8772  wr= 66.0%  avg=  +3.8bps  tot=+332.37%  sh=  +233.3
+  ✅ TEST                                                     n=4769  wr= 82.7%  avg=  +7.5bps  tot=+357.18%  sh=  +474.2
+    ✅ test=+12.756%/d
+
+  Gap persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5496  wr= 65.8%  avg=  +3.8bps  tot=+209.18%  sh=  +240.1
+  ✅ TEST                                                     n=3074  wr= 83.0%  avg=  +7.5bps  tot=+231.37%  sh=  +499.4
+    ✅ test=+8.263%/d
+
+  --- EXP EEEE7: MEDIAN ABSOLUTE DEVIATION ---
+
+  MAD(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=9630  wr= 71.6%  avg=  +6.6bps  tot=+636.19%  sh=  +305.6
+  ✅ TEST                                                     n=4952  wr= 85.7%  avg= +11.1bps  tot=+549.57%  sh=  +519.6
+    ✅ test=+19.628%/d
+
+  MAD(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6477  wr= 73.5%  avg=  +7.3bps  tot=+471.79%  sh=  +323.1
+  ✅ TEST                                                     n=3383  wr= 86.4%  avg= +11.6bps  tot=+392.06%  sh=  +519.9
+    ✅ test=+14.002%/d
+
+  MAD(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=12248  wr= 72.0%  avg=  +6.4bps  tot=+778.87%  sh=  +304.1
+  ✅ TEST                                                     n=6221  wr= 86.1%  avg= +11.2bps  tot=+695.19%  sh=  +524.6
+    ✅ test=+24.828%/d
+
+  MAD(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8895  wr= 74.0%  avg=  +7.0bps  tot=+623.30%  sh=  +323.6
+  ✅ TEST                                                     n=4533  wr= 86.7%  avg= +11.5bps  tot=+520.01%  sh=  +539.0
+    ✅ test=+18.572%/d
+  Loading XRPUSDT... [10/88 24s] [20/88 40s] [30/88 52s] [40/88 69s] [50/88 84s] [60/88 96s] [70/88 144s] [80/88 170s] [88/88 185s] 126,720 bars (185s) [RAM=0.4GB, avail=6.2GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP BBBB7: PRICE VELOCITY RATIO ---
+
+  Vel ratio(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6246  wr= 58.0%  avg=  +3.3bps  tot=+208.61%  sh=  +194.1
+  ✅ TEST                                                     n=3456  wr= 76.3%  avg=  +7.9bps  tot=+272.96%  sh=  +337.4
+    ✅ test=+9.749%/d
+
+  Vel ratio(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3510  wr= 59.1%  avg=  +3.9bps  tot=+138.60%  sh=  +207.4
+  ✅ TEST                                                     n=1963  wr= 75.8%  avg=  +8.4bps  tot=+165.13%  sh=  +331.3
+    ✅ test=+5.898%/d
+
+  Vel ratio(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6839  wr= 61.6%  avg=  +3.8bps  tot=+257.35%  sh=  +216.7
+  ✅ TEST                                                     n=4016  wr= 77.0%  avg=  +7.8bps  tot=+314.21%  sh=  +350.5
+    ✅ test=+11.222%/d
+
+  Vel ratio(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4077  wr= 64.2%  avg=  +4.5bps  tot=+183.65%  sh=  +238.2
+  ✅ TEST                                                     n=2422  wr= 78.0%  avg=  +8.3bps  tot=+201.54%  sh=  +346.4
+    ✅ test=+7.198%/d
+
+  --- EXP CCCC7: ROLLING SHARPE ---
+
+  Roll Sharpe(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4382  wr= 52.1%  avg=  +2.0bps  tot= +86.55%  sh=  +132.1
+  ✅ TEST                                                     n=2491  wr= 70.3%  avg=  +5.8bps  tot=+143.23%  sh=  +270.9
+    ✅ test=+5.115%/d
+
+  Roll Sharpe(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7166  wr= 51.7%  avg=  +1.9bps  tot=+132.97%  sh=  +125.9
+  ✅ TEST                                                     n=4112  wr= 70.3%  avg=  +5.5bps  tot=+226.03%  sh=  +286.0
+    ✅ test=+8.072%/d
+
+  Roll Sharpe(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5777  wr= 50.3%  avg=  +1.4bps  tot= +82.96%  sh=   +96.4
+  ✅ TEST                                                     n=3202  wr= 71.0%  avg=  +5.5bps  tot=+174.78%  sh=  +287.5
+    ✅ test=+6.242%/d
+
+  Roll Sharpe(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9022  wr= 49.7%  avg=  +1.2bps  tot=+111.44%  sh=   +83.2
+  ✅ TEST                                                     n=4993  wr= 70.5%  avg=  +5.2bps  tot=+261.52%  sh=  +290.9
+    ✅ test=+9.340%/d
+
+  --- EXP DDDD7: CO GAP PERSISTENCE ---
+
+  Gap persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6631  wr= 53.2%  avg=  +2.0bps  tot=+130.16%  sh=  +125.5
+  ✅ TEST                                                     n=3691  wr= 75.2%  avg=  +5.7bps  tot=+211.27%  sh=  +360.9
+    ✅ test=+7.546%/d
+
+  Gap persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3901  wr= 53.4%  avg=  +2.1bps  tot= +81.59%  sh=  +133.7
+  ✅ TEST                                                     n=2176  wr= 75.2%  avg=  +5.7bps  tot=+123.86%  sh=  +345.1
+    ✅ test=+4.423%/d
+
+  Gap persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7913  wr= 53.3%  avg=  +2.0bps  tot=+156.40%  sh=  +123.5
+  ✅ TEST                                                     n=4324  wr= 74.3%  avg=  +5.8bps  tot=+248.76%  sh=  +351.2
+    ✅ test=+8.884%/d
+
+  Gap persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4950  wr= 53.5%  avg=  +2.1bps  tot=+101.49%  sh=  +133.2
+  ✅ TEST                                                     n=2702  wr= 75.5%  avg=  +5.9bps  tot=+158.10%  sh=  +348.0
+    ✅ test=+5.646%/d
+
+  --- EXP EEEE7: MEDIAN ABSOLUTE DEVIATION ---
+
+  MAD(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8752  wr= 58.9%  avg=  +3.4bps  tot=+301.06%  sh=  +174.6
+  ✅ TEST                                                     n=4858  wr= 79.9%  avg=  +8.7bps  tot=+424.09%  sh=  +409.7
+    ✅ test=+15.146%/d
+
+  MAD(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5815  wr= 60.1%  avg=  +3.9bps  tot=+224.69%  sh=  +190.2
+  ✅ TEST                                                     n=3247  wr= 81.0%  avg=  +9.0bps  tot=+293.55%  sh=  +411.5
+    ✅ test=+10.484%/d
+
+  MAD(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=11234  wr= 59.9%  avg=  +3.5bps  tot=+390.86%  sh=  +190.3
+  ✅ TEST                                                     n=6270  wr= 79.6%  avg=  +8.7bps  tot=+544.22%  sh=  +379.8
+    ✅ test=+19.437%/d
+
+  MAD(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8089  wr= 61.8%  avg=  +4.0bps  tot=+323.01%  sh=  +211.2
+  ✅ TEST                                                     n=4471  wr= 81.1%  avg=  +8.9bps  tot=+399.73%  sh=  +399.9
+    ✅ test=+14.276%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    gp_20_0.9                3904   83.3%    +7.8bp   +303.6%     +481
+  ✅ DOGEUSDT    gp_20_0.95               2288   83.7%    +7.8bp   +179.6%     +488
+  ✅ DOGEUSDT    gp_40_0.9                4769   82.7%    +7.5bp   +357.2%     +474
+  ✅ DOGEUSDT    gp_40_0.95               3074   83.0%    +7.5bp   +231.4%     +499
+  ✅ DOGEUSDT    mad_30_0.9               4952   85.7%   +11.1bp   +549.6%     +520
+  ✅ DOGEUSDT    mad_30_0.95              3383   86.4%   +11.6bp   +392.1%     +520
+  ✅ DOGEUSDT    mad_60_0.9               6221   86.1%   +11.2bp   +695.2%     +525
+  ✅ DOGEUSDT    mad_60_0.95              4533   86.7%   +11.5bp   +520.0%     +539
+  ✅ DOGEUSDT    rsh_30_0.05              2689   82.5%    +8.0bp   +214.9%     +462
+  ✅ DOGEUSDT    rsh_30_0.1               4358   82.0%    +7.7bp   +336.1%     +449
+  ✅ DOGEUSDT    rsh_60_0.05              3328   83.1%    +8.1bp   +268.6%     +435
+  ✅ DOGEUSDT    rsh_60_0.1               5215   83.3%    +8.0bp   +415.9%     +441
+  ✅ DOGEUSDT    vr_20_0.9                3673   85.4%   +10.3bp   +378.3%     +474
+  ✅ DOGEUSDT    vr_20_0.95               2106   85.6%   +10.6bp   +223.3%     +471
+  ✅ DOGEUSDT    vr_40_0.9                4094   87.3%   +10.4bp   +425.4%     +515
+  ✅ DOGEUSDT    vr_40_0.95               2438   87.5%   +10.9bp   +265.0%     +502
+  ✅ ETHUSDT     gp_20_0.9                3384   60.6%    +2.7bp    +90.8%     +191
+  ✅ ETHUSDT     gp_20_0.95               1923   61.9%    +2.8bp    +53.2%     +190
+  ✅ ETHUSDT     gp_40_0.9                3873   59.5%    +2.8bp   +106.9%     +204
+  ✅ ETHUSDT     gp_40_0.95               2449   59.7%    +2.8bp    +69.1%     +205
+  ✅ ETHUSDT     mad_30_0.9               4326   70.8%    +4.8bp   +206.6%     +302
+  ✅ ETHUSDT     mad_30_0.95              2896   72.8%    +5.1bp   +146.4%     +328
+  ✅ ETHUSDT     mad_60_0.9               5576   70.8%    +4.7bp   +263.0%     +316
+  ✅ ETHUSDT     mad_60_0.95              3945   71.5%    +4.9bp   +193.2%     +319
+  ✅ ETHUSDT     rsh_30_0.05              2282   66.1%    +3.9bp    +88.5%     +267
+  ✅ ETHUSDT     rsh_30_0.1               3809   65.9%    +3.7bp   +140.7%     +256
+  ✅ ETHUSDT     rsh_60_0.05              3058   67.0%    +3.7bp   +113.3%     +246
+  ✅ ETHUSDT     rsh_60_0.1               4693   65.9%    +3.6bp   +167.0%     +237
+  ✅ ETHUSDT     vr_20_0.9                3239   71.6%    +5.3bp   +170.6%     +330
+  ✅ ETHUSDT     vr_20_0.95               1809   73.9%    +6.0bp   +108.7%     +359
+  ✅ ETHUSDT     vr_40_0.9                3530   74.2%    +5.8bp   +205.8%     +380
+  ✅ ETHUSDT     vr_40_0.95               2076   76.2%    +6.3bp   +131.2%     +403
+  ✅ SOLUSDT     gp_20_0.9                3428   64.4%    +3.4bp   +117.3%     +230
+  ✅ SOLUSDT     gp_20_0.95               2033   64.1%    +3.1bp    +64.0%     +211
+  ✅ SOLUSDT     gp_40_0.9                4076   65.2%    +3.6bp   +145.3%     +262
+  ✅ SOLUSDT     gp_40_0.95               2586   65.0%    +3.4bp    +88.9%     +245
+  ✅ SOLUSDT     mad_30_0.9               4525   72.0%    +5.8bp   +263.5%     +359
+  ✅ SOLUSDT     mad_30_0.95              3071   73.5%    +6.1bp   +187.0%     +363
+  ✅ SOLUSDT     mad_60_0.9               5675   73.6%    +5.7bp   +325.8%     +370
+  ✅ SOLUSDT     mad_60_0.95              4027   74.9%    +6.2bp   +248.7%     +396
+  ✅ SOLUSDT     rsh_30_0.05              2408   61.5%    +3.0bp    +72.1%     +188
+  ✅ SOLUSDT     rsh_30_0.1               3949   62.1%    +3.0bp   +118.5%     +196
+  ✅ SOLUSDT     rsh_60_0.05              3074   63.8%    +3.3bp   +100.9%     +212
+  ✅ SOLUSDT     rsh_60_0.1               4773   62.4%    +3.2bp   +154.8%     +220
+  ✅ SOLUSDT     vr_20_0.9                3326   70.9%    +5.2bp   +173.4%     +321
+  ✅ SOLUSDT     vr_20_0.95               1924   71.4%    +5.5bp   +106.7%     +338
+  ✅ SOLUSDT     vr_40_0.9                3829   71.6%    +5.5bp   +210.1%     +331
+  ✅ SOLUSDT     vr_40_0.95               2308   73.0%    +6.0bp   +137.4%     +349
+  ✅ XRPUSDT     gp_20_0.9                3691   75.2%    +5.7bp   +211.3%     +361
+  ✅ XRPUSDT     gp_20_0.95               2176   75.2%    +5.7bp   +123.9%     +345
+  ✅ XRPUSDT     gp_40_0.9                4324   74.3%    +5.8bp   +248.8%     +351
+  ✅ XRPUSDT     gp_40_0.95               2702   75.5%    +5.9bp   +158.1%     +348
+  ✅ XRPUSDT     mad_30_0.9               4858   79.9%    +8.7bp   +424.1%     +410
+  ✅ XRPUSDT     mad_30_0.95              3247   81.0%    +9.0bp   +293.6%     +412
+  ✅ XRPUSDT     mad_60_0.9               6270   79.6%    +8.7bp   +544.2%     +380
+  ✅ XRPUSDT     mad_60_0.95              4471   81.1%    +8.9bp   +399.7%     +400
+  ✅ XRPUSDT     rsh_30_0.05              2491   70.3%    +5.8bp   +143.2%     +271
+  ✅ XRPUSDT     rsh_30_0.1               4112   70.3%    +5.5bp   +226.0%     +286
+  ✅ XRPUSDT     rsh_60_0.05              3202   71.0%    +5.5bp   +174.8%     +288
+  ✅ XRPUSDT     rsh_60_0.1               4993   70.5%    +5.2bp   +261.5%     +291
+  ✅ XRPUSDT     vr_20_0.9                3456   76.3%    +7.9bp   +273.0%     +337
+  ✅ XRPUSDT     vr_20_0.95               1963   75.8%    +8.4bp   +165.1%     +331
+  ✅ XRPUSDT     vr_40_0.9                4016   77.0%    +7.8bp   +314.2%     +351
+  ✅ XRPUSDT     vr_40_0.95               2422   78.0%    +8.3bp   +201.5%     +346
+
+################################################################################
+  COMPLETE — 1084s (18.1min) [RAM=0.2GB, avail=6.3GB]
+################################################################################
