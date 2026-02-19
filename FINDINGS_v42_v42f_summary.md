@@ -980,6 +980,27 @@ Fade price deviations from 60-min rolling VWAP.
 
 ---
 
+## v42ag: MEGA ENSEMBLE — Top 10 Signals × 4 Symbols (DEFINITIVE)
+
+**ALL 16 configs OOS positive. The ultimate signal portfolio.**
+
+10 signals combined: micro MR, VWAP, vol cluster, 15m range, RSI, EMA div, Stochastic, trade rate, tick imbalance, BB touch.
+
+| Symbol | Score≥2 | Score≥3 | Score≥4 | Score≥5 |
+|--------|---------|---------|---------|--------|
+| ETH | 79% WR, +284% | 82% WR, +175% | 84% WR, +119% | **87% WR, +72%, Sh 578** |
+| SOL | 79% WR, +362% | 79% WR, +210% | 82% WR, +144% | **85% WR, +87%, Sh 504** |
+| **DOGE** | **90% WR, +693%** | **92% WR, +386%** | **93% WR, +254%** | **94% WR, +159%, Sh 608** |
+| XRP | 83% WR, +492% | 84% WR, +279% | 87% WR, +189% | **89% WR, +119%, Sh 515** |
+
+**Key properties:**
+- Higher score = higher WR + Sharpe, fewer trades
+- Score≥5: 85-94% WR, Sharpe 504-608, 25-28/28 positive OOS days
+- Score≥2: massive trade count (4K-6K OOS), 79-90% WR
+- **ETH + SOL score≥5: 28/28 positive OOS days (zero losing days)**
+
+---
+
 ## v42z: Autocorrelation + Momentum Persistence (EXP OOO-RRR)
 
 **4 more signal types from price patterns. ALL OOS positive on SOL + DOGE.**
@@ -1051,3 +1072,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ad_range_higher_order.py` | EXP ZZZ-CCCC: range, skewness, kurtosis, 15m range |
 | `research_v42ae_regime_adaptive.py` | EXP DDDD-GGGG: Hurst, vol gap, acceleration, tick imbalance |
 | `research_v42af_ta_signals.py` | EXP HHHH-KKKK: RSI, Bollinger, EMA divergence, Stochastic |
+| `research_v42ag_mega_ensemble.py` | MEGA ENSEMBLE: top 10 signals × 4 symbols definitive |
