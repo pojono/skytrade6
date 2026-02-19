@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 16 Signal Types Discovered
+### 19 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -872,6 +872,9 @@ Strategy contribution (standalone):
 | 14 | Cross-Sym Lead-Lag | Multi-symbol | 73% | +7%/28d | Low |
 | 15 | **Hourly Seasonality** | **Price only** | **86%** | **+25%/28d** | **Low** |
 | 16 | Cross-Sym Divergence | Multi-symbol | 79% | +25%/28d | Low |
+| 17 | Whale Trade (max size) | Price+Vol | 86% | +118%/28d | Low |
+| 18 | **Trade Arrival Rate** | **Price+Vol** | **95%** | **+240%/28d** | **Low** |
+| 19 | **Multi-Signal Ensemble** | **Combined** | **99%** | **+217%/28d** | **Low** |
 
 ---
 
@@ -1033,3 +1036,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42z_autocorr_patterns.py` | EXP OOO-RRR: autocorr, consecutive, vol cluster, PV div |
 | `research_v42aa_best_of_portfolio.py` | BEST-OF: 6 signals × 4 symbols definitive comparison |
 | `research_v42ab_cross_sym_seasonality.py` | EXP SSS-UUU: cross-sym lead-lag, seasonality, divergence |
+| `research_v42ac_tick_micro.py` | EXP VVV-YYY: trade size, arrival rate, ensemble |
