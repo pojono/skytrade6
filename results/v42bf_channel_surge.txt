@@ -1,0 +1,451 @@
+================================================================================
+  v42bf: CHANNEL POS + VOL SURGE + TREND STRENGTH + CLV
+  2026-02-19 15:56:57  [RAM=0.1GB, avail=7.1GB]
+================================================================================
+  Loading ETHUSDT... [10/88 31s] [20/88 53s] [30/88 72s] [40/88 94s] [50/88 113s] [60/88 128s] [70/88 155s] [80/88 180s] [88/88 199s] 126,720 bars (199s) [RAM=0.5GB, avail=6.5GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP DDDD6: PRICE CHANNEL POSITION ---
+
+  Channel(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=2636  wr= 65.7%  avg=  +3.7bps  tot= +96.34%  sh=  +265.2
+  ✅ TEST                                                     n=1585  wr= 65.2%  avg=  +3.6bps  tot= +56.85%  sh=  +260.3
+    ✅ test=+2.030%/d
+
+  Channel(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=5516  wr= 65.4%  avg=  +3.9bps  tot=+215.13%  sh=  +266.7
+  ✅ TEST                                                     n=3165  wr= 64.7%  avg=  +3.6bps  tot=+112.53%  sh=  +255.0
+    ✅ test=+4.019%/d
+
+  Channel(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=2109  wr= 71.1%  avg=  +5.1bps  tot=+107.82%  sh=  +349.0
+  ✅ TEST                                                     n=1393  wr= 68.7%  avg=  +4.0bps  tot= +56.15%  sh=  +287.1
+    ✅ test=+2.005%/d
+
+  Channel(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=4823  wr= 69.2%  avg=  +4.9bps  tot=+236.38%  sh=  +312.9
+  ✅ TEST                                                     n=3009  wr= 66.4%  avg=  +3.7bps  tot=+110.13%  sh=  +249.6
+    ✅ test=+3.933%/d
+
+  --- EXP EEEE6: VOLUME SURGE RATIO ---
+
+  Vol surge(avg 20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5879  wr= 66.5%  avg=  +7.0bps  tot=+410.24%  sh=  +248.4
+  ✅ TEST                                                     n=2841  wr= 70.3%  avg=  +5.9bps  tot=+167.19%  sh=  +320.5
+    ✅ test=+5.971%/d
+
+  Vol surge(avg 20) >95th pct (fade):
+  ✅ TRAIN                                                    n=2979  wr= 71.7%  avg=  +9.7bps  tot=+288.42%  sh=  +287.5
+  ✅ TEST                                                     n=1456  wr= 73.4%  avg=  +7.3bps  tot=+105.60%  sh=  +354.7
+    ✅ test=+3.772%/d
+
+  Vol surge(avg 40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6025  wr= 67.1%  avg=  +7.1bps  tot=+430.37%  sh=  +255.4
+  ✅ TEST                                                     n=2923  wr= 71.1%  avg=  +6.1bps  tot=+178.03%  sh=  +327.5
+    ✅ test=+6.358%/d
+
+  Vol surge(avg 40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3064  wr= 72.5%  avg= +10.0bps  tot=+307.20%  sh=  +290.6
+  ✅ TEST                                                     n=1519  wr= 74.3%  avg=  +7.6bps  tot=+115.40%  sh=  +365.9
+    ✅ test=+4.122%/d
+
+  --- EXP FFFF6: TREND STRENGTH INDEX ---
+
+  TSI(20) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=6468  wr= 72.3%  avg=  +6.6bps  tot=+426.08%  sh=  +276.0
+  ✅ TEST                                                     n=3311  wr= 72.1%  avg=  +5.3bps  tot=+176.82%  sh=  +335.9
+    ✅ test=+6.315%/d
+
+  TSI(20) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=3662  wr= 73.9%  avg=  +7.7bps  tot=+280.25%  sh=  +275.0
+  ✅ TEST                                                     n=1879  wr= 75.1%  avg=  +6.1bps  tot=+113.86%  sh=  +387.1
+    ✅ test=+4.066%/d
+
+  TSI(40) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=7204  wr= 73.2%  avg=  +6.6bps  tot=+474.10%  sh=  +285.7
+  ✅ TEST                                                     n=3612  wr= 74.7%  avg=  +6.0bps  tot=+216.40%  sh=  +386.6
+    ✅ test=+7.728%/d
+
+  TSI(40) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4183  wr= 75.1%  avg=  +7.7bps  tot=+320.76%  sh=  +282.3
+  ✅ TEST                                                     n=2186  wr= 76.6%  avg=  +6.5bps  tot=+141.35%  sh=  +416.9
+    ✅ test=+5.048%/d
+
+  --- EXP GGGG6: CLOSE LOCATION VALUE ---
+
+  CLV(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4224  wr= 59.4%  avg=  +2.9bps  tot=+122.96%  sh=  +195.6
+  ✅ TEST                                                     n=2130  wr= 60.6%  avg=  +2.7bps  tot= +57.47%  sh=  +202.3
+    ✅ test=+2.053%/d
+
+  CLV(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7074  wr= 59.0%  avg=  +2.8bps  tot=+196.93%  sh=  +186.8
+  ✅ TEST                                                     n=3673  wr= 62.2%  avg=  +2.9bps  tot=+106.85%  sh=  +215.4
+    ✅ test=+3.816%/d
+
+  CLV(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5453  wr= 58.1%  avg=  +2.6bps  tot=+140.60%  sh=  +171.0
+  ✅ TEST                                                     n=2848  wr= 61.3%  avg=  +3.1bps  tot= +87.00%  sh=  +231.7
+    ✅ test=+3.107%/d
+
+  CLV(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8577  wr= 58.2%  avg=  +2.6bps  tot=+220.51%  sh=  +174.7
+  ✅ TEST                                                     n=4400  wr= 60.8%  avg=  +2.9bps  tot=+128.61%  sh=  +213.8
+    ✅ test=+4.593%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 36s] [40/88 48s] [50/88 59s] [60/88 67s] [70/88 79s] [80/88 96s] [88/88 105s] 126,720 bars (105s) [RAM=0.3GB, avail=6.4GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP DDDD6: PRICE CHANNEL POSITION ---
+
+  Channel(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3473  wr= 65.0%  avg=  +3.4bps  tot=+118.90%  sh=  +262.0
+  ✅ TEST                                                     n=2255  wr= 60.3%  avg=  +3.0bps  tot= +68.29%  sh=  +207.9
+    ✅ test=+2.439%/d
+
+  Channel(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6935  wr= 64.3%  avg=  +3.5bps  tot=+240.37%  sh=  +246.8
+  ✅ TEST                                                     n=4156  wr= 58.8%  avg=  +2.6bps  tot=+109.71%  sh=  +178.2
+    ✅ test=+3.918%/d
+
+  Channel(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3153  wr= 67.5%  avg=  +3.7bps  tot=+117.72%  sh=  +281.5
+  ✅ TEST                                                     n=2093  wr= 61.7%  avg=  +3.0bps  tot= +63.23%  sh=  +188.7
+    ✅ test=+2.258%/d
+
+  Channel(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6549  wr= 66.0%  avg=  +3.6bps  tot=+238.66%  sh=  +259.9
+  ✅ TEST                                                     n=3940  wr= 61.0%  avg=  +2.9bps  tot=+113.11%  sh=  +188.2
+    ✅ test=+4.040%/d
+
+  --- EXP EEEE6: VOLUME SURGE RATIO ---
+
+  Vol surge(avg 20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6288  wr= 66.8%  avg=  +5.5bps  tot=+348.74%  sh=  +251.1
+  ✅ TEST                                                     n=2954  wr= 69.0%  avg=  +5.8bps  tot=+172.22%  sh=  +320.4
+    ✅ test=+6.151%/d
+
+  Vol surge(avg 20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3151  wr= 69.9%  avg=  +7.1bps  tot=+224.84%  sh=  +277.9
+  ✅ TEST                                                     n=1510  wr= 71.7%  avg=  +6.7bps  tot=+101.59%  sh=  +339.8
+    ✅ test=+3.628%/d
+
+  Vol surge(avg 40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6468  wr= 67.8%  avg=  +5.8bps  tot=+375.04%  sh=  +264.9
+  ✅ TEST                                                     n=3045  wr= 70.3%  avg=  +6.1bps  tot=+185.58%  sh=  +338.7
+    ✅ test=+6.628%/d
+
+  Vol surge(avg 40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3295  wr= 70.6%  avg=  +7.5bps  tot=+246.11%  sh=  +289.1
+  ✅ TEST                                                     n=1570  wr= 72.9%  avg=  +7.1bps  tot=+112.21%  sh=  +355.0
+    ✅ test=+4.007%/d
+
+  --- EXP FFFF6: TREND STRENGTH INDEX ---
+
+  TSI(20) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=6998  wr= 69.1%  avg=  +5.0bps  tot=+346.90%  sh=  +270.2
+  ✅ TEST                                                     n=3359  wr= 69.8%  avg=  +5.1bps  tot=+172.34%  sh=  +313.7
+    ✅ test=+6.155%/d
+
+  TSI(20) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=3985  wr= 69.9%  avg=  +5.5bps  tot=+218.93%  sh=  +269.5
+  ✅ TEST                                                     n=1939  wr= 70.6%  avg=  +5.3bps  tot=+102.12%  sh=  +317.4
+    ✅ test=+3.647%/d
+
+  TSI(40) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=7830  wr= 71.0%  avg=  +5.3bps  tot=+417.11%  sh=  +292.4
+  ✅ TEST                                                     n=3820  wr= 71.6%  avg=  +5.4bps  tot=+208.03%  sh=  +331.0
+    ✅ test=+7.430%/d
+
+  TSI(40) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4573  wr= 72.0%  avg=  +6.1bps  tot=+281.04%  sh=  +301.1
+  ✅ TEST                                                     n=2261  wr= 72.4%  avg=  +5.9bps  tot=+132.71%  sh=  +346.4
+    ✅ test=+4.740%/d
+
+  --- EXP GGGG6: CLOSE LOCATION VALUE ---
+
+  CLV(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4338  wr= 61.9%  avg=  +2.9bps  tot=+127.87%  sh=  +209.5
+  ✅ TEST                                                     n=2246  wr= 61.0%  avg=  +2.9bps  tot= +64.64%  sh=  +221.8
+    ✅ test=+2.309%/d
+
+  CLV(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7359  wr= 62.0%  avg=  +2.9bps  tot=+210.57%  sh=  +199.5
+  ✅ TEST                                                     n=3702  wr= 60.7%  avg=  +2.9bps  tot=+108.12%  sh=  +217.9
+    ✅ test=+3.861%/d
+
+  CLV(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5610  wr= 61.1%  avg=  +2.7bps  tot=+151.28%  sh=  +184.9
+  ✅ TEST                                                     n=2982  wr= 60.6%  avg=  +2.6bps  tot= +76.28%  sh=  +186.2
+    ✅ test=+2.724%/d
+
+  CLV(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8902  wr= 62.0%  avg=  +2.9bps  tot=+256.59%  sh=  +198.3
+  ✅ TEST                                                     n=4626  wr= 60.1%  avg=  +2.6bps  tot=+119.96%  sh=  +178.1
+    ✅ test=+4.284%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 34s] [30/88 43s] [40/88 52s] [50/88 60s] [60/88 68s] [70/88 94s] [80/88 115s] [88/88 123s] 126,720 bars (123s) [RAM=0.4GB, avail=6.5GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP DDDD6: PRICE CHANNEL POSITION ---
+
+  Channel(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3604  wr= 67.5%  avg=  +4.2bps  tot=+152.41%  sh=  +260.1
+  ✅ TEST                                                     n=2224  wr= 81.6%  avg=  +7.5bps  tot=+165.78%  sh=  +440.2
+    ✅ test=+5.921%/d
+
+  Channel(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7036  wr= 67.1%  avg=  +4.4bps  tot=+311.91%  sh=  +259.7
+  ✅ TEST                                                     n=4137  wr= 80.9%  avg=  +7.7bps  tot=+319.50%  sh=  +431.2
+    ✅ test=+11.411%/d
+
+  Channel(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3053  wr= 70.0%  avg=  +5.1bps  tot=+156.44%  sh=  +283.3
+  ✅ TEST                                                     n=1922  wr= 82.2%  avg=  +7.7bps  tot=+147.94%  sh=  +451.4
+    ✅ test=+5.284%/d
+
+  Channel(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6266  wr= 70.0%  avg=  +5.1bps  tot=+318.82%  sh=  +288.8
+  ✅ TEST                                                     n=3697  wr= 81.9%  avg=  +7.9bps  tot=+291.89%  sh=  +421.1
+    ✅ test=+10.425%/d
+
+  --- EXP EEEE6: VOLUME SURGE RATIO ---
+
+  Vol surge(avg 20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6463  wr= 69.0%  avg=  +7.2bps  tot=+463.83%  sh=  +263.8
+  ✅ TEST                                                     n=3347  wr= 84.3%  avg= +12.5bps  tot=+417.86%  sh=  +451.6
+    ✅ test=+14.924%/d
+
+  Vol surge(avg 20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3271  wr= 71.9%  avg=  +9.4bps  tot=+307.13%  sh=  +291.1
+  ✅ TEST                                                     n=1687  wr= 86.1%  avg= +14.8bps  tot=+249.19%  sh=  +466.6
+    ✅ test=+8.900%/d
+
+  Vol surge(avg 40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6655  wr= 70.2%  avg=  +7.6bps  tot=+505.27%  sh=  +274.4
+  ✅ TEST                                                     n=3394  wr= 84.7%  avg= +12.8bps  tot=+434.31%  sh=  +458.6
+    ✅ test=+15.511%/d
+
+  Vol surge(avg 40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3384  wr= 73.3%  avg=  +9.7bps  tot=+326.91%  sh=  +299.4
+  ✅ TEST                                                     n=1762  wr= 86.9%  avg= +15.2bps  tot=+267.43%  sh=  +469.5
+    ✅ test=+9.551%/d
+
+  --- EXP FFFF6: TREND STRENGTH INDEX ---
+
+  TSI(20) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=7183  wr= 72.2%  avg=  +6.5bps  tot=+467.03%  sh=  +304.7
+  ✅ TEST                                                     n=3743  wr= 85.4%  avg= +10.4bps  tot=+389.73%  sh=  +472.5
+    ✅ test=+13.919%/d
+
+  TSI(20) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4104  wr= 74.0%  avg=  +7.2bps  tot=+297.41%  sh=  +304.9
+  ✅ TEST                                                     n=2146  wr= 85.8%  avg= +10.8bps  tot=+232.43%  sh=  +479.9
+    ✅ test=+8.301%/d
+
+  TSI(40) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=7982  wr= 74.5%  avg=  +6.7bps  tot=+534.80%  sh=  +316.3
+  ✅ TEST                                                     n=4098  wr= 88.1%  avg= +10.6bps  tot=+433.10%  sh=  +526.5
+    ✅ test=+15.468%/d
+
+  TSI(40) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4672  wr= 76.2%  avg=  +7.5bps  tot=+350.71%  sh=  +316.7
+  ✅ TEST                                                     n=2418  wr= 88.5%  avg= +11.3bps  tot=+272.55%  sh=  +525.3
+    ✅ test=+9.734%/d
+
+  --- EXP GGGG6: CLOSE LOCATION VALUE ---
+
+  CLV(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4558  wr= 65.1%  avg=  +3.9bps  tot=+176.61%  sh=  +227.6
+  ✅ TEST                                                     n=2458  wr= 81.4%  avg=  +7.6bps  tot=+186.70%  sh=  +437.3
+    ✅ test=+6.668%/d
+
+  CLV(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7596  wr= 65.3%  avg=  +3.8bps  tot=+289.27%  sh=  +230.2
+  ✅ TEST                                                     n=4082  wr= 81.7%  avg=  +7.4bps  tot=+303.36%  sh=  +438.3
+    ✅ test=+10.834%/d
+
+  CLV(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5819  wr= 64.7%  avg=  +4.0bps  tot=+230.47%  sh=  +212.9
+  ✅ TEST                                                     n=3092  wr= 81.6%  avg=  +7.6bps  tot=+234.68%  sh=  +458.9
+    ✅ test=+8.381%/d
+
+  CLV(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9081  wr= 65.1%  avg=  +3.9bps  tot=+353.67%  sh=  +222.0
+  ✅ TEST                                                     n=4842  wr= 81.3%  avg=  +7.5bps  tot=+363.98%  sh=  +453.1
+    ✅ test=+12.999%/d
+  Loading XRPUSDT... [10/88 15s] [20/88 24s] [30/88 31s] [40/88 40s] [50/88 50s] [60/88 58s] [70/88 85s] [80/88 103s] [88/88 114s] 126,720 bars (114s) [RAM=0.5GB, avail=6.5GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP DDDD6: PRICE CHANNEL POSITION ---
+
+  Channel(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3534  wr= 53.4%  avg=  +2.0bps  tot= +70.95%  sh=  +148.1
+  ✅ TEST                                                     n=2351  wr= 70.1%  avg=  +5.5bps  tot=+128.13%  sh=  +268.1
+    ✅ test=+4.576%/d
+
+  Channel(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6662  wr= 52.0%  avg=  +1.7bps  tot=+113.39%  sh=  +120.7
+  ✅ TEST                                                     n=4218  wr= 70.6%  avg=  +5.5bps  tot=+231.31%  sh=  +277.6
+    ✅ test=+8.261%/d
+
+  Channel(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3089  wr= 56.5%  avg=  +2.4bps  tot= +75.38%  sh=  +170.2
+  ✅ TEST                                                     n=2114  wr= 71.0%  avg=  +5.8bps  tot=+123.05%  sh=  +275.4
+    ✅ test=+4.395%/d
+
+  Channel(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6169  wr= 54.9%  avg=  +2.2bps  tot=+133.06%  sh=  +150.8
+  ✅ TEST                                                     n=3936  wr= 71.0%  avg=  +5.9bps  tot=+232.94%  sh=  +294.4
+    ✅ test=+8.319%/d
+
+  --- EXP EEEE6: VOLUME SURGE RATIO ---
+
+  Vol surge(avg 20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5636  wr= 56.4%  avg=  +3.8bps  tot=+214.61%  sh=  +175.3
+  ✅ TEST                                                     n=3174  wr= 75.8%  avg=  +9.0bps  tot=+285.21%  sh=  +337.5
+    ✅ test=+10.186%/d
+
+  Vol surge(avg 20) >95th pct (fade):
+  ✅ TRAIN                                                    n=2889  wr= 58.2%  avg=  +5.0bps  tot=+144.39%  sh=  +197.7
+  ✅ TEST                                                     n=1598  wr= 76.7%  avg= +10.5bps  tot=+167.62%  sh=  +343.5
+    ✅ test=+5.986%/d
+
+  Vol surge(avg 40) >90th pct (fade):
+  ✅ TRAIN                                                    n=5818  wr= 57.4%  avg=  +4.0bps  tot=+232.07%  sh=  +182.7
+  ✅ TEST                                                     n=3277  wr= 76.2%  avg=  +9.4bps  tot=+306.78%  sh=  +349.1
+    ✅ test=+10.957%/d
+
+  Vol surge(avg 40) >95th pct (fade):
+  ✅ TRAIN                                                    n=2995  wr= 59.9%  avg=  +5.3bps  tot=+157.43%  sh=  +209.1
+  ✅ TEST                                                     n=1718  wr= 77.4%  avg= +10.8bps  tot=+186.39%  sh=  +355.3
+    ✅ test=+6.657%/d
+
+  --- EXP FFFF6: TREND STRENGTH INDEX ---
+
+  TSI(20) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=6263  wr= 58.3%  avg=  +3.4bps  tot=+214.97%  sh=  +201.7
+  ✅ TEST                                                     n=3482  wr= 75.7%  avg=  +7.7bps  tot=+268.04%  sh=  +336.1
+    ✅ test=+9.573%/d
+
+  TSI(20) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=3529  wr= 60.2%  avg=  +4.1bps  tot=+146.36%  sh=  +218.6
+  ✅ TEST                                                     n=1971  wr= 77.1%  avg=  +8.7bps  tot=+171.55%  sh=  +345.6
+    ✅ test=+6.127%/d
+
+  TSI(40) >90th pct (fade trend):
+  ✅ TRAIN                                                    n=6976  wr= 61.8%  avg=  +3.8bps  tot=+264.89%  sh=  +221.9
+  ✅ TEST                                                     n=4020  wr= 77.2%  avg=  +7.9bps  tot=+318.46%  sh=  +351.2
+    ✅ test=+11.373%/d
+
+  TSI(40) >95th pct (fade trend):
+  ✅ TRAIN                                                    n=4135  wr= 64.5%  avg=  +4.5bps  tot=+186.04%  sh=  +237.2
+  ✅ TEST                                                     n=2487  wr= 77.4%  avg=  +8.5bps  tot=+210.78%  sh=  +351.0
+    ✅ test=+7.528%/d
+
+  --- EXP GGGG6: CLOSE LOCATION VALUE ---
+
+  CLV(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4007  wr= 48.7%  avg=  +1.2bps  tot= +49.52%  sh=   +79.6
+  ✅ TEST                                                     n=2332  wr= 70.9%  avg=  +5.5bps  tot=+128.75%  sh=  +270.9
+    ✅ test=+4.598%/d
+
+  CLV(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6765  wr= 49.1%  avg=  +1.3bps  tot= +87.98%  sh=   +87.2
+  ✅ TEST                                                     n=3940  wr= 70.6%  avg=  +5.3bps  tot=+209.85%  sh=  +278.2
+    ✅ test=+7.495%/d
+
+  CLV(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5244  wr= 50.4%  avg=  +1.6bps  tot= +81.40%  sh=  +101.9
+  ✅ TEST                                                     n=3037  wr= 69.8%  avg=  +5.3bps  tot=+161.40%  sh=  +269.5
+    ✅ test=+5.764%/d
+
+  CLV(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8204  wr= 50.5%  avg=  +1.5bps  tot=+122.63%  sh=   +99.1
+  ✅ TEST                                                     n=4613  wr= 69.8%  avg=  +5.2bps  tot=+237.57%  sh=  +276.1
+    ✅ test=+8.485%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    ch_30_0.05               2224   81.6%    +7.5bp   +165.8%     +440
+  ✅ DOGEUSDT    ch_30_0.1                4137   80.9%    +7.7bp   +319.5%     +431
+  ✅ DOGEUSDT    ch_60_0.05               1922   82.2%    +7.7bp   +147.9%     +451
+  ✅ DOGEUSDT    ch_60_0.1                3697   81.9%    +7.9bp   +291.9%     +421
+  ✅ DOGEUSDT    clv_20_0.05              2458   81.4%    +7.6bp   +186.7%     +437
+  ✅ DOGEUSDT    clv_20_0.1               4082   81.7%    +7.4bp   +303.4%     +438
+  ✅ DOGEUSDT    clv_40_0.05              3092   81.6%    +7.6bp   +234.7%     +459
+  ✅ DOGEUSDT    clv_40_0.1               4842   81.3%    +7.5bp   +364.0%     +453
+  ✅ DOGEUSDT    surge_20_0.9             3347   84.3%   +12.5bp   +417.9%     +452
+  ✅ DOGEUSDT    surge_20_0.95            1687   86.1%   +14.8bp   +249.2%     +467
+  ✅ DOGEUSDT    surge_40_0.9             3394   84.7%   +12.8bp   +434.3%     +459
+  ✅ DOGEUSDT    surge_40_0.95            1762   86.9%   +15.2bp   +267.4%     +469
+  ✅ DOGEUSDT    tsi_20_0.9               3743   85.4%   +10.4bp   +389.7%     +472
+  ✅ DOGEUSDT    tsi_20_0.95              2146   85.8%   +10.8bp   +232.4%     +480
+  ✅ DOGEUSDT    tsi_40_0.9               4098   88.1%   +10.6bp   +433.1%     +526
+  ✅ DOGEUSDT    tsi_40_0.95              2418   88.5%   +11.3bp   +272.5%     +525
+  ✅ ETHUSDT     ch_30_0.05               1585   65.2%    +3.6bp    +56.8%     +260
+  ✅ ETHUSDT     ch_30_0.1                3165   64.7%    +3.6bp   +112.5%     +255
+  ✅ ETHUSDT     ch_60_0.05               1393   68.7%    +4.0bp    +56.2%     +287
+  ✅ ETHUSDT     ch_60_0.1                3009   66.4%    +3.7bp   +110.1%     +250
+  ✅ ETHUSDT     clv_20_0.05              2130   60.6%    +2.7bp    +57.5%     +202
+  ✅ ETHUSDT     clv_20_0.1               3673   62.2%    +2.9bp   +106.8%     +215
+  ✅ ETHUSDT     clv_40_0.05              2848   61.3%    +3.1bp    +87.0%     +232
+  ✅ ETHUSDT     clv_40_0.1               4400   60.8%    +2.9bp   +128.6%     +214
+  ✅ ETHUSDT     surge_20_0.9             2841   70.3%    +5.9bp   +167.2%     +320
+  ✅ ETHUSDT     surge_20_0.95            1456   73.4%    +7.3bp   +105.6%     +355
+  ✅ ETHUSDT     surge_40_0.9             2923   71.1%    +6.1bp   +178.0%     +327
+  ✅ ETHUSDT     surge_40_0.95            1519   74.3%    +7.6bp   +115.4%     +366
+  ✅ ETHUSDT     tsi_20_0.9               3311   72.1%    +5.3bp   +176.8%     +336
+  ✅ ETHUSDT     tsi_20_0.95              1879   75.1%    +6.1bp   +113.9%     +387
+  ✅ ETHUSDT     tsi_40_0.9               3612   74.7%    +6.0bp   +216.4%     +387
+  ✅ ETHUSDT     tsi_40_0.95              2186   76.6%    +6.5bp   +141.4%     +417
+  ✅ SOLUSDT     ch_30_0.05               2255   60.3%    +3.0bp    +68.3%     +208
+  ✅ SOLUSDT     ch_30_0.1                4156   58.8%    +2.6bp   +109.7%     +178
+  ✅ SOLUSDT     ch_60_0.05               2093   61.7%    +3.0bp    +63.2%     +189
+  ✅ SOLUSDT     ch_60_0.1                3940   61.0%    +2.9bp   +113.1%     +188
+  ✅ SOLUSDT     clv_20_0.05              2246   61.0%    +2.9bp    +64.6%     +222
+  ✅ SOLUSDT     clv_20_0.1               3702   60.7%    +2.9bp   +108.1%     +218
+  ✅ SOLUSDT     clv_40_0.05              2982   60.6%    +2.6bp    +76.3%     +186
+  ✅ SOLUSDT     clv_40_0.1               4626   60.1%    +2.6bp   +120.0%     +178
+  ✅ SOLUSDT     surge_20_0.9             2954   69.0%    +5.8bp   +172.2%     +320
+  ✅ SOLUSDT     surge_20_0.95            1510   71.7%    +6.7bp   +101.6%     +340
+  ✅ SOLUSDT     surge_40_0.9             3045   70.3%    +6.1bp   +185.6%     +339
+  ✅ SOLUSDT     surge_40_0.95            1570   72.9%    +7.1bp   +112.2%     +355
+  ✅ SOLUSDT     tsi_20_0.9               3359   69.8%    +5.1bp   +172.3%     +314
+  ✅ SOLUSDT     tsi_20_0.95              1939   70.6%    +5.3bp   +102.1%     +317
+  ✅ SOLUSDT     tsi_40_0.9               3820   71.6%    +5.4bp   +208.0%     +331
+  ✅ SOLUSDT     tsi_40_0.95              2261   72.4%    +5.9bp   +132.7%     +346
+  ✅ XRPUSDT     ch_30_0.05               2351   70.1%    +5.5bp   +128.1%     +268
+  ✅ XRPUSDT     ch_30_0.1                4218   70.6%    +5.5bp   +231.3%     +278
+  ✅ XRPUSDT     ch_60_0.05               2114   71.0%    +5.8bp   +123.0%     +275
+  ✅ XRPUSDT     ch_60_0.1                3936   71.0%    +5.9bp   +232.9%     +294
+  ✅ XRPUSDT     clv_20_0.05              2332   70.9%    +5.5bp   +128.7%     +271
+  ✅ XRPUSDT     clv_20_0.1               3940   70.6%    +5.3bp   +209.8%     +278
+  ✅ XRPUSDT     clv_40_0.05              3037   69.8%    +5.3bp   +161.4%     +269
+  ✅ XRPUSDT     clv_40_0.1               4613   69.8%    +5.2bp   +237.6%     +276
+  ✅ XRPUSDT     surge_20_0.9             3174   75.8%    +9.0bp   +285.2%     +337
+  ✅ XRPUSDT     surge_20_0.95            1598   76.7%   +10.5bp   +167.6%     +344
+  ✅ XRPUSDT     surge_40_0.9             3277   76.2%    +9.4bp   +306.8%     +349
+  ✅ XRPUSDT     surge_40_0.95            1718   77.4%   +10.8bp   +186.4%     +355
+  ✅ XRPUSDT     tsi_20_0.9               3482   75.7%    +7.7bp   +268.0%     +336
+  ✅ XRPUSDT     tsi_20_0.95              1971   77.1%    +8.7bp   +171.5%     +346
+  ✅ XRPUSDT     tsi_40_0.9               4020   77.2%    +7.9bp   +318.5%     +351
+  ✅ XRPUSDT     tsi_40_0.95              2487   77.4%    +8.5bp   +210.8%     +351
+
+################################################################################
+  COMPLETE — 739s (12.3min) [RAM=0.3GB, avail=6.8GB]
+################################################################################
