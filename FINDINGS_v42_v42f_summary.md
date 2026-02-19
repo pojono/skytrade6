@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 138 Signal Types Discovered
+### 142 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -994,6 +994,10 @@ Strategy contribution (standalone):
 | 136 | Momentum Persistence | Price only | 82% | +292%/28d | Low |
 | 137 | Return Dispersion | Price only | 86% | +482%/28d | Low |
 | 138 | Bar Body Ratio | Price only | 79% | +360%/28d | Low |
+| 139 | **Rogers-Satchell Vol** | **Price only** | **90%** | **+926%/28d** | **Low** |
+| 140 | Accel Persistence | Price only | 82% | +305%/28d | Low |
+| 141 | Shadow Ratio | Price only | 81% | +412%/28d | Low |
+| 142 | Range Ratio | Price only | 86% | +412%/28d | Low |
 
 ---
 
@@ -1209,3 +1213,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bg_zscore_cumtick.py` | EXP HHHH6-KKKK6: range z-score, cum imbalance, osc freq, Parkinson |
 | `research_v42bh_gk_efficiency.py` | EXP LLLL6-OOOO6: GK vol, efficiency ratio, return conc, tick intensity |
 | `research_v42bi_yz_persistence.py` | EXP PPPP6-SSSS6: YZ vol, mom persistence, return dispersion, body ratio |
+| `research_v42bj_rs_shadow.py` | EXP TTTT6-WWWW6: RS vol, accel persistence, shadow ratio, range ratio |
