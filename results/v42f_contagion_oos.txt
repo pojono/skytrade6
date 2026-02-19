@@ -1,0 +1,170 @@
+================================================================================
+  v42f: CROSS-SYMBOL CONTAGION OOS — 60 DAYS (RAM-SAFE)
+  2026-02-19 05:06:55  [RAM=0.1GB, avail=6.3GB]
+================================================================================
+
+  --- Loading liquidations (small) ---
+  Loading ETHUSDT liqs 60d... [15/60 4s ETA 11s] [30/60 6s ETA 6s] [45/60 9s ETA 3s] [60/60 10s ETA 0s] 133,669 (11s) [RAM=0.2GB, avail=6.0GB]
+  ETHUSDT cascades: 888
+  Loading SOLUSDT liqs 60d... [15/60 2s ETA 5s] [30/60 3s ETA 3s] [45/60 5s ETA 2s] [60/60 6s ETA 0s] 75,588 (7s) [RAM=0.1GB, avail=6.1GB]
+  SOLUSDT cascades: 507
+  Loading DOGEUSDT liqs 60d... [15/60 1s ETA 3s] [30/60 2s ETA 2s] [45/60 2s ETA 1s] [60/60 2s ETA 0s] 37,100 (2s) [RAM=0.1GB, avail=6.1GB]
+  DOGEUSDT cascades: 281
+
+  --- Loading bars (chunked, RAM-safe) ---
+  Loading ETHUSDT bars (chunked, 10d)... [10/60 42s ETA 209s] [20/60 73s ETA 146s] [30/60 99s ETA 99s] [40/60 132s ETA 66s] [50/60 160s ETA 32s] [60/60 181s ETA 0s] 86,400 bars (181s) [RAM=0.5GB, avail=5.7GB]
+  Loading SOLUSDT bars (chunked, 10d)... [10/60 21s ETA 103s] [20/60 38s ETA 75s] [30/60 51s ETA 51s] [40/60 66s ETA 33s] [50/60 80s ETA 16s] [60/60 92s ETA 0s] 86,400 bars (92s) [RAM=0.4GB, avail=6.4GB]
+  Loading DOGEUSDT bars (chunked, 10d)... [10/60 28s ETA 141s] [20/60 46s ETA 91s] [30/60 57s ETA 57s] [40/60 69s ETA 35s] [50/60 79s ETA 16s] [60/60 91s ETA 0s] 86,400 bars (91s) [RAM=0.4GB, avail=6.9GB]
+
+  Period: ~60 days  [RAM=0.4GB, avail=7.0GB]
+
+################################################################################
+  PART 1: ALL CROSS-SYMBOL PAIRS — FULL 60 DAYS
+################################################################################
+
+  Config: off=0.15 tp=0.15 sl=0.5
+  ✅ ETH→ETH (same-symbol)                          n= 616  wr= 92.0%  avg=  +5.8bps  tot= +35.84%  sh=  +195.5
+  ✅ ETH→SOL                                        n= 600  wr= 90.7%  avg=  +4.7bps  tot= +28.31%  sh=  +145.0
+  ✅ ETH→DOG                                        n= 612  wr= 89.9%  avg=  +4.2bps  tot= +25.64%  sh=  +123.8
+  ✅ SOL→ETH                                        n= 356  wr= 89.9%  avg=  +4.4bps  tot= +15.55%  sh=  +131.7
+  ✅ SOL→SOL (same-symbol)                          n= 363  wr= 92.8%  avg=  +6.1bps  tot= +22.11%  sh=  +207.7
+  ✅ SOL→DOG                                        n= 358  wr= 91.3%  avg=  +5.0bps  tot= +18.03%  sh=  +157.5
+  ✅ DOG→ETH                                        n= 202  wr= 93.1%  avg=  +6.3bps  tot= +12.63%  sh=  +216.5
+  ✅ DOG→SOL                                        n= 203  wr= 95.6%  avg=  +8.0bps  tot= +16.17%  sh=  +340.2
+  ✅ DOG→DOG (same-symbol)                          n= 211  wr= 91.5%  avg=  +5.3bps  tot= +11.28%  sh=  +172.2
+
+  Config: off=0.2 tp=0.2 sl=0.5
+  ✅ ETH→ETH (same-symbol)                          n= 558  wr= 86.9%  avg=  +6.9bps  tot= +38.30%  sh=  +173.0
+  ✅ ETH→SOL                                        n= 550  wr= 84.2%  avg=  +4.6bps  tot= +25.56%  sh=  +106.8
+  ✅ ETH→DOG                                        n= 576  wr= 84.7%  avg=  +5.1bps  tot= +29.27%  sh=  +118.4
+  ✅ SOL→ETH                                        n= 321  wr= 86.9%  avg=  +6.7bps  tot= +21.50%  sh=  +167.5
+  ✅ SOL→SOL (same-symbol)                          n= 326  wr= 89.9%  avg=  +8.6bps  tot= +27.96%  sh=  +235.0
+  ✅ SOL→DOG                                        n= 332  wr= 85.8%  avg=  +5.7bps  tot= +18.89%  sh=  +134.9
+  ✅ DOG→ETH                                        n= 180  wr= 88.3%  avg=  +7.6bps  tot= +13.76%  sh=  +198.8
+  ✅ DOG→SOL                                        n= 181  wr= 92.3%  avg= +10.5bps  tot= +18.95%  sh=  +328.4
+  ✅ DOG→DOG (same-symbol)                          n= 192  wr= 88.5%  avg=  +7.8bps  tot= +14.97%  sh=  +204.2
+
+################################################################################
+  PART 2: WALK-FORWARD OOS (70/30 split)
+################################################################################
+  Split: 2025-06-22 (train=41d, test=18d)
+
+  Config: off=0.15 tp=0.15 sl=0.5
+  ✅ TRAIN ETH→ETH                                  n= 507  wr= 91.9%  avg=  +5.7bps  tot= +28.99%  sh=  +190.2
+  ✅ TEST  ETH→ETH                                  n= 109  wr= 92.7%  avg=  +6.3bps  tot=  +6.85%  sh=  +222.3
+    ✅ OOS+  train=+0.707%/d  test=+0.381%/d
+  ✅ TRAIN ETH→SOL                                  n= 497  wr= 90.1%  avg=  +4.4bps  tot= +21.77%  sh=  +131.7
+  ✅ TEST  ETH→SOL                                  n= 103  wr= 93.2%  avg=  +6.3bps  tot=  +6.54%  sh=  +221.7
+    ✅ OOS+  train=+0.531%/d  test=+0.363%/d
+  ✅ TRAIN ETH→DOG                                  n= 506  wr= 89.5%  avg=  +3.9bps  tot= +19.99%  sh=  +114.8
+  ✅ TEST  ETH→DOG                                  n= 106  wr= 91.5%  avg=  +5.3bps  tot=  +5.65%  sh=  +172.1
+    ✅ OOS+  train=+0.487%/d  test=+0.314%/d
+  ✅ TRAIN SOL→ETH                                  n= 278  wr= 88.5%  avg=  +3.5bps  tot=  +9.79%  sh=  +100.7
+  ✅ TEST  SOL→ETH                                  n=  78  wr= 94.9%  avg=  +7.4bps  tot=  +5.76%  sh=  +294.4
+    ✅ OOS+  train=+0.239%/d  test=+0.320%/d
+  ✅ TRAIN SOL→SOL                                  n= 284  wr= 92.6%  avg=  +5.9bps  tot= +16.84%  sh=  +199.3
+  ✅ TEST  SOL→SOL                                  n=  79  wr= 93.7%  avg=  +6.7bps  tot=  +5.27%  sh=  +240.7
+    ✅ OOS+  train=+0.411%/d  test=+0.293%/d
+  ✅ TRAIN SOL→DOG                                  n= 278  wr= 90.3%  avg=  +4.3bps  tot= +11.97%  sh=  +127.9
+  ✅ TEST  SOL→DOG                                  n=  80  wr= 95.0%  avg=  +7.6bps  tot=  +6.06%  sh=  +305.7
+    ✅ OOS+  train=+0.292%/d  test=+0.337%/d
+  ✅ TRAIN DOG→ETH                                  n= 174  wr= 93.7%  avg=  +6.7bps  tot= +11.61%  sh=  +241.0
+  ✅ TEST  DOG→ETH                                  n=  28  wr= 89.3%  avg=  +3.7bps  tot=  +1.03%  sh=  +104.1
+    ✅ OOS+  train=+0.283%/d  test=+0.057%/d
+  ✅ TRAIN DOG→SOL                                  n= 175  wr= 96.0%  avg=  +8.3bps  tot= +14.46%  sh=  +370.7
+  ✅ TEST  DOG→SOL                                  n=  28  wr= 92.9%  avg=  +6.1bps  tot=  +1.71%  sh=  +208.5
+    ✅ OOS+  train=+0.353%/d  test=+0.095%/d
+  ✅ TRAIN DOG→DOG                                  n= 184  wr= 91.8%  avg=  +5.6bps  tot= +10.37%  sh=  +186.2
+  ✅ TEST  DOG→DOG                                  n=  27  wr= 88.9%  avg=  +3.4bps  tot=  +0.92%  sh=   +94.8
+    ✅ OOS+  train=+0.253%/d  test=+0.051%/d
+
+  Config: off=0.2 tp=0.2 sl=0.5
+  ✅ TRAIN ETH→ETH                                  n= 460  wr= 87.8%  avg=  +7.2bps  tot= +33.33%  sh=  +184.9
+  ✅ TEST  ETH→ETH                                  n=  98  wr= 82.7%  avg=  +5.1bps  tot=  +4.96%  sh=  +121.3
+    ✅ OOS+  train=+0.813%/d  test=+0.276%/d
+  ✅ TRAIN ETH→SOL                                  n= 454  wr= 82.4%  avg=  +3.4bps  tot= +15.35%  sh=   +74.6
+  ✅ TEST  ETH→SOL                                  n=  96  wr= 92.7%  avg= +10.6bps  tot= +10.22%  sh=  +335.4
+    ✅ OOS+  train=+0.374%/d  test=+0.568%/d
+  ✅ TRAIN ETH→DOG                                  n= 480  wr= 84.8%  avg=  +5.1bps  tot= +24.33%  sh=  +117.8
+  ✅ TEST  ETH→DOG                                  n=  96  wr= 84.4%  avg=  +5.1bps  tot=  +4.94%  sh=  +121.2
+    ✅ OOS+  train=+0.593%/d  test=+0.274%/d
+  ✅ TRAIN SOL→ETH                                  n= 252  wr= 84.9%  avg=  +5.4bps  tot= +13.52%  sh=  +126.8
+  ✅ TEST  SOL→ETH                                  n=  69  wr= 94.2%  avg= +11.6bps  tot=  +7.98%  sh=  +405.2
+    ✅ OOS+  train=+0.330%/d  test=+0.443%/d
+  ✅ TRAIN SOL→SOL                                  n= 252  wr= 89.7%  avg=  +8.3bps  tot= +21.04%  sh=  +224.9
+  ✅ TEST  SOL→SOL                                  n=  74  wr= 90.5%  avg=  +9.4bps  tot=  +6.93%  sh=  +272.6
+    ✅ OOS+  train=+0.513%/d  test=+0.385%/d
+  ✅ TRAIN SOL→DOG                                  n= 266  wr= 85.7%  avg=  +5.5bps  tot= +14.53%  sh=  +127.9
+  ✅ TEST  SOL→DOG                                  n=  66  wr= 86.4%  avg=  +6.6bps  tot=  +4.36%  sh=  +164.9
+    ✅ OOS+  train=+0.354%/d  test=+0.242%/d
+  ✅ TRAIN DOG→ETH                                  n= 154  wr= 90.3%  avg=  +9.1bps  tot= +14.01%  sh=  +258.2
+     TEST  DOG→ETH                                  n=  26  wr= 76.9%  avg=  -1.0bps  tot=  -0.25%  sh=   -18.7
+    ❌ OOS-  train=+0.342%/d  test=-0.014%/d
+  ✅ TRAIN DOG→SOL                                  n= 155  wr= 92.3%  avg= +10.5bps  tot= +16.26%  sh=  +330.2
+  ✅ TEST  DOG→SOL                                  n=  26  wr= 92.3%  avg= +10.3bps  tot=  +2.69%  sh=  +318.2
+    ✅ OOS+  train=+0.397%/d  test=+0.149%/d
+  ✅ TRAIN DOG→DOG                                  n= 171  wr= 90.1%  avg=  +8.9bps  tot= +15.28%  sh=  +250.6
+     TEST  DOG→DOG                                  n=  21  wr= 76.2%  avg=  -1.5bps  tot=  -0.31%  sh=   -28.9
+    ❌ OOS-  train=+0.373%/d  test=-0.017%/d
+
+################################################################################
+  PART 3: ROLLING 15-DAY WINDOWS
+################################################################################
+
+  ETH→SOL (off=0.15 tp=0.15 sl=0.50):
+    ✅ 05-12→05-27  n=214  wr= 93.5%  tot=+14.30%
+    ✅ 05-19→06-03  n=168  wr= 91.7%  tot= +9.12%
+    ✅ 05-26→06-10  n=135  wr= 88.9%  tot= +4.69%
+    ✅ 06-02→06-17  n=156  wr= 87.2%  tot= +3.35%
+    ✅ 06-09→06-24  n=208  wr= 88.0%  tot= +5.85%
+    ✅ 06-16→07-01  n=151  wr= 91.4%  tot= +7.90%
+    ✅ 06-23→07-08  n= 85  wr= 91.8%  tot= +4.56%
+    Positive: 7/7 (100%)
+
+  ETH→DOG (off=0.15 tp=0.15 sl=0.50):
+    ✅ 05-12→05-27  n=226  wr= 92.9%  tot=+13.90%
+    ✅ 05-19→06-03  n=173  wr= 93.6%  tot=+11.50%
+    ✅ 05-26→06-10  n=135  wr= 88.9%  tot= +4.58%
+    ✅ 06-02→06-17  n=150  wr= 84.7%  tot= +0.75%
+    ✅ 06-09→06-24  n=205  wr= 86.3%  tot= +4.00%
+    ✅ 06-16→07-01  n=154  wr= 89.0%  tot= +6.08%
+    ✅ 06-23→07-08  n= 86  wr= 89.5%  tot= +3.45%
+    Positive: 7/7 (100%)
+
+  SOL→SOL (off=0.15 tp=0.15 sl=0.50):
+    ✅ 05-12→05-27  n=115  wr= 97.4%  tot=+10.60%
+    ✅ 05-19→06-03  n= 95  wr= 91.6%  tot= +4.97%
+    ✅ 05-26→06-10  n= 80  wr= 87.5%  tot= +1.95%
+    ✅ 06-02→06-17  n= 92  wr= 92.4%  tot= +5.33%
+    ✅ 06-09→06-24  n=125  wr= 92.0%  tot= +6.89%
+    ✅ 06-16→07-01  n=103  wr= 91.3%  tot= +5.15%
+    ✅ 06-23→07-08  n= 63  wr= 93.7%  tot= +4.19%
+    Positive: 7/7 (100%)
+
+  ETH→ETH (off=0.15 tp=0.15 sl=0.50):
+    ✅ 05-12→05-27  n=223  wr= 94.2%  tot=+15.63%
+    ✅ 05-19→06-03  n=172  wr= 94.8%  tot=+13.08%
+    ✅ 05-26→06-10  n=135  wr= 91.9%  tot= +8.21%
+    ✅ 06-02→06-17  n=157  wr= 88.5%  tot= +5.92%
+    ✅ 06-09→06-24  n=210  wr= 89.5%  tot= +8.44%
+    ✅ 06-16→07-01  n=159  wr= 92.5%  tot= +9.61%
+    ✅ 06-23→07-08  n= 89  wr= 92.1%  tot= +5.34%
+    Positive: 7/7 (100%)
+
+################################################################################
+  PART 4: COMBINED SAME + CROSS SYMBOL
+################################################################################
+
+  Target: SOLUSDT
+  ✅ SOL→SOL (same only)                            n= 363  wr= 92.8%  avg=  +6.1bps  tot= +22.11%  sh=  +207.7
+  ✅ ETH→SOL (cross only)                           n= 600  wr= 90.7%  avg=  +4.7bps  tot= +28.31%  sh=  +145.0
+  ✅ ETH+SOL→SOL (combined)                         n= 765  wr= 91.0%  avg=  +4.9bps  tot= +37.55%  sh=  +152.7
+
+  Target: DOGEUSDT
+  ✅ DOG→DOG (same only)                            n= 211  wr= 91.5%  avg=  +5.3bps  tot= +11.28%  sh=  +172.2
+  ✅ ETH→DOG (cross only)                           n= 612  wr= 89.9%  avg=  +4.2bps  tot= +25.64%  sh=  +123.8
+  ✅ ETH+DOG→DOG (combined)                         n= 688  wr= 90.6%  avg=  +4.7bps  tot= +32.35%  sh=  +144.1
+
+################################################################################
+  COMPLETE — 396s (6.6min) [RAM=0.4GB, avail=6.9GB]
+################################################################################
