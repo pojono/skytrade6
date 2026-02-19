@@ -1,0 +1,451 @@
+================================================================================
+  v42bb: HURST PROXY + PRICE ACCEL + RETURN IQR + HL POSITION
+  2026-02-19 14:46:20  [RAM=0.1GB, avail=6.8GB]
+================================================================================
+  Loading ETHUSDT... [10/88 43s] [20/88 72s] [30/88 96s] [40/88 127s] [50/88 152s] [60/88 172s] [70/88 207s] [80/88 241s] [88/88 266s] 126,720 bars (266s) [RAM=0.5GB, avail=6.7GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP NNNN5: HURST EXPONENT PROXY ---
+
+  Hurst(30) <10th pct (MR fade):
+  ✅ TRAIN                                                    n=6964  wr= 59.0%  avg=  +3.5bps  tot=+243.48%  sh=  +155.3
+  ✅ TEST                                                     n=3343  wr= 59.6%  avg=  +3.1bps  tot=+102.15%  sh=  +195.1
+    ✅ test=+3.648%/d
+
+  Hurst(30) <20th pct (MR fade):
+  ✅ TRAIN                                                    n=12468  wr= 57.7%  avg=  +3.0bps  tot=+374.40%  sh=  +150.9
+  ✅ TEST                                                     n=6056  wr= 59.9%  avg=  +2.9bps  tot=+177.86%  sh=  +192.1
+    ✅ test=+6.352%/d
+
+  Hurst(60) <10th pct (MR fade):
+  ✅ TRAIN                                                    n=8432  wr= 57.0%  avg=  +3.1bps  tot=+264.39%  sh=  +142.5
+  ✅ TEST                                                     n=4174  wr= 60.2%  avg=  +3.0bps  tot=+125.80%  sh=  +197.5
+    ✅ test=+4.493%/d
+
+  Hurst(60) <20th pct (MR fade):
+  ✅ TRAIN                                                    n=14076  wr= 56.2%  avg=  +2.8bps  tot=+389.20%  sh=  +140.7
+  ✅ TEST                                                     n=6961  wr= 59.4%  avg=  +3.0bps  tot=+207.26%  sh=  +201.9
+    ✅ test=+7.402%/d
+
+  --- EXP OOOO5: PRICE ACCELERATION ---
+
+  Accel(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3311  wr= 63.5%  avg=  +4.8bps  tot=+157.98%  sh=  +247.4
+  ✅ TEST                                                     n=1666  wr= 65.9%  avg=  +4.0bps  tot= +67.15%  sh=  +229.5
+    ✅ test=+2.398%/d
+
+  Accel(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6085  wr= 61.3%  avg=  +4.1bps  tot=+246.94%  sh=  +225.3
+  ✅ TEST                                                     n=3017  wr= 65.7%  avg=  +3.9bps  tot=+116.33%  sh=  +234.8
+    ✅ test=+4.155%/d
+
+  Accel(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3701  wr= 64.2%  avg=  +4.5bps  tot=+166.66%  sh=  +263.6
+  ✅ TEST                                                     n=1934  wr= 65.8%  avg=  +3.8bps  tot= +74.14%  sh=  +252.7
+    ✅ test=+2.648%/d
+
+  Accel(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6380  wr= 63.0%  avg=  +4.0bps  tot=+255.77%  sh=  +247.2
+  ✅ TEST                                                     n=3351  wr= 64.7%  avg=  +3.5bps  tot=+118.78%  sh=  +248.0
+    ✅ test=+4.242%/d
+
+  --- EXP PPPP5: RETURN IQR ---
+
+  IQR(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=9060  wr= 65.6%  avg=  +5.1bps  tot=+465.29%  sh=  +250.5
+  ✅ TEST                                                     n=4302  wr= 70.0%  avg=  +4.7bps  tot=+202.71%  sh=  +296.2
+    ✅ test=+7.240%/d
+
+  IQR(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6220  wr= 67.4%  avg=  +5.9bps  tot=+364.18%  sh=  +268.8
+  ✅ TEST                                                     n=2953  wr= 71.4%  avg=  +4.9bps  tot=+143.38%  sh=  +303.3
+    ✅ test=+5.121%/d
+
+  IQR(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=11670  wr= 65.6%  avg=  +4.9bps  tot=+568.03%  sh=  +262.0
+  ✅ TEST                                                     n=5558  wr= 71.4%  avg=  +4.9bps  tot=+271.92%  sh=  +333.0
+    ✅ test=+9.711%/d
+
+  IQR(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8691  wr= 67.7%  avg=  +5.3bps  tot=+462.91%  sh=  +280.3
+  ✅ TEST                                                     n=4043  wr= 71.8%  avg=  +5.0bps  tot=+200.56%  sh=  +335.0
+    ✅ test=+7.163%/d
+
+  --- EXP QQQQ5: HIGH-LOW POSITION ---
+
+  HL pos(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=2636  wr= 65.7%  avg=  +3.7bps  tot= +96.34%  sh=  +265.2
+  ✅ TEST                                                     n=1585  wr= 65.2%  avg=  +3.6bps  tot= +56.85%  sh=  +260.3
+    ✅ test=+2.030%/d
+
+  HL pos(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=5516  wr= 65.4%  avg=  +3.9bps  tot=+215.13%  sh=  +266.7
+  ✅ TEST                                                     n=3165  wr= 64.7%  avg=  +3.6bps  tot=+112.53%  sh=  +255.0
+    ✅ test=+4.019%/d
+
+  HL pos(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=2109  wr= 71.1%  avg=  +5.1bps  tot=+107.82%  sh=  +349.0
+  ✅ TEST                                                     n=1393  wr= 68.7%  avg=  +4.0bps  tot= +56.15%  sh=  +287.1
+    ✅ test=+2.005%/d
+
+  HL pos(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=4823  wr= 69.2%  avg=  +4.9bps  tot=+236.38%  sh=  +312.9
+  ✅ TEST                                                     n=3009  wr= 66.4%  avg=  +3.7bps  tot=+110.13%  sh=  +249.6
+    ✅ test=+3.933%/d
+  Loading SOLUSDT... [10/88 20s] [20/88 35s] [30/88 47s] [40/88 61s] [50/88 73s] [60/88 84s] [70/88 99s] [80/88 118s] [88/88 129s] 126,720 bars (129s) [RAM=0.4GB, avail=7.0GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP NNNN5: HURST EXPONENT PROXY ---
+
+  Hurst(30) <10th pct (MR fade):
+  ✅ TRAIN                                                    n=7478  wr= 62.3%  avg=  +3.5bps  tot=+263.95%  sh=  +197.4
+  ✅ TEST                                                     n=3581  wr= 63.3%  avg=  +3.5bps  tot=+123.64%  sh=  +218.9
+    ✅ test=+4.416%/d
+
+  Hurst(30) <20th pct (MR fade):
+  ✅ TRAIN                                                    n=13295  wr= 61.2%  avg=  +3.3bps  tot=+442.14%  sh=  +194.5
+  ✅ TEST                                                     n=6453  wr= 63.0%  avg=  +3.4bps  tot=+220.36%  sh=  +217.1
+    ✅ test=+7.870%/d
+
+  Hurst(60) <10th pct (MR fade):
+  ✅ TRAIN                                                    n=9193  wr= 61.3%  avg=  +3.2bps  tot=+294.65%  sh=  +185.7
+  ✅ TEST                                                     n=4356  wr= 64.5%  avg=  +3.7bps  tot=+160.32%  sh=  +251.6
+    ✅ test=+5.726%/d
+
+  Hurst(60) <20th pct (MR fade):
+  ✅ TRAIN                                                    n=14937  wr= 60.8%  avg=  +3.0bps  tot=+448.19%  sh=  +183.1
+  ✅ TEST                                                     n=7210  wr= 63.6%  avg=  +3.5bps  tot=+249.77%  sh=  +231.1
+    ✅ test=+8.920%/d
+
+  --- EXP OOOO5: PRICE ACCELERATION ---
+
+  Accel(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3454  wr= 66.6%  avg=  +4.6bps  tot=+160.03%  sh=  +252.0
+  ✅ TEST                                                     n=1660  wr= 67.8%  avg=  +4.3bps  tot= +72.04%  sh=  +321.7
+    ✅ test=+2.573%/d
+
+  Accel(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6381  wr= 64.0%  avg=  +3.9bps  tot=+251.52%  sh=  +232.1
+  ✅ TEST                                                     n=3073  wr= 66.0%  avg=  +4.1bps  tot=+125.04%  sh=  +289.5
+    ✅ test=+4.466%/d
+
+  Accel(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3916  wr= 67.4%  avg=  +4.6bps  tot=+178.68%  sh=  +268.8
+  ✅ TEST                                                     n=1897  wr= 65.6%  avg=  +4.1bps  tot= +78.51%  sh=  +293.5
+    ✅ test=+2.804%/d
+
+  Accel(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6874  wr= 65.0%  avg=  +3.8bps  tot=+262.55%  sh=  +236.0
+  ✅ TEST                                                     n=3294  wr= 65.3%  avg=  +4.0bps  tot=+131.96%  sh=  +286.8
+    ✅ test=+4.713%/d
+
+  --- EXP PPPP5: RETURN IQR ---
+
+  IQR(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=9603  wr= 70.2%  avg=  +5.4bps  tot=+522.07%  sh=  +310.4
+  ✅ TEST                                                     n=4669  wr= 71.6%  avg=  +5.7bps  tot=+265.56%  sh=  +346.5
+    ✅ test=+9.484%/d
+
+  IQR(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6563  wr= 71.5%  avg=  +6.0bps  tot=+392.54%  sh=  +324.3
+  ✅ TEST                                                     n=3269  wr= 73.6%  avg=  +5.9bps  tot=+193.62%  sh=  +362.3
+    ✅ test=+6.915%/d
+
+  IQR(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=12140  wr= 70.5%  avg=  +5.1bps  tot=+625.21%  sh=  +303.7
+  ✅ TEST                                                     n=5832  wr= 73.3%  avg=  +5.6bps  tot=+327.93%  sh=  +358.4
+    ✅ test=+11.712%/d
+
+  IQR(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8891  wr= 72.1%  avg=  +5.6bps  tot=+500.32%  sh=  +319.2
+  ✅ TEST                                                     n=4198  wr= 74.8%  avg=  +5.9bps  tot=+248.46%  sh=  +387.5
+    ✅ test=+8.873%/d
+
+  --- EXP QQQQ5: HIGH-LOW POSITION ---
+
+  HL pos(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3473  wr= 65.0%  avg=  +3.4bps  tot=+118.90%  sh=  +262.0
+  ✅ TEST                                                     n=2255  wr= 60.3%  avg=  +3.0bps  tot= +68.29%  sh=  +207.9
+    ✅ test=+2.439%/d
+
+  HL pos(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6935  wr= 64.3%  avg=  +3.5bps  tot=+240.37%  sh=  +246.8
+  ✅ TEST                                                     n=4156  wr= 58.8%  avg=  +2.6bps  tot=+109.71%  sh=  +178.2
+    ✅ test=+3.918%/d
+
+  HL pos(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3153  wr= 67.5%  avg=  +3.7bps  tot=+117.72%  sh=  +281.5
+  ✅ TEST                                                     n=2093  wr= 61.7%  avg=  +3.0bps  tot= +63.23%  sh=  +188.7
+    ✅ test=+2.258%/d
+
+  HL pos(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6549  wr= 66.0%  avg=  +3.6bps  tot=+238.66%  sh=  +259.9
+  ✅ TEST                                                     n=3940  wr= 61.0%  avg=  +2.9bps  tot=+113.11%  sh=  +188.2
+    ✅ test=+4.040%/d
+  Loading DOGEUSDT... [10/88 25s] [20/88 41s] [30/88 52s] [40/88 63s] [50/88 73s] [60/88 83s] [70/88 114s] [80/88 139s] [88/88 150s] 126,720 bars (150s) [RAM=0.4GB, avail=7.1GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP NNNN5: HURST EXPONENT PROXY ---
+
+  Hurst(30) <10th pct (MR fade):
+  ✅ TRAIN                                                    n=7608  wr= 65.7%  avg=  +4.7bps  tot=+356.33%  sh=  +238.6
+  ✅ TEST                                                     n=3903  wr= 80.9%  avg=  +8.1bps  tot=+316.58%  sh=  +422.8
+    ✅ test=+11.306%/d
+
+  Hurst(30) <20th pct (MR fade):
+  ✅ TRAIN                                                    n=13463  wr= 64.9%  avg=  +4.3bps  tot=+581.00%  sh=  +223.9
+  ✅ TEST                                                     n=7007  wr= 80.6%  avg=  +8.1bps  tot=+567.86%  sh=  +420.3
+    ✅ test=+20.281%/d
+
+  Hurst(60) <10th pct (MR fade):
+  ✅ TRAIN                                                    n=9354  wr= 64.8%  avg=  +4.3bps  tot=+401.51%  sh=  +224.5
+  ✅ TEST                                                     n=4659  wr= 81.2%  avg=  +8.4bps  tot=+393.41%  sh=  +419.3
+    ✅ test=+14.050%/d
+
+  Hurst(60) <20th pct (MR fade):
+  ✅ TRAIN                                                    n=15434  wr= 64.4%  avg=  +4.1bps  tot=+637.17%  sh=  +220.7
+  ✅ TEST                                                     n=7774  wr= 80.9%  avg=  +8.3bps  tot=+648.74%  sh=  +422.0
+    ✅ test=+23.169%/d
+
+  --- EXP OOOO5: PRICE ACCELERATION ---
+
+  Accel(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3558  wr= 69.5%  avg=  +5.5bps  tot=+195.68%  sh=  +247.4
+  ✅ TEST                                                     n=1803  wr= 82.8%  avg=  +9.0bps  tot=+162.28%  sh=  +434.3
+    ✅ test=+5.796%/d
+
+  Accel(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6647  wr= 67.8%  avg=  +4.8bps  tot=+322.33%  sh=  +238.2
+  ✅ TEST                                                     n=3431  wr= 82.3%  avg=  +8.5bps  tot=+290.62%  sh=  +439.7
+    ✅ test=+10.379%/d
+
+  Accel(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4148  wr= 68.5%  avg=  +5.4bps  tot=+224.54%  sh=  +273.7
+  ✅ TEST                                                     n=2140  wr= 83.2%  avg=  +8.5bps  tot=+182.40%  sh=  +438.7
+    ✅ test=+6.514%/d
+
+  Accel(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7103  wr= 67.3%  avg=  +4.8bps  tot=+344.01%  sh=  +255.5
+  ✅ TEST                                                     n=3689  wr= 82.3%  avg=  +8.1bps  tot=+299.03%  sh=  +430.7
+    ✅ test=+10.680%/d
+
+  --- EXP PPPP5: RETURN IQR ---
+
+  IQR(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=9641  wr= 71.8%  avg=  +6.7bps  tot=+643.48%  sh=  +309.6
+  ✅ TEST                                                     n=5025  wr= 85.7%  avg= +11.1bps  tot=+555.55%  sh=  +511.7
+    ✅ test=+19.841%/d
+
+  IQR(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6623  wr= 73.3%  avg=  +7.2bps  tot=+479.51%  sh=  +321.5
+  ✅ TEST                                                     n=3381  wr= 86.0%  avg= +11.3bps  tot=+383.39%  sh=  +518.1
+    ✅ test=+13.693%/d
+
+  IQR(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=12466  wr= 72.2%  avg=  +6.4bps  tot=+799.24%  sh=  +306.4
+  ✅ TEST                                                     n=6413  wr= 85.6%  avg= +11.0bps  tot=+703.70%  sh=  +509.8
+    ✅ test=+25.132%/d
+
+  IQR(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=9207  wr= 74.2%  avg=  +7.0bps  tot=+643.50%  sh=  +321.5
+  ✅ TEST                                                     n=4601  wr= 86.4%  avg= +11.2bps  tot=+513.86%  sh=  +523.3
+    ✅ test=+18.352%/d
+
+  --- EXP QQQQ5: HIGH-LOW POSITION ---
+
+  HL pos(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3604  wr= 67.5%  avg=  +4.2bps  tot=+152.41%  sh=  +260.1
+  ✅ TEST                                                     n=2224  wr= 81.6%  avg=  +7.5bps  tot=+165.78%  sh=  +440.2
+    ✅ test=+5.921%/d
+
+  HL pos(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7036  wr= 67.1%  avg=  +4.4bps  tot=+311.91%  sh=  +259.7
+  ✅ TEST                                                     n=4137  wr= 80.9%  avg=  +7.7bps  tot=+319.50%  sh=  +431.2
+    ✅ test=+11.411%/d
+
+  HL pos(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3053  wr= 70.0%  avg=  +5.1bps  tot=+156.44%  sh=  +283.3
+  ✅ TEST                                                     n=1922  wr= 82.2%  avg=  +7.7bps  tot=+147.94%  sh=  +451.4
+    ✅ test=+5.284%/d
+
+  HL pos(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6266  wr= 70.0%  avg=  +5.1bps  tot=+318.82%  sh=  +288.8
+  ✅ TEST                                                     n=3697  wr= 81.9%  avg=  +7.9bps  tot=+291.89%  sh=  +421.1
+    ✅ test=+10.425%/d
+  Loading XRPUSDT... [10/88 19s] [20/88 29s] [30/88 38s] [40/88 50s] [50/88 60s] [60/88 70s] [70/88 104s] [80/88 125s] [88/88 138s] 126,720 bars (138s) [RAM=0.4GB, avail=7.0GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP NNNN5: HURST EXPONENT PROXY ---
+
+  Hurst(30) <10th pct (MR fade):
+  ✅ TRAIN                                                    n=6669  wr= 50.4%  avg=  +1.8bps  tot=+119.07%  sh=   +98.4
+  ✅ TEST                                                     n=3790  wr= 72.5%  avg=  +6.0bps  tot=+227.38%  sh=  +329.9
+    ✅ test=+8.121%/d
+
+  Hurst(30) <20th pct (MR fade):
+  ✅ TRAIN                                                    n=11960  wr= 50.7%  avg=  +1.7bps  tot=+201.16%  sh=  +100.0
+  ✅ TEST                                                     n=6749  wr= 71.1%  avg=  +5.8bps  tot=+392.85%  sh=  +326.3
+    ✅ test=+14.030%/d
+
+  Hurst(60) <10th pct (MR fade):
+  ✅ TRAIN                                                    n=8514  wr= 50.8%  avg=  +1.8bps  tot=+154.11%  sh=  +107.0
+  ✅ TEST                                                     n=4346  wr= 71.9%  avg=  +5.8bps  tot=+253.98%  sh=  +313.2
+    ✅ test=+9.071%/d
+
+  Hurst(60) <20th pct (MR fade):
+  ✅ TRAIN                                                    n=13745  wr= 50.5%  avg=  +1.6bps  tot=+223.02%  sh=   +99.3
+  ✅ TEST                                                     n=7312  wr= 72.3%  avg=  +5.9bps  tot=+432.29%  sh=  +327.9
+    ✅ test=+15.439%/d
+
+  --- EXP OOOO5: PRICE ACCELERATION ---
+
+  Accel(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3235  wr= 54.6%  avg=  +2.9bps  tot= +92.37%  sh=  +156.1
+  ✅ TEST                                                     n=1745  wr= 75.3%  avg=  +7.1bps  tot=+123.22%  sh=  +322.5
+    ✅ test=+4.401%/d
+
+  Accel(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=5846  wr= 52.6%  avg=  +2.2bps  tot=+130.50%  sh=  +131.0
+  ✅ TEST                                                     n=3278  wr= 74.8%  avg=  +6.5bps  tot=+213.15%  sh=  +328.9
+    ✅ test=+7.612%/d
+
+  Accel(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3627  wr= 53.8%  avg=  +2.5bps  tot= +91.94%  sh=  +141.8
+  ✅ TEST                                                     n=2151  wr= 76.3%  avg=  +7.0bps  tot=+151.24%  sh=  +334.2
+    ✅ test=+5.401%/d
+
+  Accel(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6108  wr= 53.1%  avg=  +2.3bps  tot=+138.59%  sh=  +135.3
+  ✅ TEST                                                     n=3544  wr= 75.3%  avg=  +6.5bps  tot=+229.92%  sh=  +328.6
+    ✅ test=+8.211%/d
+
+  --- EXP PPPP5: RETURN IQR ---
+
+  IQR(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8937  wr= 58.9%  avg=  +3.5bps  tot=+310.67%  sh=  +177.2
+  ✅ TEST                                                     n=4870  wr= 80.1%  avg=  +8.8bps  tot=+429.91%  sh=  +407.4
+    ✅ test=+15.354%/d
+
+  IQR(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6039  wr= 61.1%  avg=  +4.2bps  tot=+255.15%  sh=  +210.0
+  ✅ TEST                                                     n=3287  wr= 81.2%  avg=  +9.2bps  tot=+302.50%  sh=  +418.1
+    ✅ test=+10.804%/d
+
+  IQR(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=11432  wr= 59.4%  avg=  +3.4bps  tot=+391.29%  sh=  +190.5
+  ✅ TEST                                                     n=6443  wr= 80.4%  avg=  +8.8bps  tot=+566.67%  sh=  +389.2
+    ✅ test=+20.238%/d
+
+  IQR(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8360  wr= 61.7%  avg=  +3.9bps  tot=+325.38%  sh=  +214.9
+  ✅ TEST                                                     n=4644  wr= 81.6%  avg=  +9.3bps  tot=+431.54%  sh=  +406.8
+    ✅ test=+15.412%/d
+
+  --- EXP QQQQ5: HIGH-LOW POSITION ---
+
+  HL pos(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3534  wr= 53.4%  avg=  +2.0bps  tot= +70.95%  sh=  +148.1
+  ✅ TEST                                                     n=2351  wr= 70.1%  avg=  +5.5bps  tot=+128.13%  sh=  +268.1
+    ✅ test=+4.576%/d
+
+  HL pos(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6662  wr= 52.0%  avg=  +1.7bps  tot=+113.39%  sh=  +120.7
+  ✅ TEST                                                     n=4218  wr= 70.6%  avg=  +5.5bps  tot=+231.31%  sh=  +277.6
+    ✅ test=+8.261%/d
+
+  HL pos(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3089  wr= 56.5%  avg=  +2.4bps  tot= +75.38%  sh=  +170.2
+  ✅ TEST                                                     n=2114  wr= 71.0%  avg=  +5.8bps  tot=+123.05%  sh=  +275.4
+    ✅ test=+4.395%/d
+
+  HL pos(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6169  wr= 54.9%  avg=  +2.2bps  tot=+133.06%  sh=  +150.8
+  ✅ TEST                                                     n=3936  wr= 71.0%  avg=  +5.9bps  tot=+232.94%  sh=  +294.4
+    ✅ test=+8.319%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    accel_10_0.05          1803   82.8%    +9.0bp   +162.3%     +434
+  ✅ DOGEUSDT    accel_10_0.1           3431   82.3%    +8.5bp   +290.6%     +440
+  ✅ DOGEUSDT    accel_20_0.05          2140   83.2%    +8.5bp   +182.4%     +439
+  ✅ DOGEUSDT    accel_20_0.1           3689   82.3%    +8.1bp   +299.0%     +431
+  ✅ DOGEUSDT    hlpos_30_0.05          2224   81.6%    +7.5bp   +165.8%     +440
+  ✅ DOGEUSDT    hlpos_30_0.1           4137   80.9%    +7.7bp   +319.5%     +431
+  ✅ DOGEUSDT    hlpos_60_0.05          1922   82.2%    +7.7bp   +147.9%     +451
+  ✅ DOGEUSDT    hlpos_60_0.1           3697   81.9%    +7.9bp   +291.9%     +421
+  ✅ DOGEUSDT    hurst_30_0.1           3903   80.9%    +8.1bp   +316.6%     +423
+  ✅ DOGEUSDT    hurst_30_0.2           7007   80.6%    +8.1bp   +567.9%     +420
+  ✅ DOGEUSDT    hurst_60_0.1           4659   81.2%    +8.4bp   +393.4%     +419
+  ✅ DOGEUSDT    hurst_60_0.2           7774   80.9%    +8.3bp   +648.7%     +422
+  ✅ DOGEUSDT    iqr_30_0.9             5025   85.7%   +11.1bp   +555.6%     +512
+  ✅ DOGEUSDT    iqr_30_0.95            3381   86.0%   +11.3bp   +383.4%     +518
+  ✅ DOGEUSDT    iqr_60_0.9             6413   85.6%   +11.0bp   +703.7%     +510
+  ✅ DOGEUSDT    iqr_60_0.95            4601   86.4%   +11.2bp   +513.9%     +523
+  ✅ ETHUSDT     accel_10_0.05          1666   65.9%    +4.0bp    +67.2%     +230
+  ✅ ETHUSDT     accel_10_0.1           3017   65.7%    +3.9bp   +116.3%     +235
+  ✅ ETHUSDT     accel_20_0.05          1934   65.8%    +3.8bp    +74.1%     +253
+  ✅ ETHUSDT     accel_20_0.1           3351   64.7%    +3.5bp   +118.8%     +248
+  ✅ ETHUSDT     hlpos_30_0.05          1585   65.2%    +3.6bp    +56.8%     +260
+  ✅ ETHUSDT     hlpos_30_0.1           3165   64.7%    +3.6bp   +112.5%     +255
+  ✅ ETHUSDT     hlpos_60_0.05          1393   68.7%    +4.0bp    +56.2%     +287
+  ✅ ETHUSDT     hlpos_60_0.1           3009   66.4%    +3.7bp   +110.1%     +250
+  ✅ ETHUSDT     hurst_30_0.1           3343   59.6%    +3.1bp   +102.1%     +195
+  ✅ ETHUSDT     hurst_30_0.2           6056   59.9%    +2.9bp   +177.9%     +192
+  ✅ ETHUSDT     hurst_60_0.1           4174   60.2%    +3.0bp   +125.8%     +197
+  ✅ ETHUSDT     hurst_60_0.2           6961   59.4%    +3.0bp   +207.3%     +202
+  ✅ ETHUSDT     iqr_30_0.9             4302   70.0%    +4.7bp   +202.7%     +296
+  ✅ ETHUSDT     iqr_30_0.95            2953   71.4%    +4.9bp   +143.4%     +303
+  ✅ ETHUSDT     iqr_60_0.9             5558   71.4%    +4.9bp   +271.9%     +333
+  ✅ ETHUSDT     iqr_60_0.95            4043   71.8%    +5.0bp   +200.6%     +335
+  ✅ SOLUSDT     accel_10_0.05          1660   67.8%    +4.3bp    +72.0%     +322
+  ✅ SOLUSDT     accel_10_0.1           3073   66.0%    +4.1bp   +125.0%     +289
+  ✅ SOLUSDT     accel_20_0.05          1897   65.6%    +4.1bp    +78.5%     +293
+  ✅ SOLUSDT     accel_20_0.1           3294   65.3%    +4.0bp   +132.0%     +287
+  ✅ SOLUSDT     hlpos_30_0.05          2255   60.3%    +3.0bp    +68.3%     +208
+  ✅ SOLUSDT     hlpos_30_0.1           4156   58.8%    +2.6bp   +109.7%     +178
+  ✅ SOLUSDT     hlpos_60_0.05          2093   61.7%    +3.0bp    +63.2%     +189
+  ✅ SOLUSDT     hlpos_60_0.1           3940   61.0%    +2.9bp   +113.1%     +188
+  ✅ SOLUSDT     hurst_30_0.1           3581   63.3%    +3.5bp   +123.6%     +219
+  ✅ SOLUSDT     hurst_30_0.2           6453   63.0%    +3.4bp   +220.4%     +217
+  ✅ SOLUSDT     hurst_60_0.1           4356   64.5%    +3.7bp   +160.3%     +252
+  ✅ SOLUSDT     hurst_60_0.2           7210   63.6%    +3.5bp   +249.8%     +231
+  ✅ SOLUSDT     iqr_30_0.9             4669   71.6%    +5.7bp   +265.6%     +346
+  ✅ SOLUSDT     iqr_30_0.95            3269   73.6%    +5.9bp   +193.6%     +362
+  ✅ SOLUSDT     iqr_60_0.9             5832   73.3%    +5.6bp   +327.9%     +358
+  ✅ SOLUSDT     iqr_60_0.95            4198   74.8%    +5.9bp   +248.5%     +387
+  ✅ XRPUSDT     accel_10_0.05          1745   75.3%    +7.1bp   +123.2%     +322
+  ✅ XRPUSDT     accel_10_0.1           3278   74.8%    +6.5bp   +213.1%     +329
+  ✅ XRPUSDT     accel_20_0.05          2151   76.3%    +7.0bp   +151.2%     +334
+  ✅ XRPUSDT     accel_20_0.1           3544   75.3%    +6.5bp   +229.9%     +329
+  ✅ XRPUSDT     hlpos_30_0.05          2351   70.1%    +5.5bp   +128.1%     +268
+  ✅ XRPUSDT     hlpos_30_0.1           4218   70.6%    +5.5bp   +231.3%     +278
+  ✅ XRPUSDT     hlpos_60_0.05          2114   71.0%    +5.8bp   +123.0%     +275
+  ✅ XRPUSDT     hlpos_60_0.1           3936   71.0%    +5.9bp   +232.9%     +294
+  ✅ XRPUSDT     hurst_30_0.1           3790   72.5%    +6.0bp   +227.4%     +330
+  ✅ XRPUSDT     hurst_30_0.2           6749   71.1%    +5.8bp   +392.9%     +326
+  ✅ XRPUSDT     hurst_60_0.1           4346   71.9%    +5.8bp   +254.0%     +313
+  ✅ XRPUSDT     hurst_60_0.2           7312   72.3%    +5.9bp   +432.3%     +328
+  ✅ XRPUSDT     iqr_30_0.9             4870   80.1%    +8.8bp   +429.9%     +407
+  ✅ XRPUSDT     iqr_30_0.95            3287   81.2%    +9.2bp   +302.5%     +418
+  ✅ XRPUSDT     iqr_60_0.9             6443   80.4%    +8.8bp   +566.7%     +389
+  ✅ XRPUSDT     iqr_60_0.95            4644   81.6%    +9.3bp   +431.5%     +407
+
+################################################################################
+  COMPLETE — 1032s (17.2min) [RAM=0.3GB, avail=7.0GB]
+################################################################################
