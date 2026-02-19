@@ -1,0 +1,451 @@
+================================================================================
+  v42az: KURTOSIS + BB WIDTH + CLOSE-OPEN GAP + TAIL RATIO
+  2026-02-19 14:06:11  [RAM=0.1GB, avail=6.5GB]
+================================================================================
+  Loading ETHUSDT... [10/88 37s] [20/88 62s] [30/88 84s] [40/88 110s] [50/88 132s] [60/88 150s] [70/88 181s] [80/88 210s] [88/88 233s] 126,720 bars (233s) [RAM=0.5GB, avail=6.5GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP FFFF5: ROLLING KURTOSIS ---
+
+  Kurtosis(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7729  wr= 57.4%  avg=  +3.4bps  tot=+263.34%  sh=  +158.8
+  ✅ TEST                                                     n=3711  wr= 63.1%  avg=  +3.6bps  tot=+135.05%  sh=  +228.0
+    ✅ test=+4.823%/d
+
+  Kurtosis(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4847  wr= 58.4%  avg=  +3.9bps  tot=+189.84%  sh=  +167.5
+  ✅ TEST                                                     n=2256  wr= 63.4%  avg=  +3.7bps  tot= +83.55%  sh=  +223.4
+    ✅ test=+2.984%/d
+
+  Kurtosis(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9497  wr= 57.3%  avg=  +3.4bps  tot=+322.45%  sh=  +153.3
+  ✅ TEST                                                     n=4376  wr= 62.7%  avg=  +3.4bps  tot=+148.33%  sh=  +210.4
+    ✅ test=+5.298%/d
+
+  Kurtosis(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=6270  wr= 56.8%  avg=  +3.5bps  tot=+218.31%  sh=  +155.6
+  ✅ TEST                                                     n=2854  wr= 63.6%  avg=  +3.4bps  tot= +97.55%  sh=  +209.6
+    ✅ test=+3.484%/d
+
+  --- EXP GGGG5: BB WIDTH ---
+
+  BB width(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7093  wr= 67.9%  avg=  +6.3bps  tot=+450.22%  sh=  +252.0
+  ✅ TEST                                                     n=3646  wr= 71.9%  avg=  +5.7bps  tot=+206.64%  sh=  +322.2
+    ✅ test=+7.380%/d
+
+  BB width(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4534  wr= 70.6%  avg=  +7.5bps  tot=+338.62%  sh=  +263.7
+  ✅ TEST                                                     n=2367  wr= 73.6%  avg=  +6.4bps  tot=+150.85%  sh=  +347.7
+    ✅ test=+5.387%/d
+
+  BB width(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8601  wr= 66.5%  avg=  +5.8bps  tot=+498.13%  sh=  +238.8
+  ✅ TEST                                                     n=4321  wr= 70.0%  avg=  +5.1bps  tot=+220.80%  sh=  +316.1
+    ✅ test=+7.886%/d
+
+  BB width(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6515  wr= 69.0%  avg=  +6.5bps  tot=+423.38%  sh=  +258.2
+  ✅ TEST                                                     n=3170  wr= 71.4%  avg=  +5.4bps  tot=+170.97%  sh=  +319.1
+    ✅ test=+6.106%/d
+
+  --- EXP HHHH5: CLOSE-OPEN GAP ---
+
+  Gap pressure(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3863  wr= 57.8%  avg=  +3.2bps  tot=+125.23%  sh=  +177.5
+  ✅ TEST                                                     n=1972  wr= 61.3%  avg=  +3.1bps  tot= +61.98%  sh=  +215.1
+    ✅ test=+2.214%/d
+
+  Gap pressure(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6633  wr= 56.8%  avg=  +2.9bps  tot=+191.15%  sh=  +165.1
+  ✅ TEST                                                     n=3266  wr= 61.5%  avg=  +3.1bps  tot=+101.81%  sh=  +205.4
+    ✅ test=+3.636%/d
+
+  Gap pressure(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4597  wr= 56.1%  avg=  +2.7bps  tot=+126.07%  sh=  +154.9
+  ✅ TEST                                                     n=2387  wr= 60.9%  avg=  +3.0bps  tot= +71.01%  sh=  +196.1
+    ✅ test=+2.536%/d
+
+  Gap pressure(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7359  wr= 56.5%  avg=  +2.6bps  tot=+190.12%  sh=  +147.5
+  ✅ TEST                                                     n=3577  wr= 61.2%  avg=  +3.0bps  tot=+107.76%  sh=  +199.9
+    ✅ test=+3.849%/d
+
+  --- EXP IIII5: TAIL RATIO ---
+
+  Tail ratio(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4560  wr= 62.8%  avg=  +3.9bps  tot=+178.69%  sh=  +243.0
+  ✅ TEST                                                     n=2352  wr= 64.4%  avg=  +3.4bps  tot= +80.96%  sh=  +247.4
+    ✅ test=+2.892%/d
+
+  Tail ratio(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7394  wr= 61.7%  avg=  +3.6bps  tot=+263.83%  sh=  +224.1
+  ✅ TEST                                                     n=3876  wr= 63.2%  avg=  +3.2bps  tot=+124.02%  sh=  +233.1
+    ✅ test=+4.429%/d
+
+  Tail ratio(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5812  wr= 61.6%  avg=  +3.6bps  tot=+208.63%  sh=  +210.0
+  ✅ TEST                                                     n=2946  wr= 61.7%  avg=  +3.0bps  tot= +89.69%  sh=  +204.6
+    ✅ test=+3.203%/d
+
+  Tail ratio(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9193  wr= 60.8%  avg=  +3.3bps  tot=+305.94%  sh=  +206.2
+  ✅ TEST                                                     n=4502  wr= 61.0%  avg=  +2.9bps  tot=+130.68%  sh=  +199.0
+    ✅ test=+4.667%/d
+  Loading SOLUSDT... [10/88 16s] [20/88 30s] [30/88 41s] [40/88 54s] [50/88 66s] [60/88 75s] [70/88 89s] [80/88 108s] [88/88 118s] 126,720 bars (118s) [RAM=0.4GB, avail=6.5GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP FFFF5: ROLLING KURTOSIS ---
+
+  Kurtosis(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8196  wr= 61.4%  avg=  +3.5bps  tot=+283.60%  sh=  +195.0
+  ✅ TEST                                                     n=3946  wr= 63.0%  avg=  +3.5bps  tot=+136.42%  sh=  +217.0
+    ✅ test=+4.872%/d
+
+  Kurtosis(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5017  wr= 61.1%  avg=  +3.5bps  tot=+174.87%  sh=  +182.3
+  ✅ TEST                                                     n=2569  wr= 63.2%  avg=  +3.7bps  tot= +95.44%  sh=  +223.0
+    ✅ test=+3.408%/d
+
+  Kurtosis(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9824  wr= 60.8%  avg=  +3.3bps  tot=+319.51%  sh=  +178.7
+  ✅ TEST                                                     n=4770  wr= 63.5%  avg=  +3.6bps  tot=+170.44%  sh=  +240.9
+    ✅ test=+6.087%/d
+
+  Kurtosis(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=6572  wr= 60.0%  avg=  +3.1bps  tot=+206.66%  sh=  +169.0
+  ✅ TEST                                                     n=3257  wr= 63.0%  avg=  +3.5bps  tot=+113.50%  sh=  +223.9
+    ✅ test=+4.053%/d
+
+  --- EXP GGGG5: BB WIDTH ---
+
+  BB width(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7485  wr= 69.4%  avg=  +5.4bps  tot=+404.13%  sh=  +269.4
+  ✅ TEST                                                     n=3764  wr= 73.9%  avg=  +6.4bps  tot=+241.28%  sh=  +382.8
+    ✅ test=+8.617%/d
+
+  BB width(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4659  wr= 70.4%  avg=  +6.0bps  tot=+280.87%  sh=  +270.5
+  ✅ TEST                                                     n=2378  wr= 75.8%  avg=  +6.9bps  tot=+164.18%  sh=  +404.0
+    ✅ test=+5.863%/d
+
+  BB width(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9012  wr= 68.9%  avg=  +5.5bps  tot=+492.77%  sh=  +286.6
+  ✅ TEST                                                     n=4475  wr= 72.6%  avg=  +5.9bps  tot=+265.70%  sh=  +337.8
+    ✅ test=+9.489%/d
+
+  BB width(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6702  wr= 71.1%  avg=  +6.1bps  tot=+409.66%  sh=  +306.6
+  ✅ TEST                                                     n=3316  wr= 74.7%  avg=  +6.3bps  tot=+207.97%  sh=  +366.3
+    ✅ test=+7.427%/d
+
+  --- EXP HHHH5: CLOSE-OPEN GAP ---
+
+  Gap pressure(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4034  wr= 61.8%  avg=  +3.1bps  tot=+126.81%  sh=  +207.1
+  ✅ TEST                                                     n=2023  wr= 61.9%  avg=  +3.1bps  tot= +63.51%  sh=  +230.3
+    ✅ test=+2.268%/d
+
+  Gap pressure(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7094  wr= 61.2%  avg=  +3.0bps  tot=+214.29%  sh=  +199.3
+  ✅ TEST                                                     n=3469  wr= 61.9%  avg=  +3.2bps  tot=+109.44%  sh=  +227.8
+    ✅ test=+3.909%/d
+
+  Gap pressure(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4933  wr= 61.5%  avg=  +3.1bps  tot=+151.20%  sh=  +196.7
+  ✅ TEST                                                     n=2330  wr= 60.9%  avg=  +3.0bps  tot= +69.28%  sh=  +220.1
+    ✅ test=+2.474%/d
+
+  Gap pressure(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7991  wr= 60.5%  avg=  +3.0bps  tot=+240.85%  sh=  +198.9
+  ✅ TEST                                                     n=3850  wr= 61.7%  avg=  +3.0bps  tot=+115.91%  sh=  +225.6
+    ✅ test=+4.140%/d
+
+  --- EXP IIII5: TAIL RATIO ---
+
+  Tail ratio(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5226  wr= 62.5%  avg=  +3.3bps  tot=+174.29%  sh=  +222.2
+  ✅ TEST                                                     n=2421  wr= 64.0%  avg=  +3.1bps  tot= +74.62%  sh=  +192.0
+    ✅ test=+2.665%/d
+
+  Tail ratio(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8368  wr= 62.4%  avg=  +3.3bps  tot=+279.02%  sh=  +228.1
+  ✅ TEST                                                     n=3893  wr= 63.1%  avg=  +3.0bps  tot=+117.91%  sh=  +196.7
+    ✅ test=+4.211%/d
+
+  Tail ratio(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6728  wr= 62.8%  avg=  +3.4bps  tot=+226.01%  sh=  +224.6
+  ✅ TEST                                                     n=3173  wr= 62.9%  avg=  +3.3bps  tot=+104.30%  sh=  +209.6
+    ✅ test=+3.725%/d
+
+  Tail ratio(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=10422  wr= 62.4%  avg=  +3.2bps  tot=+329.68%  sh=  +217.6
+  ✅ TEST                                                     n=4839  wr= 63.2%  avg=  +3.2bps  tot=+156.58%  sh=  +212.0
+    ✅ test=+5.592%/d
+  Loading DOGEUSDT... [10/88 23s] [20/88 38s] [30/88 49s] [40/88 59s] [50/88 68s] [60/88 77s] [70/88 107s] [80/88 132s] [88/88 142s] 126,720 bars (142s) [RAM=0.4GB, avail=6.6GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP FFFF5: ROLLING KURTOSIS ---
+
+  Kurtosis(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8329  wr= 64.1%  avg=  +4.6bps  tot=+379.47%  sh=  +200.6
+  ✅ TEST                                                     n=4359  wr= 79.3%  avg=  +8.2bps  tot=+359.12%  sh=  +389.5
+    ✅ test=+12.826%/d
+
+  Kurtosis(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5202  wr= 64.1%  avg=  +4.9bps  tot=+252.34%  sh=  +200.5
+  ✅ TEST                                                     n=2749  wr= 77.2%  avg=  +8.0bps  tot=+219.31%  sh=  +364.6
+    ✅ test=+7.833%/d
+
+  Kurtosis(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=10173  wr= 63.1%  avg=  +4.3bps  tot=+439.22%  sh=  +198.4
+  ✅ TEST                                                     n=5146  wr= 80.0%  avg=  +8.4bps  tot=+432.58%  sh=  +386.2
+    ✅ test=+15.449%/d
+
+  Kurtosis(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=6649  wr= 63.5%  avg=  +4.6bps  tot=+303.26%  sh=  +196.0
+  ✅ TEST                                                     n=3502  wr= 79.8%  avg=  +8.5bps  tot=+297.40%  sh=  +377.5
+    ✅ test=+10.621%/d
+
+  --- EXP GGGG5: BB WIDTH ---
+
+  BB width(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7797  wr= 72.2%  avg=  +7.1bps  tot=+551.26%  sh=  +299.3
+  ✅ TEST                                                     n=4105  wr= 86.9%  avg= +12.1bps  tot=+497.89%  sh=  +521.6
+    ✅ test=+17.782%/d
+
+  BB width(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4899  wr= 74.1%  avg=  +7.9bps  tot=+388.12%  sh=  +310.6
+  ✅ TEST                                                     n=2618  wr= 87.5%  avg= +12.5bps  tot=+327.23%  sh=  +543.6
+    ✅ test=+11.687%/d
+
+  BB width(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9166  wr= 71.9%  avg=  +6.9bps  tot=+633.38%  sh=  +295.8
+  ✅ TEST                                                     n=4791  wr= 86.2%  avg= +11.3bps  tot=+540.31%  sh=  +518.6
+    ✅ test=+19.297%/d
+
+  BB width(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6846  wr= 73.5%  avg=  +7.6bps  tot=+521.48%  sh=  +310.9
+  ✅ TEST                                                     n=3540  wr= 86.9%  avg= +12.0bps  tot=+423.28%  sh=  +540.7
+    ✅ test=+15.117%/d
+
+  --- EXP HHHH5: CLOSE-OPEN GAP ---
+
+  Gap pressure(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4015  wr= 67.0%  avg=  +4.2bps  tot=+167.39%  sh=  +243.3
+  ✅ TEST                                                     n=2268  wr= 81.9%  avg=  +8.0bps  tot=+181.09%  sh=  +458.1
+    ✅ test=+6.467%/d
+
+  Gap pressure(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7164  wr= 66.6%  avg=  +4.2bps  tot=+300.10%  sh=  +245.7
+  ✅ TEST                                                     n=3960  wr= 81.8%  avg=  +7.9bps  tot=+312.28%  sh=  +450.9
+    ✅ test=+11.153%/d
+
+  Gap pressure(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4918  wr= 67.3%  avg=  +4.2bps  tot=+205.69%  sh=  +257.0
+  ✅ TEST                                                     n=2819  wr= 82.2%  avg=  +7.8bps  tot=+218.82%  sh=  +440.1
+    ✅ test=+7.815%/d
+
+  Gap pressure(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8033  wr= 67.1%  avg=  +4.2bps  tot=+336.21%  sh=  +258.3
+  ✅ TEST                                                     n=4372  wr= 81.8%  avg=  +7.5bps  tot=+330.05%  sh=  +435.8
+    ✅ test=+11.788%/d
+
+  --- EXP IIII5: TAIL RATIO ---
+
+  Tail ratio(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5255  wr= 66.6%  avg=  +4.4bps  tot=+231.16%  sh=  +246.0
+  ✅ TEST                                                     n=2765  wr= 81.3%  avg=  +7.7bps  tot=+212.03%  sh=  +404.9
+    ✅ test=+7.573%/d
+
+  Tail ratio(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8356  wr= 65.0%  avg=  +4.1bps  tot=+345.26%  sh=  +232.6
+  ✅ TEST                                                     n=4386  wr= 81.7%  avg=  +7.7bps  tot=+336.61%  sh=  +411.0
+    ✅ test=+12.022%/d
+
+  Tail ratio(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6668  wr= 65.8%  avg=  +4.2bps  tot=+280.87%  sh=  +244.4
+  ✅ TEST                                                     n=3335  wr= 82.4%  avg=  +8.1bps  tot=+268.90%  sh=  +426.3
+    ✅ test=+9.603%/d
+
+  Tail ratio(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=10082  wr= 66.1%  avg=  +4.1bps  tot=+414.60%  sh=  +242.8
+  ✅ TEST                                                     n=5255  wr= 82.9%  avg=  +7.8bps  tot=+407.40%  sh=  +437.2
+    ✅ test=+14.550%/d
+  Loading XRPUSDT... [10/88 17s] [20/88 27s] [30/88 35s] [40/88 45s] [50/88 56s] [60/88 65s] [70/88 96s] [80/88 117s] [88/88 130s] 126,720 bars (130s) [RAM=0.4GB, avail=6.4GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP FFFF5: ROLLING KURTOSIS ---
+
+  Kurtosis(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7559  wr= 50.0%  avg=  +1.9bps  tot=+145.21%  sh=  +106.3
+  ✅ TEST                                                     n=4196  wr= 69.1%  avg=  +5.7bps  tot=+238.75%  sh=  +262.0
+    ✅ test=+8.527%/d
+
+  Kurtosis(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4817  wr= 48.9%  avg=  +2.0bps  tot= +96.54%  sh=  +107.4
+  ✅ TEST                                                     n=2654  wr= 69.0%  avg=  +5.5bps  tot=+146.56%  sh=  +243.7
+    ✅ test=+5.234%/d
+
+  Kurtosis(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9343  wr= 49.1%  avg=  +1.7bps  tot=+163.24%  sh=   +99.5
+  ✅ TEST                                                     n=4991  wr= 68.5%  avg=  +5.6bps  tot=+280.11%  sh=  +252.0
+    ✅ test=+10.004%/d
+
+  Kurtosis(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=6230  wr= 49.1%  avg=  +1.8bps  tot=+113.61%  sh=  +101.7
+  ✅ TEST                                                     n=3362  wr= 68.2%  avg=  +5.6bps  tot=+187.60%  sh=  +243.8
+    ✅ test=+6.700%/d
+
+  --- EXP GGGG5: BB WIDTH ---
+
+  BB width(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6945  wr= 58.8%  avg=  +3.8bps  tot=+263.69%  sh=  +193.8
+  ✅ TEST                                                     n=3849  wr= 79.7%  avg=  +9.4bps  tot=+363.59%  sh=  +380.1
+    ✅ test=+12.985%/d
+
+  BB width(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4382  wr= 61.3%  avg=  +4.6bps  tot=+200.72%  sh=  +213.2
+  ✅ TEST                                                     n=2423  wr= 81.2%  avg= +10.4bps  tot=+252.85%  sh=  +391.6
+    ✅ test=+9.031%/d
+
+  BB width(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8133  wr= 58.8%  avg=  +3.7bps  tot=+302.43%  sh=  +192.0
+  ✅ TEST                                                     n=4695  wr= 78.3%  avg=  +8.8bps  tot=+413.66%  sh=  +373.1
+    ✅ test=+14.773%/d
+
+  BB width(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6060  wr= 60.7%  avg=  +4.3bps  tot=+260.61%  sh=  +213.7
+  ✅ TEST                                                     n=3521  wr= 79.9%  avg=  +9.5bps  tot=+335.01%  sh=  +390.2
+    ✅ test=+11.965%/d
+
+  --- EXP HHHH5: CLOSE-OPEN GAP ---
+
+  Gap pressure(10) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3668  wr= 50.7%  avg=  +1.5bps  tot= +55.13%  sh=   +90.8
+  ✅ TEST                                                     n=2068  wr= 73.0%  avg=  +5.7bps  tot=+117.74%  sh=  +313.4
+    ✅ test=+4.205%/d
+
+  Gap pressure(10) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6511  wr= 49.6%  avg=  +1.3bps  tot= +83.73%  sh=   +81.7
+  ✅ TEST                                                     n=3649  wr= 72.4%  avg=  +5.3bps  tot=+194.28%  sh=  +301.9
+    ✅ test=+6.938%/d
+
+  Gap pressure(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4375  wr= 50.9%  avg=  +1.7bps  tot= +73.34%  sh=  +108.3
+  ✅ TEST                                                     n=2506  wr= 73.9%  avg=  +5.6bps  tot=+140.12%  sh=  +303.1
+    ✅ test=+5.004%/d
+
+  Gap pressure(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7072  wr= 50.6%  avg=  +1.5bps  tot=+107.32%  sh=   +99.3
+  ✅ TEST                                                     n=4023  wr= 73.5%  avg=  +5.5bps  tot=+221.59%  sh=  +323.0
+    ✅ test=+7.914%/d
+
+  --- EXP IIII5: TAIL RATIO ---
+
+  Tail ratio(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4481  wr= 52.6%  avg=  +1.9bps  tot= +85.54%  sh=  +128.9
+  ✅ TEST                                                     n=2565  wr= 69.1%  avg=  +5.3bps  tot=+136.09%  sh=  +260.7
+    ✅ test=+4.860%/d
+
+  Tail ratio(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7278  wr= 51.5%  avg=  +1.7bps  tot=+122.21%  sh=  +112.5
+  ✅ TEST                                                     n=4263  wr= 70.1%  avg=  +5.3bps  tot=+224.64%  sh=  +276.8
+    ✅ test=+8.023%/d
+
+  Tail ratio(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5825  wr= 51.2%  avg=  +1.5bps  tot= +86.37%  sh=  +102.2
+  ✅ TEST                                                     n=3257  wr= 71.2%  avg=  +5.4bps  tot=+175.17%  sh=  +308.1
+    ✅ test=+6.256%/d
+
+  Tail ratio(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8752  wr= 51.1%  avg=  +1.5bps  tot=+126.99%  sh=   +99.3
+  ✅ TEST                                                     n=5133  wr= 71.2%  avg=  +5.1bps  tot=+264.21%  sh=  +312.5
+    ✅ test=+9.436%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    bbw_20_0.9             4105   86.9%   +12.1bp   +497.9%     +522
+  ✅ DOGEUSDT    bbw_20_0.95            2618   87.5%   +12.5bp   +327.2%     +544
+  ✅ DOGEUSDT    bbw_40_0.9             4791   86.2%   +11.3bp   +540.3%     +519
+  ✅ DOGEUSDT    bbw_40_0.95            3540   86.9%   +12.0bp   +423.3%     +541
+  ✅ DOGEUSDT    gap_10_0.05            2268   81.9%    +8.0bp   +181.1%     +458
+  ✅ DOGEUSDT    gap_10_0.1             3960   81.8%    +7.9bp   +312.3%     +451
+  ✅ DOGEUSDT    gap_20_0.05            2819   82.2%    +7.8bp   +218.8%     +440
+  ✅ DOGEUSDT    gap_20_0.1             4372   81.8%    +7.5bp   +330.1%     +436
+  ✅ DOGEUSDT    kurt_30_0.9            4359   79.3%    +8.2bp   +359.1%     +390
+  ✅ DOGEUSDT    kurt_30_0.95           2749   77.2%    +8.0bp   +219.3%     +365
+  ✅ DOGEUSDT    kurt_60_0.9            5146   80.0%    +8.4bp   +432.6%     +386
+  ✅ DOGEUSDT    kurt_60_0.95           3502   79.8%    +8.5bp   +297.4%     +378
+  ✅ DOGEUSDT    tail_30_0.05           2765   81.3%    +7.7bp   +212.0%     +405
+  ✅ DOGEUSDT    tail_30_0.1            4386   81.7%    +7.7bp   +336.6%     +411
+  ✅ DOGEUSDT    tail_60_0.05           3335   82.4%    +8.1bp   +268.9%     +426
+  ✅ DOGEUSDT    tail_60_0.1            5255   82.9%    +7.8bp   +407.4%     +437
+  ✅ ETHUSDT     bbw_20_0.9             3646   71.9%    +5.7bp   +206.6%     +322
+  ✅ ETHUSDT     bbw_20_0.95            2367   73.6%    +6.4bp   +150.8%     +348
+  ✅ ETHUSDT     bbw_40_0.9             4321   70.0%    +5.1bp   +220.8%     +316
+  ✅ ETHUSDT     bbw_40_0.95            3170   71.4%    +5.4bp   +171.0%     +319
+  ✅ ETHUSDT     gap_10_0.05            1972   61.3%    +3.1bp    +62.0%     +215
+  ✅ ETHUSDT     gap_10_0.1             3266   61.5%    +3.1bp   +101.8%     +205
+  ✅ ETHUSDT     gap_20_0.05            2387   60.9%    +3.0bp    +71.0%     +196
+  ✅ ETHUSDT     gap_20_0.1             3577   61.2%    +3.0bp   +107.8%     +200
+  ✅ ETHUSDT     kurt_30_0.9            3711   63.1%    +3.6bp   +135.1%     +228
+  ✅ ETHUSDT     kurt_30_0.95           2256   63.4%    +3.7bp    +83.5%     +223
+  ✅ ETHUSDT     kurt_60_0.9            4376   62.7%    +3.4bp   +148.3%     +210
+  ✅ ETHUSDT     kurt_60_0.95           2854   63.6%    +3.4bp    +97.5%     +210
+  ✅ ETHUSDT     tail_30_0.05           2352   64.4%    +3.4bp    +81.0%     +247
+  ✅ ETHUSDT     tail_30_0.1            3876   63.2%    +3.2bp   +124.0%     +233
+  ✅ ETHUSDT     tail_60_0.05           2946   61.7%    +3.0bp    +89.7%     +205
+  ✅ ETHUSDT     tail_60_0.1            4502   61.0%    +2.9bp   +130.7%     +199
+  ✅ SOLUSDT     bbw_20_0.9             3764   73.9%    +6.4bp   +241.3%     +383
+  ✅ SOLUSDT     bbw_20_0.95            2378   75.8%    +6.9bp   +164.2%     +404
+  ✅ SOLUSDT     bbw_40_0.9             4475   72.6%    +5.9bp   +265.7%     +338
+  ✅ SOLUSDT     bbw_40_0.95            3316   74.7%    +6.3bp   +208.0%     +366
+  ✅ SOLUSDT     gap_10_0.05            2023   61.9%    +3.1bp    +63.5%     +230
+  ✅ SOLUSDT     gap_10_0.1             3469   61.9%    +3.2bp   +109.4%     +228
+  ✅ SOLUSDT     gap_20_0.05            2330   60.9%    +3.0bp    +69.3%     +220
+  ✅ SOLUSDT     gap_20_0.1             3850   61.7%    +3.0bp   +115.9%     +226
+  ✅ SOLUSDT     kurt_30_0.9            3946   63.0%    +3.5bp   +136.4%     +217
+  ✅ SOLUSDT     kurt_30_0.95           2569   63.2%    +3.7bp    +95.4%     +223
+  ✅ SOLUSDT     kurt_60_0.9            4770   63.5%    +3.6bp   +170.4%     +241
+  ✅ SOLUSDT     kurt_60_0.95           3257   63.0%    +3.5bp   +113.5%     +224
+  ✅ SOLUSDT     tail_30_0.05           2421   64.0%    +3.1bp    +74.6%     +192
+  ✅ SOLUSDT     tail_30_0.1            3893   63.1%    +3.0bp   +117.9%     +197
+  ✅ SOLUSDT     tail_60_0.05           3173   62.9%    +3.3bp   +104.3%     +210
+  ✅ SOLUSDT     tail_60_0.1            4839   63.2%    +3.2bp   +156.6%     +212
+  ✅ XRPUSDT     bbw_20_0.9             3849   79.7%    +9.4bp   +363.6%     +380
+  ✅ XRPUSDT     bbw_20_0.95            2423   81.2%   +10.4bp   +252.9%     +392
+  ✅ XRPUSDT     bbw_40_0.9             4695   78.3%    +8.8bp   +413.7%     +373
+  ✅ XRPUSDT     bbw_40_0.95            3521   79.9%    +9.5bp   +335.0%     +390
+  ✅ XRPUSDT     gap_10_0.05            2068   73.0%    +5.7bp   +117.7%     +313
+  ✅ XRPUSDT     gap_10_0.1             3649   72.4%    +5.3bp   +194.3%     +302
+  ✅ XRPUSDT     gap_20_0.05            2506   73.9%    +5.6bp   +140.1%     +303
+  ✅ XRPUSDT     gap_20_0.1             4023   73.5%    +5.5bp   +221.6%     +323
+  ✅ XRPUSDT     kurt_30_0.9            4196   69.1%    +5.7bp   +238.7%     +262
+  ✅ XRPUSDT     kurt_30_0.95           2654   69.0%    +5.5bp   +146.6%     +244
+  ✅ XRPUSDT     kurt_60_0.9            4991   68.5%    +5.6bp   +280.1%     +252
+  ✅ XRPUSDT     kurt_60_0.95           3362   68.2%    +5.6bp   +187.6%     +244
+  ✅ XRPUSDT     tail_30_0.05           2565   69.1%    +5.3bp   +136.1%     +261
+  ✅ XRPUSDT     tail_30_0.1            4263   70.1%    +5.3bp   +224.6%     +277
+  ✅ XRPUSDT     tail_60_0.05           3257   71.2%    +5.4bp   +175.2%     +308
+  ✅ XRPUSDT     tail_60_0.1            5133   71.2%    +5.1bp   +264.2%     +313
+
+################################################################################
+  COMPLETE — 938s (15.6min) [RAM=0.4GB, avail=6.2GB]
+################################################################################
