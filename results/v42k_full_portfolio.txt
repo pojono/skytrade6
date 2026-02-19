@@ -1,0 +1,85 @@
+================================================================================
+  v42k: FULL 88-DAY PORTFOLIO + NEW IDEAS
+  2026-02-19 05:56:01  [RAM=0.1GB, avail=5.0GB]
+================================================================================
+  Loading ETHUSDT liqs... [15/88 4s] [30/88 7s] [45/88 10s] [60/88 11s] [75/88 11s] 158,765 (12s) [RAM=0.2GB, avail=4.7GB]
+  Loading SOLUSDT liqs... [15/88 1s] [30/88 3s] [45/88 5s] [60/88 6s] [75/88 6s] 90,669 (7s) [RAM=0.2GB, avail=4.7GB]
+  Loading DOGEUSDT liqs... [15/88 1s] [30/88 2s] [45/88 3s] [60/88 3s] [75/88 3s] 45,630 (4s) [RAM=0.2GB, avail=4.6GB]
+  Loading ETHUSDT bars... [10/88 42s] [20/88 69s] [30/88 93s] [40/88 125s] [50/88 150s] [60/88 170s] [70/88 210s] [80/88 243s] [88/88 266s] 126,720 bars (266s) [RAM=0.6GB, avail=5.0GB]
+  Loading SOLUSDT bars... [10/88 18s] [20/88 31s] [30/88 41s] [40/88 55s] [50/88 66s] [60/88 77s] [70/88 92s] [80/88 112s] [88/88 121s] 126,720 bars (121s) [RAM=0.4GB, avail=5.1GB]
+  Loading DOGEUSDT bars... [10/88 22s] [20/88 38s] [30/88 49s] [40/88 61s] [50/88 71s] [60/88 79s] [70/88 108s] [80/88 133s] [88/88 145s] 126,720 bars (145s) [RAM=0.5GB, avail=6.6GB]
+
+  [RAM=0.5GB, avail=6.6GB] all data loaded
+
+################################################################################
+  EXP AA: FULL 88-DAY PORTFOLIO (trail 3/2, cross-symbol)
+################################################################################
+  ✅ ETHUSDT (trail 3/2)                                 n= 725  wr= 92.6%  avg= +10.5bps  tot= +76.08%  sh=  +627.3
+  ✅ SOLUSDT (trail 3/2)                                 n= 903  wr= 89.8%  avg=  +9.5bps  tot= +86.14%  sh=  +608.3
+  ✅ DOGEUSDT (trail 3/2)                                n= 826  wr= 93.6%  avg= +11.3bps  tot= +93.33%  sh=  +653.0
+
+  PORTFOLIO TOTALS:
+  ✅ ALL SYMBOLS COMBINED                                n=2454  wr= 91.9%  avg= +10.4bps  tot=+255.55%  sh=  +627.4
+
+  EQUITY CURVE:
+    Total return:    +1184.44%
+    Max drawdown:    -0.65%
+    Final equity:    12.8444
+
+  DAILY STATS:
+    Trading days:    63
+    Positive days:   63/63 (100%)
+    Avg daily ret:   +4.056%
+    Daily std:       2.934%
+    Daily Sharpe:    26.4
+    Worst day:       +0.084%
+    Best day:        +11.103%
+
+  WEEKLY BREAKDOWN:
+  Week             Trades    Return      WR
+  ----------------------------------------
+  ✅ 2025-W20          426   +49.81%   96.0%
+  ✅ 2025-W21          302   +34.89%   96.7%
+  ✅ 2025-W22          249   +24.18%   92.8%
+  ✅ 2025-W23          155   +16.62%   89.0%
+  ✅ 2025-W24          323   +29.73%   88.5%
+  ✅ 2025-W25          292   +34.90%   94.5%
+  ✅ 2025-W26          206   +22.37%   91.7%
+  ✅ 2025-W27           92   +10.15%   94.6%
+  ✅ 2025-W31          260   +23.05%   88.5%
+  ✅ 2025-W32          149    +9.85%   78.5%
+
+  Positive weeks: 10/10 (100%)
+
+  MONTHLY BREAKDOWN:
+  ✅ 2025-05  n= 949  wr= 95.5%  avg= +11.2bps  tot=+106.62%
+  ✅ 2025-06  n=1030  wr= 91.2%  avg= +10.6bps  tot=+109.07%
+  ✅ 2025-07  n= 175  wr= 89.1%  avg=  +8.6bps  tot= +15.01%
+  ✅ 2025-08  n= 300  wr= 84.7%  avg=  +8.3bps  tot= +24.84%
+
+  REALISTIC CONCURRENT SIMULATION:
+    Trades taken:    2442
+    Trades skipped:  19
+    Total return:    +1174.60%
+    Final equity:    12.7460
+    ETHUSDT: 725 trades
+    SOLUSDT: 894 trades
+    DOGEUSDT: 823 trades
+
+================================================================================
+  EXP CC: CASCADE MOMENTUM — SEQUENTIAL DIRECTION
+================================================================================
+  Cascades within 1hr of previous: 1617
+  Same direction: 1426 (88.2%)
+  Different direction: 191 (11.8%)
+  ✅ MOMENTUM: cascades tend to cluster in same direction
+
+  BY GAP SIZE:
+  ✅ <1 min        n= 516  same_dir= 99.6%
+  ✅ 1-5 min       n= 418  same_dir= 95.9%
+  ✅ 5-15 min      n= 282  same_dir= 84.0%
+  ✅ 15-60 min     n= 401  same_dir= 68.3%
+
+################################################################################
+  COMPLETE — 571s (9.5min) [RAM=0.5GB, avail=6.7GB]
+################################################################################
