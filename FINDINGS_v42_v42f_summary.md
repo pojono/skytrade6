@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 44 Signal Types Discovered
+### 47 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -900,6 +900,9 @@ Strategy contribution (standalone):
 | 42 | **Price Efficiency** | **Price only** | **79%** | **+495%/28d** | **Low** |
 | 43 | Noise Ratio | Price only | 85% | +29%/28d | Low |
 | 44 | **Return Dispersion** | **Price only** | **88%** | **+230%/28d** | **Low** |
+| 45 | Multi-Scale Momentum | Price only | 82% | +522%/28d | Low |
+| 46 | **Meta-Z (Z of Z)** | **Price only** | **89%** | **+207%/28d** | **Low** |
+| 47 | **Multi-MA Distance** | **Price only** | **89%** | **+201%/28d** | **Low** |
 
 ---
 
@@ -1091,3 +1094,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ai_price_impact.py` | EXP PPPP-SSSS: price impact, variance ratio, Parkinson vol |
 | `research_v42aj_macd_vwap_adv.py` | EXP TTTT-WWWW: MACD, multi-TF VWAP, VW-RSI, PVT |
 | `research_v42ak_toxicity_efficiency.py` | EXP XXXX2-AAAA2: VPIN, efficiency, noise, dispersion |
+| `research_v42al_fractal_wavelets.py` | EXP CCCC2-EEEE2: multi-scale, meta-Z, multi-MA distance |
