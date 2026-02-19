@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 197 Signal Types Discovered
+### 201 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -1053,6 +1053,10 @@ Strategy contribution (standalone):
 | 195 | Channel Width Ratio | Price only | 85% | +351%/28d | Low |
 | 196 | Return Sign Ratio | Price only | 82% | +380%/28d | Low |
 | 197 | HL Position | Price only | 82% | +320%/28d | Low |
+| 198 | Stochastic Velocity | Price only | 82% | +265%/28d | Low |
+| 199 | Price Efficiency | Price only | 78% | +231%/28d | Low |
+| 200 | **Wt Mom Divergence** | **Price only** | **88%** | **+480%/28d** | **Low** |
+| 201 | **Ret Distribution IQR** | **Price only** | **86%** | **+704%/28d** | **Low** |
 
 ---
 
@@ -1283,3 +1287,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bv_channel_regime.py` | EXP PPPP8-SSSS8: Boll %B vel, regime persist, vol ratio, price curvature |
 | `research_v42bw_rsi_atr_spread.py` | EXP TTTT8-WWWW8: RSI speed, ATR ratio, spread persist, mom decay |
 | `research_v42bx_macd_chanwidth.py` | EXP XXXX8-AAAA9: MACD hist vel, chan width, ret sign ratio, HL position |
+| `research_v42by_stoch_efficiency.py` | EXP BBBB9-EEEE9: stoch vel, price efficiency, wt mom div, ret IQR |
