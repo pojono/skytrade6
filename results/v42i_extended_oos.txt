@@ -1,0 +1,129 @@
+================================================================================
+  v42i: EXTENDED OOS + PARAMS + TRAILING STOP
+  2026-02-19 05:35:31  [RAM=0.1GB, avail=6.8GB]
+================================================================================
+
+################################################################################
+  EXP X: TRUE OUT-OF-SAMPLE — Jul 11 to Aug 7 (28 days)
+################################################################################
+  Loading ETHUSDT liqs... [10/28 0s] [20/28 0s] 25,096 (2s) [RAM=0.1GB, avail=6.8GB]
+  ETHUSDT: 159 cascades
+  Loading SOLUSDT liqs... [10/28 0s] [20/28 0s] 15,081 (1s) [RAM=0.1GB, avail=6.8GB]
+  SOLUSDT: 96 cascades
+  Loading DOGEUSDT liqs... [10/28 0s] [20/28 0s] 8,530 (1s) [RAM=0.1GB, avail=6.8GB]
+  DOGEUSDT: 62 cascades
+  Loading ETHUSDT bars (chunked)... [10/28 29s] [20/28 55s] [28/28 76s] 40,320 bars (76s) [RAM=0.4GB, avail=6.5GB]
+  Loading SOLUSDT bars (chunked)... [10/28 13s] [20/28 30s] [28/28 39s] 40,320 bars (39s) [RAM=0.4GB, avail=7.1GB]
+  Loading DOGEUSDT bars (chunked)... [10/28 26s] [20/28 47s] [28/28 56s] 40,320 bars (56s) [RAM=0.3GB, avail=7.2GB]
+
+  [RAM=0.2GB, avail=7.3GB] OOS data loaded
+
+  SAME-SYMBOL CASCADE MM (OOS period):
+  ✅ ETH→ETH                                             n= 110  wr= 87.3%  avg=  +3.7bps  tot=  +4.06%  sh=  +109.7
+  ✅ SOL→SOL                                             n=  67  wr= 91.0%  avg=  +4.9bps  tot=  +3.26%  sh=  +149.9
+  ✅ DOG→DOG                                             n=  48  wr= 97.9%  avg=  +9.6bps  tot=  +4.60%  sh=  +589.4
+
+  CROSS-SYMBOL (ETH triggers):
+  ✅ ETH→ETH                                             n= 110  wr= 87.3%  avg=  +3.7bps  tot=  +4.06%  sh=  +109.7
+     ETH→SOL                                             n= 120  wr= 80.8%  avg=  -1.4bps  tot=  -1.66%  sh=   -32.0
+  ✅ ETH→DOG                                             n= 120  wr= 88.3%  avg=  +3.2bps  tot=  +3.87%  sh=   +90.2
+
+  COMBINED (ETH + same-symbol triggers):
+  ✅ Combined→ETH                                        n= 110  wr= 87.3%  avg=  +3.7bps  tot=  +4.06%  sh=  +109.7
+     Combined→SOL                                        n= 143  wr= 81.1%  avg=  -1.3bps  tot=  -1.87%  sh=   -30.2
+  ✅ Combined→DOG                                        n= 137  wr= 89.8%  avg=  +4.2bps  tot=  +5.74%  sh=  +124.2
+
+  OOS PORTFOLIO:
+    Trades: 390, WR: 85.9%, Avg: +2.0bps, Total: +8.14%, MaxDD: -4.12%
+
+  ROLLING 7-DAY WINDOWS (OOS):
+    ✅ Combined→ETH 07-23→07-30  n=  6  wr=100.0%  tot= +0.66%
+    ✅ Combined→ETH 07-26→08-02  n= 54  wr= 88.9%  tot= +2.26%
+    ✅ Combined→ETH 07-29→08-05  n= 81  wr= 86.4%  tot= +1.97%
+    Combined→ETH positive: 3/3 (100%)
+    ✅ Combined→SOL 07-23→07-30  n=  7  wr=100.0%  tot= +0.77%
+    ✅ Combined→SOL 07-26→08-02  n= 69  wr= 85.5%  tot= +1.30%
+    ❌ Combined→SOL 07-29→08-05  n=106  wr= 81.1%  tot= -1.14%
+    Combined→SOL positive: 2/3 (67%)
+    ✅ Combined→DOG 07-23→07-30  n= 10  wr=100.0%  tot= +1.10%
+    ✅ Combined→DOG 07-26→08-02  n= 70  wr= 94.3%  tot= +4.96%
+    ✅ Combined→DOG 07-29→08-05  n=104  wr= 90.4%  tot= +4.59%
+    Combined→DOG positive: 3/3 (100%)
+
+################################################################################
+  EXP Y: CASCADE PARAMETER SENSITIVITY (May 12 – Jul 10)
+################################################################################
+  Loading SOLUSDT liqs... [10/60 1s] [20/60 2s] [30/60 2s] [40/60 3s] [50/60 4s] [60/60 5s] 75,588 (5s) [RAM=0.3GB, avail=7.3GB]
+  Loading SOLUSDT bars (chunked)... [10/60 15s] [20/60 28s] [30/60 39s] [40/60 53s] [50/60 65s] [60/60 75s] 86,400 bars (75s) [RAM=0.3GB, avail=7.2GB]
+
+  PCT_THRESH SWEEP (window=60s, min_ev=2):
+  ✅ P90 (992 cascades)                                  n= 671  wr= 91.1%  avg=  +5.4bps  tot= +36.02%  sh=  +174.9
+  ✅ P93 (698 cascades)                                  n= 493  wr= 91.9%  avg=  +5.7bps  tot= +28.22%  sh=  +190.7
+  ✅ P95 (507 cascades)                                  n= 363  wr= 92.8%  avg=  +6.1bps  tot= +22.11%  sh=  +207.7
+  ✅ P97 (299 cascades)                                  n= 224  wr= 92.9%  avg=  +6.1bps  tot= +13.68%  sh=  +208.5
+  ✅ P99 (101 cascades)                                  n=  80  wr= 90.0%  avg=  +4.2bps  tot=  +3.32%  sh=  +121.7
+
+  WINDOW SWEEP (pct=95, min_ev=2):
+  ✅ window=15s (517 cascades)                           n= 324  wr= 91.0%  avg=  +4.9bps  tot= +15.76%  sh=  +149.9
+  ✅ window=30s (522 cascades)                           n= 350  wr= 92.3%  avg=  +5.7bps  tot= +19.99%  sh=  +188.3
+  ✅ window=60s (507 cascades)                           n= 363  wr= 92.8%  avg=  +6.1bps  tot= +22.11%  sh=  +207.7
+  ✅ window=90s (506 cascades)                           n= 379  wr= 93.1%  avg=  +6.3bps  tot= +23.88%  sh=  +219.2
+  ✅ window=120s (509 cascades)                          n= 397  wr= 93.7%  avg=  +6.7bps  tot= +26.55%  sh=  +242.1
+  ✅ window=180s (500 cascades)                          n= 397  wr= 94.2%  avg=  +7.0bps  tot= +27.92%  sh=  +264.7
+
+  MIN_EVENTS SWEEP (pct=95, window=60s):
+  ✅ min_ev=1 (1604 cascades)                            n=1046  wr= 89.8%  avg=  +4.6bps  tot= +48.63%  sh=  +145.1
+  ✅ min_ev=2 (507 cascades)                             n= 363  wr= 92.8%  avg=  +6.1bps  tot= +22.11%  sh=  +207.7
+  ✅ min_ev=3 (276 cascades)                             n= 205  wr= 94.1%  avg=  +7.0bps  tot= +14.33%  sh=  +261.9
+  ✅ min_ev=4 (166 cascades)                             n= 132  wr= 94.7%  avg=  +7.4bps  tot=  +9.73%  sh=  +289.1
+  ✅ min_ev=5 (127 cascades)                             n=  99  wr= 92.9%  avg=  +6.2bps  tot=  +6.10%  sh=  +211.2
+
+################################################################################
+  EXP Z: ALTERNATIVE EXIT STRUCTURES (SOL, 60d)
+################################################################################
+
+  BASELINE:
+  ✅ Fixed TP=15bps SL=50bps                             n= 363  wr= 92.8%  avg=  +6.1bps  tot= +22.11%  sh=  +207.7
+
+  ASYMMETRIC TP/SL:
+  ✅ TP=0.10% SL=0.30%                                   n= 363  wr= 89.3%  avg=  +1.3bps  tot=  +4.81%  sh=   +59.3
+  ✅ TP=0.10% SL=0.50%                                   n= 363  wr= 95.6%  avg=  +3.2bps  tot= +11.62%  sh=  +147.9
+  ✅ TP=0.15% SL=0.30%                                   n= 363  wr= 85.7%  avg=  +4.1bps  tot= +14.71%  sh=  +143.7
+  ✅ TP=0.15% SL=0.50%                                   n= 363  wr= 92.8%  avg=  +6.1bps  tot= +22.11%  sh=  +207.7
+  ✅ TP=0.20% SL=0.30%                                   n= 363  wr= 77.4%  avg=  +4.0bps  tot= +14.46%  sh=  +107.7
+  ✅ TP=0.20% SL=0.50%                                   n= 363  wr= 84.3%  avg=  +4.7bps  tot= +16.98%  sh=  +106.9
+  ✅ TP=0.20% SL=0.75%                                   n= 363  wr= 87.9%  avg=  +5.3bps  tot= +19.27%  sh=  +107.6
+  ✅ TP=0.25% SL=0.50%                                   n= 363  wr= 76.9%  avg=  +3.6bps  tot= +12.98%  sh=   +67.0
+  ✅ TP=0.30% SL=0.50%                                   n= 363  wr= 70.5%  avg=  +2.9bps  tot= +10.42%  sh=   +47.5
+     TP=0.10% SL=0.15%                                   n= 363  wr= 71.6%  avg=  -2.1bps  tot=  -7.58%  sh=   -97.8
+
+  TRAILING STOP:
+  ✅ trail act=3bps dist=2bps                            n= 363  wr= 93.9%  avg= +11.7bps  tot= +42.62%  sh=  +662.3
+  ✅ trail act=5bps dist=3bps                            n= 363  wr= 92.6%  avg= +10.6bps  tot= +38.49%  sh=  +569.3
+  ✅ trail act=5bps dist=5bps                            n= 363  wr= 89.8%  avg=  +8.7bps  tot= +31.66%  sh=  +475.0
+  ✅ trail act=8bps dist=3bps                            n= 363  wr= 93.9%  avg= +10.5bps  tot= +37.97%  sh=  +518.3
+  ✅ trail act=8bps dist=5bps                            n= 363  wr= 90.6%  avg=  +8.5bps  tot= +30.90%  sh=  +426.3
+  ✅ trail act=10bps dist=3bps                           n= 363  wr= 97.8%  avg= +10.1bps  tot= +36.83%  sh=  +439.1
+  ✅ trail act=10bps dist=5bps                           n= 363  wr= 93.7%  avg=  +8.2bps  tot= +29.70%  sh=  +359.0
+  ✅ trail act=10bps dist=8bps                           n= 363  wr= 98.1%  avg=  +5.7bps  tot= +20.74%  sh=  +260.2
+
+  MAX HOLD TIME:
+  ✅ max_hold=10min                                      n= 331  wr= 92.4%  avg=  +6.2bps  tot= +20.49%  sh=  +218.2
+  ✅ max_hold=15min                                      n= 346  wr= 92.8%  avg=  +6.1bps  tot= +20.95%  sh=  +205.3
+  ✅ max_hold=20min                                      n= 358  wr= 92.7%  avg=  +6.0bps  tot= +21.57%  sh=  +204.2
+  ✅ max_hold=30min                                      n= 363  wr= 92.8%  avg=  +6.1bps  tot= +22.11%  sh=  +207.7
+  ✅ max_hold=45min                                      n= 368  wr= 92.4%  avg=  +5.8bps  tot= +21.30%  sh=  +192.0
+  ✅ max_hold=60min                                      n= 376  wr= 92.3%  avg=  +5.7bps  tot= +21.50%  sh=  +188.4
+
+  ENTRY OFFSET:
+     offset=TP=0.05% SL=0.50%                            n= 413  wr= 97.6%  avg=  -0.4bps  tot=  -1.72%  sh=   -27.9
+  ✅ offset=TP=0.10% SL=0.50%                            n= 388  wr= 95.1%  avg=  +2.9bps  tot= +11.21%  sh=  +127.1
+  ✅ offset=TP=0.12% SL=0.50%                            n= 379  wr= 94.5%  avg=  +4.4bps  tot= +16.57%  sh=  +175.7
+  ✅ offset=TP=0.15% SL=0.50%                            n= 363  wr= 92.8%  avg=  +6.1bps  tot= +22.11%  sh=  +207.7
+  ✅ offset=TP=0.18% SL=0.50%                            n= 341  wr= 91.8%  avg=  +8.3bps  tot= +28.26%  sh=  +258.5
+  ✅ offset=TP=0.20% SL=0.50%                            n= 326  wr= 89.9%  avg=  +8.6bps  tot= +27.96%  sh=  +235.0
+  ✅ offset=TP=0.25% SL=0.50%                            n= 305  wr= 84.3%  avg=  +8.7bps  tot= +26.40%  sh=  +183.6
+
+################################################################################
+  COMPLETE — 274s (4.6min) [RAM=0.3GB, avail=6.9GB]
+################################################################################
