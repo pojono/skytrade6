@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 122 Signal Types Discovered
+### 126 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -978,6 +978,10 @@ Strategy contribution (standalone):
 | 120 | **Range-Weighted Mom** | **Price only** | **85%** | **+399%/28d** | **Low** |
 | 121 | Directional Bias | Price only | 82% | +387%/28d | Low |
 | 122 | Vol Asymmetry | Price only | 82% | +403%/28d | Low |
+| 123 | Price Channel Position | Price only | 82% | +320%/28d | Low |
+| 124 | **Volume Surge Ratio** | **Price only** | **87%** | **+434%/28d** | **Low** |
+| 125 | **Trend Strength Index** | **Price only** | **88%** | **+433%/28d** | **Low** |
+| 126 | Close Location Value | Price only | 82% | +364%/28d | Low |
 
 ---
 
@@ -1189,3 +1193,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bc_vwap_corr_mrspeed.py` | EXP RRRR5-UUUU5: VWAP dev, HL corr, MR speed, vol persistence |
 | `research_v42bd_entropy_fractal.py` | EXP VVVV5-YYYY5: entropy, fractal dim, mom quality, range expansion |
 | `research_v42be_gap_wgtmom.py` | EXP ZZZZ5-CCCC6: gap ratio, weighted mom, dir bias, vol asymmetry |
+| `research_v42bf_channel_surge.py` | EXP DDDD6-GGGG6: channel pos, vol surge, TSI, CLV |
