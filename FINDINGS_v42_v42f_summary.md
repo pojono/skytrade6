@@ -852,17 +852,19 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 7 Signal Types Discovered
+### 9 Signal Types Discovered
 
-| # | Signal | Data Needed | Best OOS WR | Complexity |
-|---|--------|------------|------------|-----------|
-| 1 | Cascade MM (trail) | Liquidation | 92% | Medium |
-| 2 | Liq Acceleration | Liquidation | 86% | Low |
-| 3 | Liq Imbalance | Liquidation | 82% | Low |
-| 4 | Microstructure MR | Price only | 89% | Low |
-| 5 | OI Velocity | Ticker (OI) | 90% | Low |
-| 6 | Bid-Ask Spread | Ticker (spread) | 78% | Low |
-| 7 | Funding Rate | Ticker (FR) | 77% | Low |
+| # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
+|---|--------|------------|------------|---------------|------------|
+| 1 | Cascade MM (trail) | Liquidation | 92% | +10%/28d | Medium |
+| 2 | Liq Acceleration | Liquidation | 86% | +59%/28d | Low |
+| 3 | Liq Imbalance | Liquidation | 82% | +538%/28d | Low |
+| 4 | Microstructure MR | **Price only** | 89% | +129%/28d | Low |
+| 5 | OI Velocity | Ticker (OI) | 90% | +12%/28d | Low |
+| 6 | Bid-Ask Spread | Ticker (spread) | 78% | +16%/28d | Low |
+| 7 | Funding Rate | Ticker (FR) | 77% | +5%/28d | Low |
+| 8 | **Vol Spike Fade** | **Price only** | **85%** | **+132%/28d** | **Low** |
+| 9 | **VWAP Deviation** | **Price only** | **66%** | **+328%/28d** | **Low** |
 
 ---
 
@@ -888,6 +890,39 @@ Filters don't improve per-trade quality — cascade MM is already very high qual
 - Non-conflicting: +10.5 bps OOS, Sharpe 790
 
 **Key insight: The cascade signal is so strong it works even when other signals disagree.**
+
+---
+
+## v42x: Order Flow + Volume Spike + VWAP (EXP III, JJJ, KKK)
+
+**3 more signal types from trade data. ALL OOS positive on both SOL and ETH.**
+
+### EXP III: Order Flow Imbalance — ALL OOS Positive
+
+Fade extreme buy/sell volume ratios. Low per-trade edge (~1-2 bps) but massive volume.
+- Best: OFI 5m P90 fade → +44% SOL OOS, +58% ETH OOS
+
+### EXP JJJ: Trade Intensity (Volume Spike) — MASSIVE WINNER
+
+| Config | SOL OOS | ETH OOS | WR | Avg bps | Sharpe |
+|--------|---------|---------|-----|---------|--------|
+| Vol >3x | **+132%** | **+144%** | 78-80% | +8.1-8.4 | 392-436 |
+| Vol >5x | +56% | +72% | 83-85% | +10.6-12.0 | 419-522 |
+| Vol >10x | +15% | +20% | 85-92% | +17-19 | 423-592 |
+
+**Price-only signal. No liquidation or ticker data needed.**
+
+### EXP KKK: VWAP Deviation — MASSIVE WINNER
+
+Fade price deviations from 60-min rolling VWAP.
+
+| Config | SOL OOS | ETH OOS | Trades | WR | Sharpe |
+|--------|---------|---------|--------|-----|--------|
+| >5 bps | +399% | +391% | 14K | 61% | 193-200 |
+| >10 bps | +372% | +382% | 12K | 62-64% | 202-226 |
+| >20 bps | **+328%** | **+331%** | 8-9K | 66-69% | 247-281 |
+
+**Price-only signal. Highest total return of any signal type.**
 
 ---
 
@@ -918,3 +953,4 @@ Filters don't improve per-trade quality — cascade MM is already very high qual
 | `research_v42u_final_portfolio.py` | EXP AAA: final mega portfolio, 4 strats × 4 symbols |
 | `research_v42v_oi_spread_signals.py` | EXP BBB-EEE: OI velocity, spread, funding signals |
 | `research_v42w_signal_combos.py` | EXP FFF-HHH: signal combos, quality filters, alignment |
+| `research_v42x_orderflow.py` | EXP III, JJJ, KKK: order flow, vol spike, VWAP deviation |
