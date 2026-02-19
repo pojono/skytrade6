@@ -1,0 +1,154 @@
+================================================================================
+  v42ab: CROSS-SYMBOL LEAD-LAG + INTRADAY SEASONALITY
+  2026-02-19 08:54:20  [RAM=0.1GB, avail=5.6GB]
+================================================================================
+  Loading ETHUSDT... [10/88 45s] [20/88 72s] [30/88 96s] [40/88 127s] [50/88 152s] [60/88 172s] [70/88 209s] [80/88 241s] [88/88 269s] 126,720 bars (269s) [RAM=0.5GB, avail=5.4GB]
+  Loading SOLUSDT... [10/88 20s] [20/88 35s] [30/88 47s] [40/88 63s] [50/88 79s] [60/88 90s] [70/88 106s] [80/88 129s] [88/88 141s] 126,720 bars (141s) [RAM=0.3GB, avail=5.6GB]
+  Loading DOGEUSDT... [10/88 27s] [20/88 44s] [30/88 57s] [40/88 69s] [50/88 81s] [60/88 91s] [70/88 124s] [80/88 150s] [88/88 161s] 126,720 bars (161s) [RAM=0.3GB, avail=5.6GB]
+  Loading XRPUSDT... [10/88 17s] [20/88 27s] [30/88 34s] [40/88 43s] [50/88 54s] [60/88 62s] [70/88 93s] [80/88 116s] [88/88 131s] 126,720 bars (131s) [RAM=0.4GB, avail=5.8GB]
+
+################################################################################
+  EXP SSS: CROSS-SYMBOL LEAD-LAG
+################################################################################
+
+  Cross-correlation (lag in minutes):
+    ETHUSDT    → SOLUSDT     lag0=0.7861  lag1=-0.0131  lag2=-0.0037  lag3=-0.0034  lag5=0.0005
+    ETHUSDT    → DOGEUSDT    lag0=0.7824  lag1=-0.0097  lag2=-0.0076  lag3=-0.0034  lag5=0.0024
+    ETHUSDT    → XRPUSDT     lag0=0.6964  lag1=-0.0160  lag2=-0.0088  lag3=-0.0061  lag5=-0.0020
+    SOLUSDT    → ETHUSDT     lag0=0.7861  lag1=-0.0265  lag2=-0.0092  lag3=0.0017  lag5=0.0012
+    SOLUSDT    → DOGEUSDT    lag0=0.7954  lag1=-0.0115  lag2=-0.0089  lag3=-0.0040  lag5=-0.0001
+    SOLUSDT    → XRPUSDT     lag0=0.7197  lag1=-0.0171  lag2=-0.0061  lag3=-0.0065  lag5=-0.0039
+
+  ETHUSDT→SOLUSDT (sigma=2, follow):
+  ✅ TRAIN                                                    n=1788  wr= 67.1%  avg=  +4.5bps  tot= +81.03%  sh=  +298.3
+  ✅ TEST                                                     n= 781  wr= 75.3%  avg=  +4.9bps  tot= +38.38%  sh=  +370.7
+
+  ETHUSDT→SOLUSDT (sigma=3, follow):
+  ✅ TRAIN                                                    n= 437  wr= 68.0%  avg=  +5.6bps  tot= +24.37%  sh=  +335.4
+  ✅ TEST                                                     n= 168  wr= 80.4%  avg=  +5.8bps  tot=  +9.82%  sh=  +541.5
+
+  ETHUSDT→DOGEUSDT (sigma=2, follow):
+  ✅ TRAIN                                                    n=1828  wr= 68.3%  avg=  +5.1bps  tot= +94.05%  sh=  +269.1
+  ✅ TEST                                                     n= 857  wr= 86.5%  avg=  +9.0bps  tot= +77.20%  sh=  +559.0
+
+  ETHUSDT→DOGEUSDT (sigma=3, follow):
+  ✅ TRAIN                                                    n= 450  wr= 70.9%  avg=  +5.9bps  tot= +26.58%  sh=  +297.8
+  ✅ TEST                                                     n= 184  wr= 87.5%  avg=  +9.9bps  tot= +18.20%  sh=  +605.3
+
+  ETHUSDT→XRPUSDT (sigma=2, follow):
+  ✅ TRAIN                                                    n=1599  wr= 52.7%  avg=  +2.0bps  tot= +31.76%  sh=  +115.9
+  ✅ TEST                                                     n= 812  wr= 82.4%  avg=  +7.1bps  tot= +57.75%  sh=  +514.4
+
+  ETHUSDT→XRPUSDT (sigma=3, follow):
+  ✅ TRAIN                                                    n= 394  wr= 54.6%  avg=  +2.9bps  tot= +11.48%  sh=  +188.5
+  ✅ TEST                                                     n= 177  wr= 83.1%  avg=  +7.0bps  tot= +12.46%  sh=  +513.2
+
+  SOLUSDT→DOGEUSDT (sigma=2, follow):
+  ✅ TRAIN                                                    n=1779  wr= 69.8%  avg=  +5.3bps  tot= +94.52%  sh=  +300.4
+  ✅ TEST                                                     n= 828  wr= 87.7%  avg=  +8.8bps  tot= +72.86%  sh=  +562.5
+
+  SOLUSDT→DOGEUSDT (sigma=3, follow):
+  ✅ TRAIN                                                    n= 359  wr= 77.4%  avg=  +8.2bps  tot= +29.27%  sh=  +438.7
+  ✅ TEST                                                     n= 140  wr= 87.9%  avg=  +9.3bps  tot= +13.04%  sh=  +623.7
+
+################################################################################
+  EXP TTT: INTRADAY SEASONALITY
+################################################################################
+
+  SOLUSDT hourly bias (train):
+    00:00  ↓ -0.22 bps/min
+    01:00  ↓ -0.04 bps/min
+    02:00  ↓ -0.03 bps/min
+    03:00  ↑ +0.24 bps/min
+    04:00  ↑ +0.07 bps/min
+    05:00  ↑ +0.02 bps/min
+    06:00  ↑ +0.01 bps/min
+    07:00  ↓ -0.02 bps/min
+    08:00  ↓ -0.03 bps/min
+    09:00  ↓ -0.08 bps/min
+    10:00  ↑ +0.08 bps/min
+    11:00  ↑ +0.02 bps/min
+    12:00  ↑ +0.06 bps/min
+    13:00  ↓ -0.24 bps/min
+    14:00  ↑ +0.06 bps/min
+    15:00  ↓ -0.02 bps/min
+    16:00  ↑ +0.03 bps/min
+    17:00  ↓ -0.04 bps/min
+    18:00  ↓ -0.26 bps/min
+    19:00  ↑ +0.15 bps/min
+    20:00  ↑ +0.05 bps/min
+    21:00  ↑ +0.00 bps/min
+    22:00  ↑ +0.02 bps/min
+    23:00  ↑ +0.17 bps/min
+
+  SOLUSDT hourly seasonality (top/bottom 6 hours):
+  ✅ TRAIN                                                    n= 528  wr= 66.9%  avg=  +3.7bps  tot= +19.70%  sh=  +251.3
+  ✅ TEST                                                     n= 255  wr= 69.0%  avg=  +3.8bps  tot=  +9.71%  sh=  +236.9
+
+  DOGEUSDT hourly bias (train):
+    00:00  ↓ -0.24 bps/min
+    01:00  ↓ -0.10 bps/min
+    02:00  ↑ +0.07 bps/min
+    03:00  ↑ +0.25 bps/min
+    04:00  ↑ +0.13 bps/min
+    05:00  ↓ -0.02 bps/min
+    06:00  ↓ -0.11 bps/min
+    07:00  ↓ -0.10 bps/min
+    08:00  ↓ -0.13 bps/min
+    09:00  ↓ -0.08 bps/min
+    10:00  ↑ +0.01 bps/min
+    11:00  ↓ -0.08 bps/min
+    12:00  ↑ +0.01 bps/min
+    13:00  ↓ -0.29 bps/min
+    14:00  ↓ -0.08 bps/min
+    15:00  ↑ +0.11 bps/min
+    16:00  ↓ -0.00 bps/min
+    17:00  ↓ -0.04 bps/min
+    18:00  ↓ -0.47 bps/min
+    19:00  ↑ +0.19 bps/min
+    20:00  ↑ +0.27 bps/min
+    21:00  ↑ +0.09 bps/min
+    22:00  ↑ +0.19 bps/min
+    23:00  ↑ +0.10 bps/min
+
+  DOGEUSDT hourly seasonality (top/bottom 6 hours):
+  ✅ TRAIN                                                    n= 530  wr= 70.2%  avg=  +5.3bps  tot= +28.23%  sh=  +288.3
+  ✅ TEST                                                     n= 292  wr= 86.3%  avg=  +8.7bps  tot= +25.26%  sh=  +521.5
+
+################################################################################
+  EXP UUU: CROSS-SYMBOL DIVERGENCE
+################################################################################
+
+  ETHUSDT vs SOLUSDT divergence (z>2):
+  ✅ TRAIN (fade outperformer)                                n=1025  wr= 62.9%  avg=  +5.2bps  tot= +52.89%  sh=  +234.2
+  ✅ TEST (fade outperformer)                                 n= 505  wr= 68.3%  avg=  +5.0bps  tot= +25.09%  sh=  +300.3
+    ✅ train=+0.882%/d  test=+0.896%/d
+
+  ETHUSDT vs SOLUSDT divergence (z>3):
+  ✅ TRAIN (fade outperformer)                                n= 208  wr= 72.6%  avg= +11.2bps  tot= +23.24%  sh=  +344.8
+  ✅ TEST (fade outperformer)                                 n=  95  wr= 78.9%  avg=  +7.9bps  tot=  +7.50%  sh=  +313.5
+    ✅ train=+0.387%/d  test=+0.268%/d
+
+  ETHUSDT vs DOGEUSDT divergence (z>2):
+  ✅ TRAIN (fade outperformer)                                n= 964  wr= 64.0%  avg=  +4.9bps  tot= +46.97%  sh=  +207.4
+  ✅ TEST (fade outperformer)                                 n= 522  wr= 66.7%  avg=  +4.8bps  tot= +25.29%  sh=  +331.5
+    ✅ train=+0.783%/d  test=+0.903%/d
+
+  ETHUSDT vs DOGEUSDT divergence (z>3):
+  ✅ TRAIN (fade outperformer)                                n= 206  wr= 71.4%  avg= +10.3bps  tot= +21.26%  sh=  +308.0
+  ✅ TEST (fade outperformer)                                 n= 100  wr= 76.0%  avg=  +6.5bps  tot=  +6.47%  sh=  +392.1
+    ✅ train=+0.354%/d  test=+0.231%/d
+
+  SOLUSDT vs DOGEUSDT divergence (z>2):
+  ✅ TRAIN (fade outperformer)                                n=1073  wr= 65.4%  avg=  +4.7bps  tot= +50.82%  sh=  +248.0
+  ✅ TEST (fade outperformer)                                 n= 509  wr= 69.5%  avg=  +4.7bps  tot= +24.09%  sh=  +307.5
+    ✅ train=+0.847%/d  test=+0.860%/d
+
+  SOLUSDT vs DOGEUSDT divergence (z>3):
+  ✅ TRAIN (fade outperformer)                                n= 197  wr= 79.7%  avg=  +8.9bps  tot= +17.59%  sh=  +336.7
+  ✅ TEST (fade outperformer)                                 n=  94  wr= 75.5%  avg=  +7.1bps  tot=  +6.68%  sh=  +344.4
+    ✅ train=+0.293%/d  test=+0.239%/d
+
+################################################################################
+  COMPLETE — 712s (11.9min) [RAM=0.3GB, avail=5.8GB]
+################################################################################
