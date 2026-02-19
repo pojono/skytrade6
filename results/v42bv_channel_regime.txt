@@ -1,0 +1,451 @@
+================================================================================
+  v42bv: BOLL %B VEL + RET REGIME PERSIST + VOL RATIO + PRICE CURVATURE
+  2026-02-19 20:27:38  [RAM=0.1GB, avail=6.4GB]
+================================================================================
+  Loading ETHUSDT... [10/88 37s] [20/88 62s] [30/88 88s] [40/88 119s] [50/88 143s] [60/88 165s] [70/88 199s] [80/88 236s] [88/88 262s] 126,720 bars (262s) [RAM=0.5GB, avail=6.3GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP PPPP8: BOLLINGER %B VELOCITY ---
+
+  Boll %B vel(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5871  wr= 62.4%  avg=  +4.1bps  tot=+243.13%  sh=  +202.7
+  ✅ TEST                                                     n=2806  wr= 65.1%  avg=  +3.8bps  tot=+107.04%  sh=  +244.2
+    ✅ test=+3.823%/d
+
+  Boll %B vel(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=2961  wr= 64.6%  avg=  +4.9bps  tot=+146.38%  sh=  +210.5
+  ✅ TEST                                                     n=1437  wr= 66.5%  avg=  +4.3bps  tot= +61.41%  sh=  +251.9
+    ✅ test=+2.193%/d
+
+  Boll %B vel(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6006  wr= 64.2%  avg=  +4.7bps  tot=+282.21%  sh=  +211.6
+  ✅ TEST                                                     n=2891  wr= 67.0%  avg=  +4.0bps  tot=+116.25%  sh=  +251.5
+    ✅ test=+4.152%/d
+
+  Boll %B vel(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3103  wr= 67.0%  avg=  +5.8bps  tot=+179.20%  sh=  +235.0
+  ✅ TEST                                                     n=1513  wr= 69.2%  avg=  +4.5bps  tot= +67.79%  sh=  +262.7
+    ✅ test=+2.421%/d
+
+  --- EXP QQQQ8: RETURN REGIME PERSISTENCE ---
+
+  Regime persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=9473  wr= 67.5%  avg=  +4.5bps  tot=+423.93%  sh=  +244.8
+  ✅ TEST                                                     n=4484  wr= 68.9%  avg=  +4.3bps  tot=+191.97%  sh=  +300.3
+    ✅ test=+6.856%/d
+
+  Regime persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=6978  wr= 68.5%  avg=  +4.8bps  tot=+334.47%  sh=  +257.7
+  ✅ TEST                                                     n=3265  wr= 70.8%  avg=  +4.6bps  tot=+149.22%  sh=  +310.3
+    ✅ test=+5.329%/d
+
+  Regime persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=12493  wr= 64.4%  avg=  +3.6bps  tot=+447.12%  sh=  +226.6
+  ✅ TEST                                                     n=6611  wr= 67.1%  avg=  +3.8bps  tot=+253.27%  sh=  +268.5
+    ✅ test=+9.045%/d
+
+  Regime persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=10252  wr= 64.8%  avg=  +3.6bps  tot=+373.47%  sh=  +235.4
+  ✅ TEST                                                     n=5469  wr= 67.4%  avg=  +3.8bps  tot=+209.07%  sh=  +267.1
+    ✅ test=+7.467%/d
+
+  --- EXP RRRR8: VOLATILITY RATIO EXTREME ---
+
+  Vol ratio(10/30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6427  wr= 60.4%  avg=  +4.4bps  tot=+280.86%  sh=  +174.8
+  ✅ TEST                                                     n=3057  wr= 64.8%  avg=  +4.1bps  tot=+124.07%  sh=  +252.3
+    ✅ test=+4.431%/d
+
+  Vol ratio(10/30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3602  wr= 61.7%  avg=  +5.0bps  tot=+180.38%  sh=  +185.5
+  ✅ TEST                                                     n=1757  wr= 65.7%  avg=  +4.3bps  tot= +75.31%  sh=  +256.9
+    ✅ test=+2.690%/d
+
+  Vol ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6938  wr= 62.1%  avg=  +4.8bps  tot=+334.13%  sh=  +191.2
+  ✅ TEST                                                     n=3373  wr= 65.3%  avg=  +4.2bps  tot=+140.18%  sh=  +250.1
+    ✅ test=+5.006%/d
+
+  Vol ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4181  wr= 63.5%  avg=  +5.5bps  tot=+230.25%  sh=  +200.9
+  ✅ TEST                                                     n=2004  wr= 65.4%  avg=  +4.3bps  tot= +87.06%  sh=  +242.3
+    ✅ test=+3.109%/d
+
+  --- EXP SSSS8: PRICE CURVATURE ---
+
+  Curvature(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6614  wr= 66.1%  avg=  +5.6bps  tot=+373.63%  sh=  +236.0
+  ✅ TEST                                                     n=3248  wr= 68.8%  avg=  +4.5bps  tot=+147.53%  sh=  +289.1
+    ✅ test=+5.269%/d
+
+  Curvature(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3809  wr= 67.7%  avg=  +6.5bps  tot=+247.93%  sh=  +237.1
+  ✅ TEST                                                     n=1833  wr= 70.2%  avg=  +5.0bps  tot= +90.78%  sh=  +289.3
+    ✅ test=+3.242%/d
+
+  Curvature(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7183  wr= 68.9%  avg=  +5.7bps  tot=+410.55%  sh=  +251.9
+  ✅ TEST                                                     n=3687  wr= 69.3%  avg=  +4.7bps  tot=+174.21%  sh=  +303.9
+    ✅ test=+6.222%/d
+
+  Curvature(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4231  wr= 71.1%  avg=  +6.6bps  tot=+279.94%  sh=  +259.1
+  ✅ TEST                                                     n=2168  wr= 70.9%  avg=  +5.1bps  tot=+111.16%  sh=  +305.0
+    ✅ test=+3.970%/d
+  Loading SOLUSDT... [10/88 25s] [20/88 44s] [30/88 59s] [40/88 80s] [50/88 98s] [60/88 112s] [70/88 130s] [80/88 152s] [88/88 163s] 126,720 bars (163s) [RAM=0.4GB, avail=5.7GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP PPPP8: BOLLINGER %B VELOCITY ---
+
+  Boll %B vel(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6145  wr= 63.9%  avg=  +3.7bps  tot=+224.79%  sh=  +209.5
+  ✅ TEST                                                     n=2964  wr= 65.9%  avg=  +4.0bps  tot=+119.28%  sh=  +270.5
+    ✅ test=+4.260%/d
+
+  Boll %B vel(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3143  wr= 65.1%  avg=  +3.8bps  tot=+120.96%  sh=  +231.4
+  ✅ TEST                                                     n=1475  wr= 66.6%  avg=  +4.0bps  tot= +58.91%  sh=  +242.5
+    ✅ test=+2.104%/d
+
+  Boll %B vel(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6334  wr= 65.1%  avg=  +3.9bps  tot=+249.59%  sh=  +215.5
+  ✅ TEST                                                     n=3023  wr= 66.3%  avg=  +4.0bps  tot=+122.03%  sh=  +268.3
+    ✅ test=+4.358%/d
+
+  Boll %B vel(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3315  wr= 67.1%  avg=  +4.5bps  tot=+148.98%  sh=  +220.1
+  ✅ TEST                                                     n=1591  wr= 67.9%  avg=  +4.7bps  tot= +74.17%  sh=  +306.8
+    ✅ test=+2.649%/d
+
+  --- EXP QQQQ8: RETURN REGIME PERSISTENCE ---
+
+  Regime persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=10743  wr= 67.8%  avg=  +4.2bps  tot=+449.74%  sh=  +268.0
+  ✅ TEST                                                     n=5317  wr= 69.0%  avg=  +4.3bps  tot=+230.78%  sh=  +284.8
+    ✅ test=+8.242%/d
+
+  Regime persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=8152  wr= 68.3%  avg=  +4.2bps  tot=+345.92%  sh=  +279.5
+  ✅ TEST                                                     n=4096  wr= 69.8%  avg=  +4.6bps  tot=+188.82%  sh=  +303.0
+    ✅ test=+6.743%/d
+
+  Regime persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=14076  wr= 67.8%  avg=  +3.8bps  tot=+538.60%  sh=  +260.9
+  ✅ TEST                                                     n=6849  wr= 69.3%  avg=  +4.4bps  tot=+300.00%  sh=  +291.6
+    ✅ test=+10.714%/d
+
+  Regime persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=11665  wr= 67.9%  avg=  +3.8bps  tot=+447.28%  sh=  +259.1
+  ✅ TEST                                                     n=5783  wr= 69.5%  avg=  +4.5bps  tot=+257.57%  sh=  +293.0
+    ✅ test=+9.199%/d
+
+  --- EXP RRRR8: VOLATILITY RATIO EXTREME ---
+
+  Vol ratio(10/30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6794  wr= 64.8%  avg=  +4.4bps  tot=+297.04%  sh=  +216.0
+  ✅ TEST                                                     n=3143  wr= 66.4%  avg=  +4.1bps  tot=+127.78%  sh=  +246.9
+    ✅ test=+4.564%/d
+
+  Vol ratio(10/30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3765  wr= 65.7%  avg=  +5.2bps  tot=+194.31%  sh=  +230.4
+  ✅ TEST                                                     n=1791  wr= 66.9%  avg=  +4.2bps  tot= +74.35%  sh=  +235.3
+    ✅ test=+2.655%/d
+
+  Vol ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7295  wr= 66.5%  avg=  +4.9bps  tot=+353.96%  sh=  +239.7
+  ✅ TEST                                                     n=3479  wr= 66.3%  avg=  +4.4bps  tot=+151.71%  sh=  +260.0
+    ✅ test=+5.418%/d
+
+  Vol ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4254  wr= 68.0%  avg=  +5.6bps  tot=+236.43%  sh=  +252.1
+  ✅ TEST                                                     n=2081  wr= 66.4%  avg=  +4.5bps  tot= +92.78%  sh=  +247.9
+    ✅ test=+3.314%/d
+
+  --- EXP SSSS8: PRICE CURVATURE ---
+
+  Curvature(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6979  wr= 69.3%  avg=  +5.1bps  tot=+358.26%  sh=  +269.7
+  ✅ TEST                                                     n=3343  wr= 71.1%  avg=  +5.3bps  tot=+177.45%  sh=  +358.1
+    ✅ test=+6.337%/d
+
+  Curvature(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3934  wr= 70.9%  avg=  +5.8bps  tot=+228.74%  sh=  +274.2
+  ✅ TEST                                                     n=1892  wr= 73.5%  avg=  +5.8bps  tot=+110.04%  sh=  +397.2
+    ✅ test=+3.930%/d
+
+  Curvature(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7469  wr= 68.9%  avg=  +5.1bps  tot=+377.70%  sh=  +278.2
+  ✅ TEST                                                     n=3660  wr= 71.4%  avg=  +5.4bps  tot=+199.14%  sh=  +324.2
+    ✅ test=+7.112%/d
+
+  Curvature(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4357  wr= 70.4%  avg=  +5.9bps  tot=+254.92%  sh=  +286.2
+  ✅ TEST                                                     n=2118  wr= 73.8%  avg=  +5.9bps  tot=+125.28%  sh=  +324.6
+    ✅ test=+4.474%/d
+  Loading DOGEUSDT... [10/88 24s] [20/88 39s] [30/88 48s] [40/88 58s] [50/88 66s] [60/88 74s] [70/88 101s] [80/88 123s] [88/88 132s] 126,720 bars (132s) [RAM=0.4GB, avail=6.6GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP PPPP8: BOLLINGER %B VELOCITY ---
+
+  Boll %B vel(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6458  wr= 65.7%  avg=  +4.4bps  tot=+283.11%  sh=  +230.8
+  ✅ TEST                                                     n=3288  wr= 82.7%  avg=  +9.0bps  tot=+294.51%  sh=  +440.5
+    ✅ test=+10.518%/d
+
+  Boll %B vel(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3271  wr= 67.3%  avg=  +4.9bps  tot=+159.28%  sh=  +249.4
+  ✅ TEST                                                     n=1710  wr= 82.0%  avg=  +9.3bps  tot=+158.41%  sh=  +426.1
+    ✅ test=+5.658%/d
+
+  Boll %B vel(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6623  wr= 67.0%  avg=  +4.7bps  tot=+311.38%  sh=  +229.8
+  ✅ TEST                                                     n=3345  wr= 82.5%  avg=  +9.0bps  tot=+299.49%  sh=  +426.1
+    ✅ test=+10.696%/d
+
+  Boll %B vel(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3433  wr= 68.1%  avg=  +5.3bps  tot=+181.78%  sh=  +232.0
+  ✅ TEST                                                     n=1749  wr= 83.2%  avg=  +9.8bps  tot=+170.55%  sh=  +416.6
+    ✅ test=+6.091%/d
+
+  --- EXP QQQQ8: RETURN REGIME PERSISTENCE ---
+
+  Regime persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=10795  wr= 71.3%  avg=  +5.4bps  tot=+582.76%  sh=  +299.8
+  ✅ TEST                                                     n=5590  wr= 87.0%  avg=  +9.0bps  tot=+504.45%  sh=  +517.9
+    ✅ test=+18.016%/d
+
+  Regime persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=8135  wr= 72.1%  avg=  +5.7bps  tot=+460.28%  sh=  +308.7
+  ✅ TEST                                                     n=4171  wr= 88.3%  avg=  +9.6bps  tot=+400.57%  sh=  +536.3
+    ✅ test=+14.306%/d
+
+  Regime persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=14354  wr= 71.0%  avg=  +5.0bps  tot=+717.73%  sh=  +295.7
+  ✅ TEST                                                     n=7696  wr= 86.1%  avg=  +9.0bps  tot=+691.03%  sh=  +521.7
+    ✅ test=+24.680%/d
+
+  Regime persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=11801  wr= 71.5%  avg=  +5.1bps  tot=+604.89%  sh=  +302.8
+  ✅ TEST                                                     n=6389  wr= 86.6%  avg=  +9.3bps  tot=+594.93%  sh=  +529.1
+    ✅ test=+21.248%/d
+
+  --- EXP RRRR8: VOLATILITY RATIO EXTREME ---
+
+  Vol ratio(10/30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6819  wr= 67.5%  avg=  +5.5bps  tot=+375.76%  sh=  +221.6
+  ✅ TEST                                                     n=3587  wr= 81.5%  avg=  +9.7bps  tot=+346.70%  sh=  +419.4
+    ✅ test=+12.382%/d
+
+  Vol ratio(10/30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3898  wr= 69.0%  avg=  +6.2bps  tot=+241.30%  sh=  +233.4
+  ✅ TEST                                                     n=2056  wr= 81.7%  avg= +10.2bps  tot=+210.60%  sh=  +422.6
+    ✅ test=+7.521%/d
+
+  Vol ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7467  wr= 68.5%  avg=  +6.1bps  tot=+452.43%  sh=  +247.6
+  ✅ TEST                                                     n=3862  wr= 82.1%  avg= +10.0bps  tot=+387.13%  sh=  +437.0
+    ✅ test=+13.826%/d
+
+  Vol ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4360  wr= 70.0%  avg=  +6.7bps  tot=+292.33%  sh=  +252.2
+  ✅ TEST                                                     n=2274  wr= 82.9%  avg= +10.7bps  tot=+242.44%  sh=  +434.2
+    ✅ test=+8.659%/d
+
+  --- EXP SSSS8: PRICE CURVATURE ---
+
+  Curvature(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=7184  wr= 71.1%  avg=  +6.1bps  tot=+437.51%  sh=  +271.2
+  ✅ TEST                                                     n=3722  wr= 84.7%  avg= +10.0bps  tot=+371.89%  sh=  +452.6
+    ✅ test=+13.282%/d
+
+  Curvature(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=4038  wr= 72.6%  avg=  +6.7bps  tot=+271.77%  sh=  +272.2
+  ✅ TEST                                                     n=2088  wr= 84.6%  avg= +10.5bps  tot=+220.02%  sh=  +447.3
+    ✅ test=+7.858%/d
+
+  Curvature(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7836  wr= 71.9%  avg=  +6.4bps  tot=+498.26%  sh=  +298.9
+  ✅ TEST                                                     n=4134  wr= 84.6%  avg=  +9.7bps  tot=+400.68%  sh=  +474.7
+    ✅ test=+14.310%/d
+
+  Curvature(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4630  wr= 72.6%  avg=  +7.0bps  tot=+324.92%  sh=  +300.7
+  ✅ TEST                                                     n=2446  wr= 85.8%  avg= +10.3bps  tot=+251.73%  sh=  +477.4
+    ✅ test=+8.990%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 25s] [30/88 32s] [40/88 41s] [50/88 52s] [60/88 60s] [70/88 89s] [80/88 107s] [88/88 119s] 126,720 bars (119s) [RAM=0.4GB, avail=6.6GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP PPPP8: BOLLINGER %B VELOCITY ---
+
+  Boll %B vel(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5643  wr= 51.5%  avg=  +1.9bps  tot=+105.73%  sh=  +108.2
+  ✅ TEST                                                     n=3109  wr= 72.5%  avg=  +5.9bps  tot=+182.34%  sh=  +318.1
+    ✅ test=+6.512%/d
+
+  Boll %B vel(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=2892  wr= 53.2%  avg=  +2.3bps  tot= +67.80%  sh=  +126.3
+  ✅ TEST                                                     n=1566  wr= 73.3%  avg=  +6.0bps  tot= +94.52%  sh=  +313.2
+    ✅ test=+3.376%/d
+
+  Boll %B vel(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=5798  wr= 52.7%  avg=  +2.1bps  tot=+119.35%  sh=  +118.7
+  ✅ TEST                                                     n=3194  wr= 73.0%  avg=  +6.3bps  tot=+202.19%  sh=  +303.9
+    ✅ test=+7.221%/d
+
+  Boll %B vel(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3009  wr= 53.7%  avg=  +2.4bps  tot= +73.68%  sh=  +131.5
+  ✅ TEST                                                     n=1662  wr= 73.3%  avg=  +6.5bps  tot=+108.72%  sh=  +306.0
+    ✅ test=+3.883%/d
+
+  --- EXP QQQQ8: RETURN REGIME PERSISTENCE ---
+
+  Regime persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=9143  wr= 58.4%  avg=  +2.8bps  tot=+252.40%  sh=  +202.5
+  ✅ TEST                                                     n=5397  wr= 76.4%  avg=  +6.8bps  tot=+364.94%  sh=  +389.9
+    ✅ test=+13.034%/d
+
+  Regime persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=6817  wr= 58.8%  avg=  +2.8bps  tot=+190.59%  sh=  +205.0
+  ✅ TEST                                                     n=4056  wr= 76.9%  avg=  +6.9bps  tot=+281.53%  sh=  +396.7
+    ✅ test=+10.054%/d
+
+  Regime persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=12841  wr= 58.1%  avg=  +2.5bps  tot=+319.95%  sh=  +173.7
+  ✅ TEST                                                     n=7037  wr= 75.8%  avg=  +6.3bps  tot=+444.46%  sh=  +357.8
+    ✅ test=+15.873%/d
+
+  Regime persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=10626  wr= 58.8%  avg=  +2.6bps  tot=+273.20%  sh=  +177.4
+  ✅ TEST                                                     n=5876  wr= 75.9%  avg=  +6.4bps  tot=+377.04%  sh=  +358.8
+    ✅ test=+13.466%/d
+
+  --- EXP RRRR8: VOLATILITY RATIO EXTREME ---
+
+  Vol ratio(10/30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6151  wr= 53.3%  avg=  +2.7bps  tot=+165.69%  sh=  +133.3
+  ✅ TEST                                                     n=3289  wr= 74.0%  avg=  +7.2bps  tot=+236.15%  sh=  +323.1
+    ✅ test=+8.434%/d
+
+  Vol ratio(10/30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3381  wr= 55.4%  avg=  +3.4bps  tot=+113.74%  sh=  +153.4
+  ✅ TEST                                                     n=1897  wr= 73.9%  avg=  +7.7bps  tot=+146.02%  sh=  +332.3
+    ✅ test=+5.215%/d
+
+  Vol ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6622  wr= 54.3%  avg=  +3.0bps  tot=+195.69%  sh=  +144.8
+  ✅ TEST                                                     n=3748  wr= 74.9%  avg=  +7.6bps  tot=+283.26%  sh=  +340.6
+    ✅ test=+10.116%/d
+
+  Vol ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3941  wr= 55.3%  avg=  +3.5bps  tot=+139.25%  sh=  +157.7
+  ✅ TEST                                                     n=2210  wr= 76.0%  avg=  +8.0bps  tot=+176.96%  sh=  +341.1
+    ✅ test=+6.320%/d
+
+  --- EXP SSSS8: PRICE CURVATURE ---
+
+  Curvature(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6473  wr= 57.3%  avg=  +3.3bps  tot=+213.32%  sh=  +173.4
+  ✅ TEST                                                     n=3500  wr= 78.1%  avg=  +7.7bps  tot=+270.00%  sh=  +350.9
+    ✅ test=+9.643%/d
+
+  Curvature(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3599  wr= 59.8%  avg=  +4.0bps  tot=+143.81%  sh=  +185.2
+  ✅ TEST                                                     n=1969  wr= 79.7%  avg=  +8.5bps  tot=+168.31%  sh=  +348.3
+    ✅ test=+6.011%/d
+
+  Curvature(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6881  wr= 58.5%  avg=  +3.4bps  tot=+233.92%  sh=  +187.4
+  ✅ TEST                                                     n=3920  wr= 77.8%  avg=  +7.9bps  tot=+310.19%  sh=  +368.7
+    ✅ test=+11.078%/d
+
+  Curvature(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4060  wr= 59.7%  avg=  +3.9bps  tot=+158.11%  sh=  +194.5
+  ✅ TEST                                                     n=2329  wr= 79.3%  avg=  +8.6bps  tot=+200.47%  sh=  +355.1
+    ✅ test=+7.160%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    bv_20_0.9                3288   82.7%    +9.0bp   +294.5%     +441
+  ✅ DOGEUSDT    bv_20_0.95               1710   82.0%    +9.3bp   +158.4%     +426
+  ✅ DOGEUSDT    bv_40_0.9                3345   82.5%    +9.0bp   +299.5%     +426
+  ✅ DOGEUSDT    bv_40_0.95               1749   83.2%    +9.8bp   +170.6%     +417
+  ✅ DOGEUSDT    cv_10_0.9                3722   84.7%   +10.0bp   +371.9%     +453
+  ✅ DOGEUSDT    cv_10_0.95               2088   84.6%   +10.5bp   +220.0%     +447
+  ✅ DOGEUSDT    cv_20_0.9                4134   84.6%    +9.7bp   +400.7%     +475
+  ✅ DOGEUSDT    cv_20_0.95               2446   85.8%   +10.3bp   +251.7%     +477
+  ✅ DOGEUSDT    rp_20_0.9                5590   87.0%    +9.0bp   +504.4%     +518
+  ✅ DOGEUSDT    rp_20_0.95               4171   88.3%    +9.6bp   +400.6%     +536
+  ✅ DOGEUSDT    rp_40_0.9                7696   86.1%    +9.0bp   +691.0%     +522
+  ✅ DOGEUSDT    rp_40_0.95               6389   86.6%    +9.3bp   +594.9%     +529
+  ✅ DOGEUSDT    vr_10_30_0.9             3587   81.5%    +9.7bp   +346.7%     +419
+  ✅ DOGEUSDT    vr_10_30_0.95            2056   81.7%   +10.2bp   +210.6%     +423
+  ✅ DOGEUSDT    vr_10_60_0.9             3862   82.1%   +10.0bp   +387.1%     +437
+  ✅ DOGEUSDT    vr_10_60_0.95            2274   82.9%   +10.7bp   +242.4%     +434
+  ✅ ETHUSDT     bv_20_0.9                2806   65.1%    +3.8bp   +107.0%     +244
+  ✅ ETHUSDT     bv_20_0.95               1437   66.5%    +4.3bp    +61.4%     +252
+  ✅ ETHUSDT     bv_40_0.9                2891   67.0%    +4.0bp   +116.2%     +252
+  ✅ ETHUSDT     bv_40_0.95               1513   69.2%    +4.5bp    +67.8%     +263
+  ✅ ETHUSDT     cv_10_0.9                3248   68.8%    +4.5bp   +147.5%     +289
+  ✅ ETHUSDT     cv_10_0.95               1833   70.2%    +5.0bp    +90.8%     +289
+  ✅ ETHUSDT     cv_20_0.9                3687   69.3%    +4.7bp   +174.2%     +304
+  ✅ ETHUSDT     cv_20_0.95               2168   70.9%    +5.1bp   +111.2%     +305
+  ✅ ETHUSDT     rp_20_0.9                4484   68.9%    +4.3bp   +192.0%     +300
+  ✅ ETHUSDT     rp_20_0.95               3265   70.8%    +4.6bp   +149.2%     +310
+  ✅ ETHUSDT     rp_40_0.9                6611   67.1%    +3.8bp   +253.3%     +269
+  ✅ ETHUSDT     rp_40_0.95               5469   67.4%    +3.8bp   +209.1%     +267
+  ✅ ETHUSDT     vr_10_30_0.9             3057   64.8%    +4.1bp   +124.1%     +252
+  ✅ ETHUSDT     vr_10_30_0.95            1757   65.7%    +4.3bp    +75.3%     +257
+  ✅ ETHUSDT     vr_10_60_0.9             3373   65.3%    +4.2bp   +140.2%     +250
+  ✅ ETHUSDT     vr_10_60_0.95            2004   65.4%    +4.3bp    +87.1%     +242
+  ✅ SOLUSDT     bv_20_0.9                2964   65.9%    +4.0bp   +119.3%     +271
+  ✅ SOLUSDT     bv_20_0.95               1475   66.6%    +4.0bp    +58.9%     +243
+  ✅ SOLUSDT     bv_40_0.9                3023   66.3%    +4.0bp   +122.0%     +268
+  ✅ SOLUSDT     bv_40_0.95               1591   67.9%    +4.7bp    +74.2%     +307
+  ✅ SOLUSDT     cv_10_0.9                3343   71.1%    +5.3bp   +177.4%     +358
+  ✅ SOLUSDT     cv_10_0.95               1892   73.5%    +5.8bp   +110.0%     +397
+  ✅ SOLUSDT     cv_20_0.9                3660   71.4%    +5.4bp   +199.1%     +324
+  ✅ SOLUSDT     cv_20_0.95               2118   73.8%    +5.9bp   +125.3%     +325
+  ✅ SOLUSDT     rp_20_0.9                5317   69.0%    +4.3bp   +230.8%     +285
+  ✅ SOLUSDT     rp_20_0.95               4096   69.8%    +4.6bp   +188.8%     +303
+  ✅ SOLUSDT     rp_40_0.9                6849   69.3%    +4.4bp   +300.0%     +292
+  ✅ SOLUSDT     rp_40_0.95               5783   69.5%    +4.5bp   +257.6%     +293
+  ✅ SOLUSDT     vr_10_30_0.9             3143   66.4%    +4.1bp   +127.8%     +247
+  ✅ SOLUSDT     vr_10_30_0.95            1791   66.9%    +4.2bp    +74.4%     +235
+  ✅ SOLUSDT     vr_10_60_0.9             3479   66.3%    +4.4bp   +151.7%     +260
+  ✅ SOLUSDT     vr_10_60_0.95            2081   66.4%    +4.5bp    +92.8%     +248
+  ✅ XRPUSDT     bv_20_0.9                3109   72.5%    +5.9bp   +182.3%     +318
+  ✅ XRPUSDT     bv_20_0.95               1566   73.3%    +6.0bp    +94.5%     +313
+  ✅ XRPUSDT     bv_40_0.9                3194   73.0%    +6.3bp   +202.2%     +304
+  ✅ XRPUSDT     bv_40_0.95               1662   73.3%    +6.5bp   +108.7%     +306
+  ✅ XRPUSDT     cv_10_0.9                3500   78.1%    +7.7bp   +270.0%     +351
+  ✅ XRPUSDT     cv_10_0.95               1969   79.7%    +8.5bp   +168.3%     +348
+  ✅ XRPUSDT     cv_20_0.9                3920   77.8%    +7.9bp   +310.2%     +369
+  ✅ XRPUSDT     cv_20_0.95               2329   79.3%    +8.6bp   +200.5%     +355
+  ✅ XRPUSDT     rp_20_0.9                5397   76.4%    +6.8bp   +364.9%     +390
+  ✅ XRPUSDT     rp_20_0.95               4056   76.9%    +6.9bp   +281.5%     +397
+  ✅ XRPUSDT     rp_40_0.9                7037   75.8%    +6.3bp   +444.5%     +358
+  ✅ XRPUSDT     rp_40_0.95               5876   75.9%    +6.4bp   +377.0%     +359
+  ✅ XRPUSDT     vr_10_30_0.9             3289   74.0%    +7.2bp   +236.2%     +323
+  ✅ XRPUSDT     vr_10_30_0.95            1897   73.9%    +7.7bp   +146.0%     +332
+  ✅ XRPUSDT     vr_10_60_0.9             3748   74.9%    +7.6bp   +283.3%     +341
+  ✅ XRPUSDT     vr_10_60_0.95            2210   76.0%    +8.0bp   +177.0%     +341
+
+################################################################################
+  COMPLETE — 957s (15.9min) [RAM=0.4GB, avail=6.7GB]
+################################################################################
