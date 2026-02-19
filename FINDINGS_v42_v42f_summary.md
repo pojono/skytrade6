@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 54 Signal Types Discovered
+### 58 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -910,6 +910,10 @@ Strategy contribution (standalone):
 | 52 | **Hammer/Inv Hammer** | **Price only** | **92%** | **+58%/28d** | **Low** |
 | 53 | Inside Bar Fade | Price only | 81% | +340%/28d | Low |
 | 54 | **Pin Bar (Rejection)** | **Price only** | **96%** | **+52%/28d** | **Low** |
+| 55 | BB Squeeze Breakout | Price only | 79% | +18%/28d | Low |
+| 56 | **ATR Ratio** | **Price only** | **90%** | **+214%/28d** | **Low** |
+| 57 | Close Location Value | Price only | 88% | +16%/28d | Low |
+| 58 | Consec Wick Direction | Price only | 83% | +55%/28d | Low |
 
 ---
 
@@ -1104,3 +1108,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42al_fractal_wavelets.py` | EXP CCCC2-EEEE2: multi-scale, meta-Z, multi-MA distance |
 | `research_v42am_time_pressure.py` | EXP FFFF2-IIII2: hour-of-day, vol accel, momentum quality |
 | `research_v42an_candle_patterns.py` | EXP JJJJ2-MMMM2: doji, hammer, inside bar, pin bar, 3-bar |
+| `research_v42ao_mr_timing.py` | EXP NNNN2-QQQQ2: BB squeeze, ATR ratio, CLV, wick consec |
