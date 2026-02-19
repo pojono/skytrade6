@@ -1,0 +1,283 @@
+================================================================================
+  v42au: PRICE MEMORY + VOL BREAKOUT + TREND EXHAUST + RANGE
+  2026-02-19 12:41:26  [RAM=0.1GB, avail=7.3GB]
+================================================================================
+  Loading ETHUSDT... [10/88 39s] [20/88 65s] [30/88 89s] [40/88 114s] [50/88 136s] [60/88 157s] [70/88 189s] [80/88 220s] [88/88 243s] 126,720 bars (243s) [RAM=0.5GB, avail=7.7GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP LLLL4: PRICE MEMORY ---
+
+  Price memory (30m) revisit:
+  ✅ TRAIN                                                    n=3195  wr= 46.3%  avg=  +0.5bps  tot= +14.60%  sh=   +37.8
+  ✅ TEST                                                     n=1420  wr= 51.5%  avg=  +1.3bps  tot= +18.05%  sh=   +97.1
+    ✅ test=+0.645%/d
+
+  Price memory (60m) revisit:
+  ✅ TRAIN                                                    n=2221  wr= 45.5%  avg=  +0.5bps  tot= +11.59%  sh=   +35.9
+  ✅ TEST                                                     n=1079  wr= 53.6%  avg=  +1.2bps  tot= +12.92%  sh=   +76.0
+    ✅ test=+0.461%/d
+
+  --- EXP MMMM4: VOL BREAKOUT ---
+
+  Vol breakout z>2 (fade):
+  ✅ TRAIN                                                    n= 352  wr= 57.7%  avg=  +3.6bps  tot= +12.50%  sh=  +230.5
+  ✅ TEST                                                     n= 168  wr= 63.7%  avg=  +3.8bps  tot=  +6.38%  sh=  +279.1
+    ✅ test=+0.228%/d
+
+  Vol breakout z>3 (fade):
+  ✅ TRAIN                                                    n=  80  wr= 78.8%  avg=  +7.6bps  tot=  +6.06%  sh=  +404.4
+  ✅ TEST                                                     n=  41  wr= 90.2%  avg=  +9.0bps  tot=  +3.70%  sh=  +539.6
+    ✅ test=+0.132%/d
+
+  --- EXP NNNN4: TREND EXHAUSTION ---
+
+  Trend exhaust(15) >0.75 (fade):
+  ✅ TRAIN                                                    n= 672  wr= 70.4%  avg=  +4.8bps  tot= +32.40%  sh=  +328.0
+  ✅ TEST                                                     n= 406  wr= 68.0%  avg=  +4.7bps  tot= +18.97%  sh=  +340.4
+    ✅ test=+0.678%/d
+
+  Trend exhaust(15) >0.8 (fade):
+  ✅ TRAIN                                                    n=  89  wr= 74.2%  avg=  +6.1bps  tot=  +5.44%  sh=  +403.1
+  ✅ TEST                                                     n=  60  wr= 71.7%  avg=  +4.5bps  tot=  +2.72%  sh=  +308.6
+    ✅ test=+0.097%/d
+
+  Trend exhaust(30) >0.75 (fade):
+  ✅ TRAIN                                                    n=  53  wr= 84.9%  avg=  +8.6bps  tot=  +4.55%  sh=  +426.9
+  ✅ TEST                                                     n=  81  wr= 82.7%  avg=  +6.6bps  tot=  +5.36%  sh=  +537.2
+    ✅ test=+0.191%/d
+
+  Trend exhaust(30) >0.8 (fade):
+  ✅ TRAIN                                                    n=   1  wr=100.0%  avg=  +6.6bps  tot=  +0.07%  sh=+3993835032.0
+  ✅ TEST                                                     n=   1  wr=100.0%  avg=  +7.2bps  tot=  +0.07%  sh=+4312506417.4
+    ✅ test=+0.003%/d
+
+  --- EXP OOOO4: RANGE CONTRACTION/EXPANSION ---
+
+  Range contraction→expansion (fade):
+  ✅ TRAIN                                                    n= 197  wr= 60.9%  avg=  +5.6bps  tot= +10.96%  sh=  +234.4
+  ✅ TEST                                                     n=  79  wr= 70.9%  avg=  +4.2bps  tot=  +3.33%  sh=  +176.8
+    ✅ test=+0.119%/d
+  Loading SOLUSDT... [10/88 17s] [20/88 32s] [30/88 46s] [40/88 63s] [50/88 78s] [60/88 90s] [70/88 113s] [80/88 136s] [88/88 147s] 126,720 bars (147s) [RAM=0.4GB, avail=6.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP LLLL4: PRICE MEMORY ---
+
+  Price memory (30m) revisit:
+  ✅ TRAIN                                                    n=2906  wr= 53.1%  avg=  +1.3bps  tot= +39.02%  sh=  +106.3
+  ✅ TEST                                                     n=1265  wr= 56.2%  avg=  +2.1bps  tot= +26.81%  sh=  +166.1
+    ✅ test=+0.958%/d
+
+  Price memory (60m) revisit:
+  ✅ TRAIN                                                    n=2107  wr= 55.5%  avg=  +1.5bps  tot= +32.45%  sh=  +126.8
+  ✅ TEST                                                     n= 948  wr= 57.9%  avg=  +1.8bps  tot= +16.60%  sh=  +118.3
+    ✅ test=+0.593%/d
+
+  --- EXP MMMM4: VOL BREAKOUT ---
+
+  Vol breakout z>2 (fade):
+  ✅ TRAIN                                                    n= 390  wr= 59.5%  avg=  +2.4bps  tot=  +9.39%  sh=  +150.0
+  ✅ TEST                                                     n= 179  wr= 66.5%  avg=  +3.8bps  tot=  +6.77%  sh=  +302.2
+    ✅ test=+0.242%/d
+
+  Vol breakout z>3 (fade):
+  ✅ TRAIN                                                    n=  71  wr= 73.2%  avg=  +5.6bps  tot=  +3.95%  sh=  +395.5
+  ✅ TEST                                                     n=  25  wr= 76.0%  avg=  +4.9bps  tot=  +1.22%  sh=  +380.0
+    ✅ test=+0.044%/d
+
+  --- EXP NNNN4: TREND EXHAUSTION ---
+
+  Trend exhaust(15) >0.75 (fade):
+  ✅ TRAIN                                                    n= 581  wr= 67.0%  avg=  +4.1bps  tot= +23.67%  sh=  +254.7
+  ✅ TEST                                                     n= 378  wr= 72.0%  avg=  +4.9bps  tot= +18.52%  sh=  +403.6
+    ✅ test=+0.661%/d
+
+  Trend exhaust(15) >0.8 (fade):
+  ✅ TRAIN                                                    n=  88  wr= 72.7%  avg=  +5.4bps  tot=  +4.71%  sh=  +296.4
+  ✅ TEST                                                     n=  64  wr= 79.7%  avg=  +5.8bps  tot=  +3.68%  sh=  +483.3
+    ✅ test=+0.131%/d
+
+  Trend exhaust(30) >0.75 (fade):
+  ✅ TRAIN                                                    n=  42  wr= 81.0%  avg=  +3.4bps  tot=  +1.41%  sh=  +188.7
+  ✅ TEST                                                     n=  78  wr= 67.9%  avg=  +4.7bps  tot=  +3.69%  sh=  +431.4
+    ✅ test=+0.132%/d
+
+  Trend exhaust(30) >0.8 (fade):
+  ✅ TRAIN                                                    n=   8  wr= 87.5%  avg=  +6.9bps  tot=  +0.55%  sh=  +735.0
+  ✅ TEST                                                     n=   2  wr= 50.0%  avg=  +4.7bps  tot=  +0.09%  sh=  +513.1
+    ✅ test=+0.003%/d
+
+  --- EXP OOOO4: RANGE CONTRACTION/EXPANSION ---
+
+  Range contraction→expansion (fade):
+  ✅ TRAIN                                                    n= 182  wr= 57.7%  avg=  +3.8bps  tot=  +6.93%  sh=  +246.7
+  ✅ TEST                                                     n=  79  wr= 67.1%  avg=  +5.0bps  tot=  +3.96%  sh=  +302.0
+    ✅ test=+0.142%/d
+  Loading DOGEUSDT... [10/88 29s] [20/88 47s] [30/88 59s] [40/88 72s] [50/88 82s] [60/88 93s] [70/88 127s] [80/88 155s] [88/88 167s] 126,720 bars (167s) [RAM=0.4GB, avail=7.5GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP LLLL4: PRICE MEMORY ---
+
+  Price memory (30m) revisit:
+  ✅ TRAIN                                                    n=2749  wr= 55.9%  avg=  +1.7bps  tot= +46.04%  sh=  +113.2
+  ✅ TEST                                                     n=1093  wr= 74.2%  avg=  +5.4bps  tot= +59.51%  sh=  +411.2
+    ✅ test=+2.125%/d
+
+  Price memory (60m) revisit:
+  ✅ TRAIN                                                    n=1933  wr= 55.9%  avg=  +1.6bps  tot= +31.57%  sh=  +115.9
+  ✅ TEST                                                     n= 774  wr= 74.9%  avg=  +5.4bps  tot= +41.70%  sh=  +370.0
+    ✅ test=+1.489%/d
+
+  --- EXP MMMM4: VOL BREAKOUT ---
+
+  Vol breakout z>2 (fade):
+  ✅ TRAIN                                                    n= 349  wr= 55.0%  avg=  +2.1bps  tot=  +7.19%  sh=  +107.0
+  ✅ TEST                                                     n= 179  wr= 74.9%  avg=  +7.8bps  tot= +13.89%  sh=  +380.1
+    ✅ test=+0.496%/d
+
+  Vol breakout z>3 (fade):
+  ✅ TRAIN                                                    n=  64  wr= 65.6%  avg=  +3.4bps  tot=  +2.17%  sh=  +135.0
+  ✅ TEST                                                     n=  28  wr= 82.1%  avg= +15.1bps  tot=  +4.24%  sh=  +470.8
+    ✅ test=+0.151%/d
+
+  --- EXP NNNN4: TREND EXHAUSTION ---
+
+  Trend exhaust(15) >0.75 (fade):
+  ✅ TRAIN                                                    n= 721  wr= 75.3%  avg=  +6.7bps  tot= +47.95%  sh=  +297.3
+  ✅ TEST                                                     n= 452  wr= 80.3%  avg=  +7.6bps  tot= +34.42%  sh=  +406.3
+    ✅ test=+1.229%/d
+
+  Trend exhaust(15) >0.8 (fade):
+  ✅ TRAIN                                                    n= 127  wr= 73.2%  avg= +10.0bps  tot= +12.69%  sh=  +235.8
+  ✅ TEST                                                     n=  80  wr= 82.5%  avg=  +7.8bps  tot=  +6.22%  sh=  +414.4
+    ✅ test=+0.222%/d
+
+  Trend exhaust(30) >0.75 (fade):
+  ✅ TRAIN                                                    n=  92  wr= 81.5%  avg=  +6.8bps  tot=  +6.25%  sh=  +482.0
+  ✅ TEST                                                     n=  84  wr= 86.9%  avg= +10.8bps  tot=  +9.06%  sh=  +609.5
+    ✅ test=+0.324%/d
+
+  Trend exhaust(30) >0.8 (fade):
+  ✅ TRAIN                                                    n=   4  wr=100.0%  avg= +14.7bps  tot=  +0.59%  sh= +1222.2
+  ✅ TEST                                                     n=   6  wr=100.0%  avg= +18.1bps  tot=  +1.09%  sh=  +897.0
+    ✅ test=+0.039%/d
+
+  --- EXP OOOO4: RANGE CONTRACTION/EXPANSION ---
+
+  Range contraction→expansion (fade):
+  ✅ TRAIN                                                    n= 172  wr= 58.7%  avg=  +3.9bps  tot=  +6.72%  sh=  +180.8
+  ✅ TEST                                                     n=  90  wr= 80.0%  avg= +10.4bps  tot=  +9.34%  sh=  +386.9
+    ✅ test=+0.334%/d
+  Loading XRPUSDT... [10/88 21s] [20/88 32s] [30/88 42s] [40/88 54s] [50/88 66s] [60/88 78s] [70/88 115s] [80/88 139s] [88/88 154s] 126,720 bars (154s) [RAM=0.4GB, avail=6.9GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP LLLL4: PRICE MEMORY ---
+
+  Price memory (30m) revisit:
+     TRAIN                                                    n=3036  wr= 42.0%  avg=  -0.3bps  tot=  -7.85%  sh=   -18.8
+  ✅ TEST                                                     n=1148  wr= 62.0%  avg=  +3.2bps  tot= +37.28%  sh=  +197.3
+    ✅ test=+1.331%/d
+
+  Price memory (60m) revisit:
+     TRAIN                                                    n=1992  wr= 40.3%  avg=  -0.1bps  tot=  -2.57%  sh=   -10.1
+  ✅ TEST                                                     n= 890  wr= 69.0%  avg=  +3.8bps  tot= +33.62%  sh=  +252.0
+    ✅ test=+1.201%/d
+
+  --- EXP MMMM4: VOL BREAKOUT ---
+
+  Vol breakout z>2 (fade):
+  ✅ TRAIN                                                    n= 339  wr= 50.4%  avg=  +1.5bps  tot=  +5.21%  sh=  +135.2
+  ✅ TEST                                                     n= 164  wr= 66.5%  avg=  +4.1bps  tot=  +6.67%  sh=  +216.6
+    ✅ test=+0.238%/d
+
+  Vol breakout z>3 (fade):
+  ✅ TRAIN                                                    n=  53  wr= 62.3%  avg=  +4.0bps  tot=  +2.12%  sh=  +283.8
+  ✅ TEST                                                     n=  21  wr= 76.2%  avg= +10.7bps  tot=  +2.24%  sh=  +388.5
+    ✅ test=+0.080%/d
+
+  --- EXP NNNN4: TREND EXHAUSTION ---
+
+  Trend exhaust(15) >0.75 (fade):
+  ✅ TRAIN                                                    n= 680  wr= 64.7%  avg=  +3.9bps  tot= +26.33%  sh=  +232.3
+  ✅ TEST                                                     n= 428  wr= 79.0%  avg=  +8.4bps  tot= +35.86%  sh=  +268.7
+    ✅ test=+1.281%/d
+
+  Trend exhaust(15) >0.8 (fade):
+  ✅ TRAIN                                                    n= 114  wr= 60.5%  avg=  +3.7bps  tot=  +4.24%  sh=  +171.1
+  ✅ TEST                                                     n=  81  wr= 80.2%  avg=  +7.2bps  tot=  +5.81%  sh=  +448.8
+    ✅ test=+0.207%/d
+
+  Trend exhaust(30) >0.75 (fade):
+  ✅ TRAIN                                                    n= 110  wr= 74.5%  avg=  +4.6bps  tot=  +5.11%  sh=  +393.0
+  ✅ TEST                                                     n=  59  wr= 81.4%  avg=  +8.0bps  tot=  +4.71%  sh=  +421.1
+    ✅ test=+0.168%/d
+
+  Trend exhaust(30) >0.8 (fade):
+  ✅ TRAIN                                                    n=   3  wr=100.0%  avg= +15.0bps  tot=  +0.45%  sh= +1786.4
+  ✅ TEST                                                     n=  12  wr= 91.7%  avg=  +4.6bps  tot=  +0.56%  sh=  +694.3
+    ✅ test=+0.020%/d
+
+  --- EXP OOOO4: RANGE CONTRACTION/EXPANSION ---
+
+  Range contraction→expansion (fade):
+  ✅ TRAIN                                                    n= 194  wr= 45.9%  avg=  +1.2bps  tot=  +2.32%  sh=   +71.3
+  ✅ TEST                                                     n=  68  wr= 72.1%  avg=  +7.6bps  tot=  +5.14%  sh=  +405.9
+    ✅ test=+0.183%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    exhaust_15_0.75         452   80.3%    +7.6bp    +34.4%     +406
+  ✅ DOGEUSDT    exhaust_15_0.8           80   82.5%    +7.8bp     +6.2%     +414
+  ✅ DOGEUSDT    exhaust_30_0.75          84   86.9%   +10.8bp     +9.1%     +610
+  ✅ DOGEUSDT    exhaust_30_0.8            6  100.0%   +18.1bp     +1.1%     +897
+  ✅ DOGEUSDT    memory_30              1093   74.2%    +5.4bp    +59.5%     +411
+  ✅ DOGEUSDT    memory_60               774   74.9%    +5.4bp    +41.7%     +370
+  ✅ DOGEUSDT    range_expand             90   80.0%   +10.4bp     +9.3%     +387
+  ✅ DOGEUSDT    vol_break_z2            179   74.9%    +7.8bp    +13.9%     +380
+  ✅ DOGEUSDT    vol_break_z3             28   82.1%   +15.1bp     +4.2%     +471
+  ✅ ETHUSDT     exhaust_15_0.75         406   68.0%    +4.7bp    +19.0%     +340
+  ✅ ETHUSDT     exhaust_15_0.8           60   71.7%    +4.5bp     +2.7%     +309
+  ✅ ETHUSDT     exhaust_30_0.75          81   82.7%    +6.6bp     +5.4%     +537
+  ✅ ETHUSDT     exhaust_30_0.8            1  100.0%    +7.2bp     +0.1%  +4312506417
+  ✅ ETHUSDT     memory_30              1420   51.5%    +1.3bp    +18.0%      +97
+  ✅ ETHUSDT     memory_60              1079   53.6%    +1.2bp    +12.9%      +76
+  ✅ ETHUSDT     range_expand             79   70.9%    +4.2bp     +3.3%     +177
+  ✅ ETHUSDT     vol_break_z2            168   63.7%    +3.8bp     +6.4%     +279
+  ✅ ETHUSDT     vol_break_z3             41   90.2%    +9.0bp     +3.7%     +540
+  ✅ SOLUSDT     exhaust_15_0.75         378   72.0%    +4.9bp    +18.5%     +404
+  ✅ SOLUSDT     exhaust_15_0.8           64   79.7%    +5.8bp     +3.7%     +483
+  ✅ SOLUSDT     exhaust_30_0.75          78   67.9%    +4.7bp     +3.7%     +431
+  ✅ SOLUSDT     exhaust_30_0.8            2   50.0%    +4.7bp     +0.1%     +513
+  ✅ SOLUSDT     memory_30              1265   56.2%    +2.1bp    +26.8%     +166
+  ✅ SOLUSDT     memory_60               948   57.9%    +1.8bp    +16.6%     +118
+  ✅ SOLUSDT     range_expand             79   67.1%    +5.0bp     +4.0%     +302
+  ✅ SOLUSDT     vol_break_z2            179   66.5%    +3.8bp     +6.8%     +302
+  ✅ SOLUSDT     vol_break_z3             25   76.0%    +4.9bp     +1.2%     +380
+  ✅ XRPUSDT     exhaust_15_0.75         428   79.0%    +8.4bp    +35.9%     +269
+  ✅ XRPUSDT     exhaust_15_0.8           81   80.2%    +7.2bp     +5.8%     +449
+  ✅ XRPUSDT     exhaust_30_0.75          59   81.4%    +8.0bp     +4.7%     +421
+  ✅ XRPUSDT     exhaust_30_0.8           12   91.7%    +4.6bp     +0.6%     +694
+  ✅ XRPUSDT     memory_30              1148   62.0%    +3.2bp    +37.3%     +197
+  ✅ XRPUSDT     memory_60               890   69.0%    +3.8bp    +33.6%     +252
+  ✅ XRPUSDT     range_expand             68   72.1%    +7.6bp     +5.1%     +406
+  ✅ XRPUSDT     vol_break_z2            164   66.5%    +4.1bp     +6.7%     +217
+  ✅ XRPUSDT     vol_break_z3             21   76.2%   +10.7bp     +2.2%     +388
+
+################################################################################
+  COMPLETE — 736s (12.3min) [RAM=0.3GB, avail=7.0GB]
+################################################################################
