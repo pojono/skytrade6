@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 23 Signal Types Discovered
+### 26 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -879,6 +879,9 @@ Strategy contribution (standalone):
 | 21 | Skewness | Price only | 93% | +23%/28d | Low |
 | 22 | Kurtosis | Price only | 84% | +195%/28d | Low |
 | 23 | **15m Range Fade** | **Price only** | **91%** | **+339%/28d** | **Low** |
+| 24 | Hurst Regime | Price only | 77% | +27%/28d | Medium |
+| 25 | Price Deceleration | Price only | 96% | +4%/28d | Low |
+| 26 | **Tick Imbalance** | **Price only** | **93%** | **+32%/28d** | **Low** |
 
 ---
 
@@ -1042,3 +1045,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ab_cross_sym_seasonality.py` | EXP SSS-UUU: cross-sym lead-lag, seasonality, divergence |
 | `research_v42ac_tick_micro.py` | EXP VVV-YYY: trade size, arrival rate, ensemble |
 | `research_v42ad_range_higher_order.py` | EXP ZZZ-CCCC: range, skewness, kurtosis, 15m range |
+| `research_v42ae_regime_adaptive.py` | EXP DDDD-GGGG: Hurst, vol gap, acceleration, tick imbalance |
