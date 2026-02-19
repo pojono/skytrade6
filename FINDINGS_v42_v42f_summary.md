@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 178 Signal Types Discovered
+### 181 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -1034,6 +1034,9 @@ Strategy contribution (standalone):
 | 176 | Ret Concentration (HHI) | Price only | 81% | +399%/28d | Low |
 | 177 | **Mom Divergence** | **Price only** | **91%** | **+524%/28d** | **Low** |
 | 178 | Wick Ratio Trend | Price only | 81% | +412%/28d | Low |
+| 179 | Price Z-Score Velocity | Price only | 84% | +317%/28d | Low |
+| 180 | Gap Fill Ratio | Price only | 84% | +339%/28d | Low |
+| 181 | **Mom Exhaustion** | **Price only** | **86%** | **+366%/28d** | **Low** |
 
 ---
 
@@ -1259,3 +1262,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bq_mrspeed_density.py` | EXP VVVV7-YYYY7: MR speed, price density, rolling beta, tail ratio |
 | `research_v42br_momqual_rangecon.py` | EXP ZZZZ7-CCCC8: mom quality, range contraction, close-high, vol of vol |
 | `research_v42bs_asymm_diverge.py` | EXP DDDD8-GGGG8: range asymm, ret concentration, mom diverge, wick trend |
+| `research_v42bt_zscore_entropy.py` | EXP HHHH8-KKKK8: z-score vel, gap fill, mom exhaustion (entropy dropped) |
