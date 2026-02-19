@@ -1,0 +1,299 @@
+================================================================================
+  v42at: PRICE ACCEL + VOL CLIMAX + MULTI-TF + OSCILLATION
+  2026-02-19 12:26:49  [RAM=0.1GB, avail=8.0GB]
+================================================================================
+  Loading ETHUSDT... [10/88 36s] [20/88 61s] [30/88 82s] [40/88 108s] [50/88 130s] [60/88 148s] [70/88 180s] [80/88 216s] [88/88 240s] 126,720 bars (240s) [RAM=0.5GB, avail=7.8GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP HHHH4: PRICE ACCELERATION ---
+
+  Accel(10) z>2 (fade):
+  ✅ TRAIN                                                    n=1580  wr= 65.3%  avg=  +6.4bps  tot=+101.28%  sh=  +241.0
+  ✅ TEST                                                     n= 748  wr= 69.5%  avg=  +6.0bps  tot= +44.84%  sh=  +291.4
+    ✅ test=+1.601%/d
+
+  Accel(10) z>3 (fade):
+  ✅ TRAIN                                                    n= 277  wr= 76.9%  avg= +13.4bps  tot= +37.15%  sh=  +346.5
+  ✅ TEST                                                     n= 122  wr= 73.8%  avg=  +9.4bps  tot= +11.42%  sh=  +313.3
+    ✅ test=+0.408%/d
+
+  Accel(20) z>2 (fade):
+  ✅ TRAIN                                                    n=1518  wr= 63.2%  avg=  +6.1bps  tot= +92.68%  sh=  +230.6
+  ✅ TEST                                                     n= 754  wr= 68.3%  avg=  +5.2bps  tot= +39.07%  sh=  +249.1
+    ✅ test=+1.396%/d
+
+  Accel(20) z>3 (fade):
+  ✅ TRAIN                                                    n= 257  wr= 73.2%  avg= +13.4bps  tot= +34.37%  sh=  +340.9
+  ✅ TEST                                                     n= 115  wr= 80.0%  avg= +11.5bps  tot= +13.21%  sh=  +387.3
+    ✅ test=+0.472%/d
+
+  --- EXP IIII4: VOLUME CLIMAX ---
+
+  Vol climax 3x (fade):
+  ✅ TRAIN                                                    n=1749  wr= 74.4%  avg= +11.3bps  tot=+198.28%  sh=  +293.4
+  ✅ TEST                                                     n= 772  wr= 79.4%  avg=  +8.7bps  tot= +67.38%  sh=  +466.1
+    ✅ test=+2.406%/d
+
+  Vol climax 5x (fade):
+  ✅ TRAIN                                                    n= 616  wr= 84.1%  avg= +18.8bps  tot=+115.53%  sh=  +346.5
+  ✅ TEST                                                     n= 277  wr= 84.1%  avg= +11.3bps  tot= +31.38%  sh=  +548.9
+    ✅ test=+1.121%/d
+
+  --- EXP JJJJ4: MULTI-TF Z-SCORE AGREEMENT ---
+
+  Multi-TF z>2 (5/15/30) (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Multi-TF z>2 (10/30/60) (fade):
+  ✅ TRAIN                                                    n= 522  wr= 84.1%  avg= +12.1bps  tot= +63.02%  sh=  +450.4
+  ✅ TEST                                                     n= 255  wr= 83.9%  avg= +11.1bps  tot= +28.43%  sh=  +468.5
+    ✅ test=+1.015%/d
+
+  --- EXP KKKK4: OSCILLATION FREQUENCY ---
+
+  High oscillation(15) >90th pct (fade):
+  ✅ TRAIN                                                    n=6301  wr= 55.2%  avg=  +2.0bps  tot=+127.77%  sh=  +139.3
+  ✅ TEST                                                     n=3121  wr= 59.2%  avg=  +2.7bps  tot= +83.27%  sh=  +188.4
+    ✅ test=+2.974%/d
+
+  High oscillation(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7546  wr= 55.9%  avg=  +2.1bps  tot=+157.51%  sh=  +142.8
+  ✅ TEST                                                     n=3680  wr= 58.9%  avg=  +2.9bps  tot=+105.35%  sh=  +192.6
+    ✅ test=+3.762%/d
+  Loading SOLUSDT... [10/88 20s] [20/88 35s] [30/88 46s] [40/88 60s] [50/88 73s] [60/88 83s] [70/88 98s] [80/88 118s] [88/88 127s] 126,720 bars (127s) [RAM=0.4GB, avail=7.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP HHHH4: PRICE ACCELERATION ---
+
+  Accel(10) z>2 (fade):
+  ✅ TRAIN                                                    n=1570  wr= 66.3%  avg=  +5.6bps  tot= +87.61%  sh=  +245.9
+  ✅ TEST                                                     n= 753  wr= 64.0%  avg=  +4.8bps  tot= +35.89%  sh=  +264.3
+    ✅ test=+1.282%/d
+
+  Accel(10) z>3 (fade):
+  ✅ TRAIN                                                    n= 229  wr= 72.5%  avg= +11.5bps  tot= +26.26%  sh=  +298.9
+  ✅ TEST                                                     n= 107  wr= 66.4%  avg=  +6.2bps  tot=  +6.61%  sh=  +240.6
+    ✅ test=+0.236%/d
+
+  Accel(20) z>2 (fade):
+  ✅ TRAIN                                                    n=1601  wr= 67.1%  avg=  +5.7bps  tot= +90.78%  sh=  +260.8
+  ✅ TEST                                                     n= 744  wr= 62.9%  avg=  +4.7bps  tot= +35.00%  sh=  +268.7
+    ✅ test=+1.250%/d
+
+  Accel(20) z>3 (fade):
+  ✅ TRAIN                                                    n= 208  wr= 75.5%  avg= +12.0bps  tot= +25.00%  sh=  +323.2
+  ✅ TEST                                                     n=  92  wr= 70.7%  avg=  +7.4bps  tot=  +6.78%  sh=  +261.9
+    ✅ test=+0.242%/d
+
+  --- EXP IIII4: VOLUME CLIMAX ---
+
+  Vol climax 3x (fade):
+  ✅ TRAIN                                                    n=1723  wr= 73.7%  avg=  +8.2bps  tot=+141.37%  sh=  +296.3
+  ✅ TEST                                                     n= 800  wr= 78.8%  avg=  +8.6bps  tot= +69.00%  sh=  +419.3
+    ✅ test=+2.464%/d
+
+  Vol climax 5x (fade):
+  ✅ TRAIN                                                    n= 564  wr= 79.6%  avg= +12.7bps  tot= +71.52%  sh=  +328.7
+  ✅ TEST                                                     n= 253  wr= 83.4%  avg= +12.2bps  tot= +30.95%  sh=  +526.0
+    ✅ test=+1.105%/d
+
+  --- EXP JJJJ4: MULTI-TF Z-SCORE AGREEMENT ---
+
+  Multi-TF z>2 (5/15/30) (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Multi-TF z>2 (10/30/60) (fade):
+  ✅ TRAIN                                                    n= 486  wr= 77.8%  avg=  +8.7bps  tot= +42.38%  sh=  +328.6
+  ✅ TEST                                                     n= 191  wr= 71.2%  avg=  +6.2bps  tot= +11.85%  sh=  +275.1
+    ✅ test=+0.423%/d
+
+  --- EXP KKKK4: OSCILLATION FREQUENCY ---
+
+  High oscillation(15) >90th pct (fade):
+  ✅ TRAIN                                                    n=6895  wr= 61.0%  avg=  +3.0bps  tot=+206.24%  sh=  +204.9
+  ✅ TEST                                                     n=3227  wr= 63.4%  avg=  +3.6bps  tot=+116.74%  sh=  +234.5
+    ✅ test=+4.169%/d
+
+  High oscillation(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8236  wr= 61.1%  avg=  +3.1bps  tot=+257.76%  sh=  +191.8
+  ✅ TEST                                                     n=3947  wr= 63.1%  avg=  +3.5bps  tot=+137.72%  sh=  +220.8
+    ✅ test=+4.918%/d
+  Loading DOGEUSDT... [10/88 29s] [20/88 47s] [30/88 58s] [40/88 70s] [50/88 79s] [60/88 89s] [70/88 121s] [80/88 153s] [88/88 164s] 126,720 bars (164s) [RAM=0.4GB, avail=7.7GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP HHHH4: PRICE ACCELERATION ---
+
+  Accel(10) z>2 (fade):
+  ✅ TRAIN                                                    n=1609  wr= 68.1%  avg=  +6.6bps  tot=+105.91%  sh=  +227.4
+  ✅ TEST                                                     n= 833  wr= 82.1%  avg= +10.7bps  tot= +88.77%  sh=  +371.0
+    ✅ test=+3.170%/d
+
+  Accel(10) z>3 (fade):
+  ✅ TRAIN                                                    n= 262  wr= 81.3%  avg= +13.4bps  tot= +35.21%  sh=  +284.2
+  ✅ TEST                                                     n=  96  wr= 83.3%  avg= +19.3bps  tot= +18.55%  sh=  +381.9
+    ✅ test=+0.663%/d
+
+  Accel(20) z>2 (fade):
+  ✅ TRAIN                                                    n=1640  wr= 69.7%  avg=  +6.8bps  tot=+111.35%  sh=  +238.4
+  ✅ TEST                                                     n= 789  wr= 83.8%  avg= +11.3bps  tot= +89.12%  sh=  +389.4
+    ✅ test=+3.183%/d
+
+  Accel(20) z>3 (fade):
+  ✅ TRAIN                                                    n= 228  wr= 85.1%  avg= +15.6bps  tot= +35.64%  sh=  +314.6
+  ✅ TEST                                                     n= 101  wr= 88.1%  avg= +19.7bps  tot= +19.91%  sh=  +395.4
+    ✅ test=+0.711%/d
+
+  --- EXP IIII4: VOLUME CLIMAX ---
+
+  Vol climax 3x (fade):
+  ✅ TRAIN                                                    n=1955  wr= 74.7%  avg= +10.3bps  tot=+200.86%  sh=  +322.3
+  ✅ TEST                                                     n= 972  wr= 88.3%  avg= +16.0bps  tot=+155.27%  sh=  +518.5
+    ✅ test=+5.545%/d
+
+  Vol climax 5x (fade):
+  ✅ TRAIN                                                    n= 720  wr= 77.9%  avg= +14.5bps  tot=+104.43%  sh=  +346.4
+  ✅ TEST                                                     n= 351  wr= 89.2%  avg= +20.5bps  tot= +71.79%  sh=  +521.7
+    ✅ test=+2.564%/d
+
+  --- EXP JJJJ4: MULTI-TF Z-SCORE AGREEMENT ---
+
+  Multi-TF z>2 (5/15/30) (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Multi-TF z>2 (10/30/60) (fade):
+  ✅ TRAIN                                                    n= 476  wr= 77.7%  avg= +10.4bps  tot= +49.41%  sh=  +284.1
+  ✅ TEST                                                     n= 237  wr= 86.9%  avg= +13.6bps  tot= +32.19%  sh=  +391.4
+    ✅ test=+1.150%/d
+
+  --- EXP KKKK4: OSCILLATION FREQUENCY ---
+
+  High oscillation(15) >90th pct (fade):
+  ✅ TRAIN                                                    n=7048  wr= 63.9%  avg=  +4.1bps  tot=+287.66%  sh=  +225.3
+  ✅ TEST                                                     n=3641  wr= 79.7%  avg=  +7.7bps  tot=+282.01%  sh=  +447.4
+    ✅ test=+10.072%/d
+
+  High oscillation(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8282  wr= 64.3%  avg=  +4.0bps  tot=+330.04%  sh=  +221.9
+  ✅ TEST                                                     n=4165  wr= 80.6%  avg=  +7.7bps  tot=+321.84%  sh=  +453.3
+    ✅ test=+11.494%/d
+  Loading XRPUSDT... [10/88 19s] [20/88 29s] [30/88 39s] [40/88 50s] [50/88 61s] [60/88 70s] [70/88 109s] [80/88 131s] [88/88 143s] 126,720 bars (143s) [RAM=0.5GB, avail=7.3GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP HHHH4: PRICE ACCELERATION ---
+
+  Accel(10) z>2 (fade):
+  ✅ TRAIN                                                    n=1505  wr= 54.4%  avg=  +3.7bps  tot= +55.23%  sh=  +165.4
+  ✅ TEST                                                     n= 817  wr= 76.1%  avg=  +8.1bps  tot= +66.24%  sh=  +338.3
+    ✅ test=+2.366%/d
+
+  Accel(10) z>3 (fade):
+  ✅ TRAIN                                                    n= 214  wr= 61.2%  avg=  +9.1bps  tot= +19.57%  sh=  +254.5
+  ✅ TEST                                                     n=  97  wr= 74.2%  avg=  +8.7bps  tot=  +8.45%  sh=  +265.0
+    ✅ test=+0.302%/d
+
+  Accel(20) z>2 (fade):
+  ✅ TRAIN                                                    n=1416  wr= 55.6%  avg=  +3.8bps  tot= +54.13%  sh=  +165.2
+  ✅ TEST                                                     n= 810  wr= 75.3%  avg=  +7.8bps  tot= +63.56%  sh=  +308.1
+    ✅ test=+2.270%/d
+
+  Accel(20) z>3 (fade):
+  ✅ TRAIN                                                    n= 198  wr= 60.6%  avg=  +8.9bps  tot= +17.62%  sh=  +244.8
+  ✅ TEST                                                     n= 101  wr= 77.2%  avg= +12.2bps  tot= +12.32%  sh=  +280.1
+    ✅ test=+0.440%/d
+
+  --- EXP IIII4: VOLUME CLIMAX ---
+
+  Vol climax 3x (fade):
+  ✅ TRAIN                                                    n=1513  wr= 64.4%  avg=  +6.7bps  tot=+101.46%  sh=  +256.5
+  ✅ TEST                                                     n= 692  wr= 81.6%  avg= +13.0bps  tot= +90.26%  sh=  +401.2
+    ✅ test=+3.224%/d
+
+  Vol climax 5x (fade):
+  ✅ TRAIN                                                    n= 486  wr= 67.1%  avg= +10.3bps  tot= +50.03%  sh=  +286.6
+  ✅ TEST                                                     n= 206  wr= 87.9%  avg= +18.0bps  tot= +37.11%  sh=  +485.1
+    ✅ test=+1.326%/d
+
+  --- EXP JJJJ4: MULTI-TF Z-SCORE AGREEMENT ---
+
+  Multi-TF z>2 (5/15/30) (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Multi-TF z>2 (10/30/60) (fade):
+  ✅ TRAIN                                                    n= 394  wr= 64.7%  avg=  +7.3bps  tot= +28.94%  sh=  +248.7
+  ✅ TEST                                                     n= 218  wr= 77.5%  avg= +10.5bps  tot= +22.90%  sh=  +294.1
+    ✅ test=+0.818%/d
+
+  --- EXP KKKK4: OSCILLATION FREQUENCY ---
+
+  High oscillation(15) >90th pct (fade):
+  ✅ TRAIN                                                    n=6362  wr= 49.9%  avg=  +1.5bps  tot= +96.75%  sh=  +106.2
+  ✅ TEST                                                     n=3420  wr= 71.7%  avg=  +5.5bps  tot=+189.05%  sh=  +343.8
+    ✅ test=+6.752%/d
+
+  High oscillation(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7460  wr= 49.2%  avg=  +1.3bps  tot= +96.93%  sh=   +89.8
+  ✅ TEST                                                     n=4058  wr= 71.8%  avg=  +5.7bps  tot=+230.43%  sh=  +335.9
+    ✅ test=+8.230%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    accel_10_z2             833   82.1%   +10.7bp    +88.8%     +371
+  ✅ DOGEUSDT    accel_10_z3              96   83.3%   +19.3bp    +18.6%     +382
+  ✅ DOGEUSDT    accel_20_z2             789   83.8%   +11.3bp    +89.1%     +389
+  ✅ DOGEUSDT    accel_20_z3             101   88.1%   +19.7bp    +19.9%     +395
+  ✅ DOGEUSDT    mtf_10/30/60            237   86.9%   +13.6bp    +32.2%     +391
+  ✅ DOGEUSDT    osc_freq_15            3641   79.7%    +7.7bp   +282.0%     +447
+  ✅ DOGEUSDT    osc_freq_30            4165   80.6%    +7.7bp   +321.8%     +453
+  ✅ DOGEUSDT    vol_climax_3x           972   88.3%   +16.0bp   +155.3%     +519
+  ✅ DOGEUSDT    vol_climax_5x           351   89.2%   +20.5bp    +71.8%     +522
+  ✅ ETHUSDT     accel_10_z2             748   69.5%    +6.0bp    +44.8%     +291
+  ✅ ETHUSDT     accel_10_z3             122   73.8%    +9.4bp    +11.4%     +313
+  ✅ ETHUSDT     accel_20_z2             754   68.3%    +5.2bp    +39.1%     +249
+  ✅ ETHUSDT     accel_20_z3             115   80.0%   +11.5bp    +13.2%     +387
+  ✅ ETHUSDT     mtf_10/30/60            255   83.9%   +11.1bp    +28.4%     +468
+  ✅ ETHUSDT     osc_freq_15            3121   59.2%    +2.7bp    +83.3%     +188
+  ✅ ETHUSDT     osc_freq_30            3680   58.9%    +2.9bp   +105.3%     +193
+  ✅ ETHUSDT     vol_climax_3x           772   79.4%    +8.7bp    +67.4%     +466
+  ✅ ETHUSDT     vol_climax_5x           277   84.1%   +11.3bp    +31.4%     +549
+  ✅ SOLUSDT     accel_10_z2             753   64.0%    +4.8bp    +35.9%     +264
+  ✅ SOLUSDT     accel_10_z3             107   66.4%    +6.2bp     +6.6%     +241
+  ✅ SOLUSDT     accel_20_z2             744   62.9%    +4.7bp    +35.0%     +269
+  ✅ SOLUSDT     accel_20_z3              92   70.7%    +7.4bp     +6.8%     +262
+  ✅ SOLUSDT     mtf_10/30/60            191   71.2%    +6.2bp    +11.8%     +275
+  ✅ SOLUSDT     osc_freq_15            3227   63.4%    +3.6bp   +116.7%     +234
+  ✅ SOLUSDT     osc_freq_30            3947   63.1%    +3.5bp   +137.7%     +221
+  ✅ SOLUSDT     vol_climax_3x           800   78.8%    +8.6bp    +69.0%     +419
+  ✅ SOLUSDT     vol_climax_5x           253   83.4%   +12.2bp    +31.0%     +526
+  ✅ XRPUSDT     accel_10_z2             817   76.1%    +8.1bp    +66.2%     +338
+  ✅ XRPUSDT     accel_10_z3              97   74.2%    +8.7bp     +8.5%     +265
+  ✅ XRPUSDT     accel_20_z2             810   75.3%    +7.8bp    +63.6%     +308
+  ✅ XRPUSDT     accel_20_z3             101   77.2%   +12.2bp    +12.3%     +280
+  ✅ XRPUSDT     mtf_10/30/60            218   77.5%   +10.5bp    +22.9%     +294
+  ✅ XRPUSDT     osc_freq_15            3420   71.7%    +5.5bp   +189.1%     +344
+  ✅ XRPUSDT     osc_freq_30            4058   71.8%    +5.7bp   +230.4%     +336
+  ✅ XRPUSDT     vol_climax_3x           692   81.6%   +13.0bp    +90.3%     +401
+  ✅ XRPUSDT     vol_climax_5x           206   87.9%   +18.0bp    +37.1%     +485
+
+################################################################################
+  COMPLETE — 736s (12.3min) [RAM=0.4GB, avail=7.5GB]
+################################################################################
