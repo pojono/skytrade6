@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 19 Signal Types Discovered
+### 23 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -875,6 +875,10 @@ Strategy contribution (standalone):
 | 17 | Whale Trade (max size) | Price+Vol | 86% | +118%/28d | Low |
 | 18 | **Trade Arrival Rate** | **Price+Vol** | **95%** | **+240%/28d** | **Low** |
 | 19 | **Multi-Signal Ensemble** | **Combined** | **99%** | **+217%/28d** | **Low** |
+| 20 | Range Expansion | Price only | 88% | +167%/28d | Low |
+| 21 | Skewness | Price only | 93% | +23%/28d | Low |
+| 22 | Kurtosis | Price only | 84% | +195%/28d | Low |
+| 23 | **15m Range Fade** | **Price only** | **91%** | **+339%/28d** | **Low** |
 
 ---
 
@@ -1037,3 +1041,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42aa_best_of_portfolio.py` | BEST-OF: 6 signals × 4 symbols definitive comparison |
 | `research_v42ab_cross_sym_seasonality.py` | EXP SSS-UUU: cross-sym lead-lag, seasonality, divergence |
 | `research_v42ac_tick_micro.py` | EXP VVV-YYY: trade size, arrival rate, ensemble |
+| `research_v42ad_range_higher_order.py` | EXP ZZZ-CCCC: range, skewness, kurtosis, 15m range |
