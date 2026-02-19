@@ -1,0 +1,199 @@
+================================================================================
+  v42ah: INFORMATION-THEORETIC SIGNALS + ENTROPY
+  2026-02-19 09:50:28  [RAM=0.1GB, avail=5.9GB]
+================================================================================
+  Loading SOLUSDT... [10/88 16s] [20/88 29s] [30/88 38s] [40/88 50s] [50/88 60s] [60/88 68s] [70/88 81s] [80/88 98s] [88/88 106s] 126,720 bars (106s) [RAM=0.3GB, avail=5.8GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP LLLL: RETURN ENTROPY ---
+  Computing entropy (slow)...
+  Entropy stats: mean=2.603, P10=2.324, P90=2.836
+
+  Low entropy P10 (fade):
+  ✅ TRAIN                                                    n=6432  wr= 60.7%  avg=  +3.5bps  tot=+228.29%  sh=  +201.5
+  ✅ TEST                                                     n=2705  wr= 64.3%  avg=  +3.8bps  tot=+102.73%  sh=  +254.2
+    ✅ test=+3.669%/d
+
+  Low entropy P20 (fade):
+  ✅ TRAIN                                                    n=12998  wr= 60.4%  avg=  +3.1bps  tot=+408.91%  sh=  +185.6
+  ✅ TEST                                                     n=5151  wr= 63.6%  avg=  +3.6bps  tot=+185.43%  sh=  +244.5
+    ✅ test=+6.622%/d
+
+  --- EXP MMMM: DIRECTIONAL PERSISTENCE ---
+  Persistence stats: mean=0.180, P90=0.364
+
+  Persistence >0.3 (fade persistent move):
+  ✅ TRAIN                                                    n=11570  wr= 70.2%  avg=  +5.2bps  tot=+598.14%  sh=  +293.3
+  ✅ TEST                                                     n=5412  wr= 70.9%  avg=  +5.1bps  tot=+278.31%  sh=  +298.9
+    ✅ test=+9.940%/d
+
+  Persistence >0.4 (fade persistent move):
+  ✅ TRAIN                                                    n=4638  wr= 74.6%  avg=  +6.7bps  tot=+310.79%  sh=  +315.4
+  ✅ TEST                                                     n=2110  wr= 73.6%  avg=  +6.0bps  tot=+126.51%  sh=  +329.9
+    ✅ test=+4.518%/d
+
+  Persistence >0.5 (fade persistent move):
+  ✅ TRAIN                                                    n=1411  wr= 80.1%  avg=  +9.7bps  tot=+136.40%  sh=  +346.1
+  ✅ TEST                                                     n= 609  wr= 76.7%  avg=  +6.1bps  tot= +37.23%  sh=  +381.0
+    ✅ test=+1.330%/d
+
+  --- EXP NNNN: GAP-FILL ---
+
+  Gap >5bps (fade):
+  ✅ TRAIN                                                    n=   1  wr=100.0%  avg=  +6.0bps  tot=  +0.06%  sh=+3629639059.4
+  ✅ TEST                                                     n=   1  wr=100.0%  avg= +24.8bps  tot=  +0.25%  sh=+14953293050.2
+    ✅ test=+0.009%/d
+
+  Gap >10bps (fade):
+  ✅ TRAIN                                                    n=   1  wr=100.0%  avg=  +6.0bps  tot=  +0.06%  sh=+3629639059.4
+    TEST                                                     NO TRADES
+
+  Gap >20bps (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP OOOO: MOMENTUM EXHAUSTION ---
+
+  Momentum exhaustion z>2 (fade):
+  ✅ TRAIN                                                    n= 818  wr= 66.6%  avg=  +3.5bps  tot= +28.75%  sh=  +268.9
+  ✅ TEST                                                     n= 418  wr= 62.7%  avg=  +3.0bps  tot= +12.46%  sh=  +233.2
+    ✅ test=+0.445%/d
+
+  Momentum exhaustion z>3 (fade):
+  ✅ TRAIN                                                    n= 108  wr= 70.4%  avg=  +3.3bps  tot=  +3.53%  sh=  +363.4
+  ✅ TEST                                                     n=  67  wr= 71.6%  avg=  +4.2bps  tot=  +2.80%  sh=  +356.2
+    ✅ test=+0.100%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 35s] [30/88 44s] [40/88 53s] [50/88 61s] [60/88 69s] [70/88 97s] [80/88 118s] [88/88 126s] 126,720 bars (126s) [RAM=0.4GB, avail=5.8GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP LLLL: RETURN ENTROPY ---
+  Computing entropy (slow)...
+  Entropy stats: mean=2.616, P10=2.338, P90=2.845
+
+  Low entropy P10 (fade):
+  ✅ TRAIN                                                    n=7036  wr= 63.2%  avg=  +4.6bps  tot=+323.23%  sh=  +212.0
+  ✅ TEST                                                     n=2343  wr= 83.5%  avg=  +9.8bps  tot=+229.65%  sh=  +446.3
+    ✅ test=+8.202%/d
+
+  Low entropy P20 (fade):
+  ✅ TRAIN                                                    n=13677  wr= 63.1%  avg=  +4.1bps  tot=+562.70%  sh=  +204.5
+  ✅ TEST                                                     n=5052  wr= 81.0%  avg=  +8.6bps  tot=+433.91%  sh=  +422.8
+    ✅ test=+15.497%/d
+
+  --- EXP MMMM: DIRECTIONAL PERSISTENCE ---
+  Persistence stats: mean=0.179, P90=0.364
+
+  Persistence >0.3 (fade persistent move):
+  ✅ TRAIN                                                    n=11942  wr= 74.3%  avg=  +6.6bps  tot=+791.86%  sh=  +326.3
+  ✅ TEST                                                     n=5721  wr= 88.5%  avg= +10.4bps  tot=+596.98%  sh=  +530.5
+    ✅ test=+21.321%/d
+
+  Persistence >0.4 (fade persistent move):
+  ✅ TRAIN                                                    n=4860  wr= 77.0%  avg=  +8.4bps  tot=+406.20%  sh=  +340.2
+  ✅ TEST                                                     n=2121  wr= 90.3%  avg= +11.8bps  tot=+250.97%  sh=  +528.4
+    ✅ test=+8.963%/d
+
+  Persistence >0.5 (fade persistent move):
+  ✅ TRAIN                                                    n=1498  wr= 81.8%  avg= +11.5bps  tot=+172.65%  sh=  +358.8
+  ✅ TEST                                                     n= 595  wr= 93.1%  avg= +14.4bps  tot= +85.47%  sh=  +554.1
+    ✅ test=+3.052%/d
+
+  --- EXP NNNN: GAP-FILL ---
+
+  Gap >5bps (fade):
+  ✅ TRAIN                                                    n=   1  wr=100.0%  avg= +11.3bps  tot=  +0.11%  sh=+6789213329.5
+  ✅ TEST                                                     n=   2  wr=100.0%  avg= +14.7bps  tot=  +0.29%  sh= +1403.0
+    ✅ test=+0.011%/d
+
+  Gap >10bps (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Gap >20bps (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP OOOO: MOMENTUM EXHAUSTION ---
+
+  Momentum exhaustion z>2 (fade):
+  ✅ TRAIN                                                    n= 707  wr= 71.4%  avg=  +5.6bps  tot= +39.81%  sh=  +393.8
+  ✅ TEST                                                     n= 407  wr= 85.3%  avg=  +8.1bps  tot= +32.81%  sh=  +585.9
+    ✅ test=+1.172%/d
+
+  Momentum exhaustion z>3 (fade):
+  ✅ TRAIN                                                    n= 124  wr= 86.3%  avg=  +8.7bps  tot= +10.76%  sh=  +651.5
+  ✅ TEST                                                     n=  45  wr= 84.4%  avg= +10.1bps  tot=  +4.53%  sh=  +558.6
+    ✅ test=+0.162%/d
+  Loading XRPUSDT... [10/88 15s] [20/88 24s] [30/88 31s] [40/88 40s] [50/88 50s] [60/88 58s] [70/88 86s] [80/88 104s] [88/88 115s] 126,720 bars (115s) [RAM=0.4GB, avail=5.7GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP LLLL: RETURN ENTROPY ---
+  Computing entropy (slow)...
+  Entropy stats: mean=2.607, P10=2.324, P90=2.843
+
+  Low entropy P10 (fade):
+  ✅ TRAIN                                                    n=6469  wr= 50.3%  avg=  +1.8bps  tot=+113.47%  sh=  +102.9
+  ✅ TEST                                                     n=2031  wr= 69.7%  avg=  +6.2bps  tot=+125.68%  sh=  +258.1
+    ✅ test=+4.489%/d
+
+  Low entropy P20 (fade):
+  ✅ TRAIN                                                    n=12463  wr= 49.8%  avg=  +1.5bps  tot=+190.28%  sh=   +97.0
+  ✅ TEST                                                     n=4581  wr= 70.9%  avg=  +6.0bps  tot=+276.23%  sh=  +272.7
+    ✅ test=+9.865%/d
+
+  --- EXP MMMM: DIRECTIONAL PERSISTENCE ---
+  Persistence stats: mean=0.177, P90=0.357
+
+  Persistence >0.3 (fade persistent move):
+  ✅ TRAIN                                                    n=10065  wr= 62.5%  avg=  +3.9bps  tot=+387.98%  sh=  +234.3
+  ✅ TEST                                                     n=5218  wr= 78.4%  avg=  +8.3bps  tot=+431.72%  sh=  +375.7
+    ✅ test=+15.419%/d
+
+  Persistence >0.4 (fade persistent move):
+  ✅ TRAIN                                                    n=3910  wr= 68.0%  avg=  +5.4bps  tot=+211.58%  sh=  +273.3
+  ✅ TEST                                                     n=1870  wr= 78.8%  avg=  +9.6bps  tot=+180.03%  sh=  +362.4
+    ✅ test=+6.430%/d
+
+  Persistence >0.5 (fade persistent move):
+  ✅ TRAIN                                                    n=1266  wr= 72.6%  avg=  +7.1bps  tot= +89.97%  sh=  +278.5
+  ✅ TEST                                                     n= 568  wr= 77.8%  avg= +11.5bps  tot= +65.18%  sh=  +318.8
+    ✅ test=+2.328%/d
+
+  --- EXP NNNN: GAP-FILL ---
+
+  Gap >5bps (fade):
+    TRAIN                                                    NO TRADES
+  ✅ TEST                                                     n=   1  wr=100.0%  avg=  +9.4bps  tot=  +0.09%  sh=+5650995845.4
+
+  Gap >10bps (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Gap >20bps (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP OOOO: MOMENTUM EXHAUSTION ---
+
+  Momentum exhaustion z>2 (fade):
+  ✅ TRAIN                                                    n= 699  wr= 57.1%  avg=  +2.4bps  tot= +16.80%  sh=  +198.9
+  ✅ TEST                                                     n= 434  wr= 76.3%  avg=  +6.4bps  tot= +27.59%  sh=  +402.1
+    ✅ test=+0.985%/d
+
+  Momentum exhaustion z>3 (fade):
+  ✅ TRAIN                                                    n=  84  wr= 75.0%  avg=  +4.3bps  tot=  +3.62%  sh=  +462.1
+  ✅ TEST                                                     n=  58  wr= 87.9%  avg=  +8.7bps  tot=  +5.07%  sh=  +660.1
+    ✅ test=+0.181%/d
+
+################################################################################
+  COMPLETE — 444s (7.4min) [RAM=0.3GB, avail=5.5GB]
+################################################################################
