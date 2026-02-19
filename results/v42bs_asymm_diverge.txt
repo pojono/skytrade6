@@ -1,0 +1,451 @@
+================================================================================
+  v42bs: RANGE ASYMM + RET CONCENTRATION + MOM DIVERGE + WICK RATIO TREND
+  2026-02-19 19:32:24  [RAM=0.1GB, avail=6.9GB]
+================================================================================
+  Loading ETHUSDT... [10/88 33s] [20/88 55s] [30/88 75s] [40/88 99s] [50/88 120s] [60/88 136s] [70/88 168s] [80/88 207s] [88/88 243s] 126,720 bars (243s) [RAM=0.5GB, avail=6.4GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP DDDD8: RANGE ASYMMETRY ---
+
+  Range asym(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4584  wr= 55.2%  avg=  +2.5bps  tot=+114.63%  sh=  +152.9
+  ✅ TEST                                                     n=2076  wr= 61.7%  avg=  +3.3bps  tot= +67.62%  sh=  +236.6
+    ✅ test=+2.415%/d
+
+  Range asym(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7524  wr= 55.7%  avg=  +2.4bps  tot=+182.19%  sh=  +153.4
+  ✅ TEST                                                     n=3473  wr= 62.1%  avg=  +3.3bps  tot=+115.27%  sh=  +237.4
+    ✅ test=+4.117%/d
+
+  Range asym(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6015  wr= 55.0%  avg=  +2.3bps  tot=+140.40%  sh=  +156.9
+  ✅ TEST                                                     n=2649  wr= 62.1%  avg=  +3.1bps  tot= +81.01%  sh=  +202.2
+    ✅ test=+2.893%/d
+
+  Range asym(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9120  wr= 55.5%  avg=  +2.3bps  tot=+209.19%  sh=  +148.5
+  ✅ TEST                                                     n=4067  wr= 62.6%  avg=  +3.0bps  tot=+120.24%  sh=  +198.0
+    ✅ test=+4.294%/d
+
+  --- EXP EEEE8: RETURN CONCENTRATION RATIO ---
+
+  Ret HHI(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6888  wr= 58.1%  avg=  +4.0bps  tot=+272.62%  sh=  +162.8
+  ✅ TEST                                                     n=3397  wr= 63.9%  avg=  +3.7bps  tot=+126.77%  sh=  +225.7
+    ✅ test=+4.527%/d
+
+  Ret HHI(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4074  wr= 57.3%  avg=  +4.3bps  tot=+173.46%  sh=  +164.5
+  ✅ TEST                                                     n=2063  wr= 65.5%  avg=  +4.1bps  tot= +84.23%  sh=  +249.0
+    ✅ test=+3.008%/d
+
+  Ret HHI(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8234  wr= 58.3%  avg=  +3.9bps  tot=+318.48%  sh=  +167.0
+  ✅ TEST                                                     n=4006  wr= 63.8%  avg=  +3.8bps  tot=+153.84%  sh=  +232.9
+    ✅ test=+5.494%/d
+
+  Ret HHI(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5260  wr= 58.2%  avg=  +4.2bps  tot=+222.69%  sh=  +172.4
+  ✅ TEST                                                     n=2553  wr= 64.7%  avg=  +4.1bps  tot=+104.93%  sh=  +231.4
+    ✅ test=+3.747%/d
+
+  --- EXP FFFF8: MOMENTUM DIVERGENCE ---
+
+  Mom diverge(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7005  wr= 79.3%  avg=  +8.4bps  tot=+585.94%  sh=  +342.7
+  ✅ TEST                                                     n=3536  wr= 76.5%  avg=  +6.6bps  tot=+234.19%  sh=  +395.9
+    ✅ test=+8.364%/d
+
+  Mom diverge(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4012  wr= 82.8%  avg= +10.4bps  tot=+415.41%  sh=  +358.2
+  ✅ TEST                                                     n=2110  wr= 80.4%  avg=  +7.6bps  tot=+160.18%  sh=  +435.6
+    ✅ test=+5.721%/d
+
+  Mom diverge(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7620  wr= 79.5%  avg=  +8.2bps  tot=+626.54%  sh=  +353.8
+  ✅ TEST                                                     n=3817  wr= 79.3%  avg=  +7.0bps  tot=+265.41%  sh=  +434.2
+    ✅ test=+9.479%/d
+
+  Mom diverge(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4541  wr= 83.4%  avg= +10.0bps  tot=+453.68%  sh=  +368.7
+  ✅ TEST                                                     n=2312  wr= 82.4%  avg=  +7.8bps  tot=+181.29%  sh=  +455.7
+    ✅ test=+6.475%/d
+
+  --- EXP GGGG8: WICK RATIO TREND ---
+
+  Wick trend(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7244  wr= 57.8%  avg=  +3.0bps  tot=+217.30%  sh=  +177.4
+  ✅ TEST                                                     n=3606  wr= 63.6%  avg=  +3.3bps  tot=+118.45%  sh=  +224.0
+    ✅ test=+4.230%/d
+
+  Wick trend(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4411  wr= 58.6%  avg=  +3.2bps  tot=+142.46%  sh=  +189.9
+  ✅ TEST                                                     n=2164  wr= 64.6%  avg=  +3.4bps  tot= +73.38%  sh=  +231.6
+    ✅ test=+2.621%/d
+
+  Wick trend(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8773  wr= 58.5%  avg=  +3.1bps  tot=+268.97%  sh=  +176.0
+  ✅ TEST                                                     n=4445  wr= 62.7%  avg=  +3.2bps  tot=+143.62%  sh=  +214.1
+    ✅ test=+5.129%/d
+
+  Wick trend(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5712  wr= 57.9%  avg=  +3.0bps  tot=+170.06%  sh=  +176.0
+  ✅ TEST                                                     n=2897  wr= 63.9%  avg=  +3.3bps  tot= +96.44%  sh=  +217.3
+    ✅ test=+3.444%/d
+  Loading SOLUSDT... [10/88 26s] [20/88 42s] [30/88 54s] [40/88 70s] [50/88 84s] [60/88 97s] [70/88 114s] [80/88 139s] [88/88 153s] 126,720 bars (153s) [RAM=0.3GB, avail=5.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP DDDD8: RANGE ASYMMETRY ---
+
+  Range asym(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4650  wr= 60.7%  avg=  +3.2bps  tot=+147.40%  sh=  +174.5
+  ✅ TEST                                                     n=2063  wr= 70.4%  avg=  +4.7bps  tot= +96.60%  sh=  +312.2
+    ✅ test=+3.450%/d
+
+  Range asym(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7618  wr= 61.5%  avg=  +3.3bps  tot=+252.34%  sh=  +178.8
+  ✅ TEST                                                     n=3477  wr= 69.7%  avg=  +4.5bps  tot=+156.85%  sh=  +285.2
+    ✅ test=+5.602%/d
+
+  Range asym(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6219  wr= 61.9%  avg=  +3.2bps  tot=+197.00%  sh=  +192.5
+  ✅ TEST                                                     n=2688  wr= 69.0%  avg=  +4.4bps  tot=+118.13%  sh=  +269.7
+    ✅ test=+4.219%/d
+
+  Range asym(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9401  wr= 62.2%  avg=  +3.3bps  tot=+306.85%  sh=  +192.5
+  ✅ TEST                                                     n=4270  wr= 69.8%  avg=  +4.6bps  tot=+195.56%  sh=  +288.1
+    ✅ test=+6.984%/d
+
+  --- EXP EEEE8: RETURN CONCENTRATION RATIO ---
+
+  Ret HHI(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7566  wr= 62.0%  avg=  +3.7bps  tot=+281.26%  sh=  +191.2
+  ✅ TEST                                                     n=3438  wr= 62.4%  avg=  +3.7bps  tot=+128.87%  sh=  +244.9
+    ✅ test=+4.602%/d
+
+  Ret HHI(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4599  wr= 63.0%  avg=  +4.1bps  tot=+188.88%  sh=  +193.7
+  ✅ TEST                                                     n=2039  wr= 64.0%  avg=  +4.0bps  tot= +81.32%  sh=  +247.7
+    ✅ test=+2.904%/d
+
+  Ret HHI(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8809  wr= 61.8%  avg=  +3.8bps  tot=+334.32%  sh=  +196.2
+  ✅ TEST                                                     n=4269  wr= 62.9%  avg=  +3.6bps  tot=+152.11%  sh=  +226.5
+    ✅ test=+5.432%/d
+
+  Ret HHI(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5546  wr= 62.0%  avg=  +4.0bps  tot=+219.18%  sh=  +197.0
+  ✅ TEST                                                     n=2796  wr= 62.7%  avg=  +3.5bps  tot= +97.05%  sh=  +213.1
+    ✅ test=+3.466%/d
+
+  --- EXP FFFF8: MOMENTUM DIVERGENCE ---
+
+  Mom diverge(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7400  wr= 75.0%  avg=  +6.5bps  tot=+483.92%  sh=  +334.3
+  ✅ TEST                                                     n=3672  wr= 76.9%  avg=  +7.0bps  tot=+257.20%  sh=  +390.5
+    ✅ test=+9.186%/d
+
+  Mom diverge(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4222  wr= 78.1%  avg=  +7.8bps  tot=+329.65%  sh=  +350.6
+  ✅ TEST                                                     n=2244  wr= 79.9%  avg=  +7.7bps  tot=+173.71%  sh=  +456.4
+    ✅ test=+6.204%/d
+
+  Mom diverge(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=8195  wr= 75.6%  avg=  +6.4bps  tot=+525.31%  sh=  +340.0
+  ✅ TEST                                                     n=4125  wr= 77.2%  avg=  +6.9bps  tot=+285.33%  sh=  +388.8
+    ✅ test=+10.190%/d
+
+  Mom diverge(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4882  wr= 78.7%  avg=  +7.5bps  tot=+367.01%  sh=  +358.3
+  ✅ TEST                                                     n=2610  wr= 78.5%  avg=  +7.5bps  tot=+195.51%  sh=  +429.0
+    ✅ test=+6.983%/d
+
+  --- EXP GGGG8: WICK RATIO TREND ---
+
+  Wick trend(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7742  wr= 61.1%  avg=  +3.1bps  tot=+243.18%  sh=  +209.0
+  ✅ TEST                                                     n=3616  wr= 62.8%  avg=  +3.8bps  tot=+137.21%  sh=  +258.4
+    ✅ test=+4.900%/d
+
+  Wick trend(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4650  wr= 61.8%  avg=  +3.1bps  tot=+142.47%  sh=  +206.6
+  ✅ TEST                                                     n=2124  wr= 60.4%  avg=  +3.4bps  tot= +72.66%  sh=  +232.9
+    ✅ test=+2.595%/d
+
+  Wick trend(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9462  wr= 61.2%  avg=  +3.1bps  tot=+291.45%  sh=  +197.8
+  ✅ TEST                                                     n=4301  wr= 62.2%  avg=  +3.5bps  tot=+152.00%  sh=  +223.1
+    ✅ test=+5.428%/d
+
+  Wick trend(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6030  wr= 61.0%  avg=  +3.1bps  tot=+189.63%  sh=  +200.5
+  ✅ TEST                                                     n=2736  wr= 61.7%  avg=  +3.4bps  tot= +92.82%  sh=  +211.5
+    ✅ test=+3.315%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 34s] [30/88 44s] [40/88 53s] [50/88 61s] [60/88 69s] [70/88 95s] [80/88 117s] [88/88 126s] 126,720 bars (126s) [RAM=0.4GB, avail=6.8GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP DDDD8: RANGE ASYMMETRY ---
+
+  Range asym(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4809  wr= 65.2%  avg=  +4.0bps  tot=+191.93%  sh=  +230.3
+  ✅ TEST                                                     n=2531  wr= 83.2%  avg=  +8.3bps  tot=+210.04%  sh=  +469.0
+    ✅ test=+7.501%/d
+
+  Range asym(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7944  wr= 65.2%  avg=  +3.9bps  tot=+311.03%  sh=  +229.8
+  ✅ TEST                                                     n=4160  wr= 84.1%  avg=  +8.3bps  tot=+346.49%  sh=  +484.9
+    ✅ test=+12.375%/d
+
+  Range asym(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6511  wr= 64.8%  avg=  +4.0bps  tot=+258.55%  sh=  +218.4
+  ✅ TEST                                                     n=3264  wr= 84.3%  avg=  +8.4bps  tot=+275.75%  sh=  +476.4
+    ✅ test=+9.848%/d
+
+  Range asym(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9967  wr= 65.0%  avg=  +4.0bps  tot=+395.54%  sh=  +219.7
+  ✅ TEST                                                     n=4984  wr= 84.0%  avg=  +8.3bps  tot=+414.86%  sh=  +476.9
+    ✅ test=+14.817%/d
+
+  --- EXP EEEE8: RETURN CONCENTRATION RATIO ---
+
+  Ret HHI(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7528  wr= 64.7%  avg=  +4.8bps  tot=+357.61%  sh=  +205.0
+  ✅ TEST                                                     n=3896  wr= 81.1%  avg=  +9.0bps  tot=+349.88%  sh=  +408.9
+    ✅ test=+12.496%/d
+
+  Ret HHI(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4522  wr= 65.0%  avg=  +5.0bps  tot=+224.01%  sh=  +198.5
+  ✅ TEST                                                     n=2386  wr= 81.4%  avg=  +9.2bps  tot=+218.36%  sh=  +388.0
+    ✅ test=+7.799%/d
+
+  Ret HHI(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9165  wr= 64.3%  avg=  +4.8bps  tot=+438.93%  sh=  +210.1
+  ✅ TEST                                                     n=4627  wr= 81.2%  avg=  +8.6bps  tot=+399.18%  sh=  +401.8
+    ✅ test=+14.257%/d
+
+  Ret HHI(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5924  wr= 64.5%  avg=  +5.0bps  tot=+297.54%  sh=  +205.9
+  ✅ TEST                                                     n=3041  wr= 80.4%  avg=  +8.7bps  tot=+264.03%  sh=  +383.5
+    ✅ test=+9.430%/d
+
+  --- EXP FFFF8: MOMENTUM DIVERGENCE ---
+
+  Mom diverge(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7786  wr= 78.0%  avg=  +8.2bps  tot=+636.12%  sh=  +355.5
+  ✅ TEST                                                     n=3969  wr= 89.0%  avg= +12.3bps  tot=+488.88%  sh=  +526.6
+    ✅ test=+17.460%/d
+
+  Mom diverge(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4549  wr= 80.1%  avg=  +9.6bps  tot=+438.28%  sh=  +363.7
+  ✅ TEST                                                     n=2359  wr= 89.8%  avg= +13.5bps  tot=+318.38%  sh=  +531.5
+    ✅ test=+11.371%/d
+
+  Mom diverge(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=8603  wr= 78.9%  avg=  +8.1bps  tot=+696.10%  sh=  +368.6
+  ✅ TEST                                                     n=4297  wr= 90.3%  avg= +12.2bps  tot=+524.10%  sh=  +544.4
+    ✅ test=+18.718%/d
+
+  Mom diverge(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5343  wr= 80.8%  avg=  +9.3bps  tot=+499.11%  sh=  +376.6
+  ✅ TEST                                                     n=2641  wr= 90.7%  avg= +13.3bps  tot=+352.18%  sh=  +538.8
+    ✅ test=+12.578%/d
+
+  --- EXP GGGG8: WICK RATIO TREND ---
+
+  Wick trend(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7825  wr= 65.1%  avg=  +4.3bps  tot=+335.28%  sh=  +244.5
+  ✅ TEST                                                     n=4072  wr= 80.3%  avg=  +8.2bps  tot=+334.04%  sh=  +440.3
+    ✅ test=+11.930%/d
+
+  Wick trend(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4703  wr= 66.1%  avg=  +4.3bps  tot=+203.66%  sh=  +254.2
+  ✅ TEST                                                     n=2414  wr= 80.5%  avg=  +8.2bps  tot=+197.22%  sh=  +438.5
+    ✅ test=+7.043%/d
+
+  Wick trend(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9488  wr= 64.8%  avg=  +4.1bps  tot=+392.15%  sh=  +243.5
+  ✅ TEST                                                     n=4974  wr= 80.9%  avg=  +8.3bps  tot=+412.44%  sh=  +444.7
+    ✅ test=+14.730%/d
+
+  Wick trend(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6144  wr= 65.7%  avg=  +4.2bps  tot=+255.24%  sh=  +246.2
+  ✅ TEST                                                     n=3217  wr= 81.0%  avg=  +8.4bps  tot=+270.82%  sh=  +445.4
+    ✅ test=+9.672%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 25s] [30/88 33s] [40/88 42s] [50/88 53s] [60/88 61s] [70/88 91s] [80/88 110s] [88/88 121s] 126,720 bars (121s) [RAM=0.4GB, avail=6.6GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP DDDD8: RANGE ASYMMETRY ---
+
+  Range asym(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4421  wr= 50.0%  avg=  +1.3bps  tot= +58.13%  sh=   +87.1
+  ✅ TEST                                                     n=2367  wr= 73.7%  avg=  +5.9bps  tot=+140.27%  sh=  +347.9
+    ✅ test=+5.009%/d
+
+  Range asym(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7103  wr= 50.5%  avg=  +1.4bps  tot= +96.03%  sh=   +90.2
+  ✅ TEST                                                     n=3959  wr= 74.2%  avg=  +5.9bps  tot=+235.21%  sh=  +360.5
+    ✅ test=+8.400%/d
+
+  Range asym(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5704  wr= 50.0%  avg=  +1.3bps  tot= +73.73%  sh=   +85.2
+  ✅ TEST                                                     n=3104  wr= 73.4%  avg=  +5.8bps  tot=+180.92%  sh=  +348.3
+    ✅ test=+6.461%/d
+
+  Range asym(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8656  wr= 50.3%  avg=  +1.4bps  tot=+117.28%  sh=   +92.6
+  ✅ TEST                                                     n=4837  wr= 73.7%  avg=  +5.8bps  tot=+281.62%  sh=  +347.8
+    ✅ test=+10.058%/d
+
+  --- EXP EEEE8: RETURN CONCENTRATION RATIO ---
+
+  Ret HHI(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6937  wr= 50.0%  avg=  +1.8bps  tot=+127.83%  sh=  +101.3
+  ✅ TEST                                                     n=3772  wr= 70.4%  avg=  +6.2bps  tot=+234.57%  sh=  +272.2
+    ✅ test=+8.378%/d
+
+  Ret HHI(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4162  wr= 50.9%  avg=  +2.2bps  tot= +91.65%  sh=  +107.9
+  ✅ TEST                                                     n=2307  wr= 71.0%  avg=  +6.5bps  tot=+149.43%  sh=  +266.6
+    ✅ test=+5.337%/d
+
+  Ret HHI(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8374  wr= 51.3%  avg=  +1.9bps  tot=+161.74%  sh=  +104.8
+  ✅ TEST                                                     n=4523  wr= 68.9%  avg=  +5.8bps  tot=+263.50%  sh=  +267.2
+    ✅ test=+9.411%/d
+
+  Ret HHI(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5442  wr= 51.0%  avg=  +2.1bps  tot=+115.34%  sh=  +109.0
+  ✅ TEST                                                     n=2956  wr= 69.5%  avg=  +6.1bps  tot=+179.46%  sh=  +272.9
+    ✅ test=+6.409%/d
+
+  --- EXP FFFF8: MOMENTUM DIVERGENCE ---
+
+  Mom diverge(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6728  wr= 66.1%  avg=  +5.0bps  tot=+334.46%  sh=  +266.4
+  ✅ TEST                                                     n=3790  wr= 80.7%  avg=  +9.6bps  tot=+363.71%  sh=  +389.7
+    ✅ test=+12.990%/d
+
+  Mom diverge(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3959  wr= 69.9%  avg=  +6.2bps  tot=+243.56%  sh=  +293.2
+  ✅ TEST                                                     n=2251  wr= 80.9%  avg= +10.4bps  tot=+234.16%  sh=  +375.2
+    ✅ test=+8.363%/d
+
+  Mom diverge(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7258  wr= 68.4%  avg=  +5.2bps  tot=+373.84%  sh=  +277.6
+  ✅ TEST                                                     n=4140  wr= 80.4%  avg=  +9.5bps  tot=+392.91%  sh=  +395.0
+    ✅ test=+14.032%/d
+
+  Mom diverge(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4406  wr= 71.5%  avg=  +6.0bps  tot=+264.51%  sh=  +296.7
+  ✅ TEST                                                     n=2589  wr= 80.6%  avg= +10.2bps  tot=+263.02%  sh=  +382.0
+    ✅ test=+9.394%/d
+
+  --- EXP GGGG8: WICK RATIO TREND ---
+
+  Wick trend(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7207  wr= 52.2%  avg=  +1.7bps  tot=+120.89%  sh=  +117.1
+  ✅ TEST                                                     n=3880  wr= 71.7%  avg=  +5.9bps  tot=+230.03%  sh=  +322.8
+    ✅ test=+8.215%/d
+
+  Wick trend(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4326  wr= 51.8%  avg=  +1.7bps  tot= +73.08%  sh=  +118.7
+  ✅ TEST                                                     n=2376  wr= 71.7%  avg=  +6.0bps  tot=+141.48%  sh=  +319.1
+    ✅ test=+5.053%/d
+
+  Wick trend(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8494  wr= 52.5%  avg=  +1.8bps  tot=+148.94%  sh=  +119.3
+  ✅ TEST                                                     n=4591  wr= 70.9%  avg=  +5.8bps  tot=+267.40%  sh=  +324.5
+    ✅ test=+9.550%/d
+
+  Wick trend(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5511  wr= 53.2%  avg=  +1.9bps  tot=+103.61%  sh=  +126.7
+  ✅ TEST                                                     n=2982  wr= 70.9%  avg=  +5.7bps  tot=+171.30%  sh=  +330.6
+    ✅ test=+6.118%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    hhi_20_0.9               3896   81.1%    +9.0bp   +349.9%     +409
+  ✅ DOGEUSDT    hhi_20_0.95              2386   81.4%    +9.2bp   +218.4%     +388
+  ✅ DOGEUSDT    hhi_40_0.9               4627   81.2%    +8.6bp   +399.2%     +402
+  ✅ DOGEUSDT    hhi_40_0.95              3041   80.4%    +8.7bp   +264.0%     +383
+  ✅ DOGEUSDT    md_30_0.9                3969   89.0%   +12.3bp   +488.9%     +527
+  ✅ DOGEUSDT    md_30_0.95               2359   89.8%   +13.5bp   +318.4%     +532
+  ✅ DOGEUSDT    md_60_0.9                4297   90.3%   +12.2bp   +524.1%     +544
+  ✅ DOGEUSDT    md_60_0.95               2641   90.7%   +13.3bp   +352.2%     +539
+  ✅ DOGEUSDT    ra_20_0.05               2531   83.2%    +8.3bp   +210.0%     +469
+  ✅ DOGEUSDT    ra_20_0.1                4160   84.1%    +8.3bp   +346.5%     +485
+  ✅ DOGEUSDT    ra_40_0.05               3264   84.3%    +8.4bp   +275.8%     +476
+  ✅ DOGEUSDT    ra_40_0.1                4984   84.0%    +8.3bp   +414.9%     +477
+  ✅ DOGEUSDT    wt_20_0.9                4072   80.3%    +8.2bp   +334.0%     +440
+  ✅ DOGEUSDT    wt_20_0.95               2414   80.5%    +8.2bp   +197.2%     +439
+  ✅ DOGEUSDT    wt_40_0.9                4974   80.9%    +8.3bp   +412.4%     +445
+  ✅ DOGEUSDT    wt_40_0.95               3217   81.0%    +8.4bp   +270.8%     +445
+  ✅ ETHUSDT     hhi_20_0.9               3397   63.9%    +3.7bp   +126.8%     +226
+  ✅ ETHUSDT     hhi_20_0.95              2063   65.5%    +4.1bp    +84.2%     +249
+  ✅ ETHUSDT     hhi_40_0.9               4006   63.8%    +3.8bp   +153.8%     +233
+  ✅ ETHUSDT     hhi_40_0.95              2553   64.7%    +4.1bp   +104.9%     +231
+  ✅ ETHUSDT     md_30_0.9                3536   76.5%    +6.6bp   +234.2%     +396
+  ✅ ETHUSDT     md_30_0.95               2110   80.4%    +7.6bp   +160.2%     +436
+  ✅ ETHUSDT     md_60_0.9                3817   79.3%    +7.0bp   +265.4%     +434
+  ✅ ETHUSDT     md_60_0.95               2312   82.4%    +7.8bp   +181.3%     +456
+  ✅ ETHUSDT     ra_20_0.05               2076   61.7%    +3.3bp    +67.6%     +237
+  ✅ ETHUSDT     ra_20_0.1                3473   62.1%    +3.3bp   +115.3%     +237
+  ✅ ETHUSDT     ra_40_0.05               2649   62.1%    +3.1bp    +81.0%     +202
+  ✅ ETHUSDT     ra_40_0.1                4067   62.6%    +3.0bp   +120.2%     +198
+  ✅ ETHUSDT     wt_20_0.9                3606   63.6%    +3.3bp   +118.4%     +224
+  ✅ ETHUSDT     wt_20_0.95               2164   64.6%    +3.4bp    +73.4%     +232
+  ✅ ETHUSDT     wt_40_0.9                4445   62.7%    +3.2bp   +143.6%     +214
+  ✅ ETHUSDT     wt_40_0.95               2897   63.9%    +3.3bp    +96.4%     +217
+  ✅ SOLUSDT     hhi_20_0.9               3438   62.4%    +3.7bp   +128.9%     +245
+  ✅ SOLUSDT     hhi_20_0.95              2039   64.0%    +4.0bp    +81.3%     +248
+  ✅ SOLUSDT     hhi_40_0.9               4269   62.9%    +3.6bp   +152.1%     +227
+  ✅ SOLUSDT     hhi_40_0.95              2796   62.7%    +3.5bp    +97.0%     +213
+  ✅ SOLUSDT     md_30_0.9                3672   76.9%    +7.0bp   +257.2%     +390
+  ✅ SOLUSDT     md_30_0.95               2244   79.9%    +7.7bp   +173.7%     +456
+  ✅ SOLUSDT     md_60_0.9                4125   77.2%    +6.9bp   +285.3%     +389
+  ✅ SOLUSDT     md_60_0.95               2610   78.5%    +7.5bp   +195.5%     +429
+  ✅ SOLUSDT     ra_20_0.05               2063   70.4%    +4.7bp    +96.6%     +312
+  ✅ SOLUSDT     ra_20_0.1                3477   69.7%    +4.5bp   +156.9%     +285
+  ✅ SOLUSDT     ra_40_0.05               2688   69.0%    +4.4bp   +118.1%     +270
+  ✅ SOLUSDT     ra_40_0.1                4270   69.8%    +4.6bp   +195.6%     +288
+  ✅ SOLUSDT     wt_20_0.9                3616   62.8%    +3.8bp   +137.2%     +258
+  ✅ SOLUSDT     wt_20_0.95               2124   60.4%    +3.4bp    +72.7%     +233
+  ✅ SOLUSDT     wt_40_0.9                4301   62.2%    +3.5bp   +152.0%     +223
+  ✅ SOLUSDT     wt_40_0.95               2736   61.7%    +3.4bp    +92.8%     +212
+  ✅ XRPUSDT     hhi_20_0.9               3772   70.4%    +6.2bp   +234.6%     +272
+  ✅ XRPUSDT     hhi_20_0.95              2307   71.0%    +6.5bp   +149.4%     +267
+  ✅ XRPUSDT     hhi_40_0.9               4523   68.9%    +5.8bp   +263.5%     +267
+  ✅ XRPUSDT     hhi_40_0.95              2956   69.5%    +6.1bp   +179.5%     +273
+  ✅ XRPUSDT     md_30_0.9                3790   80.7%    +9.6bp   +363.7%     +390
+  ✅ XRPUSDT     md_30_0.95               2251   80.9%   +10.4bp   +234.2%     +375
+  ✅ XRPUSDT     md_60_0.9                4140   80.4%    +9.5bp   +392.9%     +395
+  ✅ XRPUSDT     md_60_0.95               2589   80.6%   +10.2bp   +263.0%     +382
+  ✅ XRPUSDT     ra_20_0.05               2367   73.7%    +5.9bp   +140.3%     +348
+  ✅ XRPUSDT     ra_20_0.1                3959   74.2%    +5.9bp   +235.2%     +360
+  ✅ XRPUSDT     ra_40_0.05               3104   73.4%    +5.8bp   +180.9%     +348
+  ✅ XRPUSDT     ra_40_0.1                4837   73.7%    +5.8bp   +281.6%     +348
+  ✅ XRPUSDT     wt_20_0.9                3880   71.7%    +5.9bp   +230.0%     +323
+  ✅ XRPUSDT     wt_20_0.95               2376   71.7%    +6.0bp   +141.5%     +319
+  ✅ XRPUSDT     wt_40_0.9                4591   70.9%    +5.8bp   +267.4%     +324
+  ✅ XRPUSDT     wt_40_0.95               2982   70.9%    +5.7bp   +171.3%     +331
+
+################################################################################
+  COMPLETE — 962s (16.0min) [RAM=0.2GB, avail=6.9GB]
+################################################################################
