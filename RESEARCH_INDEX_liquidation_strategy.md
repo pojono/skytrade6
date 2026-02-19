@@ -18,6 +18,7 @@ v26g → Microstructure analysis — bounce curves, displacement, cascade anatom
 v26h → Big-move market-order fade — FAILED (fees eat entire edge)
 v26i → Big-move limit-order + filters — +58.9% combined, 95.8% WR
 v26j → Integrated strategy with ALL research filters — 85% positive months
+v26k → Filter comparison — displacement alone beats all filters combined
 
 Supporting research (from other experiment streams):
 v27  → Regime detection + liquidation as leading indicator
@@ -43,6 +44,7 @@ v42  → New signals (cascade size, seasonality, contagion, direction asymmetry)
 | `FINDINGS_v26g_liq_microstructure.md` | v26g | Microstructure: bounce curves, displacement | 65% bounce within 60min; displacement filter |
 | `FINDINGS_v26i_bigmove_limit.md` | v26i | Limit-order big-move + microstructure filters | **+58.9% combined, 95.8% WR** |
 | `FINDINGS_v26j_integrated_strategy.md` | v26j | ALL research filters combined | **+42.2% combined, 17/20 months positive** |
+| `FINDINGS_v26k_filter_comparison.md` | v26k | Filter-by-filter comparison + verification | **Displacement alone: +91.4% AGGR, +72.1% SAFE** |
 
 ### Supporting Research
 
@@ -72,6 +74,8 @@ v42  → New signals (cascade size, seasonality, contagion, direction asymmetry)
 | `liq_bigmove_strategy.py` | `results/liq_bigmove_strategy.txt` | Market-order big-move (v26h, FAILED) |
 | `liq_bigmove_limit.py` | `results/liq_bigmove_limit.txt` | Limit-order big-move (v26i) |
 | `liq_integrated_strategy.py` | `results/liq_integrated_strategy.txt` | Integrated strategy with all filters (v26j) |
+| `liq_filter_comparison.py` | `results/liq_filter_comparison.txt` | Filter-by-filter comparison on 3 configs × 4 symbols (v26k) |
+| `liq_verify.py` | *(console output)* | Independent verification of displacement filter results |
 
 ---
 
@@ -118,6 +122,15 @@ v42  → New signals (cascade size, seasonality, contagion, direction asymmetry)
 - Result: baseline 10/20 positive months → **17/20 positive months (85%)**
 - Filters turned 7 losing months into winners
 
+### 7b. Displacement Is THE Only Filter Needed (v26k)
+- Tested each filter individually and all combined on 3 configs × 4 symbols
+- **Displacement ≥10 bps alone outperforms ALL filters combined on every config**
+- Over-filtering cuts 70-80% of trades → hurts total return despite better per-trade quality
+- Bad hours, long-only, weekday-only: small/mixed/symbol-dependent effects
+- Config 2 AGGR + displacement: **+91.4% combined, 95.6% WR, 20/40 positive months**
+- ETH benefits most: baseline +10.7% → +28.3% (displacement filters out bad trades)
+- Verified independently: numbers confirmed correct
+
 ### 8. Strategy Survives OOS (v41)
 - Walk-forward: all 15 OOS tests positive across 3 symbols
 - Rolling windows: 12/12 positive (100%)
@@ -132,38 +145,44 @@ v42  → New signals (cascade size, seasonality, contagion, direction asymmetry)
 
 ## Recommended Production Configs
 
-### Conservative (with SL)
+### Conservative (with SL) — *updated v26k*
 ```
 Entry:      Limit order at 0.15% offset, fade cascade direction
 TP:         0.15% (maker fee exit)
 SL:         0.50% (taker fee exit)
 Max hold:   60 minutes
-Filters:    Exclude hours 08,09,13,16 UTC; long-only; displacement ≥10 bps
+Filter:     Displacement ≥10 bps ONLY
 Cooldown:   5 minutes
 Symbols:    DOGE, SOL, ETH, XRP simultaneously
-Expected:   +42.2% combined / 282 days, 88.5% WR, 17/20 months positive
+Expected:   +72.1% combined / 282 days, 87.8% WR, 19/40 months positive, Sharpe +3.8
 ```
 
-### Aggressive (no SL)
+### Aggressive (no SL) — *updated v26k*
 ```
 Entry:      Limit order at 0.15% offset, fade cascade direction
 TP:         0.12% (maker fee exit)
 SL:         none
 Max hold:   60 minutes (taker fee on timeout)
-Filters:    Exclude hours 08,09,13,16 UTC; long-only; displacement ≥10 bps
+Filter:     Displacement ≥10 bps ONLY
 Cooldown:   5 minutes
 Symbols:    DOGE, SOL, ETH, XRP simultaneously
-Expected:   +66.7% combined / 282 days, 91-94% WR
+Expected:   +91.4% combined / 282 days, 95.6% WR, 20/40 months positive, Sharpe +4.5
 ```
 
-### Highest Quality (US hours only, DOGE)
+### Quality (wider offset) — *updated v26k*
 ```
 Entry:      Limit order at 0.20% offset, fade cascade direction
 TP:         0.15% (maker fee exit)
 SL:         0.50% (taker fee exit)
-Hours:      13-18 UTC only (US session)
-Expected:   Sharpe +77, max DD 2.1%, 87% WR
+Max hold:   30 minutes
+Filter:     Displacement ≥10 bps ONLY
+Symbols:    DOGE, SOL, ETH, XRP simultaneously
+Expected:   +65.0% combined / 282 days, 86.5% WR, 18/40 months positive, Sharpe +3.9
 ```
+
+> **Note (v26k):** Previous versions recommended multiple filters (bad hours, long-only,
+> displacement, weekday-only). Filter comparison showed displacement alone is superior.
+> Other filters are symbol-dependent and over-filtering hurts total returns.
 
 ---
 

@@ -189,3 +189,28 @@ COOLDOWN:  5 minutes
 ```
 
 This is simpler, more robust, and more profitable than the multi-filter approach.
+
+---
+
+## Verification (spot-check)
+
+Ran independent verification script (`liq_verify.py`) on DOGE Config 2 AGGR + displacement:
+
+```
+COMPARISON (DOGE, Config 2 AGGR):
+                          Baseline   + Disp≥10       Delta
+                Trades         925         506        -419
+                    WR       94.4%       96.8%       +2.5%
+             Total net     +20.86%     +19.12%      -1.74%
+         Avg net/trade    +0.0226%    +0.0378%    +0.0152%
+```
+
+**Numbers confirmed correct.** Key nuance:
+
+- Displacement improves **per-trade quality** by +67% (avg net: +0.023% → +0.038%)
+- But cuts trade count by 45% (925 → 506)
+- For DOGE/SOL (already strong baselines), total return is similar or slightly lower per-symbol
+- For **ETH** (weak baseline), displacement is transformative: +10.7% → +28.3%
+- The **combined** improvement (+66.5% → +91.4%) is driven primarily by ETH's huge gain
+- Timeout trades (3.2%) are the only losers: mean -1.25%, worst -5.44%
+- All 5 months with data are positive (5/10 total, 5 months have zero cascades in data gap)

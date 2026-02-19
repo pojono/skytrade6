@@ -2,7 +2,11 @@
 
 **Strategy:** Place limit orders INTO liquidation cascades, collect the mean-reversion bounce.
 **Edge:** Forced liquidations create temporary price dislocations; limit orders capture the snap-back.
-**Backtest:** 282 days, 5 symbols, +20-62% total return (0% maker), +20-33% (2 bps maker).
+**Backtest:** 282 days, 4 symbols, +91.4% combined (aggressive) / +72.1% (safe) with displacement filter.
+**Fees:** Bybit maker=0.02%, taker=0.055%
+
+> **v26k update:** Displacement ≥10 bps is the only filter needed. All other filters (bad hours,
+> long-only, weekday-only) are removed — they over-filter and hurt total returns.
 
 ---
 
@@ -21,17 +25,18 @@
 - API keys with order placement permissions
 - Futures enabled, sufficient margin
 
-### Symbols (ranked by backtest Sharpe)
-| Priority | Symbol | Why |
-|----------|--------|-----|
-| 1 | **DOGEUSDT** | Sharpe 172, max DD 1.4%, 75% WR |
-| 2 | **SOLUSDT** | Sharpe 164, max DD 1.9%, 74% WR |
-| 3 | **XRPUSDT** | Sharpe 144, max DD 2.0%, 72% WR |
-| 4 | **ETHUSDT** | Sharpe 139, max DD 3.0%, 72% — highest absolute return |
-| 5 | BTCUSDT | Sharpe 46, needs different config, thinner edge |
+### Symbols (ranked by total return with displacement filter)
+| Priority | Symbol | Total Return | WR | Sharpe | Max DD |
+|----------|--------|-------------|-----|--------|--------|
+| 1 | **ETHUSDT** | **+28.3%** | 95.4% | +4.5 | 3.6% |
+| 2 | **SOLUSDT** | **+24.5%** | 94.8% | +5.2 | 5.8% |
+| 3 | **DOGEUSDT** | **+19.1%** | 96.8% | +2.9 | 5.4% |
+| 4 | **XRPUSDT** | **+19.5%** | 95.3% | +5.3 | 2.5% |
 
-**Start with DOGE + SOL + ETH.** Add XRP once comfortable.
-**Skip BTC** unless you have 0% maker — the edge is too thin.
+*(Numbers shown for Config 2 AGGR: off=0.15%, TP=0.12%, no SL, 60min hold, displacement ≥10 bps)*
+
+**Trade all 4 simultaneously.** Low cross-symbol correlation provides diversification.
+**Skip BTC** — the edge is too thin after fees.
 
 ---
 
@@ -57,6 +62,12 @@ A **cascade** = 2 or more P95-large liquidations within 60 seconds of each other
    - Determine dominant side:
      - `buy_notional > sell_notional` → **Buy-dominant** (longs liquidated, price dropped)
      - `sell_notional > buy_notional` → **Sell-dominant** (shorts liquidated, price spiked)
+
+4. **Check displacement ≥10 bps (THE key filter)**
+   - Compare price at cascade end vs price just before cascade start
+   - `displacement_bps = abs(end_price - pre_price) / pre_price × 10000`
+   - If displacement < 10 bps → **SKIP** (not a real cascade)
+   - This single filter improves combined returns by +37-391% depending on config
 
 ### What the cascade tells you
 | Cascade Type | What Happened | Your Action |
@@ -105,58 +116,62 @@ A simple Python script with `websockets` + Bybit API can achieve this. No HFT in
 
 ### Order Parameters
 
-**Use these exact settings (optimal for ETH/SOL/DOGE/XRP):**
+**Config 1 SAFE (recommended for first deployment):**
 
 | Parameter | Value | Explanation |
 |-----------|-------|-------------|
 | **Order type** | `Limit` with `PostOnly=true` | Guarantees maker fee, rejects if would cross |
 | **Entry offset** | **0.15%** below/above current price | Far enough to capture dislocation, close enough to fill |
 | **Take profit** | **0.15%** from fill price | Quick exit, captures the bounce |
-| **Stop loss** | **0.25%** from fill price | Wider than TP — lets losers breathe |
-| **Max hold** | **30 minutes** | Cancel unfilled orders + close position if no TP/SL |
-| **Time in force** | `GTC` (cancel manually after 30 min) | Or use exchange's built-in time-in-force |
+| **Stop loss** | **0.50%** from fill price | Wide SL — minimizes expensive taker exits |
+| **Max hold** | **60 minutes** | Cancel unfilled orders + close position if no TP/SL |
+| **Time in force** | `GTC` (cancel manually after 60 min) | Or use exchange's built-in time-in-force |
 | **Reduce only (TP/SL)** | Yes | Prevent accidental position increase |
+| **Filter** | Displacement ≥10 bps | Skip cascades where price barely moved |
 
-### BTC Exception
-BTC needs wider parameters due to larger cascade dynamics:
+**Config 2 AGGRESSIVE (best total return, once proven live):**
 
-| Parameter | BTC Value |
-|-----------|-----------|
-| Entry offset | **0.10%** |
-| Take profit | **0.50%** |
-| Stop loss | **0.25%** |
+| Parameter | Value | Explanation |
+|-----------|-------|-------------|
+| **Entry offset** | **0.15%** | Same as safe |
+| **Take profit** | **0.12%** from fill price | Tighter TP → higher fill rate on TP |
+| **Stop loss** | **None** | No SL = no expensive taker exits on losers |
+| **Max hold** | **60 minutes** | Timeout is the only exit besides TP |
+| **Filter** | Displacement ≥10 bps | Same as safe |
 
-### Concrete Example: Buy-Dominant Cascade on ETHUSDT
+### Concrete Example: Buy-Dominant Cascade on ETHUSDT (Config 1 SAFE)
 
 ```
 Current ETH price: $2,500.00
 Cascade detected: Buy-dominant (longs liquidated, price dropping)
+Displacement: 15 bps (≥10 → PASS)
 
 Your action: LIMIT BUY
 
   Limit price:  $2,500.00 × (1 - 0.0015) = $2,496.25
   TP price:     $2,496.25 × (1 + 0.0015) = $2,500.00  (basically back to pre-cascade)
-  SL price:     $2,496.25 × (1 - 0.0025) = $2,490.01
+  SL price:     $2,496.25 × (1 - 0.0050) = $2,483.77
 
-  Risk:   $2,496.25 → $2,490.01 = -$6.24 per ETH  (0.25%)
+  Risk:   $2,496.25 → $2,483.77 = -$12.48 per ETH  (0.50%)
   Reward: $2,496.25 → $2,500.00 = +$3.75 per ETH  (0.15%)
-  R:R = 0.6:1 (but 73% win rate makes this very profitable)
+  R:R = 0.3:1 (but 87.7% win rate makes this very profitable)
 ```
 
-### Concrete Example: Sell-Dominant Cascade on SOLUSDT
+### Concrete Example: Sell-Dominant Cascade on SOLUSDT (Config 2 AGGR)
 
 ```
 Current SOL price: $180.00
 Cascade detected: Sell-dominant (shorts liquidated, price spiking)
+Displacement: 22 bps (≥10 → PASS)
 
 Your action: LIMIT SELL (short)
 
   Limit price:  $180.00 × (1 + 0.0015) = $180.27
-  TP price:     $180.27 × (1 - 0.0015) = $180.00
-  SL price:     $180.27 × (1 + 0.0025) = $180.72
+  TP price:     $180.27 × (1 - 0.0012) = $180.05
+  SL price:     NONE (hold until TP or 60min timeout)
 
-  Risk:   $180.27 → $180.72 = -$0.45 per SOL  (0.25%)
-  Reward: $180.27 → $180.00 = +$0.27 per SOL  (0.15%)
+  Reward: $180.27 → $180.05 = +$0.22 per SOL  (0.12%)
+  Risk:   Timeout at market after 60min (avg timeout loss: ~1.25%)
 ```
 
 ---
@@ -165,22 +180,31 @@ Your action: LIMIT SELL (short)
 
 ### Expected Outcomes
 
+**Config 1 SAFE (with displacement filter):**
+
 | Exit Type | Frequency | What Happens |
 |-----------|-----------|-------------|
-| **Take Profit** | **~73%** of fills | Price bounces back 0.15% → you collect |
-| **Stop Loss** | **~25%** of fills | Price continues against you → cut loss at 0.25% |
-| **Timeout** | **~2%** of fills | 30 min expires, close at market |
+| **Take Profit** | **~88%** of fills | Price bounces back 0.15% → you collect (maker fee) |
+| **Stop Loss** | **~11%** of fills | Price continues against you → cut loss at 0.50% (taker fee) |
+| **Timeout** | **~1%** of fills | 60 min expires, close at market (taker fee) |
+
+**Config 2 AGGRESSIVE (with displacement filter):**
+
+| Exit Type | Frequency | What Happens |
+|-----------|-----------|-------------|
+| **Take Profit** | **~95-97%** of fills | Price bounces back 0.12% → you collect (maker fee) |
+| **Timeout** | **~3-5%** of fills | 60 min expires, close at market (taker fee, avg loss ~1.25%) |
 
 ### Hold Time
 - **Average: 1-3 minutes** (most trades resolve very quickly)
-- 73% of trades hit TP within the first few minutes
-- If a trade hasn't hit TP in 5 minutes, it's more likely to hit SL or timeout
+- 88-97% of trades hit TP within the first few minutes
+- If a trade hasn't hit TP in 10 minutes, it's more likely to timeout
 
 ### Rules
 
 1. **One position per symbol at a time.** Don't stack cascades.
 2. **5-minute cooldown** between trades on the same symbol.
-3. **Cancel unfilled limit orders after 30 minutes.**
+3. **Cancel unfilled limit orders after 60 minutes.**
 4. **If position open and new cascade in same direction** → do nothing (already positioned).
 5. **If position open and new cascade in opposite direction** → do nothing (let TP/SL handle it).
 
@@ -199,20 +223,19 @@ Your action: LIMIT SELL (short)
 
 ## 5. When to Trade
 
-### Best Hours: 13:00-18:00 UTC (US Session)
+### Trade ALL Hours
 
-| Metric | All Hours | US Hours Only |
-|--------|-----------|---------------|
-| Sharpe (DOGE) | 172 | **185** |
-| Sharpe (SOL) | 164 | **159** |
-| Max DD (DOGE) | 1.4% | **0.9%** |
-| Max DD (SOL) | 1.9% | **1.7%** |
-| Trades/day | 5-9 | 2-3 |
+The v26k filter comparison showed that hour-of-day and day-of-week filters **hurt** total returns by over-filtering. The displacement ≥10 bps filter already captures the quality signal.
 
-US hours have the **highest quality** cascades (more volume, cleaner reversions). If you can only trade part of the day, trade 13-18 UTC.
+| Metric | All Hours + Disp Filter | US Hours Only + All Filters |
+|--------|------------------------|----------------------------|
+| Total (4 sym, AGGR) | **+91.4%** | +10.2% |
+| Trades | 2,394 | 354 |
+| Avg Sharpe | **+4.5** | +1.9 |
+
+**Trade 24/7.** The displacement filter handles quality control.
 
 ### Avoid
-- **Low-volume weekends** — fewer cascades, wider spreads
 - **Major news events** (FOMC, CPI) — cascades may not revert
 - **Exchange maintenance windows**
 
@@ -228,9 +251,10 @@ US hours have the **highest quality** cascades (more volume, cleaner reversions)
 | $100K | $20K-50K notional | 5-10x | $2K-10K |
 
 ### Why Small
-- Max loss per trade = 0.25% of position = $5-125 on $2K-50K
-- With 25% loss rate, expect ~1-2 losses per day per symbol
-- Daily P&L variance is very low due to small per-trade risk
+- Config 1: Max loss per trade = 0.50% of position (SL) = $10-250 on $2K-50K
+- Config 2: Max loss per trade = timeout at market (avg ~1.25%, worst ~5%)
+- With displacement filter, only 3-12% of trades are losers
+- Daily P&L variance is very low due to high win rate
 
 ### Risk Limits
 - **Max 1 position per symbol** at any time
@@ -242,20 +266,28 @@ US hours have the **highest quality** cascades (more volume, cleaner reversions)
 
 ## 7. Expected Performance
 
-### Conservative Estimates (with 2 bps maker fee, 50% fill rate assumption)
+### Backtest Results (282 days, displacement ≥10 bps filter)
 
-| Metric | Per Symbol | 4-Symbol Portfolio |
-|--------|-----------|-------------------|
-| Trades/day | 2-4 fills | 8-16 fills |
-| Win rate | 70-75% | 70-75% |
-| Avg return/trade | +0.02-0.03% | +0.02-0.03% |
-| Daily return | +0.04-0.12% | +0.16-0.48% |
-| Monthly return | +1-3% | +4-10% |
-| Annual return | +12-40% | +50-120% |
-| Max drawdown | 2-4% | 3-6% |
-| Sharpe (annual) | 2-5 | 3-8 |
+| Metric | Config 1 SAFE | Config 2 AGGR |
+|--------|--------------|---------------|
+| Trades (4 sym) | 2,394 | 2,394 |
+| Win rate | 87.8% | **95.6%** |
+| Total return | +72.1% | **+91.4%** |
+| Avg Sharpe | +3.8 | **+4.5** |
+| Positive months | 19/40 | **20/40** |
+| Avg return/trade | +0.030% | +0.038% |
 
-These are **after fees, after assuming 50% of backtest fills actually execute**.
+### Conservative Live Estimates (50% fill rate assumption)
+
+| Metric | Config 1 SAFE | Config 2 AGGR |
+|--------|--------------|---------------|
+| Trades/day (4 sym) | ~4-8 fills | ~4-8 fills |
+| Daily return | +0.06-0.13% | +0.08-0.16% |
+| Monthly return | +1.5-3.5% | +2-4.5% |
+| Annual return | +18-45% | +25-55% |
+| Max drawdown | 3-6% | 4-7% |
+
+These are **after fees, after assuming 50% of backtest fills actually execute live**.
 
 ---
 
@@ -272,25 +304,29 @@ LOOP forever:
      NO  → wait for more
      YES → CASCADE DETECTED
 
-  4. Is cooldown expired? (5 min since last trade on this symbol)
+  4. Compute displacement: abs(current_price - pre_cascade_price) / pre_cascade_price
+     < 10 bps → skip (not a real cascade)
+     ≥ 10 bps → continue
+
+  5. Is cooldown expired? (5 min since last trade on this symbol)
      NO  → skip
      YES → continue
 
-  5. Is there already an open position on this symbol?
+  6. Is there already an open position on this symbol?
      YES → skip
      NO  → continue
 
-  6. Determine direction:
+  7. Determine direction:
      buy_dominant → LIMIT BUY at price × 0.9985
      sell_dominant → LIMIT SELL at price × 1.0015
 
-  7. Place PostOnly limit order
+  8. Place PostOnly limit order
 
-  8. Start 30-minute timer:
-     - If filled → place TP (±0.15%) and SL (∓0.25%) orders
-     - If not filled after 30 min → cancel order
+  9. Start 60-minute timer:
+     - If filled → place TP (±0.15% safe / ±0.12% aggr) and SL (∓0.50% safe / none aggr)
+     - If not filled after 60 min → cancel order
      - If TP or SL hit → position closed, reset cooldown
-     - If 30 min after fill and no TP/SL → close at market
+     - If 60 min after fill and no TP/SL → close at market
 ```
 
 ### Key Libraries
@@ -305,9 +341,10 @@ LOOP forever:
 ### Paper Trade First (1-2 weeks)
 - [ ] Websocket connection stable for 24h+
 - [ ] Cascade detection matches expected frequency (5-9/day/symbol)
+- [ ] Displacement filter working (≥10 bps check)
 - [ ] Orders placed within 3 seconds of cascade detection
 - [ ] Fill rate is 50-80% (if much lower, offset may be too wide)
-- [ ] Win rate is 65-75% on filled trades
+- [ ] Win rate is 85-95% on filled trades (with displacement filter)
 - [ ] No bugs in TP/SL logic (check both long and short)
 - [ ] Cooldown and position limits working correctly
 - [ ] Logging captures every event for post-analysis
@@ -331,7 +368,7 @@ LOOP forever:
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|-----------|--------|------------|
-| **Cascade doesn't revert** (trend continues) | 25% of trades | -0.25% per trade | SL handles this; it's priced in |
+| **Cascade doesn't revert** (trend continues) | 4-12% of trades | -0.50% (SL) or timeout | SL/timeout handles this; it's priced in |
 | **Order doesn't fill** | 20-50% of signals | Missed opportunity | Acceptable; unfilled = no risk |
 | **Websocket disconnects** | Occasional | Miss cascades | Auto-reconnect, heartbeat monitoring |
 | **Exchange API down** | Rare | Can't place/cancel orders | Position size limits cap exposure |
@@ -345,33 +382,28 @@ LOOP forever:
 ## Quick Reference Card
 
 ```
-┌─────────────────────────────────────────────────┐
-│  LIQUIDATION CASCADE MARKET-MAKING              │
-├─────────────────────────────────────────────────┤
-│  TRIGGER: 2+ P95 liquidations within 60 sec     │
-│  SPEED:   Place order within 3 seconds           │
-│                                                   │
-│  ETH/SOL/DOGE/XRP:                               │
-│    Entry offset:  0.15%                           │
-│    Take profit:   0.15%                           │
-│    Stop loss:     0.25%                           │
-│    Max hold:      30 min                          │
-│    Cooldown:      5 min                           │
-│                                                   │
-│  BTC (if 0% maker):                              │
-│    Entry offset:  0.10%                           │
-│    Take profit:   0.50%                           │
-│    Stop loss:     0.25%                           │
-│                                                   │
-│  DIRECTION:                                       │
-│    Longs liquidated (Buy-dom) → LIMIT BUY below  │
-│    Shorts liquidated (Sell-dom) → LIMIT SELL above│
-│                                                   │
-│  EXPECTED:                                        │
-│    Win rate:  ~73%                                │
-│    Avg hold:  1-3 min                             │
-│    Trades:    5-9 signals/day/symbol              │
-│    Fills:     50-80% of signals                   │
-│    Best hours: 13-18 UTC                          │
-└─────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│  LIQUIDATION CASCADE MARKET-MAKING                    │
+├──────────────────────────────────────────────────────┤
+│  TRIGGER: 2+ P95 liquidations within 60 sec          │
+│  FILTER:  Displacement ≥10 bps (THE key filter)       │
+│  SPEED:   Place order within 3 seconds                │
+│                                                        │
+│  CONFIG 1 SAFE (start here):                          │
+│    Entry offset:  0.15%    TP: 0.15%                  │
+│    Stop loss:     0.50%    Max hold: 60 min            │
+│    Expected: 87.8% WR, +72.1% combined (282d)         │
+│                                                        │
+│  CONFIG 2 AGGRESSIVE (once proven):                   │
+│    Entry offset:  0.15%    TP: 0.12%                  │
+│    Stop loss:     NONE     Max hold: 60 min            │
+│    Expected: 95.6% WR, +91.4% combined (282d)         │
+│                                                        │
+│  SYMBOLS: ETH, SOL, DOGE, XRP (all 4)                │
+│  DIRECTION:                                            │
+│    Longs liquidated (Buy-dom) → LIMIT BUY below       │
+│    Shorts liquidated (Sell-dom) → LIMIT SELL above    │
+│  COOLDOWN: 5 min between trades per symbol             │
+│  HOURS: ALL (displacement filter handles quality)      │
+└──────────────────────────────────────────────────────┘
 ```
