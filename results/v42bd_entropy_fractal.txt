@@ -1,0 +1,451 @@
+================================================================================
+  v42bd: ENTROPY + FRACTAL DIM + MOM QUALITY + RANGE EXPANSION RATE
+  2026-02-19 15:25:11  [RAM=0.1GB, avail=7.0GB]
+================================================================================
+  Loading ETHUSDT... [10/88 32s] [20/88 54s] [30/88 73s] [40/88 96s] [50/88 116s] [60/88 132s] [70/88 160s] [80/88 185s] [88/88 204s] 126,720 bars (204s) [RAM=0.5GB, avail=6.7GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP VVVV5: RETURN ENTROPY ---
+
+  Entropy(30) <10th pct (fade structured):
+  ✅ TRAIN                                                    n=8341  wr= 50.2%  avg=  +1.2bps  tot= +98.32%  sh=   +80.3
+  ✅ TEST                                                     n=4114  wr= 54.9%  avg=  +1.6bps  tot= +63.98%  sh=  +126.1
+    ✅ test=+2.285%/d
+
+  Entropy(30) <20th pct (fade structured):
+  ✅ TRAIN                                                    n=14023  wr= 50.2%  avg=  +1.1bps  tot=+160.97%  sh=   +79.5
+  ✅ TEST                                                     n=6798  wr= 53.9%  avg=  +1.5bps  tot=+100.64%  sh=  +112.2
+    ✅ test=+3.594%/d
+
+  Entropy(60) <10th pct (fade structured):
+  ✅ TRAIN                                                    n=11202  wr= 50.2%  avg=  +1.1bps  tot=+122.83%  sh=   +80.0
+  ✅ TEST                                                     n=5368  wr= 52.6%  avg=  +1.3bps  tot= +69.83%  sh=  +101.3
+    ✅ test=+2.494%/d
+
+  Entropy(60) <20th pct (fade structured):
+  ✅ TRAIN                                                    n=16530  wr= 51.1%  avg=  +1.2bps  tot=+200.60%  sh=   +85.4
+  ✅ TEST                                                     n=7952  wr= 53.2%  avg=  +1.4bps  tot=+108.27%  sh=  +101.6
+    ✅ test=+3.867%/d
+
+  --- EXP WWWW5: FRACTAL DIMENSION PROXY ---
+
+  Fractal(20) >90th pct (fade noisy):
+  ✅ TRAIN                                                    n=5968  wr= 52.4%  avg=  +1.5bps  tot= +88.93%  sh=   +98.5
+  ✅ TEST                                                     n=2973  wr= 56.6%  avg=  +2.0bps  tot= +58.55%  sh=  +145.9
+    ✅ test=+2.091%/d
+
+  Fractal(20) >95th pct (fade noisy):
+  ✅ TRAIN                                                    n=3026  wr= 52.6%  avg=  +1.6bps  tot= +47.47%  sh=  +107.3
+  ✅ TEST                                                     n=1472  wr= 56.7%  avg=  +1.9bps  tot= +27.99%  sh=  +148.4
+    ✅ test=+1.000%/d
+
+  Fractal(40) >90th pct (fade noisy):
+  ✅ TRAIN                                                    n=6284  wr= 52.0%  avg=  +1.5bps  tot= +92.79%  sh=  +106.7
+  ✅ TEST                                                     n=3092  wr= 55.1%  avg=  +1.8bps  tot= +54.52%  sh=  +126.9
+    ✅ test=+1.947%/d
+
+  Fractal(40) >95th pct (fade noisy):
+  ✅ TRAIN                                                    n=3207  wr= 52.0%  avg=  +1.4bps  tot= +46.39%  sh=  +101.4
+  ✅ TEST                                                     n=1590  wr= 55.2%  avg=  +1.8bps  tot= +28.29%  sh=  +126.3
+    ✅ test=+1.010%/d
+
+  --- EXP XXXX5: MOMENTUM QUALITY ---
+
+  Mom quality(30/5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5446  wr= 67.5%  avg=  +4.8bps  tot=+261.59%  sh=  +231.9
+  ✅ TEST                                                     n=2612  wr= 67.8%  avg=  +4.0bps  tot=+105.64%  sh=  +287.8
+    ✅ test=+3.773%/d
+
+  Mom quality(30/5) >95th pct (fade):
+  ✅ TRAIN                                                    n=2110  wr= 69.4%  avg=  +5.1bps  tot=+107.82%  sh=  +248.4
+  ✅ TEST                                                     n=1000  wr= 67.2%  avg=  +4.3bps  tot= +43.47%  sh=  +290.2
+    ✅ test=+1.552%/d
+
+  Mom quality(60/10) >90th pct (fade):
+  ✅ TRAIN                                                    n=5713  wr= 67.3%  avg=  +4.5bps  tot=+257.17%  sh=  +274.6
+  ✅ TEST                                                     n=2811  wr= 69.2%  avg=  +4.4bps  tot=+122.68%  sh=  +299.2
+    ✅ test=+4.381%/d
+
+  Mom quality(60/10) >95th pct (fade):
+  ✅ TRAIN                                                    n=2578  wr= 70.1%  avg=  +5.0bps  tot=+129.93%  sh=  +305.8
+  ✅ TEST                                                     n=1250  wr= 69.6%  avg=  +4.6bps  tot= +57.25%  sh=  +313.6
+    ✅ test=+2.045%/d
+
+  --- EXP YYYY5: RANGE EXPANSION RATE ---
+
+  Range rate(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6111  wr= 64.4%  avg=  +5.7bps  tot=+350.56%  sh=  +218.1
+  ✅ TEST                                                     n=2968  wr= 69.8%  avg=  +5.1bps  tot=+151.60%  sh=  +300.7
+    ✅ test=+5.414%/d
+
+  Range rate(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3215  wr= 66.1%  avg=  +6.9bps  tot=+222.01%  sh=  +241.7
+  ✅ TEST                                                     n=1564  wr= 72.6%  avg=  +5.7bps  tot= +88.93%  sh=  +316.2
+    ✅ test=+3.176%/d
+
+  Range rate(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6230  wr= 64.7%  avg=  +5.9bps  tot=+368.86%  sh=  +221.5
+  ✅ TEST                                                     n=3045  wr= 69.9%  avg=  +5.1bps  tot=+155.67%  sh=  +311.8
+    ✅ test=+5.560%/d
+
+  Range rate(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3343  wr= 67.4%  avg=  +7.0bps  tot=+235.58%  sh=  +244.6
+  ✅ TEST                                                     n=1622  wr= 72.7%  avg=  +6.1bps  tot= +98.48%  sh=  +336.2
+    ✅ test=+3.517%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 36s] [40/88 48s] [50/88 59s] [60/88 68s] [70/88 80s] [80/88 96s] [88/88 105s] 126,720 bars (105s) [RAM=0.4GB, avail=6.8GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP VVVV5: RETURN ENTROPY ---
+
+  Entropy(30) <10th pct (fade structured):
+  ✅ TRAIN                                                    n=8986  wr= 54.3%  avg=  +1.5bps  tot=+138.32%  sh=  +111.5
+  ✅ TEST                                                     n=4333  wr= 56.0%  avg=  +1.8bps  tot= +77.11%  sh=  +139.8
+    ✅ test=+2.754%/d
+
+  Entropy(30) <20th pct (fade structured):
+  ✅ TRAIN                                                    n=15138  wr= 55.0%  avg=  +1.7bps  tot=+260.30%  sh=  +117.6
+  ✅ TEST                                                     n=7154  wr= 57.2%  avg=  +2.1bps  tot=+149.09%  sh=  +157.6
+    ✅ test=+5.325%/d
+
+  Entropy(60) <10th pct (fade structured):
+  ✅ TRAIN                                                    n=12067  wr= 54.7%  avg=  +1.6bps  tot=+197.14%  sh=  +106.2
+  ✅ TEST                                                     n=5827  wr= 55.4%  avg=  +1.8bps  tot=+106.38%  sh=  +132.4
+    ✅ test=+3.799%/d
+
+  Entropy(60) <20th pct (fade structured):
+  ✅ TRAIN                                                    n=17888  wr= 55.4%  avg=  +1.7bps  tot=+305.55%  sh=  +113.0
+  ✅ TEST                                                     n=8590  wr= 56.1%  avg=  +2.0bps  tot=+172.80%  sh=  +145.1
+    ✅ test=+6.171%/d
+
+  --- EXP WWWW5: FRACTAL DIMENSION PROXY ---
+
+  Fractal(20) >90th pct (fade noisy):
+  ✅ TRAIN                                                    n=6350  wr= 58.8%  avg=  +2.3bps  tot=+145.30%  sh=  +163.0
+  ✅ TEST                                                     n=3145  wr= 60.9%  avg=  +2.7bps  tot= +86.26%  sh=  +196.1
+    ✅ test=+3.081%/d
+
+  Fractal(20) >95th pct (fade noisy):
+  ✅ TRAIN                                                    n=3212  wr= 59.7%  avg=  +2.2bps  tot= +70.81%  sh=  +158.0
+  ✅ TEST                                                     n=1552  wr= 61.3%  avg=  +2.7bps  tot= +42.68%  sh=  +200.6
+    ✅ test=+1.524%/d
+
+  Fractal(40) >90th pct (fade noisy):
+  ✅ TRAIN                                                    n=6678  wr= 57.2%  avg=  +2.1bps  tot=+141.76%  sh=  +158.9
+  ✅ TEST                                                     n=3259  wr= 59.5%  avg=  +2.5bps  tot= +81.73%  sh=  +176.2
+    ✅ test=+2.919%/d
+
+  Fractal(40) >95th pct (fade noisy):
+  ✅ TRAIN                                                    n=3361  wr= 57.6%  avg=  +2.2bps  tot= +73.32%  sh=  +173.8
+  ✅ TEST                                                     n=1677  wr= 60.5%  avg=  +2.5bps  tot= +42.12%  sh=  +174.1
+    ✅ test=+1.504%/d
+
+  --- EXP XXXX5: MOMENTUM QUALITY ---
+
+  Mom quality(30/5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5790  wr= 67.8%  avg=  +4.3bps  tot=+249.77%  sh=  +273.5
+  ✅ TEST                                                     n=2800  wr= 68.5%  avg=  +4.6bps  tot=+127.91%  sh=  +294.2
+    ✅ test=+4.568%/d
+
+  Mom quality(30/5) >95th pct (fade):
+  ✅ TRAIN                                                    n=2289  wr= 69.6%  avg=  +4.6bps  tot=+104.28%  sh=  +288.2
+  ✅ TEST                                                     n=1169  wr= 69.8%  avg=  +4.8bps  tot= +55.85%  sh=  +322.7
+    ✅ test=+1.995%/d
+
+  Mom quality(60/10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6104  wr= 68.6%  avg=  +4.3bps  tot=+260.36%  sh=  +292.3
+  ✅ TEST                                                     n=2819  wr= 69.6%  avg=  +4.7bps  tot=+132.77%  sh=  +300.1
+    ✅ test=+4.742%/d
+
+  Mom quality(60/10) >95th pct (fade):
+  ✅ TRAIN                                                    n=2696  wr= 68.4%  avg=  +4.2bps  tot=+113.97%  sh=  +280.9
+  ✅ TEST                                                     n=1362  wr= 68.1%  avg=  +4.5bps  tot= +61.88%  sh=  +264.5
+    ✅ test=+2.210%/d
+
+  --- EXP YYYY5: RANGE EXPANSION RATE ---
+
+  Range rate(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6381  wr= 65.2%  avg=  +4.8bps  tot=+305.78%  sh=  +229.5
+  ✅ TEST                                                     n=3040  wr= 68.5%  avg=  +5.3bps  tot=+160.93%  sh=  +304.5
+    ✅ test=+5.747%/d
+
+  Range rate(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3403  wr= 67.5%  avg=  +5.7bps  tot=+193.97%  sh=  +245.9
+  ✅ TEST                                                     n=1648  wr= 70.1%  avg=  +6.0bps  tot= +98.69%  sh=  +330.0
+    ✅ test=+3.525%/d
+
+  Range rate(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6562  wr= 67.1%  avg=  +5.1bps  tot=+334.50%  sh=  +247.9
+  ✅ TEST                                                     n=3152  wr= 69.8%  avg=  +5.7bps  tot=+180.12%  sh=  +345.9
+    ✅ test=+6.433%/d
+
+  Range rate(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3469  wr= 68.5%  avg=  +5.8bps  tot=+199.56%  sh=  +246.5
+  ✅ TEST                                                     n=1732  wr= 71.8%  avg=  +6.2bps  tot=+108.21%  sh=  +354.0
+    ✅ test=+3.865%/d
+  Loading DOGEUSDT... [10/88 20s] [20/88 33s] [30/88 42s] [40/88 52s] [50/88 59s] [60/88 67s] [70/88 94s] [80/88 114s] [88/88 124s] 126,720 bars (124s) [RAM=0.4GB, avail=6.9GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP VVVV5: RETURN ENTROPY ---
+
+  Entropy(30) <10th pct (fade structured):
+  ✅ TRAIN                                                    n=9422  wr= 57.3%  avg=  +2.1bps  tot=+195.50%  sh=  +135.5
+  ✅ TEST                                                     n=4881  wr= 75.0%  avg=  +5.8bps  tot=+284.73%  sh=  +369.4
+    ✅ test=+10.169%/d
+
+  Entropy(30) <20th pct (fade structured):
+  ✅ TRAIN                                                    n=15454  wr= 57.5%  avg=  +2.3bps  tot=+351.43%  sh=  +142.7
+  ✅ TEST                                                     n=8021  wr= 75.9%  avg=  +6.0bps  tot=+478.89%  sh=  +363.5
+    ✅ test=+17.103%/d
+
+  Entropy(60) <10th pct (fade structured):
+  ✅ TRAIN                                                    n=12281  wr= 57.2%  avg=  +2.2bps  tot=+272.21%  sh=  +137.6
+  ✅ TEST                                                     n=6479  wr= 74.9%  avg=  +5.5bps  tot=+355.81%  sh=  +341.0
+    ✅ test=+12.707%/d
+
+  Entropy(60) <20th pct (fade structured):
+  ✅ TRAIN                                                    n=18172  wr= 57.4%  avg=  +2.3bps  tot=+420.30%  sh=  +141.7
+  ✅ TEST                                                     n=9514  wr= 75.4%  avg=  +5.8bps  tot=+551.98%  sh=  +357.9
+    ✅ test=+19.714%/d
+
+  --- EXP WWWW5: FRACTAL DIMENSION PROXY ---
+
+  Fractal(20) >90th pct (fade noisy):
+  ✅ TRAIN                                                    n=6638  wr= 61.1%  avg=  +3.2bps  tot=+211.65%  sh=  +192.9
+  ✅ TEST                                                     n=3380  wr= 78.6%  avg=  +7.1bps  tot=+238.65%  sh=  +406.0
+    ✅ test=+8.523%/d
+
+  Fractal(20) >95th pct (fade noisy):
+  ✅ TRAIN                                                    n=3364  wr= 60.6%  avg=  +3.0bps  tot=+100.51%  sh=  +182.5
+  ✅ TEST                                                     n=1722  wr= 78.6%  avg=  +7.3bps  tot=+125.89%  sh=  +415.6
+    ✅ test=+4.496%/d
+
+  Fractal(40) >90th pct (fade noisy):
+  ✅ TRAIN                                                    n=7074  wr= 60.6%  avg=  +3.1bps  tot=+222.01%  sh=  +187.0
+  ✅ TEST                                                     n=3565  wr= 77.0%  avg=  +6.7bps  tot=+239.99%  sh=  +404.8
+    ✅ test=+8.571%/d
+
+  Fractal(40) >95th pct (fade noisy):
+  ✅ TRAIN                                                    n=3631  wr= 60.8%  avg=  +3.2bps  tot=+115.31%  sh=  +188.2
+  ✅ TEST                                                     n=1804  wr= 78.2%  avg=  +6.9bps  tot=+124.97%  sh=  +435.7
+    ✅ test=+4.463%/d
+
+  --- EXP XXXX5: MOMENTUM QUALITY ---
+
+  Mom quality(30/5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5959  wr= 71.1%  avg=  +5.4bps  tot=+323.69%  sh=  +285.4
+  ✅ TEST                                                     n=2918  wr= 84.9%  avg=  +8.8bps  tot=+256.19%  sh=  +517.4
+    ✅ test=+9.150%/d
+
+  Mom quality(30/5) >95th pct (fade):
+  ✅ TRAIN                                                    n=2491  wr= 71.4%  avg=  +5.5bps  tot=+136.98%  sh=  +302.0
+  ✅ TEST                                                     n=1216  wr= 84.2%  avg=  +9.1bps  tot=+110.54%  sh=  +533.6
+    ✅ test=+3.948%/d
+
+  Mom quality(60/10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6181  wr= 71.3%  avg=  +5.3bps  tot=+328.93%  sh=  +313.4
+  ✅ TEST                                                     n=3264  wr= 86.3%  avg=  +9.5bps  tot=+311.70%  sh=  +518.3
+    ✅ test=+11.132%/d
+
+  Mom quality(60/10) >95th pct (fade):
+  ✅ TRAIN                                                    n=2929  wr= 71.0%  avg=  +5.3bps  tot=+155.41%  sh=  +307.2
+  ✅ TEST                                                     n=1501  wr= 88.4%  avg= +10.1bps  tot=+151.81%  sh=  +526.1
+    ✅ test=+5.422%/d
+
+  --- EXP YYYY5: RANGE EXPANSION RATE ---
+
+  Range rate(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6617  wr= 68.3%  avg=  +6.2bps  tot=+407.41%  sh=  +246.2
+  ✅ TEST                                                     n=3341  wr= 82.5%  avg= +10.5bps  tot=+350.87%  sh=  +431.3
+    ✅ test=+12.531%/d
+
+  Range rate(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3511  wr= 69.8%  avg=  +7.0bps  tot=+246.68%  sh=  +249.1
+  ✅ TEST                                                     n=1735  wr= 82.6%  avg= +11.8bps  tot=+205.53%  sh=  +422.8
+    ✅ test=+7.340%/d
+
+  Range rate(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6778  wr= 69.7%  avg=  +6.5bps  tot=+443.56%  sh=  +260.8
+  ✅ TEST                                                     n=3530  wr= 84.5%  avg= +11.0bps  tot=+388.69%  sh=  +448.4
+    ✅ test=+13.882%/d
+
+  Range rate(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3658  wr= 71.8%  avg=  +7.6bps  tot=+276.33%  sh=  +270.1
+  ✅ TEST                                                     n=1886  wr= 84.3%  avg= +11.6bps  tot=+219.23%  sh=  +434.3
+    ✅ test=+7.830%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 25s] [30/88 32s] [40/88 41s] [50/88 50s] [60/88 58s] [70/88 85s] [80/88 102s] [88/88 113s] 126,720 bars (113s) [RAM=0.4GB, avail=6.8GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP VVVV5: RETURN ENTROPY ---
+
+  Entropy(30) <10th pct (fade structured):
+  ✅ TRAIN                                                    n=8006  wr= 43.8%  avg=  +0.3bps  tot= +27.20%  sh=   +23.1
+  ✅ TEST                                                     n=4731  wr= 63.3%  avg=  +3.5bps  tot=+165.68%  sh=  +220.9
+    ✅ test=+5.917%/d
+
+  Entropy(30) <20th pct (fade structured):
+  ✅ TRAIN                                                    n=13232  wr= 44.3%  avg=  +0.4bps  tot= +52.21%  sh=   +27.3
+  ✅ TEST                                                     n=7606  wr= 64.3%  avg=  +3.7bps  tot=+282.70%  sh=  +229.8
+    ✅ test=+10.097%/d
+
+  Entropy(60) <10th pct (fade structured):
+  ✅ TRAIN                                                    n=10462  wr= 43.7%  avg=  +0.2bps  tot= +24.16%  sh=   +16.4
+  ✅ TEST                                                     n=6183  wr= 63.6%  avg=  +3.4bps  tot=+210.41%  sh=  +221.2
+    ✅ test=+7.515%/d
+
+  Entropy(60) <20th pct (fade structured):
+  ✅ TRAIN                                                    n=15761  wr= 43.7%  avg=  +0.3bps  tot= +44.82%  sh=   +19.9
+  ✅ TEST                                                     n=8793  wr= 63.9%  avg=  +3.6bps  tot=+313.90%  sh=  +227.7
+    ✅ test=+11.211%/d
+
+  --- EXP WWWW5: FRACTAL DIMENSION PROXY ---
+
+  Fractal(20) >90th pct (fade noisy):
+  ✅ TRAIN                                                    n=5838  wr= 47.5%  avg=  +0.9bps  tot= +52.02%  sh=   +55.3
+  ✅ TEST                                                     n=3275  wr= 71.5%  avg=  +5.2bps  tot=+171.65%  sh=  +322.0
+    ✅ test=+6.130%/d
+
+  Fractal(20) >95th pct (fade noisy):
+  ✅ TRAIN                                                    n=2895  wr= 48.1%  avg=  +0.9bps  tot= +26.74%  sh=   +59.1
+  ✅ TEST                                                     n=1636  wr= 71.3%  avg=  +5.2bps  tot= +85.02%  sh=  +317.3
+    ✅ test=+3.037%/d
+
+  Fractal(40) >90th pct (fade noisy):
+  ✅ TRAIN                                                    n=6234  wr= 47.0%  avg=  +0.7bps  tot= +41.81%  sh=   +44.8
+  ✅ TEST                                                     n=3367  wr= 69.1%  avg=  +4.8bps  tot=+162.90%  sh=  +290.7
+    ✅ test=+5.818%/d
+
+  Fractal(40) >95th pct (fade noisy):
+  ✅ TRAIN                                                    n=3106  wr= 46.7%  avg=  +0.6bps  tot= +19.84%  sh=   +43.4
+  ✅ TEST                                                     n=1705  wr= 67.8%  avg=  +4.9bps  tot= +82.95%  sh=  +281.7
+    ✅ test=+2.963%/d
+
+  --- EXP XXXX5: MOMENTUM QUALITY ---
+
+  Mom quality(30/5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5271  wr= 56.1%  avg=  +2.6bps  tot=+138.39%  sh=  +168.9
+  ✅ TEST                                                     n=3021  wr= 74.7%  avg=  +6.8bps  tot=+206.12%  sh=  +357.4
+    ✅ test=+7.362%/d
+
+  Mom quality(30/5) >95th pct (fade):
+  ✅ TRAIN                                                    n=2071  wr= 58.3%  avg=  +3.1bps  tot= +64.80%  sh=  +182.6
+  ✅ TEST                                                     n=1177  wr= 77.2%  avg=  +7.8bps  tot= +92.37%  sh=  +363.6
+    ✅ test=+3.299%/d
+
+  Mom quality(60/10) >90th pct (fade):
+  ✅ TRAIN                                                    n=5425  wr= 57.2%  avg=  +2.6bps  tot=+139.90%  sh=  +167.7
+  ✅ TEST                                                     n=3117  wr= 76.2%  avg=  +6.6bps  tot=+207.19%  sh=  +371.7
+    ✅ test=+7.400%/d
+
+  Mom quality(60/10) >95th pct (fade):
+  ✅ TRAIN                                                    n=2408  wr= 58.2%  avg=  +2.8bps  tot= +66.83%  sh=  +185.3
+  ✅ TEST                                                     n=1447  wr= 75.5%  avg=  +6.5bps  tot= +93.54%  sh=  +357.9
+    ✅ test=+3.341%/d
+
+  --- EXP YYYY5: RANGE EXPANSION RATE ---
+
+  Range rate(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5821  wr= 54.1%  avg=  +3.1bps  tot=+180.85%  sh=  +159.2
+  ✅ TEST                                                     n=3172  wr= 75.2%  avg=  +7.8bps  tot=+248.54%  sh=  +329.2
+    ✅ test=+8.877%/d
+
+  Range rate(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3062  wr= 56.3%  avg=  +3.9bps  tot=+120.37%  sh=  +175.5
+  ✅ TEST                                                     n=1720  wr= 75.6%  avg=  +8.4bps  tot=+145.09%  sh=  +343.0
+    ✅ test=+5.182%/d
+
+  Range rate(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=5967  wr= 55.2%  avg=  +3.1bps  tot=+186.81%  sh=  +159.0
+  ✅ TEST                                                     n=3313  wr= 74.7%  avg=  +8.2bps  tot=+271.42%  sh=  +323.6
+    ✅ test=+9.694%/d
+
+  Range rate(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3208  wr= 58.8%  avg=  +4.2bps  tot=+134.18%  sh=  +182.9
+  ✅ TEST                                                     n=1819  wr= 75.9%  avg=  +9.1bps  tot=+165.23%  sh=  +336.4
+    ✅ test=+5.901%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    ent_30_0.1               4881   75.0%    +5.8bp   +284.7%     +369
+  ✅ DOGEUSDT    ent_30_0.2               8021   75.9%    +6.0bp   +478.9%     +364
+  ✅ DOGEUSDT    ent_60_0.1               6479   74.9%    +5.5bp   +355.8%     +341
+  ✅ DOGEUSDT    ent_60_0.2               9514   75.4%    +5.8bp   +552.0%     +358
+  ✅ DOGEUSDT    fd_20_0.9                3380   78.6%    +7.1bp   +238.6%     +406
+  ✅ DOGEUSDT    fd_20_0.95               1722   78.6%    +7.3bp   +125.9%     +416
+  ✅ DOGEUSDT    fd_40_0.9                3565   77.0%    +6.7bp   +240.0%     +405
+  ✅ DOGEUSDT    fd_40_0.95               1804   78.2%    +6.9bp   +125.0%     +436
+  ✅ DOGEUSDT    mq_30_5_0.9              2918   84.9%    +8.8bp   +256.2%     +517
+  ✅ DOGEUSDT    mq_30_5_0.95             1216   84.2%    +9.1bp   +110.5%     +534
+  ✅ DOGEUSDT    mq_60_10_0.9             3264   86.3%    +9.5bp   +311.7%     +518
+  ✅ DOGEUSDT    mq_60_10_0.95            1501   88.4%   +10.1bp   +151.8%     +526
+  ✅ DOGEUSDT    rrate_20_0.9             3341   82.5%   +10.5bp   +350.9%     +431
+  ✅ DOGEUSDT    rrate_20_0.95            1735   82.6%   +11.8bp   +205.5%     +423
+  ✅ DOGEUSDT    rrate_40_0.9             3530   84.5%   +11.0bp   +388.7%     +448
+  ✅ DOGEUSDT    rrate_40_0.95            1886   84.3%   +11.6bp   +219.2%     +434
+  ✅ ETHUSDT     ent_30_0.1               4114   54.9%    +1.6bp    +64.0%     +126
+  ✅ ETHUSDT     ent_30_0.2               6798   53.9%    +1.5bp   +100.6%     +112
+  ✅ ETHUSDT     ent_60_0.1               5368   52.6%    +1.3bp    +69.8%     +101
+  ✅ ETHUSDT     ent_60_0.2               7952   53.2%    +1.4bp   +108.3%     +102
+  ✅ ETHUSDT     fd_20_0.9                2973   56.6%    +2.0bp    +58.6%     +146
+  ✅ ETHUSDT     fd_20_0.95               1472   56.7%    +1.9bp    +28.0%     +148
+  ✅ ETHUSDT     fd_40_0.9                3092   55.1%    +1.8bp    +54.5%     +127
+  ✅ ETHUSDT     fd_40_0.95               1590   55.2%    +1.8bp    +28.3%     +126
+  ✅ ETHUSDT     mq_30_5_0.9              2612   67.8%    +4.0bp   +105.6%     +288
+  ✅ ETHUSDT     mq_30_5_0.95             1000   67.2%    +4.3bp    +43.5%     +290
+  ✅ ETHUSDT     mq_60_10_0.9             2811   69.2%    +4.4bp   +122.7%     +299
+  ✅ ETHUSDT     mq_60_10_0.95            1250   69.6%    +4.6bp    +57.3%     +314
+  ✅ ETHUSDT     rrate_20_0.9             2968   69.8%    +5.1bp   +151.6%     +301
+  ✅ ETHUSDT     rrate_20_0.95            1564   72.6%    +5.7bp    +88.9%     +316
+  ✅ ETHUSDT     rrate_40_0.9             3045   69.9%    +5.1bp   +155.7%     +312
+  ✅ ETHUSDT     rrate_40_0.95            1622   72.7%    +6.1bp    +98.5%     +336
+  ✅ SOLUSDT     ent_30_0.1               4333   56.0%    +1.8bp    +77.1%     +140
+  ✅ SOLUSDT     ent_30_0.2               7154   57.2%    +2.1bp   +149.1%     +158
+  ✅ SOLUSDT     ent_60_0.1               5827   55.4%    +1.8bp   +106.4%     +132
+  ✅ SOLUSDT     ent_60_0.2               8590   56.1%    +2.0bp   +172.8%     +145
+  ✅ SOLUSDT     fd_20_0.9                3145   60.9%    +2.7bp    +86.3%     +196
+  ✅ SOLUSDT     fd_20_0.95               1552   61.3%    +2.7bp    +42.7%     +201
+  ✅ SOLUSDT     fd_40_0.9                3259   59.5%    +2.5bp    +81.7%     +176
+  ✅ SOLUSDT     fd_40_0.95               1677   60.5%    +2.5bp    +42.1%     +174
+  ✅ SOLUSDT     mq_30_5_0.9              2800   68.5%    +4.6bp   +127.9%     +294
+  ✅ SOLUSDT     mq_30_5_0.95             1169   69.8%    +4.8bp    +55.8%     +323
+  ✅ SOLUSDT     mq_60_10_0.9             2819   69.6%    +4.7bp   +132.8%     +300
+  ✅ SOLUSDT     mq_60_10_0.95            1362   68.1%    +4.5bp    +61.9%     +264
+  ✅ SOLUSDT     rrate_20_0.9             3040   68.5%    +5.3bp   +160.9%     +304
+  ✅ SOLUSDT     rrate_20_0.95            1648   70.1%    +6.0bp    +98.7%     +330
+  ✅ SOLUSDT     rrate_40_0.9             3152   69.8%    +5.7bp   +180.1%     +346
+  ✅ SOLUSDT     rrate_40_0.95            1732   71.8%    +6.2bp   +108.2%     +354
+  ✅ XRPUSDT     ent_30_0.1               4731   63.3%    +3.5bp   +165.7%     +221
+  ✅ XRPUSDT     ent_30_0.2               7606   64.3%    +3.7bp   +282.7%     +230
+  ✅ XRPUSDT     ent_60_0.1               6183   63.6%    +3.4bp   +210.4%     +221
+  ✅ XRPUSDT     ent_60_0.2               8793   63.9%    +3.6bp   +313.9%     +228
+  ✅ XRPUSDT     fd_20_0.9                3275   71.5%    +5.2bp   +171.7%     +322
+  ✅ XRPUSDT     fd_20_0.95               1636   71.3%    +5.2bp    +85.0%     +317
+  ✅ XRPUSDT     fd_40_0.9                3367   69.1%    +4.8bp   +162.9%     +291
+  ✅ XRPUSDT     fd_40_0.95               1705   67.8%    +4.9bp    +83.0%     +282
+  ✅ XRPUSDT     mq_30_5_0.9              3021   74.7%    +6.8bp   +206.1%     +357
+  ✅ XRPUSDT     mq_30_5_0.95             1177   77.2%    +7.8bp    +92.4%     +364
+  ✅ XRPUSDT     mq_60_10_0.9             3117   76.2%    +6.6bp   +207.2%     +372
+  ✅ XRPUSDT     mq_60_10_0.95            1447   75.5%    +6.5bp    +93.5%     +358
+  ✅ XRPUSDT     rrate_20_0.9             3172   75.2%    +7.8bp   +248.5%     +329
+  ✅ XRPUSDT     rrate_20_0.95            1720   75.6%    +8.4bp   +145.1%     +343
+  ✅ XRPUSDT     rrate_40_0.9             3313   74.7%    +8.2bp   +271.4%     +324
+  ✅ XRPUSDT     rrate_40_0.95            1819   75.9%    +9.1bp   +165.2%     +336
+
+################################################################################
+  COMPLETE — 862s (14.4min) [RAM=0.4GB, avail=6.8GB]
+################################################################################
