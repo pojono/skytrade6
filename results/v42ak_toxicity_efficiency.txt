@@ -1,0 +1,200 @@
+================================================================================
+  v42ak: ORDER FLOW TOXICITY + PRICE EFFICIENCY
+  2026-02-19 10:25:55  [RAM=0.1GB, avail=4.8GB]
+================================================================================
+  Loading SOLUSDT... [10/88 27s] [20/88 43s] [30/88 54s] [40/88 69s] [50/88 83s] [60/88 95s] [70/88 112s] [80/88 133s] [88/88 145s] 126,720 bars (145s) [RAM=0.5GB, avail=5.2GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP XXXX2: VPIN ---
+  VPIN stats: mean=0.3754, P95=0.4848
+
+  VPIN z>2 (fade dominant side):
+  ✅ TRAIN                                                    n=3882  wr= 59.1%  avg=  +2.2bps  tot= +86.87%  sh=  +147.3
+  ✅ TEST                                                     n=1806  wr= 61.0%  avg=  +3.0bps  tot= +53.84%  sh=  +206.9
+    ✅ test=+1.923%/d
+
+  VPIN z>3 (fade dominant side):
+  ✅ TRAIN                                                    n= 292  wr= 60.3%  avg=  +3.1bps  tot=  +8.98%  sh=  +164.2
+  ✅ TEST                                                     n= 118  wr= 55.1%  avg=  +0.6bps  tot=  +0.68%  sh=   +34.2
+    ✅ test=+0.024%/d
+
+  --- EXP YYYY2: PRICE EFFICIENCY RATIO ---
+
+  Efficiency(15) P10 (fade in choppy):
+  ✅ TRAIN                                                    n=6307  wr= 58.6%  avg=  +2.3bps  tot=+146.48%  sh=  +156.4
+  ✅ TEST                                                     n=3030  wr= 63.2%  avg=  +2.8bps  tot= +84.88%  sh=  +195.4
+    ✅ test=+3.032%/d
+
+  Efficiency(15) P20 (fade in choppy):
+  ✅ TRAIN                                                    n=12484  wr= 58.9%  avg=  +2.4bps  tot=+304.32%  sh=  +163.7
+  ✅ TEST                                                     n=6048  wr= 61.7%  avg=  +2.8bps  tot=+167.38%  sh=  +200.7
+    ✅ test=+5.978%/d
+
+  Efficiency(30) P10 (fade in choppy):
+  ✅ TRAIN                                                    n=6619  wr= 57.2%  avg=  +2.2bps  tot=+142.54%  sh=  +157.9
+  ✅ TEST                                                     n=3162  wr= 61.6%  avg=  +3.0bps  tot= +94.09%  sh=  +211.6
+    ✅ test=+3.360%/d
+
+  Efficiency(30) P20 (fade in choppy):
+  ✅ TRAIN                                                    n=12890  wr= 57.2%  avg=  +2.1bps  tot=+272.64%  sh=  +152.8
+  ✅ TEST                                                     n=6209  wr= 60.7%  avg=  +2.7bps  tot=+170.21%  sh=  +196.1
+    ✅ test=+6.079%/d
+
+  --- EXP ZZZZ2: NOISE RATIO ---
+
+  Noise ratio z>2 (fade):
+  ✅ TRAIN                                                    n=3199  wr= 63.3%  avg=  +4.1bps  tot=+130.03%  sh=  +178.5
+  ✅ TEST                                                     n=1530  wr= 62.5%  avg=  +3.3bps  tot= +50.77%  sh=  +201.0
+    ✅ test=+1.813%/d
+
+  Noise ratio z>3 (fade):
+  ✅ TRAIN                                                    n= 412  wr= 71.8%  avg= +10.2bps  tot= +41.99%  sh=  +233.8
+  ✅ TEST                                                     n= 201  wr= 63.7%  avg=  +5.3bps  tot= +10.59%  sh=  +238.4
+    ✅ test=+0.378%/d
+
+  --- EXP AAAA2: RETURN DISPERSION ---
+
+  Dispersion z>2 (fade):
+  ✅ TRAIN                                                    n=3632  wr= 70.5%  avg=  +6.2bps  tot=+225.26%  sh=  +261.7
+  ✅ TEST                                                     n=1747  wr= 72.1%  avg=  +6.2bps  tot=+108.44%  sh=  +349.8
+    ✅ test=+3.873%/d
+
+  Dispersion z>3 (fade):
+  ✅ TRAIN                                                    n=1116  wr= 76.4%  avg=  +9.8bps  tot=+109.20%  sh=  +305.5
+  ✅ TEST                                                     n= 520  wr= 76.0%  avg=  +7.6bps  tot= +39.44%  sh=  +374.9
+    ✅ test=+1.408%/d
+  Loading DOGEUSDT... [10/88 32s] [20/88 52s] [30/88 66s] [40/88 79s] [50/88 91s] [60/88 104s] [70/88 143s] [80/88 174s] [88/88 187s] 126,720 bars (187s) [RAM=0.5GB, avail=5.0GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP XXXX2: VPIN ---
+  VPIN stats: mean=0.3958, P95=0.5332
+
+  VPIN z>2 (fade dominant side):
+  ✅ TRAIN                                                    n=4200  wr= 63.2%  avg=  +3.4bps  tot=+143.19%  sh=  +200.0
+  ✅ TEST                                                     n=2122  wr= 78.3%  avg=  +7.2bps  tot=+153.56%  sh=  +426.4
+    ✅ test=+5.484%/d
+
+  VPIN z>3 (fade dominant side):
+  ✅ TRAIN                                                    n= 254  wr= 56.3%  avg=  +1.3bps  tot=  +3.18%  sh=   +72.4
+  ✅ TEST                                                     n= 121  wr= 76.9%  avg=  +8.3bps  tot= +10.02%  sh=  +371.4
+    ✅ test=+0.358%/d
+
+  --- EXP YYYY2: PRICE EFFICIENCY RATIO ---
+
+  Efficiency(15) P10 (fade in choppy):
+  ✅ TRAIN                                                    n=6564  wr= 61.8%  avg=  +3.2bps  tot=+208.61%  sh=  +182.6
+  ✅ TEST                                                     n=3360  wr= 78.8%  avg=  +7.5bps  tot=+250.90%  sh=  +407.4
+    ✅ test=+8.961%/d
+
+  Efficiency(15) P20 (fade in choppy):
+  ✅ TRAIN                                                    n=12913  wr= 61.8%  avg=  +3.2bps  tot=+415.10%  sh=  +188.6
+  ✅ TEST                                                     n=6640  wr= 79.3%  avg=  +7.5bps  tot=+494.93%  sh=  +417.5
+    ✅ test=+17.676%/d
+
+  Efficiency(30) P10 (fade in choppy):
+  ✅ TRAIN                                                    n=6938  wr= 60.3%  avg=  +3.0bps  tot=+210.41%  sh=  +176.8
+  ✅ TEST                                                     n=3548  wr= 78.6%  avg=  +7.0bps  tot=+247.55%  sh=  +418.4
+    ✅ test=+8.841%/d
+
+  Efficiency(30) P20 (fade in choppy):
+  ✅ TRAIN                                                    n=13461  wr= 61.2%  avg=  +3.1bps  tot=+421.87%  sh=  +188.6
+  ✅ TEST                                                     n=6961  wr= 78.0%  avg=  +6.9bps  tot=+481.40%  sh=  +415.6
+    ✅ test=+17.193%/d
+
+  --- EXP ZZZZ2: NOISE RATIO ---
+
+  Noise ratio z>2 (fade):
+  ✅ TRAIN                                                    n=3422  wr= 63.1%  avg=  +4.5bps  tot=+155.51%  sh=  +179.9
+  ✅ TEST                                                     n=1590  wr= 79.9%  avg=  +9.7bps  tot=+153.75%  sh=  +362.6
+    ✅ test=+5.491%/d
+
+  Noise ratio z>3 (fade):
+  ✅ TRAIN                                                    n= 418  wr= 72.0%  avg= +10.9bps  tot= +45.59%  sh=  +233.2
+  ✅ TEST                                                     n= 197  wr= 85.3%  avg= +14.6bps  tot= +28.85%  sh=  +427.6
+    ✅ test=+1.030%/d
+
+  --- EXP AAAA2: RETURN DISPERSION ---
+
+  Dispersion z>2 (fade):
+  ✅ TRAIN                                                    n=3754  wr= 72.3%  avg=  +7.8bps  tot=+294.06%  sh=  +281.1
+  ✅ TEST                                                     n=1935  wr= 84.8%  avg= +11.9bps  tot=+230.14%  sh=  +454.5
+    ✅ test=+8.219%/d
+
+  Dispersion z>3 (fade):
+  ✅ TRAIN                                                    n=1182  wr= 78.2%  avg= +12.3bps  tot=+144.83%  sh=  +328.3
+  ✅ TEST                                                     n= 558  wr= 88.0%  avg= +15.8bps  tot= +88.05%  sh=  +469.3
+    ✅ test=+3.145%/d
+  Loading XRPUSDT... [10/88 21s] [20/88 32s] [30/88 43s] [40/88 56s] [50/88 69s] [60/88 82s] [70/88 126s] [80/88 152s] [88/88 169s] 126,720 bars (169s) [RAM=0.6GB, avail=8.0GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP XXXX2: VPIN ---
+  VPIN stats: mean=0.3742, P95=0.5171
+
+  VPIN z>2 (fade dominant side):
+  ✅ TRAIN                                                    n=3647  wr= 45.4%  avg=  +0.5bps  tot= +18.76%  sh=   +36.1
+  ✅ TEST                                                     n=2091  wr= 69.4%  avg=  +4.9bps  tot=+102.94%  sh=  +304.3
+    ✅ test=+3.676%/d
+
+  VPIN z>3 (fade dominant side):
+  ✅ TRAIN                                                    n= 267  wr= 39.7%  avg=  +0.3bps  tot=  +0.78%  sh=   +15.3
+  ✅ TEST                                                     n=  86  wr= 81.4%  avg=  +5.8bps  tot=  +5.00%  sh=  +567.6
+    ✅ test=+0.178%/d
+
+  --- EXP YYYY2: PRICE EFFICIENCY RATIO ---
+
+  Efficiency(15) P10 (fade in choppy):
+  ✅ TRAIN                                                    n=5745  wr= 48.1%  avg=  +0.9bps  tot= +53.38%  sh=   +59.0
+  ✅ TEST                                                     n=3142  wr= 70.1%  avg=  +5.1bps  tot=+159.20%  sh=  +341.9
+    ✅ test=+5.686%/d
+
+  Efficiency(15) P20 (fade in choppy):
+  ✅ TRAIN                                                    n=11475  wr= 47.7%  avg=  +0.9bps  tot=+104.97%  sh=   +58.6
+  ✅ TEST                                                     n=6307  wr= 70.1%  avg=  +5.1bps  tot=+320.36%  sh=  +328.0
+    ✅ test=+11.441%/d
+
+  Efficiency(30) P10 (fade in choppy):
+  ✅ TRAIN                                                    n=6057  wr= 47.2%  avg=  +0.8bps  tot= +49.61%  sh=   +53.1
+  ✅ TEST                                                     n=3298  wr= 69.5%  avg=  +5.2bps  tot=+171.86%  sh=  +306.9
+    ✅ test=+6.138%/d
+
+  Efficiency(30) P20 (fade in choppy):
+  ✅ TRAIN                                                    n=11708  wr= 47.4%  avg=  +0.9bps  tot= +99.99%  sh=   +55.2
+  ✅ TEST                                                     n=6416  wr= 70.2%  avg=  +5.1bps  tot=+329.72%  sh=  +315.6
+    ✅ test=+11.776%/d
+
+  --- EXP ZZZZ2: NOISE RATIO ---
+
+  Noise ratio z>2 (fade):
+  ✅ TRAIN                                                    n=2921  wr= 50.9%  avg=  +2.4bps  tot= +70.01%  sh=  +101.0
+  ✅ TEST                                                     n=1565  wr= 69.6%  avg=  +5.8bps  tot= +90.75%  sh=  +252.8
+    ✅ test=+3.241%/d
+
+  Noise ratio z>3 (fade):
+  ✅ TRAIN                                                    n= 371  wr= 61.5%  avg=  +8.2bps  tot= +30.43%  sh=  +212.6
+  ✅ TEST                                                     n= 183  wr= 77.0%  avg= +10.1bps  tot= +18.54%  sh=  +286.4
+    ✅ test=+0.662%/d
+
+  --- EXP AAAA2: RETURN DISPERSION ---
+
+  Dispersion z>2 (fade):
+  ✅ TRAIN                                                    n=3246  wr= 59.3%  avg=  +4.4bps  tot=+143.84%  sh=  +192.0
+  ✅ TEST                                                     n=1856  wr= 78.7%  avg=  +9.2bps  tot=+170.50%  sh=  +333.4
+    ✅ test=+6.089%/d
+
+  Dispersion z>3 (fade):
+  ✅ TRAIN                                                    n=1031  wr= 64.1%  avg=  +7.4bps  tot= +75.83%  sh=  +228.2
+  ✅ TEST                                                     n= 548  wr= 81.8%  avg= +11.9bps  tot= +65.48%  sh=  +326.5
+    ✅ test=+2.339%/d
+
+################################################################################
+  COMPLETE — 610s (10.2min) [RAM=0.6GB, avail=8.1GB]
+################################################################################
