@@ -1,0 +1,451 @@
+================================================================================
+  v42bw: RSI DIVERGE SPEED + ATR RATIO + SPREAD PERSIST + MOM DECAY
+  2026-02-19 20:45:54  [RAM=0.1GB, avail=6.7GB]
+================================================================================
+  Loading ETHUSDT... [10/88 33s] [20/88 55s] [30/88 76s] [40/88 100s] [50/88 120s] [60/88 136s] [70/88 165s] [80/88 192s] [88/88 212s] 126,720 bars (212s) [RAM=0.5GB, avail=6.5GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP TTTT8: RSI DIVERGENCE SPEED ---
+
+  RSI speed(5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5856  wr= 60.2%  avg=  +3.8bps  tot=+220.86%  sh=  +185.0
+  ✅ TEST                                                     n=2907  wr= 64.6%  avg=  +3.5bps  tot=+100.99%  sh=  +225.8
+    ✅ test=+3.607%/d
+
+  RSI speed(5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3035  wr= 60.0%  avg=  +4.2bps  tot=+128.56%  sh=  +180.8
+  ✅ TEST                                                     n=1523  wr= 66.1%  avg=  +4.0bps  tot= +60.58%  sh=  +248.8
+    ✅ test=+2.164%/d
+
+  RSI speed(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6130  wr= 60.4%  avg=  +3.7bps  tot=+226.05%  sh=  +216.6
+  ✅ TEST                                                     n=3106  wr= 63.5%  avg=  +3.2bps  tot= +99.81%  sh=  +211.8
+    ✅ test=+3.565%/d
+
+  RSI speed(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3255  wr= 61.8%  avg=  +4.0bps  tot=+131.35%  sh=  +224.8
+  ✅ TEST                                                     n=1724  wr= 63.9%  avg=  +3.2bps  tot= +54.54%  sh=  +217.4
+    ✅ test=+1.948%/d
+
+  --- EXP UUUU8: ATR RATIO ---
+
+  ATR ratio(10/40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6903  wr= 64.6%  avg=  +5.6bps  tot=+384.54%  sh=  +221.0
+  ✅ TEST                                                     n=3277  wr= 66.4%  avg=  +4.6bps  tot=+150.30%  sh=  +280.3
+    ✅ test=+5.368%/d
+
+  ATR ratio(10/40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4096  wr= 66.2%  avg=  +6.2bps  tot=+255.91%  sh=  +230.0
+  ✅ TEST                                                     n=1945  wr= 67.6%  avg=  +4.6bps  tot= +89.07%  sh=  +270.5
+    ✅ test=+3.181%/d
+
+  ATR ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7311  wr= 64.9%  avg=  +5.6bps  tot=+406.39%  sh=  +222.8
+  ✅ TEST                                                     n=3516  wr= 66.1%  avg=  +4.5bps  tot=+159.92%  sh=  +270.8
+    ✅ test=+5.712%/d
+
+  ATR ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4460  wr= 66.6%  avg=  +6.2bps  tot=+277.21%  sh=  +225.5
+  ✅ TEST                                                     n=2103  wr= 67.0%  avg=  +4.7bps  tot= +98.32%  sh=  +258.9
+    ✅ test=+3.512%/d
+
+  --- EXP VVVV8: SPREAD PERSISTENCE ---
+
+  Spread persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=8530  wr= 68.9%  avg=  +6.3bps  tot=+538.32%  sh=  +261.1
+  ✅ TEST                                                     n=4379  wr= 72.3%  avg=  +5.5bps  tot=+242.01%  sh=  +327.9
+    ✅ test=+8.643%/d
+
+  Spread persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=6349  wr= 70.8%  avg=  +7.0bps  tot=+444.15%  sh=  +273.8
+  ✅ TEST                                                     n=3221  wr= 73.7%  avg=  +6.0bps  tot=+192.48%  sh=  +345.2
+    ✅ test=+6.874%/d
+
+  Spread persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=11432  wr= 67.5%  avg=  +5.6bps  tot=+637.80%  sh=  +252.3
+  ✅ TEST                                                     n=5779  wr= 72.1%  avg=  +5.2bps  tot=+301.23%  sh=  +327.9
+    ✅ test=+10.758%/d
+
+  Spread persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=9289  wr= 68.9%  avg=  +6.1bps  tot=+564.02%  sh=  +261.7
+  ✅ TEST                                                     n=4605  wr= 73.4%  avg=  +5.7bps  tot=+260.64%  sh=  +350.5
+    ✅ test=+9.309%/d
+
+  --- EXP WWWW8: RETURN MOMENTUM DECAY ---
+
+  Mom decay(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=5845  wr= 66.1%  avg=  +4.9bps  tot=+285.84%  sh=  +222.9
+  ✅ TEST                                                     n=2864  wr= 67.8%  avg=  +4.3bps  tot=+123.54%  sh=  +292.1
+    ✅ test=+4.412%/d
+
+  Mom decay(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=2942  wr= 66.2%  avg=  +5.0bps  tot=+148.16%  sh=  +195.9
+  ✅ TEST                                                     n=1480  wr= 66.6%  avg=  +3.9bps  tot= +58.15%  sh=  +265.0
+    ✅ test=+2.077%/d
+
+  Mom decay(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6074  wr= 67.2%  avg=  +4.8bps  tot=+294.44%  sh=  +225.7
+  ✅ TEST                                                     n=2974  wr= 67.5%  avg=  +4.2bps  tot=+125.88%  sh=  +285.6
+    ✅ test=+4.496%/d
+
+  Mom decay(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3115  wr= 68.2%  avg=  +5.2bps  tot=+161.72%  sh=  +219.3
+  ✅ TEST                                                     n=1494  wr= 68.0%  avg=  +4.4bps  tot= +65.90%  sh=  +300.2
+    ✅ test=+2.354%/d
+  Loading SOLUSDT... [10/88 16s] [20/88 28s] [30/88 38s] [40/88 50s] [50/88 61s] [60/88 70s] [70/88 85s] [80/88 102s] [88/88 111s] 126,720 bars (111s) [RAM=0.3GB, avail=6.7GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP TTTT8: RSI DIVERGENCE SPEED ---
+
+  RSI speed(5) >90th pct (fade):
+  ✅ TRAIN                                                    n=6320  wr= 62.2%  avg=  +3.4bps  tot=+212.96%  sh=  +212.5
+  ✅ TEST                                                     n=2983  wr= 65.0%  avg=  +3.8bps  tot=+112.92%  sh=  +241.7
+    ✅ test=+4.033%/d
+
+  RSI speed(5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3245  wr= 63.2%  avg=  +3.5bps  tot=+113.05%  sh=  +224.3
+  ✅ TEST                                                     n=1544  wr= 65.0%  avg=  +4.0bps  tot= +61.53%  sh=  +251.5
+    ✅ test=+2.197%/d
+
+  RSI speed(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6674  wr= 62.9%  avg=  +3.5bps  tot=+232.55%  sh=  +199.7
+  ✅ TEST                                                     n=3156  wr= 64.6%  avg=  +3.8bps  tot=+120.23%  sh=  +244.8
+    ✅ test=+4.294%/d
+
+  RSI speed(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3525  wr= 64.3%  avg=  +4.0bps  tot=+141.45%  sh=  +207.4
+  ✅ TEST                                                     n=1703  wr= 63.8%  avg=  +3.8bps  tot= +64.13%  sh=  +237.0
+    ✅ test=+2.290%/d
+
+  --- EXP UUUU8: ATR RATIO ---
+
+  ATR ratio(10/40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7234  wr= 68.2%  avg=  +5.3bps  tot=+382.92%  sh=  +258.2
+  ✅ TEST                                                     n=3469  wr= 69.3%  avg=  +5.0bps  tot=+173.99%  sh=  +294.9
+    ✅ test=+6.214%/d
+
+  ATR ratio(10/40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4366  wr= 70.2%  avg=  +6.1bps  tot=+264.43%  sh=  +276.0
+  ✅ TEST                                                     n=2097  wr= 68.8%  avg=  +5.4bps  tot=+112.50%  sh=  +304.3
+    ✅ test=+4.018%/d
+
+  ATR ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7620  wr= 68.5%  avg=  +5.3bps  tot=+403.93%  sh=  +266.0
+  ✅ TEST                                                     n=3797  wr= 69.8%  avg=  +5.2bps  tot=+198.61%  sh=  +298.1
+    ✅ test=+7.093%/d
+
+  ATR ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4611  wr= 70.3%  avg=  +6.0bps  tot=+278.48%  sh=  +274.5
+  ✅ TEST                                                     n=2275  wr= 70.7%  avg=  +5.7bps  tot=+130.23%  sh=  +320.5
+    ✅ test=+4.651%/d
+
+  --- EXP VVVV8: SPREAD PERSISTENCE ---
+
+  Spread persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=9064  wr= 71.7%  avg=  +6.0bps  tot=+547.65%  sh=  +303.5
+  ✅ TEST                                                     n=4679  wr= 75.2%  avg=  +6.6bps  tot=+309.91%  sh=  +390.0
+    ✅ test=+11.068%/d
+
+  Spread persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=6566  wr= 73.5%  avg=  +6.7bps  tot=+438.12%  sh=  +323.5
+  ✅ TEST                                                     n=3431  wr= 76.8%  avg=  +7.1bps  tot=+242.30%  sh=  +404.6
+    ✅ test=+8.654%/d
+
+  Spread persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=11695  wr= 71.3%  avg=  +5.7bps  tot=+663.44%  sh=  +301.3
+  ✅ TEST                                                     n=5878  wr= 74.6%  avg=  +6.4bps  tot=+374.07%  sh=  +386.5
+    ✅ test=+13.360%/d
+
+  Spread persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=9309  wr= 72.8%  avg=  +6.2bps  tot=+577.85%  sh=  +314.6
+  ✅ TEST                                                     n=4736  wr= 75.9%  avg=  +6.7bps  tot=+318.71%  sh=  +399.3
+    ✅ test=+11.382%/d
+
+  --- EXP WWWW8: RETURN MOMENTUM DECAY ---
+
+  Mom decay(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6234  wr= 65.1%  avg=  +3.9bps  tot=+245.76%  sh=  +243.0
+  ✅ TEST                                                     n=3033  wr= 65.9%  avg=  +3.9bps  tot=+118.83%  sh=  +240.8
+    ✅ test=+4.244%/d
+
+  Mom decay(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3176  wr= 64.6%  avg=  +3.9bps  tot=+124.40%  sh=  +252.1
+  ✅ TEST                                                     n=1499  wr= 66.8%  avg=  +3.9bps  tot= +58.03%  sh=  +232.7
+    ✅ test=+2.072%/d
+
+  Mom decay(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6597  wr= 67.6%  avg=  +4.4bps  tot=+292.85%  sh=  +251.3
+  ✅ TEST                                                     n=3157  wr= 66.9%  avg=  +4.1bps  tot=+130.24%  sh=  +246.1
+    ✅ test=+4.651%/d
+
+  Mom decay(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3342  wr= 68.3%  avg=  +4.6bps  tot=+154.29%  sh=  +239.5
+  ✅ TEST                                                     n=1610  wr= 66.0%  avg=  +4.2bps  tot= +68.15%  sh=  +245.9
+    ✅ test=+2.434%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 34s] [30/88 43s] [40/88 53s] [50/88 61s] [60/88 69s] [70/88 96s] [80/88 118s] [88/88 127s] 126,720 bars (127s) [RAM=0.4GB, avail=6.6GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP TTTT8: RSI DIVERGENCE SPEED ---
+
+  RSI speed(5) >90th pct (fade):
+  ✅ TRAIN                                                    n=6609  wr= 65.0%  avg=  +4.1bps  tot=+271.79%  sh=  +214.4
+  ✅ TEST                                                     n=3375  wr= 82.6%  avg=  +8.7bps  tot=+294.82%  sh=  +436.2
+    ✅ test=+10.529%/d
+
+  RSI speed(5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3413  wr= 65.1%  avg=  +4.4bps  tot=+148.47%  sh=  +211.3
+  ✅ TEST                                                     n=1739  wr= 82.9%  avg=  +9.3bps  tot=+162.04%  sh=  +426.7
+    ✅ test=+5.787%/d
+
+  RSI speed(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6838  wr= 65.6%  avg=  +4.0bps  tot=+272.14%  sh=  +207.7
+  ✅ TEST                                                     n=3575  wr= 81.8%  avg=  +8.3bps  tot=+296.91%  sh=  +416.6
+    ✅ test=+10.604%/d
+
+  RSI speed(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3704  wr= 65.9%  avg=  +4.1bps  tot=+150.42%  sh=  +207.6
+  ✅ TEST                                                     n=1949  wr= 82.4%  avg=  +8.8bps  tot=+171.55%  sh=  +409.1
+    ✅ test=+6.127%/d
+
+  --- EXP UUUU8: ATR RATIO ---
+
+  ATR ratio(10/40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7442  wr= 71.1%  avg=  +6.7bps  tot=+495.03%  sh=  +271.1
+  ✅ TEST                                                     n=3870  wr= 84.4%  avg= +10.6bps  tot=+411.20%  sh=  +453.3
+    ✅ test=+14.686%/d
+
+  ATR ratio(10/40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4491  wr= 72.2%  avg=  +7.3bps  tot=+329.57%  sh=  +273.5
+  ✅ TEST                                                     n=2298  wr= 84.8%  avg= +11.3bps  tot=+260.32%  sh=  +472.0
+    ✅ test=+9.297%/d
+
+  ATR ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7894  wr= 71.1%  avg=  +6.6bps  tot=+523.37%  sh=  +273.8
+  ✅ TEST                                                     n=4200  wr= 84.1%  avg= +10.5bps  tot=+439.56%  sh=  +454.7
+    ✅ test=+15.699%/d
+
+  ATR ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4845  wr= 72.4%  avg=  +7.5bps  tot=+362.91%  sh=  +283.5
+  ✅ TEST                                                     n=2529  wr= 84.2%  avg= +10.9bps  tot=+276.11%  sh=  +468.7
+    ✅ test=+9.861%/d
+
+  --- EXP VVVV8: SPREAD PERSISTENCE ---
+
+  Spread persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=9422  wr= 74.9%  avg=  +7.5bps  tot=+708.07%  sh=  +321.7
+  ✅ TEST                                                     n=5257  wr= 88.7%  avg= +12.4bps  tot=+652.58%  sh=  +541.4
+    ✅ test=+23.306%/d
+
+  Spread persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=6812  wr= 76.5%  avg=  +8.3bps  tot=+566.09%  sh=  +333.1
+  ✅ TEST                                                     n=3847  wr= 89.8%  avg= +13.1bps  tot=+504.86%  sh=  +549.0
+    ✅ test=+18.031%/d
+
+  Spread persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=12314  wr= 73.0%  avg=  +7.0bps  tot=+866.35%  sh=  +315.3
+  ✅ TEST                                                     n=6638  wr= 88.1%  avg= +12.2bps  tot=+809.83%  sh=  +549.0
+    ✅ test=+28.922%/d
+
+  Spread persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=9807  wr= 75.0%  avg=  +7.8bps  tot=+765.12%  sh=  +337.5
+  ✅ TEST                                                     n=5312  wr= 89.3%  avg= +12.9bps  tot=+683.92%  sh=  +563.3
+    ✅ test=+24.426%/d
+
+  --- EXP WWWW8: RETURN MOMENTUM DECAY ---
+
+  Mom decay(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6352  wr= 69.0%  avg=  +5.1bps  tot=+320.95%  sh=  +256.2
+  ✅ TEST                                                     n=3317  wr= 83.4%  avg=  +8.5bps  tot=+280.89%  sh=  +445.7
+    ✅ test=+10.032%/d
+
+  Mom decay(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3225  wr= 69.5%  avg=  +5.2bps  tot=+166.67%  sh=  +241.6
+  ✅ TEST                                                     n=1666  wr= 83.2%  avg=  +8.6bps  tot=+142.97%  sh=  +424.9
+    ✅ test=+5.106%/d
+
+  Mom decay(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6618  wr= 70.4%  avg=  +5.4bps  tot=+354.73%  sh=  +273.8
+  ✅ TEST                                                     n=3429  wr= 85.0%  avg=  +9.2bps  tot=+315.23%  sh=  +475.6
+    ✅ test=+11.258%/d
+
+  Mom decay(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3406  wr= 70.6%  avg=  +5.4bps  tot=+182.65%  sh=  +299.7
+  ✅ TEST                                                     n=1748  wr= 85.1%  avg=  +8.9bps  tot=+156.35%  sh=  +525.5
+    ✅ test=+5.584%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 25s] [30/88 33s] [40/88 42s] [50/88 52s] [60/88 61s] [70/88 91s] [80/88 108s] [88/88 120s] 126,720 bars (120s) [RAM=0.4GB, avail=6.5GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP TTTT8: RSI DIVERGENCE SPEED ---
+
+  RSI speed(5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5796  wr= 50.7%  avg=  +1.8bps  tot=+101.62%  sh=  +106.1
+  ✅ TEST                                                     n=3232  wr= 73.1%  avg=  +6.1bps  tot=+197.91%  sh=  +315.1
+    ✅ test=+7.068%/d
+
+  RSI speed(5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3049  wr= 51.3%  avg=  +1.9bps  tot= +57.58%  sh=  +105.8
+  ✅ TEST                                                     n=1656  wr= 73.8%  avg=  +6.3bps  tot=+103.80%  sh=  +295.1
+    ✅ test=+3.707%/d
+
+  RSI speed(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6074  wr= 50.6%  avg=  +1.6bps  tot=+100.19%  sh=  +101.7
+  ✅ TEST                                                     n=3327  wr= 73.1%  avg=  +6.4bps  tot=+214.34%  sh=  +301.0
+    ✅ test=+7.655%/d
+
+  RSI speed(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3294  wr= 51.2%  avg=  +1.8bps  tot= +59.86%  sh=  +115.1
+  ✅ TEST                                                     n=1789  wr= 74.3%  avg=  +6.7bps  tot=+119.12%  sh=  +312.6
+    ✅ test=+4.254%/d
+
+  --- EXP UUUU8: ATR RATIO ---
+
+  ATR ratio(10/40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6664  wr= 57.5%  avg=  +3.4bps  tot=+228.50%  sh=  +172.5
+  ✅ TEST                                                     n=3630  wr= 76.0%  avg=  +8.0bps  tot=+290.39%  sh=  +353.4
+    ✅ test=+10.371%/d
+
+  ATR ratio(10/40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3904  wr= 59.2%  avg=  +4.2bps  tot=+163.90%  sh=  +191.9
+  ✅ TEST                                                     n=2224  wr= 77.6%  avg=  +8.7bps  tot=+193.79%  sh=  +375.9
+    ✅ test=+6.921%/d
+
+  ATR ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7065  wr= 56.6%  avg=  +3.4bps  tot=+238.21%  sh=  +170.9
+  ✅ TEST                                                     n=3909  wr= 76.2%  avg=  +7.8bps  tot=+304.47%  sh=  +353.9
+    ✅ test=+10.874%/d
+
+  ATR ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4323  wr= 59.3%  avg=  +4.2bps  tot=+180.55%  sh=  +192.9
+  ✅ TEST                                                     n=2395  wr= 77.3%  avg=  +8.3bps  tot=+198.01%  sh=  +354.7
+    ✅ test=+7.072%/d
+
+  --- EXP VVVV8: SPREAD PERSISTENCE ---
+
+  Spread persist(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=9017  wr= 61.5%  avg=  +4.1bps  tot=+373.12%  sh=  +209.8
+  ✅ TEST                                                     n=5188  wr= 81.8%  avg=  +9.8bps  tot=+508.40%  sh=  +418.4
+    ✅ test=+18.157%/d
+
+  Spread persist(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=6629  wr= 63.3%  avg=  +4.8bps  tot=+316.02%  sh=  +231.5
+  ✅ TEST                                                     n=3829  wr= 82.9%  avg= +10.3bps  tot=+394.84%  sh=  +421.5
+    ✅ test=+14.101%/d
+
+  Spread persist(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=11194  wr= 60.9%  avg=  +3.9bps  tot=+435.68%  sh=  +210.0
+  ✅ TEST                                                     n=6446  wr= 81.6%  avg=  +9.6bps  tot=+617.68%  sh=  +420.2
+    ✅ test=+22.060%/d
+
+  Spread persist(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=8829  wr= 63.1%  avg=  +4.5bps  tot=+396.30%  sh=  +234.1
+  ✅ TEST                                                     n=5119  wr= 82.9%  avg= +10.2bps  tot=+520.93%  sh=  +435.6
+    ✅ test=+18.605%/d
+
+  --- EXP WWWW8: RETURN MOMENTUM DECAY ---
+
+  Mom decay(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=5680  wr= 54.4%  avg=  +2.4bps  tot=+135.40%  sh=  +142.9
+  ✅ TEST                                                     n=3132  wr= 74.4%  avg=  +6.4bps  tot=+199.68%  sh=  +336.1
+    ✅ test=+7.131%/d
+
+  Mom decay(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=2836  wr= 54.6%  avg=  +2.7bps  tot= +75.47%  sh=  +152.2
+  ✅ TEST                                                     n=1553  wr= 75.0%  avg=  +6.6bps  tot=+102.74%  sh=  +327.8
+    ✅ test=+3.669%/d
+
+  Mom decay(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5927  wr= 56.1%  avg=  +2.5bps  tot=+145.26%  sh=  +143.4
+  ✅ TEST                                                     n=3250  wr= 75.4%  avg=  +6.8bps  tot=+221.71%  sh=  +317.3
+    ✅ test=+7.918%/d
+
+  Mom decay(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3047  wr= 56.9%  avg=  +2.6bps  tot= +78.03%  sh=  +163.9
+  ✅ TEST                                                     n=1603  wr= 75.3%  avg=  +7.0bps  tot=+111.47%  sh=  +344.6
+    ✅ test=+3.981%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    ar_10_40_0.9             3870   84.4%   +10.6bp   +411.2%     +453
+  ✅ DOGEUSDT    ar_10_40_0.95            2298   84.8%   +11.3bp   +260.3%     +472
+  ✅ DOGEUSDT    ar_10_60_0.9             4200   84.1%   +10.5bp   +439.6%     +455
+  ✅ DOGEUSDT    ar_10_60_0.95            2529   84.2%   +10.9bp   +276.1%     +469
+  ✅ DOGEUSDT    md_10_0.9                3317   83.4%    +8.5bp   +280.9%     +446
+  ✅ DOGEUSDT    md_10_0.95               1666   83.2%    +8.6bp   +143.0%     +425
+  ✅ DOGEUSDT    md_20_0.9                3429   85.0%    +9.2bp   +315.2%     +476
+  ✅ DOGEUSDT    md_20_0.95               1748   85.1%    +8.9bp   +156.3%     +526
+  ✅ DOGEUSDT    rs_10_0.9                3575   81.8%    +8.3bp   +296.9%     +417
+  ✅ DOGEUSDT    rs_10_0.95               1949   82.4%    +8.8bp   +171.5%     +409
+  ✅ DOGEUSDT    rs_5_0.9                 3375   82.6%    +8.7bp   +294.8%     +436
+  ✅ DOGEUSDT    rs_5_0.95                1739   82.9%    +9.3bp   +162.0%     +427
+  ✅ DOGEUSDT    sp_20_0.9                5257   88.7%   +12.4bp   +652.6%     +541
+  ✅ DOGEUSDT    sp_20_0.95               3847   89.8%   +13.1bp   +504.9%     +549
+  ✅ DOGEUSDT    sp_40_0.9                6638   88.1%   +12.2bp   +809.8%     +549
+  ✅ DOGEUSDT    sp_40_0.95               5312   89.3%   +12.9bp   +683.9%     +563
+  ✅ ETHUSDT     ar_10_40_0.9             3277   66.4%    +4.6bp   +150.3%     +280
+  ✅ ETHUSDT     ar_10_40_0.95            1945   67.6%    +4.6bp    +89.1%     +271
+  ✅ ETHUSDT     ar_10_60_0.9             3516   66.1%    +4.5bp   +159.9%     +271
+  ✅ ETHUSDT     ar_10_60_0.95            2103   67.0%    +4.7bp    +98.3%     +259
+  ✅ ETHUSDT     md_10_0.9                2864   67.8%    +4.3bp   +123.5%     +292
+  ✅ ETHUSDT     md_10_0.95               1480   66.6%    +3.9bp    +58.1%     +265
+  ✅ ETHUSDT     md_20_0.9                2974   67.5%    +4.2bp   +125.9%     +286
+  ✅ ETHUSDT     md_20_0.95               1494   68.0%    +4.4bp    +65.9%     +300
+  ✅ ETHUSDT     rs_10_0.9                3106   63.5%    +3.2bp    +99.8%     +212
+  ✅ ETHUSDT     rs_10_0.95               1724   63.9%    +3.2bp    +54.5%     +217
+  ✅ ETHUSDT     rs_5_0.9                 2907   64.6%    +3.5bp   +101.0%     +226
+  ✅ ETHUSDT     rs_5_0.95                1523   66.1%    +4.0bp    +60.6%     +249
+  ✅ ETHUSDT     sp_20_0.9                4379   72.3%    +5.5bp   +242.0%     +328
+  ✅ ETHUSDT     sp_20_0.95               3221   73.7%    +6.0bp   +192.5%     +345
+  ✅ ETHUSDT     sp_40_0.9                5779   72.1%    +5.2bp   +301.2%     +328
+  ✅ ETHUSDT     sp_40_0.95               4605   73.4%    +5.7bp   +260.6%     +351
+  ✅ SOLUSDT     ar_10_40_0.9             3469   69.3%    +5.0bp   +174.0%     +295
+  ✅ SOLUSDT     ar_10_40_0.95            2097   68.8%    +5.4bp   +112.5%     +304
+  ✅ SOLUSDT     ar_10_60_0.9             3797   69.8%    +5.2bp   +198.6%     +298
+  ✅ SOLUSDT     ar_10_60_0.95            2275   70.7%    +5.7bp   +130.2%     +321
+  ✅ SOLUSDT     md_10_0.9                3033   65.9%    +3.9bp   +118.8%     +241
+  ✅ SOLUSDT     md_10_0.95               1499   66.8%    +3.9bp    +58.0%     +233
+  ✅ SOLUSDT     md_20_0.9                3157   66.9%    +4.1bp   +130.2%     +246
+  ✅ SOLUSDT     md_20_0.95               1610   66.0%    +4.2bp    +68.2%     +246
+  ✅ SOLUSDT     rs_10_0.9                3156   64.6%    +3.8bp   +120.2%     +245
+  ✅ SOLUSDT     rs_10_0.95               1703   63.8%    +3.8bp    +64.1%     +237
+  ✅ SOLUSDT     rs_5_0.9                 2983   65.0%    +3.8bp   +112.9%     +242
+  ✅ SOLUSDT     rs_5_0.95                1544   65.0%    +4.0bp    +61.5%     +252
+  ✅ SOLUSDT     sp_20_0.9                4679   75.2%    +6.6bp   +309.9%     +390
+  ✅ SOLUSDT     sp_20_0.95               3431   76.8%    +7.1bp   +242.3%     +405
+  ✅ SOLUSDT     sp_40_0.9                5878   74.6%    +6.4bp   +374.1%     +387
+  ✅ SOLUSDT     sp_40_0.95               4736   75.9%    +6.7bp   +318.7%     +399
+  ✅ XRPUSDT     ar_10_40_0.9             3630   76.0%    +8.0bp   +290.4%     +353
+  ✅ XRPUSDT     ar_10_40_0.95            2224   77.6%    +8.7bp   +193.8%     +376
+  ✅ XRPUSDT     ar_10_60_0.9             3909   76.2%    +7.8bp   +304.5%     +354
+  ✅ XRPUSDT     ar_10_60_0.95            2395   77.3%    +8.3bp   +198.0%     +355
+  ✅ XRPUSDT     md_10_0.9                3132   74.4%    +6.4bp   +199.7%     +336
+  ✅ XRPUSDT     md_10_0.95               1553   75.0%    +6.6bp   +102.7%     +328
+  ✅ XRPUSDT     md_20_0.9                3250   75.4%    +6.8bp   +221.7%     +317
+  ✅ XRPUSDT     md_20_0.95               1603   75.3%    +7.0bp   +111.5%     +345
+  ✅ XRPUSDT     rs_10_0.9                3327   73.1%    +6.4bp   +214.3%     +301
+  ✅ XRPUSDT     rs_10_0.95               1789   74.3%    +6.7bp   +119.1%     +313
+  ✅ XRPUSDT     rs_5_0.9                 3232   73.1%    +6.1bp   +197.9%     +315
+  ✅ XRPUSDT     rs_5_0.95                1656   73.8%    +6.3bp   +103.8%     +295
+  ✅ XRPUSDT     sp_20_0.9                5188   81.8%    +9.8bp   +508.4%     +418
+  ✅ XRPUSDT     sp_20_0.95               3829   82.9%   +10.3bp   +394.8%     +421
+  ✅ XRPUSDT     sp_40_0.9                6446   81.6%    +9.6bp   +617.7%     +420
+  ✅ XRPUSDT     sp_40_0.95               5119   82.9%   +10.2bp   +520.9%     +436
+
+################################################################################
+  COMPLETE — 792s (13.2min) [RAM=0.3GB, avail=6.7GB]
+################################################################################
