@@ -1,0 +1,180 @@
+================================================================================
+  v42ad: RANGE-BASED SIGNALS + HIGHER-ORDER STATISTICS
+  2026-02-19 09:16:47  [RAM=0.1GB, avail=6.1GB]
+================================================================================
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 37s] [40/88 49s] [50/88 59s] [60/88 68s] [70/88 81s] [80/88 98s] [88/88 106s] 126,720 bars (106s) [RAM=0.4GB, avail=5.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP ZZZ: RANGE COMPRESSION/EXPANSION ---
+  Range stats: mean=12.8bps, P5=4.0bps, P95=28.7bps
+
+  Range expansion z>2 (fade):
+  ✅ TRAIN                                                    n=3177  wr= 74.0%  avg=  +8.7bps  tot=+276.70%  sh=  +325.1
+  ✅ TEST                                                     n=1534  wr= 76.9%  avg=  +8.5bps  tot=+130.82%  sh=  +405.5
+    ✅ test=+4.672%/d
+
+  Range expansion z>3 (fade):
+  ✅ TRAIN                                                    n=1189  wr= 81.2%  avg= +13.0bps  tot=+154.55%  sh=  +374.9
+  ✅ TEST                                                     n= 534  wr= 77.9%  avg= +10.2bps  tot= +54.40%  sh=  +406.9
+    ✅ test=+1.943%/d
+
+  Range expansion z>5 (fade):
+  ✅ TRAIN                                                    n= 152  wr= 90.1%  avg= +30.3bps  tot= +46.03%  sh=  +471.6
+  ✅ TEST                                                     n=  52  wr= 84.6%  avg= +21.9bps  tot= +11.41%  sh=  +511.6
+    ✅ test=+0.407%/d
+
+  Range compression z<-1 (follow breakout):
+  ✅ TRAIN                                                    n=4890  wr= 59.9%  avg=  +2.1bps  tot=+104.49%  sh=  +159.4
+  ✅ TEST                                                     n=2449  wr= 62.3%  avg=  +2.6bps  tot= +62.76%  sh=  +185.6
+    ✅ test=+2.241%/d
+
+  Range compression z<-1.5 (follow breakout):
+  ✅ TRAIN                                                    n= 781  wr= 58.8%  avg=  +1.8bps  tot= +14.16%  sh=  +138.5
+  ✅ TEST                                                     n= 429  wr= 54.3%  avg=  +1.6bps  tot=  +6.83%  sh=  +127.3
+    ✅ test=+0.244%/d
+
+  Range compression z<-2 (follow breakout):
+  ✅ TRAIN                                                    n=  22  wr= 50.0%  avg=  +0.6bps  tot=  +0.13%  sh=   +81.9
+     TEST                                                     n=  12  wr= 41.7%  avg=  -0.1bps  tot=  -0.01%  sh=   -22.3
+    ❌ test=-0.001%/d
+
+  --- EXP AAAA: SKEWNESS SIGNAL ---
+  Skewness stats: mean=-0.023, std=0.666
+
+  Skewness |>1| (fade):
+  ✅ TRAIN                                                    n=3633  wr= 65.7%  avg=  +4.4bps  tot=+159.15%  sh=  +242.8
+  ✅ TEST                                                     n=1134  wr= 62.0%  avg=  +2.8bps  tot= +31.34%  sh=  +183.7
+    ✅ test=+1.119%/d
+
+  Skewness |>1.5| (fade):
+  ✅ TRAIN                                                    n=1263  wr= 67.5%  avg=  +5.2bps  tot= +65.90%  sh=  +255.3
+  ✅ TEST                                                     n= 385  wr= 61.3%  avg=  +2.8bps  tot= +10.75%  sh=  +166.4
+    ✅ test=+0.384%/d
+
+  Skewness |>2| (fade):
+  ✅ TRAIN                                                    n= 533  wr= 70.9%  avg=  +7.1bps  tot= +37.92%  sh=  +285.1
+  ✅ TEST                                                     n= 183  wr= 63.4%  avg=  +3.9bps  tot=  +7.22%  sh=  +203.5
+    ✅ test=+0.258%/d
+
+  --- EXP BBBB: KURTOSIS SIGNAL ---
+  Kurtosis stats: mean=0.80, P95=3.89
+
+  Kurtosis >3 (fade):
+  ✅ TRAIN                                                    n=5382  wr= 62.0%  avg=  +4.1bps  tot=+218.44%  sh=  +199.9
+  ✅ TEST                                                     n=2093  wr= 64.4%  avg=  +4.0bps  tot= +83.28%  sh=  +251.3
+    ✅ test=+2.974%/d
+
+  Kurtosis >5 (fade):
+  ✅ TRAIN                                                    n=1997  wr= 64.3%  avg=  +5.7bps  tot=+113.32%  sh=  +220.4
+  ✅ TEST                                                     n= 767  wr= 63.6%  avg=  +4.5bps  tot= +34.86%  sh=  +269.0
+    ✅ test=+1.245%/d
+
+  Kurtosis >10 (fade):
+  ✅ TRAIN                                                    n= 420  wr= 71.9%  avg= +11.1bps  tot= +46.56%  sh=  +271.5
+  ✅ TEST                                                     n= 163  wr= 55.8%  avg=  +4.4bps  tot=  +7.18%  sh=  +234.2
+    ✅ test=+0.257%/d
+
+  --- EXP CCCC: HIGH-LOW RANGE RATIO ---
+
+  15m range z>2 (fade to mid):
+  ✅ TRAIN                                                    n=4828  wr= 78.5%  avg=  +7.4bps  tot=+358.94%  sh=  +350.7
+  ✅ TEST                                                     n=2285  wr= 78.0%  avg=  +7.3bps  tot=+166.92%  sh=  +416.2
+    ✅ test=+5.961%/d
+
+  15m range z>3 (fade to mid):
+  ✅ TRAIN                                                    n=1219  wr= 86.5%  avg= +12.1bps  tot=+146.94%  sh=  +376.5
+  ✅ TEST                                                     n= 563  wr= 84.2%  avg=  +9.7bps  tot= +54.76%  sh=  +450.0
+    ✅ test=+1.956%/d
+  Loading DOGEUSDT... [10/88 20s] [20/88 34s] [30/88 43s] [40/88 52s] [50/88 60s] [60/88 68s] [70/88 94s] [80/88 115s] [88/88 124s] 126,720 bars (124s) [RAM=0.5GB, avail=5.7GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP ZZZ: RANGE COMPRESSION/EXPANSION ---
+  Range stats: mean=15.7bps, P5=4.1bps, P95=37.5bps
+
+  Range expansion z>2 (fade):
+  ✅ TRAIN                                                    n=3263  wr= 75.8%  avg= +10.9bps  tot=+356.73%  sh=  +328.8
+  ✅ TEST                                                     n=1686  wr= 88.6%  avg= +16.8bps  tot=+283.77%  sh=  +504.6
+    ✅ test=+10.135%/d
+
+  Range expansion z>3 (fade):
+  ✅ TRAIN                                                    n=1197  wr= 82.3%  avg= +16.9bps  tot=+202.89%  sh=  +386.4
+  ✅ TEST                                                     n= 590  wr= 91.2%  avg= +22.3bps  tot=+131.49%  sh=  +529.7
+    ✅ test=+4.696%/d
+
+  Range expansion z>5 (fade):
+  ✅ TRAIN                                                    n= 157  wr= 92.4%  avg= +38.8bps  tot= +60.93%  sh=  +539.8
+  ✅ TEST                                                     n=  60  wr= 98.3%  avg= +39.7bps  tot= +23.84%  sh=  +624.8
+    ✅ test=+0.851%/d
+
+  Range compression z<-1 (follow breakout):
+  ✅ TRAIN                                                    n=5009  wr= 63.0%  avg=  +2.7bps  tot=+133.42%  sh=  +182.1
+  ✅ TEST                                                     n=2653  wr= 80.0%  avg=  +5.8bps  tot=+153.10%  sh=  +431.2
+    ✅ test=+5.468%/d
+
+  Range compression z<-1.5 (follow breakout):
+  ✅ TRAIN                                                    n= 774  wr= 60.7%  avg=  +2.4bps  tot= +18.90%  sh=  +178.8
+  ✅ TEST                                                     n= 485  wr= 79.0%  avg=  +5.6bps  tot= +27.06%  sh=  +449.5
+    ✅ test=+0.966%/d
+
+  Range compression z<-2 (follow breakout):
+  ✅ TRAIN                                                    n=  21  wr= 47.6%  avg=  +1.1bps  tot=  +0.22%  sh=  +135.6
+  ✅ TEST                                                     n=  26  wr= 80.8%  avg=  +3.2bps  tot=  +0.83%  sh=  +140.4
+    ✅ test=+0.030%/d
+
+  --- EXP AAAA: SKEWNESS SIGNAL ---
+  Skewness stats: mean=-0.015, std=0.649
+
+  Skewness |>1| (fade):
+  ✅ TRAIN                                                    n=3457  wr= 67.1%  avg=  +4.8bps  tot=+166.11%  sh=  +242.1
+  ✅ TEST                                                     n=1171  wr= 88.3%  avg= +10.6bps  tot=+123.84%  sh=  +470.5
+    ✅ test=+4.423%/d
+
+  Skewness |>1.5| (fade):
+  ✅ TRAIN                                                    n=1271  wr= 71.0%  avg=  +6.3bps  tot= +80.30%  sh=  +255.6
+  ✅ TEST                                                     n= 428  wr= 90.7%  avg= +12.5bps  tot= +53.48%  sh=  +447.4
+    ✅ test=+1.910%/d
+
+  Skewness |>2| (fade):
+  ✅ TRAIN                                                    n= 481  wr= 69.9%  avg=  +6.9bps  tot= +33.35%  sh=  +216.8
+  ✅ TEST                                                     n= 155  wr= 92.9%  avg= +14.9bps  tot= +23.10%  sh=  +422.0
+    ✅ test=+0.825%/d
+
+  --- EXP BBBB: KURTOSIS SIGNAL ---
+  Kurtosis stats: mean=0.72, P95=3.89
+
+  Kurtosis >3 (fade):
+  ✅ TRAIN                                                    n=5499  wr= 64.8%  avg=  +5.6bps  tot=+309.81%  sh=  +225.2
+  ✅ TEST                                                     n=1785  wr= 84.0%  avg= +10.9bps  tot=+194.88%  sh=  +422.0
+    ✅ test=+6.960%/d
+
+  Kurtosis >5 (fade):
+  ✅ TRAIN                                                    n=2212  wr= 64.6%  avg=  +6.5bps  tot=+143.95%  sh=  +214.5
+  ✅ TEST                                                     n= 690  wr= 85.4%  avg= +13.0bps  tot= +89.93%  sh=  +446.2
+    ✅ test=+3.212%/d
+
+  Kurtosis >10 (fade):
+  ✅ TRAIN                                                    n= 355  wr= 74.9%  avg= +12.6bps  tot= +44.60%  sh=  +301.4
+  ✅ TEST                                                     n= 112  wr= 90.2%  avg= +16.5bps  tot= +18.44%  sh=  +367.7
+    ✅ test=+0.659%/d
+
+  --- EXP CCCC: HIGH-LOW RANGE RATIO ---
+
+  15m range z>2 (fade to mid):
+  ✅ TRAIN                                                    n=4952  wr= 79.5%  avg=  +8.7bps  tot=+433.27%  sh=  +349.1
+  ✅ TEST                                                     n=2677  wr= 90.6%  avg= +12.7bps  tot=+338.96%  sh=  +528.6
+    ✅ test=+12.106%/d
+
+  15m range z>3 (fade to mid):
+  ✅ TRAIN                                                    n=1232  wr= 84.7%  avg= +13.5bps  tot=+165.88%  sh=  +388.8
+  ✅ TEST                                                     n= 669  wr= 93.6%  avg= +16.3bps  tot=+109.23%  sh=  +532.8
+    ✅ test=+3.901%/d
+
+################################################################################
+  COMPLETE — 259s (4.3min) [RAM=0.3GB, avail=6.0GB]
+################################################################################
