@@ -1,0 +1,156 @@
+================================================================================
+  v42x: ORDER FLOW IMBALANCE + TRADE INTENSITY
+  2026-02-19 08:03:10  [RAM=0.1GB, avail=6.2GB]
+================================================================================
+  Loading SOLUSDT bars+vol... [10/88 22s] [20/88 37s] [30/88 49s] [40/88 64s] [50/88 77s] [60/88 88s] [70/88 105s] [80/88 129s] [88/88 140s] 126,720 bars (140s) [RAM=0.5GB, avail=6.1GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+  OFI stats: mean=0.0068, std=0.4450
+  Vol ratio stats: mean=1.04, P95=3.12
+  VWAP dev stats: mean=1.4bps, std=36.2bps
+
+  --- EXP III: ORDER FLOW IMBALANCE ---
+
+  OFI 1m P90 fade:
+  ✅ TRAIN                                                    n=6098  wr= 53.9%  avg=  +1.5bps  tot= +90.07%  sh=  +108.2
+  ✅ TEST                                                     n=2562  wr= 49.4%  avg=  +1.0bps  tot= +25.90%  sh=   +80.3
+    ✅ train=+1.501%/d  test=+0.925%/d
+
+  OFI 1m P95 fade:
+  ✅ TRAIN                                                    n=3037  wr= 51.4%  avg=  +0.9bps  tot= +27.28%  sh=   +67.6
+  ✅ TEST                                                     n=1198  wr= 45.3%  avg=  +0.3bps  tot=  +3.15%  sh=   +22.1
+    ✅ train=+0.455%/d  test=+0.113%/d
+
+  OFI 5m P90 fade:
+  ✅ TRAIN                                                    n=5830  wr= 57.3%  avg=  +2.1bps  tot=+123.94%  sh=  +159.0
+  ✅ TEST                                                     n=2911  wr= 52.7%  avg=  +1.5bps  tot= +44.21%  sh=  +117.6
+    ✅ train=+2.066%/d  test=+1.579%/d
+
+  OFI 5m P95 fade:
+  ✅ TRAIN                                                    n=2935  wr= 55.5%  avg=  +1.8bps  tot= +52.69%  sh=  +134.2
+  ✅ TEST                                                     n=1392  wr= 49.9%  avg=  +0.8bps  tot= +11.44%  sh=   +67.4
+    ✅ train=+0.878%/d  test=+0.409%/d
+
+  OFI 15m P90 fade:
+  ✅ TRAIN                                                    n=5539  wr= 57.7%  avg=  +2.0bps  tot=+109.84%  sh=  +147.3
+  ✅ TEST                                                     n=3264  wr= 51.3%  avg=  +1.3bps  tot= +41.07%  sh=   +86.5
+    ✅ train=+1.831%/d  test=+1.467%/d
+
+  OFI 15m P95 fade:
+  ✅ TRAIN                                                    n=2753  wr= 56.8%  avg=  +1.8bps  tot= +49.92%  sh=  +132.5
+  ✅ TEST                                                     n=1570  wr= 48.3%  avg=  +0.7bps  tot= +11.49%  sh=   +44.5
+    ✅ train=+0.832%/d  test=+0.410%/d
+
+  --- EXP JJJ: TRADE INTENSITY ---
+
+  Vol spike >3x (fade):
+  ✅ TRAIN                                                    n=3583  wr= 76.2%  avg=  +8.3bps  tot=+296.95%  sh=  +334.9
+  ✅ TEST                                                     n=1630  wr= 78.3%  avg=  +8.1bps  tot=+132.40%  sh=  +392.1
+    ✅ train=+4.949%/d  test=+4.728%/d
+
+  Vol spike >5x (fade):
+  ✅ TRAIN                                                    n=1281  wr= 80.2%  avg= +11.7bps  tot=+149.60%  sh=  +360.3
+  ✅ TEST                                                     n= 526  wr= 82.7%  avg= +10.6bps  tot= +55.68%  sh=  +419.3
+    ✅ train=+2.493%/d  test=+1.989%/d
+
+  Vol spike >10x (fade):
+  ✅ TRAIN                                                    n= 251  wr= 86.9%  avg= +22.0bps  tot= +55.16%  sh=  +410.4
+  ✅ TEST                                                     n=  80  wr= 85.0%  avg= +18.7bps  tot= +14.99%  sh=  +423.1
+    ✅ train=+0.919%/d  test=+0.535%/d
+
+  --- EXP KKK: VWAP DEVIATION ---
+
+  VWAP dev >5bps (fade):
+  ✅ TRAIN                                                    n=27653  wr= 63.0%  avg=  +3.1bps  tot=+847.43%  sh=  +221.0
+  ✅ TEST                                                     n=14048  wr= 61.2%  avg=  +2.8bps  tot=+398.57%  sh=  +192.9
+    ✅ train=+14.124%/d  test=+14.235%/d
+
+  VWAP dev >10bps (fade):
+  ✅ TRAIN                                                    n=23833  wr= 64.7%  avg=  +3.3bps  tot=+791.29%  sh=  +238.1
+  ✅ TEST                                                     n=12276  wr= 62.3%  avg=  +3.0bps  tot=+372.05%  sh=  +202.0
+    ✅ train=+13.188%/d  test=+13.287%/d
+
+  VWAP dev >20bps (fade):
+  ✅ TRAIN                                                    n=16679  wr= 69.1%  avg=  +4.1bps  tot=+682.14%  sh=  +285.0
+  ✅ TEST                                                     n=9032  wr= 65.7%  avg=  +3.6bps  tot=+328.24%  sh=  +247.3
+    ✅ train=+11.369%/d  test=+11.723%/d
+  Loading ETHUSDT bars+vol... [10/88 43s] [20/88 71s] [30/88 97s] [40/88 126s] [50/88 152s] [60/88 172s] [70/88 212s] [80/88 255s] [88/88 287s] 126,720 bars (287s) [RAM=0.8GB, avail=5.8GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+  OFI stats: mean=0.0056, std=0.4432
+  Vol ratio stats: mean=1.05, P95=3.21
+  VWAP dev stats: mean=2.1bps, std=32.2bps
+
+  --- EXP III: ORDER FLOW IMBALANCE ---
+
+  OFI 1m P90 fade:
+  ✅ TRAIN                                                    n=5613  wr= 48.3%  avg=  +0.6bps  tot= +35.09%  sh=   +46.2
+  ✅ TEST                                                     n=2362  wr= 53.6%  avg=  +1.5bps  tot= +35.19%  sh=  +103.0
+    ✅ train=+0.585%/d  test=+1.257%/d
+
+  OFI 1m P95 fade:
+     TRAIN                                                    n=2736  wr= 43.8%  avg=  -0.0bps  tot=  -1.13%  sh=    -3.1
+  ✅ TEST                                                     n=1064  wr= 50.0%  avg=  +1.0bps  tot= +10.76%  sh=   +76.4
+    ✅ train=-0.019%/d  test=+0.384%/d
+
+  OFI 5m P90 fade:
+  ✅ TRAIN                                                    n=5669  wr= 53.4%  avg=  +1.7bps  tot= +95.01%  sh=  +117.6
+  ✅ TEST                                                     n=2579  wr= 58.3%  avg=  +2.3bps  tot= +58.28%  sh=  +179.4
+    ✅ train=+1.583%/d  test=+2.082%/d
+
+  OFI 5m P95 fade:
+  ✅ TRAIN                                                    n=2778  wr= 51.4%  avg=  +1.3bps  tot= +36.40%  sh=   +92.0
+  ✅ TEST                                                     n=1231  wr= 56.3%  avg=  +1.9bps  tot= +23.69%  sh=  +167.7
+    ✅ train=+0.607%/d  test=+0.846%/d
+
+  OFI 15m P90 fade:
+  ✅ TRAIN                                                    n=5558  wr= 54.5%  avg=  +1.7bps  tot= +92.60%  sh=  +122.3
+  ✅ TEST                                                     n=2668  wr= 57.7%  avg=  +2.1bps  tot= +55.68%  sh=  +176.3
+    ✅ train=+1.543%/d  test=+1.989%/d
+
+  OFI 15m P95 fade:
+  ✅ TRAIN                                                    n=2684  wr= 53.3%  avg=  +1.4bps  tot= +37.71%  sh=  +108.5
+  ✅ TEST                                                     n=1275  wr= 57.0%  avg=  +1.8bps  tot= +22.96%  sh=  +165.4
+    ✅ train=+0.628%/d  test=+0.820%/d
+
+  --- EXP JJJ: TRADE INTENSITY ---
+
+  Vol spike >3x (fade):
+  ✅ TRAIN                                                    n=3494  wr= 79.1%  avg= +10.9bps  tot=+381.14%  sh=  +343.1
+  ✅ TEST                                                     n=1710  wr= 80.3%  avg=  +8.4bps  tot=+144.39%  sh=  +436.2
+    ✅ train=+6.352%/d  test=+5.157%/d
+
+  Vol spike >5x (fade):
+  ✅ TRAIN                                                    n=1361  wr= 84.7%  avg= +16.2bps  tot=+221.12%  sh=  +379.8
+  ✅ TEST                                                     n= 598  wr= 84.9%  avg= +12.0bps  tot= +71.66%  sh=  +522.3
+    ✅ train=+3.685%/d  test=+2.559%/d
+
+  Vol spike >10x (fade):
+  ✅ TRAIN                                                    n= 301  wr= 94.4%  avg= +30.7bps  tot= +92.46%  sh=  +438.3
+  ✅ TEST                                                     n= 118  wr= 92.4%  avg= +17.2bps  tot= +20.33%  sh=  +592.3
+    ✅ train=+1.541%/d  test=+0.726%/d
+
+  --- EXP KKK: VWAP DEVIATION ---
+
+  VWAP dev >5bps (fade):
+  ✅ TRAIN                                                    n=25330  wr= 62.2%  avg=  +3.2bps  tot=+798.47%  sh=  +212.9
+  ✅ TEST                                                     n=13802  wr= 61.8%  avg=  +2.8bps  tot=+390.64%  sh=  +200.2
+    ✅ train=+13.308%/d  test=+13.952%/d
+
+  VWAP dev >10bps (fade):
+  ✅ TRAIN                                                    n=21224  wr= 65.1%  avg=  +3.7bps  tot=+778.25%  sh=  +245.5
+  ✅ TEST                                                     n=11863  wr= 64.0%  avg=  +3.2bps  tot=+381.61%  sh=  +226.4
+    ✅ train=+12.971%/d  test=+13.629%/d
+
+  VWAP dev >20bps (fade):
+  ✅ TRAIN                                                    n=14027  wr= 71.6%  avg=  +5.0bps  tot=+702.04%  sh=  +331.0
+  ✅ TEST                                                     n=8067  wr= 68.7%  avg=  +4.1bps  tot=+330.97%  sh=  +281.4
+    ✅ train=+11.701%/d  test=+11.821%/d
+
+################################################################################
+  COMPLETE — 682s (11.4min) [RAM=0.5GB, avail=5.9GB]
+################################################################################
