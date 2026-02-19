@@ -1,0 +1,259 @@
+================================================================================
+  v42ap: GAP ANALYSIS + VOL TERM STRUCTURE + DELTA DIVERGENCE
+  2026-02-19 11:34:32  [RAM=0.1GB, avail=8.2GB]
+================================================================================
+  Loading ETHUSDT... [10/88 31s] [20/88 53s] [30/88 73s] [40/88 95s] [50/88 115s] [60/88 130s] [70/88 158s] [80/88 184s] [88/88 203s] 126,720 bars (203s) [RAM=0.5GB, avail=8.2GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP RRRR2: INTRABAR GAP ---
+
+  Gap z>2 (fade):
+  ✅ TRAIN                                                    n=1651  wr= 61.1%  avg=  +3.4bps  tot= +56.79%  sh=  +210.7
+  ✅ TEST                                                     n= 887  wr= 60.9%  avg=  +3.3bps  tot= +29.12%  sh=  +202.6
+    ✅ test=+1.040%/d
+
+  Gap z>3 (fade):
+  ✅ TRAIN                                                    n= 883  wr= 59.7%  avg=  +3.5bps  tot= +30.84%  sh=  +205.7
+  ✅ TEST                                                     n= 467  wr= 61.0%  avg=  +3.4bps  tot= +16.06%  sh=  +239.7
+    ✅ test=+0.574%/d
+
+  --- EXP SSSS2: VOL TERM STRUCTURE ---
+
+  Vol term inverted z>2 (fade):
+  ✅ TRAIN                                                    n=3785  wr= 63.1%  avg=  +5.9bps  tot=+221.94%  sh=  +208.8
+  ✅ TEST                                                     n=1700  wr= 67.0%  avg=  +4.1bps  tot= +70.30%  sh=  +240.5
+    ✅ test=+2.511%/d
+
+  Vol term inverted z>3 (fade):
+  ✅ TRAIN                                                    n= 840  wr= 68.2%  avg=  +9.4bps  tot= +79.29%  sh=  +217.5
+  ✅ TEST                                                     n= 322  wr= 73.0%  avg=  +6.2bps  tot= +19.92%  sh=  +292.9
+    ✅ test=+0.711%/d
+
+  --- EXP TTTT2: PRICE-RETURN DIVERGENCE ---
+
+  Price-return div z>2 (fade):
+  ✅ TRAIN                                                    n=3960  wr= 61.3%  avg=  +4.2bps  tot=+165.45%  sh=  +212.8
+  ✅ TEST                                                     n=2195  wr= 63.2%  avg=  +3.5bps  tot= +76.24%  sh=  +215.5
+    ✅ test=+2.723%/d
+
+  Price-return div z>3 (fade):
+  ✅ TRAIN                                                    n= 419  wr= 73.3%  avg=  +9.4bps  tot= +39.32%  sh=  +303.3
+  ✅ TEST                                                     n= 211  wr= 73.9%  avg=  +6.8bps  tot= +14.27%  sh=  +410.1
+    ✅ test=+0.510%/d
+
+  --- EXP UUUU2: TICK DIRECTION RUNS ---
+
+  Tick run >= 5 (fade):
+  ✅ TRAIN                                                    n=1396  wr= 63.4%  avg=  +4.0bps  tot= +55.48%  sh=  +233.9
+  ✅ TEST                                                     n= 724  wr= 63.3%  avg=  +3.2bps  tot= +22.98%  sh=  +196.8
+    ✅ test=+0.821%/d
+
+  Tick run >= 7 (fade):
+  ✅ TRAIN                                                    n= 266  wr= 69.5%  avg=  +5.1bps  tot= +13.69%  sh=  +341.6
+  ✅ TEST                                                     n= 155  wr= 67.1%  avg=  +4.3bps  tot=  +6.71%  sh=  +273.6
+    ✅ test=+0.240%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 36s] [40/88 47s] [50/88 58s] [60/88 67s] [70/88 79s] [80/88 96s] [88/88 104s] 126,720 bars (104s) [RAM=0.4GB, avail=8.2GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP RRRR2: INTRABAR GAP ---
+
+  Gap z>2 (fade):
+  ✅ TRAIN                                                    n=1036  wr= 69.2%  avg=  +4.2bps  tot= +43.69%  sh=  +314.0
+  ✅ TEST                                                     n= 633  wr= 65.1%  avg=  +4.0bps  tot= +25.06%  sh=  +320.2
+    ✅ test=+0.895%/d
+
+  Gap z>3 (fade):
+  ✅ TRAIN                                                    n= 141  wr= 71.6%  avg=  +4.7bps  tot=  +6.62%  sh=  +396.6
+  ✅ TEST                                                     n=  77  wr= 64.9%  avg=  +4.9bps  tot=  +3.79%  sh=  +356.1
+    ✅ test=+0.135%/d
+
+  --- EXP SSSS2: VOL TERM STRUCTURE ---
+
+  Vol term inverted z>2 (fade):
+  ✅ TRAIN                                                    n=3671  wr= 66.6%  avg=  +5.2bps  tot=+189.63%  sh=  +226.0
+  ✅ TEST                                                     n=1570  wr= 66.6%  avg=  +4.5bps  tot= +71.08%  sh=  +269.7
+    ✅ test=+2.539%/d
+
+  Vol term inverted z>3 (fade):
+  ✅ TRAIN                                                    n= 645  wr= 73.6%  avg=  +8.6bps  tot= +55.78%  sh=  +270.7
+  ✅ TEST                                                     n= 275  wr= 71.6%  avg=  +5.5bps  tot= +15.11%  sh=  +255.6
+    ✅ test=+0.540%/d
+
+  --- EXP TTTT2: PRICE-RETURN DIVERGENCE ---
+
+  Price-return div z>2 (fade):
+  ✅ TRAIN                                                    n=4367  wr= 66.0%  avg=  +4.2bps  tot=+182.44%  sh=  +264.8
+  ✅ TEST                                                     n=2192  wr= 67.0%  avg=  +4.0bps  tot= +88.07%  sh=  +267.0
+    ✅ test=+3.145%/d
+
+  Price-return div z>3 (fade):
+  ✅ TRAIN                                                    n= 372  wr= 82.5%  avg=  +8.9bps  tot= +33.12%  sh=  +381.9
+  ✅ TEST                                                     n= 180  wr= 77.2%  avg=  +5.8bps  tot= +10.42%  sh=  +371.2
+    ✅ test=+0.372%/d
+
+  --- EXP UUUU2: TICK DIRECTION RUNS ---
+
+  Tick run >= 5 (fade):
+  ✅ TRAIN                                                    n=1319  wr= 63.8%  avg=  +3.4bps  tot= +44.88%  sh=  +222.7
+  ✅ TEST                                                     n= 719  wr= 58.8%  avg=  +3.1bps  tot= +22.27%  sh=  +229.8
+    ✅ test=+0.795%/d
+
+  Tick run >= 7 (fade):
+  ✅ TRAIN                                                    n= 279  wr= 66.7%  avg=  +3.5bps  tot=  +9.90%  sh=  +226.2
+  ✅ TEST                                                     n= 172  wr= 64.0%  avg=  +3.6bps  tot=  +6.22%  sh=  +318.1
+    ✅ test=+0.222%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 34s] [30/88 43s] [40/88 52s] [50/88 60s] [60/88 68s] [70/88 94s] [80/88 115s] [88/88 124s] 126,720 bars (124s) [RAM=0.4GB, avail=8.2GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP RRRR2: INTRABAR GAP ---
+
+  Gap z>2 (fade):
+  ✅ TRAIN                                                    n=1650  wr= 69.3%  avg=  +4.4bps  tot= +72.80%  sh=  +267.3
+  ✅ TEST                                                     n=1001  wr= 82.4%  avg=  +7.7bps  tot= +76.90%  sh=  +458.6
+    ✅ test=+2.746%/d
+
+  Gap z>3 (fade):
+  ✅ TRAIN                                                    n= 298  wr= 73.8%  avg=  +5.3bps  tot= +15.69%  sh=  +312.0
+  ✅ TEST                                                     n= 200  wr= 83.0%  avg=  +8.3bps  tot= +16.60%  sh=  +419.8
+    ✅ test=+0.593%/d
+
+  --- EXP SSSS2: VOL TERM STRUCTURE ---
+
+  Vol term inverted z>2 (fade):
+  ✅ TRAIN                                                    n=3656  wr= 68.8%  avg=  +6.6bps  tot=+242.83%  sh=  +238.0
+  ✅ TEST                                                     n=1734  wr= 82.2%  avg= +10.5bps  tot=+182.70%  sh=  +408.1
+    ✅ test=+6.525%/d
+
+  Vol term inverted z>3 (fade):
+  ✅ TRAIN                                                    n= 683  wr= 73.8%  avg= +10.1bps  tot= +69.21%  sh=  +272.1
+  ✅ TEST                                                     n= 307  wr= 86.0%  avg= +13.9bps  tot= +42.60%  sh=  +426.3
+    ✅ test=+1.521%/d
+
+  --- EXP TTTT2: PRICE-RETURN DIVERGENCE ---
+
+  Price-return div z>2 (fade):
+  ✅ TRAIN                                                    n=4167  wr= 68.7%  avg=  +4.8bps  tot=+201.40%  sh=  +253.4
+  ✅ TEST                                                     n=2337  wr= 84.6%  avg=  +8.4bps  tot=+195.64%  sh=  +479.7
+    ✅ test=+6.987%/d
+
+  Price-return div z>3 (fade):
+  ✅ TRAIN                                                    n= 343  wr= 81.0%  avg= +11.0bps  tot= +37.90%  sh=  +395.6
+  ✅ TEST                                                     n= 196  wr= 92.9%  avg= +11.0bps  tot= +21.65%  sh=  +661.0
+    ✅ test=+0.773%/d
+
+  --- EXP UUUU2: TICK DIRECTION RUNS ---
+
+  Tick run >= 5 (fade):
+  ✅ TRAIN                                                    n=1534  wr= 68.9%  avg=  +5.0bps  tot= +77.11%  sh=  +236.2
+  ✅ TEST                                                     n= 821  wr= 77.6%  avg=  +7.5bps  tot= +61.38%  sh=  +389.1
+    ✅ test=+2.192%/d
+
+  Tick run >= 7 (fade):
+  ✅ TRAIN                                                    n= 333  wr= 73.6%  avg=  +6.3bps  tot= +20.81%  sh=  +266.3
+  ✅ TEST                                                     n= 185  wr= 74.6%  avg=  +6.3bps  tot= +11.60%  sh=  +385.5
+    ✅ test=+0.414%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 24s] [30/88 32s] [40/88 40s] [50/88 50s] [60/88 58s] [70/88 86s] [80/88 103s] [88/88 113s] 126,720 bars (113s) [RAM=0.4GB, avail=8.1GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP RRRR2: INTRABAR GAP ---
+
+  Gap z>2 (fade):
+  ✅ TRAIN                                                    n=1419  wr= 51.1%  avg=  +1.3bps  tot= +18.96%  sh=   +88.3
+  ✅ TEST                                                     n= 928  wr= 74.1%  avg=  +5.6bps  tot= +52.16%  sh=  +290.1
+    ✅ test=+1.863%/d
+
+  Gap z>3 (fade):
+  ✅ TRAIN                                                    n= 234  wr= 47.4%  avg=  +1.0bps  tot=  +2.29%  sh=   +48.7
+  ✅ TEST                                                     n= 212  wr= 73.1%  avg=  +5.2bps  tot= +11.12%  sh=  +253.8
+    ✅ test=+0.397%/d
+
+  --- EXP SSSS2: VOL TERM STRUCTURE ---
+
+  Vol term inverted z>2 (fade):
+  ✅ TRAIN                                                    n=3309  wr= 54.5%  avg=  +3.5bps  tot=+115.81%  sh=  +150.8
+  ✅ TEST                                                     n=1737  wr= 74.9%  avg=  +8.0bps  tot=+138.86%  sh=  +341.5
+    ✅ test=+4.959%/d
+
+  Vol term inverted z>3 (fade):
+  ✅ TRAIN                                                    n= 668  wr= 59.0%  avg=  +6.6bps  tot= +44.28%  sh=  +219.3
+  ✅ TEST                                                     n= 271  wr= 76.0%  avg=  +9.2bps  tot= +24.85%  sh=  +274.3
+    ✅ test=+0.887%/d
+
+  --- EXP TTTT2: PRICE-RETURN DIVERGENCE ---
+
+  Price-return div z>2 (fade):
+  ✅ TRAIN                                                    n=3726  wr= 54.6%  avg=  +2.1bps  tot= +80.04%  sh=  +134.7
+  ✅ TEST                                                     n=2334  wr= 77.1%  avg=  +6.1bps  tot=+142.11%  sh=  +368.6
+    ✅ test=+5.075%/d
+
+  Price-return div z>3 (fade):
+  ✅ TRAIN                                                    n= 289  wr= 72.3%  avg=  +6.8bps  tot= +19.74%  sh=  +308.3
+  ✅ TEST                                                     n= 202  wr= 86.6%  avg=  +9.9bps  tot= +20.09%  sh=  +472.4
+    ✅ test=+0.717%/d
+
+  --- EXP UUUU2: TICK DIRECTION RUNS ---
+
+  Tick run >= 5 (fade):
+  ✅ TRAIN                                                    n=1394  wr= 57.0%  avg=  +2.6bps  tot= +36.68%  sh=  +148.6
+  ✅ TEST                                                     n= 821  wr= 74.8%  avg=  +7.2bps  tot= +59.41%  sh=  +277.2
+    ✅ test=+2.122%/d
+
+  Tick run >= 7 (fade):
+  ✅ TRAIN                                                    n= 312  wr= 56.1%  avg=  +2.3bps  tot=  +7.23%  sh=  +116.8
+  ✅ TEST                                                     n= 187  wr= 76.5%  avg= +10.0bps  tot= +18.67%  sh=  +239.5
+    ✅ test=+0.667%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    gap_z2                 1001   82.4%    +7.7bp    +76.9%     +459
+  ✅ DOGEUSDT    gap_z3                  200   83.0%    +8.3bp    +16.6%     +420
+  ✅ DOGEUSDT    pr_div_z2              2337   84.6%    +8.4bp   +195.6%     +480
+  ✅ DOGEUSDT    pr_div_z3               196   92.9%   +11.0bp    +21.7%     +661
+  ✅ DOGEUSDT    tick_run_5              821   77.6%    +7.5bp    +61.4%     +389
+  ✅ DOGEUSDT    tick_run_7              185   74.6%    +6.3bp    +11.6%     +386
+  ✅ DOGEUSDT    vol_term_z2            1734   82.2%   +10.5bp   +182.7%     +408
+  ✅ DOGEUSDT    vol_term_z3             307   86.0%   +13.9bp    +42.6%     +426
+  ✅ ETHUSDT     gap_z2                  887   60.9%    +3.3bp    +29.1%     +203
+  ✅ ETHUSDT     gap_z3                  467   61.0%    +3.4bp    +16.1%     +240
+  ✅ ETHUSDT     pr_div_z2              2195   63.2%    +3.5bp    +76.2%     +215
+  ✅ ETHUSDT     pr_div_z3               211   73.9%    +6.8bp    +14.3%     +410
+  ✅ ETHUSDT     tick_run_5              724   63.3%    +3.2bp    +23.0%     +197
+  ✅ ETHUSDT     tick_run_7              155   67.1%    +4.3bp     +6.7%     +274
+  ✅ ETHUSDT     vol_term_z2            1700   67.0%    +4.1bp    +70.3%     +240
+  ✅ ETHUSDT     vol_term_z3             322   73.0%    +6.2bp    +19.9%     +293
+  ✅ SOLUSDT     gap_z2                  633   65.1%    +4.0bp    +25.1%     +320
+  ✅ SOLUSDT     gap_z3                   77   64.9%    +4.9bp     +3.8%     +356
+  ✅ SOLUSDT     pr_div_z2              2192   67.0%    +4.0bp    +88.1%     +267
+  ✅ SOLUSDT     pr_div_z3               180   77.2%    +5.8bp    +10.4%     +371
+  ✅ SOLUSDT     tick_run_5              719   58.8%    +3.1bp    +22.3%     +230
+  ✅ SOLUSDT     tick_run_7              172   64.0%    +3.6bp     +6.2%     +318
+  ✅ SOLUSDT     vol_term_z2            1570   66.6%    +4.5bp    +71.1%     +270
+  ✅ SOLUSDT     vol_term_z3             275   71.6%    +5.5bp    +15.1%     +256
+  ✅ XRPUSDT     gap_z2                  928   74.1%    +5.6bp    +52.2%     +290
+  ✅ XRPUSDT     gap_z3                  212   73.1%    +5.2bp    +11.1%     +254
+  ✅ XRPUSDT     pr_div_z2              2334   77.1%    +6.1bp   +142.1%     +369
+  ✅ XRPUSDT     pr_div_z3               202   86.6%    +9.9bp    +20.1%     +472
+  ✅ XRPUSDT     tick_run_5              821   74.8%    +7.2bp    +59.4%     +277
+  ✅ XRPUSDT     tick_run_7              187   76.5%   +10.0bp    +18.7%     +239
+  ✅ XRPUSDT     vol_term_z2            1737   74.9%    +8.0bp   +138.9%     +341
+  ✅ XRPUSDT     vol_term_z3             271   76.0%    +9.2bp    +24.8%     +274
+
+################################################################################
+  COMPLETE — 596s (9.9min) [RAM=0.4GB, avail=8.2GB]
+################################################################################
