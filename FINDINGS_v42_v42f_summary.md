@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 62 Signal Types Discovered
+### 66 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -918,6 +918,10 @@ Strategy contribution (standalone):
 | 60 | Vol Term Structure | Price only | 86% | +183%/28d | Low |
 | 61 | **Price-Return Div** | **Price only** | **93%** | **+196%/28d** | **Low** |
 | 62 | Tick Direction Runs | Price only | 78% | +61%/28d | Low |
+| 63 | S/R Touch Fade | Price only | 81% | +509%/28d | Low |
+| 64 | Kurtosis Tail Fade | Price only | 88% | +25%/28d | Low |
+| 65 | MR Speed (OU Theta) | Price only | 86% | +118%/28d | Low |
+| 66 | **Price Percentile** | **Price only** | **90%** | **+623%/28d** | **Low** |
 
 ---
 
@@ -1114,3 +1118,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42an_candle_patterns.py` | EXP JJJJ2-MMMM2: doji, hammer, inside bar, pin bar, 3-bar |
 | `research_v42ao_mr_timing.py` | EXP NNNN2-QQQQ2: BB squeeze, ATR ratio, CLV, wick consec |
 | `research_v42ap_gap_volterm.py` | EXP RRRR2-UUUU2: gap, vol term, price-return div, tick runs |
+| `research_v42aq_support_distribution.py` | EXP VVVV2-YYYY3: S/R touch, kurtosis, MR speed, price pct |
