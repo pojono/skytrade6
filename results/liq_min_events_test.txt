@@ -1,0 +1,85 @@
+====================================================================================================
+  MIN_EVENTS COMPARISON: 1 vs 2 (with displacement ≥10 bps)
+====================================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+  DOGEUSDT
+────────────────────────────────────────────────────────────────────────────────
+  Loading 3018 liq files... 500 1000 1500 2000 2500 3000 done (93,913)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,993)
+  Building bars... 105,196 bars
+
+  min_events=1: 1313 cascades, 692 with disp≥10
+  Config2 AGGR (min_ev=1)                                  n=  539  WR= 97.0%  avg=+0.0404%  tot= +21.76%  sh=  +5.6  dd= 5.44%  TP=  97% SL=   0% TO=   3%
+  Config1 SAFE (min_ev=1)                                  n=  539  WR= 88.7%  avg=+0.0350%  tot= +18.87%  sh=  +7.4  dd= 2.21%  TP=  89% SL=  11% TO=   1%
+
+  min_events=2: 1243 cascades, 654 with disp≥10
+  Config2 AGGR (min_ev=2)                                  n=  506  WR= 96.8%  avg=+0.0378%  tot= +19.12%  sh=  +5.1  dd= 5.44%  TP=  97% SL=   0% TO=   3%
+  Config1 SAFE (min_ev=2)                                  n=  506  WR= 88.5%  avg=+0.0342%  tot= +17.29%  sh=  +7.2  dd= 2.21%  TP=  89% SL=  11% TO=   1%
+
+────────────────────────────────────────────────────────────────────────────────
+  SOLUSDT
+────────────────────────────────────────────────────────────────────────────────
+  Loading 3107 liq files... 500 1000 1500 2000 2500 3000 done (189,603)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,981)
+  Building bars... 105,195 bars
+
+  min_events=1: 2064 cascades, 892 with disp≥10
+  Config2 AGGR (min_ev=1)                                  n=  670  WR= 95.1%  avg=+0.0410%  tot= +27.44%  sh=  +8.8  dd= 5.75%  TP=  95% SL=   0% TO=   5%
+  Config1 SAFE (min_ev=1)                                  n=  670  WR= 88.2%  avg=+0.0331%  tot= +22.19%  sh=  +7.0  dd= 2.54%  TP=  88% SL=  11% TO=   1%
+
+  min_events=2: 1930 cascades, 836 with disp≥10
+  Config2 AGGR (min_ev=2)                                  n=  633  WR= 94.8%  avg=+0.0387%  tot= +24.48%  sh=  +8.1  dd= 5.75%  TP=  95% SL=   0% TO=   5%
+  Config1 SAFE (min_ev=2)                                  n=  633  WR= 87.7%  avg=+0.0297%  tot= +18.81%  sh=  +6.1  dd= 2.54%  TP=  88% SL=  11% TO=   1%
+
+────────────────────────────────────────────────────────────────────────────────
+  ETHUSDT
+────────────────────────────────────────────────────────────────────────────────
+  Loading 3089 liq files... 500 1000 1500 2000 2500 3000 done (328,388)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,971)
+  Building bars... 105,193 bars
+
+  min_events=1: 2782 cascades, 1194 with disp≥10
+  Config2 AGGR (min_ev=1)                                  n=  852  WR= 95.4%  avg=+0.0343%  tot= +29.20%  sh=  +6.1  dd= 3.56%  TP=  95% SL=   0% TO=   5%
+  Config1 SAFE (min_ev=1)                                  n=  852  WR= 87.8%  avg=+0.0293%  tot= +24.98%  sh=  +6.0  dd= 4.66%  TP=  88% SL=  11% TO=   1%
+
+  min_events=2: 2631 cascades, 1131 with disp≥10
+  Config2 AGGR (min_ev=2)                                  n=  808  WR= 95.4%  avg=+0.0351%  tot= +28.32%  sh=  +6.3  dd= 3.56%  TP=  95% SL=   0% TO=   5%
+  Config1 SAFE (min_ev=2)                                  n=  808  WR= 87.7%  avg=+0.0292%  tot= +23.57%  sh=  +6.0  dd= 4.66%  TP=  88% SL=  11% TO=   1%
+
+────────────────────────────────────────────────────────────────────────────────
+  XRPUSDT
+────────────────────────────────────────────────────────────────────────────────
+  Loading 2962 liq files... 500 1000 1500 2000 2500 done (128,466)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,981)
+  Building bars... 105,196 bars
+
+  min_events=1: 1597 cascades, 630 with disp≥10
+  Config2 AGGR (min_ev=1)                                  n=  477  WR= 95.6%  avg=+0.0459%  tot= +21.91%  sh= +10.8  dd= 2.53%  TP=  95% SL=   0% TO=   5%
+  Config1 SAFE (min_ev=1)                                  n=  477  WR= 87.8%  avg=+0.0314%  tot= +15.00%  sh=  +6.6  dd= 5.15%  TP=  88% SL=  11% TO=   1%
+
+  min_events=2: 1491 cascades, 584 with disp≥10
+  Config2 AGGR (min_ev=2)                                  n=  447  WR= 95.3%  avg=+0.0436%  tot= +19.51%  sh= +10.0  dd= 2.53%  TP=  95% SL=   0% TO=   5%
+  Config1 SAFE (min_ev=2)                                  n=  447  WR= 87.2%  avg=+0.0277%  tot= +12.38%  sh=  +5.7  dd= 5.15%  TP=  87% SL=  11% TO=   2%
+
+====================================================================================================
+  CROSS-SYMBOL SUMMARY
+====================================================================================================
+
+  ── Config2 AGGR ──
+                                                min_ev=1                                  min_ev=2       delta
+          DOGE  n= 539 WR= 97.0% tot= +21.76%    n= 506 WR= 96.8% tot= +19.12%      +2.64%
+          SOLU  n= 670 WR= 95.1% tot= +27.44%    n= 633 WR= 94.8% tot= +24.48%      +2.96%
+          ETHU  n= 852 WR= 95.4% tot= +29.20%    n= 808 WR= 95.4% tot= +28.32%      +0.87%
+          XRPU  n= 477 WR= 95.6% tot= +21.91%    n= 447 WR= 95.3% tot= +19.51%      +2.40%
+      COMBINED  n=2538              tot=+100.31%    n=2394              tot= +91.44%      +8.87%
+
+  ── Config1 SAFE ──
+                                                min_ev=1                                  min_ev=2       delta
+          DOGE  n= 539 WR= 88.7% tot= +18.87%    n= 506 WR= 88.5% tot= +17.29%      +1.58%
+          SOLU  n= 670 WR= 88.2% tot= +22.19%    n= 633 WR= 87.7% tot= +18.81%      +3.39%
+          ETHU  n= 852 WR= 87.8% tot= +24.98%    n= 808 WR= 87.7% tot= +23.57%      +1.42%
+          XRPU  n= 477 WR= 87.8% tot= +15.00%    n= 447 WR= 87.2% tot= +12.38%      +2.62%
+      COMBINED  n=2538              tot= +81.04%    n=2394              tot= +72.05%      +8.99%
+
+  Done in 1506s

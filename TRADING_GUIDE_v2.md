@@ -37,13 +37,14 @@ Forced liquidations create temporary price dislocations. When enough traders get
 
 Maintain a rolling P95 notional threshold per symbol (from last ~1000 liquidation events). When a liquidation exceeds this threshold, it's "large."
 
-### Step 2: Detect Cascades
+### Step 2: Detect Signal
 
-A **cascade** = 2+ large (P95) liquidations within 60 seconds.
+A single P95 liquidation event is enough to trigger. You don't need to wait for a cluster.
 
-Track which side dominates:
+If multiple P95 events fire within 60 seconds, group them and use the last one as your signal timestamp. Track which side dominates:
 - `buy_notional > sell_notional` → **Buy-dominant** (longs liquidated, price dropped)
 - `sell_notional > buy_notional` → **Sell-dominant** (shorts liquidated, price spiked)
+- Single event → use that event's side
 
 ### Step 3: Check Displacement ≥10 bps
 
@@ -56,14 +57,14 @@ displacement = abs(price_now - price_before_cascade) / price_before_cascade × 1
 
 This single filter is the most important part of the strategy. It improves returns by +37% to +391% depending on config.
 
-### Cascade Frequency
+### Signal Frequency
 
-| Symbol | Cascades/day | After ≥10 bps filter |
-|--------|-------------|---------------------|
-| ETH | ~9.4 | ~2.9 |
-| SOL | ~6.9 | ~2.2 |
-| XRP | ~5.3 | ~1.6 |
-| DOGE | ~4.4 | ~1.8 |
+| Symbol | P95 signals/day | After ≥10 bps filter |
+|--------|----------------|---------------------|
+| ETH | ~12 | ~3.0 |
+| SOL | ~8 | ~2.4 |
+| XRP | ~6 | ~1.7 |
+| DOGE | ~5 | ~1.9 |
 
 Expect ~2-3 actionable signals per day per symbol. Not all will fill.
 
@@ -73,14 +74,13 @@ Expect ~2-3 actionable signals per day per symbol. Not all will fill.
 
 ### Speed Required
 
-You have ~8-14 seconds (average cascade duration). Place your order during the cascade.
+Act on the first P95 event. Don't wait for a second one.
 
 ```
-T+0.0s   First P95 liquidation arrives
-T+1.0s   Second P95 liquidation → CASCADE CONFIRMED
-T+1.5s   Compute displacement, check ≥10 bps
-T+2.0s   Place limit order
-T+2-60s  Wait for fill
+T+0.0s   P95 liquidation arrives
+T+0.5s   Compute displacement (≥10 bps?)
+T+1.0s   Place limit order
+T+1-60s  Wait for fill
 ```
 
 No HFT infrastructure needed. A Python script with `websockets` + Bybit API is sufficient.
@@ -187,30 +187,30 @@ We tested hour-of-day, day-of-week, and US-session-only filters. They all reduce
 
 | Symbol | Trades | WR | Total Return | Sharpe | Max DD |
 |--------|--------|----|-------------|--------|--------|
-| DOGE | 506 | 88.5% | +17.3% | +4.1 | 2.2% |
-| SOL | 633 | 87.7% | +18.8% | +3.9 | 2.5% |
-| ETH | 808 | 87.7% | +23.6% | +4.3 | 4.7% |
-| XRP | 447 | 87.2% | +12.4% | +3.0 | 5.2% |
-| **Combined** | **2,394** | **87.8%** | **+72.1%** | **+3.8** | — |
+| DOGE | 539 | 88.7% | +18.9% | +4.3 | 2.2% |
+| SOL | 670 | 88.2% | +22.2% | +4.5 | 2.5% |
+| ETH | 852 | 87.8% | +25.0% | +4.4 | 4.7% |
+| XRP | 477 | 87.8% | +15.0% | +3.4 | 5.0% |
+| **Combined** | **2,538** | **88.1%** | **+81.0%** | **+4.2** | — |
 
 ### Config 2 AGGRESSIVE — 282 days, displacement ≥10 bps
 
 | Symbol | Trades | WR | Total Return | Sharpe | Max DD |
 |--------|--------|----|-------------|--------|--------|
-| DOGE | 506 | 96.8% | +19.1% | +2.9 | 5.4% |
-| SOL | 633 | 94.8% | +24.5% | +5.2 | 5.8% |
-| ETH | 808 | 95.4% | +28.3% | +4.5 | 3.6% |
-| XRP | 447 | 95.3% | +19.5% | +5.3 | 2.5% |
-| **Combined** | **2,394** | **95.6%** | **+91.4%** | **+4.5** | — |
+| DOGE | 539 | 97.0% | +21.8% | +3.2 | 5.4% |
+| SOL | 670 | 95.1% | +27.4% | +5.5 | 5.8% |
+| ETH | 852 | 95.4% | +29.2% | +4.6 | 3.6% |
+| XRP | 477 | 95.6% | +21.9% | +5.6 | 2.5% |
+| **Combined** | **2,538** | **95.8%** | **+100.3%** | **+4.7** | — |
 
 ### Conservative Live Estimates (assume 50% of backtest fills)
 
 | Metric | Config 1 SAFE | Config 2 AGGRESSIVE |
 |--------|--------------|---------------------|
-| Fills/day (4 symbols) | ~4-8 | ~4-8 |
-| Daily return | +0.06-0.13% | +0.08-0.16% |
-| Monthly return | +1.5-3.5% | +2-4.5% |
-| Annual return | +18-45% | +25-55% |
+| Fills/day (4 symbols) | ~4-9 | ~4-9 |
+| Daily return | +0.07-0.14% | +0.09-0.18% |
+| Monthly return | +2-4% | +2.5-5% |
+| Annual return | +20-50% | +30-60% |
 
 ---
 
@@ -248,15 +248,14 @@ We tested hour-of-day, day-of-week, and US-session-only filters. They all reduce
 LOOP forever:
   1. Receive liquidation event from websocket
   2. Is notional ≥ P95 threshold?  → NO: skip
-  3. Does cascade have ≥2 events within 60s?  → NO: wait
-  4. Is displacement ≥10 bps?  → NO: skip
-  5. Is cooldown expired (5 min)?  → NO: skip
-  6. Is position already open?  → YES: skip
-  7. Place PostOnly limit order:
+  3. Is displacement ≥10 bps?  → NO: skip
+  4. Is cooldown expired (5 min)?  → NO: skip
+  5. Is position already open?  → YES: skip
+  6. Place PostOnly limit order:
      - Buy-dominant → LIMIT BUY at price × 0.9985
      - Sell-dominant → LIMIT SELL at price × 1.0015
-  8. On fill → place TP (and SL if Config 1)
-  9. After 60 min → cancel unfilled order or close position at market
+  7. On fill → place TP (and SL if Config 1)
+  8. After 60 min → cancel unfilled order or close position at market
 ```
 
 ### Libraries
@@ -309,7 +308,7 @@ LOOP forever:
 ## Quick Reference
 
 ```
-TRIGGER:  2+ P95 liquidations within 60s
+TRIGGER:  Single P95 liquidation (no need to wait for 2nd)
 FILTER:   Displacement ≥10 bps
 ENTRY:    Limit order at 0.15% offset (PostOnly)
 TP:       0.15% (safe) / 0.12% (aggressive)
@@ -322,9 +321,9 @@ HOURS:    24/7
 
 | | Safe | Aggressive |
 |---|---|---|
-| WR | 87.8% | 95.6% |
-| Return (282d) | +72.1% | +91.4% |
-| Sharpe | +3.8 | +4.5 |
+| WR | 88.1% | 95.8% |
+| Return (282d) | +81.0% | +100.3% |
+| Sharpe | +4.2 | +4.7 |
 
 ---
 
