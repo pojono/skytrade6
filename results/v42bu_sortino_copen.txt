@@ -1,0 +1,451 @@
+================================================================================
+  v42bu: ROLLING SORTINO + CLOSE-OPEN RATIO + FRACTAL DIM + INTRABAR TREND
+  2026-02-19 20:08:45  [RAM=0.1GB, avail=5.2GB]
+================================================================================
+  Loading ETHUSDT... [10/88 47s] [20/88 76s] [30/88 103s] [40/88 133s] [50/88 162s] [60/88 183s] [70/88 219s] [80/88 253s] [88/88 278s] 126,720 bars (278s) [RAM=0.6GB, avail=5.7GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP LLLL8: ROLLING SORTINO RATIO ---
+
+  Sortino(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6793  wr= 69.8%  avg=  +5.5bps  tot=+373.39%  sh=  +301.8
+  ✅ TEST                                                     n=3446  wr= 71.6%  avg=  +5.2bps  tot=+179.63%  sh=  +344.9
+    ✅ test=+6.415%/d
+
+  Sortino(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3930  wr= 70.3%  avg=  +6.0bps  tot=+235.17%  sh=  +305.5
+  ✅ TEST                                                     n=2032  wr= 72.0%  avg=  +5.5bps  tot=+111.80%  sh=  +351.7
+    ✅ test=+3.993%/d
+
+  Sortino(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7810  wr= 70.7%  avg=  +5.7bps  tot=+444.24%  sh=  +297.6
+  ✅ TEST                                                     n=4185  wr= 72.7%  avg=  +5.3bps  tot=+220.67%  sh=  +343.0
+    ✅ test=+7.881%/d
+
+  Sortino(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4687  wr= 72.6%  avg=  +6.3bps  tot=+297.55%  sh=  +324.0
+  ✅ TEST                                                     n=2583  wr= 74.1%  avg=  +5.7bps  tot=+147.35%  sh=  +371.3
+    ✅ test=+5.263%/d
+
+  --- EXP MMMM8: CLOSE-OPEN RATIO ---
+
+  CO ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3922  wr= 61.8%  avg=  +3.3bps  tot=+131.09%  sh=  +219.7
+  ✅ TEST                                                     n=2077  wr= 63.4%  avg=  +3.2bps  tot= +67.46%  sh=  +243.9
+    ✅ test=+2.409%/d
+
+  CO ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6706  wr= 60.4%  avg=  +3.3bps  tot=+219.77%  sh=  +215.0
+  ✅ TEST                                                     n=3538  wr= 63.8%  avg=  +3.3bps  tot=+117.59%  sh=  +244.6
+    ✅ test=+4.200%/d
+
+  CO ratio(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5054  wr= 61.9%  avg=  +3.4bps  tot=+174.23%  sh=  +226.3
+  ✅ TEST                                                     n=2741  wr= 63.4%  avg=  +3.3bps  tot= +90.73%  sh=  +235.4
+    ✅ test=+3.240%/d
+
+  CO ratio(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7946  wr= 60.6%  avg=  +3.1bps  tot=+248.53%  sh=  +201.9
+  ✅ TEST                                                     n=4339  wr= 62.8%  avg=  +3.3bps  tot=+141.04%  sh=  +227.7
+    ✅ test=+5.037%/d
+
+  --- EXP NNNN8: PRICE FRACTAL DIMENSION ---
+
+  Fractal dim(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6094  wr= 52.2%  avg=  +1.6bps  tot= +95.13%  sh=  +114.7
+  ✅ TEST                                                     n=3065  wr= 57.2%  avg=  +1.9bps  tot= +58.85%  sh=  +136.8
+    ✅ test=+2.102%/d
+
+  Fractal dim(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3113  wr= 51.8%  avg=  +1.4bps  tot= +44.73%  sh=  +104.3
+  ✅ TEST                                                     n=1575  wr= 57.6%  avg=  +2.0bps  tot= +32.04%  sh=  +150.1
+    ✅ test=+1.144%/d
+
+  Fractal dim(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6827  wr= 53.7%  avg=  +1.7bps  tot=+116.92%  sh=  +114.7
+  ✅ TEST                                                     n=3246  wr= 56.1%  avg=  +1.8bps  tot= +59.02%  sh=  +133.7
+    ✅ test=+2.108%/d
+
+  Fractal dim(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3616  wr= 54.7%  avg=  +1.8bps  tot= +65.13%  sh=  +116.1
+  ✅ TEST                                                     n=1683  wr= 56.7%  avg=  +1.9bps  tot= +32.01%  sh=  +134.5
+    ✅ test=+1.143%/d
+
+  --- EXP OOOO8: INTRABAR TREND STRENGTH ---
+
+  Trend str(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6959  wr= 54.4%  avg=  +2.0bps  tot=+139.28%  sh=  +112.0
+  ✅ TEST                                                     n=3387  wr= 60.2%  avg=  +2.7bps  tot= +90.46%  sh=  +175.8
+    ✅ test=+3.231%/d
+
+  Trend str(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4191  wr= 54.3%  avg=  +2.1bps  tot= +86.55%  sh=  +111.3
+  ✅ TEST                                                     n=2078  wr= 60.9%  avg=  +2.5bps  tot= +51.63%  sh=  +152.5
+    ✅ test=+1.844%/d
+
+  Trend str(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8405  wr= 54.1%  avg=  +1.9bps  tot=+160.78%  sh=  +110.9
+  ✅ TEST                                                     n=4154  wr= 59.6%  avg=  +2.4bps  tot=+101.21%  sh=  +160.2
+    ✅ test=+3.615%/d
+
+  Trend str(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5437  wr= 53.9%  avg=  +1.8bps  tot= +98.13%  sh=  +112.3
+  ✅ TEST                                                     n=2717  wr= 59.3%  avg=  +2.2bps  tot= +59.93%  sh=  +145.3
+    ✅ test=+2.140%/d
+  Loading SOLUSDT... [10/88 18s] [20/88 34s] [30/88 45s] [40/88 62s] [50/88 76s] [60/88 86s] [70/88 103s] [80/88 123s] [88/88 135s] 126,720 bars (135s) [RAM=0.3GB, avail=5.7GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP LLLL8: ROLLING SORTINO RATIO ---
+
+  Sortino(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7526  wr= 68.0%  avg=  +4.8bps  tot=+361.33%  sh=  +275.4
+  ✅ TEST                                                     n=3629  wr= 68.0%  avg=  +4.5bps  tot=+164.10%  sh=  +271.9
+    ✅ test=+5.861%/d
+
+  Sortino(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4375  wr= 68.6%  avg=  +5.1bps  tot=+223.78%  sh=  +285.4
+  ✅ TEST                                                     n=2177  wr= 68.3%  avg=  +4.6bps  tot=+100.97%  sh=  +268.9
+    ✅ test=+3.606%/d
+
+  Sortino(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=8417  wr= 69.3%  avg=  +4.9bps  tot=+415.14%  sh=  +280.5
+  ✅ TEST                                                     n=4233  wr= 70.8%  avg=  +5.1bps  tot=+217.39%  sh=  +296.2
+    ✅ test=+7.764%/d
+
+  Sortino(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5115  wr= 69.4%  avg=  +5.3bps  tot=+271.23%  sh=  +280.7
+  ✅ TEST                                                     n=2699  wr= 72.1%  avg=  +5.6bps  tot=+150.39%  sh=  +308.6
+    ✅ test=+5.371%/d
+
+  --- EXP MMMM8: CLOSE-OPEN RATIO ---
+
+  CO ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4204  wr= 62.7%  avg=  +3.3bps  tot=+137.95%  sh=  +230.9
+  ✅ TEST                                                     n=2140  wr= 62.0%  avg=  +3.1bps  tot= +65.35%  sh=  +207.3
+    ✅ test=+2.334%/d
+
+  CO ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7252  wr= 62.7%  avg=  +3.2bps  tot=+231.35%  sh=  +226.2
+  ✅ TEST                                                     n=3565  wr= 61.7%  avg=  +2.9bps  tot=+104.95%  sh=  +192.9
+    ✅ test=+3.748%/d
+
+  CO ratio(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5545  wr= 62.3%  avg=  +3.0bps  tot=+165.82%  sh=  +208.9
+  ✅ TEST                                                     n=2955  wr= 58.4%  avg=  +2.4bps  tot= +71.07%  sh=  +156.8
+    ✅ test=+2.538%/d
+
+  CO ratio(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8683  wr= 62.4%  avg=  +3.0bps  tot=+258.58%  sh=  +210.7
+  ✅ TEST                                                     n=4498  wr= 58.9%  avg=  +2.6bps  tot=+115.17%  sh=  +163.0
+    ✅ test=+4.113%/d
+
+  --- EXP NNNN8: PRICE FRACTAL DIMENSION ---
+
+  Fractal dim(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6620  wr= 57.2%  avg=  +2.2bps  tot=+142.55%  sh=  +157.9
+  ✅ TEST                                                     n=3163  wr= 61.6%  avg=  +3.0bps  tot= +94.04%  sh=  +211.4
+    ✅ test=+3.358%/d
+
+  Fractal dim(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3335  wr= 57.5%  avg=  +2.1bps  tot= +70.27%  sh=  +157.1
+  ✅ TEST                                                     n=1606  wr= 61.4%  avg=  +2.9bps  tot= +46.94%  sh=  +198.0
+    ✅ test=+1.676%/d
+
+  Fractal dim(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7252  wr= 57.4%  avg=  +2.2bps  tot=+160.12%  sh=  +163.2
+  ✅ TEST                                                     n=3553  wr= 59.6%  avg=  +2.7bps  tot= +95.18%  sh=  +189.0
+    ✅ test=+3.399%/d
+
+  Fractal dim(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3870  wr= 57.2%  avg=  +2.4bps  tot= +91.18%  sh=  +172.7
+  ✅ TEST                                                     n=1888  wr= 59.3%  avg=  +2.7bps  tot= +51.22%  sh=  +194.9
+    ✅ test=+1.829%/d
+
+  --- EXP OOOO8: INTRABAR TREND STRENGTH ---
+
+  Trend str(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7542  wr= 61.8%  avg=  +3.2bps  tot=+240.04%  sh=  +209.2
+  ✅ TEST                                                     n=3635  wr= 61.6%  avg=  +3.1bps  tot=+110.99%  sh=  +218.6
+    ✅ test=+3.964%/d
+
+  Trend str(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4548  wr= 62.2%  avg=  +3.3bps  tot=+152.05%  sh=  +212.3
+  ✅ TEST                                                     n=2230  wr= 62.6%  avg=  +3.1bps  tot= +69.47%  sh=  +230.7
+    ✅ test=+2.481%/d
+
+  Trend str(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9252  wr= 61.6%  avg=  +3.0bps  tot=+279.21%  sh=  +188.8
+  ✅ TEST                                                     n=4374  wr= 62.8%  avg=  +3.1bps  tot=+136.62%  sh=  +203.6
+    ✅ test=+4.879%/d
+
+  Trend str(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6000  wr= 62.2%  avg=  +3.1bps  tot=+185.08%  sh=  +183.9
+  ✅ TEST                                                     n=2926  wr= 63.2%  avg=  +3.0bps  tot= +88.61%  sh=  +196.3
+    ✅ test=+3.165%/d
+  Loading DOGEUSDT... [10/88 33s] [20/88 57s] [30/88 71s] [40/88 82s] [50/88 90s] [60/88 100s] [70/88 130s] [80/88 151s] [88/88 160s] 126,720 bars (160s) [RAM=0.4GB, avail=7.0GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP LLLL8: ROLLING SORTINO RATIO ---
+
+  Sortino(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7605  wr= 71.8%  avg=  +5.9bps  tot=+448.13%  sh=  +294.6
+  ✅ TEST                                                     n=3932  wr= 85.8%  avg=  +9.7bps  tot=+382.15%  sh=  +488.4
+    ✅ test=+13.648%/d
+
+  Sortino(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4503  wr= 71.7%  avg=  +6.0bps  tot=+271.95%  sh=  +283.4
+  ✅ TEST                                                     n=2347  wr= 85.6%  avg=  +9.7bps  tot=+228.42%  sh=  +479.7
+    ✅ test=+8.158%/d
+
+  Sortino(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=8884  wr= 71.5%  avg=  +5.8bps  tot=+512.17%  sh=  +289.5
+  ✅ TEST                                                     n=4439  wr= 87.0%  avg= +10.2bps  tot=+451.42%  sh=  +508.1
+    ✅ test=+16.122%/d
+
+  Sortino(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5503  wr= 72.3%  avg=  +6.1bps  tot=+334.90%  sh=  +295.8
+  ✅ TEST                                                     n=2714  wr= 87.1%  avg= +10.6bps  tot=+287.94%  sh=  +493.3
+    ✅ test=+10.284%/d
+
+  --- EXP MMMM8: CLOSE-OPEN RATIO ---
+
+  CO ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4511  wr= 65.2%  avg=  +4.1bps  tot=+183.74%  sh=  +238.6
+  ✅ TEST                                                     n=2390  wr= 83.8%  avg=  +8.1bps  tot=+193.42%  sh=  +468.7
+    ✅ test=+6.908%/d
+
+  CO ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7523  wr= 65.4%  avg=  +4.0bps  tot=+302.60%  sh=  +239.9
+  ✅ TEST                                                     n=4081  wr= 82.2%  avg=  +7.7bps  tot=+313.72%  sh=  +449.3
+    ✅ test=+11.204%/d
+
+  CO ratio(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5536  wr= 65.6%  avg=  +4.2bps  tot=+233.11%  sh=  +238.7
+  ✅ TEST                                                     n=3215  wr= 82.3%  avg=  +8.1bps  tot=+258.85%  sh=  +473.0
+    ✅ test=+9.245%/d
+
+  CO ratio(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8861  wr= 65.9%  avg=  +4.1bps  tot=+366.76%  sh=  +242.8
+  ✅ TEST                                                     n=5002  wr= 82.3%  avg=  +7.9bps  tot=+394.10%  sh=  +467.8
+    ✅ test=+14.075%/d
+
+  --- EXP NNNN8: PRICE FRACTAL DIMENSION ---
+
+  Fractal dim(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6939  wr= 60.3%  avg=  +3.0bps  tot=+210.38%  sh=  +176.8
+  ✅ TEST                                                     n=3548  wr= 78.6%  avg=  +7.0bps  tot=+247.55%  sh=  +418.4
+    ✅ test=+8.841%/d
+
+  Fractal dim(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3555  wr= 60.5%  avg=  +2.9bps  tot=+103.76%  sh=  +160.8
+  ✅ TEST                                                     n=1827  wr= 77.7%  avg=  +6.7bps  tot=+123.13%  sh=  +402.1
+    ✅ test=+4.397%/d
+
+  Fractal dim(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7538  wr= 61.7%  avg=  +3.2bps  tot=+242.34%  sh=  +189.6
+  ✅ TEST                                                     n=3877  wr= 78.6%  avg=  +7.2bps  tot=+277.79%  sh=  +415.3
+    ✅ test=+9.921%/d
+
+  Fractal dim(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3953  wr= 62.0%  avg=  +3.3bps  tot=+129.70%  sh=  +193.2
+  ✅ TEST                                                     n=2021  wr= 80.3%  avg=  +7.4bps  tot=+150.03%  sh=  +447.1
+    ✅ test=+5.358%/d
+
+  --- EXP OOOO8: INTRABAR TREND STRENGTH ---
+
+  Trend str(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7773  wr= 62.4%  avg=  +3.7bps  tot=+284.25%  sh=  +188.7
+  ✅ TEST                                                     n=3992  wr= 78.8%  avg=  +7.7bps  tot=+305.51%  sh=  +405.8
+    ✅ test=+10.911%/d
+
+  Trend str(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4809  wr= 62.4%  avg=  +3.6bps  tot=+171.10%  sh=  +184.0
+  ✅ TEST                                                     n=2388  wr= 78.9%  avg=  +7.6bps  tot=+181.88%  sh=  +401.6
+    ✅ test=+6.496%/d
+
+  Trend str(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9389  wr= 60.8%  avg=  +3.5bps  tot=+324.43%  sh=  +176.8
+  ✅ TEST                                                     n=4764  wr= 79.3%  avg=  +7.6bps  tot=+359.70%  sh=  +422.6
+    ✅ test=+12.846%/d
+
+  Trend str(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6229  wr= 60.0%  avg=  +3.4bps  tot=+209.56%  sh=  +173.8
+  ✅ TEST                                                     n=3087  wr= 79.5%  avg=  +7.8bps  tot=+240.21%  sh=  +424.3
+    ✅ test=+8.579%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 25s] [30/88 34s] [40/88 43s] [50/88 53s] [60/88 61s] [70/88 92s] [80/88 110s] [88/88 123s] 126,720 bars (123s) [RAM=0.4GB, avail=6.5GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP LLLL8: ROLLING SORTINO RATIO ---
+
+  Sortino(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6652  wr= 57.8%  avg=  +3.0bps  tot=+202.52%  sh=  +195.3
+  ✅ TEST                                                     n=3709  wr= 74.2%  avg=  +7.2bps  tot=+265.59%  sh=  +316.5
+    ✅ test=+9.485%/d
+
+  Sortino(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3946  wr= 58.1%  avg=  +3.2bps  tot=+127.63%  sh=  +202.9
+  ✅ TEST                                                     n=2192  wr= 72.6%  avg=  +7.1bps  tot=+156.65%  sh=  +288.9
+    ✅ test=+5.595%/d
+
+  Sortino(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7780  wr= 58.5%  avg=  +3.1bps  tot=+240.59%  sh=  +192.6
+  ✅ TEST                                                     n=4191  wr= 78.0%  avg=  +7.6bps  tot=+320.23%  sh=  +369.5
+    ✅ test=+11.437%/d
+
+  Sortino(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4639  wr= 60.0%  avg=  +3.6bps  tot=+166.88%  sh=  +211.3
+  ✅ TEST                                                     n=2582  wr= 78.2%  avg=  +7.9bps  tot=+205.15%  sh=  +378.7
+    ✅ test=+7.327%/d
+
+  --- EXP MMMM8: CLOSE-OPEN RATIO ---
+
+  CO ratio(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3952  wr= 51.0%  avg=  +1.7bps  tot= +65.75%  sh=  +105.8
+  ✅ TEST                                                     n=2187  wr= 71.1%  avg=  +5.5bps  tot=+121.22%  sh=  +264.0
+    ✅ test=+4.329%/d
+
+  CO ratio(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6586  wr= 50.7%  avg=  +1.6bps  tot=+107.95%  sh=  +102.5
+  ✅ TEST                                                     n=3751  wr= 72.1%  avg=  +5.6bps  tot=+211.49%  sh=  +286.4
+    ✅ test=+7.553%/d
+
+  CO ratio(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4927  wr= 52.4%  avg=  +1.9bps  tot= +91.31%  sh=  +124.5
+  ✅ TEST                                                     n=2943  wr= 68.9%  avg=  +5.4bps  tot=+157.94%  sh=  +266.2
+    ✅ test=+5.641%/d
+
+  CO ratio(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7914  wr= 51.2%  avg=  +1.7bps  tot=+133.55%  sh=  +112.8
+  ✅ TEST                                                     n=4644  wr= 69.8%  avg=  +5.4bps  tot=+249.02%  sh=  +282.7
+    ✅ test=+8.894%/d
+
+  --- EXP NNNN8: PRICE FRACTAL DIMENSION ---
+
+  Fractal dim(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6057  wr= 47.2%  avg=  +0.8bps  tot= +49.61%  sh=   +53.1
+  ✅ TEST                                                     n=3298  wr= 69.5%  avg=  +5.2bps  tot=+171.86%  sh=  +306.9
+    ✅ test=+6.138%/d
+
+  Fractal dim(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3120  wr= 47.7%  avg=  +0.8bps  tot= +24.99%  sh=   +52.1
+  ✅ TEST                                                     n=1705  wr= 69.1%  avg=  +5.0bps  tot= +85.43%  sh=  +313.7
+    ✅ test=+3.051%/d
+
+  Fractal dim(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6638  wr= 46.1%  avg=  +0.6bps  tot= +39.21%  sh=   +39.4
+  ✅ TEST                                                     n=3656  wr= 71.4%  avg=  +5.3bps  tot=+194.31%  sh=  +327.7
+    ✅ test=+6.940%/d
+
+  Fractal dim(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3557  wr= 46.6%  avg=  +0.7bps  tot= +23.49%  sh=   +42.4
+  ✅ TEST                                                     n=1950  wr= 71.1%  avg=  +5.3bps  tot=+103.28%  sh=  +331.4
+    ✅ test=+3.688%/d
+
+  --- EXP OOOO8: INTRABAR TREND STRENGTH ---
+
+  Trend str(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6762  wr= 47.9%  avg=  +1.1bps  tot= +76.17%  sh=   +69.3
+  ✅ TEST                                                     n=3731  wr= 70.2%  avg=  +5.2bps  tot=+192.50%  sh=  +303.5
+    ✅ test=+6.875%/d
+
+  Trend str(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4085  wr= 48.2%  avg=  +1.2bps  tot= +47.89%  sh=   +72.9
+  ✅ TEST                                                     n=2229  wr= 70.3%  avg=  +5.2bps  tot=+116.31%  sh=  +300.2
+    ✅ test=+4.154%/d
+
+  Trend str(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8376  wr= 47.7%  avg=  +1.2bps  tot= +99.85%  sh=   +69.2
+  ✅ TEST                                                     n=4479  wr= 70.9%  avg=  +5.0bps  tot=+225.45%  sh=  +301.4
+    ✅ test=+8.052%/d
+
+  Trend str(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5455  wr= 48.0%  avg=  +1.2bps  tot= +64.66%  sh=   +67.8
+  ✅ TEST                                                     n=2858  wr= 70.7%  avg=  +5.2bps  tot=+147.93%  sh=  +301.2
+    ✅ test=+5.283%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    co_20_0.05               2390   83.8%    +8.1bp   +193.4%     +469
+  ✅ DOGEUSDT    co_20_0.1                4081   82.2%    +7.7bp   +313.7%     +449
+  ✅ DOGEUSDT    co_40_0.05               3215   82.3%    +8.1bp   +258.9%     +473
+  ✅ DOGEUSDT    co_40_0.1                5002   82.3%    +7.9bp   +394.1%     +468
+  ✅ DOGEUSDT    fd_30_0.9                3548   78.6%    +7.0bp   +247.6%     +418
+  ✅ DOGEUSDT    fd_30_0.95               1827   77.7%    +6.7bp   +123.1%     +402
+  ✅ DOGEUSDT    fd_60_0.9                3877   78.6%    +7.2bp   +277.8%     +415
+  ✅ DOGEUSDT    fd_60_0.95               2021   80.3%    +7.4bp   +150.0%     +447
+  ✅ DOGEUSDT    sort_30_0.9              3932   85.8%    +9.7bp   +382.1%     +488
+  ✅ DOGEUSDT    sort_30_0.95             2347   85.6%    +9.7bp   +228.4%     +480
+  ✅ DOGEUSDT    sort_60_0.9              4439   87.0%   +10.2bp   +451.4%     +508
+  ✅ DOGEUSDT    sort_60_0.95             2714   87.1%   +10.6bp   +287.9%     +493
+  ✅ DOGEUSDT    ts_20_0.9                3992   78.8%    +7.7bp   +305.5%     +406
+  ✅ DOGEUSDT    ts_20_0.95               2388   78.9%    +7.6bp   +181.9%     +402
+  ✅ DOGEUSDT    ts_40_0.9                4764   79.3%    +7.6bp   +359.7%     +423
+  ✅ DOGEUSDT    ts_40_0.95               3087   79.5%    +7.8bp   +240.2%     +424
+  ✅ ETHUSDT     co_20_0.05               2077   63.4%    +3.2bp    +67.5%     +244
+  ✅ ETHUSDT     co_20_0.1                3538   63.8%    +3.3bp   +117.6%     +245
+  ✅ ETHUSDT     co_40_0.05               2741   63.4%    +3.3bp    +90.7%     +235
+  ✅ ETHUSDT     co_40_0.1                4339   62.8%    +3.3bp   +141.0%     +228
+  ✅ ETHUSDT     fd_30_0.9                3065   57.2%    +1.9bp    +58.9%     +137
+  ✅ ETHUSDT     fd_30_0.95               1575   57.6%    +2.0bp    +32.0%     +150
+  ✅ ETHUSDT     fd_60_0.9                3246   56.1%    +1.8bp    +59.0%     +134
+  ✅ ETHUSDT     fd_60_0.95               1683   56.7%    +1.9bp    +32.0%     +135
+  ✅ ETHUSDT     sort_30_0.9              3446   71.6%    +5.2bp   +179.6%     +345
+  ✅ ETHUSDT     sort_30_0.95             2032   72.0%    +5.5bp   +111.8%     +352
+  ✅ ETHUSDT     sort_60_0.9              4185   72.7%    +5.3bp   +220.7%     +343
+  ✅ ETHUSDT     sort_60_0.95             2583   74.1%    +5.7bp   +147.4%     +371
+  ✅ ETHUSDT     ts_20_0.9                3387   60.2%    +2.7bp    +90.5%     +176
+  ✅ ETHUSDT     ts_20_0.95               2078   60.9%    +2.5bp    +51.6%     +153
+  ✅ ETHUSDT     ts_40_0.9                4154   59.6%    +2.4bp   +101.2%     +160
+  ✅ ETHUSDT     ts_40_0.95               2717   59.3%    +2.2bp    +59.9%     +145
+  ✅ SOLUSDT     co_20_0.05               2140   62.0%    +3.1bp    +65.3%     +207
+  ✅ SOLUSDT     co_20_0.1                3565   61.7%    +2.9bp   +105.0%     +193
+  ✅ SOLUSDT     co_40_0.05               2955   58.4%    +2.4bp    +71.1%     +157
+  ✅ SOLUSDT     co_40_0.1                4498   58.9%    +2.6bp   +115.2%     +163
+  ✅ SOLUSDT     fd_30_0.9                3163   61.6%    +3.0bp    +94.0%     +211
+  ✅ SOLUSDT     fd_30_0.95               1606   61.4%    +2.9bp    +46.9%     +198
+  ✅ SOLUSDT     fd_60_0.9                3553   59.6%    +2.7bp    +95.2%     +189
+  ✅ SOLUSDT     fd_60_0.95               1888   59.3%    +2.7bp    +51.2%     +195
+  ✅ SOLUSDT     sort_30_0.9              3629   68.0%    +4.5bp   +164.1%     +272
+  ✅ SOLUSDT     sort_30_0.95             2177   68.3%    +4.6bp   +101.0%     +269
+  ✅ SOLUSDT     sort_60_0.9              4233   70.8%    +5.1bp   +217.4%     +296
+  ✅ SOLUSDT     sort_60_0.95             2699   72.1%    +5.6bp   +150.4%     +309
+  ✅ SOLUSDT     ts_20_0.9                3635   61.6%    +3.1bp   +111.0%     +219
+  ✅ SOLUSDT     ts_20_0.95               2230   62.6%    +3.1bp    +69.5%     +231
+  ✅ SOLUSDT     ts_40_0.9                4374   62.8%    +3.1bp   +136.6%     +204
+  ✅ SOLUSDT     ts_40_0.95               2926   63.2%    +3.0bp    +88.6%     +196
+  ✅ XRPUSDT     co_20_0.05               2187   71.1%    +5.5bp   +121.2%     +264
+  ✅ XRPUSDT     co_20_0.1                3751   72.1%    +5.6bp   +211.5%     +286
+  ✅ XRPUSDT     co_40_0.05               2943   68.9%    +5.4bp   +157.9%     +266
+  ✅ XRPUSDT     co_40_0.1                4644   69.8%    +5.4bp   +249.0%     +283
+  ✅ XRPUSDT     fd_30_0.9                3298   69.5%    +5.2bp   +171.9%     +307
+  ✅ XRPUSDT     fd_30_0.95               1705   69.1%    +5.0bp    +85.4%     +314
+  ✅ XRPUSDT     fd_60_0.9                3656   71.4%    +5.3bp   +194.3%     +328
+  ✅ XRPUSDT     fd_60_0.95               1950   71.1%    +5.3bp   +103.3%     +331
+  ✅ XRPUSDT     sort_30_0.9              3709   74.2%    +7.2bp   +265.6%     +316
+  ✅ XRPUSDT     sort_30_0.95             2192   72.6%    +7.1bp   +156.7%     +289
+  ✅ XRPUSDT     sort_60_0.9              4191   78.0%    +7.6bp   +320.2%     +370
+  ✅ XRPUSDT     sort_60_0.95             2582   78.2%    +7.9bp   +205.1%     +379
+  ✅ XRPUSDT     ts_20_0.9                3731   70.2%    +5.2bp   +192.5%     +303
+  ✅ XRPUSDT     ts_20_0.95               2229   70.3%    +5.2bp   +116.3%     +300
+  ✅ XRPUSDT     ts_40_0.9                4479   70.9%    +5.0bp   +225.5%     +301
+  ✅ XRPUSDT     ts_40_0.95               2858   70.7%    +5.2bp   +147.9%     +301
+
+################################################################################
+  COMPLETE — 989s (16.5min) [RAM=0.2GB, avail=6.4GB]
+################################################################################
