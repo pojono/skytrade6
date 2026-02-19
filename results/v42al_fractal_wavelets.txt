@@ -1,0 +1,179 @@
+================================================================================
+  v42al: FRACTAL + MULTI-SCALE + META-SIGNALS
+  2026-02-19 10:38:16  [RAM=0.1GB, avail=8.4GB]
+================================================================================
+  Loading ETHUSDT... [10/88 31s] [20/88 53s] [30/88 73s] [40/88 97s] [50/88 117s] [60/88 133s] [70/88 162s] [80/88 188s] [88/88 208s] 126,720 bars (208s) [RAM=0.5GB, avail=8.2GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP CCCC2: MULTI-SCALE MOMENTUM ---
+
+  All 4 scales agree (fade):
+  ✅ TRAIN                                                    n=11550  wr= 66.3%  avg=  +4.2bps  tot=+488.01%  sh=  +273.6
+  ✅ TEST                                                     n=6376  wr= 65.6%  avg=  +3.5bps  tot=+225.59%  sh=  +244.0
+    ✅ test=+8.057%/d
+
+  --- EXP DDDD2: Z-SCORE OF Z-SCORES ---
+
+  Meta-Z |>1.5| (fade):
+  ✅ TRAIN                                                    n=3364  wr= 77.4%  avg=  +7.2bps  tot=+242.05%  sh=  +384.9
+  ✅ TEST                                                     n=1830  wr= 73.1%  avg=  +5.8bps  tot=+106.21%  sh=  +339.7
+    ✅ test=+3.793%/d
+
+  Meta-Z |>2| (fade):
+  ✅ TRAIN                                                    n= 996  wr= 85.0%  avg= +10.7bps  tot=+106.11%  sh=  +449.9
+  ✅ TEST                                                     n= 511  wr= 79.3%  avg=  +7.7bps  tot= +39.51%  sh=  +365.6
+    ✅ test=+1.411%/d
+
+  --- EXP EEEE2: PRICE VS MULTIPLE MAs ---
+
+  All MAs agree + dist z>2 (fade):
+  ✅ TRAIN                                                    n=3362  wr= 79.2%  avg=  +7.7bps  tot=+257.35%  sh=  +410.4
+  ✅ TEST                                                     n=1752  wr= 78.3%  avg=  +6.6bps  tot=+116.01%  sh=  +375.6
+    ✅ test=+4.143%/d
+
+  All MAs agree + dist z>3 (fade):
+  ✅ TRAIN                                                    n= 951  wr= 88.1%  avg= +12.0bps  tot=+114.45%  sh=  +491.4
+  ✅ TEST                                                     n= 470  wr= 86.8%  avg=  +9.5bps  tot= +44.47%  sh=  +455.2
+    ✅ test=+1.588%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 37s] [40/88 51s] [50/88 63s] [60/88 72s] [70/88 86s] [80/88 102s] [88/88 110s] 126,720 bars (110s) [RAM=0.5GB, avail=8.4GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP CCCC2: MULTI-SCALE MOMENTUM ---
+
+  All 4 scales agree (fade):
+  ✅ TRAIN                                                    n=12377  wr= 65.3%  avg=  +3.6bps  tot=+439.74%  sh=  +243.8
+  ✅ TEST                                                     n=6287  wr= 61.1%  avg=  +2.9bps  tot=+183.64%  sh=  +194.2
+    ✅ test=+6.559%/d
+
+  --- EXP DDDD2: Z-SCORE OF Z-SCORES ---
+
+  Meta-Z |>1.5| (fade):
+  ✅ TRAIN                                                    n=3984  wr= 70.6%  avg=  +5.1bps  tot=+202.89%  sh=  +290.2
+  ✅ TEST                                                     n=2072  wr= 67.2%  avg=  +4.2bps  tot= +86.79%  sh=  +243.1
+    ✅ test=+3.100%/d
+
+  Meta-Z |>2| (fade):
+  ✅ TRAIN                                                    n=1097  wr= 78.0%  avg=  +7.8bps  tot= +85.42%  sh=  +354.8
+  ✅ TEST                                                     n= 567  wr= 73.0%  avg=  +5.7bps  tot= +32.21%  sh=  +331.2
+    ✅ test=+1.150%/d
+
+  --- EXP EEEE2: PRICE VS MULTIPLE MAs ---
+
+  All MAs agree + dist z>2 (fade):
+  ✅ TRAIN                                                    n=3643  wr= 73.2%  avg=  +5.8bps  tot=+210.24%  sh=  +335.4
+  ✅ TEST                                                     n=1768  wr= 71.1%  avg=  +4.8bps  tot= +84.13%  sh=  +268.8
+    ✅ test=+3.005%/d
+
+  All MAs agree + dist z>3 (fade):
+  ✅ TRAIN                                                    n= 881  wr= 80.0%  avg=  +8.7bps  tot= +76.70%  sh=  +380.1
+  ✅ TEST                                                     n= 432  wr= 77.8%  avg=  +6.7bps  tot= +28.75%  sh=  +366.5
+    ✅ test=+1.027%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 34s] [30/88 43s] [40/88 52s] [50/88 60s] [60/88 68s] [70/88 94s] [80/88 115s] [88/88 124s] 126,720 bars (124s) [RAM=0.3GB, avail=8.4GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP CCCC2: MULTI-SCALE MOMENTUM ---
+
+  All 4 scales agree (fade):
+  ✅ TRAIN                                                    n=12298  wr= 68.7%  avg=  +4.7bps  tot=+579.54%  sh=  +278.7
+  ✅ TEST                                                     n=6744  wr= 81.6%  avg=  +7.7bps  tot=+521.88%  sh=  +428.8
+    ✅ test=+18.638%/d
+
+  --- EXP DDDD2: Z-SCORE OF Z-SCORES ---
+
+  Meta-Z |>1.5| (fade):
+  ✅ TRAIN                                                    n=3846  wr= 74.4%  avg=  +6.9bps  tot=+266.74%  sh=  +322.0
+  ✅ TEST                                                     n=2064  wr= 84.3%  avg= +10.0bps  tot=+206.79%  sh=  +435.2
+    ✅ test=+7.386%/d
+
+  Meta-Z |>2| (fade):
+  ✅ TRAIN                                                    n=1081  wr= 82.1%  avg= +11.1bps  tot=+119.62%  sh=  +381.6
+  ✅ TEST                                                     n= 521  wr= 89.1%  avg= +13.5bps  tot= +70.33%  sh=  +440.1
+    ✅ test=+2.512%/d
+
+  --- EXP EEEE2: PRICE VS MULTIPLE MAs ---
+
+  All MAs agree + dist z>2 (fade):
+  ✅ TRAIN                                                    n=3592  wr= 76.4%  avg=  +7.4bps  tot=+264.80%  sh=  +345.6
+  ✅ TEST                                                     n=1948  wr= 85.3%  avg= +10.3bps  tot=+201.04%  sh=  +446.5
+    ✅ test=+7.180%/d
+
+  All MAs agree + dist z>3 (fade):
+  ✅ TRAIN                                                    n= 851  wr= 85.0%  avg= +12.4bps  tot=+105.85%  sh=  +403.6
+  ✅ TEST                                                     n= 464  wr= 88.6%  avg= +14.3bps  tot= +66.58%  sh=  +470.0
+    ✅ test=+2.378%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 24s] [30/88 32s] [40/88 40s] [50/88 50s] [60/88 58s] [70/88 86s] [80/88 103s] [88/88 114s] 126,720 bars (114s) [RAM=0.4GB, avail=8.3GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP CCCC2: MULTI-SCALE MOMENTUM ---
+
+  All 4 scales agree (fade):
+  ✅ TRAIN                                                    n=11256  wr= 53.4%  avg=  +2.0bps  tot=+225.87%  sh=  +136.3
+  ✅ TEST                                                     n=6694  wr= 71.0%  avg=  +5.6bps  tot=+375.67%  sh=  +297.7
+    ✅ test=+13.417%/d
+
+  --- EXP DDDD2: Z-SCORE OF Z-SCORES ---
+
+  Meta-Z |>1.5| (fade):
+  ✅ TRAIN                                                    n=3623  wr= 59.6%  avg=  +3.4bps  tot=+124.22%  sh=  +201.3
+  ✅ TEST                                                     n=2108  wr= 73.5%  avg=  +7.4bps  tot=+156.34%  sh=  +299.9
+    ✅ test=+5.584%/d
+
+  Meta-Z |>2| (fade):
+  ✅ TRAIN                                                    n= 998  wr= 67.5%  avg=  +6.0bps  tot= +59.47%  sh=  +290.0
+  ✅ TEST                                                     n= 547  wr= 75.7%  avg= +10.1bps  tot= +55.09%  sh=  +293.2
+    ✅ test=+1.968%/d
+
+  --- EXP EEEE2: PRICE VS MULTIPLE MAs ---
+
+  All MAs agree + dist z>2 (fade):
+  ✅ TRAIN                                                    n=3216  wr= 61.2%  avg=  +3.9bps  tot=+125.75%  sh=  +219.1
+  ✅ TEST                                                     n=1892  wr= 74.4%  avg=  +7.6bps  tot=+143.55%  sh=  +309.4
+    ✅ test=+5.127%/d
+
+  All MAs agree + dist z>3 (fade):
+  ✅ TRAIN                                                    n= 743  wr= 72.1%  avg=  +7.6bps  tot= +56.19%  sh=  +315.9
+  ✅ TEST                                                     n= 423  wr= 81.1%  avg= +12.4bps  tot= +52.66%  sh=  +332.5
+    ✅ test=+1.881%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    ma_dist_2              1948   85.3%   +10.3bp   +201.0%     +447
+  ✅ DOGEUSDT    ma_dist_3               464   88.6%   +14.3bp    +66.6%     +470
+  ✅ DOGEUSDT    meta_z_1.5             2064   84.3%   +10.0bp   +206.8%     +435
+  ✅ DOGEUSDT    meta_z_2                521   89.1%   +13.5bp    +70.3%     +440
+  ✅ DOGEUSDT    multi_scale            6744   81.6%    +7.7bp   +521.9%     +429
+  ✅ ETHUSDT     ma_dist_2              1752   78.3%    +6.6bp   +116.0%     +376
+  ✅ ETHUSDT     ma_dist_3               470   86.8%    +9.5bp    +44.5%     +455
+  ✅ ETHUSDT     meta_z_1.5             1830   73.1%    +5.8bp   +106.2%     +340
+  ✅ ETHUSDT     meta_z_2                511   79.3%    +7.7bp    +39.5%     +366
+  ✅ ETHUSDT     multi_scale            6376   65.6%    +3.5bp   +225.6%     +244
+  ✅ SOLUSDT     ma_dist_2              1768   71.1%    +4.8bp    +84.1%     +269
+  ✅ SOLUSDT     ma_dist_3               432   77.8%    +6.7bp    +28.8%     +367
+  ✅ SOLUSDT     meta_z_1.5             2072   67.2%    +4.2bp    +86.8%     +243
+  ✅ SOLUSDT     meta_z_2                567   73.0%    +5.7bp    +32.2%     +331
+  ✅ SOLUSDT     multi_scale            6287   61.1%    +2.9bp   +183.6%     +194
+  ✅ XRPUSDT     ma_dist_2              1892   74.4%    +7.6bp   +143.5%     +309
+  ✅ XRPUSDT     ma_dist_3               423   81.1%   +12.4bp    +52.7%     +332
+  ✅ XRPUSDT     meta_z_1.5             2108   73.5%    +7.4bp   +156.3%     +300
+  ✅ XRPUSDT     meta_z_2                547   75.7%   +10.1bp    +55.1%     +293
+  ✅ XRPUSDT     multi_scale            6694   71.0%    +5.6bp   +375.7%     +298
+
+################################################################################
+  COMPLETE — 607s (10.1min) [RAM=0.3GB, avail=8.4GB]
+################################################################################
