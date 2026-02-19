@@ -1,0 +1,451 @@
+================================================================================
+  v42bo: WEIGHTED RANGE + CLV PERSIST + RET SKEWNESS + OSC AMPLITUDE
+  2026-02-19 18:26:03  [RAM=0.1GB, avail=6.1GB]
+================================================================================
+  Loading ETHUSDT... [10/88 43s] [20/88 68s] [30/88 89s] [40/88 111s] [50/88 131s] [60/88 148s] [70/88 176s] [80/88 202s] [88/88 222s] 126,720 bars (222s) [RAM=0.6GB, avail=5.7GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP NNNN7: WEIGHTED RANGE ---
+
+  Wt range(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=8506  wr= 67.2%  avg=  +5.7bps  tot=+484.22%  sh=  +247.6
+  ✅ TEST                                                     n=3971  wr= 72.3%  avg=  +5.1bps  tot=+203.79%  sh=  +313.8
+    ✅ test=+7.278%/d
+
+  Wt range(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=5891  wr= 69.4%  avg=  +6.5bps  tot=+381.01%  sh=  +265.7
+  ✅ TEST                                                     n=2790  wr= 73.4%  avg=  +5.5bps  tot=+154.34%  sh=  +326.9
+    ✅ test=+5.512%/d
+
+  Wt range(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=11165  wr= 67.3%  avg=  +5.4bps  tot=+602.02%  sh=  +248.1
+  ✅ TEST                                                     n=5272  wr= 72.2%  avg=  +5.0bps  tot=+263.47%  sh=  +313.3
+    ✅ test=+9.410%/d
+
+  Wt range(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=8501  wr= 68.9%  avg=  +5.9bps  tot=+503.28%  sh=  +258.7
+  ✅ TEST                                                     n=4011  wr= 73.3%  avg=  +5.2bps  tot=+210.46%  sh=  +322.3
+    ✅ test=+7.516%/d
+
+  --- EXP OOOO7: CLV PERSISTENCE ---
+
+  CLV persist(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4224  wr= 59.4%  avg=  +2.9bps  tot=+122.96%  sh=  +195.6
+  ✅ TEST                                                     n=2130  wr= 60.6%  avg=  +2.7bps  tot= +57.47%  sh=  +202.3
+    ✅ test=+2.053%/d
+
+  CLV persist(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7074  wr= 59.0%  avg=  +2.8bps  tot=+196.93%  sh=  +186.8
+  ✅ TEST                                                     n=3673  wr= 62.2%  avg=  +2.9bps  tot=+106.85%  sh=  +215.4
+    ✅ test=+3.816%/d
+
+  CLV persist(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5453  wr= 58.1%  avg=  +2.6bps  tot=+140.60%  sh=  +171.0
+  ✅ TEST                                                     n=2848  wr= 61.3%  avg=  +3.1bps  tot= +87.00%  sh=  +231.7
+    ✅ test=+3.107%/d
+
+  CLV persist(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8577  wr= 58.2%  avg=  +2.6bps  tot=+220.51%  sh=  +174.7
+  ✅ TEST                                                     n=4400  wr= 60.8%  avg=  +2.9bps  tot=+128.61%  sh=  +213.8
+    ✅ test=+4.593%/d
+
+  --- EXP PPPP7: RETURN SKEWNESS ---
+
+  Ret skew(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7444  wr= 62.9%  avg=  +4.3bps  tot=+322.31%  sh=  +189.2
+  ✅ TEST                                                     n=3699  wr= 65.5%  avg=  +3.9bps  tot=+143.91%  sh=  +248.6
+    ✅ test=+5.140%/d
+
+  Ret skew(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4434  wr= 63.9%  avg=  +4.9bps  tot=+217.32%  sh=  +201.7
+  ✅ TEST                                                     n=2180  wr= 65.8%  avg=  +4.2bps  tot= +92.39%  sh=  +255.7
+    ✅ test=+3.300%/d
+
+  Ret skew(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=8619  wr= 60.5%  avg=  +3.9bps  tot=+332.34%  sh=  +177.6
+  ✅ TEST                                                     n=4249  wr= 64.7%  avg=  +3.5bps  tot=+146.59%  sh=  +220.6
+    ✅ test=+5.235%/d
+
+  Ret skew(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5386  wr= 60.3%  avg=  +4.1bps  tot=+220.03%  sh=  +177.7
+  ✅ TEST                                                     n=2735  wr= 63.9%  avg=  +3.5bps  tot= +94.71%  sh=  +212.0
+    ✅ test=+3.382%/d
+
+  --- EXP QQQQ7: PRICE OSCILLATION AMPLITUDE ---
+
+  Osc amp(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8257  wr= 64.8%  avg=  +5.2bps  tot=+428.61%  sh=  +229.1
+  ✅ TEST                                                     n=4350  wr= 68.7%  avg=  +4.6bps  tot=+198.73%  sh=  +300.3
+    ✅ test=+7.097%/d
+
+  Osc amp(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5640  wr= 66.1%  avg=  +5.8bps  tot=+327.54%  sh=  +235.2
+  ✅ TEST                                                     n=2984  wr= 69.0%  avg=  +4.8bps  tot=+142.90%  sh=  +311.3
+    ✅ test=+5.103%/d
+
+  Osc amp(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=10198  wr= 62.8%  avg=  +4.6bps  tot=+464.64%  sh=  +214.7
+  ✅ TEST                                                     n=5373  wr= 69.2%  avg=  +4.7bps  tot=+253.59%  sh=  +315.4
+    ✅ test=+9.057%/d
+
+  Osc amp(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=7975  wr= 63.7%  avg=  +4.9bps  tot=+394.47%  sh=  +219.7
+  ✅ TEST                                                     n=4222  wr= 69.8%  avg=  +5.0bps  tot=+211.51%  sh=  +331.6
+    ✅ test=+7.554%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 28s] [30/88 37s] [40/88 49s] [50/88 60s] [60/88 69s] [70/88 81s] [80/88 98s] [88/88 106s] 126,720 bars (106s) [RAM=0.5GB, avail=5.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP NNNN7: WEIGHTED RANGE ---
+
+  Wt range(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=8823  wr= 70.8%  avg=  +5.7bps  tot=+502.82%  sh=  +285.3
+  ✅ TEST                                                     n=4368  wr= 72.8%  avg=  +6.0bps  tot=+259.95%  sh=  +352.3
+    ✅ test=+9.284%/d
+
+  Wt range(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=6094  wr= 72.4%  avg=  +6.5bps  tot=+394.17%  sh=  +304.5
+  ✅ TEST                                                     n=3068  wr= 74.1%  avg=  +6.3bps  tot=+194.39%  sh=  +366.3
+    ✅ test=+6.943%/d
+
+  Wt range(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=11306  wr= 70.4%  avg=  +5.4bps  tot=+614.61%  sh=  +288.8
+  ✅ TEST                                                     n=5734  wr= 72.8%  avg=  +5.8bps  tot=+335.11%  sh=  +360.1
+    ✅ test=+11.968%/d
+
+  Wt range(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=8440  wr= 72.7%  avg=  +6.2bps  tot=+519.46%  sh=  +312.8
+  ✅ TEST                                                     n=4336  wr= 73.5%  avg=  +6.1bps  tot=+266.49%  sh=  +374.5
+    ✅ test=+9.518%/d
+
+  --- EXP OOOO7: CLV PERSISTENCE ---
+
+  CLV persist(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4338  wr= 61.9%  avg=  +2.9bps  tot=+127.87%  sh=  +209.5
+  ✅ TEST                                                     n=2246  wr= 61.0%  avg=  +2.9bps  tot= +64.64%  sh=  +221.8
+    ✅ test=+2.309%/d
+
+  CLV persist(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7359  wr= 62.0%  avg=  +2.9bps  tot=+210.57%  sh=  +199.5
+  ✅ TEST                                                     n=3702  wr= 60.7%  avg=  +2.9bps  tot=+108.12%  sh=  +217.9
+    ✅ test=+3.861%/d
+
+  CLV persist(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5610  wr= 61.1%  avg=  +2.7bps  tot=+151.28%  sh=  +184.9
+  ✅ TEST                                                     n=2982  wr= 60.6%  avg=  +2.6bps  tot= +76.28%  sh=  +186.2
+    ✅ test=+2.724%/d
+
+  CLV persist(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8902  wr= 62.0%  avg=  +2.9bps  tot=+256.59%  sh=  +198.3
+  ✅ TEST                                                     n=4626  wr= 60.1%  avg=  +2.6bps  tot=+119.96%  sh=  +178.1
+    ✅ test=+4.284%/d
+
+  --- EXP PPPP7: RETURN SKEWNESS ---
+
+  Ret skew(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7923  wr= 63.5%  avg=  +3.6bps  tot=+285.84%  sh=  +196.8
+  ✅ TEST                                                     n=3881  wr= 66.3%  avg=  +3.9bps  tot=+152.70%  sh=  +264.1
+    ✅ test=+5.454%/d
+
+  Ret skew(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4915  wr= 63.5%  avg=  +3.8bps  tot=+187.22%  sh=  +191.1
+  ✅ TEST                                                     n=2443  wr= 65.2%  avg=  +3.8bps  tot= +93.64%  sh=  +251.5
+    ✅ test=+3.344%/d
+
+  Ret skew(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9099  wr= 65.4%  avg=  +4.0bps  tot=+359.45%  sh=  +219.7
+  ✅ TEST                                                     n=4417  wr= 69.1%  avg=  +4.3bps  tot=+188.03%  sh=  +275.0
+    ✅ test=+6.716%/d
+
+  Ret skew(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5900  wr= 65.3%  avg=  +4.1bps  tot=+244.61%  sh=  +220.8
+  ✅ TEST                                                     n=2963  wr= 69.7%  avg=  +4.3bps  tot=+126.54%  sh=  +281.7
+    ✅ test=+4.519%/d
+
+  --- EXP QQQQ7: PRICE OSCILLATION AMPLITUDE ---
+
+  Osc amp(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8474  wr= 67.1%  avg=  +4.9bps  tot=+416.24%  sh=  +254.9
+  ✅ TEST                                                     n=4198  wr= 70.7%  avg=  +5.6bps  tot=+236.25%  sh=  +340.2
+    ✅ test=+8.437%/d
+
+  Osc amp(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5680  wr= 68.7%  avg=  +5.4bps  tot=+306.81%  sh=  +261.8
+  ✅ TEST                                                     n=2851  wr= 71.2%  avg=  +5.9bps  tot=+167.72%  sh=  +349.8
+    ✅ test=+5.990%/d
+
+  Osc amp(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=10623  wr= 65.7%  avg=  +4.6bps  tot=+488.68%  sh=  +245.3
+  ✅ TEST                                                     n=5282  wr= 70.7%  avg=  +5.3bps  tot=+278.42%  sh=  +312.1
+    ✅ test=+9.944%/d
+
+  Osc amp(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8292  wr= 66.7%  avg=  +5.0bps  tot=+418.01%  sh=  +259.8
+  ✅ TEST                                                     n=4177  wr= 72.0%  avg=  +5.6bps  tot=+233.44%  sh=  +327.0
+    ✅ test=+8.337%/d
+  Loading DOGEUSDT... [10/88 22s] [20/88 35s] [30/88 45s] [40/88 54s] [50/88 62s] [60/88 71s] [70/88 99s] [80/88 122s] [88/88 131s] 126,720 bars (131s) [RAM=0.4GB, avail=6.0GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP NNNN7: WEIGHTED RANGE ---
+
+  Wt range(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=9153  wr= 73.5%  avg=  +7.2bps  tot=+659.83%  sh=  +309.8
+  ✅ TEST                                                     n=4651  wr= 87.2%  avg= +11.8bps  tot=+550.80%  sh=  +513.5
+    ✅ test=+19.671%/d
+
+  Wt range(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=6352  wr= 75.6%  avg=  +8.0bps  tot=+506.83%  sh=  +317.4
+  ✅ TEST                                                     n=3273  wr= 88.5%  avg= +12.4bps  tot=+404.27%  sh=  +510.3
+    ✅ test=+14.438%/d
+
+  Wt range(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=11831  wr= 73.0%  avg=  +7.0bps  tot=+825.19%  sh=  +314.8
+  ✅ TEST                                                     n=6120  wr= 87.2%  avg= +11.5bps  tot=+701.95%  sh=  +527.8
+    ✅ test=+25.070%/d
+
+  Wt range(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=8983  wr= 74.8%  avg=  +7.7bps  tot=+691.13%  sh=  +330.5
+  ✅ TEST                                                     n=4682  wr= 88.0%  avg= +12.0bps  tot=+559.84%  sh=  +531.5
+    ✅ test=+19.994%/d
+
+  --- EXP OOOO7: CLV PERSISTENCE ---
+
+  CLV persist(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4558  wr= 65.1%  avg=  +3.9bps  tot=+176.61%  sh=  +227.6
+  ✅ TEST                                                     n=2458  wr= 81.4%  avg=  +7.6bps  tot=+186.70%  sh=  +437.3
+    ✅ test=+6.668%/d
+
+  CLV persist(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7596  wr= 65.3%  avg=  +3.8bps  tot=+289.27%  sh=  +230.2
+  ✅ TEST                                                     n=4082  wr= 81.7%  avg=  +7.4bps  tot=+303.36%  sh=  +438.3
+    ✅ test=+10.834%/d
+
+  CLV persist(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5819  wr= 64.7%  avg=  +4.0bps  tot=+230.47%  sh=  +212.9
+  ✅ TEST                                                     n=3092  wr= 81.6%  avg=  +7.6bps  tot=+234.68%  sh=  +458.9
+    ✅ test=+8.381%/d
+
+  CLV persist(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9081  wr= 65.1%  avg=  +3.9bps  tot=+353.67%  sh=  +222.0
+  ✅ TEST                                                     n=4842  wr= 81.3%  avg=  +7.5bps  tot=+363.98%  sh=  +453.1
+    ✅ test=+12.999%/d
+
+  --- EXP PPPP7: RETURN SKEWNESS ---
+
+  Ret skew(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8045  wr= 66.4%  avg=  +4.6bps  tot=+373.91%  sh=  +227.3
+  ✅ TEST                                                     n=4217  wr= 83.1%  avg=  +8.4bps  tot=+355.98%  sh=  +424.1
+    ✅ test=+12.714%/d
+
+  Ret skew(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4901  wr= 66.0%  avg=  +5.0bps  tot=+244.07%  sh=  +225.0
+  ✅ TEST                                                     n=2563  wr= 82.7%  avg=  +8.5bps  tot=+218.26%  sh=  +402.8
+    ✅ test=+7.795%/d
+
+  Ret skew(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9480  wr= 66.9%  avg=  +4.8bps  tot=+456.05%  sh=  +234.7
+  ✅ TEST                                                     n=4954  wr= 85.2%  avg=  +8.8bps  tot=+437.08%  sh=  +461.6
+    ✅ test=+15.610%/d
+
+  Ret skew(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5920  wr= 67.6%  avg=  +5.2bps  tot=+309.12%  sh=  +237.4
+  ✅ TEST                                                     n=3234  wr= 84.6%  avg=  +8.9bps  tot=+288.86%  sh=  +433.7
+    ✅ test=+10.316%/d
+
+  --- EXP QQQQ7: PRICE OSCILLATION AMPLITUDE ---
+
+  Osc amp(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8969  wr= 70.0%  avg=  +6.2bps  tot=+551.83%  sh=  +279.1
+  ✅ TEST                                                     n=4776  wr= 84.1%  avg= +10.6bps  tot=+507.46%  sh=  +487.5
+    ✅ test=+18.124%/d
+
+  Osc amp(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6063  wr= 71.3%  avg=  +6.7bps  tot=+408.84%  sh=  +285.8
+  ✅ TEST                                                     n=3263  wr= 84.7%  avg= +10.8bps  tot=+352.82%  sh=  +492.3
+    ✅ test=+12.601%/d
+
+  Osc amp(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=10847  wr= 69.3%  avg=  +5.9bps  tot=+641.59%  sh=  +279.7
+  ✅ TEST                                                     n=5788  wr= 85.5%  avg= +10.5bps  tot=+608.79%  sh=  +504.5
+    ✅ test=+21.743%/d
+
+  Osc amp(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8545  wr= 70.1%  avg=  +6.3bps  tot=+540.88%  sh=  +290.2
+  ✅ TEST                                                     n=4575  wr= 85.8%  avg= +10.8bps  tot=+492.35%  sh=  +516.6
+    ✅ test=+17.584%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 25s] [30/88 32s] [40/88 41s] [50/88 51s] [60/88 59s] [70/88 88s] [80/88 105s] [88/88 116s] 126,720 bars (116s) [RAM=0.5GB, avail=6.3GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP NNNN7: WEIGHTED RANGE ---
+
+  Wt range(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=8464  wr= 60.9%  avg=  +3.9bps  tot=+332.73%  sh=  +204.1
+  ✅ TEST                                                     n=4816  wr= 80.5%  avg=  +9.5bps  tot=+455.75%  sh=  +391.5
+    ✅ test=+16.277%/d
+
+  Wt range(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=5928  wr= 62.6%  avg=  +4.5bps  tot=+266.88%  sh=  +223.1
+  ✅ TEST                                                     n=3336  wr= 81.8%  avg= +10.3bps  tot=+345.27%  sh=  +397.7
+    ✅ test=+12.331%/d
+
+  Wt range(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=10745  wr= 60.8%  avg=  +3.9bps  tot=+414.60%  sh=  +207.2
+  ✅ TEST                                                     n=5898  wr= 81.3%  avg=  +9.4bps  tot=+556.62%  sh=  +404.3
+    ✅ test=+19.879%/d
+
+  Wt range(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=8128  wr= 62.8%  avg=  +4.4bps  tot=+358.14%  sh=  +226.6
+  ✅ TEST                                                     n=4496  wr= 82.3%  avg= +10.0bps  tot=+450.46%  sh=  +412.6
+    ✅ test=+16.088%/d
+
+  --- EXP OOOO7: CLV PERSISTENCE ---
+
+  CLV persist(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4007  wr= 48.7%  avg=  +1.2bps  tot= +49.52%  sh=   +79.6
+  ✅ TEST                                                     n=2332  wr= 70.9%  avg=  +5.5bps  tot=+128.75%  sh=  +270.9
+    ✅ test=+4.598%/d
+
+  CLV persist(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6765  wr= 49.1%  avg=  +1.3bps  tot= +87.98%  sh=   +87.2
+  ✅ TEST                                                     n=3940  wr= 70.6%  avg=  +5.3bps  tot=+209.85%  sh=  +278.2
+    ✅ test=+7.495%/d
+
+  CLV persist(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5244  wr= 50.4%  avg=  +1.6bps  tot= +81.40%  sh=  +101.9
+  ✅ TEST                                                     n=3037  wr= 69.8%  avg=  +5.3bps  tot=+161.40%  sh=  +269.5
+    ✅ test=+5.764%/d
+
+  CLV persist(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8204  wr= 50.5%  avg=  +1.5bps  tot=+122.63%  sh=   +99.1
+  ✅ TEST                                                     n=4613  wr= 69.8%  avg=  +5.2bps  tot=+237.57%  sh=  +276.1
+    ✅ test=+8.485%/d
+
+  --- EXP PPPP7: RETURN SKEWNESS ---
+
+  Ret skew(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7221  wr= 52.9%  avg=  +2.3bps  tot=+164.65%  sh=  +132.4
+  ✅ TEST                                                     n=3960  wr= 75.4%  avg=  +6.6bps  tot=+263.30%  sh=  +316.4
+    ✅ test=+9.403%/d
+
+  Ret skew(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4368  wr= 51.6%  avg=  +2.3bps  tot=+100.04%  sh=  +130.6
+  ✅ TEST                                                     n=2380  wr= 75.0%  avg=  +6.8bps  tot=+160.77%  sh=  +301.9
+    ✅ test=+5.742%/d
+
+  Ret skew(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=8423  wr= 52.4%  avg=  +2.0bps  tot=+171.74%  sh=  +117.3
+  ✅ TEST                                                     n=4637  wr= 76.0%  avg=  +6.8bps  tot=+316.37%  sh=  +349.1
+    ✅ test=+11.299%/d
+
+  Ret skew(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5477  wr= 51.6%  avg=  +2.1bps  tot=+113.49%  sh=  +115.9
+  ✅ TEST                                                     n=2916  wr= 77.0%  avg=  +7.1bps  tot=+206.31%  sh=  +343.0
+    ✅ test=+7.368%/d
+
+  --- EXP QQQQ7: PRICE OSCILLATION AMPLITUDE ---
+
+  Osc amp(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7879  wr= 56.4%  avg=  +3.2bps  tot=+250.52%  sh=  +168.0
+  ✅ TEST                                                     n=4522  wr= 79.4%  avg=  +9.0bps  tot=+405.78%  sh=  +373.2
+    ✅ test=+14.492%/d
+
+  Osc amp(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5307  wr= 58.1%  avg=  +3.7bps  tot=+198.95%  sh=  +188.4
+  ✅ TEST                                                     n=3058  wr= 80.1%  avg=  +9.4bps  tot=+287.38%  sh=  +372.5
+    ✅ test=+10.264%/d
+
+  Osc amp(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9799  wr= 57.4%  avg=  +3.4bps  tot=+330.62%  sh=  +180.3
+  ✅ TEST                                                     n=5464  wr= 76.2%  avg=  +7.8bps  tot=+428.87%  sh=  +345.1
+    ✅ test=+15.317%/d
+
+  Osc amp(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=7584  wr= 58.7%  avg=  +3.7bps  tot=+283.33%  sh=  +194.2
+  ✅ TEST                                                     n=4302  wr= 76.9%  avg=  +8.2bps  tot=+352.36%  sh=  +342.0
+    ✅ test=+12.584%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    clvp_20_0.05             2458   81.4%    +7.6bp   +186.7%     +437
+  ✅ DOGEUSDT    clvp_20_0.1              4082   81.7%    +7.4bp   +303.4%     +438
+  ✅ DOGEUSDT    clvp_40_0.05             3092   81.6%    +7.6bp   +234.7%     +459
+  ✅ DOGEUSDT    clvp_40_0.1              4842   81.3%    +7.5bp   +364.0%     +453
+  ✅ DOGEUSDT    oa_30_0.9                4776   84.1%   +10.6bp   +507.5%     +487
+  ✅ DOGEUSDT    oa_30_0.95               3263   84.7%   +10.8bp   +352.8%     +492
+  ✅ DOGEUSDT    oa_60_0.9                5788   85.5%   +10.5bp   +608.8%     +504
+  ✅ DOGEUSDT    oa_60_0.95               4575   85.8%   +10.8bp   +492.3%     +517
+  ✅ DOGEUSDT    sk_30_0.9                4217   83.1%    +8.4bp   +356.0%     +424
+  ✅ DOGEUSDT    sk_30_0.95               2563   82.7%    +8.5bp   +218.3%     +403
+  ✅ DOGEUSDT    sk_60_0.9                4954   85.2%    +8.8bp   +437.1%     +462
+  ✅ DOGEUSDT    sk_60_0.95               3234   84.6%    +8.9bp   +288.9%     +434
+  ✅ DOGEUSDT    wr_20_0.9                4651   87.2%   +11.8bp   +550.8%     +513
+  ✅ DOGEUSDT    wr_20_0.95               3273   88.5%   +12.4bp   +404.3%     +510
+  ✅ DOGEUSDT    wr_40_0.9                6120   87.2%   +11.5bp   +701.9%     +528
+  ✅ DOGEUSDT    wr_40_0.95               4682   88.0%   +12.0bp   +559.8%     +532
+  ✅ ETHUSDT     clvp_20_0.05             2130   60.6%    +2.7bp    +57.5%     +202
+  ✅ ETHUSDT     clvp_20_0.1              3673   62.2%    +2.9bp   +106.8%     +215
+  ✅ ETHUSDT     clvp_40_0.05             2848   61.3%    +3.1bp    +87.0%     +232
+  ✅ ETHUSDT     clvp_40_0.1              4400   60.8%    +2.9bp   +128.6%     +214
+  ✅ ETHUSDT     oa_30_0.9                4350   68.7%    +4.6bp   +198.7%     +300
+  ✅ ETHUSDT     oa_30_0.95               2984   69.0%    +4.8bp   +142.9%     +311
+  ✅ ETHUSDT     oa_60_0.9                5373   69.2%    +4.7bp   +253.6%     +315
+  ✅ ETHUSDT     oa_60_0.95               4222   69.8%    +5.0bp   +211.5%     +332
+  ✅ ETHUSDT     sk_30_0.9                3699   65.5%    +3.9bp   +143.9%     +249
+  ✅ ETHUSDT     sk_30_0.95               2180   65.8%    +4.2bp    +92.4%     +256
+  ✅ ETHUSDT     sk_60_0.9                4249   64.7%    +3.5bp   +146.6%     +221
+  ✅ ETHUSDT     sk_60_0.95               2735   63.9%    +3.5bp    +94.7%     +212
+  ✅ ETHUSDT     wr_20_0.9                3971   72.3%    +5.1bp   +203.8%     +314
+  ✅ ETHUSDT     wr_20_0.95               2790   73.4%    +5.5bp   +154.3%     +327
+  ✅ ETHUSDT     wr_40_0.9                5272   72.2%    +5.0bp   +263.5%     +313
+  ✅ ETHUSDT     wr_40_0.95               4011   73.3%    +5.2bp   +210.5%     +322
+  ✅ SOLUSDT     clvp_20_0.05             2246   61.0%    +2.9bp    +64.6%     +222
+  ✅ SOLUSDT     clvp_20_0.1              3702   60.7%    +2.9bp   +108.1%     +218
+  ✅ SOLUSDT     clvp_40_0.05             2982   60.6%    +2.6bp    +76.3%     +186
+  ✅ SOLUSDT     clvp_40_0.1              4626   60.1%    +2.6bp   +120.0%     +178
+  ✅ SOLUSDT     oa_30_0.9                4198   70.7%    +5.6bp   +236.2%     +340
+  ✅ SOLUSDT     oa_30_0.95               2851   71.2%    +5.9bp   +167.7%     +350
+  ✅ SOLUSDT     oa_60_0.9                5282   70.7%    +5.3bp   +278.4%     +312
+  ✅ SOLUSDT     oa_60_0.95               4177   72.0%    +5.6bp   +233.4%     +327
+  ✅ SOLUSDT     sk_30_0.9                3881   66.3%    +3.9bp   +152.7%     +264
+  ✅ SOLUSDT     sk_30_0.95               2443   65.2%    +3.8bp    +93.6%     +251
+  ✅ SOLUSDT     sk_60_0.9                4417   69.1%    +4.3bp   +188.0%     +275
+  ✅ SOLUSDT     sk_60_0.95               2963   69.7%    +4.3bp   +126.5%     +282
+  ✅ SOLUSDT     wr_20_0.9                4368   72.8%    +6.0bp   +260.0%     +352
+  ✅ SOLUSDT     wr_20_0.95               3068   74.1%    +6.3bp   +194.4%     +366
+  ✅ SOLUSDT     wr_40_0.9                5734   72.8%    +5.8bp   +335.1%     +360
+  ✅ SOLUSDT     wr_40_0.95               4336   73.5%    +6.1bp   +266.5%     +375
+  ✅ XRPUSDT     clvp_20_0.05             2332   70.9%    +5.5bp   +128.7%     +271
+  ✅ XRPUSDT     clvp_20_0.1              3940   70.6%    +5.3bp   +209.8%     +278
+  ✅ XRPUSDT     clvp_40_0.05             3037   69.8%    +5.3bp   +161.4%     +269
+  ✅ XRPUSDT     clvp_40_0.1              4613   69.8%    +5.2bp   +237.6%     +276
+  ✅ XRPUSDT     oa_30_0.9                4522   79.4%    +9.0bp   +405.8%     +373
+  ✅ XRPUSDT     oa_30_0.95               3058   80.1%    +9.4bp   +287.4%     +372
+  ✅ XRPUSDT     oa_60_0.9                5464   76.2%    +7.8bp   +428.9%     +345
+  ✅ XRPUSDT     oa_60_0.95               4302   76.9%    +8.2bp   +352.4%     +342
+  ✅ XRPUSDT     sk_30_0.9                3960   75.4%    +6.6bp   +263.3%     +316
+  ✅ XRPUSDT     sk_30_0.95               2380   75.0%    +6.8bp   +160.8%     +302
+  ✅ XRPUSDT     sk_60_0.9                4637   76.0%    +6.8bp   +316.4%     +349
+  ✅ XRPUSDT     sk_60_0.95               2916   77.0%    +7.1bp   +206.3%     +343
+  ✅ XRPUSDT     wr_20_0.9                4816   80.5%    +9.5bp   +455.7%     +391
+  ✅ XRPUSDT     wr_20_0.95               3336   81.8%   +10.3bp   +345.3%     +398
+  ✅ XRPUSDT     wr_40_0.9                5898   81.3%    +9.4bp   +556.6%     +404
+  ✅ XRPUSDT     wr_40_0.95               4496   82.3%   +10.0bp   +450.5%     +413
+
+################################################################################
+  COMPLETE — 869s (14.5min) [RAM=0.5GB, avail=6.1GB]
+################################################################################
