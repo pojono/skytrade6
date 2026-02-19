@@ -1,0 +1,465 @@
+==========================================================================================
+  LIQUIDATION MICROSTRUCTURE RESEARCH (v26g)
+  Tick-level analysis: cascade formation, price dynamics, bounce curves
+==========================================================================================
+
+==========================================================================================
+  DOGEUSDT — LIQUIDATION MICROSTRUCTURE ANALYSIS
+==========================================================================================
+  Loading 3018 liq files... 500 1000 1500 2000 2500 3000 done (93,913)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,993)
+  Building 5-second bars... 1,261,982 bars
+  Period: 282 days, 93,913 liquidations, 1,261,993 ticks
+
+  ── ANALYSIS 1: CASCADE FORMATION RATE ──
+    P90: thresh=$5,250  n=9,392  →cascade(2+): 2063 (22.0%)  →cascade(3+): 661 (7.0%)  avg_size=4.5
+    P95: thresh=$12,349  n=4,697  →cascade(2+): 1244 (26.5%)  →cascade(3+): 351 (7.5%)  avg_size=3.7
+    P97: thresh=$21,498  n=2,818  →cascade(2+): 850 (30.2%)  →cascade(3+): 205 (7.3%)  avg_size=3.3
+    P99: thresh=$63,269  n=940  →cascade(2+): 356 (37.9%)  →cascade(3+): 55 (5.9%)  avg_size=2.6
+    P95 Buy-side: 3759 events (80.0% of P95)
+    P95 Sell-side: 938 events (20.0% of P95)
+
+  ── ANALYSIS 2: PRICE MOVEMENT BETWEEN LIQUIDATIONS ──
+    Pairs within 60s: 687
+    Price move (bps): mean=-10.04  median=-9.62  std=20.72
+    Abs move (bps):   mean=16.07  P50=12.22  P75=20.68  P90=33.90  P99=74.94
+    Time between (s): mean=13.3  median=6.0
+    Buy-side: n=626  mean_move=-12.82 bps  abs_mean=15.45 bps
+    Sell-side: n=61  mean_move=+18.43 bps  abs_mean=22.49 bps
+
+  ── ANALYSIS 3: BOUNCE PROBABILITY CURVES ──
+    Processing 4,696 valid events (vectorized)...
+      [2000/4696]
+      [4000/4696]
+    Analyzed 4,696 P95 liquidation events
+
+    Average displacement (bps) at each time offset (positive = fade-favorable):
+      offset     mean   median      P25      P75    %>0
+          5s   +0.32   +0.49   -4.01   +5.50  51.7%
+         10s   +0.73   +1.07   -5.51   +7.86  53.5%
+         15s   +0.88   +1.11   -6.60   +9.30  53.7%
+         20s   +1.29   +1.66   -7.63  +11.06  55.0%
+         30s   +2.08   +2.36   -7.95  +13.64  55.5%
+         45s   +1.92   +2.69  -10.26  +15.35  55.3%
+          1m   +2.56   +3.09  -10.66  +17.93  56.3%
+          1m   +1.92   +2.67  -13.44  +20.37  54.8%
+          2m   +2.92   +3.18  -18.27  +24.76  54.3%
+          3m   +5.27   +5.05  -18.78  +29.87  56.5%
+          5m   +5.76   +6.29  -22.68  +38.18  55.6%
+         10m  +12.42  +10.69  -26.37  +53.98  58.6%
+         30m  +15.98  +16.49  -39.30  +78.72  57.7%
+          1h  +26.92  +32.10  -49.88  +109.92  59.4%
+
+    Events with any adverse move: 4432/4696 (94.4%)
+    Max adverse (bps, among those that moved adversely): mean=112.5  P50=77.8  P75=159.8  P90=253.0  P95=334.3  P99=494.5
+
+    Bounce probability (given max adverse >= X bps, P(returns to entry) within T):
+      ≥X bps       n     1m     2m     5m    10m    30m    60m
+         5bp    4293    7.0%   11.0%   20.5%   29.0%   47.5%   66.7%
+        10bp    4144    5.7%    9.5%   18.5%   27.0%   45.8%   65.5%
+        15bp    3959    4.4%    7.4%   16.2%   24.5%   43.6%   63.9%
+        20bp    3799    3.6%    6.1%   14.5%   22.5%   41.6%   62.5%
+        25bp    3657    3.1%    5.4%   13.6%   21.7%   40.3%   61.3%
+        30bp    3500    2.8%    4.7%   12.4%   20.3%   38.8%   60.0%
+        40bp    3236    2.5%    4.0%   11.2%   18.6%   36.4%   57.4%
+        50bp    2943    1.9%    3.4%    9.2%   16.4%   33.4%   54.7%
+        75bp    2281    1.1%    1.9%    6.9%   13.7%   26.9%   47.1%
+       100bp    1808    0.4%    0.6%    4.5%   11.9%   22.6%   40.7%
+
+    Overall bounce rate (all P95 events):
+    Bounced within  1m: 379/4696 (8.1%)
+    Bounced within  2m: 566/4696 (12.1%)
+    Bounced within  5m: 992/4696 (21.1%)
+    Bounced within 10m: 1362/4696 (29.0%)
+    Bounced within 30m: 2169/4696 (46.2%)
+    Bounced within 60m: 3001/4696 (63.9%)
+
+    Point of no return (displacement where P(bounce within T) < 50%):
+     1m: ~5 bps (P=7.0%, n=4293)
+     2m: ~5 bps (P=11.0%, n=4293)
+     5m: ~5 bps (P=20.5%, n=4293)
+    10m: ~5 bps (P=29.0%, n=4293)
+    30m: ~5 bps (P=47.5%, n=4293)
+    60m: ~75 bps (P=47.1%, n=2281)
+
+  ── ANALYSIS 4: COUNTER-STRATEGY (MOMENTUM) ──
+    Events analyzed: 1,357
+
+        Exit      n   Mom avg  Mom wr  Mom P50  Fade avg Fade wr Fade P50    Winner
+    ─────────────────────────────────────────────────────────────────────────────────────
+          5s   1357    +0.08bp  46.0%    +0.00bp    -0.08bp  49.6%    +0.00bp       MOM
+         10s   1357    +0.03bp  45.2%    -0.53bp    -0.03bp  52.0%    +0.53bp       MOM
+         15s   1357    -0.06bp  43.7%    -0.89bp    +0.06bp  53.4%    +0.89bp      FADE
+         30s   1357    -0.47bp  44.5%    -1.06bp    +0.47bp  52.8%    +1.06bp      FADE
+          1m   1357    -0.53bp  44.7%    -1.69bp    +0.53bp  54.2%    +1.69bp      FADE
+          2m   1357    -0.90bp  45.2%    -2.17bp    +0.90bp  53.9%    +2.17bp      FADE
+          5m   1357    -0.20bp  47.3%    -2.10bp    +0.20bp  52.1%    +2.10bp      FADE
+         10m   1357    -0.61bp  46.1%    -4.56bp    +0.61bp  53.6%    +4.56bp      FADE
+         30m   1357    -2.15bp  46.2%    -6.43bp    +2.15bp  53.4%    +6.43bp      FADE
+
+  Chart saved: results/liq_microstructure_DOGEUSDT.png
+
+  DOGEUSDT done in 378s
+
+==========================================================================================
+  SOLUSDT — LIQUIDATION MICROSTRUCTURE ANALYSIS
+==========================================================================================
+  Loading 3107 liq files... 500 1000 1500 2000 2500 3000 done (189,603)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,981)
+  Building 5-second bars... 1,261,970 bars
+  Period: 282 days, 189,603 liquidations, 1,261,981 ticks
+
+  ── ANALYSIS 1: CASCADE FORMATION RATE ──
+    P90: thresh=$8,641  n=18,962  →cascade(2+): 3165 (16.7%)  →cascade(3+): 1241 (6.5%)  avg_size=5.9
+    P95: thresh=$18,407  n=9,482  →cascade(2+): 1933 (20.4%)  →cascade(3+): 639 (6.7%)  avg_size=4.8
+    P97: thresh=$29,753  n=5,690  →cascade(2+): 1299 (22.8%)  →cascade(3+): 379 (6.7%)  avg_size=4.3
+    P99: thresh=$48,736  n=1,897  →cascade(2+): 594 (31.3%)  →cascade(3+): 126 (6.6%)  avg_size=3.1
+    P95 Buy-side: 7091 events (74.8% of P95)
+    P95 Sell-side: 2391 events (25.2% of P95)
+
+  ── ANALYSIS 2: PRICE MOVEMENT BETWEEN LIQUIDATIONS ──
+    Pairs within 60s: 1,350
+    Price move (bps): mean=-3.07  median=-4.79  std=18.61
+    Abs move (bps):   mean=11.26  P50=7.93  P75=14.21  P90=22.23  P99=59.55
+    Time between (s): mean=12.5  median=6.0
+    Buy-side: n=1071  mean_move=-7.17 bps  abs_mean=10.39 bps
+    Sell-side: n=279  mean_move=+12.65 bps  abs_mean=14.61 bps
+
+  ── ANALYSIS 3: BOUNCE PROBABILITY CURVES ──
+    Processing 9,480 valid events (vectorized)...
+      [2000/9480]
+      [4000/9480]
+      [6000/9480]
+      [8000/9480]
+    Analyzed 9,480 P95 liquidation events
+
+    Average displacement (bps) at each time offset (positive = fade-favorable):
+      offset     mean   median      P25      P75    %>0
+          5s   -1.46   +0.00   -4.13   +4.58  49.1%
+         10s   -1.54   +0.68   -5.38   +7.00  52.6%
+         15s   -0.42   +0.70   -6.04   +8.27  52.9%
+         20s   +0.30   +1.29   -6.76   +9.74  53.9%
+         30s   +2.39   +2.08   -6.66  +12.35  56.5%
+         45s   +2.18   +2.37   -8.51  +14.18  55.1%
+          1m   +2.12   +3.36   -9.70  +16.74  56.8%
+          1m   +2.35   +3.45  -11.76  +20.73  55.4%
+          2m   +3.88   +4.09  -13.15  +23.67  56.7%
+          3m   +4.15   +5.34  -14.79  +26.07  57.6%
+          5m   +7.31   +7.66  -19.30  +34.33  58.6%
+         10m   +6.48   +9.07  -23.83  +44.26  57.7%
+         30m   +7.64  +10.34  -39.00  +62.66  56.2%
+          1h  +17.50  +17.10  -44.06  +82.66  57.6%
+
+    Events with any adverse move: 8967/9480 (94.6%)
+    Max adverse (bps, among those that moved adversely): mean=96.5  P50=65.3  P75=128.0  P90=231.1  P95=304.6  P99=438.3
+
+    Bounce probability (given max adverse >= X bps, P(returns to entry) within T):
+      ≥X bps       n     1m     2m     5m    10m    30m    60m
+         5bp    8618    9.1%   12.5%   21.2%   28.4%   47.8%   67.7%
+        10bp    8097    6.2%    9.0%   17.5%   24.8%   44.8%   65.6%
+        15bp    7704    5.4%    7.8%   15.3%   22.4%   42.5%   63.9%
+        20bp    7351    4.9%    7.2%   14.0%   20.5%   41.0%   62.2%
+        25bp    7048    4.5%    6.7%   13.4%   19.4%   39.5%   61.0%
+        30bp    6664    4.2%    6.0%   12.5%   18.0%   37.7%   59.2%
+        40bp    5962    3.4%    4.9%   11.4%   16.4%   35.0%   56.0%
+        50bp    5369    2.9%    4.2%   10.4%   14.8%   31.8%   52.8%
+        75bp    4072    2.7%    3.0%    9.5%   13.1%   25.0%   45.0%
+       100bp    3031    1.5%    1.8%    7.0%   10.6%   18.7%   37.9%
+
+    Overall bounce rate (all P95 events):
+    Bounced within  1m: 1013/9480 (10.7%)
+    Bounced within  2m: 1334/9480 (14.1%)
+    Bounced within  5m: 2121/9480 (22.4%)
+    Bounced within 10m: 2762/9480 (29.1%)
+    Bounced within 30m: 4449/9480 (46.9%)
+    Bounced within 60m: 6181/9480 (65.2%)
+
+    Point of no return (displacement where P(bounce within T) < 50%):
+     1m: ~5 bps (P=9.1%, n=8618)
+     2m: ~5 bps (P=12.5%, n=8618)
+     5m: ~5 bps (P=21.2%, n=8618)
+    10m: ~5 bps (P=28.4%, n=8618)
+    30m: ~5 bps (P=47.8%, n=8618)
+    60m: ~75 bps (P=45.0%, n=4072)
+
+  ── ANALYSIS 4: COUNTER-STRATEGY (MOMENTUM) ──
+    Events analyzed: 2,154
+
+        Exit      n   Mom avg  Mom wr  Mom P50  Fade avg Fade wr Fade P50    Winner
+    ─────────────────────────────────────────────────────────────────────────────────────
+          5s   2154    -0.19bp  41.0%    -0.58bp    +0.19bp  51.1%    +0.58bp      FADE
+         10s   2154    -0.27bp  41.9%    -0.64bp    +0.27bp  52.5%    +0.64bp      FADE
+         15s   2154    -0.23bp  43.1%    -0.64bp    +0.23bp  52.4%    +0.64bp      FADE
+         30s   2154    -0.34bp  43.6%    -1.14bp    +0.34bp  53.6%    +1.14bp      FADE
+          1m   2154    -0.32bp  44.9%    -1.28bp    +0.32bp  53.0%    +1.28bp      FADE
+          2m   2154    -0.63bp  44.8%    -1.92bp    +0.63bp  53.5%    +1.92bp      FADE
+          5m   2154    -0.08bp  45.2%    -2.78bp    +0.08bp  53.9%    +2.78bp      FADE
+         10m   2154    -0.32bp  45.4%    -4.06bp    +0.32bp  54.0%    +4.06bp      FADE
+         30m   2154    -0.75bp  45.5%    -6.73bp    +0.75bp  54.3%    +6.73bp      FADE
+
+  Chart saved: results/liq_microstructure_SOLUSDT.png
+
+  SOLUSDT done in 417s
+
+==========================================================================================
+  ETHUSDT — LIQUIDATION MICROSTRUCTURE ANALYSIS
+==========================================================================================
+  Loading 3089 liq files... 500 1000 1500 2000 2500 3000 done (328,388)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,971)
+  Building 5-second bars... 1,261,960 bars
+  Period: 282 days, 328,388 liquidations, 1,261,971 ticks
+
+  ── ANALYSIS 1: CASCADE FORMATION RATE ──
+    P90: thresh=$15,533  n=32,840  →cascade(2+): 3929 (12.0%)  →cascade(3+): 1840 (5.6%)  avg_size=8.3
+    P95: thresh=$36,189  n=16,420  →cascade(2+): 2633 (16.0%)  →cascade(3+): 1095 (6.7%)  avg_size=6.2
+    P97: thresh=$63,596  n=9,853  →cascade(2+): 1906 (19.3%)  →cascade(3+): 686 (7.0%)  avg_size=5.1
+    P99: thresh=$189,820  n=3,285  →cascade(2+): 856 (26.1%)  →cascade(3+): 237 (7.2%)  avg_size=3.8
+    P95 Buy-side: 11873 events (72.3% of P95)
+    P95 Sell-side: 4547 events (27.7% of P95)
+
+  ── ANALYSIS 2: PRICE MOVEMENT BETWEEN LIQUIDATIONS ──
+    Pairs within 60s: 2,209
+    Price move (bps): mean=-2.39  median=-3.86  std=21.26
+    Abs move (bps):   mean=11.31  P50=7.46  P75=13.28  P90=21.53  P99=103.55
+    Time between (s): mean=13.2  median=6.0
+    Buy-side: n=1590  mean_move=-6.80 bps  abs_mean=10.77 bps
+    Sell-side: n=619  mean_move=+8.93 bps  abs_mean=12.69 bps
+
+  ── ANALYSIS 3: BOUNCE PROBABILITY CURVES ──
+    Processing 16,417 valid events (vectorized)...
+      [2000/16417]
+      [4000/16417]
+      [6000/16417]
+      [8000/16417]
+      [10000/16417]
+      [12000/16417]
+      [14000/16417]
+      [16000/16417]
+      [16417/16417]
+    Analyzed 16,417 P95 liquidation events
+
+    Average displacement (bps) at each time offset (positive = fade-favorable):
+      offset     mean   median      P25      P75    %>0
+          5s   +1.25   +1.01   -3.69   +6.46  57.1%
+         10s   +0.81   +1.84   -4.68   +9.16  58.4%
+         15s   +2.89   +2.54   -4.84  +11.14  60.5%
+         20s   +4.34   +3.08   -4.74  +13.03  60.7%
+         30s   +7.70   +4.06   -5.70  +17.12  62.0%
+         45s   +9.95   +5.03   -6.67  +18.71  61.2%
+          1m  +10.56   +5.91   -6.27  +20.86  63.3%
+          1m  +10.00   +6.30   -8.69  +22.31  62.0%
+          2m  +10.04   +7.70   -8.90  +25.79  63.3%
+          3m   +9.65   +7.81  -12.46  +28.15  61.3%
+          5m  +12.06   +9.50  -15.57  +35.44  62.4%
+         10m   +9.87  +11.57  -21.82  +45.24  60.0%
+         30m   +9.57  +12.83  -37.77  +63.12  57.6%
+          1h  +15.18  +18.40  -47.10  +81.04  58.8%
+
+    Events with any adverse move: 15047/16417 (91.7%)
+    Max adverse (bps, among those that moved adversely): mean=102.3  P50=66.1  P75=138.9  P90=248.6  P95=332.0  P99=449.1
+
+    Bounce probability (given max adverse >= X bps, P(returns to entry) within T):
+      ≥X bps       n     1m     2m     5m    10m    30m    60m
+         5bp   14489    9.8%   14.0%   20.9%   27.7%   46.2%   64.6%
+        10bp   13647    6.5%   10.5%   17.1%   24.1%   43.3%   62.4%
+        15bp   12976    5.1%    8.7%   14.4%   21.2%   41.0%   60.5%
+        20bp   12316    4.3%    7.4%   12.5%   19.1%   38.9%   58.6%
+        25bp   11688    4.2%    6.8%   11.3%   17.6%   37.0%   56.7%
+        30bp   11011    3.6%    5.5%    9.3%   14.9%   34.4%   54.3%
+        40bp    9807    2.6%    3.5%    6.4%   11.2%   29.8%   49.8%
+        50bp    8847    2.2%    2.5%    4.8%    9.1%   26.8%   46.7%
+        75bp    6903    2.0%    2.1%    3.4%    6.4%   20.7%   38.5%
+       100bp    5554    2.4%    2.5%    2.6%    5.3%   18.0%   33.2%
+
+    Overall bounce rate (all P95 events):
+    Bounced within  1m: 1728/16417 (10.5%)
+    Bounced within  2m: 2429/16417 (14.8%)
+    Bounced within  5m: 3461/16417 (21.1%)
+    Bounced within 10m: 4480/16417 (27.3%)
+    Bounced within 30m: 7216/16417 (44.0%)
+    Bounced within 60m: 9914/16417 (60.4%)
+
+    Point of no return (displacement where P(bounce within T) < 50%):
+     1m: ~5 bps (P=9.8%, n=14489)
+     2m: ~5 bps (P=14.0%, n=14489)
+     5m: ~5 bps (P=20.9%, n=14489)
+    10m: ~5 bps (P=27.7%, n=14489)
+    30m: ~5 bps (P=46.2%, n=14489)
+    60m: ~40 bps (P=49.8%, n=9807)
+
+  ── ANALYSIS 4: COUNTER-STRATEGY (MOMENTUM) ──
+    Events analyzed: 2,955
+
+        Exit      n   Mom avg  Mom wr  Mom P50  Fade avg Fade wr Fade P50    Winner
+    ─────────────────────────────────────────────────────────────────────────────────────
+          5s   2955    -0.23bp  43.1%    -0.53bp    +0.23bp  55.9%    +0.53bp      FADE
+         10s   2955    -0.49bp  42.3%    -0.97bp    +0.49bp  57.3%    +0.97bp      FADE
+         15s   2955    -0.65bp  41.3%    -1.38bp    +0.65bp  58.4%    +1.38bp      FADE
+         30s   2955    -0.70bp  43.6%    -1.34bp    +0.70bp  56.2%    +1.34bp      FADE
+          1m   2955    -1.17bp  42.4%    -2.15bp    +1.17bp  57.4%    +2.15bp      FADE
+          2m   2955    -1.64bp  42.2%    -3.04bp    +1.64bp  57.6%    +3.04bp      FADE
+          5m   2955    -1.30bp  41.8%    -4.47bp    +1.30bp  58.1%    +4.47bp      FADE
+         10m   2955    -1.59bp  42.5%    -5.81bp    +1.59bp  57.4%    +5.81bp      FADE
+         30m   2955    -1.98bp  42.7%    -9.29bp    +1.98bp  57.3%    +9.29bp      FADE
+
+  Chart saved: results/liq_microstructure_ETHUSDT.png
+
+  ETHUSDT done in 438s
+
+==========================================================================================
+  XRPUSDT — LIQUIDATION MICROSTRUCTURE ANALYSIS
+==========================================================================================
+  Loading 2962 liq files... 500 1000 1500 2000 2500 done (128,466)
+  Loading 3251 ticker files... 500 1000 1500 2000 2500 3000 done (1,261,981)
+  Building 5-second bars... 1,261,970 bars
+  Period: 282 days, 128,466 liquidations, 1,261,981 ticks
+
+  ── ANALYSIS 1: CASCADE FORMATION RATE ──
+    P90: thresh=$8,678  n=12,847  →cascade(2+): 2358 (18.4%)  →cascade(3+): 894 (7.0%)  avg_size=5.4
+    P95: thresh=$19,764  n=6,424  →cascade(2+): 1491 (23.2%)  →cascade(3+): 445 (6.9%)  avg_size=4.2
+    P97: thresh=$33,246  n=3,854  →cascade(2+): 1019 (26.4%)  →cascade(3+): 266 (6.9%)  avg_size=3.7
+    P99: thresh=$92,229  n=1,286  →cascade(2+): 441 (34.3%)  →cascade(3+): 79 (6.1%)  avg_size=2.8
+    P95 Buy-side: 5207 events (81.1% of P95)
+    P95 Sell-side: 1217 events (18.9% of P95)
+
+  ── ANALYSIS 2: PRICE MOVEMENT BETWEEN LIQUIDATIONS ──
+    Pairs within 60s: 986
+    Price move (bps): mean=-5.25  median=-6.30  std=17.15
+    Abs move (bps):   mean=10.55  P50=7.87  P75=13.43  P90=21.47  P99=41.79
+    Time between (s): mean=13.2  median=6.0
+    Buy-side: n=874  mean_move=-7.57 bps  abs_mean=10.00 bps
+    Sell-side: n=112  mean_move=+12.79 bps  abs_mean=14.89 bps
+
+  ── ANALYSIS 3: BOUNCE PROBABILITY CURVES ──
+    Processing 6,422 valid events (vectorized)...
+      [2000/6422]
+      [4000/6422]
+      [6000/6422]
+      [6422/6422]
+    Analyzed 6,422 P95 liquidation events
+
+    Average displacement (bps) at each time offset (positive = fade-favorable):
+      offset     mean   median      P25      P75    %>0
+          5s   -0.31   +0.43   -3.49   +3.75  51.3%
+         10s   -0.21   +0.47   -4.13   +5.85  52.4%
+         15s   +0.38   +0.85   -4.99   +6.68  53.3%
+         20s   +1.45   +1.35   -5.50   +8.31  55.4%
+         30s   +3.23   +1.72   -6.04  +10.62  55.7%
+         45s   +3.42   +1.83   -8.05  +11.54  55.3%
+          1m   +3.74   +2.23   -8.73  +13.93  55.7%
+          1m   +3.27   +1.86  -10.05  +14.92  53.8%
+          2m   +4.37   +3.05  -11.65  +17.66  56.0%
+          3m   +4.06   +3.18  -15.07  +21.08  54.3%
+          5m   +7.39   +5.83  -17.38  +30.90  57.7%
+         10m  +11.70   +8.12  -19.22  +40.03  58.5%
+         30m  +17.54  +13.75  -26.31  +62.46  59.9%
+          1h  +27.93  +22.75  -37.69  +95.02  60.1%
+
+    Events with any adverse move: 6097/6422 (94.9%)
+    Max adverse (bps, among those that moved adversely): mean=91.8  P50=62.2  P75=125.7  P90=221.4  P95=279.4  P99=412.6
+
+    Bounce probability (given max adverse >= X bps, P(returns to entry) within T):
+      ≥X bps       n     1m     2m     5m    10m    30m    60m
+         5bp    5824    5.8%    9.0%   17.1%   26.2%   47.8%   67.8%
+        10bp    5564    4.6%    7.1%   14.7%   24.0%   45.9%   66.3%
+        15bp    5277    3.8%    6.0%   13.2%   22.2%   43.9%   64.9%
+        20bp    5025    3.5%    5.5%   11.7%   20.4%   42.3%   63.4%
+        25bp    4764    2.9%    4.7%   10.6%   18.9%   40.4%   61.8%
+        30bp    4509    3.0%    4.2%    9.6%   17.2%   38.3%   60.0%
+        40bp    4023    2.0%    2.9%    8.0%   15.3%   35.2%   56.6%
+        50bp    3532    2.2%    3.1%    7.2%   14.0%   31.5%   53.3%
+        75bp    2600    1.1%    1.9%    5.7%   12.9%   26.8%   47.7%
+       100bp    1966    0.4%    0.8%    4.9%   12.9%   24.2%   42.6%
+
+    Overall bounce rate (all P95 events):
+    Bounced within  1m: 496/6422 (7.7%)
+    Bounced within  2m: 709/6422 (11.0%)
+    Bounced within  5m: 1229/6422 (19.1%)
+    Bounced within 10m: 1778/6422 (27.7%)
+    Bounced within 30m: 3045/6422 (47.4%)
+    Bounced within 60m: 4217/6422 (65.7%)
+
+    Point of no return (displacement where P(bounce within T) < 50%):
+     1m: ~5 bps (P=5.8%, n=5824)
+     2m: ~5 bps (P=9.0%, n=5824)
+     5m: ~5 bps (P=17.1%, n=5824)
+    10m: ~5 bps (P=26.2%, n=5824)
+    30m: ~5 bps (P=47.8%, n=5824)
+    60m: ~75 bps (P=47.7%, n=2600)
+
+  ── ANALYSIS 4: COUNTER-STRATEGY (MOMENTUM) ──
+    Events analyzed: 1,677
+
+        Exit      n   Mom avg  Mom wr  Mom P50  Fade avg Fade wr Fade P50    Winner
+    ─────────────────────────────────────────────────────────────────────────────────────
+          5s   1677    -0.08bp  43.2%    -0.33bp    +0.08bp  50.2%    +0.33bp      FADE
+         10s   1677    -0.24bp  44.7%    -0.44bp    +0.24bp  51.9%    +0.44bp      FADE
+         15s   1677    -0.29bp  43.1%    -0.48bp    +0.29bp  53.1%    +0.48bp      FADE
+         30s   1677    -0.30bp  45.4%    -0.85bp    +0.30bp  52.6%    +0.85bp      FADE
+          1m   1677    -0.43bp  45.2%    -0.88bp    +0.43bp  52.8%    +0.88bp      FADE
+          2m   1677    -0.73bp  46.2%    -1.38bp    +0.73bp  53.2%    +1.38bp      FADE
+          5m   1677    -1.36bp  44.5%    -3.05bp    +1.36bp  55.0%    +3.05bp      FADE
+         10m   1677    -2.67bp  44.8%    -4.06bp    +2.67bp  54.8%    +4.06bp      FADE
+         30m   1677    -5.18bp  43.7%    -6.70bp    +5.18bp  55.9%    +6.70bp      FADE
+
+  Chart saved: results/liq_microstructure_XRPUSDT.png
+
+  XRPUSDT done in 398s
+
+
+==========================================================================================
+  CROSS-SYMBOL SUMMARY
+==========================================================================================
+
+  CASCADE FORMATION RATES:
+      Symbol   P90→cas   P95→cas   P97→cas   P99→cas
+    DOGEUSDT     22.0%     26.5%     30.2%     37.9%
+     SOLUSDT     16.7%     20.4%     22.8%     31.3%
+     ETHUSDT     12.0%     16.0%     19.3%     26.1%
+     XRPUSDT     18.4%     23.2%     26.4%     34.3%
+
+  MOMENTUM vs FADE CROSSOVER:
+  DOGEUSDT:
+       5s: mom=+0.08bp  fade=-0.08bp  → MOM
+      10s: mom=+0.03bp  fade=-0.03bp  → MOM
+      15s: mom=-0.06bp  fade=+0.06bp  → FADE
+      30s: mom=-0.47bp  fade=+0.47bp  → FADE
+       1m: mom=-0.53bp  fade=+0.53bp  → FADE
+       2m: mom=-0.90bp  fade=+0.90bp  → FADE
+       5m: mom=-0.20bp  fade=+0.20bp  → FADE
+      10m: mom=-0.61bp  fade=+0.61bp  → FADE
+      30m: mom=-2.15bp  fade=+2.15bp  → FADE
+  SOLUSDT:
+       5s: mom=-0.19bp  fade=+0.19bp  → FADE
+      10s: mom=-0.27bp  fade=+0.27bp  → FADE
+      15s: mom=-0.23bp  fade=+0.23bp  → FADE
+      30s: mom=-0.34bp  fade=+0.34bp  → FADE
+       1m: mom=-0.32bp  fade=+0.32bp  → FADE
+       2m: mom=-0.63bp  fade=+0.63bp  → FADE
+       5m: mom=-0.08bp  fade=+0.08bp  → FADE
+      10m: mom=-0.32bp  fade=+0.32bp  → FADE
+      30m: mom=-0.75bp  fade=+0.75bp  → FADE
+  ETHUSDT:
+       5s: mom=-0.23bp  fade=+0.23bp  → FADE
+      10s: mom=-0.49bp  fade=+0.49bp  → FADE
+      15s: mom=-0.65bp  fade=+0.65bp  → FADE
+      30s: mom=-0.70bp  fade=+0.70bp  → FADE
+       1m: mom=-1.17bp  fade=+1.17bp  → FADE
+       2m: mom=-1.64bp  fade=+1.64bp  → FADE
+       5m: mom=-1.30bp  fade=+1.30bp  → FADE
+      10m: mom=-1.59bp  fade=+1.59bp  → FADE
+      30m: mom=-1.98bp  fade=+1.98bp  → FADE
+  XRPUSDT:
+       5s: mom=-0.08bp  fade=+0.08bp  → FADE
+      10s: mom=-0.24bp  fade=+0.24bp  → FADE
+      15s: mom=-0.29bp  fade=+0.29bp  → FADE
+      30s: mom=-0.30bp  fade=+0.30bp  → FADE
+       1m: mom=-0.43bp  fade=+0.43bp  → FADE
+       2m: mom=-0.73bp  fade=+0.73bp  → FADE
+       5m: mom=-1.36bp  fade=+1.36bp  → FADE
+      10m: mom=-2.67bp  fade=+2.67bp  → FADE
+      30m: mom=-5.18bp  fade=+5.18bp  → FADE
+
+==========================================================================================
+  DONE — 1631s total
+==========================================================================================

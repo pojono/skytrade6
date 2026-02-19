@@ -139,6 +139,124 @@ Need to validate on additional months as data becomes available.
 
 ---
 
+## v42g: Portfolio Simulation + Asymmetry (EXP P-T)
+
+### EXP P: Cascade Direction Asymmetry
+**LONG cascades (fading buy-liquidations) outperform SHORT by 2-3 bps across ALL symbols:**
+
+| Symbol | LONG avg | SHORT avg | Difference |
+|--------|----------|-----------|------------|
+| ETH | +6.5 bps | +4.6 bps | +2.0 bps |
+| SOL | +5.8 bps | +3.3 bps | +2.5 bps |
+| DOGE | +5.7 bps | +2.8 bps | +2.9 bps |
+
+**Implication:** Buy-side liquidation cascades (longs getting stopped out → price drops) create better mean-reversion opportunities than sell-side cascades.
+
+### EXP R: Cascade Clustering
+Clustered cascades (5-30 min gap) are the BEST: **+6.7 bps avg, 93.5% WR, Sharpe 244**.
+Isolated cascades (>30 min gap) are still good: +5.1 bps, 90.9% WR.
+
+### EXP S: Time-Since-Last-Cascade
+10-30 min gap is the sweet spot: **+7.9 bps, 95.1% WR, Sharpe 337**.
+>2 hour gaps are weakest: +3.8 bps, 88.6% WR.
+
+### EXP Q: Multi-Symbol Portfolio (60 days)
+
+| Metric | Value |
+|--------|-------|
+| **Total return** | **+186.74%** |
+| **Max drawdown** | **-3.66%** |
+| Total trades | 2,069 |
+| Positive days | 49/53 (92%) |
+| Avg daily return | +2.00% |
+| Daily Sharpe | 21.9 |
+| Positive weeks | 8/8 (100%) |
+| ETH vs SOL correlation | ρ=0.49 |
+| ETH vs DOGE correlation | ρ=0.31 |
+| SOL vs DOGE correlation | ρ=0.24 |
+
+**Low cross-symbol correlation = genuine diversification benefit.**
+
+---
+
+## v42h: Filters + Slippage + Realistic Simulation (EXP U-W)
+
+### EXP U: Combined Filters (LONG only + exclude bad hours)
+
+| Symbol | Baseline avg | Filtered avg | Filtered WR | OOS test |
+|--------|-------------|-------------|-------------|----------|
+| ETH | +5.8 bps | +6.8 bps | 93.3% | +0.170%/d ✅ |
+| SOL | +4.9 bps | +6.2 bps | 92.8% | +0.237%/d ✅ |
+| DOGE | +4.7 bps | +6.2 bps | 92.9% | +0.108%/d ✅ |
+
+**Filters improve avg by ~1.3 bps but reduce trade count by ~50%.** Trade-off: higher quality vs fewer trades.
+
+### EXP W: Slippage Sensitivity
+
+**Strategy is extremely robust to slippage:**
+
+| Both-way slippage | ETH total | SOL total | DOGE total |
+|-------------------|-----------|-----------|------------|
+| 0 bps | +35.84% | +37.55% | +32.35% |
+| 1 bps | +32.73% | +34.53% | +25.90% |
+| 2 bps | +26.26% | +29.87% | +27.13% |
+| 3 bps | +24.54% | +25.26% | +22.46% |
+| 5 bps | +18.61% | +25.14% | +22.70% |
+| **Breakeven** | **~8.5 bps** | **~8.5 bps** | **~8.5 bps** |
+
+**8.5 bps of slippage buffer** before the strategy breaks even. With limit orders on a liquid exchange, realistic slippage should be 0-2 bps.
+
+### EXP V: Realistic Concurrent Simulation
+
+| Metric | Value |
+|--------|-------|
+| Trades taken | 2,008 |
+| Trades skipped (in position) | 101 (5%) |
+| **Total return** | **+183.61%** |
+| **Max drawdown** | **-3.72%** |
+| Positive days | 49/53 (92%) |
+| Daily Sharpe | 22.4 |
+
+Only 5% of trades skipped due to concurrent positions — minimal opportunity cost.
+
+---
+
+## Final Production Configuration
+
+```
+Symbols:        ETH, SOL, DOGE (all 3 simultaneously)
+Triggers:       Cross-symbol contagion (ETH cascades → all symbols)
+                + same-symbol cascades
+Cascade:        P95 threshold, min 2 events within 60s
+Direction:      Both (LONG is +2-3 bps better but SHORT still profitable)
+Hours:          Exclude 08, 09, 13, 16 UTC (optional, +1 bps but -50% trades)
+Entry:          Limit at ±0.15% from cascade end price (fade direction)
+TP:             0.15% (maker fee exit)
+SL:             0.50% (taker fee exit)
+Max hold:       30 minutes
+Cooldown:       5 minutes between trades per symbol
+Max positions:  1 per symbol (3 total)
+Fees:           Maker 0.02%, Taker 0.055%
+Slippage buffer: 8.5 bps before breakeven
+
+Expected (60d backtest, realistic sim):
+  Total return:    +184%
+  Max drawdown:    -3.7%
+  Daily Sharpe:    22.4
+  Win rate:        91%
+  Trades/day:      ~38
+  Positive days:   92%
+  Positive weeks:  100%
+```
+
+### Key Risks
+1. **Single time period** — all results from May-Jul 2025. Need more months.
+2. **Regime dependence** — strategy relies on liquidation cascades existing. In low-vol regimes, fewer cascades = fewer trades.
+3. **Exchange risk** — Bybit-specific data. May differ on other exchanges.
+4. **Capacity** — at ~38 trades/day with small position sizes, capacity is limited.
+
+---
+
 ## Scripts & Results
 
 | File | Description |
@@ -149,4 +267,5 @@ Need to validate on additional months as data becomes available.
 | `research_v42d_vol_straddle_oos.py` | Vol straddle 60d OOS (killed it) |
 | `research_v42e_more_ideas.py` | EXP K-O: imbalance, contagion, whales |
 | `research_v42f_contagion_oos.py` | Contagion 60d OOS validation (RAM-safe) |
-| `results/v42f_contagion_oos.txt` | Full contagion OOS results |
+| `research_v42g_portfolio_asymmetry.py` | EXP P-T: portfolio, asymmetry, clustering |
+| `research_v42h_filters_slippage.py` | EXP U-W: filters, slippage, realistic sim |
