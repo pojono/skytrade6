@@ -1,0 +1,547 @@
+================================================================================
+  v42by: STOCH VEL + PRICE EFFICIENCY + WT MOM RATIO + RET DIST WIDTH
+  2026-02-19 21:17:05  [RAM=0.1GB, avail=6.2GB]
+================================================================================
+  Loading ETHUSDT... [10/88 41s] [20/88 70s] [30/88 96s] [40/88 124s] [50/88 150s] [60/88 173s] [70/88 210s] [80/88 244s] [88/88 270s] 126,720 bars (270s) [RAM=0.5GB, avail=5.1GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP BBBB9: STOCHASTIC VELOCITY ---
+
+  Stoch vel(14,3) >90th pct (fade):
+  ✅ TRAIN                                                    n=5693  wr= 57.6%  avg=  +2.7bps  tot=+151.46%  sh=  +175.4
+  ✅ TEST                                                     n=2803  wr= 60.5%  avg=  +3.0bps  tot= +83.20%  sh=  +197.9
+    ✅ test=+2.971%/d
+
+  Stoch vel(14,3) >95th pct (fade):
+  ✅ TRAIN                                                    n=2866  wr= 59.4%  avg=  +3.2bps  tot= +91.05%  sh=  +200.8
+  ✅ TEST                                                     n=1394  wr= 60.5%  avg=  +3.0bps  tot= +42.13%  sh=  +190.1
+    ✅ test=+1.505%/d
+
+  Stoch vel(14,5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5785  wr= 57.6%  avg=  +2.7bps  tot=+155.35%  sh=  +152.3
+  ✅ TEST                                                     n=2820  wr= 60.5%  avg=  +3.0bps  tot= +83.55%  sh=  +196.5
+    ✅ test=+2.984%/d
+
+  Stoch vel(14,5) >95th pct (fade):
+  ✅ TRAIN                                                    n=2917  wr= 58.2%  avg=  +2.9bps  tot= +84.95%  sh=  +184.8
+  ✅ TEST                                                     n=1407  wr= 61.4%  avg=  +3.2bps  tot= +44.68%  sh=  +193.8
+    ✅ test=+1.596%/d
+
+  Stoch vel(30,3) >90th pct (fade):
+  ✅ TRAIN                                                    n=5863  wr= 59.2%  avg=  +2.9bps  tot=+167.64%  sh=  +185.0
+  ✅ TEST                                                     n=2866  wr= 63.2%  avg=  +3.2bps  tot= +91.51%  sh=  +215.8
+    ✅ test=+3.268%/d
+
+  Stoch vel(30,3) >95th pct (fade):
+  ✅ TRAIN                                                    n=3022  wr= 60.6%  avg=  +3.2bps  tot= +96.67%  sh=  +200.0
+  ✅ TEST                                                     n=1475  wr= 65.0%  avg=  +3.6bps  tot= +53.04%  sh=  +240.4
+    ✅ test=+1.894%/d
+
+  Stoch vel(30,5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5979  wr= 59.7%  avg=  +3.0bps  tot=+176.68%  sh=  +188.4
+  ✅ TEST                                                     n=2909  wr= 63.5%  avg=  +3.2bps  tot= +91.83%  sh=  +216.8
+    ✅ test=+3.280%/d
+
+  Stoch vel(30,5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3082  wr= 61.2%  avg=  +3.4bps  tot=+104.72%  sh=  +207.1
+  ✅ TEST                                                     n=1450  wr= 66.1%  avg=  +3.5bps  tot= +50.60%  sh=  +225.9
+    ✅ test=+1.807%/d
+
+  --- EXP CCCC9: PRICE EFFICIENCY RATIO ---
+
+  Efficiency(20) <5th pct (fade):
+  ✅ TRAIN                                                    n=2494  wr= 50.9%  avg=  +1.2bps  tot= +29.38%  sh=   +76.6
+  ✅ TEST                                                     n=1180  wr= 58.1%  avg=  +2.1bps  tot= +24.26%  sh=  +141.1
+    ✅ test=+0.866%/d
+
+  Efficiency(20) <10th pct (fade):
+  ✅ TRAIN                                                    n=5571  wr= 51.7%  avg=  +1.2bps  tot= +68.08%  sh=   +77.8
+  ✅ TEST                                                     n=2718  wr= 58.0%  avg=  +1.9bps  tot= +52.59%  sh=  +142.3
+    ✅ test=+1.878%/d
+
+  Efficiency(40) <5th pct (fade):
+  ✅ TRAIN                                                    n=2725  wr= 50.2%  avg=  +1.1bps  tot= +30.34%  sh=   +77.4
+  ✅ TEST                                                     n=1304  wr= 55.5%  avg=  +1.9bps  tot= +24.19%  sh=  +140.6
+    ✅ test=+0.864%/d
+
+  Efficiency(40) <10th pct (fade):
+  ✅ TRAIN                                                    n=5748  wr= 51.8%  avg=  +1.4bps  tot= +82.53%  sh=  +102.3
+  ✅ TEST                                                     n=2830  wr= 55.1%  avg=  +1.8bps  tot= +50.40%  sh=  +131.7
+    ✅ test=+1.800%/d
+
+  --- EXP DDDD9: WEIGHTED MOMENTUM RATIO ---
+
+  Wt mom div(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7003  wr= 71.9%  avg=  +6.5bps  tot=+455.86%  sh=  +273.8
+  ✅ TEST                                                     n=3536  wr= 71.4%  avg=  +5.3bps  tot=+186.55%  sh=  +312.4
+    ✅ test=+6.663%/d
+
+  Wt mom div(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4129  wr= 73.2%  avg=  +7.6bps  tot=+312.19%  sh=  +271.3
+  ✅ TEST                                                     n=2022  wr= 72.9%  avg=  +5.8bps  tot=+117.39%  sh=  +316.7
+    ✅ test=+4.193%/d
+
+  Wt mom div(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7536  wr= 71.8%  avg=  +6.1bps  tot=+462.39%  sh=  +266.3
+  ✅ TEST                                                     n=4023  wr= 70.3%  avg=  +5.0bps  tot=+199.74%  sh=  +308.7
+    ✅ test=+7.134%/d
+
+  Wt mom div(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4685  wr= 73.1%  avg=  +7.1bps  tot=+332.63%  sh=  +267.6
+  ✅ TEST                                                     n=2370  wr= 73.3%  avg=  +5.5bps  tot=+130.21%  sh=  +325.8
+    ✅ test=+4.650%/d
+
+  --- EXP EEEE9: RETURN DISTRIBUTION WIDTH ---
+
+  Ret IQR(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=9060  wr= 65.6%  avg=  +5.1bps  tot=+465.29%  sh=  +250.5
+  ✅ TEST                                                     n=4302  wr= 70.0%  avg=  +4.7bps  tot=+202.71%  sh=  +296.2
+    ✅ test=+7.240%/d
+
+  Ret IQR(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6220  wr= 67.4%  avg=  +5.9bps  tot=+364.18%  sh=  +268.8
+  ✅ TEST                                                     n=2953  wr= 71.4%  avg=  +4.9bps  tot=+143.38%  sh=  +303.3
+    ✅ test=+5.121%/d
+
+  Ret IQR(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=11670  wr= 65.6%  avg=  +4.9bps  tot=+568.03%  sh=  +262.0
+  ✅ TEST                                                     n=5558  wr= 71.4%  avg=  +4.9bps  tot=+271.92%  sh=  +333.0
+    ✅ test=+9.711%/d
+
+  Ret IQR(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8691  wr= 67.7%  avg=  +5.3bps  tot=+462.91%  sh=  +280.3
+  ✅ TEST                                                     n=4043  wr= 71.8%  avg=  +5.0bps  tot=+200.56%  sh=  +335.0
+    ✅ test=+7.163%/d
+  Loading SOLUSDT... [10/88 20s] [20/88 37s] [30/88 50s] [40/88 68s] [50/88 81s] [60/88 92s] [70/88 110s] [80/88 134s] [88/88 145s] 126,720 bars (145s) [RAM=0.4GB, avail=4.8GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP BBBB9: STOCHASTIC VELOCITY ---
+
+  Stoch vel(14,3) >90th pct (fade):
+  ✅ TRAIN                                                    n=6116  wr= 60.9%  avg=  +2.9bps  tot=+174.61%  sh=  +199.7
+  ✅ TEST                                                     n=2950  wr= 63.0%  avg=  +3.3bps  tot= +96.80%  sh=  +222.4
+    ✅ test=+3.457%/d
+
+  Stoch vel(14,3) >95th pct (fade):
+  ✅ TRAIN                                                    n=3052  wr= 61.0%  avg=  +3.1bps  tot= +93.99%  sh=  +209.3
+  ✅ TEST                                                     n=1486  wr= 63.5%  avg=  +3.6bps  tot= +53.28%  sh=  +234.2
+    ✅ test=+1.903%/d
+
+  Stoch vel(14,5) >90th pct (fade):
+  ✅ TRAIN                                                    n=6153  wr= 61.4%  avg=  +2.8bps  tot=+173.36%  sh=  +207.6
+  ✅ TEST                                                     n=2920  wr= 63.7%  avg=  +3.5bps  tot=+102.14%  sh=  +244.0
+    ✅ test=+3.648%/d
+
+  Stoch vel(14,5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3107  wr= 61.1%  avg=  +2.8bps  tot= +85.93%  sh=  +192.8
+  ✅ TEST                                                     n=1476  wr= 63.3%  avg=  +3.4bps  tot= +50.17%  sh=  +221.4
+    ✅ test=+1.792%/d
+
+  Stoch vel(30,3) >90th pct (fade):
+  ✅ TRAIN                                                    n=6285  wr= 62.2%  avg=  +3.0bps  tot=+187.80%  sh=  +210.7
+  ✅ TEST                                                     n=2998  wr= 64.5%  avg=  +3.4bps  tot=+102.37%  sh=  +227.7
+    ✅ test=+3.656%/d
+
+  Stoch vel(30,3) >95th pct (fade):
+  ✅ TRAIN                                                    n=3222  wr= 63.1%  avg=  +3.1bps  tot=+101.20%  sh=  +225.0
+  ✅ TEST                                                     n=1543  wr= 65.2%  avg=  +3.7bps  tot= +56.34%  sh=  +236.6
+    ✅ test=+2.012%/d
+
+  Stoch vel(30,5) >90th pct (fade):
+  ✅ TRAIN                                                    n=6305  wr= 62.6%  avg=  +2.9bps  tot=+182.71%  sh=  +203.4
+  ✅ TEST                                                     n=2968  wr= 64.9%  avg=  +3.6bps  tot=+107.60%  sh=  +256.6
+    ✅ test=+3.843%/d
+
+  Stoch vel(30,5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3226  wr= 63.1%  avg=  +2.9bps  tot= +93.79%  sh=  +209.5
+  ✅ TEST                                                     n=1529  wr= 64.7%  avg=  +3.7bps  tot= +57.15%  sh=  +253.9
+    ✅ test=+2.041%/d
+
+  --- EXP CCCC9: PRICE EFFICIENCY RATIO ---
+
+  Efficiency(20) <5th pct (fade):
+  ✅ TRAIN                                                    n=2681  wr= 58.9%  avg=  +2.4bps  tot= +64.57%  sh=  +171.8
+  ✅ TEST                                                     n=1321  wr= 61.5%  avg=  +2.9bps  tot= +37.83%  sh=  +189.9
+    ✅ test=+1.351%/d
+
+  Efficiency(20) <10th pct (fade):
+  ✅ TRAIN                                                    n=5871  wr= 59.2%  avg=  +2.5bps  tot=+144.83%  sh=  +177.9
+  ✅ TEST                                                     n=2857  wr= 61.1%  avg=  +2.7bps  tot= +78.30%  sh=  +189.9
+    ✅ test=+2.796%/d
+
+  Efficiency(40) <5th pct (fade):
+  ✅ TRAIN                                                    n=2870  wr= 57.3%  avg=  +2.0bps  tot= +58.76%  sh=  +151.1
+  ✅ TEST                                                     n=1361  wr= 61.6%  avg=  +2.6bps  tot= +35.57%  sh=  +177.3
+    ✅ test=+1.270%/d
+
+  Efficiency(40) <10th pct (fade):
+  ✅ TRAIN                                                    n=6180  wr= 56.5%  avg=  +2.1bps  tot=+128.21%  sh=  +157.1
+  ✅ TEST                                                     n=2996  wr= 59.7%  avg=  +2.6bps  tot= +78.13%  sh=  +181.7
+    ✅ test=+2.790%/d
+
+  --- EXP DDDD9: WEIGHTED MOMENTUM RATIO ---
+
+  Wt mom div(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7668  wr= 71.0%  avg=  +5.5bps  tot=+419.42%  sh=  +291.3
+  ✅ TEST                                                     n=3631  wr= 72.8%  avg=  +5.8bps  tot=+209.82%  sh=  +320.3
+    ✅ test=+7.494%/d
+
+  Wt mom div(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4656  wr= 70.9%  avg=  +5.9bps  tot=+276.57%  sh=  +287.4
+  ✅ TEST                                                     n=2101  wr= 73.7%  avg=  +6.3bps  tot=+132.26%  sh=  +327.6
+    ✅ test=+4.724%/d
+
+  Wt mom div(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8425  wr= 70.9%  avg=  +5.4bps  tot=+453.72%  sh=  +290.8
+  ✅ TEST                                                     n=4376  wr= 70.5%  avg=  +5.2bps  tot=+229.71%  sh=  +297.9
+    ✅ test=+8.204%/d
+
+  Wt mom div(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5111  wr= 72.5%  avg=  +6.1bps  tot=+310.16%  sh=  +292.4
+  ✅ TEST                                                     n=2626  wr= 71.9%  avg=  +6.0bps  tot=+156.48%  sh=  +325.4
+    ✅ test=+5.589%/d
+
+  --- EXP EEEE9: RETURN DISTRIBUTION WIDTH ---
+
+  Ret IQR(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=9603  wr= 70.2%  avg=  +5.4bps  tot=+522.07%  sh=  +310.4
+  ✅ TEST                                                     n=4669  wr= 71.6%  avg=  +5.7bps  tot=+265.56%  sh=  +346.5
+    ✅ test=+9.484%/d
+
+  Ret IQR(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6563  wr= 71.5%  avg=  +6.0bps  tot=+392.54%  sh=  +324.3
+  ✅ TEST                                                     n=3269  wr= 73.6%  avg=  +5.9bps  tot=+193.62%  sh=  +362.3
+    ✅ test=+6.915%/d
+
+  Ret IQR(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=12140  wr= 70.5%  avg=  +5.1bps  tot=+625.21%  sh=  +303.7
+  ✅ TEST                                                     n=5832  wr= 73.3%  avg=  +5.6bps  tot=+327.93%  sh=  +358.4
+    ✅ test=+11.712%/d
+
+  Ret IQR(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8891  wr= 72.1%  avg=  +5.6bps  tot=+500.32%  sh=  +319.2
+  ✅ TEST                                                     n=4198  wr= 74.8%  avg=  +5.9bps  tot=+248.46%  sh=  +387.5
+    ✅ test=+8.873%/d
+  Loading DOGEUSDT... [10/88 25s] [20/88 41s] [30/88 51s] [40/88 61s] [50/88 70s] [60/88 79s] [70/88 110s] [80/88 133s] [88/88 144s] 126,720 bars (144s) [RAM=0.4GB, avail=4.6GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP BBBB9: STOCHASTIC VELOCITY ---
+
+  Stoch vel(14,3) >90th pct (fade):
+  ✅ TRAIN                                                    n=6363  wr= 63.6%  avg=  +3.7bps  tot=+234.83%  sh=  +212.6
+  ✅ TEST                                                     n=3212  wr= 81.1%  avg=  +8.0bps  tot=+255.62%  sh=  +435.4
+    ✅ test=+9.129%/d
+
+  Stoch vel(14,3) >95th pct (fade):
+  ✅ TRAIN                                                    n=3200  wr= 64.2%  avg=  +3.9bps  tot=+125.73%  sh=  +230.2
+  ✅ TEST                                                     n=1595  wr= 80.5%  avg=  +8.0bps  tot=+128.20%  sh=  +417.7
+    ✅ test=+4.578%/d
+
+  Stoch vel(14,5) >90th pct (fade):
+  ✅ TRAIN                                                    n=6421  wr= 63.2%  avg=  +3.5bps  tot=+222.97%  sh=  +202.0
+  ✅ TEST                                                     n=3270  wr= 80.6%  avg=  +8.1bps  tot=+265.28%  sh=  +416.2
+    ✅ test=+9.474%/d
+
+  Stoch vel(14,5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3243  wr= 63.7%  avg=  +3.5bps  tot=+113.24%  sh=  +198.9
+  ✅ TEST                                                     n=1623  wr= 82.4%  avg=  +8.5bps  tot=+137.15%  sh=  +441.5
+    ✅ test=+4.898%/d
+
+  Stoch vel(30,3) >90th pct (fade):
+  ✅ TRAIN                                                    n=6506  wr= 64.2%  avg=  +3.8bps  tot=+246.40%  sh=  +200.3
+  ✅ TEST                                                     n=3265  wr= 80.8%  avg=  +8.1bps  tot=+264.83%  sh=  +433.5
+    ✅ test=+9.458%/d
+
+  Stoch vel(30,3) >95th pct (fade):
+  ✅ TRAIN                                                    n=3281  wr= 66.2%  avg=  +4.1bps  tot=+135.53%  sh=  +209.8
+  ✅ TEST                                                     n=1656  wr= 81.3%  avg=  +8.4bps  tot=+138.97%  sh=  +439.7
+    ✅ test=+4.963%/d
+
+  Stoch vel(30,5) >90th pct (fade):
+  ✅ TRAIN                                                    n=6553  wr= 64.6%  avg=  +3.8bps  tot=+246.54%  sh=  +216.7
+  ✅ TEST                                                     n=3299  wr= 80.7%  avg=  +8.0bps  tot=+264.19%  sh=  +428.8
+    ✅ test=+9.435%/d
+
+  Stoch vel(30,5) >95th pct (fade):
+  ✅ TRAIN                                                    n=3362  wr= 65.0%  avg=  +3.7bps  tot=+123.28%  sh=  +210.8
+  ✅ TEST                                                     n=1638  wr= 81.0%  avg=  +8.6bps  tot=+140.54%  sh=  +419.4
+    ✅ test=+5.019%/d
+
+  --- EXP CCCC9: PRICE EFFICIENCY RATIO ---
+
+  Efficiency(20) <5th pct (fade):
+  ✅ TRAIN                                                    n=2771  wr= 61.4%  avg=  +3.1bps  tot= +86.23%  sh=  +178.8
+  ✅ TEST                                                     n=1402  wr= 76.8%  avg=  +6.8bps  tot= +95.27%  sh=  +353.1
+    ✅ test=+3.402%/d
+
+  Efficiency(20) <10th pct (fade):
+  ✅ TRAIN                                                    n=6097  wr= 61.6%  avg=  +3.1bps  tot=+188.27%  sh=  +182.8
+  ✅ TEST                                                     n=3139  wr= 76.6%  avg=  +7.0bps  tot=+218.82%  sh=  +390.1
+    ✅ test=+7.815%/d
+
+  Efficiency(40) <5th pct (fade):
+  ✅ TRAIN                                                    n=3000  wr= 61.5%  avg=  +3.1bps  tot= +94.50%  sh=  +181.5
+  ✅ TEST                                                     n=1541  wr= 76.4%  avg=  +6.9bps  tot=+106.61%  sh=  +438.8
+    ✅ test=+3.807%/d
+
+  Efficiency(40) <10th pct (fade):
+  ✅ TRAIN                                                    n=6480  wr= 61.2%  avg=  +3.3bps  tot=+211.27%  sh=  +192.2
+  ✅ TEST                                                     n=3331  wr= 77.7%  avg=  +6.9bps  tot=+231.24%  sh=  +416.2
+    ✅ test=+8.259%/d
+
+  --- EXP DDDD9: WEIGHTED MOMENTUM RATIO ---
+
+  Wt mom div(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7981  wr= 74.2%  avg=  +6.8bps  tot=+542.73%  sh=  +310.5
+  ✅ TEST                                                     n=4026  wr= 87.8%  avg= +10.9bps  tot=+438.46%  sh=  +472.7
+    ✅ test=+15.659%/d
+
+  Wt mom div(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4877  wr= 74.6%  avg=  +7.5bps  tot=+366.04%  sh=  +308.9
+  ✅ TEST                                                     n=2360  wr= 87.7%  avg= +11.5bps  tot=+271.52%  sh=  +448.8
+    ✅ test=+9.697%/d
+
+  Wt mom div(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8665  wr= 74.8%  avg=  +6.8bps  tot=+587.61%  sh=  +308.8
+  ✅ TEST                                                     n=4610  wr= 87.1%  avg= +10.4bps  tot=+480.23%  sh=  +477.9
+    ✅ test=+17.151%/d
+
+  Wt mom div(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5375  wr= 75.9%  avg=  +7.7bps  tot=+415.29%  sh=  +312.5
+  ✅ TEST                                                     n=2792  wr= 87.4%  avg= +11.2bps  tot=+314.02%  sh=  +459.2
+    ✅ test=+11.215%/d
+
+  --- EXP EEEE9: RETURN DISTRIBUTION WIDTH ---
+
+  Ret IQR(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=9641  wr= 71.8%  avg=  +6.7bps  tot=+643.48%  sh=  +309.6
+  ✅ TEST                                                     n=5025  wr= 85.7%  avg= +11.1bps  tot=+555.55%  sh=  +511.7
+    ✅ test=+19.841%/d
+
+  Ret IQR(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6623  wr= 73.3%  avg=  +7.2bps  tot=+479.51%  sh=  +321.5
+  ✅ TEST                                                     n=3381  wr= 86.0%  avg= +11.3bps  tot=+383.39%  sh=  +518.1
+    ✅ test=+13.693%/d
+
+  Ret IQR(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=12466  wr= 72.2%  avg=  +6.4bps  tot=+799.24%  sh=  +306.4
+  ✅ TEST                                                     n=6413  wr= 85.6%  avg= +11.0bps  tot=+703.70%  sh=  +509.8
+    ✅ test=+25.132%/d
+
+  Ret IQR(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=9207  wr= 74.2%  avg=  +7.0bps  tot=+643.50%  sh=  +321.5
+  ✅ TEST                                                     n=4601  wr= 86.4%  avg= +11.2bps  tot=+513.86%  sh=  +523.3
+    ✅ test=+18.352%/d
+  Loading XRPUSDT... [10/88 20s] [20/88 30s] [30/88 39s] [40/88 49s] [50/88 60s] [60/88 70s] [70/88 104s] [80/88 124s] [88/88 136s] 126,720 bars (136s) [RAM=0.4GB, avail=4.4GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP BBBB9: STOCHASTIC VELOCITY ---
+
+  Stoch vel(14,3) >90th pct (fade):
+  ✅ TRAIN                                                    n=5563  wr= 49.9%  avg=  +1.5bps  tot= +83.70%  sh=  +100.1
+  ✅ TEST                                                     n=3090  wr= 71.1%  avg=  +5.6bps  tot=+172.30%  sh=  +299.2
+    ✅ test=+6.154%/d
+
+  Stoch vel(14,3) >95th pct (fade):
+  ✅ TRAIN                                                    n=2801  wr= 50.7%  avg=  +1.6bps  tot= +43.90%  sh=  +100.2
+  ✅ TEST                                                     n=1563  wr= 70.4%  avg=  +5.4bps  tot= +84.39%  sh=  +269.9
+    ✅ test=+3.014%/d
+
+  Stoch vel(14,5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5647  wr= 49.7%  avg=  +1.3bps  tot= +74.78%  sh=   +84.7
+  ✅ TEST                                                     n=3180  wr= 70.1%  avg=  +5.2bps  tot=+166.62%  sh=  +291.0
+    ✅ test=+5.951%/d
+
+  Stoch vel(14,5) >95th pct (fade):
+  ✅ TRAIN                                                    n=2830  wr= 50.2%  avg=  +1.3bps  tot= +35.56%  sh=   +78.2
+  ✅ TEST                                                     n=1589  wr= 70.9%  avg=  +5.4bps  tot= +86.35%  sh=  +299.3
+    ✅ test=+3.084%/d
+
+  Stoch vel(30,3) >90th pct (fade):
+  ✅ TRAIN                                                    n=5671  wr= 50.5%  avg=  +1.5bps  tot= +86.65%  sh=   +93.9
+  ✅ TEST                                                     n=3136  wr= 72.1%  avg=  +5.8bps  tot=+181.55%  sh=  +299.3
+    ✅ test=+6.484%/d
+
+  Stoch vel(30,3) >95th pct (fade):
+  ✅ TRAIN                                                    n=2891  wr= 51.2%  avg=  +1.6bps  tot= +46.83%  sh=  +108.3
+  ✅ TEST                                                     n=1569  wr= 71.8%  avg=  +5.5bps  tot= +85.64%  sh=  +294.5
+    ✅ test=+3.058%/d
+
+  Stoch vel(30,5) >90th pct (fade):
+  ✅ TRAIN                                                    n=5727  wr= 50.6%  avg=  +1.4bps  tot= +82.54%  sh=   +87.4
+  ✅ TEST                                                     n=3182  wr= 71.5%  avg=  +5.4bps  tot=+170.26%  sh=  +306.1
+    ✅ test=+6.081%/d
+
+  Stoch vel(30,5) >95th pct (fade):
+  ✅ TRAIN                                                    n=2875  wr= 50.2%  avg=  +1.4bps  tot= +40.55%  sh=   +89.2
+  ✅ TEST                                                     n=1645  wr= 70.1%  avg=  +5.1bps  tot= +83.57%  sh=  +282.5
+    ✅ test=+2.985%/d
+
+  --- EXP CCCC9: PRICE EFFICIENCY RATIO ---
+
+  Efficiency(20) <5th pct (fade):
+  ✅ TRAIN                                                    n=2446  wr= 47.6%  avg=  +0.7bps  tot= +18.25%  sh=   +46.7
+  ✅ TEST                                                     n=1360  wr= 70.3%  avg=  +4.8bps  tot= +65.69%  sh=  +296.2
+    ✅ test=+2.346%/d
+
+  Efficiency(20) <10th pct (fade):
+  ✅ TRAIN                                                    n=5320  wr= 47.9%  avg=  +0.9bps  tot= +46.32%  sh=   +56.1
+  ✅ TEST                                                     n=2971  wr= 70.9%  avg=  +5.1bps  tot=+152.89%  sh=  +305.2
+    ✅ test=+5.460%/d
+
+  Efficiency(40) <5th pct (fade):
+  ✅ TRAIN                                                    n=2667  wr= 46.3%  avg=  +0.5bps  tot= +13.99%  sh=   +35.6
+  ✅ TEST                                                     n=1438  wr= 71.2%  avg=  +5.0bps  tot= +71.37%  sh=  +327.5
+    ✅ test=+2.549%/d
+
+  Efficiency(40) <10th pct (fade):
+  ✅ TRAIN                                                    n=5736  wr= 46.9%  avg=  +0.6bps  tot= +36.84%  sh=   +44.2
+  ✅ TEST                                                     n=3158  wr= 70.4%  avg=  +5.0bps  tot=+158.73%  sh=  +311.0
+    ✅ test=+5.669%/d
+
+  --- EXP DDDD9: WEIGHTED MOMENTUM RATIO ---
+
+  Wt mom div(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6870  wr= 60.3%  avg=  +3.8bps  tot=+259.73%  sh=  +194.2
+  ✅ TEST                                                     n=3830  wr= 78.6%  avg=  +8.4bps  tot=+320.97%  sh=  +341.6
+    ✅ test=+11.463%/d
+
+  Wt mom div(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4197  wr= 61.6%  avg=  +4.4bps  tot=+185.84%  sh=  +205.1
+  ✅ TEST                                                     n=2316  wr= 79.4%  avg=  +9.2bps  tot=+214.04%  sh=  +342.6
+    ✅ test=+7.644%/d
+
+  Wt mom div(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7718  wr= 60.4%  avg=  +3.6bps  tot=+278.76%  sh=  +191.8
+  ✅ TEST                                                     n=4397  wr= 78.6%  avg=  +8.2bps  tot=+359.61%  sh=  +357.3
+    ✅ test=+12.843%/d
+
+  Wt mom div(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4851  wr= 60.0%  avg=  +4.0bps  tot=+192.55%  sh=  +191.3
+  ✅ TEST                                                     n=2730  wr= 79.5%  avg=  +8.7bps  tot=+236.49%  sh=  +343.3
+    ✅ test=+8.446%/d
+
+  --- EXP EEEE9: RETURN DISTRIBUTION WIDTH ---
+
+  Ret IQR(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8937  wr= 58.9%  avg=  +3.5bps  tot=+310.67%  sh=  +177.2
+  ✅ TEST                                                     n=4870  wr= 80.1%  avg=  +8.8bps  tot=+429.91%  sh=  +407.4
+    ✅ test=+15.354%/d
+
+  Ret IQR(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=6039  wr= 61.1%  avg=  +4.2bps  tot=+255.15%  sh=  +210.0
+  ✅ TEST                                                     n=3287  wr= 81.2%  avg=  +9.2bps  tot=+302.50%  sh=  +418.1
+    ✅ test=+10.804%/d
+
+  Ret IQR(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=11432  wr= 59.4%  avg=  +3.4bps  tot=+391.29%  sh=  +190.5
+  ✅ TEST                                                     n=6443  wr= 80.4%  avg=  +8.8bps  tot=+566.67%  sh=  +389.2
+    ✅ test=+20.238%/d
+
+  Ret IQR(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=8360  wr= 61.7%  avg=  +3.9bps  tot=+325.38%  sh=  +214.9
+  ✅ TEST                                                     n=4644  wr= 81.6%  avg=  +9.3bps  tot=+431.54%  sh=  +406.8
+    ✅ test=+15.412%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    eff_20_0.05              1402   76.8%    +6.8bp    +95.3%     +353
+  ✅ DOGEUSDT    eff_20_0.1               3139   76.6%    +7.0bp   +218.8%     +390
+  ✅ DOGEUSDT    eff_40_0.05              1541   76.4%    +6.9bp   +106.6%     +439
+  ✅ DOGEUSDT    eff_40_0.1               3331   77.7%    +6.9bp   +231.2%     +416
+  ✅ DOGEUSDT    iqr_30_0.9               5025   85.7%   +11.1bp   +555.6%     +512
+  ✅ DOGEUSDT    iqr_30_0.95              3381   86.0%   +11.3bp   +383.4%     +518
+  ✅ DOGEUSDT    iqr_60_0.9               6413   85.6%   +11.0bp   +703.7%     +510
+  ✅ DOGEUSDT    iqr_60_0.95              4601   86.4%   +11.2bp   +513.9%     +523
+  ✅ DOGEUSDT    sv_14_3_0.9              3212   81.1%    +8.0bp   +255.6%     +435
+  ✅ DOGEUSDT    sv_14_3_0.95             1595   80.5%    +8.0bp   +128.2%     +418
+  ✅ DOGEUSDT    sv_14_5_0.9              3270   80.6%    +8.1bp   +265.3%     +416
+  ✅ DOGEUSDT    sv_14_5_0.95             1623   82.4%    +8.5bp   +137.1%     +441
+  ✅ DOGEUSDT    sv_30_3_0.9              3265   80.8%    +8.1bp   +264.8%     +433
+  ✅ DOGEUSDT    sv_30_3_0.95             1656   81.3%    +8.4bp   +139.0%     +440
+  ✅ DOGEUSDT    sv_30_5_0.9              3299   80.7%    +8.0bp   +264.2%     +429
+  ✅ DOGEUSDT    sv_30_5_0.95             1638   81.0%    +8.6bp   +140.5%     +419
+  ✅ DOGEUSDT    wm_20_0.9                4026   87.8%   +10.9bp   +438.5%     +473
+  ✅ DOGEUSDT    wm_20_0.95               2360   87.7%   +11.5bp   +271.5%     +449
+  ✅ DOGEUSDT    wm_40_0.9                4610   87.1%   +10.4bp   +480.2%     +478
+  ✅ DOGEUSDT    wm_40_0.95               2792   87.4%   +11.2bp   +314.0%     +459
+  ✅ ETHUSDT     eff_20_0.05              1180   58.1%    +2.1bp    +24.3%     +141
+  ✅ ETHUSDT     eff_20_0.1               2718   58.0%    +1.9bp    +52.6%     +142
+  ✅ ETHUSDT     eff_40_0.05              1304   55.5%    +1.9bp    +24.2%     +141
+  ✅ ETHUSDT     eff_40_0.1               2830   55.1%    +1.8bp    +50.4%     +132
+  ✅ ETHUSDT     iqr_30_0.9               4302   70.0%    +4.7bp   +202.7%     +296
+  ✅ ETHUSDT     iqr_30_0.95              2953   71.4%    +4.9bp   +143.4%     +303
+  ✅ ETHUSDT     iqr_60_0.9               5558   71.4%    +4.9bp   +271.9%     +333
+  ✅ ETHUSDT     iqr_60_0.95              4043   71.8%    +5.0bp   +200.6%     +335
+  ✅ ETHUSDT     sv_14_3_0.9              2803   60.5%    +3.0bp    +83.2%     +198
+  ✅ ETHUSDT     sv_14_3_0.95             1394   60.5%    +3.0bp    +42.1%     +190
+  ✅ ETHUSDT     sv_14_5_0.9              2820   60.5%    +3.0bp    +83.6%     +196
+  ✅ ETHUSDT     sv_14_5_0.95             1407   61.4%    +3.2bp    +44.7%     +194
+  ✅ ETHUSDT     sv_30_3_0.9              2866   63.2%    +3.2bp    +91.5%     +216
+  ✅ ETHUSDT     sv_30_3_0.95             1475   65.0%    +3.6bp    +53.0%     +240
+  ✅ ETHUSDT     sv_30_5_0.9              2909   63.5%    +3.2bp    +91.8%     +217
+  ✅ ETHUSDT     sv_30_5_0.95             1450   66.1%    +3.5bp    +50.6%     +226
+  ✅ ETHUSDT     wm_20_0.9                3536   71.4%    +5.3bp   +186.6%     +312
+  ✅ ETHUSDT     wm_20_0.95               2022   72.9%    +5.8bp   +117.4%     +317
+  ✅ ETHUSDT     wm_40_0.9                4023   70.3%    +5.0bp   +199.7%     +309
+  ✅ ETHUSDT     wm_40_0.95               2370   73.3%    +5.5bp   +130.2%     +326
+  ✅ SOLUSDT     eff_20_0.05              1321   61.5%    +2.9bp    +37.8%     +190
+  ✅ SOLUSDT     eff_20_0.1               2857   61.1%    +2.7bp    +78.3%     +190
+  ✅ SOLUSDT     eff_40_0.05              1361   61.6%    +2.6bp    +35.6%     +177
+  ✅ SOLUSDT     eff_40_0.1               2996   59.7%    +2.6bp    +78.1%     +182
+  ✅ SOLUSDT     iqr_30_0.9               4669   71.6%    +5.7bp   +265.6%     +346
+  ✅ SOLUSDT     iqr_30_0.95              3269   73.6%    +5.9bp   +193.6%     +362
+  ✅ SOLUSDT     iqr_60_0.9               5832   73.3%    +5.6bp   +327.9%     +358
+  ✅ SOLUSDT     iqr_60_0.95              4198   74.8%    +5.9bp   +248.5%     +387
+  ✅ SOLUSDT     sv_14_3_0.9              2950   63.0%    +3.3bp    +96.8%     +222
+  ✅ SOLUSDT     sv_14_3_0.95             1486   63.5%    +3.6bp    +53.3%     +234
+  ✅ SOLUSDT     sv_14_5_0.9              2920   63.7%    +3.5bp   +102.1%     +244
+  ✅ SOLUSDT     sv_14_5_0.95             1476   63.3%    +3.4bp    +50.2%     +221
+  ✅ SOLUSDT     sv_30_3_0.9              2998   64.5%    +3.4bp   +102.4%     +228
+  ✅ SOLUSDT     sv_30_3_0.95             1543   65.2%    +3.7bp    +56.3%     +237
+  ✅ SOLUSDT     sv_30_5_0.9              2968   64.9%    +3.6bp   +107.6%     +257
+  ✅ SOLUSDT     sv_30_5_0.95             1529   64.7%    +3.7bp    +57.2%     +254
+  ✅ SOLUSDT     wm_20_0.9                3631   72.8%    +5.8bp   +209.8%     +320
+  ✅ SOLUSDT     wm_20_0.95               2101   73.7%    +6.3bp   +132.3%     +328
+  ✅ SOLUSDT     wm_40_0.9                4376   70.5%    +5.2bp   +229.7%     +298
+  ✅ SOLUSDT     wm_40_0.95               2626   71.9%    +6.0bp   +156.5%     +325
+  ✅ XRPUSDT     eff_20_0.05              1360   70.3%    +4.8bp    +65.7%     +296
+  ✅ XRPUSDT     eff_20_0.1               2971   70.9%    +5.1bp   +152.9%     +305
+  ✅ XRPUSDT     eff_40_0.05              1438   71.2%    +5.0bp    +71.4%     +327
+  ✅ XRPUSDT     eff_40_0.1               3158   70.4%    +5.0bp   +158.7%     +311
+  ✅ XRPUSDT     iqr_30_0.9               4870   80.1%    +8.8bp   +429.9%     +407
+  ✅ XRPUSDT     iqr_30_0.95              3287   81.2%    +9.2bp   +302.5%     +418
+  ✅ XRPUSDT     iqr_60_0.9               6443   80.4%    +8.8bp   +566.7%     +389
+  ✅ XRPUSDT     iqr_60_0.95              4644   81.6%    +9.3bp   +431.5%     +407
+  ✅ XRPUSDT     sv_14_3_0.9              3090   71.1%    +5.6bp   +172.3%     +299
+  ✅ XRPUSDT     sv_14_3_0.95             1563   70.4%    +5.4bp    +84.4%     +270
+  ✅ XRPUSDT     sv_14_5_0.9              3180   70.1%    +5.2bp   +166.6%     +291
+  ✅ XRPUSDT     sv_14_5_0.95             1589   70.9%    +5.4bp    +86.4%     +299
+  ✅ XRPUSDT     sv_30_3_0.9              3136   72.1%    +5.8bp   +181.6%     +299
+  ✅ XRPUSDT     sv_30_3_0.95             1569   71.8%    +5.5bp    +85.6%     +295
+  ✅ XRPUSDT     sv_30_5_0.9              3182   71.5%    +5.4bp   +170.3%     +306
+  ✅ XRPUSDT     sv_30_5_0.95             1645   70.1%    +5.1bp    +83.6%     +282
+  ✅ XRPUSDT     wm_20_0.9                3830   78.6%    +8.4bp   +321.0%     +342
+  ✅ XRPUSDT     wm_20_0.95               2316   79.4%    +9.2bp   +214.0%     +343
+  ✅ XRPUSDT     wm_40_0.9                4397   78.6%    +8.2bp   +359.6%     +357
+  ✅ XRPUSDT     wm_40_0.95               2730   79.5%    +8.7bp   +236.5%     +343
+
+################################################################################
+  COMPLETE — 1036s (17.3min) [RAM=0.2GB, avail=4.2GB]
+################################################################################
