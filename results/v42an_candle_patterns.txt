@@ -1,0 +1,235 @@
+================================================================================
+  v42an: CANDLESTICK PATTERNS + PRICE ACTION
+  2026-02-19 11:07:31  [RAM=0.1GB, avail=7.9GB]
+================================================================================
+  Loading ETHUSDT... [10/88 42s] [20/88 70s] [30/88 97s] [40/88 126s] [50/88 151s] [60/88 171s] [70/88 205s] [80/88 240s] [88/88 263s] 126,720 bars (263s) [RAM=0.5GB, avail=7.9GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP JJJJ2: DOJI + HAMMER + ENGULFING ---
+
+  Doji after move (fade):
+  ✅ TRAIN                                                    n= 995  wr= 62.8%  avg=  +3.7bps  tot= +36.63%  sh=  +253.8
+  ✅ TEST                                                     n= 537  wr= 66.9%  avg=  +4.0bps  tot= +21.61%  sh=  +258.4
+    ✅ test=+0.772%/d
+
+  Hammer/Inv Hammer:
+  ✅ TRAIN                                                    n=1088  wr= 69.3%  avg=  +4.5bps  tot= +48.94%  sh=  +298.4
+  ✅ TEST                                                     n= 525  wr= 72.4%  avg=  +5.4bps  tot= +28.15%  sh=  +457.1
+    ✅ test=+1.005%/d
+
+  --- EXP KKKK2: INSIDE BAR ---
+
+  Inside bar breakout (fade):
+  ✅ TRAIN                                                    n=8673  wr= 56.9%  avg=  +2.5bps  tot=+214.88%  sh=  +153.0
+  ✅ TEST                                                     n=4253  wr= 61.3%  avg=  +3.0bps  tot=+127.95%  sh=  +221.5
+    ✅ test=+4.570%/d
+
+  --- EXP LLLL2: PIN BAR ---
+
+  Pin bar wick>2x body (follow rejection):
+  ✅ TRAIN                                                    n= 843  wr= 76.6%  avg=  +7.7bps  tot= +64.56%  sh=  +434.2
+  ✅ TEST                                                     n= 402  wr= 81.6%  avg=  +7.6bps  tot= +30.53%  sh=  +507.6
+    ✅ test=+1.090%/d
+
+  Pin bar wick>3x body (follow rejection):
+  ✅ TRAIN                                                    n= 570  wr= 76.3%  avg=  +7.2bps  tot= +41.06%  sh=  +431.5
+  ✅ TEST                                                     n= 285  wr= 81.8%  avg=  +7.3bps  tot= +20.88%  sh=  +477.0
+    ✅ test=+0.746%/d
+
+  --- EXP MMMM2: THREE-BAR REVERSAL ---
+
+  3-bar reversal z>1 (fade):
+  ✅ TRAIN                                                    n=4022  wr= 62.5%  avg=  +3.9bps  tot=+157.43%  sh=  +231.1
+  ✅ TEST                                                     n=1957  wr= 64.0%  avg=  +3.7bps  tot= +72.16%  sh=  +255.6
+    ✅ test=+2.577%/d
+
+  3-bar reversal z>2 (fade):
+  ✅ TRAIN                                                    n= 987  wr= 72.1%  avg=  +7.6bps  tot= +74.68%  sh=  +347.4
+  ✅ TEST                                                     n= 490  wr= 73.1%  avg=  +6.0bps  tot= +29.34%  sh=  +328.3
+    ✅ test=+1.048%/d
+  Loading SOLUSDT... [10/88 20s] [20/88 35s] [30/88 46s] [40/88 60s] [50/88 73s] [60/88 86s] [70/88 101s] [80/88 120s] [88/88 130s] 126,720 bars (130s) [RAM=0.4GB, avail=8.1GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP JJJJ2: DOJI + HAMMER + ENGULFING ---
+
+  Doji after move (fade):
+  ✅ TRAIN                                                    n=1181  wr= 66.1%  avg=  +3.7bps  tot= +43.19%  sh=  +209.5
+  ✅ TEST                                                     n= 577  wr= 74.2%  avg=  +5.0bps  tot= +29.03%  sh=  +364.0
+    ✅ test=+1.037%/d
+
+  Hammer/Inv Hammer:
+  ✅ TRAIN                                                    n= 975  wr= 68.3%  avg=  +4.4bps  tot= +42.92%  sh=  +285.7
+  ✅ TEST                                                     n= 549  wr= 74.9%  avg=  +5.6bps  tot= +30.55%  sh=  +430.4
+    ✅ test=+1.091%/d
+
+  --- EXP KKKK2: INSIDE BAR ---
+
+  Inside bar breakout (fade):
+  ✅ TRAIN                                                    n=7454  wr= 62.0%  avg=  +3.2bps  tot=+238.85%  sh=  +207.7
+  ✅ TEST                                                     n=3530  wr= 65.5%  avg=  +4.0bps  tot=+140.52%  sh=  +257.5
+    ✅ test=+5.019%/d
+
+  --- EXP LLLL2: PIN BAR ---
+
+  Pin bar wick>2x body (follow rejection):
+  ✅ TRAIN                                                    n= 617  wr= 81.8%  avg=  +9.2bps  tot= +56.58%  sh=  +544.5
+  ✅ TEST                                                     n= 325  wr= 83.7%  avg=  +8.7bps  tot= +28.32%  sh=  +601.8
+    ✅ test=+1.011%/d
+
+  Pin bar wick>3x body (follow rejection):
+  ✅ TRAIN                                                    n= 425  wr= 80.0%  avg=  +8.7bps  tot= +36.95%  sh=  +560.7
+  ✅ TEST                                                     n= 231  wr= 80.1%  avg=  +7.9bps  tot= +18.20%  sh=  +535.3
+    ✅ test=+0.650%/d
+
+  --- EXP MMMM2: THREE-BAR REVERSAL ---
+
+  3-bar reversal z>1 (fade):
+  ✅ TRAIN                                                    n=4358  wr= 62.5%  avg=  +3.4bps  tot=+150.14%  sh=  +218.6
+  ✅ TEST                                                     n=2148  wr= 61.5%  avg=  +3.4bps  tot= +72.13%  sh=  +222.5
+    ✅ test=+2.576%/d
+
+  3-bar reversal z>2 (fade):
+  ✅ TRAIN                                                    n=1137  wr= 70.0%  avg=  +5.6bps  tot= +63.92%  sh=  +307.2
+  ✅ TEST                                                     n= 513  wr= 68.6%  avg=  +5.1bps  tot= +26.01%  sh=  +265.6
+    ✅ test=+0.929%/d
+  Loading DOGEUSDT... [10/88 26s] [20/88 42s] [30/88 53s] [40/88 64s] [50/88 75s] [60/88 85s] [70/88 117s] [80/88 144s] [88/88 154s] 126,720 bars (154s) [RAM=0.4GB, avail=8.1GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP JJJJ2: DOJI + HAMMER + ENGULFING ---
+
+  Doji after move (fade):
+  ✅ TRAIN                                                    n=1180  wr= 68.2%  avg=  +4.5bps  tot= +52.93%  sh=  +297.0
+  ✅ TEST                                                     n= 615  wr= 84.9%  avg=  +8.7bps  tot= +53.64%  sh=  +572.4
+    ✅ test=+1.916%/d
+
+  Hammer/Inv Hammer:
+  ✅ TRAIN                                                    n=1082  wr= 72.3%  avg=  +5.0bps  tot= +53.77%  sh=  +313.5
+  ✅ TEST                                                     n= 604  wr= 91.9%  avg=  +9.5bps  tot= +57.52%  sh=  +711.9
+    ✅ test=+2.054%/d
+
+  --- EXP KKKK2: INSIDE BAR ---
+
+  Inside bar breakout (fade):
+  ✅ TRAIN                                                    n=7835  wr= 63.3%  avg=  +3.9bps  tot=+308.19%  sh=  +214.7
+  ✅ TEST                                                     n=4065  wr= 80.8%  avg=  +8.4bps  tot=+340.33%  sh=  +447.6
+    ✅ test=+12.155%/d
+
+  --- EXP LLLL2: PIN BAR ---
+
+  Pin bar wick>2x body (follow rejection):
+  ✅ TRAIN                                                    n= 672  wr= 84.7%  avg=  +9.9bps  tot= +66.34%  sh=  +553.0
+  ✅ TEST                                                     n= 355  wr= 94.6%  avg= +14.6bps  tot= +51.67%  sh=  +817.3
+    ✅ test=+1.845%/d
+
+  Pin bar wick>3x body (follow rejection):
+  ✅ TRAIN                                                    n= 437  wr= 84.4%  avg=  +9.4bps  tot= +40.88%  sh=  +514.5
+  ✅ TEST                                                     n= 239  wr= 95.8%  avg= +13.6bps  tot= +32.51%  sh=  +843.6
+    ✅ test=+1.161%/d
+
+  --- EXP MMMM2: THREE-BAR REVERSAL ---
+
+  3-bar reversal z>1 (fade):
+  ✅ TRAIN                                                    n=4508  wr= 66.2%  avg=  +4.5bps  tot=+202.28%  sh=  +230.7
+  ✅ TEST                                                     n=2420  wr= 79.1%  avg=  +8.2bps  tot=+197.98%  sh=  +403.1
+    ✅ test=+7.071%/d
+
+  3-bar reversal z>2 (fade):
+  ✅ TRAIN                                                    n=1148  wr= 71.9%  avg=  +7.0bps  tot= +80.68%  sh=  +278.9
+  ✅ TEST                                                     n= 579  wr= 82.6%  avg= +10.9bps  tot= +62.99%  sh=  +411.1
+    ✅ test=+2.250%/d
+  Loading XRPUSDT... [10/88 18s] [20/88 28s] [30/88 37s] [40/88 49s] [50/88 60s] [60/88 70s] [70/88 104s] [80/88 126s] [88/88 140s] 126,720 bars (140s) [RAM=0.5GB, avail=7.8GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP JJJJ2: DOJI + HAMMER + ENGULFING ---
+
+  Doji after move (fade):
+  ✅ TRAIN                                                    n=1057  wr= 54.1%  avg=  +1.9bps  tot= +19.82%  sh=  +115.3
+  ✅ TEST                                                     n= 549  wr= 77.4%  avg=  +6.7bps  tot= +36.85%  sh=  +380.9
+    ✅ test=+1.316%/d
+
+  Hammer/Inv Hammer:
+  ✅ TRAIN                                                    n= 983  wr= 60.9%  avg=  +3.1bps  tot= +30.17%  sh=  +227.4
+  ✅ TEST                                                     n= 544  wr= 85.8%  avg=  +7.7bps  tot= +41.98%  sh=  +579.0
+    ✅ test=+1.499%/d
+
+  --- EXP KKKK2: INSIDE BAR ---
+
+  Inside bar breakout (fade):
+  ✅ TRAIN                                                    n=6712  wr= 49.6%  avg=  +1.3bps  tot= +84.74%  sh=   +82.9
+  ✅ TEST                                                     n=4105  wr= 72.6%  avg=  +5.9bps  tot=+240.16%  sh=  +336.0
+    ✅ test=+8.577%/d
+
+  --- EXP LLLL2: PIN BAR ---
+
+  Pin bar wick>2x body (follow rejection):
+  ✅ TRAIN                                                    n= 673  wr= 69.4%  avg=  +6.1bps  tot= +40.77%  sh=  +342.9
+  ✅ TEST                                                     n= 312  wr= 92.9%  avg= +13.4bps  tot= +41.80%  sh=  +691.0
+    ✅ test=+1.493%/d
+
+  Pin bar wick>3x body (follow rejection):
+  ✅ TRAIN                                                    n= 482  wr= 68.7%  avg=  +5.6bps  tot= +27.06%  sh=  +312.2
+  ✅ TEST                                                     n= 222  wr= 92.3%  avg= +12.5bps  tot= +27.86%  sh=  +646.5
+    ✅ test=+0.995%/d
+
+  --- EXP MMMM2: THREE-BAR REVERSAL ---
+
+  3-bar reversal z>1 (fade):
+  ✅ TRAIN                                                    n=4035  wr= 53.4%  avg=  +2.2bps  tot= +88.85%  sh=  +130.0
+  ✅ TEST                                                     n=2315  wr= 70.3%  avg=  +6.0bps  tot=+138.76%  sh=  +277.5
+    ✅ test=+4.956%/d
+
+  3-bar reversal z>2 (fade):
+  ✅ TRAIN                                                    n=1026  wr= 60.0%  avg=  +4.8bps  tot= +49.39%  sh=  +231.0
+  ✅ TEST                                                     n= 533  wr= 74.5%  avg=  +8.9bps  tot= +47.53%  sh=  +276.8
+    ✅ test=+1.697%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    3bar_z1                2420   79.1%    +8.2bp   +198.0%     +403
+  ✅ DOGEUSDT    3bar_z2                 579   82.6%   +10.9bp    +63.0%     +411
+  ✅ DOGEUSDT    doji                    615   84.9%    +8.7bp    +53.6%     +572
+  ✅ DOGEUSDT    hammer                  604   91.9%    +9.5bp    +57.5%     +712
+  ✅ DOGEUSDT    inside_bar             4065   80.8%    +8.4bp   +340.3%     +448
+  ✅ DOGEUSDT    pin_bar_2x              355   94.6%   +14.6bp    +51.7%     +817
+  ✅ DOGEUSDT    pin_bar_3x              239   95.8%   +13.6bp    +32.5%     +844
+  ✅ ETHUSDT     3bar_z1                1957   64.0%    +3.7bp    +72.2%     +256
+  ✅ ETHUSDT     3bar_z2                 490   73.1%    +6.0bp    +29.3%     +328
+  ✅ ETHUSDT     doji                    537   66.9%    +4.0bp    +21.6%     +258
+  ✅ ETHUSDT     hammer                  525   72.4%    +5.4bp    +28.1%     +457
+  ✅ ETHUSDT     inside_bar             4253   61.3%    +3.0bp   +127.9%     +222
+  ✅ ETHUSDT     pin_bar_2x              402   81.6%    +7.6bp    +30.5%     +508
+  ✅ ETHUSDT     pin_bar_3x              285   81.8%    +7.3bp    +20.9%     +477
+  ✅ SOLUSDT     3bar_z1                2148   61.5%    +3.4bp    +72.1%     +223
+  ✅ SOLUSDT     3bar_z2                 513   68.6%    +5.1bp    +26.0%     +266
+  ✅ SOLUSDT     doji                    577   74.2%    +5.0bp    +29.0%     +364
+  ✅ SOLUSDT     hammer                  549   74.9%    +5.6bp    +30.5%     +430
+  ✅ SOLUSDT     inside_bar             3530   65.5%    +4.0bp   +140.5%     +257
+  ✅ SOLUSDT     pin_bar_2x              325   83.7%    +8.7bp    +28.3%     +602
+  ✅ SOLUSDT     pin_bar_3x              231   80.1%    +7.9bp    +18.2%     +535
+  ✅ XRPUSDT     3bar_z1                2315   70.3%    +6.0bp   +138.8%     +277
+  ✅ XRPUSDT     3bar_z2                 533   74.5%    +8.9bp    +47.5%     +277
+  ✅ XRPUSDT     doji                    549   77.4%    +6.7bp    +36.9%     +381
+  ✅ XRPUSDT     hammer                  544   85.8%    +7.7bp    +42.0%     +579
+  ✅ XRPUSDT     inside_bar             4105   72.6%    +5.9bp   +240.2%     +336
+  ✅ XRPUSDT     pin_bar_2x              312   92.9%   +13.4bp    +41.8%     +691
+  ✅ XRPUSDT     pin_bar_3x              222   92.3%   +12.5bp    +27.9%     +647
+
+################################################################################
+  COMPLETE — 737s (12.3min) [RAM=0.4GB, avail=8.1GB]
+################################################################################
