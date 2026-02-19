@@ -1,0 +1,451 @@
+================================================================================
+  v42bc: VWAP DEV + HL CORR + MR SPEED + VOL PERSISTENCE
+  2026-02-19 15:05:49  [RAM=0.1GB, avail=6.3GB]
+================================================================================
+  Loading ETHUSDT... [10/88 42s] [20/88 69s] [30/88 97s] [40/88 124s] [50/88 146s] [60/88 163s] [70/88 191s] [80/88 217s] [88/88 237s] 126,720 bars (237s) [RAM=0.6GB, avail=6.5GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP RRRR5: VWAP DEVIATION ---
+
+  VWAP dev(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4078  wr= 70.9%  avg=  +5.9bps  tot=+241.77%  sh=  +317.4
+  ✅ TEST                                                     n=2124  wr= 71.0%  avg=  +5.0bps  tot=+106.06%  sh=  +309.4
+    ✅ test=+3.788%/d
+
+  VWAP dev(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6913  wr= 67.4%  avg=  +4.9bps  tot=+336.54%  sh=  +284.8
+  ✅ TEST                                                     n=3614  wr= 68.7%  avg=  +4.5bps  tot=+161.80%  sh=  +293.1
+    ✅ test=+5.778%/d
+
+  VWAP dev(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4967  wr= 69.6%  avg=  +5.4bps  tot=+270.57%  sh=  +308.2
+  ✅ TEST                                                     n=2748  wr= 70.2%  avg=  +4.6bps  tot=+126.81%  sh=  +298.3
+    ✅ test=+4.529%/d
+
+  VWAP dev(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7971  wr= 66.5%  avg=  +4.6bps  tot=+364.56%  sh=  +279.2
+  ✅ TEST                                                     n=4297  wr= 68.0%  avg=  +4.1bps  tot=+176.72%  sh=  +268.7
+    ✅ test=+6.312%/d
+
+  --- EXP SSSS5: ROLLING HL CORRELATION ---
+
+  HL corr(30) <10th pct (fade vol):
+  ✅ TRAIN                                                    n=6525  wr= 56.2%  avg=  +2.7bps  tot=+176.76%  sh=  +150.2
+  ✅ TEST                                                     n=3181  wr= 58.8%  avg=  +2.3bps  tot= +74.63%  sh=  +153.7
+    ✅ test=+2.665%/d
+
+  HL corr(30) <20th pct (fade vol):
+  ✅ TRAIN                                                    n=11895  wr= 56.1%  avg=  +2.6bps  tot=+304.84%  sh=  +145.3
+  ✅ TEST                                                     n=5919  wr= 58.8%  avg=  +2.3bps  tot=+136.84%  sh=  +153.0
+    ✅ test=+4.887%/d
+
+  HL corr(60) <10th pct (fade vol):
+  ✅ TRAIN                                                    n=7330  wr= 53.8%  avg=  +2.4bps  tot=+172.39%  sh=  +117.3
+  ✅ TEST                                                     n=3748  wr= 59.2%  avg=  +2.5bps  tot= +93.00%  sh=  +157.4
+    ✅ test=+3.321%/d
+
+  HL corr(60) <20th pct (fade vol):
+  ✅ TRAIN                                                    n=12661  wr= 54.0%  avg=  +2.2bps  tot=+277.89%  sh=  +118.1
+  ✅ TEST                                                     n=6328  wr= 59.1%  avg=  +2.5bps  tot=+155.76%  sh=  +164.5
+    ✅ test=+5.563%/d
+
+  --- EXP TTTT5: MEAN REVERSION SPEED ---
+
+  MR speed(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=9710  wr= 66.4%  avg=  +5.6bps  tot=+540.53%  sh=  +239.2
+  ✅ TEST                                                     n=4712  wr= 71.9%  avg=  +5.2bps  tot=+243.86%  sh=  +313.9
+    ✅ test=+8.709%/d
+
+  MR speed(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=7262  wr= 68.2%  avg=  +6.2bps  tot=+449.70%  sh=  +248.8
+  ✅ TEST                                                     n=3517  wr= 73.8%  avg=  +5.6bps  tot=+195.45%  sh=  +336.7
+    ✅ test=+6.981%/d
+
+  MR speed(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9735  wr= 66.9%  avg=  +5.7bps  tot=+551.94%  sh=  +242.8
+  ✅ TEST                                                     n=4740  wr= 72.2%  avg=  +5.2bps  tot=+246.45%  sh=  +317.4
+    ✅ test=+8.802%/d
+
+  MR speed(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=7217  wr= 68.3%  avg=  +6.2bps  tot=+449.39%  sh=  +248.9
+  ✅ TEST                                                     n=3507  wr= 74.0%  avg=  +5.5bps  tot=+192.71%  sh=  +332.4
+    ✅ test=+6.882%/d
+
+  --- EXP UUUU5: VOLATILITY PERSISTENCE ---
+
+  Vol persist(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7517  wr= 56.8%  avg=  +3.2bps  tot=+239.36%  sh=  +146.9
+  ✅ TEST                                                     n=3679  wr= 62.1%  avg=  +3.2bps  tot=+118.48%  sh=  +209.5
+    ✅ test=+4.231%/d
+
+  Vol persist(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4592  wr= 56.5%  avg=  +3.2bps  tot=+145.57%  sh=  +142.7
+  ✅ TEST                                                     n=2269  wr= 61.8%  avg=  +3.3bps  tot= +74.21%  sh=  +200.5
+    ✅ test=+2.650%/d
+
+  Vol persist(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=8907  wr= 56.2%  avg=  +3.0bps  tot=+265.01%  sh=  +150.2
+  ✅ TEST                                                     n=4546  wr= 61.5%  avg=  +3.1bps  tot=+141.92%  sh=  +203.1
+    ✅ test=+5.069%/d
+
+  Vol persist(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5740  wr= 56.5%  avg=  +3.2bps  tot=+186.11%  sh=  +166.2
+  ✅ TEST                                                     n=3018  wr= 62.8%  avg=  +3.3bps  tot= +99.44%  sh=  +221.0
+    ✅ test=+3.551%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 27s] [30/88 37s] [40/88 48s] [50/88 59s] [60/88 69s] [70/88 81s] [80/88 98s] [88/88 106s] 126,720 bars (106s) [RAM=0.3GB, avail=6.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP RRRR5: VWAP DEVIATION ---
+
+  VWAP dev(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4442  wr= 68.1%  avg=  +4.8bps  tot=+213.65%  sh=  +278.4
+  ✅ TEST                                                     n=2238  wr= 68.9%  avg=  +4.8bps  tot=+107.49%  sh=  +286.7
+    ✅ test=+3.839%/d
+
+  VWAP dev(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7505  wr= 66.4%  avg=  +4.2bps  tot=+314.40%  sh=  +262.0
+  ✅ TEST                                                     n=3687  wr= 66.0%  avg=  +4.0bps  tot=+148.53%  sh=  +252.6
+    ✅ test=+5.305%/d
+
+  VWAP dev(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5737  wr= 65.3%  avg=  +4.1bps  tot=+236.08%  sh=  +250.7
+  ✅ TEST                                                     n=2873  wr= 66.0%  avg=  +4.0bps  tot=+115.15%  sh=  +254.3
+    ✅ test=+4.112%/d
+
+  VWAP dev(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9031  wr= 64.7%  avg=  +3.8bps  tot=+343.64%  sh=  +244.8
+  ✅ TEST                                                     n=4377  wr= 64.9%  avg=  +3.8bps  tot=+164.99%  sh=  +243.6
+    ✅ test=+5.892%/d
+
+  --- EXP SSSS5: ROLLING HL CORRELATION ---
+
+  HL corr(30) <10th pct (fade vol):
+  ✅ TRAIN                                                    n=7171  wr= 60.0%  avg=  +3.0bps  tot=+211.56%  sh=  +186.8
+  ✅ TEST                                                     n=3317  wr= 61.7%  avg=  +3.5bps  tot=+115.76%  sh=  +243.4
+    ✅ test=+4.134%/d
+
+  HL corr(30) <20th pct (fade vol):
+  ✅ TRAIN                                                    n=13044  wr= 60.1%  avg=  +2.9bps  tot=+380.97%  sh=  +174.3
+  ✅ TEST                                                     n=6108  wr= 62.1%  avg=  +3.3bps  tot=+200.62%  sh=  +228.5
+    ✅ test=+7.165%/d
+
+  HL corr(60) <10th pct (fade vol):
+  ✅ TRAIN                                                    n=8119  wr= 58.5%  avg=  +2.7bps  tot=+215.33%  sh=  +159.3
+  ✅ TEST                                                     n=3911  wr= 60.8%  avg=  +3.1bps  tot=+119.47%  sh=  +199.1
+    ✅ test=+4.267%/d
+
+  HL corr(60) <20th pct (fade vol):
+  ✅ TRAIN                                                    n=13723  wr= 59.0%  avg=  +2.7bps  tot=+367.57%  sh=  +169.1
+  ✅ TEST                                                     n=6707  wr= 61.2%  avg=  +3.2bps  tot=+213.12%  sh=  +213.4
+    ✅ test=+7.611%/d
+
+  --- EXP TTTT5: MEAN REVERSION SPEED ---
+
+  MR speed(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=10039  wr= 70.8%  avg=  +5.7bps  tot=+571.14%  sh=  +291.3
+  ✅ TEST                                                     n=5013  wr= 74.1%  avg=  +6.2bps  tot=+308.80%  sh=  +370.0
+    ✅ test=+11.029%/d
+
+  MR speed(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=7358  wr= 72.4%  avg=  +6.4bps  tot=+472.09%  sh=  +312.7
+  ✅ TEST                                                     n=3688  wr= 75.2%  avg=  +6.5bps  tot=+239.41%  sh=  +392.1
+    ✅ test=+8.550%/d
+
+  MR speed(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=10016  wr= 70.7%  avg=  +5.7bps  tot=+572.68%  sh=  +293.9
+  ✅ TEST                                                     n=4984  wr= 74.1%  avg=  +6.2bps  tot=+311.13%  sh=  +379.3
+    ✅ test=+11.112%/d
+
+  MR speed(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=7313  wr= 72.4%  avg=  +6.4bps  tot=+470.23%  sh=  +312.2
+  ✅ TEST                                                     n=3734  wr= 75.7%  avg=  +6.6bps  tot=+248.10%  sh=  +394.1
+    ✅ test=+8.861%/d
+
+  --- EXP UUUU5: VOLATILITY PERSISTENCE ---
+
+  Vol persist(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8014  wr= 61.9%  avg=  +3.6bps  tot=+292.50%  sh=  +203.0
+  ✅ TEST                                                     n=3893  wr= 63.7%  avg=  +3.5bps  tot=+136.92%  sh=  +221.5
+    ✅ test=+4.890%/d
+
+  Vol persist(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4902  wr= 61.5%  avg=  +3.6bps  tot=+176.19%  sh=  +190.5
+  ✅ TEST                                                     n=2432  wr= 64.4%  avg=  +3.7bps  tot= +89.52%  sh=  +226.9
+    ✅ test=+3.197%/d
+
+  Vol persist(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9757  wr= 60.6%  avg=  +3.5bps  tot=+344.33%  sh=  +195.6
+  ✅ TEST                                                     n=4768  wr= 65.1%  avg=  +3.8bps  tot=+182.09%  sh=  +245.1
+    ✅ test=+6.503%/d
+
+  Vol persist(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=6317  wr= 60.1%  avg=  +3.7bps  tot=+231.83%  sh=  +193.1
+  ✅ TEST                                                     n=3171  wr= 64.7%  avg=  +3.6bps  tot=+113.98%  sh=  +231.3
+    ✅ test=+4.071%/d
+  Loading DOGEUSDT... [10/88 20s] [20/88 34s] [30/88 43s] [40/88 53s] [50/88 61s] [60/88 68s] [70/88 94s] [80/88 117s] [88/88 125s] 126,720 bars (125s) [RAM=0.4GB, avail=6.8GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP RRRR5: VWAP DEVIATION ---
+
+  VWAP dev(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4680  wr= 70.7%  avg=  +5.8bps  tot=+270.77%  sh=  +284.3
+  ✅ TEST                                                     n=2476  wr= 84.1%  avg=  +9.6bps  tot=+237.37%  sh=  +447.6
+    ✅ test=+8.477%/d
+
+  VWAP dev(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7772  wr= 68.9%  avg=  +5.2bps  tot=+400.28%  sh=  +276.4
+  ✅ TEST                                                     n=4040  wr= 83.5%  avg=  +8.9bps  tot=+360.00%  sh=  +460.2
+    ✅ test=+12.857%/d
+
+  VWAP dev(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5922  wr= 69.2%  avg=  +5.3bps  tot=+315.16%  sh=  +275.1
+  ✅ TEST                                                     n=3141  wr= 84.2%  avg=  +9.1bps  tot=+284.37%  sh=  +447.2
+    ✅ test=+10.156%/d
+
+  VWAP dev(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9157  wr= 69.0%  avg=  +4.9bps  tot=+452.89%  sh=  +276.3
+  ✅ TEST                                                     n=4771  wr= 83.8%  avg=  +8.7bps  tot=+414.63%  sh=  +451.0
+    ✅ test=+14.808%/d
+
+  --- EXP SSSS5: ROLLING HL CORRELATION ---
+
+  HL corr(30) <10th pct (fade vol):
+  ✅ TRAIN                                                    n=7348  wr= 63.5%  avg=  +4.0bps  tot=+290.54%  sh=  +217.0
+  ✅ TEST                                                     n=3580  wr= 79.5%  avg=  +8.0bps  tot=+287.45%  sh=  +401.9
+    ✅ test=+10.266%/d
+
+  HL corr(30) <20th pct (fade vol):
+  ✅ TRAIN                                                    n=13264  wr= 63.6%  avg=  +3.8bps  tot=+504.21%  sh=  +212.3
+  ✅ TEST                                                     n=6628  wr= 78.9%  avg=  +7.7bps  tot=+513.03%  sh=  +405.0
+    ✅ test=+18.323%/d
+
+  HL corr(60) <10th pct (fade vol):
+  ✅ TRAIN                                                    n=8688  wr= 62.8%  avg=  +3.8bps  tot=+326.18%  sh=  +205.4
+  ✅ TEST                                                     n=4320  wr= 78.1%  avg=  +7.8bps  tot=+336.30%  sh=  +363.6
+    ✅ test=+12.011%/d
+
+  HL corr(60) <20th pct (fade vol):
+  ✅ TRAIN                                                    n=14402  wr= 62.8%  avg=  +3.7bps  tot=+527.59%  sh=  +205.3
+  ✅ TEST                                                     n=7239  wr= 77.9%  avg=  +7.7bps  tot=+559.87%  sh=  +373.1
+    ✅ test=+19.995%/d
+
+  --- EXP TTTT5: MEAN REVERSION SPEED ---
+
+  MR speed(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=10697  wr= 73.2%  avg=  +7.1bps  tot=+763.57%  sh=  +310.6
+  ✅ TEST                                                     n=5556  wr= 86.8%  avg= +11.7bps  tot=+648.79%  sh=  +518.3
+    ✅ test=+23.171%/d
+
+  MR speed(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=7929  wr= 74.8%  avg=  +7.9bps  tot=+622.84%  sh=  +323.5
+  ✅ TEST                                                     n=4077  wr= 87.5%  avg= +12.3bps  tot=+503.37%  sh=  +530.0
+    ✅ test=+17.978%/d
+
+  MR speed(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=10636  wr= 73.1%  avg=  +7.2bps  tot=+763.68%  sh=  +309.6
+  ✅ TEST                                                     n=5622  wr= 87.1%  avg= +11.7bps  tot=+659.50%  sh=  +523.1
+    ✅ test=+23.553%/d
+
+  MR speed(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=7926  wr= 74.8%  avg=  +7.9bps  tot=+623.41%  sh=  +323.6
+  ✅ TEST                                                     n=4107  wr= 88.1%  avg= +12.5bps  tot=+514.95%  sh=  +534.0
+    ✅ test=+18.391%/d
+
+  --- EXP UUUU5: VOLATILITY PERSISTENCE ---
+
+  Vol persist(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=8323  wr= 64.4%  avg=  +4.6bps  tot=+378.85%  sh=  +212.6
+  ✅ TEST                                                     n=4249  wr= 79.8%  avg=  +8.5bps  tot=+361.85%  sh=  +422.3
+    ✅ test=+12.923%/d
+
+  Vol persist(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=5113  wr= 64.3%  avg=  +4.8bps  tot=+244.88%  sh=  +209.0
+  ✅ TEST                                                     n=2577  wr= 78.7%  avg=  +8.7bps  tot=+224.74%  sh=  +407.1
+    ✅ test=+8.026%/d
+
+  Vol persist(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=10076  wr= 63.7%  avg=  +4.5bps  tot=+454.05%  sh=  +218.1
+  ✅ TEST                                                     n=5212  wr= 79.5%  avg=  +8.1bps  tot=+422.01%  sh=  +417.1
+    ✅ test=+15.072%/d
+
+  Vol persist(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=6579  wr= 63.8%  avg=  +4.8bps  tot=+313.42%  sh=  +216.4
+  ✅ TEST                                                     n=3373  wr= 80.0%  avg=  +8.4bps  tot=+281.70%  sh=  +425.3
+    ✅ test=+10.061%/d
+  Loading XRPUSDT... [10/88 16s] [20/88 25s] [30/88 32s] [40/88 41s] [50/88 51s] [60/88 59s] [70/88 87s] [80/88 105s] [88/88 115s] 126,720 bars (115s) [RAM=0.4GB, avail=6.6GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP RRRR5: VWAP DEVIATION ---
+
+  VWAP dev(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3960  wr= 55.9%  avg=  +2.9bps  tot=+116.39%  sh=  +162.9
+  ✅ TEST                                                     n=2315  wr= 74.7%  avg=  +6.9bps  tot=+160.64%  sh=  +313.9
+    ✅ test=+5.737%/d
+
+  VWAP dev(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6584  wr= 54.5%  avg=  +2.6bps  tot=+168.54%  sh=  +154.7
+  ✅ TEST                                                     n=3786  wr= 73.9%  avg=  +6.6bps  tot=+250.07%  sh=  +328.0
+    ✅ test=+8.931%/d
+
+  VWAP dev(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4996  wr= 53.7%  avg=  +2.5bps  tot=+125.23%  sh=  +151.6
+  ✅ TEST                                                     n=2932  wr= 72.4%  avg=  +6.4bps  tot=+186.20%  sh=  +301.3
+    ✅ test=+6.650%/d
+
+  VWAP dev(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7905  wr= 53.7%  avg=  +2.3bps  tot=+183.73%  sh=  +143.7
+  ✅ TEST                                                     n=4573  wr= 71.4%  avg=  +6.0bps  tot=+274.89%  sh=  +307.4
+    ✅ test=+9.818%/d
+
+  --- EXP SSSS5: ROLLING HL CORRELATION ---
+
+  HL corr(30) <10th pct (fade vol):
+  ✅ TRAIN                                                    n=6484  wr= 50.4%  avg=  +1.6bps  tot=+101.60%  sh=   +91.1
+  ✅ TEST                                                     n=3462  wr= 69.0%  avg=  +5.3bps  tot=+184.23%  sh=  +311.1
+    ✅ test=+6.580%/d
+
+  HL corr(30) <20th pct (fade vol):
+  ✅ TRAIN                                                    n=11751  wr= 50.2%  avg=  +1.4bps  tot=+168.20%  sh=   +86.0
+  ✅ TEST                                                     n=6369  wr= 69.6%  avg=  +5.3bps  tot=+336.06%  sh=  +305.8
+    ✅ test=+12.002%/d
+
+  HL corr(60) <10th pct (fade vol):
+  ✅ TRAIN                                                    n=7763  wr= 48.4%  avg=  +1.3bps  tot=+100.18%  sh=   +75.9
+  ✅ TEST                                                     n=4307  wr= 69.5%  avg=  +5.0bps  tot=+216.05%  sh=  +279.6
+    ✅ test=+7.716%/d
+
+  HL corr(60) <20th pct (fade vol):
+  ✅ TRAIN                                                    n=12795  wr= 47.6%  avg=  +1.1bps  tot=+135.22%  sh=   +64.0
+  ✅ TEST                                                     n=7018  wr= 69.8%  avg=  +5.1bps  tot=+359.71%  sh=  +284.6
+    ✅ test=+12.847%/d
+
+  --- EXP TTTT5: MEAN REVERSION SPEED ---
+
+  MR speed(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=9685  wr= 60.4%  avg=  +3.9bps  tot=+380.22%  sh=  +195.8
+  ✅ TEST                                                     n=5499  wr= 80.8%  avg=  +9.2bps  tot=+507.54%  sh=  +417.7
+    ✅ test=+18.126%/d
+
+  MR speed(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=7048  wr= 61.9%  avg=  +4.5bps  tot=+318.53%  sh=  +214.0
+  ✅ TEST                                                     n=4050  wr= 81.7%  avg=  +9.7bps  tot=+393.98%  sh=  +413.5
+    ✅ test=+14.071%/d
+
+  MR speed(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9696  wr= 60.4%  avg=  +4.0bps  tot=+384.43%  sh=  +198.8
+  ✅ TEST                                                     n=5555  wr= 80.9%  avg=  +9.3bps  tot=+517.14%  sh=  +418.9
+    ✅ test=+18.469%/d
+
+  MR speed(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=7012  wr= 62.5%  avg=  +4.5bps  tot=+318.68%  sh=  +216.5
+  ✅ TEST                                                     n=4055  wr= 82.2%  avg=  +9.9bps  tot=+402.01%  sh=  +419.1
+    ✅ test=+14.357%/d
+
+  --- EXP UUUU5: VOLATILITY PERSISTENCE ---
+
+  Vol persist(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=7201  wr= 51.5%  avg=  +1.8bps  tot=+131.13%  sh=  +107.4
+  ✅ TEST                                                     n=3993  wr= 74.0%  avg=  +6.5bps  tot=+260.27%  sh=  +334.0
+    ✅ test=+9.295%/d
+
+  Vol persist(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=4459  wr= 51.9%  avg=  +2.0bps  tot= +89.14%  sh=  +113.8
+  ✅ TEST                                                     n=2436  wr= 73.8%  avg=  +6.5bps  tot=+157.75%  sh=  +331.2
+    ✅ test=+5.634%/d
+
+  Vol persist(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=9266  wr= 51.1%  avg=  +1.8bps  tot=+169.74%  sh=  +106.2
+  ✅ TEST                                                     n=5090  wr= 72.2%  avg=  +5.9bps  tot=+301.40%  sh=  +289.0
+    ✅ test=+10.764%/d
+
+  Vol persist(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=6193  wr= 51.8%  avg=  +2.0bps  tot=+121.47%  sh=  +111.8
+  ✅ TEST                                                     n=3393  wr= 72.9%  avg=  +6.1bps  tot=+208.14%  sh=  +289.1
+    ✅ test=+7.433%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    hlcorr_30_0.1            3580   79.5%    +8.0bp   +287.4%     +402
+  ✅ DOGEUSDT    hlcorr_30_0.2            6628   78.9%    +7.7bp   +513.0%     +405
+  ✅ DOGEUSDT    hlcorr_60_0.1            4320   78.1%    +7.8bp   +336.3%     +364
+  ✅ DOGEUSDT    hlcorr_60_0.2            7239   77.9%    +7.7bp   +559.9%     +373
+  ✅ DOGEUSDT    mrspd_20_0.9             5556   86.8%   +11.7bp   +648.8%     +518
+  ✅ DOGEUSDT    mrspd_20_0.95            4077   87.5%   +12.3bp   +503.4%     +530
+  ✅ DOGEUSDT    mrspd_40_0.9             5622   87.1%   +11.7bp   +659.5%     +523
+  ✅ DOGEUSDT    mrspd_40_0.95            4107   88.1%   +12.5bp   +515.0%     +534
+  ✅ DOGEUSDT    volp_30_0.9              4249   79.8%    +8.5bp   +361.9%     +422
+  ✅ DOGEUSDT    volp_30_0.95             2577   78.7%    +8.7bp   +224.7%     +407
+  ✅ DOGEUSDT    volp_60_0.9              5212   79.5%    +8.1bp   +422.0%     +417
+  ✅ DOGEUSDT    volp_60_0.95             3373   80.0%    +8.4bp   +281.7%     +425
+  ✅ DOGEUSDT    vwap_30_0.05             2476   84.1%    +9.6bp   +237.4%     +448
+  ✅ DOGEUSDT    vwap_30_0.1              4040   83.5%    +8.9bp   +360.0%     +460
+  ✅ DOGEUSDT    vwap_60_0.05             3141   84.2%    +9.1bp   +284.4%     +447
+  ✅ DOGEUSDT    vwap_60_0.1              4771   83.8%    +8.7bp   +414.6%     +451
+  ✅ ETHUSDT     hlcorr_30_0.1            3181   58.8%    +2.3bp    +74.6%     +154
+  ✅ ETHUSDT     hlcorr_30_0.2            5919   58.8%    +2.3bp   +136.8%     +153
+  ✅ ETHUSDT     hlcorr_60_0.1            3748   59.2%    +2.5bp    +93.0%     +157
+  ✅ ETHUSDT     hlcorr_60_0.2            6328   59.1%    +2.5bp   +155.8%     +165
+  ✅ ETHUSDT     mrspd_20_0.9             4712   71.9%    +5.2bp   +243.9%     +314
+  ✅ ETHUSDT     mrspd_20_0.95            3517   73.8%    +5.6bp   +195.5%     +337
+  ✅ ETHUSDT     mrspd_40_0.9             4740   72.2%    +5.2bp   +246.4%     +317
+  ✅ ETHUSDT     mrspd_40_0.95            3507   74.0%    +5.5bp   +192.7%     +332
+  ✅ ETHUSDT     volp_30_0.9              3679   62.1%    +3.2bp   +118.5%     +210
+  ✅ ETHUSDT     volp_30_0.95             2269   61.8%    +3.3bp    +74.2%     +200
+  ✅ ETHUSDT     volp_60_0.9              4546   61.5%    +3.1bp   +141.9%     +203
+  ✅ ETHUSDT     volp_60_0.95             3018   62.8%    +3.3bp    +99.4%     +221
+  ✅ ETHUSDT     vwap_30_0.05             2124   71.0%    +5.0bp   +106.1%     +309
+  ✅ ETHUSDT     vwap_30_0.1              3614   68.7%    +4.5bp   +161.8%     +293
+  ✅ ETHUSDT     vwap_60_0.05             2748   70.2%    +4.6bp   +126.8%     +298
+  ✅ ETHUSDT     vwap_60_0.1              4297   68.0%    +4.1bp   +176.7%     +269
+  ✅ SOLUSDT     hlcorr_30_0.1            3317   61.7%    +3.5bp   +115.8%     +243
+  ✅ SOLUSDT     hlcorr_30_0.2            6108   62.1%    +3.3bp   +200.6%     +228
+  ✅ SOLUSDT     hlcorr_60_0.1            3911   60.8%    +3.1bp   +119.5%     +199
+  ✅ SOLUSDT     hlcorr_60_0.2            6707   61.2%    +3.2bp   +213.1%     +213
+  ✅ SOLUSDT     mrspd_20_0.9             5013   74.1%    +6.2bp   +308.8%     +370
+  ✅ SOLUSDT     mrspd_20_0.95            3688   75.2%    +6.5bp   +239.4%     +392
+  ✅ SOLUSDT     mrspd_40_0.9             4984   74.1%    +6.2bp   +311.1%     +379
+  ✅ SOLUSDT     mrspd_40_0.95            3734   75.7%    +6.6bp   +248.1%     +394
+  ✅ SOLUSDT     volp_30_0.9              3893   63.7%    +3.5bp   +136.9%     +221
+  ✅ SOLUSDT     volp_30_0.95             2432   64.4%    +3.7bp    +89.5%     +227
+  ✅ SOLUSDT     volp_60_0.9              4768   65.1%    +3.8bp   +182.1%     +245
+  ✅ SOLUSDT     volp_60_0.95             3171   64.7%    +3.6bp   +114.0%     +231
+  ✅ SOLUSDT     vwap_30_0.05             2238   68.9%    +4.8bp   +107.5%     +287
+  ✅ SOLUSDT     vwap_30_0.1              3687   66.0%    +4.0bp   +148.5%     +253
+  ✅ SOLUSDT     vwap_60_0.05             2873   66.0%    +4.0bp   +115.1%     +254
+  ✅ SOLUSDT     vwap_60_0.1              4377   64.9%    +3.8bp   +165.0%     +244
+  ✅ XRPUSDT     hlcorr_30_0.1            3462   69.0%    +5.3bp   +184.2%     +311
+  ✅ XRPUSDT     hlcorr_30_0.2            6369   69.6%    +5.3bp   +336.1%     +306
+  ✅ XRPUSDT     hlcorr_60_0.1            4307   69.5%    +5.0bp   +216.1%     +280
+  ✅ XRPUSDT     hlcorr_60_0.2            7018   69.8%    +5.1bp   +359.7%     +285
+  ✅ XRPUSDT     mrspd_20_0.9             5499   80.8%    +9.2bp   +507.5%     +418
+  ✅ XRPUSDT     mrspd_20_0.95            4050   81.7%    +9.7bp   +394.0%     +413
+  ✅ XRPUSDT     mrspd_40_0.9             5555   80.9%    +9.3bp   +517.1%     +419
+  ✅ XRPUSDT     mrspd_40_0.95            4055   82.2%    +9.9bp   +402.0%     +419
+  ✅ XRPUSDT     volp_30_0.9              3993   74.0%    +6.5bp   +260.3%     +334
+  ✅ XRPUSDT     volp_30_0.95             2436   73.8%    +6.5bp   +157.8%     +331
+  ✅ XRPUSDT     volp_60_0.9              5090   72.2%    +5.9bp   +301.4%     +289
+  ✅ XRPUSDT     volp_60_0.95             3393   72.9%    +6.1bp   +208.1%     +289
+  ✅ XRPUSDT     vwap_30_0.05             2315   74.7%    +6.9bp   +160.6%     +314
+  ✅ XRPUSDT     vwap_30_0.1              3786   73.9%    +6.6bp   +250.1%     +328
+  ✅ XRPUSDT     vwap_60_0.05             2932   72.4%    +6.4bp   +186.2%     +301
+  ✅ XRPUSDT     vwap_60_0.1              4573   71.4%    +6.0bp   +274.9%     +307
+
+################################################################################
+  COMPLETE — 1026s (17.1min) [RAM=0.3GB, avail=7.0GB]
+################################################################################
