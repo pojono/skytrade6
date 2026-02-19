@@ -1,0 +1,235 @@
+================================================================================
+  v42ar: VOL PROFILE + REALIZED VOL CONE + MOM-VOL DIVERGENCE
+  2026-02-19 12:00:51  [RAM=0.1GB, avail=8.1GB]
+================================================================================
+  Loading ETHUSDT... [10/88 35s] [20/88 59s] [30/88 81s] [40/88 105s] [50/88 126s] [60/88 143s] [70/88 173s] [80/88 201s] [88/88 223s] 126,720 bars (223s) [RAM=0.4GB, avail=8.1GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP ZZZZ3: VWAP DISTANCE PERCENTILE ---
+
+  VWAP dist pct <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4113  wr= 68.9%  avg=  +5.5bps  tot=+225.34%  sh=  +298.5
+  ✅ TEST                                                     n=2042  wr= 69.4%  avg=  +4.7bps  tot= +96.18%  sh=  +288.7
+    ✅ test=+3.435%/d
+
+  VWAP dist pct <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6857  wr= 66.6%  avg=  +4.7bps  tot=+323.10%  sh=  +278.7
+  ✅ TEST                                                     n=3477  wr= 67.0%  avg=  +4.3bps  tot=+149.34%  sh=  +273.7
+    ✅ test=+5.333%/d
+
+  --- EXP AAAA4: REALIZED VOL CONE ---
+
+  Vol cone >90th pct (fade):
+  ✅ TRAIN                                                    n=9738  wr= 66.5%  avg=  +5.7bps  tot=+553.21%  sh=  +238.5
+  ✅ TEST                                                     n=4811  wr= 71.9%  avg=  +5.2bps  tot=+249.90%  sh=  +313.7
+    ✅ test=+8.925%/d
+
+  Vol cone >95th pct (fade):
+  ✅ TRAIN                                                    n=7433  wr= 68.7%  avg=  +6.4bps  tot=+472.07%  sh=  +251.5
+  ✅ TEST                                                     n=3680  wr= 73.0%  avg=  +5.5bps  tot=+201.28%  sh=  +324.2
+    ✅ test=+7.189%/d
+
+  --- EXP BBBB4: MOM-VOL DIVERGENCE ---
+
+  Mom-vol divergence (fade weak moves):
+  ✅ TRAIN                                                    n=5211  wr= 55.6%  avg=  +2.4bps  tot=+127.14%  sh=  +174.3
+  ✅ TEST                                                     n=2657  wr= 60.1%  avg=  +2.4bps  tot= +64.61%  sh=  +193.6
+    ✅ test=+2.308%/d
+
+  --- EXP CCCC4: ROLLING SHARPE SIGNAL ---
+
+  Rolling Sharpe z>2 (fade):
+  ✅ TRAIN                                                    n=2236  wr= 65.3%  avg=  +4.6bps  tot=+102.72%  sh=  +268.3
+  ✅ TEST                                                     n= 994  wr= 68.4%  avg=  +4.1bps  tot= +40.77%  sh=  +271.4
+    ✅ test=+1.456%/d
+
+  Rolling Sharpe z>3 (fade):
+  ✅ TRAIN                                                    n= 170  wr= 70.6%  avg=  +5.0bps  tot=  +8.43%  sh=  +288.2
+  ✅ TEST                                                     n=  78  wr= 73.1%  avg=  +4.1bps  tot=  +3.21%  sh=  +368.5
+    ✅ test=+0.115%/d
+  Loading SOLUSDT... [10/88 16s] [20/88 29s] [30/88 40s] [40/88 52s] [50/88 63s] [60/88 72s] [70/88 85s] [80/88 104s] [88/88 113s] 126,720 bars (113s) [RAM=0.4GB, avail=8.0GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP ZZZZ3: VWAP DISTANCE PERCENTILE ---
+
+  VWAP dist pct <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4257  wr= 68.0%  avg=  +4.8bps  tot=+203.37%  sh=  +274.4
+  ✅ TEST                                                     n=2101  wr= 67.4%  avg=  +4.6bps  tot= +97.62%  sh=  +266.0
+    ✅ test=+3.487%/d
+
+  VWAP dist pct <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7257  wr= 66.4%  avg=  +4.2bps  tot=+306.99%  sh=  +261.2
+  ✅ TEST                                                     n=3585  wr= 65.5%  avg=  +4.0bps  tot=+141.66%  sh=  +242.9
+    ✅ test=+5.059%/d
+
+  --- EXP AAAA4: REALIZED VOL CONE ---
+
+  Vol cone >90th pct (fade):
+  ✅ TRAIN                                                    n=9982  wr= 70.8%  avg=  +5.8bps  tot=+575.98%  sh=  +292.6
+  ✅ TEST                                                     n=5112  wr= 73.7%  avg=  +6.3bps  tot=+319.85%  sh=  +376.5
+    ✅ test=+11.423%/d
+
+  Vol cone >95th pct (fade):
+  ✅ TRAIN                                                    n=7544  wr= 72.2%  avg=  +6.4bps  tot=+484.19%  sh=  +310.8
+  ✅ TEST                                                     n=3794  wr= 74.5%  avg=  +6.6bps  tot=+250.49%  sh=  +386.9
+    ✅ test=+8.946%/d
+
+  --- EXP BBBB4: MOM-VOL DIVERGENCE ---
+
+  Mom-vol divergence (fade weak moves):
+  ✅ TRAIN                                                    n=5774  wr= 60.1%  avg=  +2.8bps  tot=+158.95%  sh=  +196.2
+  ✅ TEST                                                     n=2940  wr= 58.6%  avg=  +2.4bps  tot= +71.73%  sh=  +199.6
+    ✅ test=+2.562%/d
+
+  --- EXP CCCC4: ROLLING SHARPE SIGNAL ---
+
+  Rolling Sharpe z>2 (fade):
+  ✅ TRAIN                                                    n=2374  wr= 63.6%  avg=  +3.7bps  tot= +86.85%  sh=  +241.0
+  ✅ TEST                                                     n=1116  wr= 63.3%  avg=  +3.3bps  tot= +36.65%  sh=  +214.9
+    ✅ test=+1.309%/d
+
+  Rolling Sharpe z>3 (fade):
+  ✅ TRAIN                                                    n= 197  wr= 64.0%  avg=  +3.7bps  tot=  +7.33%  sh=  +282.5
+  ✅ TEST                                                     n=  97  wr= 71.1%  avg=  +3.9bps  tot=  +3.74%  sh=  +247.4
+    ✅ test=+0.133%/d
+  Loading DOGEUSDT... [10/88 22s] [20/88 37s] [30/88 47s] [40/88 57s] [50/88 65s] [60/88 73s] [70/88 102s] [80/88 125s] [88/88 135s] 126,720 bars (135s) [RAM=0.5GB, avail=8.1GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP ZZZZ3: VWAP DISTANCE PERCENTILE ---
+
+  VWAP dist pct <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4492  wr= 69.8%  avg=  +5.7bps  tot=+254.06%  sh=  +277.7
+  ✅ TEST                                                     n=2413  wr= 82.7%  avg=  +9.2bps  tot=+223.18%  sh=  +438.6
+    ✅ test=+7.971%/d
+
+  VWAP dist pct <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7540  wr= 68.3%  avg=  +5.0bps  tot=+376.61%  sh=  +262.3
+  ✅ TEST                                                     n=3980  wr= 82.5%  avg=  +8.8bps  tot=+350.74%  sh=  +448.2
+    ✅ test=+12.527%/d
+
+  --- EXP AAAA4: REALIZED VOL CONE ---
+
+  Vol cone >90th pct (fade):
+  ✅ TRAIN                                                    n=10682  wr= 72.5%  avg=  +7.0bps  tot=+747.26%  sh=  +297.7
+  ✅ TEST                                                     n=5617  wr= 87.3%  avg= +11.9bps  tot=+666.75%  sh=  +505.8
+    ✅ test=+23.813%/d
+
+  Vol cone >95th pct (fade):
+  ✅ TRAIN                                                    n=8014  wr= 74.2%  avg=  +7.9bps  tot=+631.67%  sh=  +313.7
+  ✅ TEST                                                     n=4203  wr= 87.9%  avg= +12.5bps  tot=+526.75%  sh=  +507.4
+    ✅ test=+18.812%/d
+
+  --- EXP BBBB4: MOM-VOL DIVERGENCE ---
+
+  Mom-vol divergence (fade weak moves):
+  ✅ TRAIN                                                    n=5983  wr= 63.3%  avg=  +3.5bps  tot=+207.91%  sh=  +207.5
+  ✅ TEST                                                     n=3260  wr= 78.3%  avg=  +6.6bps  tot=+214.35%  sh=  +408.1
+    ✅ test=+7.655%/d
+
+  --- EXP CCCC4: ROLLING SHARPE SIGNAL ---
+
+  Rolling Sharpe z>2 (fade):
+  ✅ TRAIN                                                    n=2498  wr= 66.7%  avg=  +4.3bps  tot=+107.51%  sh=  +244.3
+  ✅ TEST                                                     n=1354  wr= 83.4%  avg=  +8.6bps  tot=+115.99%  sh=  +462.2
+    ✅ test=+4.142%/d
+
+  Rolling Sharpe z>3 (fade):
+  ✅ TRAIN                                                    n= 228  wr= 65.8%  avg=  +3.4bps  tot=  +7.85%  sh=  +182.8
+  ✅ TEST                                                     n= 101  wr= 84.2%  avg=  +8.2bps  tot=  +8.25%  sh=  +399.6
+    ✅ test=+0.295%/d
+  Loading XRPUSDT... [10/88 17s] [20/88 26s] [30/88 34s] [40/88 43s] [50/88 53s] [60/88 62s] [70/88 93s] [80/88 111s] [88/88 123s] 126,720 bars (123s) [RAM=0.5GB, avail=8.0GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP ZZZZ3: VWAP DISTANCE PERCENTILE ---
+
+  VWAP dist pct <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3856  wr= 55.1%  avg=  +2.8bps  tot=+108.31%  sh=  +158.6
+  ✅ TEST                                                     n=2229  wr= 74.9%  avg=  +7.3bps  tot=+162.73%  sh=  +320.9
+    ✅ test=+5.812%/d
+
+  VWAP dist pct <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6454  wr= 54.5%  avg=  +2.5bps  tot=+160.70%  sh=  +152.3
+  ✅ TEST                                                     n=3728  wr= 74.2%  avg=  +6.8bps  tot=+254.91%  sh=  +337.7
+    ✅ test=+9.104%/d
+
+  --- EXP AAAA4: REALIZED VOL CONE ---
+
+  Vol cone >90th pct (fade):
+  ✅ TRAIN                                                    n=9769  wr= 60.0%  avg=  +3.9bps  tot=+378.56%  sh=  +193.7
+  ✅ TEST                                                     n=5625  wr= 80.1%  avg=  +9.2bps  tot=+515.16%  sh=  +413.7
+    ✅ test=+18.399%/d
+
+  Vol cone >95th pct (fade):
+  ✅ TRAIN                                                    n=7202  wr= 61.7%  avg=  +4.5bps  tot=+323.67%  sh=  +215.0
+  ✅ TEST                                                     n=4202  wr= 81.5%  avg=  +9.9bps  tot=+415.06%  sh=  +420.1
+    ✅ test=+14.824%/d
+
+  --- EXP BBBB4: MOM-VOL DIVERGENCE ---
+
+  Mom-vol divergence (fade weak moves):
+  ✅ TRAIN                                                    n=5260  wr= 46.7%  avg=  +0.9bps  tot= +47.23%  sh=   +59.7
+  ✅ TEST                                                     n=3107  wr= 69.2%  avg=  +4.6bps  tot=+141.52%  sh=  +287.0
+    ✅ test=+5.054%/d
+
+  --- EXP CCCC4: ROLLING SHARPE SIGNAL ---
+
+  Rolling Sharpe z>2 (fade):
+  ✅ TRAIN                                                    n=2221  wr= 53.6%  avg=  +2.4bps  tot= +53.28%  sh=  +158.1
+  ✅ TEST                                                     n=1289  wr= 68.0%  avg=  +5.4bps  tot= +69.88%  sh=  +222.1
+    ✅ test=+2.496%/d
+
+  Rolling Sharpe z>3 (fade):
+  ✅ TRAIN                                                    n= 195  wr= 47.7%  avg=  +1.3bps  tot=  +2.53%  sh=   +88.6
+  ✅ TEST                                                     n=  90  wr= 60.0%  avg=  +5.6bps  tot=  +5.06%  sh=  +238.7
+    ✅ test=+0.181%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                    n      WR      Avg     Total   Sharpe
+  -----------------------------------------------------------------
+  ✅ DOGEUSDT    mom_vol_div            3260   78.3%    +6.6bp   +214.4%     +408
+  ✅ DOGEUSDT    sharpe_z2              1354   83.4%    +8.6bp   +116.0%     +462
+  ✅ DOGEUSDT    sharpe_z3               101   84.2%    +8.2bp     +8.3%     +400
+  ✅ DOGEUSDT    vol_cone_0.9           5617   87.3%   +11.9bp   +666.8%     +506
+  ✅ DOGEUSDT    vol_cone_0.95          4203   87.9%   +12.5bp   +526.7%     +507
+  ✅ DOGEUSDT    vwap_pct_0.05          2413   82.7%    +9.2bp   +223.2%     +439
+  ✅ DOGEUSDT    vwap_pct_0.1           3980   82.5%    +8.8bp   +350.7%     +448
+  ✅ ETHUSDT     mom_vol_div            2657   60.1%    +2.4bp    +64.6%     +194
+  ✅ ETHUSDT     sharpe_z2               994   68.4%    +4.1bp    +40.8%     +271
+  ✅ ETHUSDT     sharpe_z3                78   73.1%    +4.1bp     +3.2%     +369
+  ✅ ETHUSDT     vol_cone_0.9           4811   71.9%    +5.2bp   +249.9%     +314
+  ✅ ETHUSDT     vol_cone_0.95          3680   73.0%    +5.5bp   +201.3%     +324
+  ✅ ETHUSDT     vwap_pct_0.05          2042   69.4%    +4.7bp    +96.2%     +289
+  ✅ ETHUSDT     vwap_pct_0.1           3477   67.0%    +4.3bp   +149.3%     +274
+  ✅ SOLUSDT     mom_vol_div            2940   58.6%    +2.4bp    +71.7%     +200
+  ✅ SOLUSDT     sharpe_z2              1116   63.3%    +3.3bp    +36.7%     +215
+  ✅ SOLUSDT     sharpe_z3                97   71.1%    +3.9bp     +3.7%     +247
+  ✅ SOLUSDT     vol_cone_0.9           5112   73.7%    +6.3bp   +319.8%     +376
+  ✅ SOLUSDT     vol_cone_0.95          3794   74.5%    +6.6bp   +250.5%     +387
+  ✅ SOLUSDT     vwap_pct_0.05          2101   67.4%    +4.6bp    +97.6%     +266
+  ✅ SOLUSDT     vwap_pct_0.1           3585   65.5%    +4.0bp   +141.7%     +243
+  ✅ XRPUSDT     mom_vol_div            3107   69.2%    +4.6bp   +141.5%     +287
+  ✅ XRPUSDT     sharpe_z2              1289   68.0%    +5.4bp    +69.9%     +222
+  ✅ XRPUSDT     sharpe_z3                90   60.0%    +5.6bp     +5.1%     +239
+  ✅ XRPUSDT     vol_cone_0.9           5625   80.1%    +9.2bp   +515.2%     +414
+  ✅ XRPUSDT     vol_cone_0.95          4202   81.5%    +9.9bp   +415.1%     +420
+  ✅ XRPUSDT     vwap_pct_0.05          2229   74.9%    +7.3bp   +162.7%     +321
+  ✅ XRPUSDT     vwap_pct_0.1           3728   74.2%    +6.8bp   +254.9%     +338
+
+################################################################################
+  COMPLETE — 673s (11.2min) [RAM=0.3GB, avail=8.3GB]
+################################################################################
