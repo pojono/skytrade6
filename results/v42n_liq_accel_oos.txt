@@ -1,0 +1,174 @@
+================================================================================
+  v42n: LIQ ACCELERATION + IMBALANCE OOS VALIDATION
+  2026-02-19 06:25:53  [RAM=0.1GB, avail=5.8GB]
+  Train: May 12–Jul 10 (60d), Test: Jul 11–Aug 7 (28d)
+================================================================================
+  Loading ETHUSDT liqs... [15/88 4s] [30/88 7s] [45/88 11s] [60/88 12s] [75/88 12s] 158,765 (13s) [RAM=0.2GB, avail=5.3GB]
+  Loading ETHUSDT bars... [10/88 42s] [20/88 71s] [30/88 95s] [40/88 125s] [50/88 150s] [60/88 169s] [70/88 204s] [80/88 234s] [88/88 257s] 126,720 bars (257s) [RAM=0.6GB, avail=6.9GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- LIQ ACCELERATION ---
+
+  w=5m thresh=3x cd=300s:
+  ✅ TRAIN                                                    n=3566  wr= 75.8%  avg=  +7.0bps  tot=+249.94%  sh=  +284.5
+  ✅ TEST                                                     n= 636  wr= 70.9%  avg=  +5.3bps  tot= +33.89%  sh=  +305.2
+    ✅ train=+4.166%/d  test=+1.210%/d
+
+  w=15m thresh=5x cd=60s:
+  ✅ TRAIN                                                    n=3528  wr= 78.4%  avg=  +8.9bps  tot=+315.28%  sh=  +310.2
+  ✅ TEST                                                     n= 634  wr= 73.5%  avg=  +6.1bps  tot= +38.57%  sh=  +337.7
+    ✅ train=+5.255%/d  test=+1.378%/d
+
+  w=15m thresh=5x cd=300s:
+  ✅ TRAIN                                                    n=2440  wr= 75.9%  avg=  +7.9bps  tot=+192.72%  sh=  +288.6
+  ✅ TEST                                                     n= 435  wr= 72.2%  avg=  +5.5bps  tot= +23.96%  sh=  +300.4
+    ✅ train=+3.212%/d  test=+0.856%/d
+
+  w=30m thresh=5x cd=300s:
+  ✅ TRAIN                                                    n=2018  wr= 78.1%  avg=  +9.1bps  tot=+183.44%  sh=  +301.8
+  ✅ TEST                                                     n= 352  wr= 73.3%  avg=  +6.1bps  tot= +21.50%  sh=  +326.2
+    ✅ train=+3.057%/d  test=+0.768%/d
+
+  w=30m thresh=10x cd=300s:
+  ✅ TRAIN                                                    n=1605  wr= 78.1%  avg=  +9.5bps  tot=+153.10%  sh=  +299.4
+  ✅ TEST                                                     n= 279  wr= 71.7%  avg=  +5.8bps  tot= +16.12%  sh=  +282.0
+    ✅ train=+2.552%/d  test=+0.576%/d
+
+  --- LIQ IMBALANCE ---
+
+  w=5m imb>80% cd=300s:
+  ✅ TRAIN                                                    n=13531  wr= 59.8%  avg=  +2.7bps  tot=+370.14%  sh=  +176.8
+  ✅ TEST                                                     n=6721  wr= 61.5%  avg=  +2.9bps  tot=+195.02%  sh=  +204.5
+    ✅ train=+6.169%/d  test=+6.965%/d
+
+  w=5m imb>90% cd=300s:
+  ✅ TRAIN                                                    n=13490  wr= 59.6%  avg=  +2.7bps  tot=+362.99%  sh=  +173.7
+  ✅ TEST                                                     n=6717  wr= 61.5%  avg=  +2.9bps  tot=+194.90%  sh=  +204.1
+    ✅ train=+6.050%/d  test=+6.961%/d
+
+  w=15m imb>80% cd=300s:
+  ✅ TRAIN                                                    n=13109  wr= 60.7%  avg=  +2.8bps  tot=+368.01%  sh=  +171.3
+  ✅ TEST                                                     n=6664  wr= 61.6%  avg=  +2.9bps  tot=+191.66%  sh=  +202.7
+    ✅ train=+6.133%/d  test=+6.845%/d
+
+  w=15m imb>90% cd=300s:
+  ✅ TRAIN                                                    n=12831  wr= 60.1%  avg=  +2.7bps  tot=+347.01%  sh=  +167.0
+  ✅ TEST                                                     n=6627  wr= 61.6%  avg=  +2.9bps  tot=+189.16%  sh=  +201.0
+    ✅ train=+5.784%/d  test=+6.756%/d
+  Loading SOLUSDT liqs... [15/88 2s] [30/88 3s] [45/88 5s] [60/88 5s] [75/88 5s] 90,669 (6s) [RAM=0.4GB, avail=7.3GB]
+  Loading SOLUSDT bars... [10/88 18s] [20/88 35s] [30/88 46s] [40/88 59s] [50/88 73s] [60/88 82s] [70/88 100s] [80/88 120s] [88/88 130s] 126,720 bars (130s) [RAM=0.4GB, avail=7.0GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- LIQ ACCELERATION ---
+
+  w=5m thresh=3x cd=300s:
+  ✅ TRAIN                                                    n=3707  wr= 73.7%  avg=  +6.0bps  tot=+221.80%  sh=  +336.1
+  ✅ TEST                                                     n= 610  wr= 69.5%  avg=  +5.1bps  tot= +31.32%  sh=  +293.0
+    ✅ train=+3.697%/d  test=+1.119%/d
+
+  w=15m thresh=5x cd=60s:
+  ✅ TRAIN                                                    n=3697  wr= 74.7%  avg=  +6.7bps  tot=+247.87%  sh=  +302.6
+  ✅ TEST                                                     n= 632  wr= 71.4%  avg=  +5.7bps  tot= +35.91%  sh=  +294.9
+    ✅ train=+4.131%/d  test=+1.282%/d
+
+  w=15m thresh=5x cd=300s:
+  ✅ TRAIN                                                    n=2636  wr= 73.0%  avg=  +6.1bps  tot=+159.69%  sh=  +316.4
+  ✅ TEST                                                     n= 433  wr= 66.5%  avg=  +4.8bps  tot= +20.68%  sh=  +248.3
+    ✅ train=+2.662%/d  test=+0.739%/d
+
+  w=30m thresh=5x cd=300s:
+  ✅ TRAIN                                                    n=2257  wr= 74.3%  avg=  +6.6bps  tot=+149.11%  sh=  +319.7
+  ✅ TEST                                                     n= 360  wr= 70.0%  avg=  +5.1bps  tot= +18.44%  sh=  +278.5
+    ✅ train=+2.485%/d  test=+0.658%/d
+
+  w=30m thresh=10x cd=300s:
+  ✅ TRAIN                                                    n=1720  wr= 73.5%  avg=  +6.4bps  tot=+110.79%  sh=  +302.4
+  ✅ TEST                                                     n= 280  wr= 68.6%  avg=  +5.2bps  tot= +14.64%  sh=  +275.8
+    ✅ train=+1.846%/d  test=+0.523%/d
+
+  --- LIQ IMBALANCE ---
+
+  w=5m imb>80% cd=300s:
+  ✅ TRAIN                                                    n=14456  wr= 63.7%  avg=  +3.2bps  tot=+458.29%  sh=  +222.7
+  ✅ TEST                                                     n=6930  wr= 64.6%  avg=  +3.4bps  tot=+236.01%  sh=  +233.7
+    ✅ train=+7.638%/d  test=+8.429%/d
+
+  w=5m imb>90% cd=300s:
+  ✅ TRAIN                                                    n=14433  wr= 63.6%  avg=  +3.2bps  tot=+455.42%  sh=  +219.9
+  ✅ TEST                                                     n=6927  wr= 64.6%  avg=  +3.4bps  tot=+236.59%  sh=  +235.2
+    ✅ train=+7.590%/d  test=+8.449%/d
+
+  w=15m imb>80% cd=300s:
+  ✅ TRAIN                                                    n=14136  wr= 64.3%  avg=  +3.2bps  tot=+448.46%  sh=  +217.1
+  ✅ TEST                                                     n=6871  wr= 64.8%  avg=  +3.5bps  tot=+240.26%  sh=  +242.9
+    ✅ train=+7.474%/d  test=+8.581%/d
+
+  w=15m imb>90% cd=300s:
+  ✅ TRAIN                                                    n=13878  wr= 64.1%  avg=  +3.1bps  tot=+434.83%  sh=  +206.5
+  ✅ TEST                                                     n=6822  wr= 64.9%  avg=  +3.5bps  tot=+237.66%  sh=  +244.1
+    ✅ train=+7.247%/d  test=+8.488%/d
+  Loading DOGEUSDT liqs... [15/88 1s] [30/88 2s] [45/88 3s] [60/88 3s] [75/88 3s] 45,630 (4s) [RAM=0.4GB, avail=7.1GB]
+  Loading DOGEUSDT bars... [10/88 25s] [20/88 42s] [30/88 52s] [40/88 63s] [50/88 72s] [60/88 82s] [70/88 114s] [80/88 138s] [88/88 149s] 126,720 bars (149s) [RAM=0.4GB, avail=7.3GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- LIQ ACCELERATION ---
+
+  w=5m thresh=3x cd=300s:
+  ✅ TRAIN                                                    n=3110  wr= 80.0%  avg=  +8.3bps  tot=+258.55%  sh=  +378.0
+  ✅ TEST                                                     n= 574  wr= 84.7%  avg=  +8.9bps  tot= +51.20%  sh=  +490.1
+    ✅ train=+4.309%/d  test=+1.828%/d
+
+  w=15m thresh=5x cd=60s:
+  ✅ TRAIN                                                    n=3114  wr= 80.6%  avg=  +9.5bps  tot=+295.21%  sh=  +359.1
+  ✅ TEST                                                     n= 572  wr= 85.8%  avg= +10.3bps  tot= +59.17%  sh=  +516.6
+    ✅ train=+4.920%/d  test=+2.113%/d
+
+  w=15m thresh=5x cd=300s:
+  ✅ TRAIN                                                    n=2301  wr= 78.5%  avg=  +8.2bps  tot=+189.07%  sh=  +339.3
+  ✅ TEST                                                     n= 411  wr= 83.5%  avg=  +9.1bps  tot= +37.27%  sh=  +482.5
+    ✅ train=+3.151%/d  test=+1.331%/d
+
+  w=30m thresh=5x cd=300s:
+  ✅ TRAIN                                                    n=1970  wr= 79.4%  avg=  +8.9bps  tot=+174.98%  sh=  +341.9
+  ✅ TEST                                                     n= 343  wr= 82.2%  avg=  +9.5bps  tot= +32.57%  sh=  +439.7
+    ✅ train=+2.916%/d  test=+1.163%/d
+
+  w=30m thresh=10x cd=300s:
+  ✅ TRAIN                                                    n=1588  wr= 77.4%  avg=  +8.8bps  tot=+139.30%  sh=  +324.6
+  ✅ TEST                                                     n= 287  wr= 82.2%  avg= +10.4bps  tot= +29.78%  sh=  +450.6
+    ✅ train=+2.322%/d  test=+1.063%/d
+
+  --- LIQ IMBALANCE ---
+
+  w=5m imb>80% cd=300s:
+  ✅ TRAIN                                                    n=14635  wr= 67.2%  avg=  +4.0bps  tot=+581.41%  sh=  +240.0
+  ✅ TEST                                                     n=7420  wr= 81.8%  avg=  +7.2bps  tot=+535.85%  sh=  +454.5
+    ✅ train=+9.690%/d  test=+19.137%/d
+
+  w=5m imb>90% cd=300s:
+  ✅ TRAIN                                                    n=14566  wr= 67.1%  avg=  +3.9bps  tot=+572.54%  sh=  +238.4
+  ✅ TEST                                                     n=7407  wr= 81.9%  avg=  +7.2bps  tot=+533.95%  sh=  +453.4
+    ✅ train=+9.542%/d  test=+19.070%/d
+
+  w=15m imb>80% cd=300s:
+  ✅ TRAIN                                                    n=14425  wr= 67.3%  avg=  +4.0bps  tot=+577.16%  sh=  +243.9
+  ✅ TEST                                                     n=7373  wr= 82.2%  avg=  +7.3bps  tot=+537.88%  sh=  +456.0
+    ✅ train=+9.619%/d  test=+19.210%/d
+
+  w=15m imb>90% cd=300s:
+  ✅ TRAIN                                                    n=14171  wr= 67.0%  avg=  +3.9bps  tot=+555.97%  sh=  +240.3
+  ✅ TEST                                                     n=7317  wr= 82.2%  avg=  +7.3bps  tot=+536.30%  sh=  +456.2
+    ✅ train=+9.266%/d  test=+19.154%/d
+
+################################################################################
+  COMPLETE — 808s (13.5min) [RAM=0.4GB, avail=7.0GB]
+################################################################################
