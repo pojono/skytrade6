@@ -1,0 +1,218 @@
+================================================================================
+  v42af: CLASSIC TA SIGNALS FOR 1-MIN CRYPTO
+  2026-02-19 09:29:33  [RAM=0.1GB, avail=6.0GB]
+================================================================================
+  Loading SOLUSDT... [10/88 16s] [20/88 29s] [30/88 38s] [40/88 50s] [50/88 61s] [60/88 70s] [70/88 83s] [80/88 99s] [88/88 108s] 126,720 bars (108s) [RAM=0.3GB, avail=5.9GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP HHHH: RSI EXTREME ---
+  RSI(14) stats: mean=50.3, P5=23.5, P95=77.2
+
+  RSI(14) <20/>80 (fade):
+  ✅ TRAIN                                                    n=2078  wr= 74.4%  avg=  +7.0bps  tot=+144.53%  sh=  +286.8
+  ✅ TEST                                                     n= 871  wr= 76.7%  avg=  +7.4bps  tot= +64.24%  sh=  +392.8
+    ✅ test=+2.294%/d
+
+  RSI(14) <15/>85 (fade):
+  ✅ TRAIN                                                    n= 888  wr= 79.3%  avg=  +9.1bps  tot= +81.16%  sh=  +308.8
+  ✅ TEST                                                     n= 360  wr= 80.6%  avg=  +8.2bps  tot= +29.35%  sh=  +482.3
+    ✅ test=+1.048%/d
+
+  RSI(14) <10/>90 (fade):
+  ✅ TRAIN                                                    n= 314  wr= 79.9%  avg= +11.5bps  tot= +36.13%  sh=  +292.5
+  ✅ TEST                                                     n= 127  wr= 78.0%  avg=  +8.1bps  tot= +10.30%  sh=  +482.1
+    ✅ test=+0.368%/d
+  RSI(30) stats: mean=50.3, P5=32.1, P95=68.5
+
+  RSI(30) <20/>80 (fade):
+  ✅ TRAIN                                                    n= 167  wr= 89.2%  avg= +18.6bps  tot= +31.03%  sh=  +356.4
+  ✅ TEST                                                     n=  63  wr= 93.7%  avg= +12.4bps  tot=  +7.78%  sh=  +756.5
+    ✅ test=+0.278%/d
+
+  RSI(30) <15/>85 (fade):
+  ✅ TRAIN                                                    n=  23  wr= 91.3%  avg= +22.3bps  tot=  +5.13%  sh=  +589.1
+  ✅ TEST                                                     n=   8  wr=100.0%  avg= +19.8bps  tot=  +1.59%  sh=  +952.2
+    ✅ test=+0.057%/d
+
+  RSI(30) <10/>90 (fade):
+  ✅ TRAIN                                                    n=   1  wr=100.0%  avg=  +5.5bps  tot=  +0.06%  sh=+3324938058.4
+  ✅ TEST                                                     n=   3  wr=100.0%  avg= +13.7bps  tot=  +0.41%  sh= +4623.3
+    ✅ test=+0.015%/d
+
+  --- EXP IIII: BOLLINGER BAND ---
+
+  BB(20) touch (fade):
+  ✅ TRAIN                                                    n=3154  wr= 67.4%  avg=  +4.7bps  tot=+147.57%  sh=  +270.9
+  ✅ TEST                                                     n=1386  wr= 63.6%  avg=  +3.9bps  tot= +54.15%  sh=  +244.6
+    ✅ test=+1.934%/d
+
+  BB(20) squeeze (follow breakout):
+  ✅ TRAIN                                                    n=2633  wr= 57.8%  avg=  +1.9bps  tot= +50.27%  sh=  +136.6
+  ✅ TEST                                                     n=1244  wr= 60.0%  avg=  +2.1bps  tot= +26.39%  sh=  +166.3
+    ✅ test=+0.943%/d
+
+  BB(60) touch (fade):
+  ✅ TRAIN                                                    n=3970  wr= 73.0%  avg=  +5.6bps  tot=+223.67%  sh=  +334.5
+  ✅ TEST                                                     n=1958  wr= 68.6%  avg=  +4.7bps  tot= +91.29%  sh=  +286.1
+    ✅ test=+3.260%/d
+
+  BB(60) squeeze (follow breakout):
+  ✅ TRAIN                                                    n=2889  wr= 56.7%  avg=  +1.7bps  tot= +50.35%  sh=  +126.6
+  ✅ TEST                                                     n=1277  wr= 58.5%  avg=  +1.7bps  tot= +21.51%  sh=  +112.8
+    ✅ test=+0.768%/d
+
+  --- EXP JJJJ: EMA DIVERGENCE ---
+
+  EMA(5/20) div z>2 (fade):
+  ✅ TRAIN                                                    n=3722  wr= 73.2%  avg=  +5.5bps  tot=+206.39%  sh=  +343.7
+  ✅ TEST                                                     n=1817  wr= 70.9%  avg=  +4.8bps  tot= +87.20%  sh=  +276.2
+    ✅ test=+3.114%/d
+
+  EMA(5/20) div z>3 (fade):
+  ✅ TRAIN                                                    n= 851  wr= 82.0%  avg=  +8.4bps  tot= +71.78%  sh=  +432.4
+  ✅ TEST                                                     n= 390  wr= 80.0%  avg=  +6.8bps  tot= +26.39%  sh=  +402.1
+    ✅ test=+0.943%/d
+
+  EMA(10/50) div z>2 (fade):
+  ✅ TRAIN                                                    n=8016  wr= 69.7%  avg=  +4.3bps  tot=+343.09%  sh=  +274.2
+  ✅ TEST                                                     n=4066  wr= 65.4%  avg=  +3.3bps  tot=+135.75%  sh=  +217.2
+    ✅ test=+4.848%/d
+
+  EMA(10/50) div z>3 (fade):
+  ✅ TRAIN                                                    n=3085  wr= 71.4%  avg=  +4.8bps  tot=+147.45%  sh=  +274.9
+  ✅ TEST                                                     n=1603  wr= 68.1%  avg=  +3.9bps  tot= +62.49%  sh=  +272.7
+    ✅ test=+2.232%/d
+
+  --- EXP KKKK: STOCHASTIC OSCILLATOR ---
+
+  Stoch(14) <10/90 (fade):
+  ✅ TRAIN                                                    n=6866  wr= 66.0%  avg=  +3.8bps  tot=+261.36%  sh=  +231.2
+  ✅ TEST                                                     n=3249  wr= 71.4%  avg=  +5.2bps  tot=+168.24%  sh=  +325.0
+    ✅ test=+6.008%/d
+
+  Stoch(14) <5/95 (fade):
+  ✅ TRAIN                                                    n=3407  wr= 65.0%  avg=  +3.4bps  tot=+116.01%  sh=  +240.2
+  ✅ TEST                                                     n=1808  wr= 72.3%  avg=  +5.3bps  tot= +96.14%  sh=  +330.0
+    ✅ test=+3.434%/d
+
+  Stoch(30) <10/90 (fade):
+  ✅ TRAIN                                                    n=6485  wr= 68.4%  avg=  +4.5bps  tot=+289.02%  sh=  +261.6
+  ✅ TEST                                                     n=2981  wr= 74.3%  avg=  +6.0bps  tot=+178.47%  sh=  +355.3
+    ✅ test=+6.374%/d
+
+  Stoch(30) <5/95 (fade):
+  ✅ TRAIN                                                    n=3041  wr= 67.1%  avg=  +4.0bps  tot=+123.13%  sh=  +277.7
+  ✅ TEST                                                     n=1530  wr= 76.0%  avg=  +6.3bps  tot= +96.31%  sh=  +384.9
+    ✅ test=+3.440%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 34s] [30/88 43s] [40/88 53s] [50/88 61s] [60/88 69s] [70/88 97s] [80/88 118s] [88/88 127s] 126,720 bars (127s) [RAM=0.4GB, avail=5.6GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP HHHH: RSI EXTREME ---
+  RSI(14) stats: mean=50.1, P5=23.4, P95=77.1
+
+  RSI(14) <20/>80 (fade):
+  ✅ TRAIN                                                    n=2190  wr= 74.2%  avg=  +8.3bps  tot=+181.00%  sh=  +309.0
+  ✅ TEST                                                     n= 900  wr= 91.3%  avg= +14.6bps  tot=+130.96%  sh=  +557.5
+    ✅ test=+4.677%/d
+
+  RSI(14) <15/>85 (fade):
+  ✅ TRAIN                                                    n=1020  wr= 74.9%  avg=  +9.5bps  tot= +96.91%  sh=  +309.9
+  ✅ TEST                                                     n= 401  wr= 92.8%  avg= +16.7bps  tot= +66.97%  sh=  +547.7
+    ✅ test=+2.392%/d
+
+  RSI(14) <10/>90 (fade):
+  ✅ TRAIN                                                    n= 364  wr= 77.7%  avg= +11.8bps  tot= +43.07%  sh=  +339.1
+  ✅ TEST                                                     n= 124  wr= 96.8%  avg= +16.8bps  tot= +20.88%  sh=  +716.8
+    ✅ test=+0.746%/d
+  RSI(30) stats: mean=50.1, P5=31.9, P95=68.3
+
+  RSI(30) <20/>80 (fade):
+  ✅ TRAIN                                                    n= 237  wr= 79.3%  avg= +17.6bps  tot= +41.74%  sh=  +400.0
+  ✅ TEST                                                     n=  74  wr= 90.5%  avg= +15.3bps  tot= +11.32%  sh=  +582.1
+    ✅ test=+0.404%/d
+
+  RSI(30) <15/>85 (fade):
+  ✅ TRAIN                                                    n=  40  wr= 65.0%  avg= +22.5bps  tot=  +9.02%  sh=  +349.6
+  ✅ TEST                                                     n=  19  wr=100.0%  avg= +22.8bps  tot=  +4.33%  sh=  +998.5
+    ✅ test=+0.155%/d
+
+  RSI(30) <10/>90 (fade):
+  ✅ TRAIN                                                    n=   1  wr=100.0%  avg= +76.5bps  tot=  +0.77%  sh=+46097848492.0
+  ✅ TEST                                                     n=   2  wr=100.0%  avg= +34.6bps  tot=  +0.69%  sh= +1363.7
+    ✅ test=+0.025%/d
+
+  --- EXP IIII: BOLLINGER BAND ---
+
+  BB(20) touch (fade):
+  ✅ TRAIN                                                    n=3137  wr= 69.0%  avg=  +5.9bps  tot=+183.77%  sh=  +253.4
+  ✅ TEST                                                     n=1633  wr= 83.0%  avg=  +9.6bps  tot=+157.56%  sh=  +403.9
+    ✅ test=+5.627%/d
+
+  BB(20) squeeze (follow breakout):
+  ✅ TRAIN                                                    n=2612  wr= 61.8%  avg=  +2.4bps  tot= +63.02%  sh=  +159.2
+  ✅ TEST                                                     n=1290  wr= 80.9%  avg=  +5.9bps  tot= +75.51%  sh=  +457.2
+    ✅ test=+2.697%/d
+
+  BB(60) touch (fade):
+  ✅ TRAIN                                                    n=3904  wr= 74.8%  avg=  +6.8bps  tot=+265.20%  sh=  +325.2
+  ✅ TEST                                                     n=2234  wr= 84.5%  avg=  +9.8bps  tot=+219.31%  sh=  +444.6
+    ✅ test=+7.833%/d
+
+  BB(60) squeeze (follow breakout):
+  ✅ TRAIN                                                    n=2965  wr= 60.4%  avg=  +2.5bps  tot= +73.26%  sh=  +170.5
+  ✅ TEST                                                     n=1404  wr= 78.6%  avg=  +5.3bps  tot= +74.61%  sh=  +355.9
+    ✅ test=+2.665%/d
+
+  --- EXP JJJJ: EMA DIVERGENCE ---
+
+  EMA(5/20) div z>2 (fade):
+  ✅ TRAIN                                                    n=3616  wr= 76.9%  avg=  +7.1bps  tot=+255.91%  sh=  +347.7
+  ✅ TEST                                                     n=2006  wr= 86.4%  avg= +10.0bps  tot=+201.14%  sh=  +474.1
+    ✅ test=+7.184%/d
+
+  EMA(5/20) div z>3 (fade):
+  ✅ TRAIN                                                    n= 786  wr= 87.2%  avg= +12.3bps  tot= +97.02%  sh=  +416.7
+  ✅ TEST                                                     n= 471  wr= 89.6%  avg= +13.3bps  tot= +62.46%  sh=  +481.8
+    ✅ test=+2.231%/d
+
+  EMA(10/50) div z>2 (fade):
+  ✅ TRAIN                                                    n=7564  wr= 74.5%  avg=  +5.8bps  tot=+440.79%  sh=  +330.9
+  ✅ TEST                                                     n=4026  wr= 85.9%  avg=  +8.7bps  tot=+351.56%  sh=  +484.8
+    ✅ test=+12.556%/d
+
+  EMA(10/50) div z>3 (fade):
+  ✅ TRAIN                                                    n=3004  wr= 77.9%  avg=  +7.2bps  tot=+217.35%  sh=  +359.5
+  ✅ TEST                                                     n=1514  wr= 87.9%  avg=  +9.9bps  tot=+150.11%  sh=  +505.8
+    ✅ test=+5.361%/d
+
+  --- EXP KKKK: STOCHASTIC OSCILLATOR ---
+
+  Stoch(14) <10/90 (fade):
+  ✅ TRAIN                                                    n=7110  wr= 67.9%  avg=  +4.7bps  tot=+336.82%  sh=  +262.0
+  ✅ TEST                                                     n=3322  wr= 83.9%  avg=  +9.6bps  tot=+319.03%  sh=  +478.9
+    ✅ test=+11.394%/d
+
+  Stoch(14) <5/95 (fade):
+  ✅ TRAIN                                                    n=3616  wr= 67.2%  avg=  +4.4bps  tot=+159.05%  sh=  +265.7
+  ✅ TEST                                                     n=1786  wr= 83.9%  avg=  +9.3bps  tot=+165.26%  sh=  +520.5
+    ✅ test=+5.902%/d
+
+  Stoch(30) <10/90 (fade):
+  ✅ TRAIN                                                    n=6628  wr= 70.2%  avg=  +5.6bps  tot=+371.07%  sh=  +286.0
+  ✅ TEST                                                     n=2973  wr= 85.8%  avg= +10.4bps  tot=+308.51%  sh=  +499.5
+    ✅ test=+11.018%/d
+
+  Stoch(30) <5/95 (fade):
+  ✅ TRAIN                                                    n=3183  wr= 71.8%  avg=  +5.4bps  tot=+172.76%  sh=  +303.4
+  ✅ TEST                                                     n=1430  wr= 87.0%  avg= +10.2bps  tot=+145.46%  sh=  +567.7
+    ✅ test=+5.195%/d
+
+################################################################################
+  COMPLETE — 289s (4.8min) [RAM=0.2GB, avail=5.7GB]
+################################################################################
