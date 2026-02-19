@@ -1,0 +1,403 @@
+================================================================================
+  v42ay: VELOCITY + SKEWNESS + MOM DIVERGENCE + VOL-OF-VOL
+  2026-02-19 13:48:14  [RAM=0.1GB, avail=6.5GB]
+================================================================================
+  Loading ETHUSDT... [10/88 46s] [20/88 76s] [30/88 103s] [40/88 134s] [50/88 161s] [60/88 182s] [70/88 221s] [80/88 255s] [88/88 283s] 126,720 bars (283s) [RAM=0.5GB, avail=6.4GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP BBBB5: PRICE VELOCITY ---
+
+  Velocity(10) z>2 (fade):
+  ✅ TRAIN                                                    n=2058  wr= 71.5%  avg=  +6.8bps  tot=+140.14%  sh=  +345.9
+  ✅ TEST                                                     n= 969  wr= 73.2%  avg=  +5.6bps  tot= +53.92%  sh=  +313.5
+    ✅ test=+1.926%/d
+
+  Velocity(10) z>3 (fade):
+  ✅ TRAIN                                                    n= 305  wr= 85.9%  avg= +14.8bps  tot= +45.11%  sh=  +511.9
+  ✅ TEST                                                     n= 129  wr= 88.4%  avg= +10.2bps  tot= +13.18%  sh=  +388.4
+    ✅ test=+0.471%/d
+
+  Velocity(20) z>2 (fade):
+  ✅ TRAIN                                                    n=2693  wr= 71.0%  avg=  +6.2bps  tot=+167.48%  sh=  +327.6
+  ✅ TEST                                                     n=1208  wr= 69.1%  avg=  +4.5bps  tot= +54.91%  sh=  +281.2
+    ✅ test=+1.961%/d
+
+  Velocity(20) z>3 (fade):
+  ✅ TRAIN                                                    n= 351  wr= 82.9%  avg= +12.2bps  tot= +42.70%  sh=  +472.9
+  ✅ TEST                                                     n= 128  wr= 82.0%  avg=  +8.5bps  tot= +10.89%  sh=  +366.8
+    ✅ test=+0.389%/d
+
+  --- EXP CCCC5: ROLLING SKEWNESS ---
+
+  Skewness(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4862  wr= 59.3%  avg=  +2.8bps  tot=+134.43%  sh=  +162.5
+  ✅ TEST                                                     n=2462  wr= 62.6%  avg=  +3.5bps  tot= +84.98%  sh=  +219.8
+    ✅ test=+3.035%/d
+
+  Skewness(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7823  wr= 58.9%  avg=  +2.7bps  tot=+209.75%  sh=  +163.4
+  ✅ TEST                                                     n=3923  wr= 62.9%  avg=  +3.4bps  tot=+132.28%  sh=  +221.0
+    ✅ test=+4.724%/d
+
+  Skewness(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6184  wr= 58.4%  avg=  +2.7bps  tot=+166.33%  sh=  +165.8
+  ✅ TEST                                                     n=3231  wr= 60.3%  avg=  +2.8bps  tot= +89.41%  sh=  +175.9
+    ✅ test=+3.193%/d
+
+  Skewness(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9397  wr= 58.8%  avg=  +2.7bps  tot=+255.40%  sh=  +173.6
+  ✅ TEST                                                     n=4866  wr= 60.3%  avg=  +2.7bps  tot=+129.79%  sh=  +178.8
+    ✅ test=+4.635%/d
+
+  --- EXP DDDD5: MOMENTUM DIVERGENCE ---
+
+  Mom div(5/30) z>1 (fade short):
+  ✅ TRAIN                                                    n=2429  wr= 50.9%  avg=  +1.5bps  tot= +37.60%  sh=  +100.6
+  ✅ TEST                                                     n=1272  wr= 57.5%  avg=  +2.3bps  tot= +29.22%  sh=  +149.6
+    ✅ test=+1.044%/d
+
+  Mom div(5/30) z>2 (fade short):
+  ✅ TRAIN                                                    n= 240  wr= 54.6%  avg=  +2.7bps  tot=  +6.44%  sh=  +158.3
+  ✅ TEST                                                     n= 127  wr= 62.2%  avg=  +2.8bps  tot=  +3.60%  sh=  +246.5
+    ✅ test=+0.128%/d
+
+  Mom div(5/60) z>1 (fade short):
+  ✅ TRAIN                                                    n=3002  wr= 52.1%  avg=  +1.7bps  tot= +50.33%  sh=  +108.9
+  ✅ TEST                                                     n=1503  wr= 59.3%  avg=  +2.5bps  tot= +37.41%  sh=  +150.3
+    ✅ test=+1.336%/d
+
+  Mom div(5/60) z>2 (fade short):
+  ✅ TRAIN                                                    n= 354  wr= 51.7%  avg=  +2.3bps  tot=  +8.13%  sh=  +133.9
+  ✅ TEST                                                     n= 161  wr= 65.8%  avg=  +3.9bps  tot=  +6.35%  sh=  +238.7
+    ✅ test=+0.227%/d
+
+  --- EXP EEEE5: VOL OF VOL ---
+
+  Vol-of-vol >90th pct (fade):
+  ✅ TRAIN                                                    n=8223  wr= 62.6%  avg=  +4.6bps  tot=+377.17%  sh=  +198.8
+  ✅ TEST                                                     n=4016  wr= 65.9%  avg=  +3.8bps  tot=+153.72%  sh=  +242.8
+    ✅ test=+5.490%/d
+
+  Vol-of-vol >95th pct (fade):
+  ✅ TRAIN                                                    n=5797  wr= 63.9%  avg=  +5.2bps  tot=+299.27%  sh=  +205.7
+  ✅ TEST                                                     n=2837  wr= 66.3%  avg=  +3.9bps  tot=+111.82%  sh=  +252.2
+    ✅ test=+3.994%/d
+  Loading SOLUSDT... [10/88 24s] [20/88 43s] [30/88 54s] [40/88 68s] [50/88 83s] [60/88 96s] [70/88 114s] [80/88 137s] [88/88 148s] 126,720 bars (148s) [RAM=0.3GB, avail=6.8GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP BBBB5: PRICE VELOCITY ---
+
+  Velocity(10) z>2 (fade):
+  ✅ TRAIN                                                    n=2213  wr= 71.4%  avg=  +5.7bps  tot=+126.21%  sh=  +311.6
+  ✅ TEST                                                     n= 952  wr= 69.2%  avg=  +4.8bps  tot= +45.95%  sh=  +326.4
+    ✅ test=+1.641%/d
+
+  Velocity(10) z>3 (fade):
+  ✅ TRAIN                                                    n= 291  wr= 83.5%  avg= +11.3bps  tot= +32.91%  sh=  +391.8
+  ✅ TEST                                                     n=  87  wr= 73.6%  avg=  +6.3bps  tot=  +5.49%  sh=  +430.1
+    ✅ test=+0.196%/d
+
+  Velocity(20) z>2 (fade):
+  ✅ TRAIN                                                    n=2957  wr= 69.1%  avg=  +4.9bps  tot=+144.89%  sh=  +289.5
+  ✅ TEST                                                     n=1286  wr= 67.2%  avg=  +4.2bps  tot= +54.62%  sh=  +319.4
+    ✅ test=+1.951%/d
+
+  Velocity(20) z>3 (fade):
+  ✅ TRAIN                                                    n= 288  wr= 78.1%  avg= +10.7bps  tot= +30.88%  sh=  +384.9
+  ✅ TEST                                                     n=  95  wr= 70.5%  avg=  +7.0bps  tot=  +6.68%  sh=  +423.5
+    ✅ test=+0.239%/d
+
+  --- EXP CCCC5: ROLLING SKEWNESS ---
+
+  Skewness(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4936  wr= 61.4%  avg=  +3.0bps  tot=+148.67%  sh=  +178.9
+  ✅ TEST                                                     n=2710  wr= 63.0%  avg=  +3.2bps  tot= +85.59%  sh=  +212.3
+    ✅ test=+3.057%/d
+
+  Skewness(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8029  wr= 61.4%  avg=  +3.1bps  tot=+252.65%  sh=  +195.7
+  ✅ TEST                                                     n=4208  wr= 63.3%  avg=  +3.2bps  tot=+135.27%  sh=  +223.2
+    ✅ test=+4.831%/d
+
+  Skewness(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6548  wr= 62.0%  avg=  +3.3bps  tot=+216.56%  sh=  +221.0
+  ✅ TEST                                                     n=3252  wr= 64.7%  avg=  +3.5bps  tot=+114.53%  sh=  +260.8
+    ✅ test=+4.091%/d
+
+  Skewness(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9901  wr= 62.2%  avg=  +3.2bps  tot=+312.93%  sh=  +205.1
+  ✅ TEST                                                     n=4779  wr= 64.8%  avg=  +3.6bps  tot=+170.02%  sh=  +264.8
+    ✅ test=+6.072%/d
+
+  --- EXP DDDD5: MOMENTUM DIVERGENCE ---
+
+  Mom div(5/30) z>1 (fade short):
+  ✅ TRAIN                                                    n=2503  wr= 58.2%  avg=  +2.5bps  tot= +62.27%  sh=  +154.2
+  ✅ TEST                                                     n=1306  wr= 61.7%  avg=  +3.2bps  tot= +41.54%  sh=  +230.9
+    ✅ test=+1.484%/d
+
+  Mom div(5/30) z>2 (fade short):
+  ✅ TRAIN                                                    n= 283  wr= 59.0%  avg=  +3.1bps  tot=  +8.74%  sh=  +187.9
+  ✅ TEST                                                     n= 151  wr= 64.2%  avg=  +4.2bps  tot=  +6.27%  sh=  +259.9
+    ✅ test=+0.224%/d
+
+  Mom div(5/60) z>1 (fade short):
+  ✅ TRAIN                                                    n=3268  wr= 60.1%  avg=  +2.7bps  tot= +87.85%  sh=  +171.8
+  ✅ TEST                                                     n=1574  wr= 60.8%  avg=  +2.9bps  tot= +45.75%  sh=  +221.5
+    ✅ test=+1.634%/d
+
+  Mom div(5/60) z>2 (fade short):
+  ✅ TRAIN                                                    n= 469  wr= 62.3%  avg=  +2.9bps  tot= +13.53%  sh=  +183.0
+  ✅ TEST                                                     n= 175  wr= 66.3%  avg=  +4.4bps  tot=  +7.62%  sh=  +278.3
+    ✅ test=+0.272%/d
+
+  --- EXP EEEE5: VOL OF VOL ---
+
+  Vol-of-vol >90th pct (fade):
+  ✅ TRAIN                                                    n=8403  wr= 65.5%  avg=  +4.5bps  tot=+377.37%  sh=  +238.0
+  ✅ TEST                                                     n=4351  wr= 67.8%  avg=  +4.6bps  tot=+201.11%  sh=  +274.2
+    ✅ test=+7.182%/d
+
+  Vol-of-vol >95th pct (fade):
+  ✅ TRAIN                                                    n=5930  wr= 66.8%  avg=  +5.1bps  tot=+303.21%  sh=  +255.3
+  ✅ TEST                                                     n=3046  wr= 68.5%  avg=  +4.8bps  tot=+147.27%  sh=  +282.1
+    ✅ test=+5.260%/d
+  Loading DOGEUSDT... [10/88 30s] [20/88 49s] [30/88 61s] [40/88 74s] [50/88 85s] [60/88 97s] [70/88 133s] [80/88 163s] [88/88 175s] 126,720 bars (175s) [RAM=0.2GB, avail=6.9GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP BBBB5: PRICE VELOCITY ---
+
+  Velocity(10) z>2 (fade):
+  ✅ TRAIN                                                    n=2274  wr= 70.9%  avg=  +6.4bps  tot=+146.11%  sh=  +276.0
+  ✅ TEST                                                     n=1072  wr= 83.2%  avg=  +9.9bps  tot=+106.10%  sh=  +399.1
+    ✅ test=+3.789%/d
+
+  Velocity(10) z>3 (fade):
+  ✅ TRAIN                                                    n= 287  wr= 84.3%  avg= +13.8bps  tot= +39.68%  sh=  +325.1
+  ✅ TEST                                                     n= 116  wr= 89.7%  avg= +17.4bps  tot= +20.15%  sh=  +423.1
+    ✅ test=+0.720%/d
+
+  Velocity(20) z>2 (fade):
+  ✅ TRAIN                                                    n=3087  wr= 70.7%  avg=  +6.3bps  tot=+194.09%  sh=  +290.1
+  ✅ TEST                                                     n=1477  wr= 82.4%  avg=  +9.0bps  tot=+132.77%  sh=  +394.7
+    ✅ test=+4.742%/d
+
+  Velocity(20) z>3 (fade):
+  ✅ TRAIN                                                    n= 262  wr= 82.1%  avg= +13.1bps  tot= +34.42%  sh=  +341.5
+  ✅ TEST                                                     n= 128  wr= 86.7%  avg= +13.7bps  tot= +17.51%  sh=  +443.4
+    ✅ test=+0.625%/d
+
+  --- EXP CCCC5: ROLLING SKEWNESS ---
+
+  Skewness(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5232  wr= 64.1%  avg=  +3.8bps  tot=+200.74%  sh=  +207.3
+  ✅ TEST                                                     n=2881  wr= 80.9%  avg=  +7.6bps  tot=+220.38%  sh=  +391.6
+    ✅ test=+7.871%/d
+
+  Skewness(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8390  wr= 64.7%  avg=  +3.8bps  tot=+316.76%  sh=  +217.1
+  ✅ TEST                                                     n=4521  wr= 80.6%  avg=  +7.4bps  tot=+336.39%  sh=  +398.8
+    ✅ test=+12.014%/d
+
+  Skewness(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6689  wr= 64.6%  avg=  +4.0bps  tot=+268.14%  sh=  +226.4
+  ✅ TEST                                                     n=3574  wr= 79.3%  avg=  +7.0bps  tot=+251.91%  sh=  +376.7
+    ✅ test=+8.997%/d
+
+  Skewness(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=10270  wr= 64.4%  avg=  +3.8bps  tot=+394.97%  sh=  +227.8
+  ✅ TEST                                                     n=5497  wr= 80.6%  avg=  +7.3bps  tot=+399.84%  sh=  +411.3
+    ✅ test=+14.280%/d
+
+  --- EXP DDDD5: MOMENTUM DIVERGENCE ---
+
+  Mom div(5/30) z>1 (fade short):
+  ✅ TRAIN                                                    n=2704  wr= 62.8%  avg=  +3.4bps  tot= +91.90%  sh=  +192.9
+  ✅ TEST                                                     n=1455  wr= 80.2%  avg=  +7.3bps  tot=+105.84%  sh=  +418.2
+    ✅ test=+3.780%/d
+
+  Mom div(5/30) z>2 (fade short):
+  ✅ TRAIN                                                    n= 307  wr= 65.8%  avg=  +5.0bps  tot= +15.37%  sh=  +263.9
+  ✅ TEST                                                     n= 132  wr= 81.1%  avg=  +8.3bps  tot= +10.94%  sh=  +502.9
+    ✅ test=+0.391%/d
+
+  Mom div(5/60) z>1 (fade short):
+  ✅ TRAIN                                                    n=3457  wr= 61.2%  avg=  +3.1bps  tot=+107.85%  sh=  +182.5
+  ✅ TEST                                                     n=1744  wr= 80.6%  avg=  +7.1bps  tot=+124.52%  sh=  +406.2
+    ✅ test=+4.447%/d
+
+  Mom div(5/60) z>2 (fade short):
+  ✅ TRAIN                                                    n= 462  wr= 62.3%  avg=  +4.0bps  tot= +18.40%  sh=  +217.4
+  ✅ TEST                                                     n= 176  wr= 80.7%  avg=  +7.3bps  tot= +12.82%  sh=  +385.1
+    ✅ test=+0.458%/d
+
+  --- EXP EEEE5: VOL OF VOL ---
+
+  Vol-of-vol >90th pct (fade):
+  ✅ TRAIN                                                    n=8910  wr= 69.0%  avg=  +6.1bps  tot=+543.65%  sh=  +271.1
+  ✅ TEST                                                     n=4562  wr= 82.5%  avg=  +9.6bps  tot=+437.36%  sh=  +430.3
+    ✅ test=+15.620%/d
+
+  Vol-of-vol >95th pct (fade):
+  ✅ TRAIN                                                    n=6244  wr= 69.5%  avg=  +6.6bps  tot=+413.38%  sh=  +275.0
+  ✅ TEST                                                     n=3209  wr= 82.5%  avg=  +9.6bps  tot=+307.23%  sh=  +424.3
+    ✅ test=+10.972%/d
+  Loading XRPUSDT... [10/88 22s] [20/88 34s] [30/88 44s] [40/88 55s] [50/88 66s] [60/88 77s] [70/88 109s] [80/88 129s] [88/88 142s] 126,720 bars (142s) [RAM=0.6GB, avail=6.4GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP BBBB5: PRICE VELOCITY ---
+
+  Velocity(10) z>2 (fade):
+  ✅ TRAIN                                                    n=1889  wr= 59.1%  avg=  +3.7bps  tot= +69.47%  sh=  +193.3
+  ✅ TEST                                                     n=1075  wr= 76.9%  avg=  +7.7bps  tot= +82.49%  sh=  +298.3
+    ✅ test=+2.946%/d
+
+  Velocity(10) z>3 (fade):
+  ✅ TRAIN                                                    n= 206  wr= 73.3%  avg= +10.6bps  tot= +21.83%  sh=  +328.7
+  ✅ TEST                                                     n= 115  wr= 86.1%  avg= +17.4bps  tot= +19.98%  sh=  +340.3
+    ✅ test=+0.713%/d
+
+  Velocity(20) z>2 (fade):
+  ✅ TRAIN                                                    n=2470  wr= 55.0%  avg=  +3.0bps  tot= +74.69%  sh=  +178.4
+  ✅ TEST                                                     n=1461  wr= 71.6%  avg=  +6.5bps  tot= +95.13%  sh=  +268.0
+    ✅ test=+3.398%/d
+
+  Velocity(20) z>3 (fade):
+  ✅ TRAIN                                                    n= 233  wr= 65.2%  avg=  +8.0bps  tot= +18.54%  sh=  +288.5
+  ✅ TEST                                                     n= 134  wr= 83.6%  avg= +13.2bps  tot= +17.64%  sh=  +283.2
+    ✅ test=+0.630%/d
+
+  --- EXP CCCC5: ROLLING SKEWNESS ---
+
+  Skewness(30) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4636  wr= 48.9%  avg=  +1.7bps  tot= +80.10%  sh=  +105.3
+  ✅ TEST                                                     n=2705  wr= 72.5%  avg=  +5.7bps  tot=+153.75%  sh=  +311.2
+    ✅ test=+5.491%/d
+
+  Skewness(30) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7421  wr= 50.0%  avg=  +1.7bps  tot=+128.72%  sh=  +109.6
+  ✅ TEST                                                     n=4302  wr= 73.0%  avg=  +5.5bps  tot=+236.29%  sh=  +304.6
+    ✅ test=+8.439%/d
+
+  Skewness(60) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=6218  wr= 50.4%  avg=  +1.7bps  tot=+106.71%  sh=  +105.3
+  ✅ TEST                                                     n=3455  wr= 73.9%  avg=  +5.5bps  tot=+189.43%  sh=  +328.1
+    ✅ test=+6.765%/d
+
+  Skewness(60) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=9336  wr= 51.2%  avg=  +1.7bps  tot=+157.49%  sh=  +105.0
+  ✅ TEST                                                     n=5269  wr= 72.9%  avg=  +5.3bps  tot=+278.23%  sh=  +307.1
+    ✅ test=+9.937%/d
+
+  --- EXP DDDD5: MOMENTUM DIVERGENCE ---
+
+  Mom div(5/30) z>1 (fade short):
+  ✅ TRAIN                                                    n=2416  wr= 47.4%  avg=  +0.9bps  tot= +22.44%  sh=   +54.4
+  ✅ TEST                                                     n=1453  wr= 71.1%  avg=  +5.2bps  tot= +75.67%  sh=  +339.0
+    ✅ test=+2.702%/d
+
+  Mom div(5/30) z>2 (fade short):
+  ✅ TRAIN                                                    n= 277  wr= 53.8%  avg=  +2.2bps  tot=  +6.01%  sh=  +125.7
+  ✅ TEST                                                     n= 181  wr= 70.2%  avg=  +5.1bps  tot=  +9.17%  sh=  +262.1
+    ✅ test=+0.327%/d
+
+  Mom div(5/60) z>1 (fade short):
+  ✅ TRAIN                                                    n=3007  wr= 46.8%  avg=  +0.8bps  tot= +24.62%  sh=   +52.2
+  ✅ TEST                                                     n=1717  wr= 71.6%  avg=  +5.2bps  tot= +89.74%  sh=  +336.9
+    ✅ test=+3.205%/d
+
+  Mom div(5/60) z>2 (fade short):
+  ✅ TRAIN                                                    n= 405  wr= 47.2%  avg=  +1.3bps  tot=  +5.28%  sh=   +83.7
+  ✅ TEST                                                     n= 206  wr= 72.3%  avg=  +5.0bps  tot= +10.26%  sh=  +281.8
+    ✅ test=+0.366%/d
+
+  --- EXP EEEE5: VOL OF VOL ---
+
+  Vol-of-vol >90th pct (fade):
+  ✅ TRAIN                                                    n=7864  wr= 55.9%  avg=  +3.0bps  tot=+237.00%  sh=  +158.7
+  ✅ TEST                                                     n=4597  wr= 76.9%  avg=  +7.7bps  tot=+356.15%  sh=  +358.4
+    ✅ test=+12.720%/d
+
+  Vol-of-vol >95th pct (fade):
+  ✅ TRAIN                                                    n=5549  wr= 56.9%  avg=  +3.4bps  tot=+189.22%  sh=  +173.3
+  ✅ TEST                                                     n=3232  wr= 77.4%  avg=  +7.9bps  tot=+255.29%  sh=  +353.7
+    ✅ test=+9.117%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                         n      WR      Avg     Total   Sharpe
+  ----------------------------------------------------------------------
+  ✅ DOGEUSDT    momdiv_5_30_z1              1455   80.2%    +7.3bp   +105.8%     +418
+  ✅ DOGEUSDT    momdiv_5_30_z2               132   81.1%    +8.3bp    +10.9%     +503
+  ✅ DOGEUSDT    momdiv_5_60_z1              1744   80.6%    +7.1bp   +124.5%     +406
+  ✅ DOGEUSDT    momdiv_5_60_z2               176   80.7%    +7.3bp    +12.8%     +385
+  ✅ DOGEUSDT    skew_30_0.05                2881   80.9%    +7.6bp   +220.4%     +392
+  ✅ DOGEUSDT    skew_30_0.1                 4521   80.6%    +7.4bp   +336.4%     +399
+  ✅ DOGEUSDT    skew_60_0.05                3574   79.3%    +7.0bp   +251.9%     +377
+  ✅ DOGEUSDT    skew_60_0.1                 5497   80.6%    +7.3bp   +399.8%     +411
+  ✅ DOGEUSDT    vel_10_z2                   1072   83.2%    +9.9bp   +106.1%     +399
+  ✅ DOGEUSDT    vel_10_z3                    116   89.7%   +17.4bp    +20.1%     +423
+  ✅ DOGEUSDT    vel_20_z2                   1477   82.4%    +9.0bp   +132.8%     +395
+  ✅ DOGEUSDT    vel_20_z3                    128   86.7%   +13.7bp    +17.5%     +443
+  ✅ DOGEUSDT    vov_0.9                     4562   82.5%    +9.6bp   +437.4%     +430
+  ✅ DOGEUSDT    vov_0.95                    3209   82.5%    +9.6bp   +307.2%     +424
+  ✅ ETHUSDT     momdiv_5_30_z1              1272   57.5%    +2.3bp    +29.2%     +150
+  ✅ ETHUSDT     momdiv_5_30_z2               127   62.2%    +2.8bp     +3.6%     +247
+  ✅ ETHUSDT     momdiv_5_60_z1              1503   59.3%    +2.5bp    +37.4%     +150
+  ✅ ETHUSDT     momdiv_5_60_z2               161   65.8%    +3.9bp     +6.4%     +239
+  ✅ ETHUSDT     skew_30_0.05                2462   62.6%    +3.5bp    +85.0%     +220
+  ✅ ETHUSDT     skew_30_0.1                 3923   62.9%    +3.4bp   +132.3%     +221
+  ✅ ETHUSDT     skew_60_0.05                3231   60.3%    +2.8bp    +89.4%     +176
+  ✅ ETHUSDT     skew_60_0.1                 4866   60.3%    +2.7bp   +129.8%     +179
+  ✅ ETHUSDT     vel_10_z2                    969   73.2%    +5.6bp    +53.9%     +314
+  ✅ ETHUSDT     vel_10_z3                    129   88.4%   +10.2bp    +13.2%     +388
+  ✅ ETHUSDT     vel_20_z2                   1208   69.1%    +4.5bp    +54.9%     +281
+  ✅ ETHUSDT     vel_20_z3                    128   82.0%    +8.5bp    +10.9%     +367
+  ✅ ETHUSDT     vov_0.9                     4016   65.9%    +3.8bp   +153.7%     +243
+  ✅ ETHUSDT     vov_0.95                    2837   66.3%    +3.9bp   +111.8%     +252
+  ✅ SOLUSDT     momdiv_5_30_z1              1306   61.7%    +3.2bp    +41.5%     +231
+  ✅ SOLUSDT     momdiv_5_30_z2               151   64.2%    +4.2bp     +6.3%     +260
+  ✅ SOLUSDT     momdiv_5_60_z1              1574   60.8%    +2.9bp    +45.7%     +221
+  ✅ SOLUSDT     momdiv_5_60_z2               175   66.3%    +4.4bp     +7.6%     +278
+  ✅ SOLUSDT     skew_30_0.05                2710   63.0%    +3.2bp    +85.6%     +212
+  ✅ SOLUSDT     skew_30_0.1                 4208   63.3%    +3.2bp   +135.3%     +223
+  ✅ SOLUSDT     skew_60_0.05                3252   64.7%    +3.5bp   +114.5%     +261
+  ✅ SOLUSDT     skew_60_0.1                 4779   64.8%    +3.6bp   +170.0%     +265
+  ✅ SOLUSDT     vel_10_z2                    952   69.2%    +4.8bp    +45.9%     +326
+  ✅ SOLUSDT     vel_10_z3                     87   73.6%    +6.3bp     +5.5%     +430
+  ✅ SOLUSDT     vel_20_z2                   1286   67.2%    +4.2bp    +54.6%     +319
+  ✅ SOLUSDT     vel_20_z3                     95   70.5%    +7.0bp     +6.7%     +423
+  ✅ SOLUSDT     vov_0.9                     4351   67.8%    +4.6bp   +201.1%     +274
+  ✅ SOLUSDT     vov_0.95                    3046   68.5%    +4.8bp   +147.3%     +282
+  ✅ XRPUSDT     momdiv_5_30_z1              1453   71.1%    +5.2bp    +75.7%     +339
+  ✅ XRPUSDT     momdiv_5_30_z2               181   70.2%    +5.1bp     +9.2%     +262
+  ✅ XRPUSDT     momdiv_5_60_z1              1717   71.6%    +5.2bp    +89.7%     +337
+  ✅ XRPUSDT     momdiv_5_60_z2               206   72.3%    +5.0bp    +10.3%     +282
+  ✅ XRPUSDT     skew_30_0.05                2705   72.5%    +5.7bp   +153.8%     +311
+  ✅ XRPUSDT     skew_30_0.1                 4302   73.0%    +5.5bp   +236.3%     +305
+  ✅ XRPUSDT     skew_60_0.05                3455   73.9%    +5.5bp   +189.4%     +328
+  ✅ XRPUSDT     skew_60_0.1                 5269   72.9%    +5.3bp   +278.2%     +307
+  ✅ XRPUSDT     vel_10_z2                   1075   76.9%    +7.7bp    +82.5%     +298
+  ✅ XRPUSDT     vel_10_z3                    115   86.1%   +17.4bp    +20.0%     +340
+  ✅ XRPUSDT     vel_20_z2                   1461   71.6%    +6.5bp    +95.1%     +268
+  ✅ XRPUSDT     vel_20_z3                    134   83.6%   +13.2bp    +17.6%     +283
+  ✅ XRPUSDT     vov_0.9                     4597   76.9%    +7.7bp   +356.1%     +358
+  ✅ XRPUSDT     vov_0.95                    3232   77.4%    +7.9bp   +255.3%     +354
+
+################################################################################
+  COMPLETE — 937s (15.6min) [RAM=0.2GB, avail=6.7GB]
+################################################################################
