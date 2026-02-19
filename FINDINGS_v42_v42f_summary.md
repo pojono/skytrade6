@@ -690,7 +690,39 @@ Best predictor: **vol>3x AND cnt>3x** → 87% WR, +10.8 bps, Sharpe 536 OOS
 | QQ | Cascade Predictor | ✅ **ALL 12 OOS positive** |
 | RR | XRP Generalization | ✅ **4th symbol works** |
 
-**Hit rate: 29/40 experiments produced actionable insights (73%).**
+| SS | Drawdown Analysis | ✅ Max DD -0.019% DOGE |
+| TT | Cross-Symbol Correlation | ✅ 0.64-0.91, 100% pos days |
+| UU | Time-of-Day | ✅ **ALL 24 hours positive** |
+
+**Hit rate: 32/43 experiments produced actionable insights (74%).**
+
+---
+
+## v42r: Risk Analysis + Portfolio Optimization (EXP SS, TT, UU)
+
+### EXP SS: Drawdown Analysis
+
+| Symbol | Max Consec Loss | Max DD | Worst Trade | W/L Ratio | Kelly |
+|--------|----------------|--------|-------------|-----------|-------|
+| ETH | 2 | -0.077% | -5.5 bps | 4.37 | 92% |
+| SOL | 3 | -0.605% | -57.5 bps | 3.91 | 89% |
+| **DOGE** | **1** | **-0.019%** | **-1.9 bps** | **16.25** | **99%** |
+| XRP | 4 | -0.070% | -5.5 bps | 5.17 | 89% |
+
+SOL has one outlier trade (-57.5 bps) that accounts for most of its drawdown.
+
+### EXP TT: Cross-Symbol Correlation
+
+Daily PnL correlation: 0.64–0.91 (highly correlated — same market regime).
+
+**4-symbol portfolio: 63/63 positive days (100%), worst day +0.10%, Daily Sharpe 21.7.**
+
+### EXP UU: Time-of-Day — ALL 24 HOURS POSITIVE
+
+With trailing stop, **every single hour is profitable across all 4 symbols**.
+- Best hours: 13-14 UTC (+13.2-13.6 bps avg)
+- Worst hours: 05 UTC (+4.8 bps) — still profitable
+- **All 7 weekdays positive** — no weekend effect
 
 ---
 
@@ -715,3 +747,4 @@ Best predictor: **vol>3x AND cnt>3x** → 87% WR, +10.8 bps, Sharpe 536 OOS
 | `research_v42o_combined_strategies.py` | EXP KK, MM: combined strategies, cross-sym accel |
 | `research_v42p_cascade_prediction.py` | EXP NN-PP: pre-cascade signals, regime, duration |
 | `research_v42q_xrp_generalize.py` | EXP QQ, RR: XRP generalization, cascade predictor |
+| `research_v42r_risk_analysis.py` | EXP SS-UU: drawdown, correlation, time-of-day |
