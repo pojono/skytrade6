@@ -1,0 +1,173 @@
+================================================================================
+  v42ai: PRICE IMPACT + MICROSTRUCTURE ORDER FLOW
+  2026-02-19 10:00:07  [RAM=0.1GB, avail=5.0GB]
+================================================================================
+  Loading SOLUSDT... [10/88 28s] [20/88 47s] [30/88 61s] [40/88 78s] [50/88 93s] [60/88 104s] [70/88 122s] [80/88 143s] [88/88 153s] 126,720 bars (153s) [RAM=0.5GB, avail=5.0GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP PPPP: PRICE IMPACT (KYLE'S LAMBDA) ---
+  Price impact z stats: mean=0.022, P95=2.152
+
+  Price impact z>2 (fade in illiquid):
+  ✅ TRAIN                                                    n=3514  wr= 56.7%  avg=  +2.0bps  tot= +71.61%  sh=  +146.8
+  ✅ TEST                                                     n=1642  wr= 61.9%  avg=  +2.7bps  tot= +44.31%  sh=  +205.0
+    ✅ test=+1.582%/d
+
+  Price impact z>3 (fade in illiquid):
+  ✅ TRAIN                                                    n=1466  wr= 54.6%  avg=  +1.8bps  tot= +25.84%  sh=  +123.1
+  ✅ TEST                                                     n= 647  wr= 59.7%  avg=  +2.2bps  tot= +14.39%  sh=  +170.9
+    ✅ test=+0.514%/d
+
+  --- EXP QQQQ: AMIHUD ILLIQUIDITY ---
+
+  Amihud z>2 (fade in illiquid):
+  ✅ TRAIN                                                    n=3514  wr= 56.7%  avg=  +2.0bps  tot= +71.61%  sh=  +146.8
+  ✅ TEST                                                     n=1642  wr= 61.9%  avg=  +2.7bps  tot= +44.31%  sh=  +205.0
+    ✅ test=+1.582%/d
+
+  Amihud z>3 (fade in illiquid):
+  ✅ TRAIN                                                    n=1466  wr= 54.6%  avg=  +1.8bps  tot= +25.84%  sh=  +123.1
+  ✅ TEST                                                     n= 647  wr= 59.7%  avg=  +2.2bps  tot= +14.39%  sh=  +170.9
+    ✅ test=+0.514%/d
+
+  --- EXP RRRR: VARIANCE RATIO ---
+  VR stats: mean=0.454, P10=0.094, P90=0.985
+
+  VR < 0.5 (MR regime, fade):
+  ✅ TRAIN                                                    n=42338  wr= 59.8%  avg=  +2.7bps  tot=+1161.68%  sh=  +181.6
+  ✅ TEST                                                     n=20291  wr= 62.6%  avg=  +3.3bps  tot=+670.80%  sh=  +224.4
+    ✅ test=+23.957%/d
+
+  VR < 0.7 (MR regime, fade):
+  ✅ TRAIN                                                    n=49587  wr= 60.0%  avg=  +2.8bps  tot=+1383.62%  sh=  +183.1
+  ✅ TEST                                                     n=23908  wr= 62.9%  avg=  +3.4bps  tot=+806.38%  sh=  +228.3
+    ✅ test=+28.799%/d
+
+  --- EXP SSSS: PARKINSON VS CLOSE-TO-CLOSE VOL ---
+
+  Parkinson/CC vol z>2 (fade):
+  ✅ TRAIN                                                    n=4531  wr= 60.6%  avg=  +3.5bps  tot=+156.78%  sh=  +197.7
+  ✅ TEST                                                     n=2300  wr= 63.9%  avg=  +3.9bps  tot= +89.45%  sh=  +251.2
+    ✅ test=+3.195%/d
+
+  Parkinson/CC vol z>3 (fade):
+  ✅ TRAIN                                                    n= 803  wr= 63.6%  avg=  +4.2bps  tot= +33.71%  sh=  +222.3
+  ✅ TEST                                                     n= 468  wr= 66.9%  avg=  +4.8bps  tot= +22.45%  sh=  +311.2
+    ✅ test=+0.802%/d
+  Loading DOGEUSDT... [10/88 26s] [20/88 41s] [30/88 52s] [40/88 65s] [50/88 75s] [60/88 88s] [70/88 131s] [80/88 160s] [88/88 173s] 126,720 bars (173s) [RAM=0.5GB, avail=5.0GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP PPPP: PRICE IMPACT (KYLE'S LAMBDA) ---
+  Price impact z stats: mean=0.021, P95=2.145
+
+  Price impact z>2 (fade in illiquid):
+  ✅ TRAIN                                                    n=3427  wr= 60.4%  avg=  +2.7bps  tot= +92.93%  sh=  +169.3
+  ✅ TEST                                                     n=1873  wr= 78.0%  avg=  +6.6bps  tot=+123.72%  sh=  +426.2
+    ✅ test=+4.419%/d
+
+  Price impact z>3 (fade in illiquid):
+  ✅ TRAIN                                                    n=1623  wr= 59.9%  avg=  +2.5bps  tot= +40.75%  sh=  +162.1
+  ✅ TEST                                                     n= 769  wr= 75.9%  avg=  +6.0bps  tot= +46.45%  sh=  +420.5
+    ✅ test=+1.659%/d
+
+  --- EXP QQQQ: AMIHUD ILLIQUIDITY ---
+
+  Amihud z>2 (fade in illiquid):
+  ✅ TRAIN                                                    n=3427  wr= 60.4%  avg=  +2.7bps  tot= +92.93%  sh=  +169.3
+  ✅ TEST                                                     n=1873  wr= 78.0%  avg=  +6.6bps  tot=+123.72%  sh=  +426.2
+    ✅ test=+4.419%/d
+
+  Amihud z>3 (fade in illiquid):
+  ✅ TRAIN                                                    n=1623  wr= 59.9%  avg=  +2.5bps  tot= +40.75%  sh=  +162.1
+  ✅ TEST                                                     n= 769  wr= 75.9%  avg=  +6.0bps  tot= +46.45%  sh=  +420.5
+    ✅ test=+1.659%/d
+
+  --- EXP RRRR: VARIANCE RATIO ---
+  VR stats: mean=0.455, P10=0.094, P90=0.984
+
+  VR < 0.5 (MR regime, fade):
+  ✅ TRAIN                                                    n=43515  wr= 62.7%  avg=  +3.6bps  tot=+1572.75%  sh=  +209.7
+  ✅ TEST                                                     n=22456  wr= 79.9%  avg=  +7.7bps  tot=+1735.27%  sh=  +431.9
+    ✅ test=+61.974%/d
+
+  VR < 0.7 (MR regime, fade):
+  ✅ TRAIN                                                    n=50928  wr= 62.9%  avg=  +3.7bps  tot=+1881.66%  sh=  +211.5
+  ✅ TEST                                                     n=26283  wr= 79.8%  avg=  +7.8bps  tot=+2044.59%  sh=  +431.8
+    ✅ test=+73.021%/d
+
+  --- EXP SSSS: PARKINSON VS CLOSE-TO-CLOSE VOL ---
+
+  Parkinson/CC vol z>2 (fade):
+  ✅ TRAIN                                                    n=4719  wr= 65.9%  avg=  +4.9bps  tot=+231.19%  sh=  +250.0
+  ✅ TEST                                                     n=2419  wr= 81.1%  avg=  +8.8bps  tot=+212.35%  sh=  +444.2
+    ✅ test=+7.584%/d
+
+  Parkinson/CC vol z>3 (fade):
+  ✅ TRAIN                                                    n= 844  wr= 67.9%  avg=  +6.5bps  tot= +54.89%  sh=  +284.2
+  ✅ TEST                                                     n= 454  wr= 81.1%  avg=  +9.1bps  tot= +41.35%  sh=  +468.6
+    ✅ test=+1.477%/d
+  Loading XRPUSDT... [10/88 19s] [20/88 32s] [30/88 42s] [40/88 55s] [50/88 71s] [60/88 84s] [70/88 134s] [80/88 159s] [88/88 175s] 126,720 bars (175s) [RAM=0.7GB, avail=4.7GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP PPPP: PRICE IMPACT (KYLE'S LAMBDA) ---
+  Price impact z stats: mean=0.020, P95=2.109
+
+  Price impact z>2 (fade in illiquid):
+  ✅ TRAIN                                                    n=3066  wr= 46.2%  avg=  +0.6bps  tot= +17.62%  sh=   +41.0
+  ✅ TEST                                                     n=1702  wr= 69.2%  avg=  +4.5bps  tot= +75.89%  sh=  +289.6
+    ✅ test=+2.710%/d
+
+  Price impact z>3 (fade in illiquid):
+  ✅ TRAIN                                                    n=1355  wr= 44.7%  avg=  +0.4bps  tot=  +5.45%  sh=   +27.8
+  ✅ TEST                                                     n= 664  wr= 69.0%  avg=  +4.4bps  tot= +29.25%  sh=  +296.4
+    ✅ test=+1.045%/d
+
+  --- EXP QQQQ: AMIHUD ILLIQUIDITY ---
+
+  Amihud z>2 (fade in illiquid):
+  ✅ TRAIN                                                    n=3066  wr= 46.2%  avg=  +0.6bps  tot= +17.62%  sh=   +41.0
+  ✅ TEST                                                     n=1702  wr= 69.2%  avg=  +4.5bps  tot= +75.89%  sh=  +289.6
+    ✅ test=+2.710%/d
+
+  Amihud z>3 (fade in illiquid):
+  ✅ TRAIN                                                    n=1355  wr= 44.7%  avg=  +0.4bps  tot=  +5.45%  sh=   +27.8
+  ✅ TEST                                                     n= 664  wr= 69.0%  avg=  +4.4bps  tot= +29.25%  sh=  +296.4
+    ✅ test=+1.045%/d
+
+  --- EXP RRRR: VARIANCE RATIO ---
+  VR stats: mean=0.451, P10=0.093, P90=0.979
+
+  VR < 0.5 (MR regime, fade):
+  ✅ TRAIN                                                    n=38496  wr= 48.6%  avg=  +1.1bps  tot=+440.91%  sh=   +76.4
+  ✅ TEST                                                     n=21471  wr= 71.1%  avg=  +5.4bps  tot=+1167.92%  sh=  +320.0
+    ✅ test=+41.711%/d
+
+  VR < 0.7 (MR regime, fade):
+  ✅ TRAIN                                                    n=45193  wr= 48.9%  avg=  +1.2bps  tot=+549.25%  sh=   +79.4
+  ✅ TEST                                                     n=25067  wr= 71.1%  avg=  +5.5bps  tot=+1384.42%  sh=  +317.5
+    ✅ test=+49.444%/d
+
+  --- EXP SSSS: PARKINSON VS CLOSE-TO-CLOSE VOL ---
+
+  Parkinson/CC vol z>2 (fade):
+  ✅ TRAIN                                                    n=4165  wr= 54.0%  avg=  +2.5bps  tot=+102.31%  sh=  +149.3
+  ✅ TEST                                                     n=2315  wr= 72.7%  avg=  +6.9bps  tot=+159.73%  sh=  +306.6
+    ✅ test=+5.705%/d
+
+  Parkinson/CC vol z>3 (fade):
+  ✅ TRAIN                                                    n= 818  wr= 57.5%  avg=  +3.6bps  tot= +29.19%  sh=  +193.9
+  ✅ TEST                                                     n= 472  wr= 69.7%  avg=  +6.8bps  tot= +32.01%  sh=  +321.5
+    ✅ test=+1.143%/d
+
+################################################################################
+  COMPLETE — 733s (12.2min) [RAM=0.5GB, avail=5.0GB]
+################################################################################
