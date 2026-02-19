@@ -1,0 +1,111 @@
+================================================================================
+  v42aa: BEST-OF PORTFOLIO — TOP 6 SIGNALS × 4 SYMBOLS
+  2026-02-19 08:33:44  [RAM=0.1GB, avail=5.9GB]
+================================================================================
+  Loading ETHUSDT... [10/88 48s] [20/88 78s] [30/88 104s] [40/88 135s] [50/88 167s] [60/88 190s] [70/88 233s] [80/88 270s] [88/88 300s] 126,720 bars (300s) [RAM=0.7GB, avail=5.7GB]
+  Loading ETHUSDT liqs... [15/88 3s] [30/88 5s] [45/88 8s] [60/88 9s] [75/88 9s] 158,765 (10s) [RAM=0.4GB, avail=5.9GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+  ✅ ETHUSDT    cascade          n=  137  wr= 83.9%  avg=  +7.5bps  tot=   +10.3%  sh=   +642
+  ✅ ETHUSDT    micro_mr         n= 1441  wr= 73.9%  avg=  +7.1bps  tot=  +102.9%  sh=   +347
+  ✅ ETHUSDT    vol_spike        n=  598  wr= 84.9%  avg= +12.0bps  tot=   +71.7%  sh=   +522
+  ✅ ETHUSDT    vwap             n=14371  wr= 72.4%  avg=  +4.9bps  tot=  +704.9%  sh=   +338
+  ✅ ETHUSDT    vol_cluster      n=  866  wr= 78.8%  avg=  +7.2bps  tot=   +62.0%  sh=   +360
+  ✅ ETHUSDT    pv_div           n= 2075  wr= 73.6%  avg=  +4.9bps  tot=  +101.1%  sh=   +323
+
+  ETHUSDT COMBINED: 45,438 trades, OOS=15,951
+    OOS return: +169,803.2%
+    OOS days: 28/28 positive (100%)
+    OOS Sharpe: 29.9
+    OOS worst day: +3.525%
+  Loading SOLUSDT... [10/88 21s] [20/88 42s] [30/88 56s] [40/88 72s] [50/88 86s] [60/88 97s] [70/88 116s] [80/88 139s] [88/88 150s] 126,720 bars (150s) [RAM=0.6GB, avail=5.4GB]
+  Loading SOLUSDT liqs... [15/88 1s] [30/88 2s] [45/88 4s] [60/88 5s] [75/88 5s] 90,669 (6s) [RAM=0.5GB, avail=5.6GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+  ✅ SOLUSDT    cascade          n=   94  wr= 91.5%  avg= +10.1bps  tot=    +9.5%  sh=   +823
+  ✅ SOLUSDT    micro_mr         n= 1555  wr= 73.4%  avg=  +6.8bps  tot=  +105.4%  sh=   +346
+  ✅ SOLUSDT    vol_spike        n=  526  wr= 82.7%  avg= +10.6bps  tot=   +55.7%  sh=   +419
+  ✅ SOLUSDT    vwap             n=16970  wr= 71.7%  avg=  +4.9bps  tot=  +833.2%  sh=   +325
+  ✅ SOLUSDT    vol_cluster      n=  747  wr= 76.2%  avg=  +7.4bps  tot=   +55.1%  sh=   +382
+  ✅ SOLUSDT    pv_div           n= 2883  wr= 74.6%  avg=  +5.5bps  tot=  +158.4%  sh=   +351
+
+  SOLUSDT COMBINED: 55,361 trades, OOS=18,684
+    OOS return: +721,453.1%
+    OOS days: 28/28 positive (100%)
+    OOS Sharpe: 26.3
+    OOS worst day: +3.016%
+  Loading DOGEUSDT... [10/88 30s] [20/88 48s] [30/88 60s] [40/88 73s] [50/88 84s] [60/88 97s] [70/88 133s] [80/88 164s] [88/88 177s] 126,720 bars (177s) [RAM=0.6GB, avail=5.0GB]
+  Loading DOGEUSDT liqs... [15/88 1s] [30/88 2s] [45/88 2s] [60/88 3s] [75/88 3s] 45,630 (3s) [RAM=0.5GB, avail=5.1GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+  ✅ DOGEUSDT   cascade          n=   64  wr=100.0%  avg= +14.6bps  tot=    +9.3%  sh=   +917
+  ✅ DOGEUSDT   micro_mr         n= 1667  wr= 87.0%  avg= +13.7bps  tot=  +227.9%  sh=   +439
+  ✅ DOGEUSDT   vol_spike        n=  696  wr= 88.2%  avg= +17.8bps  tot=  +124.1%  sh=   +488
+  ✅ DOGEUSDT   vwap             n=22114  wr= 86.9%  avg=  +9.2bps  tot= +2044.3%  sh=   +524
+  ✅ DOGEUSDT   vol_cluster      n=  739  wr= 88.2%  avg= +16.6bps  tot=  +122.7%  sh=   +475
+  ✅ DOGEUSDT   pv_div           n= 5053  wr= 87.5%  avg=  +9.4bps  tot=  +477.1%  sh=   +566
+
+  DOGEUSDT COMBINED: 63,838 trades, OOS=24,104
+    OOS return: +331,129,665,146.4%
+    OOS days: 28/28 positive (100%)
+    OOS Sharpe: 34.9
+    OOS worst day: +19.348%
+  Loading XRPUSDT... [10/88 21s] [20/88 32s] [30/88 42s] [40/88 55s] [50/88 71s] [60/88 81s] [70/88 121s] [80/88 147s] [88/88 161s] 126,720 bars (161s) [RAM=0.7GB, avail=5.3GB]
+  Loading XRPUSDT liqs... [15/88 1s] [30/88 2s] [45/88 3s] [60/88 4s] [75/88 4s] 61,648 (5s) [RAM=0.5GB, avail=5.6GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+  ✅ XRPUSDT    cascade          n=  100  wr= 92.0%  avg= +10.0bps  tot=   +10.0%  sh=   +694
+  ✅ XRPUSDT    micro_mr         n= 1605  wr= 79.0%  avg= +10.7bps  tot=  +172.1%  sh=   +344
+  ✅ XRPUSDT    vol_spike        n=  430  wr= 87.0%  avg= +16.0bps  tot=   +68.8%  sh=   +458
+  ✅ XRPUSDT    vwap             n=19476  wr= 79.2%  avg=  +7.2bps  tot= +1398.4%  sh=   +407
+  ✅ XRPUSDT    vol_cluster      n=  727  wr= 85.6%  avg= +14.4bps  tot=  +104.9%  sh=   +386
+  ✅ XRPUSDT    pv_div           n= 3805  wr= 82.6%  avg=  +7.8bps  tot=  +295.0%  sh=   +472
+
+  XRPUSDT COMBINED: 50,244 trades, OOS=21,337
+    OOS return: +343,645,235.4%
+    OOS days: 27/28 positive (96%)
+    OOS Sharpe: 27.2
+    OOS worst day: -0.103%
+
+################################################################################
+  FINAL SIGNAL COMPARISON (OOS only)
+################################################################################
+
+  Symbol      Signal               n      WR      Avg     Total   Sharpe
+  ------------------------------------------------------------
+  ✅ DOGEUSDT    cascade             64  100.0%   +14.6bp     +9.3%     +917
+  ✅ DOGEUSDT    micro_mr          1667   87.0%   +13.7bp   +227.9%     +439
+  ✅ DOGEUSDT    pv_div            5053   87.5%    +9.4bp   +477.1%     +566
+  ✅ DOGEUSDT    vol_cluster        739   88.2%   +16.6bp   +122.7%     +475
+  ✅ DOGEUSDT    vol_spike          696   88.2%   +17.8bp   +124.1%     +488
+  ✅ DOGEUSDT    vwap             22114   86.9%    +9.2bp  +2044.3%     +524
+  ✅ ETHUSDT     cascade            137   83.9%    +7.5bp    +10.3%     +642
+  ✅ ETHUSDT     micro_mr          1441   73.9%    +7.1bp   +102.9%     +347
+  ✅ ETHUSDT     pv_div            2075   73.6%    +4.9bp   +101.1%     +323
+  ✅ ETHUSDT     vol_cluster        866   78.8%    +7.2bp    +62.0%     +360
+  ✅ ETHUSDT     vol_spike          598   84.9%   +12.0bp    +71.7%     +522
+  ✅ ETHUSDT     vwap             14371   72.4%    +4.9bp   +704.9%     +338
+  ✅ SOLUSDT     cascade             94   91.5%   +10.1bp     +9.5%     +823
+  ✅ SOLUSDT     micro_mr          1555   73.4%    +6.8bp   +105.4%     +346
+  ✅ SOLUSDT     pv_div            2883   74.6%    +5.5bp   +158.4%     +351
+  ✅ SOLUSDT     vol_cluster        747   76.2%    +7.4bp    +55.1%     +382
+  ✅ SOLUSDT     vol_spike          526   82.7%   +10.6bp    +55.7%     +419
+  ✅ SOLUSDT     vwap             16970   71.7%    +4.9bp   +833.2%     +325
+  ✅ XRPUSDT     cascade            100   92.0%   +10.0bp    +10.0%     +694
+  ✅ XRPUSDT     micro_mr          1605   79.0%   +10.7bp   +172.1%     +344
+  ✅ XRPUSDT     pv_div            3805   82.6%    +7.8bp   +295.0%     +472
+  ✅ XRPUSDT     vol_cluster        727   85.6%   +14.4bp   +104.9%     +386
+  ✅ XRPUSDT     vol_spike          430   87.0%   +16.0bp    +68.8%     +458
+  ✅ XRPUSDT     vwap             19476   79.2%    +7.2bp  +1398.4%     +407
+
+################################################################################
+  COMPLETE — 1074s (17.9min) [RAM=0.5GB, avail=5.6GB]
+################################################################################
