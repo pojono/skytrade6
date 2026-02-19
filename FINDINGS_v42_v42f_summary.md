@@ -963,6 +963,41 @@ Fade price deviations from 60-min rolling VWAP.
 
 ---
 
+## v42z: Autocorrelation + Momentum Persistence (EXP OOO-RRR)
+
+**4 more signal types from price patterns. ALL OOS positive on SOL + DOGE.**
+
+| Signal | DOGE OOS WR | DOGE OOS Total | DOGE Sharpe |
+|--------|-----------|---------------|-------------|
+| Autocorrelation (P10) | 81% | +252% | 471 |
+| Consecutive 3+ (fade) | 78% | +276% | 379 |
+| **Vol Clustering >2x** | **88%** | **+123%** | **475** |
+| Vol Clustering >3x | **98%** | +12% | 500 |
+| PV Divergence >0.2% | 85% | +136% | 493 |
+
+---
+
+## v42aa: BEST-OF PORTFOLIO — 6 Signals × 4 Symbols (DEFINITIVE)
+
+**ALL 24 signal×symbol combinations OOS positive. 100% hit rate.**
+
+| Symbol | cascade | micro_mr | vol_spike | vwap | vol_cluster | pv_div |
+|--------|---------|----------|-----------|------|-------------|--------|
+| ETH | ✅ 84% WR | ✅ 74% WR | ✅ 85% WR | ✅ 72% WR | ✅ 79% WR | ✅ 74% WR |
+| SOL | ✅ 92% WR | ✅ 73% WR | ✅ 83% WR | ✅ 72% WR | ✅ 76% WR | ✅ 75% WR |
+| **DOGE** | **✅ 100% WR** | **✅ 87% WR** | **✅ 88% WR** | **✅ 87% WR** | **✅ 88% WR** | **✅ 88% WR** |
+| XRP | ✅ 92% WR | ✅ 79% WR | ✅ 87% WR | ✅ 79% WR | ✅ 86% WR | ✅ 83% WR |
+
+Per-symbol combined portfolio (OOS 28 days):
+- **ETH**: 15,951 trades, 28/28 positive days, Sharpe 29.9
+- **SOL**: 18,684 trades, 28/28 positive days, Sharpe 26.3
+- **DOGE**: 24,104 trades, 28/28 positive days, Sharpe 34.9
+- **XRP**: 21,337 trades, 27/28 positive days, Sharpe 27.2
+
+⚠️ **Note**: Total returns assume full compounding. Real-world returns limited by capacity. Key metrics: **win rate, Sharpe, % positive days.**
+
+---
+
 ## Scripts & Results
 
 | File | Description |
@@ -993,3 +1028,4 @@ Fade price deviations from 60-min rolling VWAP.
 | `research_v42x_orderflow.py` | EXP III, JJJ, KKK: order flow, vol spike, VWAP deviation |
 | `research_v42y_vwap_vol_4sym.py` | EXP LLL-NNN: VWAP+vol spike DOGE+XRP validation |
 | `research_v42z_autocorr_patterns.py` | EXP OOO-RRR: autocorr, consecutive, vol cluster, PV div |
+| `research_v42aa_best_of_portfolio.py` | BEST-OF: 6 signals × 4 symbols definitive comparison |
