@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 130 Signal Types Discovered
+### 134 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -986,6 +986,10 @@ Strategy contribution (standalone):
 | 128 | Cum Return Imbalance | Price only | 83% | +387%/28d | Low |
 | 129 | Oscillation Frequency | Price only | 81% | +351%/28d | Low |
 | 130 | **Parkinson Volatility** | **Price only** | **90%** | **+923%/28d** | **Low** |
+| 131 | **Garman-Klass Vol** | **Price only** | **90%** | **+945%/28d** | **Low** |
+| 132 | Price Efficiency Ratio | Price only | 89% | +433%/28d | Low |
+| 133 | Return Concentration | Price only | 81% | +399%/28d | Low |
+| 134 | Tick Intensity | Price only | 85% | +659%/28d | Low |
 
 ---
 
@@ -1199,3 +1203,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42be_gap_wgtmom.py` | EXP ZZZZ5-CCCC6: gap ratio, weighted mom, dir bias, vol asymmetry |
 | `research_v42bf_channel_surge.py` | EXP DDDD6-GGGG6: channel pos, vol surge, TSI, CLV |
 | `research_v42bg_zscore_cumtick.py` | EXP HHHH6-KKKK6: range z-score, cum imbalance, osc freq, Parkinson |
+| `research_v42bh_gk_efficiency.py` | EXP LLLL6-OOOO6: GK vol, efficiency ratio, return conc, tick intensity |
