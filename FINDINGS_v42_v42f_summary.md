@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 47 Signal Types Discovered
+### 50 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -903,6 +903,9 @@ Strategy contribution (standalone):
 | 45 | Multi-Scale Momentum | Price only | 82% | +522%/28d | Low |
 | 46 | **Meta-Z (Z of Z)** | **Price only** | **89%** | **+207%/28d** | **Low** |
 | 47 | **Multi-MA Distance** | **Price only** | **89%** | **+201%/28d** | **Low** |
+| 48 | Hour-of-Day Vol Filter | Price only | 90% | +96%/28d | Low |
+| 49 | Volume Acceleration | Price+Vol | 87% | +200%/28d | Low |
+| 50 | **Momentum Quality** | **Price+Vol** | **86%** | **+238%/28d** | **Low** |
 
 ---
 
@@ -1095,3 +1098,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42aj_macd_vwap_adv.py` | EXP TTTT-WWWW: MACD, multi-TF VWAP, VW-RSI, PVT |
 | `research_v42ak_toxicity_efficiency.py` | EXP XXXX2-AAAA2: VPIN, efficiency, noise, dispersion |
 | `research_v42al_fractal_wavelets.py` | EXP CCCC2-EEEE2: multi-scale, meta-Z, multi-MA distance |
+| `research_v42am_time_pressure.py` | EXP FFFF2-IIII2: hour-of-day, vol accel, momentum quality |
