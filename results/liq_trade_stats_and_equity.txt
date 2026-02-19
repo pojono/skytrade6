@@ -1,0 +1,191 @@
+====================================================================================================
+  TRADE STATISTICS & EQUITY CURVES
+  Config: A1 (70% TP@12bps + 30% trail@3bps) — best Sharpe
+  Also: C1 (50% TP@10bps, trail 5→3bps) — highest return
+====================================================================================================
+
+####################################################################################################
+  LOADING DATA
+####################################################################################################
+
+── BTCUSDT ──
+  [IS 2025]
+  Loading 2832 liq files... 500 1000 1500 2000 2500 done (266,154)
+    P95: $46,996
+  Loading ticker_prices.csv.gz... done (6,657,584)
+    Bars: 89,176
+  [OOS Feb 2026]
+  Loading 433 liq files... done (36,332)
+  Loading ticker_prices_feb2026.csv.gz... done (1,611,892)
+    Bars: 14,428
+    Signals IS: 1951, OOS: 294
+    Trades A1: IS=255, OOS=81
+    Trades C1: IS=255, OOS=81
+
+── DOGEUSDT ──
+  [IS 2025]
+  Loading 2840 liq files... 500 1000 1500 2000 2500 done (91,372)
+    P95: $12,414
+  Loading ticker_prices.csv.gz... done (5,063,470)
+    Bars: 89,174
+  [OOS Feb 2026]
+  Loading 391 liq files... done (5,543)
+  Loading ticker_prices_feb2026.csv.gz... done (467,479)
+    Bars: 14,427
+    Signals IS: 1222, OOS: 98
+    Trades A1: IS=504, OOS=47
+    Trades C1: IS=504, OOS=47
+
+── SOLUSDT ──
+  [IS 2025]
+  Loading 2910 liq files... 500 1000 1500 2000 2500 done (181,456)
+    P95: $18,534
+  Loading ticker_prices.csv.gz... done (5,710,595)
+    Bars: 89,177
+  [OOS Feb 2026]
+  Loading 434 liq files... done (17,765)
+  Loading ticker_prices_feb2026.csv.gz... done (664,635)
+    Bars: 14,428
+    Signals IS: 1842, OOS: 236
+    Trades A1: IS=621, OOS=79
+    Trades C1: IS=621, OOS=79
+
+── ETHUSDT ──
+  [IS 2025]
+  Loading 2890 liq files... 500 1000 1500 2000 2500 done (317,912)
+    P95: $36,438
+  Loading ticker_prices.csv.gz... done (9,473,055)
+    Bars: 89,177
+  [OOS Feb 2026]
+  Loading 438 liq files... done (22,892)
+  Loading ticker_prices_feb2026.csv.gz... done (1,556,170)
+    Bars: 14,428
+    Signals IS: 2541, OOS: 276
+    Trades A1: IS=802, OOS=95
+    Trades C1: IS=802, OOS=95
+
+── XRPUSDT ──
+  [IS 2025]
+  Loading 2770 liq files... 500 1000 1500 2000 2500 done (123,344)
+    P95: $19,893
+  Loading ticker_prices.csv.gz... done (5,184,610)
+    Bars: 89,177
+  [OOS Feb 2026]
+  Loading 422 liq files... done (11,139)
+  Loading ticker_prices_feb2026.csv.gz... done (789,231)
+    Bars: 14,427
+    Signals IS: 1444, OOS: 172
+    Trades A1: IS=436, OOS=64
+    Trades C1: IS=436, OOS=64
+
+
+####################################################################################################
+  PART 1: TRADE FREQUENCY (A1: 70% TP@12bps + 30% trail@3bps)
+####################################################################################################
+
+  ── IN-SAMPLE (May-Aug 2025, 87 days) ──
+
+    Symbol      Total  Days  Avg/day  Min/day  Max/day   Avg/wk   Min/wk   Max/wk   Avg/mo
+    ──────────  ─────  ────  ───────  ───────  ───────  ───────  ───────  ───────  ───────
+    BTC           255    87      4.7        1       19     25.5        5       52     87.9
+    DOGE          504    88      8.0        1       31     45.8        1      131    171.8
+    SOL           621    88      9.9        1       30     56.5        1       90    211.7
+    ETH           802    88     12.7        1       31     72.9        2      154    273.4
+    XRP           436    86      7.4        1       34     43.6       18       98    152.1
+
+  ── OUT-OF-SAMPLE (Feb 2026, 11 days) ──
+
+    Symbol      Total  Days  Avg/day  Min/day  Max/day   Avg/wk   Min/wk   Max/wk   Avg/mo
+    ──────────  ─────  ────  ───────  ───────  ───────  ───────  ───────  ───────  ───────
+    BTC            81    10      7.4        1       21     40.5       26       55     81.0
+    DOGE           47    10      4.7        1       10     23.5       18       29     47.0
+    SOL            79    10      7.9        4       14     39.5       26       53     79.0
+    ETH            95    10      8.6        2       17     47.5       42       53     95.0
+    XRP            64    10      5.8        1       21     32.0       21       43     64.0
+
+  ── COMBINED (all 5 symbols) ──
+
+    IS (87d)    n= 2618  avg/day=40.9  min/day=3  max/day=124  avg/wk=238.0  min/wk=4  max/wk=492  avg/mo=893
+    OOS (11d)   n=  366  avg/day=33.3  min/day=4  max/day=66  avg/wk=183.0  min/wk=133  max/wk=233  avg/mo=366
+
+
+####################################################################################################
+  PART 2: TRADE DURATION (minutes)
+####################################################################################################
+
+  ━━ Signal → Exit (full trade lifecycle, minutes) ━━
+
+    ── IN-SAMPLE (May-Aug 2025) ──
+      Symbol          n      Avg      Med      Min      Max      P10      P25      P75      P90
+      ──────────  ─────  ───────  ───────  ───────  ───────  ───────  ───────  ───────  ───────
+      BTC           255      6.9      2.3      0.0     60.4      0.2      0.6      8.2     19.8
+      DOGE          504      3.9      0.9      0.0     59.2      0.2      0.5      2.3      9.7
+      SOL           621      4.8      1.0      0.0     60.8      0.2      0.4      3.5     12.5
+      ETH           802      4.3      0.9      0.0     59.9      0.2      0.4      3.3     12.9
+      XRP           436      4.2      1.0      0.0     58.7      0.2      0.5      3.3     11.7
+      COMBINED     2618      4.6      1.0      0.0     60.8      0.2      0.5      3.5     13.1
+
+    ── OUT-OF-SAMPLE (Feb 2026) ──
+      Symbol          n      Avg      Med      Min      Max      P10      P25      P75      P90
+      ──────────  ─────  ───────  ───────  ───────  ───────  ───────  ───────  ───────  ───────
+      BTC            81      4.9      1.9      0.0     58.4      0.2      0.6      4.6     15.3
+      DOGE           47      3.5      1.4      0.1     33.9      0.3      0.6      2.3      6.8
+      SOL            79      4.3      1.0      0.0     43.0      0.2      0.4      2.0     13.8
+      ETH            95      5.2      1.2      0.0     53.4      0.2      0.5      2.9     19.0
+      XRP            64      2.7      0.9      0.0     35.9      0.2      0.5      1.7      5.3
+      COMBINED      366      4.3      1.2      0.0     58.4      0.2      0.5      2.9     12.3
+
+
+  ━━ Signal → Fill (waiting for entry, minutes) ━━
+
+    ── IN-SAMPLE (May-Aug 2025) ──
+      Symbol          n      Avg      Med      Min      Max      P10      P25      P75      P90
+      ──────────  ─────  ───────  ───────  ───────  ───────  ───────  ───────  ───────  ───────
+      BTC           255      6.9      2.3      0.0     60.4      0.2      0.6      8.2     19.8
+      DOGE          504      3.9      0.9      0.0     59.2      0.2      0.5      2.3      9.7
+      SOL           621      4.8      1.0      0.0     60.8      0.2      0.4      3.5     12.5
+      ETH           802      4.3      0.9      0.0     59.9      0.2      0.4      3.3     12.9
+      XRP           436      4.2      1.0      0.0     58.7      0.2      0.5      3.3     11.7
+      COMBINED     2618      4.6      1.0      0.0     60.8      0.2      0.5      3.5     13.1
+
+    ── OUT-OF-SAMPLE (Feb 2026) ──
+      Symbol          n      Avg      Med      Min      Max      P10      P25      P75      P90
+      ──────────  ─────  ───────  ───────  ───────  ───────  ───────  ───────  ───────  ───────
+      BTC            81      4.9      1.9      0.0     58.4      0.2      0.6      4.6     15.3
+      DOGE           47      3.5      1.4      0.1     33.9      0.3      0.6      2.3      6.8
+      SOL            79      4.3      1.0      0.0     43.0      0.2      0.4      2.0     13.8
+      ETH            95      5.2      1.2      0.0     53.4      0.2      0.5      2.9     19.0
+      XRP            64      2.7      0.9      0.0     35.9      0.2      0.5      1.7      5.3
+      COMBINED      366      4.3      1.2      0.0     58.4      0.2      0.5      2.9     12.3
+
+
+  ━━ Fill → Exit (position held, in 1-min bars) ━━
+  Note: With 3bps trail on 1-min bars, most trades exit on the same bar as fill.
+  This means position is held for < 1 minute in most cases.
+
+    IN-SAMPLE: n=2618  avg=0.00 bars  med=0  max=0  same-bar=100.0%  1-bar=0.0%  2+bars=0.0%
+    OOS: n=366  avg=0.00 bars  med=0  max=0  same-bar=100.0%  1-bar=0.0%  2+bars=0.0%
+
+
+####################################################################################################
+  PART 3: EQUITY CURVES (PNGs)
+####################################################################################################
+
+  Saved results/equity_btc_a1.png
+  Saved results/equity_doge_a1.png
+  Saved results/equity_sol_a1.png
+  Saved results/equity_eth_a1.png
+  Saved results/equity_xrp_a1.png
+  Saved results/equity_btc_c1.png
+  Saved results/equity_doge_c1.png
+  Saved results/equity_sol_c1.png
+  Saved results/equity_eth_c1.png
+  Saved results/equity_xrp_c1.png
+  Saved results/equity_combined_a1.png
+  Saved results/equity_combined_c1.png
+  Saved results/equity_oos_a1.png
+  Saved results/equity_oos_c1.png
+
+====================================================================================================
+  COMPLETE — 121s
+====================================================================================================
