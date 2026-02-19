@@ -1,0 +1,85 @@
+================================================================================
+  v42m: NEW INDEPENDENT SIGNAL IDEAS — SOLUSDT
+  2026-02-19 06:20:25  [RAM=0.1GB, avail=5.1GB]
+================================================================================
+  Loading SOLUSDT liqs... [15/88 1s] [30/88 2s] [45/88 4s] [60/88 4s] [75/88 4s] 90,669 (5s) [RAM=0.1GB, avail=5.1GB]
+  Loading SOLUSDT bars... [10/88 20s] [20/88 35s] [30/88 46s] [40/88 62s] [50/88 74s] [60/88 85s] [70/88 100s] [80/88 122s] [88/88 134s] 126,720 bars (134s) [RAM=0.4GB, avail=4.9GB]
+
+  [RAM=0.4GB, avail=5.0GB] data loaded
+
+================================================================================
+  EXP GG: LIQUIDATION VOLUME ACCELERATION — SOLUSDT
+================================================================================
+
+  WINDOW=5min:
+  ✅ w=5m thresh=3x (cd=300s)                                 n=4317  wr= 73.1%  avg=  +5.9bps  tot=+253.12%  sh=  +330.0
+    thresh=5x: 0 signals (too few)
+    thresh=10x: 0 signals (too few)
+    thresh=20x: 0 signals (too few)
+
+  WINDOW=15min:
+  ✅ w=15m thresh=3x (cd=300s)                                n=3455  wr= 72.9%  avg=  +6.1bps  tot=+209.93%  sh=  +316.3
+  ✅ w=15m thresh=5x (cd=300s)                                n=3069  wr= 72.1%  avg=  +5.9bps  tot=+180.37%  sh=  +306.5
+  ✅ w=15m thresh=10x (cd=300s)                               n=2286  wr= 69.9%  avg=  +5.4bps  tot=+124.35%  sh=  +248.6
+    thresh=20x: 0 signals (too few)
+
+  WINDOW=30min:
+  ✅ w=30m thresh=3x (cd=300s)                                n=3032  wr= 74.7%  avg=  +6.5bps  tot=+196.40%  sh=  +329.9
+  ✅ w=30m thresh=5x (cd=300s)                                n=2617  wr= 73.7%  avg=  +6.4bps  tot=+167.55%  sh=  +314.1
+  ✅ w=30m thresh=10x (cd=300s)                               n=2000  wr= 72.9%  avg=  +6.3bps  tot=+125.42%  sh=  +298.6
+  ✅ w=30m thresh=20x (cd=300s)                               n=1156  wr= 69.9%  avg=  +5.9bps  tot= +68.56%  sh=  +219.9
+
+  BEST CONFIG WITH REDUCED COOLDOWN:
+  ✅ w=15m thresh=5x (cd=60s)                                 n=4329  wr= 74.2%  avg=  +6.6bps  tot=+283.78%  sh=  +301.1
+  ✅ w=15m thresh=10x (cd=60s)                                n=2775  wr= 71.6%  avg=  +5.8bps  tot=+162.11%  sh=  +255.7
+
+================================================================================
+  EXP II: LIQUIDATION IMBALANCE RATIO — SOLUSDT
+================================================================================
+
+  WINDOW=5min:
+  ✅ w=5m imb>80% (buy=20386 sell=105724)                     n=4423  wr= 76.2%  avg=  +6.0bps  tot=+266.11%  sh=  +384.0
+  ✅ w=5m imb>85% (buy=20312 sell=105673)                     n=4409  wr= 76.2%  avg=  +6.0bps  tot=+263.56%  sh=  +383.2
+  ✅ w=5m imb>90% (buy=20217 sell=105597)                     n=4397  wr= 76.1%  avg=  +6.0bps  tot=+262.98%  sh=  +383.2
+  ✅ w=5m imb>95% (buy=19645 sell=105453)                     n=4290  wr= 76.4%  avg=  +6.0bps  tot=+256.54%  sh=  +382.6
+
+  WINDOW=15min:
+  ✅ w=15m imb>80% (buy=33640 sell=89951)                     n=6435  wr= 73.2%  avg=  +4.8bps  tot=+310.82%  sh=  +344.5
+  ✅ w=15m imb>85% (buy=33255 sell=89500)                     n=6363  wr= 73.1%  avg=  +4.8bps  tot=+307.80%  sh=  +338.4
+  ✅ w=15m imb>90% (buy=32655 sell=88922)                     n=6253  wr= 73.0%  avg=  +4.8bps  tot=+300.66%  sh=  +310.4
+  ✅ w=15m imb>95% (buy=31260 sell=88175)                     n=6009  wr= 72.9%  avg=  +4.7bps  tot=+282.21%  sh=  +321.2
+
+  WINDOW=30min:
+  ✅ w=30m imb>80% (buy=39304 sell=79206)                     n=7203  wr= 70.7%  avg=  +4.4bps  tot=+316.70%  sh=  +285.1
+  ✅ w=30m imb>85% (buy=38164 sell=78145)                     n=7012  wr= 70.6%  avg=  +4.4bps  tot=+306.64%  sh=  +288.7
+  ✅ w=30m imb>90% (buy=36748 sell=77000)                     n=6741  wr= 70.0%  avg=  +4.3bps  tot=+288.89%  sh=  +307.4
+  ✅ w=30m imb>95% (buy=34193 sell=75226)                     n=6276  wr= 70.0%  avg=  +4.4bps  tot=+274.28%  sh=  +283.9
+
+  WINDOW=60min:
+  ✅ w=60m imb>80% (buy=40328 sell=70012)                     n=7231  wr= 69.8%  avg=  +4.3bps  tot=+307.98%  sh=  +273.6
+  ✅ w=60m imb>85% (buy=38268 sell=68128)                     n=6862  wr= 69.7%  avg=  +4.2bps  tot=+291.17%  sh=  +268.1
+  ✅ w=60m imb>90% (buy=35199 sell=66257)                     n=6302  wr= 69.7%  avg=  +4.2bps  tot=+263.68%  sh=  +262.8
+  ✅ w=60m imb>95% (buy=30802 sell=62889)                     n=5513  wr= 69.0%  avg=  +4.2bps  tot=+231.93%  sh=  +254.6
+
+================================================================================
+  EXP HH: PRICE-VOLUME DIVERGENCE — SOLUSDT
+================================================================================
+
+  LOOKBACK=30min:
+    Bearish divergences: 1149
+    Bullish divergences: 944
+  ✅ lookback=30min                                           n= 792  wr= 49.5%  avg=  +0.5bps  tot=  +4.36%  sh=   +40.8
+
+  LOOKBACK=60min:
+    Bearish divergences: 915
+    Bullish divergences: 658
+  ✅ lookback=60min                                           n= 617  wr= 46.5%  avg=  +0.1bps  tot=  +0.72%  sh=    +8.2
+
+  LOOKBACK=120min:
+    Bearish divergences: 636
+    Bullish divergences: 392
+     lookback=120min                                          n= 432  wr= 39.4%  avg=  -0.3bps  tot=  -1.50%  sh=   -26.6
+
+################################################################################
+  COMPLETE — 222s (3.7min) [RAM=0.4GB, avail=4.7GB]
+################################################################################
