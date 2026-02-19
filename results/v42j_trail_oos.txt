@@ -1,0 +1,207 @@
+================================================================================
+  v42j: TRAILING STOP OOS + COMBINED BEST PARAMS
+  2026-02-19 05:42:20  [RAM=0.1GB, avail=5.7GB]
+================================================================================
+  Loading ETHUSDT liqs... [10/88 3s] [20/88 5s] [30/88 6s] [40/88 8s] [50/88 10s] [60/88 10s] [70/88 10s] [80/88 10s] 158,765 (13s) [RAM=0.2GB, avail=5.3GB]
+  ETHUSDT: 158,765 liquidations
+  Loading SOLUSDT liqs... [10/88 1s] [20/88 2s] [30/88 3s] [40/88 4s] [50/88 5s] [60/88 5s] [70/88 5s] [80/88 5s] 90,669 (7s) [RAM=0.2GB, avail=5.3GB]
+  SOLUSDT: 90,669 liquidations
+  Loading DOGEUSDT liqs... [10/88 1s] [20/88 2s] [30/88 2s] [40/88 3s] [50/88 3s] [60/88 3s] [70/88 3s] [80/88 3s] 45,630 (4s) [RAM=0.2GB, avail=5.4GB]
+  DOGEUSDT: 45,630 liquidations
+  Loading ETHUSDT bars... [10/88 42s] [20/88 71s] [30/88 95s] [40/88 126s] [50/88 153s] [60/88 174s] [70/88 211s] [80/88 244s] [88/88 271s] 126,720 bars (271s) [RAM=0.6GB, avail=5.3GB]
+  Loading SOLUSDT bars... [10/88 18s] [20/88 32s] [30/88 42s] [40/88 59s] [50/88 73s] [60/88 84s] [70/88 99s] [80/88 119s] [88/88 130s] 126,720 bars (130s) [RAM=0.5GB, avail=5.7GB]
+  Loading DOGEUSDT bars... [10/88 26s] [20/88 42s] [30/88 54s] [40/88 64s] [50/88 73s] [60/88 84s] [70/88 117s] [80/88 142s] [88/88 153s] 126,720 bars (153s) [RAM=0.5GB, avail=5.6GB]
+
+  [RAM=0.5GB, avail=5.6GB] all data loaded
+
+################################################################################
+  EXP Z2: TRAILING STOP — WALK-FORWARD (train=60d, test=28d)
+################################################################################
+
+  === ETHUSDT ===
+  Cascades: train=879, test=168
+
+  Baseline (no trail):
+  ✅ TRAIN                                                    n= 610  wr= 92.0%  avg=  +5.8bps  tot= +35.18%  sh=  +192.9
+  ✅ TEST                                                     n= 115  wr= 87.8%  avg=  +4.0bps  tot=  +4.61%  sh=  +121.5
+    ✅ train=+0.586%/d  test=+0.165%/d
+
+  trail act=3 dist=2:
+  ✅ TRAIN                                                    n= 610  wr= 94.4%  avg= +11.2bps  tot= +68.24%  sh=  +644.6
+  ✅ TEST                                                     n= 115  wr= 82.6%  avg=  +6.8bps  tot=  +7.84%  sh=  +615.5
+    ✅ train=+1.137%/d  test=+0.280%/d
+
+  trail act=5 dist=3:
+  ✅ TRAIN                                                    n= 610  wr= 93.6%  avg= +10.1bps  tot= +61.36%  sh=  +548.0
+  ✅ TEST                                                     n= 115  wr= 80.9%  avg=  +4.6bps  tot=  +5.30%  sh=  +233.7
+    ✅ train=+1.023%/d  test=+0.189%/d
+
+  trail act=8 dist=3:
+  ✅ TRAIN                                                    n= 610  wr= 95.7%  avg=  +9.9bps  tot= +60.65%  sh=  +492.5
+  ✅ TEST                                                     n= 115  wr= 84.3%  avg=  +3.5bps  tot=  +4.08%  sh=  +138.5
+    ✅ train=+1.011%/d  test=+0.146%/d
+
+  === SOLUSDT ===
+  Cascades: train=499, test=108
+
+  Baseline (no trail):
+  ✅ TRAIN                                                    n= 358  wr= 92.7%  avg=  +6.0bps  tot= +21.56%  sh=  +204.0
+  ✅ TEST                                                     n=  71  wr= 90.1%  avg=  +4.2bps  tot=  +3.02%  sh=  +125.3
+    ✅ train=+0.359%/d  test=+0.108%/d
+
+  trail act=3 dist=2:
+  ✅ TRAIN                                                    n= 358  wr= 94.4%  avg= +11.9bps  tot= +42.46%  sh=  +667.1
+  ✅ TEST                                                     n=  71  wr= 91.5%  avg=  +9.7bps  tot=  +6.89%  sh=  +869.9
+    ✅ train=+0.708%/d  test=+0.246%/d
+
+  trail act=5 dist=3:
+  ✅ TRAIN                                                    n= 358  wr= 92.7%  avg= +10.7bps  tot= +38.38%  sh=  +573.6
+  ✅ TEST                                                     n=  71  wr= 91.5%  avg=  +8.0bps  tot=  +5.67%  sh=  +473.8
+    ✅ train=+0.640%/d  test=+0.203%/d
+
+  trail act=8 dist=3:
+  ✅ TRAIN                                                    n= 358  wr= 94.1%  avg= +10.6bps  tot= +37.83%  sh=  +521.0
+  ✅ TEST                                                     n=  71  wr= 93.0%  avg=  +8.1bps  tot=  +5.75%  sh=  +484.7
+    ✅ train=+0.630%/d  test=+0.205%/d
+
+  === DOGEUSDT ===
+  Cascades: train=277, test=69
+
+  Baseline (no trail):
+  ✅ TRAIN                                                    n= 208  wr= 91.3%  avg=  +5.3bps  tot= +10.95%  sh=  +168.5
+  ✅ TEST                                                     n=  53  wr= 96.2%  avg=  +8.4bps  tot=  +4.46%  sh=  +388.4
+    ✅ train=+0.183%/d  test=+0.159%/d
+
+  trail act=3 dist=2:
+  ✅ TRAIN                                                    n= 208  wr= 99.0%  avg= +16.0bps  tot= +33.38%  sh=  +625.6
+  ✅ TEST                                                     n=  53  wr=100.0%  avg= +12.9bps  tot=  +6.86%  sh= +1106.0
+    ✅ train=+0.556%/d  test=+0.245%/d
+
+  trail act=5 dist=3:
+  ✅ TRAIN                                                    n= 208  wr= 99.0%  avg= +15.0bps  tot= +31.29%  sh=  +586.6
+  ✅ TEST                                                     n=  53  wr=100.0%  avg= +11.9bps  tot=  +6.32%  sh= +1020.5
+    ✅ train=+0.522%/d  test=+0.226%/d
+
+  trail act=8 dist=3:
+  ✅ TRAIN                                                    n= 208  wr= 99.5%  avg= +15.1bps  tot= +31.33%  sh=  +588.0
+  ✅ TEST                                                     n=  53  wr=100.0%  avg= +11.9bps  tot=  +6.32%  sh= +1020.5
+    ✅ train=+0.522%/d  test=+0.226%/d
+
+################################################################################
+  EXP Z2b: TRAILING + CROSS-SYMBOL CONTAGION (OOS)
+################################################################################
+
+  ETH→ETH no trail:
+  ✅ TRAIN                                                    n= 610  wr= 92.0%  avg=  +5.8bps  tot= +35.18%  sh=  +192.9
+  ✅ TEST                                                     n= 115  wr= 87.8%  avg=  +4.0bps  tot=  +4.61%  sh=  +121.5
+    ✅ train=+0.586%/d  test=+0.165%/d
+
+  ETH→ETH trail 3/2:
+  ✅ TRAIN                                                    n= 610  wr= 94.4%  avg= +11.2bps  tot= +68.24%  sh=  +644.6
+  ✅ TEST                                                     n= 115  wr= 82.6%  avg=  +6.8bps  tot=  +7.84%  sh=  +615.5
+    ✅ train=+1.137%/d  test=+0.280%/d
+
+  ETH→SOL no trail:
+  ✅ TRAIN                                                    n= 595  wr= 90.6%  avg=  +4.7bps  tot= +27.76%  sh=  +142.8
+     TEST                                                     n= 126  wr= 81.7%  avg=  -0.8bps  tot=  -1.00%  sh=   -18.7
+    ❌ train=+0.463%/d  test=-0.036%/d
+
+  ETH→SOL trail 3/2:
+  ✅ TRAIN                                                    n= 595  wr= 91.3%  avg=  +9.9bps  tot= +58.82%  sh=  +661.8
+  ✅ TEST                                                     n= 126  wr= 78.6%  avg=  +6.7bps  tot=  +8.48%  sh=  +430.2
+    ✅ train=+0.980%/d  test=+0.303%/d
+
+  ETH→DOG no trail:
+  ✅ TRAIN                                                    n= 607  wr= 90.0%  avg=  +4.2bps  tot= +25.77%  sh=  +125.9
+  ✅ TEST                                                     n= 126  wr= 88.9%  avg=  +3.6bps  tot=  +4.53%  sh=  +102.7
+    ✅ train=+0.430%/d  test=+0.162%/d
+
+  ETH→DOG trail 3/2:
+  ✅ TRAIN                                                    n= 607  wr= 93.9%  avg= +11.5bps  tot= +69.77%  sh=  +675.3
+  ✅ TEST                                                     n= 126  wr= 88.9%  avg=  +9.4bps  tot= +11.79%  sh=  +716.1
+    ✅ train=+1.163%/d  test=+0.421%/d
+
+################################################################################
+  EXP Z3: COMBINED BEST PARAMS — ABLATION STUDY
+################################################################################
+
+  Using SOLUSDT, walk-forward train=60d test=28d
+
+  A: Baseline:
+  ✅ TRAIN                                                    n= 358  wr= 92.7%  avg=  +6.0bps  tot= +21.56%  sh=  +204.0
+  ✅ TEST                                                     n=  71  wr= 90.1%  avg=  +4.2bps  tot=  +3.02%  sh=  +125.3
+    ✅ train=+0.359%/d  test=+0.108%/d
+
+  B: + window=180s:
+  ✅ TRAIN                                                    n= 394  wr= 93.9%  avg=  +6.8bps  tot= +26.90%  sh=  +251.0
+  ✅ TEST                                                     n=  78  wr= 92.3%  avg=  +5.7bps  tot=  +4.47%  sh=  +189.1
+    ✅ train=+0.448%/d  test=+0.160%/d
+
+  C: + min_ev=3:
+  ✅ TRAIN                                                    n= 195  wr= 94.4%  avg=  +7.1bps  tot= +13.92%  sh=  +272.0
+  ✅ TEST                                                     n=  41  wr= 92.7%  avg=  +6.0bps  tot=  +2.46%  sh=  +202.2
+    ✅ train=+0.232%/d  test=+0.088%/d
+
+  D: + trail 3/2:
+  ✅ TRAIN                                                    n= 358  wr= 94.4%  avg= +11.9bps  tot= +42.46%  sh=  +667.1
+  ✅ TEST                                                     n=  71  wr= 91.5%  avg=  +9.7bps  tot=  +6.89%  sh=  +869.9
+    ✅ train=+0.708%/d  test=+0.246%/d
+
+  E: + LONG only:
+  ✅ TRAIN                                                    n= 245  wr= 93.1%  avg=  +6.2bps  tot= +15.31%  sh=  +216.2
+  ✅ TEST                                                     n=  59  wr= 88.1%  avg=  +2.9bps  tot=  +1.70%  sh=   +78.1
+    ✅ train=+0.255%/d  test=+0.061%/d
+
+  F: + no bad hours:
+  ✅ TRAIN                                                    n= 288  wr= 94.1%  avg=  +7.0bps  tot= +20.02%  sh=  +259.4
+  ✅ TEST                                                     n=  62  wr= 88.7%  avg=  +3.3bps  tot=  +2.03%  sh=   +90.8
+    ✅ train=+0.334%/d  test=+0.072%/d
+
+  G: window=180 + min_ev=3:
+  ✅ TRAIN                                                    n= 233  wr= 94.4%  avg=  +7.2bps  tot= +16.73%  sh=  +275.0
+  ✅ TEST                                                     n=  52  wr= 94.2%  avg=  +7.0bps  tot=  +3.67%  sh=  +265.8
+    ✅ train=+0.279%/d  test=+0.131%/d
+
+  H: trail 3/2 + LONG:
+  ✅ TRAIN                                                    n= 245  wr= 96.3%  avg= +12.1bps  tot= +29.59%  sh=  +627.2
+  ✅ TEST                                                     n=  59  wr= 93.2%  avg=  +9.8bps  tot=  +5.80%  sh=  +895.7
+    ✅ train=+0.493%/d  test=+0.207%/d
+
+  I: trail 3/2 + no bad hrs:
+  ✅ TRAIN                                                    n= 288  wr= 94.8%  avg= +12.0bps  tot= +34.63%  sh=  +660.4
+  ✅ TEST                                                     n=  62  wr= 91.9%  avg=  +9.0bps  tot=  +5.60%  sh=  +852.6
+    ✅ train=+0.577%/d  test=+0.200%/d
+
+  J: trail 3/2 + LONG + no bad:
+  ✅ TRAIN                                                    n= 199  wr= 96.0%  avg= +12.3bps  tot= +24.53%  sh=  +618.1
+  ✅ TEST                                                     n=  52  wr= 94.2%  avg=  +9.1bps  tot=  +4.71%  sh=  +889.3
+    ✅ train=+0.409%/d  test=+0.168%/d
+
+  K: ALL (180s+ev3+trail+LONG+noBad):
+  ✅ TRAIN                                                    n= 139  wr= 97.8%  avg= +12.5bps  tot= +17.36%  sh=  +802.0
+  ✅ TEST                                                     n=  36  wr= 94.4%  avg= +11.9bps  tot=  +4.28%  sh=  +981.7
+    ✅ train=+0.289%/d  test=+0.153%/d
+
+  L: ALL except LONG filter:
+  ✅ TRAIN                                                    n= 193  wr= 96.9%  avg= +12.6bps  tot= +24.27%  sh=  +839.2
+  ✅ TEST                                                     n=  44  wr= 95.5%  avg= +11.4bps  tot=  +5.02%  sh=  +994.6
+    ✅ train=+0.404%/d  test=+0.179%/d
+
+  M: ALL except hour filter:
+  ✅ TRAIN                                                    n= 165  wr= 98.2%  avg= +12.4bps  tot= +20.41%  sh=  +817.3
+  ✅ TEST                                                     n=  42  wr= 92.9%  avg= +11.7bps  tot=  +4.93%  sh=  +980.3
+    ✅ train=+0.340%/d  test=+0.176%/d
+
+################################################################################
+  EXP Z3b: BEST CONFIG PORTFOLIO — OOS (Jul 11–Aug 7)
+################################################################################
+  ✅ OOS ETH (trail 3/2)                                      n= 115  wr= 82.6%  avg=  +6.8bps  tot=  +7.84%  sh=  +615.5
+  ✅ OOS SOL (trail 3/2)                                      n= 149  wr= 81.2%  avg=  +7.1bps  tot= +10.61%  sh=  +471.7
+  ✅ OOS DOG (trail 3/2)                                      n= 145  wr= 90.3%  avg= +10.0bps  tot= +14.45%  sh=  +747.0
+
+  OOS PORTFOLIO (trail 3/2, combined triggers):
+    Trades: 409, WR: 84.8%, Avg: +8.0bps, Total: +38.92%, MaxDD: -0.65%
+
+################################################################################
+  COMPLETE — 606s (10.1min) [RAM=0.5GB, avail=5.8GB]
+################################################################################
