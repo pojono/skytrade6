@@ -1,0 +1,419 @@
+================================================================================
+  v42bt: Z-SCORE VEL + RET ENTROPY + GAP FILL + MOM EXHAUSTION
+  2026-02-19 19:50:53  [RAM=0.1GB, avail=6.4GB]
+================================================================================
+  Loading ETHUSDT... [10/88 46s] [20/88 76s] [30/88 102s] [40/88 132s] [50/88 160s] [60/88 181s] [70/88 222s] [80/88 265s] [88/88 294s] 126,720 bars (294s) [RAM=0.6GB, avail=6.3GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP HHHH8: PRICE Z-SCORE VELOCITY ---
+
+  Z-vel(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=5941  wr= 63.7%  avg=  +4.5bps  tot=+270.06%  sh=  +210.6
+  ✅ TEST                                                     n=2869  wr= 65.5%  avg=  +3.8bps  tot=+109.44%  sh=  +235.5
+    ✅ test=+3.909%/d
+
+  Z-vel(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3032  wr= 65.6%  avg=  +5.2bps  tot=+158.45%  sh=  +224.0
+  ✅ TEST                                                     n=1451  wr= 68.8%  avg=  +4.5bps  tot= +64.59%  sh=  +263.8
+    ✅ test=+2.307%/d
+
+  Z-vel(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6098  wr= 65.6%  avg=  +5.0bps  tot=+302.19%  sh=  +221.9
+  ✅ TEST                                                     n=2956  wr= 66.8%  avg=  +4.1bps  tot=+121.89%  sh=  +249.1
+    ✅ test=+4.353%/d
+
+  Z-vel(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3230  wr= 69.1%  avg=  +6.3bps  tot=+201.92%  sh=  +247.7
+  ✅ TEST                                                     n=1581  wr= 68.3%  avg=  +4.8bps  tot= +76.00%  sh=  +280.8
+    ✅ test=+2.714%/d
+
+  --- EXP IIII8: RETURN ENTROPY RATE ---
+
+  Ret entropy(30) >90th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(30) >95th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(60) >90th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(60) >95th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP JJJJ8: GAP FILL RATIO ---
+
+  Gap fill(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=4246  wr= 54.0%  avg=  +1.8bps  tot= +77.48%  sh=  +125.0
+  ✅ TEST                                                     n=2242  wr= 60.3%  avg=  +2.8bps  tot= +62.46%  sh=  +177.4
+    ✅ test=+2.231%/d
+
+  Gap fill(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=1277  wr= 52.9%  avg=  +2.0bps  tot= +25.17%  sh=  +134.9
+  ✅ TEST                                                     n= 684  wr= 55.4%  avg=  +2.0bps  tot= +13.37%  sh=  +141.5
+    ✅ test=+0.478%/d
+
+  Gap fill(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=6906  wr= 56.5%  avg=  +2.7bps  tot=+184.92%  sh=  +155.1
+  ✅ TEST                                                     n=3406  wr= 62.0%  avg=  +3.4bps  tot=+117.21%  sh=  +218.8
+    ✅ test=+4.186%/d
+
+  Gap fill(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=3555  wr= 57.5%  avg=  +2.7bps  tot= +97.08%  sh=  +162.9
+  ✅ TEST                                                     n=1752  wr= 61.9%  avg=  +3.1bps  tot= +53.55%  sh=  +208.9
+    ✅ test=+1.913%/d
+
+  --- EXP KKKK8: MOMENTUM EXHAUSTION INDEX ---
+
+  Mom exhaust(5/30) >90th pct (fade):
+  ✅ TRAIN                                                    n=5944  wr= 68.3%  avg=  +6.2bps  tot=+366.03%  sh=  +241.8
+  ✅ TEST                                                     n=2898  wr= 71.2%  avg=  +5.2bps  tot=+151.67%  sh=  +310.2
+    ✅ test=+5.417%/d
+
+  Mom exhaust(5/30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3166  wr= 72.0%  avg=  +8.0bps  tot=+254.12%  sh=  +274.6
+  ✅ TEST                                                     n=1555  wr= 73.8%  avg=  +6.4bps  tot= +99.17%  sh=  +345.1
+    ✅ test=+3.542%/d
+
+  Mom exhaust(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6316  wr= 72.2%  avg=  +6.6bps  tot=+418.80%  sh=  +267.2
+  ✅ TEST                                                     n=3180  wr= 72.3%  avg=  +5.6bps  tot=+179.01%  sh=  +350.3
+    ✅ test=+6.393%/d
+
+  Mom exhaust(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3367  wr= 75.5%  avg=  +8.7bps  tot=+293.79%  sh=  +294.0
+  ✅ TEST                                                     n=1672  wr= 74.4%  avg=  +6.4bps  tot=+106.26%  sh=  +354.0
+    ✅ test=+3.795%/d
+  Loading SOLUSDT... [10/88 16s] [20/88 28s] [30/88 38s] [40/88 50s] [50/88 60s] [60/88 69s] [70/88 82s] [80/88 99s] [88/88 108s] 126,720 bars (108s) [RAM=0.3GB, avail=7.0GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP HHHH8: PRICE Z-SCORE VELOCITY ---
+
+  Z-vel(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6287  wr= 64.3%  avg=  +3.8bps  tot=+237.48%  sh=  +213.9
+  ✅ TEST                                                     n=2964  wr= 65.9%  avg=  +3.9bps  tot=+117.04%  sh=  +265.6
+    ✅ test=+4.180%/d
+
+  Z-vel(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3214  wr= 66.6%  avg=  +4.4bps  tot=+140.39%  sh=  +218.5
+  ✅ TEST                                                     n=1566  wr= 67.8%  avg=  +4.5bps  tot= +70.30%  sh=  +281.8
+    ✅ test=+2.511%/d
+
+  Z-vel(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6540  wr= 65.6%  avg=  +4.1bps  tot=+268.92%  sh=  +224.1
+  ✅ TEST                                                     n=3110  wr= 67.1%  avg=  +4.3bps  tot=+134.63%  sh=  +288.4
+    ✅ test=+4.808%/d
+
+  Z-vel(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3467  wr= 68.0%  avg=  +4.9bps  tot=+170.23%  sh=  +240.5
+  ✅ TEST                                                     n=1629  wr= 67.6%  avg=  +4.6bps  tot= +74.34%  sh=  +285.8
+    ✅ test=+2.655%/d
+
+  --- EXP IIII8: RETURN ENTROPY RATE ---
+
+  Ret entropy(30) >90th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(30) >95th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=  22  wr= 59.1%  avg=  +2.4bps  tot=  +0.54%  sh=  +338.5
+    TEST                                                     NO TRADES
+
+  Ret entropy(60) >95th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP JJJJ8: GAP FILL RATIO ---
+
+  Gap fill(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5353  wr= 60.9%  avg=  +3.0bps  tot=+160.64%  sh=  +198.6
+  ✅ TEST                                                     n=2667  wr= 62.2%  avg=  +3.3bps  tot= +87.07%  sh=  +200.2
+    ✅ test=+3.110%/d
+
+  Gap fill(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=1937  wr= 59.3%  avg=  +2.6bps  tot= +49.90%  sh=  +177.2
+  ✅ TEST                                                     n=1034  wr= 60.8%  avg=  +3.2bps  tot= +33.03%  sh=  +175.4
+    ✅ test=+1.180%/d
+
+  Gap fill(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8049  wr= 62.0%  avg=  +3.1bps  tot=+247.86%  sh=  +210.1
+  ✅ TEST                                                     n=3809  wr= 60.9%  avg=  +3.0bps  tot=+115.76%  sh=  +201.3
+    ✅ test=+4.134%/d
+
+  Gap fill(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4149  wr= 61.2%  avg=  +3.1bps  tot=+127.44%  sh=  +213.8
+  ✅ TEST                                                     n=2036  wr= 60.2%  avg=  +2.9bps  tot= +58.24%  sh=  +179.1
+    ✅ test=+2.080%/d
+
+  --- EXP KKKK8: MOMENTUM EXHAUSTION INDEX ---
+
+  Mom exhaust(5/30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6406  wr= 68.9%  avg=  +5.0bps  tot=+323.47%  sh=  +256.8
+  ✅ TEST                                                     n=3074  wr= 68.9%  avg=  +4.9bps  tot=+151.80%  sh=  +294.0
+    ✅ test=+5.422%/d
+
+  Mom exhaust(5/30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3481  wr= 70.8%  avg=  +6.1bps  tot=+210.88%  sh=  +267.9
+  ✅ TEST                                                     n=1620  wr= 70.2%  avg=  +5.5bps  tot= +88.83%  sh=  +309.7
+    ✅ test=+3.173%/d
+
+  Mom exhaust(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6567  wr= 70.2%  avg=  +5.4bps  tot=+353.55%  sh=  +277.2
+  ✅ TEST                                                     n=3267  wr= 70.2%  avg=  +5.1bps  tot=+167.99%  sh=  +306.6
+    ✅ test=+6.000%/d
+
+  Mom exhaust(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3534  wr= 72.3%  avg=  +6.3bps  tot=+221.65%  sh=  +290.0
+  ✅ TEST                                                     n=1737  wr= 72.3%  avg=  +5.5bps  tot= +96.31%  sh=  +332.3
+    ✅ test=+3.440%/d
+  Loading DOGEUSDT... [10/88 21s] [20/88 35s] [30/88 44s] [40/88 54s] [50/88 64s] [60/88 72s] [70/88 104s] [80/88 131s] [88/88 141s] 126,720 bars (141s) [RAM=0.4GB, avail=6.7GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP HHHH8: PRICE Z-SCORE VELOCITY ---
+
+  Z-vel(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6523  wr= 65.8%  avg=  +4.5bps  tot=+296.47%  sh=  +232.9
+  ✅ TEST                                                     n=3337  wr= 82.4%  avg=  +8.9bps  tot=+298.01%  sh=  +430.3
+    ✅ test=+10.643%/d
+
+  Z-vel(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3319  wr= 67.3%  avg=  +5.1bps  tot=+169.52%  sh=  +248.4
+  ✅ TEST                                                     n=1686  wr= 82.7%  avg=  +9.5bps  tot=+160.31%  sh=  +443.1
+    ✅ test=+5.725%/d
+
+  Z-vel(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6775  wr= 67.6%  avg=  +4.9bps  tot=+334.09%  sh=  +234.1
+  ✅ TEST                                                     n=3451  wr= 82.6%  avg=  +9.2bps  tot=+317.37%  sh=  +431.8
+    ✅ test=+11.335%/d
+
+  Z-vel(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3625  wr= 69.0%  avg=  +5.6bps  tot=+202.13%  sh=  +245.7
+  ✅ TEST                                                     n=1810  wr= 83.5%  avg= +10.4bps  tot=+187.40%  sh=  +440.3
+    ✅ test=+6.693%/d
+
+  --- EXP IIII8: RETURN ENTROPY RATE ---
+
+  Ret entropy(30) >90th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(30) >95th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(60) >90th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(60) >95th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP JJJJ8: GAP FILL RATIO ---
+
+  Gap fill(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6509  wr= 63.1%  avg=  +3.7bps  tot=+240.10%  sh=  +218.8
+  ✅ TEST                                                     n=2619  wr= 83.8%  avg=  +9.1bps  tot=+237.63%  sh=  +489.9
+    ✅ test=+8.487%/d
+
+  Gap fill(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3007  wr= 63.2%  avg=  +3.7bps  tot=+111.41%  sh=  +229.0
+  ✅ TEST                                                     n=1032  wr= 82.5%  avg=  +8.5bps  tot= +87.81%  sh=  +502.4
+    ✅ test=+3.136%/d
+
+  Gap fill(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8320  wr= 64.4%  avg=  +4.3bps  tot=+359.69%  sh=  +221.5
+  ✅ TEST                                                     n=4079  wr= 82.3%  avg=  +8.3bps  tot=+339.27%  sh=  +449.1
+    ✅ test=+12.117%/d
+
+  Gap fill(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4720  wr= 64.1%  avg=  +4.0bps  tot=+189.00%  sh=  +235.6
+  ✅ TEST                                                     n=2205  wr= 82.6%  avg=  +8.5bps  tot=+186.94%  sh=  +459.4
+    ✅ test=+6.677%/d
+
+  --- EXP KKKK8: MOMENTUM EXHAUSTION INDEX ---
+
+  Mom exhaust(5/30) >90th pct (fade):
+  ✅ TRAIN                                                    n=6562  wr= 69.8%  avg=  +6.1bps  tot=+398.53%  sh=  +264.2
+  ✅ TEST                                                     n=3315  wr= 83.7%  avg= +10.5bps  tot=+346.95%  sh=  +445.4
+    ✅ test=+12.391%/d
+
+  Mom exhaust(5/30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3579  wr= 72.3%  avg=  +7.4bps  tot=+263.64%  sh=  +275.5
+  ✅ TEST                                                     n=1806  wr= 84.3%  avg= +11.9bps  tot=+215.76%  sh=  +452.2
+    ✅ test=+7.706%/d
+
+  Mom exhaust(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6903  wr= 70.8%  avg=  +6.3bps  tot=+434.02%  sh=  +271.8
+  ✅ TEST                                                     n=3508  wr= 85.6%  avg= +10.4bps  tot=+366.24%  sh=  +465.6
+    ✅ test=+13.080%/d
+
+  Mom exhaust(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3731  wr= 72.6%  avg=  +7.6bps  tot=+282.93%  sh=  +287.7
+  ✅ TEST                                                     n=1871  wr= 86.2%  avg= +11.3bps  tot=+211.75%  sh=  +444.9
+    ✅ test=+7.562%/d
+  Loading XRPUSDT... [10/88 18s] [20/88 27s] [30/88 36s] [40/88 46s] [50/88 59s] [60/88 69s] [70/88 102s] [80/88 124s] [88/88 140s] 126,720 bars (140s) [RAM=0.4GB, avail=6.8GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP HHHH8: PRICE Z-SCORE VELOCITY ---
+
+  Z-vel(30) >90th pct (fade):
+  ✅ TRAIN                                                    n=5701  wr= 52.2%  avg=  +2.0bps  tot=+112.01%  sh=  +112.6
+  ✅ TEST                                                     n=3158  wr= 73.0%  avg=  +6.0bps  tot=+189.78%  sh=  +305.0
+    ✅ test=+6.778%/d
+
+  Z-vel(30) >95th pct (fade):
+  ✅ TRAIN                                                    n=2923  wr= 54.1%  avg=  +2.5bps  tot= +72.89%  sh=  +132.6
+  ✅ TEST                                                     n=1628  wr= 72.7%  avg=  +6.3bps  tot=+102.09%  sh=  +303.2
+    ✅ test=+3.646%/d
+
+  Z-vel(60) >90th pct (fade):
+  ✅ TRAIN                                                    n=5928  wr= 53.5%  avg=  +2.4bps  tot=+140.51%  sh=  +127.1
+  ✅ TEST                                                     n=3291  wr= 73.8%  avg=  +6.9bps  tot=+226.75%  sh=  +317.5
+    ✅ test=+8.098%/d
+
+  Z-vel(60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3101  wr= 54.8%  avg=  +2.8bps  tot= +86.73%  sh=  +143.1
+  ✅ TEST                                                     n=1732  wr= 74.5%  avg=  +7.1bps  tot=+123.24%  sh=  +330.2
+    ✅ test=+4.401%/d
+
+  --- EXP IIII8: RETURN ENTROPY RATE ---
+
+  Ret entropy(30) >90th pct (fade):
+     TRAIN                                                    n=   3  wr= 66.7%  avg=  -1.5bps  tot=  -0.05%  sh=  -322.5
+    TEST                                                     NO TRADES
+
+  Ret entropy(30) >95th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(60) >90th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  Ret entropy(60) >95th pct (fade):
+    TRAIN                                                    NO TRADES
+    TEST                                                     NO TRADES
+
+  --- EXP JJJJ8: GAP FILL RATIO ---
+
+  Gap fill(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5399  wr= 49.3%  avg=  +1.3bps  tot= +70.05%  sh=   +86.3
+  ✅ TEST                                                     n=2904  wr= 72.5%  avg=  +6.2bps  tot=+179.68%  sh=  +327.9
+    ✅ test=+6.417%/d
+
+  Gap fill(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=2207  wr= 46.9%  avg=  +0.8bps  tot= +17.82%  sh=   +53.3
+  ✅ TEST                                                     n=1059  wr= 70.2%  avg=  +5.2bps  tot= +54.69%  sh=  +272.9
+    ✅ test=+1.953%/d
+
+  Gap fill(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=7327  wr= 49.8%  avg=  +1.3bps  tot= +92.75%  sh=   +88.5
+  ✅ TEST                                                     n=4050  wr= 73.3%  avg=  +6.7bps  tot=+272.49%  sh=  +345.0
+    ✅ test=+9.732%/d
+
+  Gap fill(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=4013  wr= 50.5%  avg=  +1.3bps  tot= +50.93%  sh=   +89.5
+  ✅ TEST                                                     n=2151  wr= 74.2%  avg=  +7.0bps  tot=+149.97%  sh=  +352.1
+    ✅ test=+5.356%/d
+
+  --- EXP KKKK8: MOMENTUM EXHAUSTION INDEX ---
+
+  Mom exhaust(5/30) >90th pct (fade):
+  ✅ TRAIN                                                    n=5759  wr= 55.8%  avg=  +3.1bps  tot=+177.70%  sh=  +158.3
+  ✅ TEST                                                     n=3227  wr= 74.9%  avg=  +7.5bps  tot=+240.50%  sh=  +313.5
+    ✅ test=+8.589%/d
+
+  Mom exhaust(5/30) >95th pct (fade):
+  ✅ TRAIN                                                    n=3148  wr= 58.8%  avg=  +4.0bps  tot=+126.86%  sh=  +180.9
+  ✅ TEST                                                     n=1717  wr= 75.8%  avg=  +8.7bps  tot=+148.66%  sh=  +312.9
+    ✅ test=+5.309%/d
+
+  Mom exhaust(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6026  wr= 58.6%  avg=  +3.6bps  tot=+214.23%  sh=  +191.0
+  ✅ TEST                                                     n=3370  wr= 76.2%  avg=  +7.6bps  tot=+255.07%  sh=  +329.7
+    ✅ test=+9.110%/d
+
+  Mom exhaust(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3184  wr= 59.9%  avg=  +4.4bps  tot=+138.78%  sh=  +200.9
+  ✅ TEST                                                     n=1838  wr= 77.5%  avg=  +8.5bps  tot=+156.03%  sh=  +338.6
+    ✅ test=+5.573%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    gf_20_0.9                2619   83.8%    +9.1bp   +237.6%     +490
+  ✅ DOGEUSDT    gf_20_0.95               1032   82.5%    +8.5bp    +87.8%     +502
+  ✅ DOGEUSDT    gf_40_0.9                4079   82.3%    +8.3bp   +339.3%     +449
+  ✅ DOGEUSDT    gf_40_0.95               2205   82.6%    +8.5bp   +186.9%     +459
+  ✅ DOGEUSDT    me_10_60_0.9             3508   85.6%   +10.4bp   +366.2%     +466
+  ✅ DOGEUSDT    me_10_60_0.95            1871   86.2%   +11.3bp   +211.7%     +445
+  ✅ DOGEUSDT    me_5_30_0.9              3315   83.7%   +10.5bp   +346.9%     +445
+  ✅ DOGEUSDT    me_5_30_0.95             1806   84.3%   +11.9bp   +215.8%     +452
+  ✅ DOGEUSDT    zv_30_0.9                3337   82.4%    +8.9bp   +298.0%     +430
+  ✅ DOGEUSDT    zv_30_0.95               1686   82.7%    +9.5bp   +160.3%     +443
+  ✅ DOGEUSDT    zv_60_0.9                3451   82.6%    +9.2bp   +317.4%     +432
+  ✅ DOGEUSDT    zv_60_0.95               1810   83.5%   +10.4bp   +187.4%     +440
+  ✅ ETHUSDT     gf_20_0.9                2242   60.3%    +2.8bp    +62.5%     +177
+  ✅ ETHUSDT     gf_20_0.95                684   55.4%    +2.0bp    +13.4%     +142
+  ✅ ETHUSDT     gf_40_0.9                3406   62.0%    +3.4bp   +117.2%     +219
+  ✅ ETHUSDT     gf_40_0.95               1752   61.9%    +3.1bp    +53.6%     +209
+  ✅ ETHUSDT     me_10_60_0.9             3180   72.3%    +5.6bp   +179.0%     +350
+  ✅ ETHUSDT     me_10_60_0.95            1672   74.4%    +6.4bp   +106.3%     +354
+  ✅ ETHUSDT     me_5_30_0.9              2898   71.2%    +5.2bp   +151.7%     +310
+  ✅ ETHUSDT     me_5_30_0.95             1555   73.8%    +6.4bp    +99.2%     +345
+  ✅ ETHUSDT     zv_30_0.9                2869   65.5%    +3.8bp   +109.4%     +235
+  ✅ ETHUSDT     zv_30_0.95               1451   68.8%    +4.5bp    +64.6%     +264
+  ✅ ETHUSDT     zv_60_0.9                2956   66.8%    +4.1bp   +121.9%     +249
+  ✅ ETHUSDT     zv_60_0.95               1581   68.3%    +4.8bp    +76.0%     +281
+  ✅ SOLUSDT     gf_20_0.9                2667   62.2%    +3.3bp    +87.1%     +200
+  ✅ SOLUSDT     gf_20_0.95               1034   60.8%    +3.2bp    +33.0%     +175
+  ✅ SOLUSDT     gf_40_0.9                3809   60.9%    +3.0bp   +115.8%     +201
+  ✅ SOLUSDT     gf_40_0.95               2036   60.2%    +2.9bp    +58.2%     +179
+  ✅ SOLUSDT     me_10_60_0.9             3267   70.2%    +5.1bp   +168.0%     +307
+  ✅ SOLUSDT     me_10_60_0.95            1737   72.3%    +5.5bp    +96.3%     +332
+  ✅ SOLUSDT     me_5_30_0.9              3074   68.9%    +4.9bp   +151.8%     +294
+  ✅ SOLUSDT     me_5_30_0.95             1620   70.2%    +5.5bp    +88.8%     +310
+  ✅ SOLUSDT     zv_30_0.9                2964   65.9%    +3.9bp   +117.0%     +266
+  ✅ SOLUSDT     zv_30_0.95               1566   67.8%    +4.5bp    +70.3%     +282
+  ✅ SOLUSDT     zv_60_0.9                3110   67.1%    +4.3bp   +134.6%     +288
+  ✅ SOLUSDT     zv_60_0.95               1629   67.6%    +4.6bp    +74.3%     +286
+  ✅ XRPUSDT     gf_20_0.9                2904   72.5%    +6.2bp   +179.7%     +328
+  ✅ XRPUSDT     gf_20_0.95               1059   70.2%    +5.2bp    +54.7%     +273
+  ✅ XRPUSDT     gf_40_0.9                4050   73.3%    +6.7bp   +272.5%     +345
+  ✅ XRPUSDT     gf_40_0.95               2151   74.2%    +7.0bp   +150.0%     +352
+  ✅ XRPUSDT     me_10_60_0.9             3370   76.2%    +7.6bp   +255.1%     +330
+  ✅ XRPUSDT     me_10_60_0.95            1838   77.5%    +8.5bp   +156.0%     +339
+  ✅ XRPUSDT     me_5_30_0.9              3227   74.9%    +7.5bp   +240.5%     +313
+  ✅ XRPUSDT     me_5_30_0.95             1717   75.8%    +8.7bp   +148.7%     +313
+  ✅ XRPUSDT     zv_30_0.9                3158   73.0%    +6.0bp   +189.8%     +305
+  ✅ XRPUSDT     zv_30_0.95               1628   72.7%    +6.3bp   +102.1%     +303
+  ✅ XRPUSDT     zv_60_0.9                3291   73.8%    +6.9bp   +226.7%     +318
+  ✅ XRPUSDT     zv_60_0.95               1732   74.5%    +7.1bp   +123.2%     +330
+
+################################################################################
+  COMPLETE — 899s (15.0min) [RAM=0.2GB, avail=7.0GB]
+################################################################################
