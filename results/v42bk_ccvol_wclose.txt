@@ -1,0 +1,451 @@
+================================================================================
+  v42bk: CC VOL RATIO + WEIGHTED CLOSE DEV + MOM ACCEL RATIO + INTRABAR REV
+  2026-02-19 17:13:34  [RAM=0.1GB, avail=6.7GB]
+================================================================================
+  Loading ETHUSDT... [10/88 32s] [20/88 53s] [30/88 73s] [40/88 95s] [50/88 115s] [60/88 130s] [70/88 158s] [80/88 183s] [88/88 202s] 126,720 bars (202s) [RAM=0.5GB, avail=7.0GB]
+
+################################################################################
+  ETHUSDT
+################################################################################
+
+  --- EXP XXXX6: CC VOL RATIO ---
+
+  CC vol ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6938  wr= 62.1%  avg=  +4.8bps  tot=+334.13%  sh=  +191.2
+  ✅ TEST                                                     n=3373  wr= 65.3%  avg=  +4.2bps  tot=+140.18%  sh=  +250.1
+    ✅ test=+5.006%/d
+
+  CC vol ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4181  wr= 63.5%  avg=  +5.5bps  tot=+230.25%  sh=  +200.9
+  ✅ TEST                                                     n=2004  wr= 65.4%  avg=  +4.3bps  tot= +87.06%  sh=  +242.3
+    ✅ test=+3.109%/d
+
+  CC vol ratio(20/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7749  wr= 62.1%  avg=  +4.7bps  tot=+362.04%  sh=  +191.2
+  ✅ TEST                                                     n=3810  wr= 63.6%  avg=  +3.6bps  tot=+137.78%  sh=  +208.8
+    ✅ test=+4.921%/d
+
+  CC vol ratio(20/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5181  wr= 61.9%  avg=  +5.2bps  tot=+267.87%  sh=  +202.3
+  ✅ TEST                                                     n=2517  wr= 65.1%  avg=  +3.8bps  tot= +94.65%  sh=  +217.1
+    ✅ test=+3.380%/d
+
+  --- EXP YYYY6: WEIGHTED CLOSE DEVIATION ---
+
+  Wt close dev(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3775  wr= 70.8%  avg=  +6.0bps  tot=+228.30%  sh=  +318.8
+  ✅ TEST                                                     n=1865  wr= 72.8%  avg=  +5.4bps  tot=+101.08%  sh=  +322.8
+    ✅ test=+3.610%/d
+
+  Wt close dev(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6578  wr= 67.4%  avg=  +5.0bps  tot=+330.46%  sh=  +290.6
+  ✅ TEST                                                     n=3345  wr= 69.2%  avg=  +4.5bps  tot=+149.75%  sh=  +283.9
+    ✅ test=+5.348%/d
+
+  Wt close dev(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4385  wr= 70.9%  avg=  +5.8bps  tot=+254.16%  sh=  +317.6
+  ✅ TEST                                                     n=2332  wr= 71.7%  avg=  +4.9bps  tot=+114.91%  sh=  +322.3
+    ✅ test=+4.104%/d
+
+  Wt close dev(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7204  wr= 67.5%  avg=  +4.8bps  tot=+346.96%  sh=  +288.1
+  ✅ TEST                                                     n=3839  wr= 68.1%  avg=  +4.4bps  tot=+167.25%  sh=  +280.3
+    ✅ test=+5.973%/d
+
+  --- EXP ZZZZ6: MOMENTUM ACCEL RATIO ---
+
+  Mom accel(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=5840  wr= 66.0%  avg=  +4.9bps  tot=+283.75%  sh=  +221.8
+  ✅ TEST                                                     n=2856  wr= 67.7%  avg=  +4.3bps  tot=+121.93%  sh=  +291.0
+    ✅ test=+4.355%/d
+
+  Mom accel(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=2937  wr= 66.1%  avg=  +5.0bps  tot=+148.31%  sh=  +196.6
+  ✅ TEST                                                     n=1470  wr= 66.5%  avg=  +3.9bps  tot= +56.88%  sh=  +267.6
+    ✅ test=+2.031%/d
+
+  Mom accel(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6089  wr= 67.1%  avg=  +4.9bps  tot=+296.27%  sh=  +228.2
+  ✅ TEST                                                     n=2976  wr= 67.3%  avg=  +4.2bps  tot=+125.04%  sh=  +284.1
+    ✅ test=+4.466%/d
+
+  Mom accel(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3110  wr= 68.6%  avg=  +5.2bps  tot=+162.34%  sh=  +220.6
+  ✅ TEST                                                     n=1499  wr= 68.0%  avg=  +4.4bps  tot= +66.28%  sh=  +302.1
+    ✅ test=+2.367%/d
+
+  --- EXP AAAA7: INTRABAR REVERSAL STRENGTH ---
+
+  Intrabar rev(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7352  wr= 56.8%  avg=  +2.9bps  tot=+215.95%  sh=  +169.5
+  ✅ TEST                                                     n=3490  wr= 62.6%  avg=  +3.4bps  tot=+118.26%  sh=  +230.4
+    ✅ test=+4.224%/d
+
+  Intrabar rev(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4465  wr= 56.4%  avg=  +3.1bps  tot=+136.44%  sh=  +174.8
+  ✅ TEST                                                     n=2113  wr= 64.3%  avg=  +3.6bps  tot= +75.23%  sh=  +247.0
+    ✅ test=+2.687%/d
+
+  Intrabar rev(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8961  wr= 57.5%  avg=  +2.9bps  tot=+264.14%  sh=  +176.5
+  ✅ TEST                                                     n=4366  wr= 62.3%  avg=  +3.1bps  tot=+137.09%  sh=  +219.1
+    ✅ test=+4.896%/d
+
+  Intrabar rev(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5844  wr= 57.2%  avg=  +3.0bps  tot=+175.59%  sh=  +179.7
+  ✅ TEST                                                     n=2884  wr= 63.1%  avg=  +3.2bps  tot= +92.00%  sh=  +222.6
+    ✅ test=+3.286%/d
+  Loading SOLUSDT... [10/88 15s] [20/88 29s] [30/88 38s] [40/88 50s] [50/88 60s] [60/88 69s] [70/88 84s] [80/88 105s] [88/88 115s] 126,720 bars (115s) [RAM=0.4GB, avail=6.6GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP XXXX6: CC VOL RATIO ---
+
+  CC vol ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7295  wr= 66.5%  avg=  +4.9bps  tot=+353.96%  sh=  +239.7
+  ✅ TEST                                                     n=3479  wr= 66.3%  avg=  +4.4bps  tot=+151.71%  sh=  +260.0
+    ✅ test=+5.418%/d
+
+  CC vol ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4254  wr= 68.0%  avg=  +5.6bps  tot=+236.43%  sh=  +252.1
+  ✅ TEST                                                     n=2081  wr= 66.4%  avg=  +4.5bps  tot= +92.78%  sh=  +247.9
+    ✅ test=+3.314%/d
+
+  CC vol ratio(20/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7875  wr= 65.9%  avg=  +4.7bps  tot=+368.76%  sh=  +241.0
+  ✅ TEST                                                     n=3980  wr= 65.2%  avg=  +4.2bps  tot=+167.78%  sh=  +261.1
+    ✅ test=+5.992%/d
+
+  CC vol ratio(20/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5367  wr= 66.5%  avg=  +5.0bps  tot=+270.85%  sh=  +247.5
+  ✅ TEST                                                     n=2607  wr= 65.7%  avg=  +4.4bps  tot=+114.64%  sh=  +260.4
+    ✅ test=+4.094%/d
+
+  --- EXP YYYY6: WEIGHTED CLOSE DEVIATION ---
+
+  Wt close dev(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3986  wr= 68.6%  avg=  +5.0bps  tot=+199.88%  sh=  +280.6
+  ✅ TEST                                                     n=1887  wr= 69.7%  avg=  +4.8bps  tot= +91.50%  sh=  +308.1
+    ✅ test=+3.268%/d
+
+  Wt close dev(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6931  wr= 67.8%  avg=  +4.5bps  tot=+309.91%  sh=  +275.4
+  ✅ TEST                                                     n=3387  wr= 66.6%  avg=  +4.2bps  tot=+143.24%  sh=  +272.4
+    ✅ test=+5.116%/d
+
+  Wt close dev(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4885  wr= 66.8%  avg=  +4.6bps  tot=+223.61%  sh=  +269.8
+  ✅ TEST                                                     n=2512  wr= 67.1%  avg=  +4.4bps  tot=+109.89%  sh=  +263.1
+    ✅ test=+3.925%/d
+
+  Wt close dev(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8120  wr= 65.7%  avg=  +4.0bps  tot=+327.28%  sh=  +254.6
+  ✅ TEST                                                     n=3969  wr= 65.1%  avg=  +3.9bps  tot=+154.58%  sh=  +244.1
+    ✅ test=+5.521%/d
+
+  --- EXP ZZZZ6: MOMENTUM ACCEL RATIO ---
+
+  Mom accel(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6236  wr= 65.1%  avg=  +3.9bps  tot=+245.74%  sh=  +242.9
+  ✅ TEST                                                     n=3040  wr= 66.0%  avg=  +3.9bps  tot=+119.97%  sh=  +242.3
+    ✅ test=+4.285%/d
+
+  Mom accel(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3185  wr= 64.5%  avg=  +3.9bps  tot=+123.38%  sh=  +247.8
+  ✅ TEST                                                     n=1502  wr= 67.0%  avg=  +3.9bps  tot= +58.71%  sh=  +234.9
+    ✅ test=+2.097%/d
+
+  Mom accel(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6594  wr= 67.5%  avg=  +4.4bps  tot=+292.50%  sh=  +251.4
+  ✅ TEST                                                     n=3162  wr= 67.0%  avg=  +4.1bps  tot=+129.08%  sh=  +243.9
+    ✅ test=+4.610%/d
+
+  Mom accel(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3328  wr= 68.1%  avg=  +4.6bps  tot=+151.75%  sh=  +236.5
+  ✅ TEST                                                     n=1617  wr= 66.4%  avg=  +4.3bps  tot= +69.94%  sh=  +250.6
+    ✅ test=+2.498%/d
+
+  --- EXP AAAA7: INTRABAR REVERSAL STRENGTH ---
+
+  Intrabar rev(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7648  wr= 61.4%  avg=  +3.1bps  tot=+234.66%  sh=  +196.5
+  ✅ TEST                                                     n=3677  wr= 65.2%  avg=  +4.3bps  tot=+159.53%  sh=  +282.7
+    ✅ test=+5.697%/d
+
+  Intrabar rev(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4684  wr= 61.0%  avg=  +3.0bps  tot=+138.87%  sh=  +189.0
+  ✅ TEST                                                     n=2174  wr= 64.6%  avg=  +4.4bps  tot= +95.27%  sh=  +293.1
+    ✅ test=+3.402%/d
+
+  Intrabar rev(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9276  wr= 60.8%  avg=  +2.9bps  tot=+269.06%  sh=  +192.0
+  ✅ TEST                                                     n=4462  wr= 64.5%  avg=  +4.1bps  tot=+182.30%  sh=  +247.7
+    ✅ test=+6.511%/d
+
+  Intrabar rev(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6157  wr= 60.8%  avg=  +3.0bps  tot=+183.74%  sh=  +198.5
+  ✅ TEST                                                     n=2945  wr= 65.5%  avg=  +4.3bps  tot=+125.34%  sh=  +253.4
+    ✅ test=+4.476%/d
+  Loading DOGEUSDT... [10/88 23s] [20/88 42s] [30/88 56s] [40/88 70s] [50/88 82s] [60/88 93s] [70/88 132s] [80/88 162s] [88/88 175s] 126,720 bars (175s) [RAM=0.4GB, avail=6.2GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP XXXX6: CC VOL RATIO ---
+
+  CC vol ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7467  wr= 68.5%  avg=  +6.1bps  tot=+452.43%  sh=  +247.6
+  ✅ TEST                                                     n=3862  wr= 82.1%  avg= +10.0bps  tot=+387.13%  sh=  +437.0
+    ✅ test=+13.826%/d
+
+  CC vol ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4360  wr= 70.0%  avg=  +6.7bps  tot=+292.33%  sh=  +252.2
+  ✅ TEST                                                     n=2274  wr= 82.9%  avg= +10.7bps  tot=+242.44%  sh=  +434.2
+    ✅ test=+8.659%/d
+
+  CC vol ratio(20/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=8058  wr= 68.3%  avg=  +6.1bps  tot=+490.44%  sh=  +255.5
+  ✅ TEST                                                     n=4320  wr= 83.1%  avg=  +9.8bps  tot=+422.23%  sh=  +437.0
+    ✅ test=+15.080%/d
+
+  CC vol ratio(20/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=5387  wr= 69.5%  avg=  +6.5bps  tot=+352.04%  sh=  +252.1
+  ✅ TEST                                                     n=2872  wr= 83.6%  avg= +10.4bps  tot=+299.23%  sh=  +448.4
+    ✅ test=+10.687%/d
+
+  --- EXP YYYY6: WEIGHTED CLOSE DEVIATION ---
+
+  Wt close dev(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4108  wr= 72.3%  avg=  +6.2bps  tot=+254.84%  sh=  +297.1
+  ✅ TEST                                                     n=2171  wr= 83.7%  avg=  +9.8bps  tot=+212.07%  sh=  +449.1
+    ✅ test=+7.574%/d
+
+  Wt close dev(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7259  wr= 69.9%  avg=  +5.3bps  tot=+383.49%  sh=  +272.1
+  ✅ TEST                                                     n=3795  wr= 82.9%  avg=  +9.1bps  tot=+345.38%  sh=  +442.4
+    ✅ test=+12.335%/d
+
+  Wt close dev(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=5081  wr= 70.3%  avg=  +5.7bps  tot=+288.64%  sh=  +280.1
+  ✅ TEST                                                     n=2715  wr= 84.3%  avg=  +9.5bps  tot=+256.87%  sh=  +452.2
+    ✅ test=+9.174%/d
+
+  Wt close dev(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=8208  wr= 68.8%  avg=  +5.1bps  tot=+414.55%  sh=  +268.4
+  ✅ TEST                                                     n=4363  wr= 84.0%  avg=  +8.8bps  tot=+384.30%  sh=  +458.5
+    ✅ test=+13.725%/d
+
+  --- EXP ZZZZ6: MOMENTUM ACCEL RATIO ---
+
+  Mom accel(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=6357  wr= 69.0%  avg=  +5.0bps  tot=+320.78%  sh=  +255.8
+  ✅ TEST                                                     n=3301  wr= 83.3%  avg=  +8.5bps  tot=+280.12%  sh=  +447.1
+    ✅ test=+10.004%/d
+
+  Mom accel(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=3223  wr= 69.9%  avg=  +5.2bps  tot=+167.70%  sh=  +242.3
+  ✅ TEST                                                     n=1670  wr= 83.2%  avg=  +8.6bps  tot=+143.73%  sh=  +427.4
+    ✅ test=+5.133%/d
+
+  Mom accel(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6628  wr= 70.4%  avg=  +5.4bps  tot=+355.18%  sh=  +276.3
+  ✅ TEST                                                     n=3425  wr= 84.8%  avg=  +9.2bps  tot=+315.12%  sh=  +472.7
+    ✅ test=+11.254%/d
+
+  Mom accel(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3416  wr= 70.6%  avg=  +5.4bps  tot=+183.85%  sh=  +300.0
+  ✅ TEST                                                     n=1763  wr= 85.1%  avg=  +9.2bps  tot=+161.87%  sh=  +483.0
+    ✅ test=+5.781%/d
+
+  --- EXP AAAA7: INTRABAR REVERSAL STRENGTH ---
+
+  Intrabar rev(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=7688  wr= 64.0%  avg=  +4.2bps  tot=+319.64%  sh=  +222.4
+  ✅ TEST                                                     n=4008  wr= 80.1%  avg=  +8.2bps  tot=+328.46%  sh=  +437.0
+    ✅ test=+11.731%/d
+
+  Intrabar rev(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4625  wr= 63.9%  avg=  +4.1bps  tot=+191.14%  sh=  +226.5
+  ✅ TEST                                                     n=2381  wr= 80.1%  avg=  +8.1bps  tot=+192.09%  sh=  +443.1
+    ✅ test=+6.860%/d
+
+  Intrabar rev(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=9455  wr= 64.2%  avg=  +4.1bps  tot=+390.30%  sh=  +232.6
+  ✅ TEST                                                     n=4828  wr= 80.2%  avg=  +8.2bps  tot=+393.78%  sh=  +430.8
+    ✅ test=+14.064%/d
+
+  Intrabar rev(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=6213  wr= 64.1%  avg=  +4.1bps  tot=+256.90%  sh=  +234.2
+  ✅ TEST                                                     n=3133  wr= 79.7%  avg=  +8.2bps  tot=+255.35%  sh=  +425.9
+    ✅ test=+9.120%/d
+  Loading XRPUSDT... [10/88 18s] [20/88 27s] [30/88 34s] [40/88 43s] [50/88 52s] [60/88 61s] [70/88 89s] [80/88 106s] [88/88 117s] 126,720 bars (117s) [RAM=0.4GB, avail=6.7GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP XXXX6: CC VOL RATIO ---
+
+  CC vol ratio(10/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=6622  wr= 54.3%  avg=  +3.0bps  tot=+195.69%  sh=  +144.8
+  ✅ TEST                                                     n=3748  wr= 74.9%  avg=  +7.6bps  tot=+283.26%  sh=  +340.6
+    ✅ test=+10.116%/d
+
+  CC vol ratio(10/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=3941  wr= 55.3%  avg=  +3.5bps  tot=+139.25%  sh=  +157.7
+  ✅ TEST                                                     n=2210  wr= 76.0%  avg=  +8.0bps  tot=+176.96%  sh=  +341.1
+    ✅ test=+6.320%/d
+
+  CC vol ratio(20/60) >90th pct (fade):
+  ✅ TRAIN                                                    n=7293  wr= 53.7%  avg=  +2.8bps  tot=+203.94%  sh=  +140.0
+  ✅ TEST                                                     n=4212  wr= 74.8%  avg=  +7.2bps  tot=+304.03%  sh=  +332.7
+    ✅ test=+10.858%/d
+
+  CC vol ratio(20/60) >95th pct (fade):
+  ✅ TRAIN                                                    n=4772  wr= 55.8%  avg=  +3.3bps  tot=+159.27%  sh=  +156.4
+  ✅ TEST                                                     n=2823  wr= 75.4%  avg=  +7.4bps  tot=+209.89%  sh=  +326.9
+    ✅ test=+7.496%/d
+
+  --- EXP YYYY6: WEIGHTED CLOSE DEVIATION ---
+
+  Wt close dev(20) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=3539  wr= 55.6%  avg=  +3.0bps  tot=+106.50%  sh=  +164.1
+  ✅ TEST                                                     n=2060  wr= 75.9%  avg=  +7.4bps  tot=+151.49%  sh=  +318.7
+    ✅ test=+5.410%/d
+
+  Wt close dev(20) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=6176  wr= 54.1%  avg=  +2.6bps  tot=+159.17%  sh=  +153.5
+  ✅ TEST                                                     n=3546  wr= 74.5%  avg=  +6.7bps  tot=+236.36%  sh=  +326.5
+    ✅ test=+8.442%/d
+
+  Wt close dev(40) <0.05/0.95 (fade):
+  ✅ TRAIN                                                    n=4339  wr= 55.5%  avg=  +2.8bps  tot=+122.72%  sh=  +160.0
+  ✅ TEST                                                     n=2559  wr= 73.0%  avg=  +6.7bps  tot=+171.89%  sh=  +307.0
+    ✅ test=+6.139%/d
+
+  Wt close dev(40) <0.1/0.90 (fade):
+  ✅ TRAIN                                                    n=7014  wr= 53.7%  avg=  +2.4bps  tot=+170.99%  sh=  +147.5
+  ✅ TEST                                                     n=4098  wr= 72.6%  avg=  +6.3bps  tot=+258.60%  sh=  +316.5
+    ✅ test=+9.236%/d
+
+  --- EXP ZZZZ6: MOMENTUM ACCEL RATIO ---
+
+  Mom accel(10) >90th pct (fade):
+  ✅ TRAIN                                                    n=5669  wr= 54.5%  avg=  +2.4bps  tot=+136.02%  sh=  +143.6
+  ✅ TEST                                                     n=3137  wr= 74.4%  avg=  +6.4bps  tot=+200.95%  sh=  +336.5
+    ✅ test=+7.177%/d
+
+  Mom accel(10) >95th pct (fade):
+  ✅ TRAIN                                                    n=2849  wr= 54.6%  avg=  +2.7bps  tot= +75.79%  sh=  +151.7
+  ✅ TEST                                                     n=1546  wr= 75.8%  avg=  +6.7bps  tot=+104.03%  sh=  +332.8
+    ✅ test=+3.715%/d
+
+  Mom accel(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=5930  wr= 56.2%  avg=  +2.5bps  tot=+145.56%  sh=  +144.4
+  ✅ TEST                                                     n=3239  wr= 75.5%  avg=  +6.8bps  tot=+219.70%  sh=  +316.9
+    ✅ test=+7.846%/d
+
+  Mom accel(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=3032  wr= 56.8%  avg=  +2.5bps  tot= +76.46%  sh=  +161.7
+  ✅ TEST                                                     n=1609  wr= 75.0%  avg=  +6.9bps  tot=+110.86%  sh=  +342.1
+    ✅ test=+3.959%/d
+
+  --- EXP AAAA7: INTRABAR REVERSAL STRENGTH ---
+
+  Intrabar rev(20) >90th pct (fade):
+  ✅ TRAIN                                                    n=6993  wr= 51.5%  avg=  +1.8bps  tot=+127.43%  sh=  +114.2
+  ✅ TEST                                                     n=3823  wr= 70.9%  avg=  +5.9bps  tot=+225.97%  sh=  +321.6
+    ✅ test=+8.071%/d
+
+  Intrabar rev(20) >95th pct (fade):
+  ✅ TRAIN                                                    n=4226  wr= 51.3%  avg=  +1.9bps  tot= +79.13%  sh=  +125.4
+  ✅ TEST                                                     n=2386  wr= 72.0%  avg=  +6.1bps  tot=+144.71%  sh=  +319.2
+    ✅ test=+5.168%/d
+
+  Intrabar rev(40) >90th pct (fade):
+  ✅ TRAIN                                                    n=8486  wr= 52.5%  avg=  +2.0bps  tot=+170.70%  sh=  +116.7
+  ✅ TEST                                                     n=4524  wr= 71.3%  avg=  +5.8bps  tot=+264.59%  sh=  +316.1
+    ✅ test=+9.450%/d
+
+  Intrabar rev(40) >95th pct (fade):
+  ✅ TRAIN                                                    n=5722  wr= 52.7%  avg=  +2.1bps  tot=+118.71%  sh=  +119.6
+  ✅ TEST                                                     n=2902  wr= 71.4%  avg=  +6.1bps  tot=+177.40%  sh=  +321.6
+    ✅ test=+6.336%/d
+
+################################################################################
+  GRAND SUMMARY (OOS only)
+################################################################################
+
+  Symbol      Signal                      n      WR      Avg     Total   Sharpe
+  --------------------------------------------------------------------
+  ✅ DOGEUSDT    ccvr2_0.9                4320   83.1%    +9.8bp   +422.2%     +437
+  ✅ DOGEUSDT    ccvr2_0.95               2872   83.6%   +10.4bp   +299.2%     +448
+  ✅ DOGEUSDT    ccvr_0.9                 3862   82.1%   +10.0bp   +387.1%     +437
+  ✅ DOGEUSDT    ccvr_0.95                2274   82.9%   +10.7bp   +242.4%     +434
+  ✅ DOGEUSDT    ir_20_0.9                4008   80.1%    +8.2bp   +328.5%     +437
+  ✅ DOGEUSDT    ir_20_0.95               2381   80.1%    +8.1bp   +192.1%     +443
+  ✅ DOGEUSDT    ir_40_0.9                4828   80.2%    +8.2bp   +393.8%     +431
+  ✅ DOGEUSDT    ir_40_0.95               3133   79.7%    +8.2bp   +255.3%     +426
+  ✅ DOGEUSDT    ma_10_0.9                3301   83.3%    +8.5bp   +280.1%     +447
+  ✅ DOGEUSDT    ma_10_0.95               1670   83.2%    +8.6bp   +143.7%     +427
+  ✅ DOGEUSDT    ma_20_0.9                3425   84.8%    +9.2bp   +315.1%     +473
+  ✅ DOGEUSDT    ma_20_0.95               1763   85.1%    +9.2bp   +161.9%     +483
+  ✅ DOGEUSDT    wcd_20_0.05              2171   83.7%    +9.8bp   +212.1%     +449
+  ✅ DOGEUSDT    wcd_20_0.1               3795   82.9%    +9.1bp   +345.4%     +442
+  ✅ DOGEUSDT    wcd_40_0.05              2715   84.3%    +9.5bp   +256.9%     +452
+  ✅ DOGEUSDT    wcd_40_0.1               4363   84.0%    +8.8bp   +384.3%     +459
+  ✅ ETHUSDT     ccvr2_0.9                3810   63.6%    +3.6bp   +137.8%     +209
+  ✅ ETHUSDT     ccvr2_0.95               2517   65.1%    +3.8bp    +94.6%     +217
+  ✅ ETHUSDT     ccvr_0.9                 3373   65.3%    +4.2bp   +140.2%     +250
+  ✅ ETHUSDT     ccvr_0.95                2004   65.4%    +4.3bp    +87.1%     +242
+  ✅ ETHUSDT     ir_20_0.9                3490   62.6%    +3.4bp   +118.3%     +230
+  ✅ ETHUSDT     ir_20_0.95               2113   64.3%    +3.6bp    +75.2%     +247
+  ✅ ETHUSDT     ir_40_0.9                4366   62.3%    +3.1bp   +137.1%     +219
+  ✅ ETHUSDT     ir_40_0.95               2884   63.1%    +3.2bp    +92.0%     +223
+  ✅ ETHUSDT     ma_10_0.9                2856   67.7%    +4.3bp   +121.9%     +291
+  ✅ ETHUSDT     ma_10_0.95               1470   66.5%    +3.9bp    +56.9%     +268
+  ✅ ETHUSDT     ma_20_0.9                2976   67.3%    +4.2bp   +125.0%     +284
+  ✅ ETHUSDT     ma_20_0.95               1499   68.0%    +4.4bp    +66.3%     +302
+  ✅ ETHUSDT     wcd_20_0.05              1865   72.8%    +5.4bp   +101.1%     +323
+  ✅ ETHUSDT     wcd_20_0.1               3345   69.2%    +4.5bp   +149.7%     +284
+  ✅ ETHUSDT     wcd_40_0.05              2332   71.7%    +4.9bp   +114.9%     +322
+  ✅ ETHUSDT     wcd_40_0.1               3839   68.1%    +4.4bp   +167.2%     +280
+  ✅ SOLUSDT     ccvr2_0.9                3980   65.2%    +4.2bp   +167.8%     +261
+  ✅ SOLUSDT     ccvr2_0.95               2607   65.7%    +4.4bp   +114.6%     +260
+  ✅ SOLUSDT     ccvr_0.9                 3479   66.3%    +4.4bp   +151.7%     +260
+  ✅ SOLUSDT     ccvr_0.95                2081   66.4%    +4.5bp    +92.8%     +248
+  ✅ SOLUSDT     ir_20_0.9                3677   65.2%    +4.3bp   +159.5%     +283
+  ✅ SOLUSDT     ir_20_0.95               2174   64.6%    +4.4bp    +95.3%     +293
+  ✅ SOLUSDT     ir_40_0.9                4462   64.5%    +4.1bp   +182.3%     +248
+  ✅ SOLUSDT     ir_40_0.95               2945   65.5%    +4.3bp   +125.3%     +253
+  ✅ SOLUSDT     ma_10_0.9                3040   66.0%    +3.9bp   +120.0%     +242
+  ✅ SOLUSDT     ma_10_0.95               1502   67.0%    +3.9bp    +58.7%     +235
+  ✅ SOLUSDT     ma_20_0.9                3162   67.0%    +4.1bp   +129.1%     +244
+  ✅ SOLUSDT     ma_20_0.95               1617   66.4%    +4.3bp    +69.9%     +251
+  ✅ SOLUSDT     wcd_20_0.05              1887   69.7%    +4.8bp    +91.5%     +308
+  ✅ SOLUSDT     wcd_20_0.1               3387   66.6%    +4.2bp   +143.2%     +272
+  ✅ SOLUSDT     wcd_40_0.05              2512   67.1%    +4.4bp   +109.9%     +263
+  ✅ SOLUSDT     wcd_40_0.1               3969   65.1%    +3.9bp   +154.6%     +244
+  ✅ XRPUSDT     ccvr2_0.9                4212   74.8%    +7.2bp   +304.0%     +333
+  ✅ XRPUSDT     ccvr2_0.95               2823   75.4%    +7.4bp   +209.9%     +327
+  ✅ XRPUSDT     ccvr_0.9                 3748   74.9%    +7.6bp   +283.3%     +341
+  ✅ XRPUSDT     ccvr_0.95                2210   76.0%    +8.0bp   +177.0%     +341
+  ✅ XRPUSDT     ir_20_0.9                3823   70.9%    +5.9bp   +226.0%     +322
+  ✅ XRPUSDT     ir_20_0.95               2386   72.0%    +6.1bp   +144.7%     +319
+  ✅ XRPUSDT     ir_40_0.9                4524   71.3%    +5.8bp   +264.6%     +316
+  ✅ XRPUSDT     ir_40_0.95               2902   71.4%    +6.1bp   +177.4%     +322
+  ✅ XRPUSDT     ma_10_0.9                3137   74.4%    +6.4bp   +200.9%     +337
+  ✅ XRPUSDT     ma_10_0.95               1546   75.8%    +6.7bp   +104.0%     +333
+  ✅ XRPUSDT     ma_20_0.9                3239   75.5%    +6.8bp   +219.7%     +317
+  ✅ XRPUSDT     ma_20_0.95               1609   75.0%    +6.9bp   +110.9%     +342
+  ✅ XRPUSDT     wcd_20_0.05              2060   75.9%    +7.4bp   +151.5%     +319
+  ✅ XRPUSDT     wcd_20_0.1               3546   74.5%    +6.7bp   +236.4%     +326
+  ✅ XRPUSDT     wcd_40_0.05              2559   73.0%    +6.7bp   +171.9%     +307
+  ✅ XRPUSDT     wcd_40_0.1               4098   72.6%    +6.3bp   +258.6%     +316
+
+################################################################################
+  COMPLETE — 845s (14.1min) [RAM=0.4GB, avail=6.8GB]
+################################################################################
