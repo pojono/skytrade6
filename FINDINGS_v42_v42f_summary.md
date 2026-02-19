@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 174 Signal Types Discovered
+### 178 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -1030,6 +1030,10 @@ Strategy contribution (standalone):
 | 172 | Range Contraction | Price only | 86% | +426%/28d | Low |
 | 173 | **Close-High Ratio** | **Price only** | **86%** | **+442%/28d** | **Low** |
 | 174 | Vol of Vol | Price only | 83% | +484%/28d | Low |
+| 175 | Range Asymmetry | Price only | 84% | +415%/28d | Low |
+| 176 | Ret Concentration (HHI) | Price only | 81% | +399%/28d | Low |
+| 177 | **Mom Divergence** | **Price only** | **91%** | **+524%/28d** | **Low** |
+| 178 | Wick Ratio Trend | Price only | 81% | +412%/28d | Low |
 
 ---
 
@@ -1254,3 +1258,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bp_kurt_accel.py` | EXP RRRR7-UUUU7: ret kurtosis, price accel mag, ret-range corr, consec range |
 | `research_v42bq_mrspeed_density.py` | EXP VVVV7-YYYY7: MR speed, price density, rolling beta, tail ratio |
 | `research_v42br_momqual_rangecon.py` | EXP ZZZZ7-CCCC8: mom quality, range contraction, close-high, vol of vol |
+| `research_v42bs_asymm_diverge.py` | EXP DDDD8-GGGG8: range asymm, ret concentration, mom diverge, wick trend |
