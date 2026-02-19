@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 154 Signal Types Discovered
+### 158 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -1010,6 +1010,10 @@ Strategy contribution (standalone):
 | 152 | Return Autocorrelation | Price only | 82% | +459%/28d | Low |
 | 153 | **Volume Clock** | **Price only** | **89%** | **+792%/28d** | **Low** |
 | 154 | Directional Intensity | Price only | 83% | +387%/28d | Low |
+| 155 | Price Gap Ratio | Price only | 78% | +379%/28d | Low |
+| 156 | Return Sign Persistence | Price only | 81% | +382%/28d | Low |
+| 157 | **HL Momentum** | **Price only** | **91%** | **+500%/28d** | **Low** |
+| 158 | Candle Efficiency Std | Price only | 80% | +357%/28d | Low |
 
 ---
 
@@ -1229,3 +1233,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42bk_ccvol_wclose.py` | EXP XXXX6-AAAA7: CC vol ratio, wt close dev, mom accel, intrabar rev |
 | `research_v42bl_velocity_sharpe.py` | EXP BBBB7-EEEE7: vel ratio, rolling Sharpe, CO gap persist, MAD |
 | `research_v42bm_rangepct_autocorr.py` | EXP FFFF7-IIII7: range pct, autocorr, vol clock, dir intensity |
+| `research_v42bn_gapret_hlmom.py` | EXP JJJJ7-MMMM7: gap ratio, ret sign persist, HL mom, candle eff std |
