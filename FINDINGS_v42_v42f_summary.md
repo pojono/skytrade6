@@ -852,7 +852,7 @@ Strategy contribution (standalone):
 
 **OI drop + wide spread: 90% WR, +10.3 bps OOS, Sharpe 398** — highest quality combined signal.
 
-### 26 Signal Types Discovered
+### 30 Signal Types Discovered
 
 | # | Signal | Data Needed | Best OOS WR | Best OOS Total | Complexity |
 |---|--------|------------|------------|---------------|------------|
@@ -882,6 +882,10 @@ Strategy contribution (standalone):
 | 24 | Hurst Regime | Price only | 77% | +27%/28d | Medium |
 | 25 | Price Deceleration | Price only | 96% | +4%/28d | Low |
 | 26 | **Tick Imbalance** | **Price only** | **93%** | **+32%/28d** | **Low** |
+| 27 | **RSI Extreme** | **Price only** | **97%** | **+131%/28d** | **Low** |
+| 28 | Bollinger Band Touch | Price only | 85% | +219%/28d | Low |
+| 29 | **EMA Divergence** | **Price only** | **86%** | **+352%/28d** | **Low** |
+| 30 | **Stochastic Extreme** | **Price only** | **86%** | **+309%/28d** | **Low** |
 
 ---
 
@@ -1046,3 +1050,4 @@ Per-symbol combined portfolio (OOS 28 days):
 | `research_v42ac_tick_micro.py` | EXP VVV-YYY: trade size, arrival rate, ensemble |
 | `research_v42ad_range_higher_order.py` | EXP ZZZ-CCCC: range, skewness, kurtosis, 15m range |
 | `research_v42ae_regime_adaptive.py` | EXP DDDD-GGGG: Hurst, vol gap, acceleration, tick imbalance |
+| `research_v42af_ta_signals.py` | EXP HHHH-KKKK: RSI, Bollinger, EMA divergence, Stochastic |
