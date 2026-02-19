@@ -1,0 +1,95 @@
+================================================================================
+  v42v: OI + SPREAD + FUNDING RATE SIGNALS — SOLUSDT
+  2026-02-19 07:51:43  [RAM=0.1GB, avail=6.2GB]
+================================================================================
+  Loading SOLUSDT bars... [10/88 17s] [20/88 30s] [30/88 39s] [40/88 51s] [50/88 62s] [60/88 70s] [70/88 84s] [80/88 101s] [88/88 110s] 126,720 bars (110s) [RAM=0.3GB, avail=6.6GB]
+  Loading SOLUSDT ticker... [15/88 15s] [30/88 30s] [45/88 46s] [60/88 54s] [75/88 54s] 89,633 1m bars from 1495 files (65s) [RAM=1.0GB, avail=6.0GB]
+  Common 1-min bars: 89,633 / 126,720
+
+################################################################################
+  EXP BBB: OI VELOCITY SIGNAL
+################################################################################
+  OI stats: mean=5844939, std_5m=0.2777%
+
+  OI drop P10 (5m):
+  ✅ TRAIN (fade squeeze)                                     n=1794  wr= 75.5%  avg=  +6.7bps  tot=+121.03%  sh=  +275.0
+  ✅ TEST (fade squeeze)                                      n= 287  wr= 79.4%  avg=  +7.3bps  tot= +21.03%  sh=  +468.9
+    ✅ train=+2.017%/d  test=+0.751%/d
+
+  OI drop P5 (5m):
+  ✅ TRAIN (fade squeeze)                                     n= 949  wr= 79.1%  avg=  +8.6bps  tot= +81.69%  sh=  +353.7
+  ✅ TEST (fade squeeze)                                      n= 149  wr= 84.6%  avg=  +8.9bps  tot= +13.33%  sh=  +518.4
+    ✅ train=+1.361%/d  test=+0.476%/d
+
+  OI drop P10 (15m):
+  ✅ TRAIN (fade squeeze)                                     n=1422  wr= 76.5%  avg=  +6.7bps  tot= +95.41%  sh=  +310.0
+  ✅ TEST (fade squeeze)                                      n= 248  wr= 76.6%  avg=  +6.6bps  tot= +16.39%  sh=  +405.2
+    ✅ train=+1.590%/d  test=+0.585%/d
+
+  OI drop P5 (15m):
+  ✅ TRAIN (fade squeeze)                                     n= 771  wr= 80.3%  avg=  +8.6bps  tot= +66.45%  sh=  +298.4
+  ✅ TEST (fade squeeze)                                      n= 135  wr= 77.8%  avg=  +7.8bps  tot= +10.57%  sh=  +396.2
+    ✅ train=+1.107%/d  test=+0.378%/d
+
+  OI drop P10 (60m):
+  ✅ TRAIN (fade squeeze)                                     n=1255  wr= 78.3%  avg=  +6.9bps  tot= +86.59%  sh=  +288.6
+  ✅ TEST (fade squeeze)                                      n= 236  wr= 79.2%  avg=  +6.7bps  tot= +15.82%  sh=  +409.8
+    ✅ train=+1.443%/d  test=+0.565%/d
+
+  OI drop P5 (60m):
+  ✅ TRAIN (fade squeeze)                                     n= 641  wr= 81.7%  avg=  +8.6bps  tot= +54.98%  sh=  +306.6
+  ✅ TEST (fade squeeze)                                      n= 149  wr= 81.2%  avg=  +7.9bps  tot= +11.71%  sh=  +453.2
+    ✅ train=+0.916%/d  test=+0.418%/d
+
+################################################################################
+  EXP CCC: BID-ASK SPREAD SIGNAL
+################################################################################
+  Spread stats: mean=0.64bps, median=0.65bps, P95=0.70bps
+
+  Wide spread (z>1):
+  ✅ TRAIN (fade)                                             n=2894  wr= 65.6%  avg=  +4.4bps  tot=+127.69%  sh=  +239.4
+  ✅ TEST (fade)                                              n= 507  wr= 65.5%  avg=  +3.2bps  tot= +16.09%  sh=  +217.7
+    ✅ train=+2.128%/d  test=+0.575%/d
+
+  Wide spread (z>2):
+  ✅ TRAIN (fade)                                             n=1448  wr= 75.7%  avg=  +6.9bps  tot=+100.04%  sh=  +329.9
+  ✅ TEST (fade)                                              n= 224  wr= 71.0%  avg=  +4.5bps  tot= +10.14%  sh=  +309.6
+    ✅ train=+1.667%/d  test=+0.362%/d
+
+  Wide spread (z>3):
+  ✅ TRAIN (fade)                                             n= 815  wr= 78.7%  avg=  +8.7bps  tot= +70.71%  sh=  +361.5
+  ✅ TEST (fade)                                              n= 122  wr= 77.9%  avg=  +6.3bps  tot=  +7.66%  sh=  +313.6
+    ✅ train=+1.179%/d  test=+0.274%/d
+
+################################################################################
+  EXP DDD: FUNDING RATE EXTREME SIGNAL
+################################################################################
+  Funding rate stats: mean=0.0009%, median=-0.0014%, P5=-0.0096%, P95=0.0100%
+
+  Funding extreme (z>1):
+  ✅ TRAIN (fade crowded)                                     n=2523  wr= 61.5%  avg=  +2.9bps  tot= +71.94%  sh=  +218.8
+  ✅ TEST (fade crowded)                                      n= 494  wr= 64.6%  avg=  +3.0bps  tot= +14.93%  sh=  +160.2
+    ✅ train=+1.199%/d  test=+0.533%/d
+
+  Funding extreme (z>2):
+  ✅ TRAIN (fade crowded)                                     n= 515  wr= 65.4%  avg=  +3.2bps  tot= +16.56%  sh=  +248.4
+  ✅ TEST (fade crowded)                                      n= 155  wr= 67.1%  avg=  +3.4bps  tot=  +5.33%  sh=  +378.0
+    ✅ train=+0.276%/d  test=+0.190%/d
+
+  Funding extreme (z>3):
+  ✅ TRAIN (fade crowded)                                     n= 114  wr= 58.8%  avg=  +2.2bps  tot=  +2.47%  sh=  +120.9
+  ✅ TEST (fade crowded)                                      n=  53  wr= 77.4%  avg=  +4.5bps  tot=  +2.38%  sh=  +515.6
+    ✅ train=+0.041%/d  test=+0.085%/d
+
+################################################################################
+  EXP EEE: COMBINED OI + SPREAD + FUNDING
+################################################################################
+
+  OI drop + wide spread:
+  ✅ TRAIN                                                    n= 262  wr= 89.3%  avg= +13.0bps  tot= +33.98%  sh=  +391.4
+  ✅ TEST                                                     n=  40  wr= 90.0%  avg= +10.3bps  tot=  +4.13%  sh=  +397.8
+    ✅ train=+0.566%/d  test=+0.148%/d
+
+################################################################################
+  COMPLETE — 184s (3.1min) [RAM=0.3GB, avail=6.7GB]
+################################################################################
