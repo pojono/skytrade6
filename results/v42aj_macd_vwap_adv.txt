@@ -1,0 +1,182 @@
+================================================================================
+  v42aj: MACD + ADVANCED VWAP + VOLUME PROFILE
+  2026-02-19 10:14:40  [RAM=0.1GB, avail=4.8GB]
+================================================================================
+  Loading SOLUSDT... [10/88 25s] [20/88 42s] [30/88 55s] [40/88 71s] [50/88 86s] [60/88 99s] [70/88 116s] [80/88 139s] [88/88 151s] 126,720 bars (151s) [RAM=0.4GB, avail=5.2GB]
+
+################################################################################
+  SOLUSDT
+################################################################################
+
+  --- EXP TTTT: MACD HISTOGRAM ---
+
+  MACD hist z>2 (fade):
+  ✅ TRAIN                                                    n=2169  wr= 70.7%  avg=  +5.5bps  tot=+119.55%  sh=  +302.5
+  ✅ TEST                                                     n= 966  wr= 70.6%  avg=  +4.9bps  tot= +47.26%  sh=  +329.5
+    ✅ test=+1.688%/d
+
+  MACD hist z>3 (fade):
+  ✅ TRAIN                                                    n= 296  wr= 83.1%  avg= +10.9bps  tot= +32.31%  sh=  +420.5
+  ✅ TEST                                                     n=  98  wr= 86.7%  avg=  +9.7bps  tot=  +9.47%  sh=  +574.7
+    ✅ test=+0.338%/d
+
+  MACD hist sign change after extreme:
+  ✅ TRAIN                                                    n=  10  wr=100.0%  avg=  +8.8bps  tot=  +0.88%  sh= +1177.0
+  ✅ TEST                                                     n=   9  wr= 88.9%  avg=  +6.8bps  tot=  +0.61%  sh= +1494.6
+    ✅ test=+0.022%/d
+
+  --- EXP UUUU: MULTI-TIMEFRAME VWAP ---
+
+  VWAP(15/60) div z>2 (fade):
+  ✅ TRAIN                                                    n=6903  wr= 68.8%  avg=  +4.3bps  tot=+296.92%  sh=  +288.2
+  ✅ TEST                                                     n=3499  wr= 65.7%  avg=  +3.3bps  tot=+116.74%  sh=  +225.6
+    ✅ test=+4.169%/d
+
+  VWAP(15/60) div z>3 (fade):
+  ✅ TRAIN                                                    n=2777  wr= 68.9%  avg=  +4.6bps  tot=+128.55%  sh=  +284.8
+  ✅ TEST                                                     n=1290  wr= 71.9%  avg=  +4.2bps  tot= +54.34%  sh=  +306.0
+    ✅ test=+1.941%/d
+
+  --- EXP VVVV: VOLUME-WEIGHTED RSI ---
+
+  VW-RSI <20/80 (fade):
+  ✅ TRAIN                                                    n=8351  wr= 69.1%  avg=  +4.8bps  tot=+401.77%  sh=  +268.5
+  ✅ TEST                                                     n=3586  wr= 74.1%  avg=  +6.1bps  tot=+218.64%  sh=  +338.2
+    ✅ test=+7.809%/d
+
+  VW-RSI <15/85 (fade):
+  ✅ TRAIN                                                    n=5145  wr= 70.5%  avg=  +5.5bps  tot=+280.85%  sh=  +278.9
+  ✅ TEST                                                     n=2117  wr= 76.0%  avg=  +7.0bps  tot=+148.41%  sh=  +392.8
+    ✅ test=+5.300%/d
+
+  --- EXP WWWW: PRICE-VOLUME TREND ---
+
+  PVT z>2 (fade):
+  ✅ TRAIN                                                    n=3929  wr= 73.3%  avg=  +5.7bps  tot=+225.02%  sh=  +336.7
+  ✅ TEST                                                     n=1750  wr= 71.8%  avg=  +5.2bps  tot= +90.99%  sh=  +293.3
+    ✅ test=+3.250%/d
+
+  PVT z>3 (fade):
+  ✅ TRAIN                                                    n=1440  wr= 77.8%  avg=  +7.8bps  tot=+112.12%  sh=  +377.3
+  ✅ TEST                                                     n= 661  wr= 76.2%  avg=  +6.0bps  tot= +39.96%  sh=  +322.5
+    ✅ test=+1.427%/d
+  Loading DOGEUSDT... [10/88 27s] [20/88 46s] [30/88 57s] [40/88 69s] [50/88 79s] [60/88 88s] [70/88 125s] [80/88 153s] [88/88 163s] 126,720 bars (163s) [RAM=0.4GB, avail=5.2GB]
+
+################################################################################
+  DOGEUSDT
+################################################################################
+
+  --- EXP TTTT: MACD HISTOGRAM ---
+
+  MACD hist z>2 (fade):
+  ✅ TRAIN                                                    n=2216  wr= 73.1%  avg=  +6.8bps  tot=+149.68%  sh=  +310.8
+  ✅ TEST                                                     n=1125  wr= 83.7%  avg=  +9.6bps  tot=+108.07%  sh=  +438.1
+    ✅ test=+3.860%/d
+
+  MACD hist z>3 (fade):
+  ✅ TRAIN                                                    n= 303  wr= 84.8%  avg= +12.9bps  tot= +39.21%  sh=  +369.3
+  ✅ TEST                                                     n= 119  wr= 93.3%  avg= +16.0bps  tot= +19.02%  sh=  +431.4
+    ✅ test=+0.679%/d
+
+  MACD hist sign change after extreme:
+  ✅ TRAIN                                                    n=  17  wr=100.0%  avg= +10.0bps  tot=  +1.70%  sh=  +861.5
+  ✅ TEST                                                     n=  11  wr=100.0%  avg=  +7.9bps  tot=  +0.87%  sh= +1887.2
+    ✅ test=+0.031%/d
+
+  --- EXP UUUU: MULTI-TIMEFRAME VWAP ---
+
+  VWAP(15/60) div z>2 (fade):
+  ✅ TRAIN                                                    n=6591  wr= 73.6%  avg=  +5.7bps  tot=+377.52%  sh=  +318.0
+  ✅ TEST                                                     n=3564  wr= 86.5%  avg=  +9.1bps  tot=+325.23%  sh=  +485.6
+    ✅ test=+11.615%/d
+
+  VWAP(15/60) div z>3 (fade):
+  ✅ TRAIN                                                    n=2503  wr= 75.7%  avg=  +6.8bps  tot=+169.42%  sh=  +349.9
+  ✅ TEST                                                     n=1215  wr= 88.3%  avg=  +9.8bps  tot=+119.50%  sh=  +562.2
+    ✅ test=+4.268%/d
+
+  --- EXP VVVV: VOLUME-WEIGHTED RSI ---
+
+  VW-RSI <20/80 (fade):
+  ✅ TRAIN                                                    n=9356  wr= 71.7%  avg=  +6.1bps  tot=+567.45%  sh=  +295.7
+  ✅ TEST                                                     n=4367  wr= 86.9%  avg= +10.4bps  tot=+455.51%  sh=  +506.0
+    ✅ test=+16.268%/d
+
+  VW-RSI <15/85 (fade):
+  ✅ TRAIN                                                    n=6107  wr= 73.0%  avg=  +6.9bps  tot=+420.40%  sh=  +307.4
+  ✅ TEST                                                     n=2681  wr= 87.9%  avg= +11.5bps  tot=+307.99%  sh=  +502.6
+    ✅ test=+11.000%/d
+
+  --- EXP WWWW: PRICE-VOLUME TREND ---
+
+  PVT z>2 (fade):
+  ✅ TRAIN                                                    n=3860  wr= 75.4%  avg=  +6.7bps  tot=+258.59%  sh=  +314.6
+  ✅ TEST                                                     n=1780  wr= 86.8%  avg= +10.7bps  tot=+191.09%  sh=  +470.6
+    ✅ test=+6.825%/d
+
+  PVT z>3 (fade):
+  ✅ TRAIN                                                    n=1496  wr= 80.3%  avg=  +9.4bps  tot=+141.04%  sh=  +349.1
+  ✅ TEST                                                     n= 670  wr= 87.0%  avg= +13.2bps  tot= +88.14%  sh=  +453.7
+    ✅ test=+3.148%/d
+  Loading XRPUSDT... [10/88 21s] [20/88 32s] [30/88 42s] [40/88 53s] [50/88 66s] [60/88 78s] [70/88 116s] [80/88 140s] [88/88 155s] 126,720 bars (155s) [RAM=0.5GB, avail=5.1GB]
+
+################################################################################
+  XRPUSDT
+################################################################################
+
+  --- EXP TTTT: MACD HISTOGRAM ---
+
+  MACD hist z>2 (fade):
+  ✅ TRAIN                                                    n=1846  wr= 60.5%  avg=  +4.0bps  tot= +73.49%  sh=  +214.8
+  ✅ TEST                                                     n=1119  wr= 77.1%  avg=  +7.7bps  tot= +85.96%  sh=  +297.5
+    ✅ test=+3.070%/d
+
+  MACD hist z>3 (fade):
+  ✅ TRAIN                                                    n= 225  wr= 76.4%  avg= +10.4bps  tot= +23.35%  sh=  +358.1
+  ✅ TEST                                                     n= 128  wr= 88.3%  avg= +16.8bps  tot= +21.45%  sh=  +335.1
+    ✅ test=+0.766%/d
+
+  MACD hist sign change after extreme:
+  ✅ TRAIN                                                    n=  15  wr=100.0%  avg=  +8.4bps  tot=  +1.26%  sh= +1132.7
+  ✅ TEST                                                     n=   5  wr=100.0%  avg=  +7.7bps  tot=  +0.39%  sh=  +966.8
+    ✅ test=+0.014%/d
+
+  --- EXP UUUU: MULTI-TIMEFRAME VWAP ---
+
+  VWAP(15/60) div z>2 (fade):
+  ✅ TRAIN                                                    n=6365  wr= 60.0%  avg=  +3.0bps  tot=+190.53%  sh=  +207.7
+  ✅ TEST                                                     n=3879  wr= 76.2%  avg=  +6.7bps  tot=+261.08%  sh=  +342.3
+    ✅ test=+9.324%/d
+
+  VWAP(15/60) div z>3 (fade):
+  ✅ TRAIN                                                    n=2471  wr= 64.5%  avg=  +3.7bps  tot= +91.55%  sh=  +236.7
+  ✅ TEST                                                     n=1542  wr= 76.9%  avg=  +7.5bps  tot=+114.96%  sh=  +320.0
+    ✅ test=+4.106%/d
+
+  --- EXP VVVV: VOLUME-WEIGHTED RSI ---
+
+  VW-RSI <20/80 (fade):
+  ✅ TRAIN                                                    n=7309  wr= 59.6%  avg=  +3.3bps  tot=+240.78%  sh=  +188.7
+  ✅ TEST                                                     n=3080  wr= 78.8%  avg=  +8.7bps  tot=+267.98%  sh=  +385.3
+    ✅ test=+9.571%/d
+
+  VW-RSI <15/85 (fade):
+  ✅ TRAIN                                                    n=4462  wr= 61.9%  avg=  +3.8bps  tot=+169.15%  sh=  +202.1
+  ✅ TEST                                                     n=1727  wr= 81.6%  avg=  +9.9bps  tot=+170.72%  sh=  +417.5
+    ✅ test=+6.097%/d
+
+  --- EXP WWWW: PRICE-VOLUME TREND ---
+
+  PVT z>2 (fade):
+  ✅ TRAIN                                                    n=3363  wr= 61.2%  avg=  +3.9bps  tot=+131.37%  sh=  +212.6
+  ✅ TEST                                                     n=1804  wr= 73.9%  avg=  +7.5bps  tot=+135.48%  sh=  +298.6
+    ✅ test=+4.839%/d
+
+  PVT z>3 (fade):
+  ✅ TRAIN                                                    n=1252  wr= 68.8%  avg=  +6.4bps  tot= +79.74%  sh=  +282.1
+  ✅ TEST                                                     n= 660  wr= 77.7%  avg=  +9.9bps  tot= +65.13%  sh=  +304.5
+    ✅ test=+2.326%/d
+
+################################################################################
+  COMPLETE — 538s (9.0min) [RAM=0.5GB, avail=5.2GB]
+################################################################################
