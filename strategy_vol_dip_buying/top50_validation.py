@@ -36,6 +36,11 @@ ALL_SYMBOLS = [
     "PAXGUSDT", "ASTERUSDT", "WLFIUSDT",
     # Also check PEPEUSDT (we had it already)
     "PEPEUSDT",
+    # Top 51-100 new symbols
+    "HBARUSDT", "GALAUSDT", "SEIUSDT", "1000BONKUSDT",
+    "TRXUSDT", "ONDOUSDT", "WLDUSDT", "ICPUSDT",
+    "RENDERUSDT", "TONUSDT", "DYDXUSDT", "XLMUSDT",
+    "XMRUSDT", "DASHUSDT", "LDOUSDT", "MNTUSDT", "STRKUSDT",
 ]
 
 
