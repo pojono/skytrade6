@@ -36,6 +36,9 @@
 | v43l | Cascade MOMENTUM (follow flow) | Liquidations + ticks | tick | **72% WR on SOL 14d** but fails on full 72 days |
 | v43m | Cascade Momentum validation | Liquidations + ticks | tick | Signal real (beats random 3-8 bps) but execution cost kills edge |
 | v43n | Funding Rate Harvesting | Ticker 5s | 8h | Carry too small (0.3-0.6 bps/period) vs price risk (±50-200 bps) |
+| v43o | Spot-Futures Basis Trade | 1h OHLCV spot+futures | 1h | Spot fees 0.1% kill it (24 bps RT). Basis only ±6 bps |
+| v43o | Futures-Only Basis Signal | 1h OHLCV | 1h | IS +3.2 bps avg but too few OOS trades (basis rarely >10 bps) |
+| v43o | Cross-Exchange Lead-Lag | 1h OHLCV 3 exchanges | 1h | Spread ±1.5 bps, lag-1h corr=0.04 — no signal |
 
 ---
 
@@ -136,7 +139,7 @@ v43n tested collecting funding payments by positioning against the crowd:
 
 ---
 
-**Research Status:** Complete ✅ (14 strategy ideas tested across v43a-v43n)
+**Research Status:** Complete ✅ (16 strategy ideas tested across v43a-v43o)
 
 **Final Verdict:** No profitable strategy found without trailing stop. Tested 14 distinct approaches across 5 symbols, 3 years of data, tick-level to daily timeframes. Every approach fails for one of these reasons:
 1. **Fee wall** — edge < fees on short timeframes (v43a-c, v43b)
@@ -149,7 +152,8 @@ v43n tested collecting funding payments by positioning against the crowd:
 **The one real finding:** Cascade momentum direction signal is statistically real (beats random by 3-8 bps consistently). But it cannot be monetized with current fee structure because market entry during cascades is expensive.
 
 **Remaining theoretical paths:**
-- **True delta-neutral** spot-futures basis trade (requires spot trading infrastructure)
+- ~~True delta-neutral spot-futures basis trade~~ — **TESTED (v43o)**: spot fees 0.1% make it unviable, basis too small
+- ~~Cross-exchange arbitrage~~ — **TESTED (v43o)**: spread ±1.5 bps on 1h, lead-lag corr=0.04, needs sub-second
 - **Options vol arbitrage** (vol prediction R²=0.34 is strongest signal, requires options access)
 - **Co-location / maker rebates** (reduce execution cost to monetize cascade signal)
-- **Cross-exchange arbitrage** (requires sub-second, violates no-HFT constraint)
+- **Higher VIP tier** (Bybit VIP1+ has lower spot fees 0.06%, might make basis trade viable)
