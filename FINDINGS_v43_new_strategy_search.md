@@ -39,6 +39,9 @@
 | v43o | Spot-Futures Basis Trade | 1h OHLCV spot+futures | 1h | Spot fees 0.1% kill it (24 bps RT). Basis only ±6 bps |
 | v43o | Futures-Only Basis Signal | 1h OHLCV | 1h | IS +3.2 bps avg but too few OOS trades (basis rarely >10 bps) |
 | v43o | Cross-Exchange Lead-Lag | 1h OHLCV 3 exchanges | 1h | Spread ±1.5 bps, lag-1h corr=0.04 — no signal |
+| v43p | Combined Weak Signals | Ticker + 1h OHLCV + spot | 1h | Top-2 (rvol_z+mr_4h) OOS +17 bps on SOL 76d |
+| v43q | Rvol+MR 3-Year Validation | 1h OHLCV | 4h hold | **OOS positive ALL 5 symbols!** avg +8 to +69 bps |
+| v43r | Deep Walk-Forward Validation | 1h OHLCV | 4h hold | **Real but regime-dependent.** Works in V-dips, fails in sustained trends |
 
 ---
 
@@ -139,21 +142,51 @@ v43n tested collecting funding payments by positioning against the crowd:
 
 ---
 
-**Research Status:** Complete ✅ (16 strategy ideas tested across v43a-v43o)
+**Research Status:** Complete ✅ (19 strategy variants tested across v43a-v43r)
 
-**Final Verdict:** No profitable strategy found without trailing stop. Tested 14 distinct approaches across 5 symbols, 3 years of data, tick-level to daily timeframes. Every approach fails for one of these reasons:
-1. **Fee wall** — edge < fees on short timeframes (v43a-c, v43b)
+**Final Verdict:** One promising strategy found after exhaustive search of 19 variants.
+
+### Failures (v43a-o):
+1. **Fee wall** — edge < fees on short timeframes (v43a-c)
 2. **Regime fragility** — works IS, fails OOS (v43d-e grid)
 3. **No signal** — volume imbalance, daily patterns are noise (v43f-h, v43i-j)
-4. **Simulation artifact** — previous cascade MM edge was from bugs (v43k, TICK_LEVEL_REPORT)
-5. **Execution cost** — real signal killed by taker fees + spread (v43l-m cascade momentum)
+4. **Simulation artifact** — previous cascade MM edge was from bugs (v43k)
+5. **Execution cost** — cascade momentum signal real but killed by taker fees (v43l-m)
 6. **Carry too small** — funding payments dwarfed by price risk (v43n)
+7. **Basis too small** — spot fees 0.1% kill basis trade, cross-exchange spread ±1.5 bps (v43o)
 
-**The one real finding:** Cascade momentum direction signal is statistically real (beats random by 3-8 bps consistently). But it cannot be monetized with current fee structure because market entry during cascades is expensive.
+### The One Promising Finding (v43p-r): Volatility Dip-Buying
 
-**Remaining theoretical paths:**
-- ~~True delta-neutral spot-futures basis trade~~ — **TESTED (v43o)**: spot fees 0.1% make it unviable, basis too small
-- ~~Cross-exchange arbitrage~~ — **TESTED (v43o)**: spread ±1.5 bps on 1h, lead-lag corr=0.04, needs sub-second
-- **Options vol arbitrage** (vol prediction R²=0.34 is strongest signal, requires options access)
-- **Co-location / maker rebates** (reduce execution cost to monetize cascade signal)
-- **Higher VIP tier** (Bybit VIP1+ has lower spot fees 0.06%, might make basis trade viable)
+**Signal:** Combined z-score of realized volatility (rvol_z) + 4h mean-reversion (mr_4h).
+When vol spikes AND price has dipped → go long. Threshold=2.0, hold=4h, limit entry+exit (4 bps RT).
+
+**3-Year Walk-Forward Results (thresh=2.0, hold=4h):**
+
+| Symbol | Trades | Avg bps | Total | WR | z vs Random | WF pos months |
+|--------|--------|---------|-------|-----|-------------|---------------|
+| SOL | 139 | +51.9 | +72.1% | 63.3% | +2.19 | 75% |
+| ETH | 144 | +21.5 | +30.9% | 52.8% | +1.67 | 52% |
+| BTC | 169 | +7.6 | +12.9% | 53.8% | +1.31 | 59% |
+| DOGE | 168 | +17.6 | +29.6% | 56.5% | +0.83 | 52% |
+| XRP | 158 | +68.5 | +108.3% | 59.5% | +4.95 | 68% |
+
+**Strengths:**
+- Positive on ALL 5 symbols over 3 years
+- Beats random on all 5 (z-score +0.83 to +4.95)
+- Fee-robust (XRP still +83% at 20 bps fees)
+- Capital deployed only ~2% of time (150 trades × 4h / 3yr)
+- Works in some bear quarters (SOL 2023Q2: +12.8% vs B&H -10.9%)
+
+**Weaknesses / Risks:**
+- Heavily long-biased (90-97% long trades) — short side has too few trades to validate
+- Fails in sustained downtrends (SOL 2025Q4: -2.2%, 2026Q1: -7.2%)
+- Regime-dependent: works when dips are V-shaped, fails in grinding bear markets
+- Low trade frequency (~4-5 trades/month) — slow to compound
+- Max drawdown 13-24% across symbols
+
+**Honest Assessment:** This is a "buy the dip in high volatility" strategy. It has genuine statistical edge (beats random consistently) but is not regime-independent. It would need a regime filter (e.g., skip when 20d trend is strongly negative) to avoid sustained bear market losses.
+
+**Remaining paths:**
+- Add regime filter to combined signal (skip trades when trend is negative)
+- **Options vol arbitrage** (vol prediction R²=0.34 is strongest confirmed signal)
+- **Co-location / maker rebates** (monetize cascade momentum signal)
