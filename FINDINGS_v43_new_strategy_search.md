@@ -33,6 +33,9 @@
 | v43i | Consecutive day patterns | 1h→daily | daily | Weak MR after 2+ up days, not robust |
 | v43j | Daily Momentum validation | 1h→daily | daily | **Buy-and-hold bias!** Alpha negative on 3-5/5 symbols |
 | v43k | Cascade MM tick-level (fixed TP/SL) | Liquidations + ticks | tick | **Catastrophic failure.** 0-24% WR, avg -27 to -108 bps |
+| v43l | Cascade MOMENTUM (follow flow) | Liquidations + ticks | tick | **72% WR on SOL 14d** but fails on full 72 days |
+| v43m | Cascade Momentum validation | Liquidations + ticks | tick | Signal real (beats random 3-8 bps) but execution cost kills edge |
+| v43n | Funding Rate Harvesting | Ticker 5s | 8h | Carry too small (0.3-0.6 bps/period) vs price risk (±50-200 bps) |
 
 ---
 
@@ -91,7 +94,24 @@ v43k tested liquidation cascade mean-reversion at tick level with fixed TP/SL (n
 3. **Cross-exchange basis trade** — spot-futures basis or cross-exchange price differences (may not require sub-second)
 4. **Funding rate harvesting** — systematically collect funding payments while hedging directional risk
 5. **Event-driven** — earnings, token unlocks, exchange listings (requires external data)
-6. **Cascade MOMENTUM** (not MR) — instead of fading cascades, follow them; but this requires taker entry (higher fees)
+6. ~~Cascade MOMENTUM~~ — **TESTED (v43l-m)**: signal is real (beats random) but taker entry + spread during cascade eats the edge
+7. ~~Funding rate harvesting~~ — **TESTED (v43n)**: carry is 0.3-0.6 bps/period, dwarfed by price risk and fees
+
+### 8. Cascade Momentum: Real Signal, Killed by Execution
+v43l-m tested following cascade direction (not fading). Results:
+- **SOL 14 days**: 72% WR, +18 bps avg (promising!)
+- **SOL 72 days**: 70% WR but avg **-2.9 bps** (negative after fees)
+- Signal **consistently beats random** by 3-8 bps across all symbols
+- But taker entry fee (5.5 bps) + spread widening during cascades eats the edge
+- DOGE OOS marginally positive (+0.6 bps avg) but essentially breakeven
+
+### 9. Funding Rate Harvesting: Carry Too Small
+v43n tested collecting funding payments by positioning against the crowd:
+- Average funding: +0.3 to +0.6 bps per 8h period
+- RT fees: 4 bps (maker+maker) — need 7+ funding periods just to cover fees
+- Price risk during holding: ±50-200 bps per period — overwhelms carry
+- BTC contrarian >1.0 bps: IS +4.7, OOS +10.2 bps — but only 19 OOS trades
+- 3-period configs showing huge OOS gains are directional bets, not carry
 
 ---
 
@@ -109,11 +129,27 @@ v43k tested liquidation cascade mean-reversion at tick level with fixed TP/SL (n
 | `research_v43i_daily_patterns.py` | v43i: Daily pattern search (3yr × 5 symbols) |
 | `research_v43j_momentum_validation.py` | v43j: Momentum rigorous validation |
 | `research_v43k_cascade_tick.py` | v43k: Cascade MM tick-level simulation |
+| `research_v43l_cascade_momentum.py` | v43l: Cascade momentum (follow flow) |
+| `research_v43m_cascade_mom_v2.py` | v43m: Cascade momentum extended validation |
+| `research_v43n_funding_harvest.py` | v43n: Funding rate harvesting |
 | `PLAN_v43_fresh_validation.md` | Original plan (superseded) |
 
 ---
 
-**Research Status:** Complete ✅
-**Verdict:** No new profitable strategy found without trailing stop across 10 strategy ideas, 5 symbols, 3 years of data. The fee wall + weak signals + regime changes + buy-and-hold bias make it extremely difficult to find genuine alpha with fixed TP/SL on crypto futures.
+**Research Status:** Complete ✅ (14 strategy ideas tested across v43a-v43n)
 
-**Most promising remaining direction:** Funding rate harvesting (delta-neutral carry) or cross-exchange basis trade. All price-prediction and mean-reversion approaches have been exhaustively tested and failed.
+**Final Verdict:** No profitable strategy found without trailing stop. Tested 14 distinct approaches across 5 symbols, 3 years of data, tick-level to daily timeframes. Every approach fails for one of these reasons:
+1. **Fee wall** — edge < fees on short timeframes (v43a-c, v43b)
+2. **Regime fragility** — works IS, fails OOS (v43d-e grid)
+3. **No signal** — volume imbalance, daily patterns are noise (v43f-h, v43i-j)
+4. **Simulation artifact** — previous cascade MM edge was from bugs (v43k, TICK_LEVEL_REPORT)
+5. **Execution cost** — real signal killed by taker fees + spread (v43l-m cascade momentum)
+6. **Carry too small** — funding payments dwarfed by price risk (v43n)
+
+**The one real finding:** Cascade momentum direction signal is statistically real (beats random by 3-8 bps consistently). But it cannot be monetized with current fee structure because market entry during cascades is expensive.
+
+**Remaining theoretical paths:**
+- **True delta-neutral** spot-futures basis trade (requires spot trading infrastructure)
+- **Options vol arbitrage** (vol prediction R²=0.34 is strongest signal, requires options access)
+- **Co-location / maker rebates** (reduce execution cost to monetize cascade signal)
+- **Cross-exchange arbitrage** (requires sub-second, violates no-HFT constraint)
