@@ -28,6 +28,10 @@
 | v43h | Volume Imbalance Contrarian (3yr) | 1h OHLCV | 1h | Negative |
 | v43h | Buy Ratio Momentum (3yr) | 1h OHLCV | 1h | Negative |
 | v43h | Cumulative Imbalance (3yr) | 1h OHLCV | 1h | Negative |
+| v43i | Daily Momentum (1d-20d lookback) | 1h→daily | daily | **Positive on 5/5 symbols** — but see v43j |
+| v43i | Day-of-Week effects | 1h→daily | daily | Inconsistent across symbols |
+| v43i | Consecutive day patterns | 1h→daily | daily | Weak MR after 2+ up days, not robust |
+| v43j | Daily Momentum validation | 1h→daily | daily | **Buy-and-hold bias!** Alpha negative on 3-5/5 symbols |
 
 ---
 
@@ -48,6 +52,14 @@ Buy/sell volume imbalance on 1h bars — neither momentum nor contrarian — has
 ### 5. The v43f "Promising Hint" Was Noise
 The 30-day test showed +37 bps avg on 19 OOS trades. Expanding to 3 years (700+ trades) revealed this was pure noise — the signal averages -1.5 to -10.7 bps over 38 months.
 
+### 6. Daily Momentum = Buy-and-Hold Bias
+v43i found multi-day momentum positive on 5/5 symbols. But v43j rigorous validation proved:
+- **Alpha (strategy - B&H) is negative** on 3-5 out of 5 symbols for every config
+- **Short side is unprofitable** on 4/5 symbols (-73% to -131% total)
+- The "momentum" is just capturing the crypto bull market drift
+- Quarterly breakdown shows ~50% positive quarters = coin flip
+- This is NOT a tradeable edge — it's a disguised buy-and-hold
+
 ---
 
 ## What This Means
@@ -56,20 +68,21 @@ The only strategies that have survived rigorous OOS testing in this repository a
 1. **Cascade MM** (liquidation-based) — proven in v41, v42
 2. **Microstructure MR with trailing stop** — proven in v42s/v42t
 
-Both rely on **trailing stop** for exit, which the user correctly identified as unreliable without tick-level simulation.
+Both rely on **trailing stop** for exit, which the user correctly identified as unreliable without tick-level simulation. Furthermore, the TICK_LEVEL_FINAL_REPORT.md proved that **all 201 signals were invalid** — the original edge was caused by simulation bugs (same-bar fill+exit, trailing stop intra-bar lookahead).
 
 Without trailing stop, using only fixed TP/SL + timeout:
-- **No directional signal** is strong enough to overcome fees
-- **No MR signal** on short timeframes survives fees
+- **No directional signal** is strong enough to overcome fees (1min to daily)
+- **No MR signal** on any timeframe survives fees
 - **Grid strategies** are short-vol and fail in trends
 - **Volume flow signals** are noise on 1h+ timeframes
+- **Daily momentum** is buy-and-hold bias, not alpha
 
-### Remaining Unexplored Directions
-1. **Tick-level simulation** of cascade MM / micro MR (validate trailing stop accuracy)
-2. **Options/vol arbitrage** (vol prediction R²=0.34 is the strongest confirmed signal)
-3. **Cross-exchange arbitrage** (requires sub-second, violates no-HFT constraint)
-4. **Longer holding periods** (daily/weekly) with stronger signals
-5. **ML ensemble** on 1h OHLCV features with walk-forward (but v24e showed this fails on 3yr)
+### Remaining Potentially Viable Directions
+1. **Tick-level cascade MM with fixed TP/SL** — liquidation cascades are real forced flow events; test without trailing stop using tick data
+2. **Options/vol arbitrage** — vol prediction R²=0.34 is the strongest confirmed signal, but requires options market access
+3. **Cross-exchange basis trade** — spot-futures basis or cross-exchange price differences (may not require sub-second)
+4. **Funding rate harvesting** — systematically collect funding payments while hedging directional risk
+5. **Event-driven** — earnings, token unlocks, exchange listings (requires external data)
 
 ---
 
@@ -84,9 +97,13 @@ Without trailing stop, using only fixed TP/SL + timeout:
 | `research_v43e_grid_validation.py` | v43e: Grid 76-day × 5-symbol validation |
 | `research_v43f_volume_imbalance.py` | v43f: Volume imbalance 30-day test |
 | `research_v43h_vol_imb_ohlcv.py` | v43h: Volume imbalance 3-year validation |
+| `research_v43i_daily_patterns.py` | v43i: Daily pattern search (3yr × 5 symbols) |
+| `research_v43j_momentum_validation.py` | v43j: Momentum rigorous validation |
 | `PLAN_v43_fresh_validation.md` | Original plan (superseded) |
 
 ---
 
 **Research Status:** Complete ✅
-**Verdict:** No new profitable strategy found without trailing stop. The fee wall + weak signals + regime changes make it extremely difficult to find edge with fixed TP/SL on crypto futures.
+**Verdict:** No new profitable strategy found without trailing stop across 10 strategy ideas, 5 symbols, 3 years of data. The fee wall + weak signals + regime changes + buy-and-hold bias make it extremely difficult to find genuine alpha with fixed TP/SL on crypto futures.
+
+**Most promising remaining direction:** Tick-level cascade MM with fixed TP/SL (liquidation cascades are real structural events, not price patterns).
