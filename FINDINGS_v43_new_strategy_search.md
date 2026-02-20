@@ -32,6 +32,7 @@
 | v43i | Day-of-Week effects | 1h→daily | daily | Inconsistent across symbols |
 | v43i | Consecutive day patterns | 1h→daily | daily | Weak MR after 2+ up days, not robust |
 | v43j | Daily Momentum validation | 1h→daily | daily | **Buy-and-hold bias!** Alpha negative on 3-5/5 symbols |
+| v43k | Cascade MM tick-level (fixed TP/SL) | Liquidations + ticks | tick | **Catastrophic failure.** 0-24% WR, avg -27 to -108 bps |
 
 ---
 
@@ -77,12 +78,20 @@ Without trailing stop, using only fixed TP/SL + timeout:
 - **Volume flow signals** are noise on 1h+ timeframes
 - **Daily momentum** is buy-and-hold bias, not alpha
 
+### 7. Cascade MM Fails at Tick Level Without Trailing Stop
+v43k tested liquidation cascade mean-reversion at tick level with fixed TP/SL (no trailing stop). Results:
+- **0% win rate** on tight configs (SL hit immediately on every trade)
+- **24% WR max** on widest config (TP=100, SL=200), still avg -77 bps
+- 85% of SOL cascades are short liquidations (price moving UP) — fading = going short into forced buying
+- The cascade "edge" was entirely from bar-level simulation bugs (confirmed by TICK_LEVEL_FINAL_REPORT)
+
 ### Remaining Potentially Viable Directions
-1. **Tick-level cascade MM with fixed TP/SL** — liquidation cascades are real forced flow events; test without trailing stop using tick data
+1. ~~Tick-level cascade MM with fixed TP/SL~~ — **TESTED AND FAILED (v43k)**
 2. **Options/vol arbitrage** — vol prediction R²=0.34 is the strongest confirmed signal, but requires options market access
 3. **Cross-exchange basis trade** — spot-futures basis or cross-exchange price differences (may not require sub-second)
 4. **Funding rate harvesting** — systematically collect funding payments while hedging directional risk
 5. **Event-driven** — earnings, token unlocks, exchange listings (requires external data)
+6. **Cascade MOMENTUM** (not MR) — instead of fading cascades, follow them; but this requires taker entry (higher fees)
 
 ---
 
@@ -99,6 +108,7 @@ Without trailing stop, using only fixed TP/SL + timeout:
 | `research_v43h_vol_imb_ohlcv.py` | v43h: Volume imbalance 3-year validation |
 | `research_v43i_daily_patterns.py` | v43i: Daily pattern search (3yr × 5 symbols) |
 | `research_v43j_momentum_validation.py` | v43j: Momentum rigorous validation |
+| `research_v43k_cascade_tick.py` | v43k: Cascade MM tick-level simulation |
 | `PLAN_v43_fresh_validation.md` | Original plan (superseded) |
 
 ---
@@ -106,4 +116,4 @@ Without trailing stop, using only fixed TP/SL + timeout:
 **Research Status:** Complete ✅
 **Verdict:** No new profitable strategy found without trailing stop across 10 strategy ideas, 5 symbols, 3 years of data. The fee wall + weak signals + regime changes + buy-and-hold bias make it extremely difficult to find genuine alpha with fixed TP/SL on crypto futures.
 
-**Most promising remaining direction:** Tick-level cascade MM with fixed TP/SL (liquidation cascades are real structural events, not price patterns).
+**Most promising remaining direction:** Funding rate harvesting (delta-neutral carry) or cross-exchange basis trade. All price-prediction and mean-reversion approaches have been exhaustively tested and failed.
