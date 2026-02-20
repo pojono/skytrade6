@@ -29,11 +29,15 @@ DATA_DIR = Path("./data")
 
 def parse_ticker_files(symbol: str, force: bool = False):
     """Parse all ticker JSONL files for a symbol into daily parquet."""
-    ticker_dir = DATA_DIR / symbol
+    # Check both possible locations for ticker files
+    ticker_dir_flat = DATA_DIR / symbol
+    ticker_dir_nested = DATA_DIR / symbol / "bybit" / "ticker"
     out_dir = PARQUET_DIR / symbol / "ticker"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    files = sorted(ticker_dir.glob("ticker_*.jsonl.gz"))
+    files = sorted(ticker_dir_flat.glob("ticker_*.jsonl.gz"))
+    if not files and ticker_dir_nested.exists():
+        files = sorted(ticker_dir_nested.glob("ticker_*.jsonl.gz"))
     if not files:
         print(f"  No ticker files found for {symbol}")
         return
