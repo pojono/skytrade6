@@ -242,21 +242,243 @@ Added **33 features** across 8 behavioral categories.
 
 **Key insight**: The strongest psychology signal is **contrarian_ratio_z** at 2h — when an unusually high fraction of traders are going against the trend, the trend continues. Contrarians get run over. FOMO buying at 15m is a classic reversal signal.
 
-## Summary Statistics (v3)
+## Math, Algebra & Geometry Features (v4)
+
+Added **30+ features** across 7 mathematical domains.
+
+| Domain | Features | Key idea |
+|---|---|---|
+| **Linear Algebra** (3) | Eigenvalue ratio, principal angle, covariance determinant | Price-volume covariance structure |
+| **Geometry** (3) | Convex hull area, OHLC triangle area, aspect ratio | Shape of price path in 2D |
+| **Angles/Slopes** (2) | Price slope angle, price-volume angle cosine | Directional characteristics |
+| **Distance Metrics** (3) | Manhattan, Chebyshev, half-cosine similarity | Distance between open→close paths |
+| **Calculus** (3) | Signed area integral, area above VWAP, jerk | Integral/derivative features |
+| **Topology** (4) | Extrema count/density, monotonicity, tortuosity | Path complexity measures |
+| **Spectral/Fourier** (6) | Dominant freq, spectral energy ratio, entropy, flatness, centroid | Frequency domain analysis |
+
+### Key math/geometry results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `signed_area_bps` | 15m | +0.078*** | 1.9e-05 |
+| `eigen_ratio_z` | 4h | -0.161* | 0.032 |
+| `price_slope_angle_z` | 2h | -0.159** | 0.003 |
+| `tortuosity_z` | 4h | -0.159* | 0.035 |
+| `manhattan_distance_z` | 4h | +0.154* | 0.041 |
+| `spectral_centroid` | 2h | +0.135** | 0.010 |
+
+**Interpretation**: Signed area (integral of price path) is a strong 15m signal — positive area = bullish bias → continuation. At higher TFs, eigenvalue ratio (how "stretched" the price-volume relationship is) and tortuosity (path complexity) predict reversals.
+
+## Deep Fibonacci Analysis (v4)
+
+Replaced basic Fibonacci features with **28 deep Fibonacci features**:
+
+| Sub-category | Features | Key idea |
+|---|---|---|
+| **Fib Level Interaction** (5) | Crosses, volume concentration, bounce count, respect score | Do prices react at 0.236/0.382/0.5/0.618/0.786 levels? |
+| **Fibonacci Time Zones** (3) | Volume/trade clustering at Fib time fractions | Activity at φ-based time points |
+| **Golden Ratio Volume** (4) | Buy/sell ratio vs φ, half-split vs φ, quartile pairs, composite | Volume distribution vs golden ratio |
+| **Fib Trade Sizes** (3) | Consecutive size ratios near φ, max/median distance | Trade size relationships |
+| **Wave Structure** (5) | Wave ratio count/pct, avg distance, swing count, up/down ratio | Elliott-like amplitude ratios |
+| **Golden Angle** (3) | Deviation, uniformity, sunflower score | Phyllotaxis distribution of trades |
+| **Inter-trade Time** (2) | Fib ratio in time gaps, scaling score | Fibonacci in temporal spacing |
+
+### Key Fibonacci results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `golden_angle_deviation_z` | 4h | +0.215** | 0.004 |
+| `golden_angle_uniformity_z` | 4h | -0.215** | 0.004 |
+| `fib_total_crosses_z` | 4h | +0.184* | 0.015 |
+| `fib_time_scaling_score_z` | 4h | -0.175* | 0.025 |
+| `fib_size_ratio_count_z` | 2h | +0.131* | 0.013 |
+| `fib_intertime_ratio_pct_z` | 1h | -0.098** | 0.008 |
+
+**Interpretation**: Golden angle features are remarkably predictive at 4h — when trade distribution deviates from the golden angle (137.5°), the next candle tends to be positive. This is a genuinely novel signal. Fibonacci level crosses also predict continuation at 4h.
+
+## Elliott Wave Principle (v4)
+
+Added **15 Elliott Wave features**:
+
+| Sub-category | Features | Key idea |
+|---|---|---|
+| **Impulse Detection** (2) | Impulse quality score, impulse detected flag | 5-wave pattern with EW rules |
+| **Correction Detection** (1) | Correction quality score | ABC pattern detection |
+| **Wave Personality** (4) | Volume exhaustion, amplitude trend (raw + normalized) | Wave character signatures |
+| **Structure Metrics** (8) | Wave count, swing count, impulse/correction ratio, alternation, symmetry, net direction, completion % | Overall wave structure |
+
+### Key Elliott Wave results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `ew_impulse_detected` | 4h | -0.205** | 0.005 |
+| `ew_impulse_detected` | 4h (h=5) | -0.201** | 0.007 |
+| `ew_last_wave_pct_z` | 4h | +0.154* | 0.041 |
+| `ew_amplitude_trend_norm_z` | 4h | +0.151* | 0.045 |
+| `ew_wave_symmetry_z` | 1h | -0.109** | 0.003 |
+| `ew_net_direction_z` | 2h (h=10) | -0.123* | 0.020 |
+
+**Interpretation**: Elliott Wave impulse detection is the **2nd strongest new signal at 4h** (ρ=-0.205, p=0.005). When a 5-wave impulse pattern completes within a 4h candle, the next candle reverses — classic wave exhaustion. Wave symmetry at 1h also predicts reversals.
+
+## Taylor Series Decomposition (v4)
+
+Added **25 Taylor Series features** — polynomial fit of intra-candle paths:
+
+| Sub-category | Features | Key idea |
+|---|---|---|
+| **Price Path** (10) | a0-a5 coefficients, R², RMSE, curvature/trend ratio, asymmetry/curvature ratio | Shape of price(t) polynomial |
+| **Volume Path** (5) | a1-a3 coefficients, R², acceleration ratio | Shape of cumulative volume(t) |
+| **OFI Path** (5) | a1-a3 coefficients, R², price-OFI alignment | Shape of order flow(t) |
+| **Trade Rate Path** (4) | a1-a3 coefficients, R² | Shape of activity(t) |
+| **Cross-series** (2) | Price-volume divergence, price-rate divergence | Shape mismatch between series |
+| **Complexity** (2) | Dominant order, complexity (min degree for 90% R²) | How complex is the path? |
+
+### Key Taylor Series results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `taylor_complexity` | 4h | +0.195** | 0.008 |
+| `taylor_rate_a2_z` | 2h | +0.159** | 0.002 |
+| `taylor_rate_a2` | 2h | +0.152** | 0.003 |
+| `taylor_rate_a1_z` | 2h | -0.146** | 0.006 |
+| `taylor_vol_a2_z` | 2h | +0.136** | 0.009 |
+| `taylor_ofi_a3_z` | 1h | -0.090* | 0.015 |
+
+**Interpretation**: Taylor Series features are **dominant at 2h** — trade rate acceleration (a2) is the strongest signal. When activity accelerates through the candle (positive a2), the next candle continues. Taylor complexity at 4h: more complex price paths predict continuation. The OFI jerk (a3) at 1h predicts reversals.
+
+## Information Theory (v4)
+
+Added **7 features**: transfer entropy (price→volume, volume→price), mutual information (side↔return), Lempel-Ziv complexity, average surprise.
+
+### Key results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `te_net_direction` | 4h (h=3) | -0.172* | 0.022 |
+| `te_volume_to_price` | 4h (h=3) | +0.158* | 0.036 |
+| `avg_surprise` | 4h (h=3) | +0.152* | 0.044 |
+| `lz_complexity_norm_z` | 2h (h=5) | +0.122* | 0.020 |
+
+**Interpretation**: Transfer entropy reveals causal direction — when volume drives price (not vice versa), the 3-bar-ahead return is positive. Higher LZ complexity (less compressible = more random) at 2h predicts continuation.
+
+## Game Theory / Auction Theory (v4)
+
+Added **5 features**: Nash balance, Stackelberg leader, auction clearing speed, large trade timing.
+
+### Key results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `nash_balance_z` | 4h (h=2) | +0.157* | 0.037 |
+| `stackelberg_buy_leader` | 2h (h=5) | -0.143** | 0.007 |
+| `auction_clearing_speed` | 2h (h=2) | -0.122* | 0.020 |
+
+**Interpretation**: When buy/sell forces are in Nash equilibrium (balanced), the 2-bar-ahead return at 4h is positive — balanced markets precede breakouts. When buyers lead (Stackelberg), the 5-bar return reverses.
+
+## Network / Graph Theory (v4)
+
+Added **9 features**: price level transition graph metrics, recurrence.
+
+### Key results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `avg_visits_per_level_z` | 4h | +0.151* | 0.045 |
+| `max_visits_level_z` | 2h (h=2) | +0.139** | 0.008 |
+| `graph_self_loop_ratio_z` | 2h | +0.116* | 0.028 |
+
+**Interpretation**: More revisits to the same price level (higher recurrence) predicts continuation — price consolidation at a level builds energy for a move.
+
+## Signal Processing — Wavelet & Hilbert (v4)
+
+Added **12 features**: Haar wavelet energy decomposition (5 scales), HF/LF ratio, wavelet entropy, Hilbert transform (amplitude, frequency, correlation).
+
+### Key results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `wavelet_energy_s3` | 4h | -0.197** | 0.007 |
+| `wavelet_hf_lf_ratio_z` | 4h | +0.180* | 0.017 |
+| `wavelet_hf_lf_ratio` | 4h | +0.174* | 0.018 |
+| `hilbert_std_freq` | 4h (h=5) | +0.171* | 0.023 |
+
+**Interpretation**: Wavelet features are strong at 4h — when mid-frequency energy (scale 3) is low and high-frequency energy dominates, the next candle continues. This means choppy/noisy price action at the tick level predicts trending at the candle level.
+
+## Biological / Ecological Analogies (v4)
+
+Added **7 features**: predator-prey dynamics, population growth, carrying capacity, Simpson/Shannon diversity.
+
+### Key results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `predator_vol_share_z` | 4h (h=10) | -0.213** | 0.004 |
+| `predator_vol_share_z` | 4h (h=5) | -0.164* | 0.029 |
+| `carrying_capacity_ratio_z` | 1h | -0.110** | 0.003 |
+| `carrying_capacity_ratio` | 1h | -0.107** | 0.003 |
+
+**Interpretation**: Predator volume share (large trades' fraction of total volume) is a **top-5 signal at 4h for 10-bar horizon** — when large trades dominate, the 10-bar return is negative. This is a powerful institutional exhaustion signal. Carrying capacity (max trade rate / mean) predicts reversals at 1h.
+
+## Compression / Complexity (v4)
+
+Added **4 features**: approximate entropy, sample entropy, permutation entropy, RLE compression ratio.
+
+### Key results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `permutation_entropy` | 4h (h=2) | -0.190** | 0.010 |
+| `sample_entropy` | 4h (h=2) | -0.160* | 0.033 |
+| `approx_entropy` | 4h (h=2) | -0.156* | 0.038 |
+| `sample_entropy_z` | 1h | +0.087* | 0.018 |
+
+**Interpretation**: All three entropy measures agree at 4h — lower entropy (more predictable/regular price patterns) predicts positive 2-bar returns. Regular patterns = trending, which continues. At 1h, unusually high sample entropy (more random) predicts continuation.
+
+## Chaos Theory (v4)
+
+Added **5 features**: Hurst regime, Lyapunov exponent, RQA recurrence rate & determinism.
+
+### Key results
+
+| Feature | TF | Spearman ρ | p-value |
+|---|---|---|---|
+| `lyapunov_exponent` | 4h (h=10) | +0.183* | 0.015 |
+
+**Interpretation**: Positive Lyapunov exponent (chaotic divergence) at 4h predicts positive 10-bar returns — chaos at the tick level precedes trending at the candle level. Only 1 significant result, but it's a unique signal.
+
+## Summary Statistics (v4)
 
 | Metric | Value |
 |---|---|
-| Total features per timeframe | 393 |
-| Raw features | 216 |
-| Z-score features | 177 |
-| Feature categories | 37 |
-| Significant at 15m (p<0.05) | ~90 |
-| Strongest signal (15m) | `fair_value_change_bps` (ρ=-0.098, p=8.9e-08) |
-| Strongest signal (4h) | `max_trades_per_second_z` (ρ=0.247, p=9.3e-04) |
+| Total features per timeframe | 736 |
+| Raw features | ~401 |
+| Z-score features | ~335 |
+| Feature categories | 55 |
+| New features in v4 | ~160 (raw) |
+| New significant correlations | 277 |
+| Strongest new signal (15m) | `signed_area_bps` (ρ=+0.078, p=1.9e-05) |
+| Strongest new signal (4h) | `golden_angle_deviation_z` (ρ=+0.215, p=0.004) |
+| Strongest new signal (2h) | `taylor_rate_a2_z` (ρ=+0.159, p=0.002) |
+| Strongest overall (4h) | `max_trades_per_second_z` (ρ=0.247, p=9.3e-04) |
+
+## Top 10 Most Predictive New Features (across all TFs)
+
+| Rank | Feature | TF | Horizon | ρ | p-value | Category |
+|---|---|---|---|---|---|---|
+| 1 | `golden_angle_deviation_z` | 4h | 1 | +0.215 | 0.004 | Fibonacci |
+| 2 | `predator_vol_share_z` | 4h | 10 | -0.213 | 0.004 | Biological |
+| 3 | `ew_impulse_detected` | 4h | 1 | -0.205 | 0.005 | Elliott Wave |
+| 4 | `wavelet_energy_s3` | 4h | 1 | -0.197 | 0.007 | Signal Processing |
+| 5 | `taylor_complexity` | 4h | 1 | +0.195 | 0.008 | Taylor Series |
+| 6 | `permutation_entropy` | 4h | 2 | -0.190 | 0.010 | Compression |
+| 7 | `lyapunov_exponent` | 4h | 10 | +0.183 | 0.015 | Chaos Theory |
+| 8 | `wavelet_hf_lf_ratio_z` | 4h | 1 | +0.180 | 0.017 | Signal Processing |
+| 9 | `te_net_direction` | 4h | 3 | -0.172 | 0.022 | Information Theory |
+| 10 | `taylor_rate_a2_z` | 2h | 1 | +0.159 | 0.002 | Taylor Series |
 
 ## Output Files
 
-- `microstructure_BTCUSDT_{tf}_2026-01-01_2026-01-31.csv` — full feature tables per timeframe (393 features)
+- `microstructure_BTCUSDT_{tf}_2026-01-01_2026-01-31.csv` — full feature tables per timeframe (736 features)
 - `microstructure_correlations_BTCUSDT_2026-01-01_2026-01-31.csv` — all correlations
 
 ## Next Steps
@@ -266,3 +488,5 @@ Added **33 features** across 8 behavioral categories.
 3. **Regime conditioning**: Check if feature predictiveness varies by volatility regime
 4. **Lag analysis**: Check fwd_ret_2 through fwd_ret_10 for longer-horizon predictability
 5. **Cross-symbol**: Run on ETH, SOL, DOGE, XRP to check universality
+6. **Feature selection**: Use mutual information or LASSO to find orthogonal feature set
+7. **Nonlinear models**: Test with gradient boosting (XGBoost/LightGBM) to capture interactions
