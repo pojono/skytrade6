@@ -3826,6 +3826,38 @@ def correlation_analysis(df: pd.DataFrame, timeframe: str) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 
 
+# Expected raw candle columns (from compute_features, before cross-candle enrichment).
+# Used to validate cached parquet files — if column count changes, cache is stale.
+_EXPECTED_RAW_COLS: int | None = None  # set dynamically on first computation
+
+
+def _raw_cache_path(features_dir: Path, symbol: str, tf: str, date_str: str) -> Path:
+    """Path for raw (pre-enrichment) candle cache."""
+    return features_dir / symbol / tf / ".raw" / f"{date_str}.parquet"
+
+
+def _check_raw_cache(features_dir: Path, symbol: str, tf: str, date_str: str,
+                     expected_cols: int | None) -> pd.DataFrame | None:
+    """Return cached raw candle DataFrame if it exists with correct shape, else None."""
+    pq = _raw_cache_path(features_dir, symbol, tf, date_str)
+    if not pq.exists():
+        return None
+    try:
+        import pyarrow.parquet as pq_mod
+        meta = pq_mod.read_metadata(str(pq))
+        n_rows = meta.num_rows
+        n_cols = meta.num_columns
+        # Validate: must have rows and (if we know expected cols) correct column count
+        if n_rows == 0:
+            return None
+        if expected_cols is not None and n_cols != expected_cols:
+            return None
+        df = pd.read_parquet(pq.parent / pq.name, engine="pyarrow")
+        return df
+    except Exception:
+        return None
+
+
 def main():
     parser = argparse.ArgumentParser(description="Tick-to-candle microstructure features")
     parser.add_argument("symbol", help="e.g. BTCUSDT")
@@ -3838,7 +3870,11 @@ def main():
                         choices=list(TIMEFRAMES.keys()), help="Timeframes to compute")
     parser.add_argument("--no-correlations", action="store_true",
                         help="Skip correlation analysis (faster, just produce features)")
+    parser.add_argument("--force", action="store_true",
+                        help="Force reprocessing even if cached parquet exists")
     args = parser.parse_args()
+
+    global _EXPECTED_RAW_COLS
 
     data_dir = Path(args.data_dir)
     features_dir = Path(args.features_dir)
@@ -3849,10 +3885,10 @@ def main():
     e = datetime.strptime(args.end_date, "%Y-%m-%d")
     total_days = (e - s).days + 1
 
-    # Create output directories:
-    #   features/{symbol}/{timeframe}/YYYY-MM-DD.parquet
+    # Create output directories (including .raw cache dirs)
     for tf_label in args.timeframes:
         (features_dir / symbol / tf_label).mkdir(parents=True, exist_ok=True)
+        (features_dir / symbol / tf_label / ".raw").mkdir(parents=True, exist_ok=True)
     results_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 70)
@@ -3861,18 +3897,21 @@ def main():
     print(f"  Period:     {args.start_date} -> {args.end_date} ({total_days} days)")
     print(f"  Timeframes: {', '.join(args.timeframes)}")
     print(f"  Output:     {features_dir}/{symbol}/{{tf}}/YYYY-MM-DD.parquet")
+    print(f"  Cache:      {features_dir}/{symbol}/{{tf}}/.raw/  (raw candle features)")
+    if args.force:
+        print(f"  Mode:       FORCE (ignoring cache)")
     print("=" * 70)
 
     # -----------------------------------------------------------------------
-    # Pass 1: stream through days, compute candle features per timeframe
+    # Pass 1: stream through days, compute raw candle features per timeframe.
+    #         Skip tick processing if valid raw cache exists.
     # -----------------------------------------------------------------------
     tf_rows: dict[str, list[dict]] = {tf: [] for tf in args.timeframes}
-    # Track which dates have data for each timeframe (for per-day parquet)
-    tf_date_ranges: dict[str, list[str]] = {tf: [] for tf in args.timeframes}
 
     print(f"\n[1/2] Processing tick data day-by-day...")
     t0_all = time.time()
     loaded = 0
+    cached = 0
 
     d = s
     while d <= e:
@@ -3880,7 +3919,33 @@ def main():
         fname = f"{symbol}{date_str}.csv.gz"
         path = data_dir / symbol / "bybit" / "futures" / fname
 
-        if path.exists():
+        # Check if ALL timeframes have valid raw cache for this date
+        all_cached = not args.force
+        cached_dfs: dict[str, pd.DataFrame] = {}
+        if all_cached:
+            for tf_label in args.timeframes:
+                cdf = _check_raw_cache(features_dir, symbol, tf_label, date_str,
+                                       _EXPECTED_RAW_COLS)
+                if cdf is not None:
+                    cached_dfs[tf_label] = cdf
+                else:
+                    all_cached = False
+                    cached_dfs.clear()
+                    break
+
+        if all_cached and cached_dfs:
+            # Load from cache — no tick processing needed
+            for tf_label in args.timeframes:
+                cdf = cached_dfs[tf_label]
+                tf_rows[tf_label].extend(cdf.to_dict("records"))
+            loaded += 1
+            cached += 1
+            elapsed = time.time() - t0_all
+            n_candles = sum(len(cached_dfs[tf]) for tf in args.timeframes)
+            print(f"  [{loaded}/{total_days}] {date_str}: CACHED ({n_candles} candles) "
+                  f"[{elapsed:.0f}s elapsed]")
+        elif path.exists():
+            # Process from raw tick data
             day_t0 = time.time()
             day_df = load_day(path)
             n_trades = len(day_df)
@@ -3890,15 +3955,24 @@ def main():
                 freq = TIMEFRAMES[tf_label]
                 rows = process_day_into_candles(day_df, freq)
                 tf_rows[tf_label].extend(rows)
-                tf_date_ranges[tf_label].append(date_str)
+
+                # Save raw cache
+                if rows:
+                    raw_df = pd.DataFrame(rows)
+                    raw_cache = _raw_cache_path(features_dir, symbol, tf_label, date_str)
+                    raw_df.to_parquet(raw_cache, engine="pyarrow")
+                    # Set expected column count from first computation
+                    if _EXPECTED_RAW_COLS is None:
+                        _EXPECTED_RAW_COLS = len(raw_df.columns)
 
             del day_df
             gc.collect()
 
             loaded += 1
             elapsed = time.time() - t0_all
-            rate = loaded / elapsed if elapsed > 0 else 0
-            remaining = (total_days - loaded) / rate if rate > 0 else 0
+            rate = (loaded - cached) / (elapsed if elapsed > 0 else 1)
+            days_to_process = total_days - loaded
+            remaining = days_to_process / rate if rate > 0 else 0
             print(f"  [{loaded}/{total_days}] {date_str}: {n_trades:,} trades, "
                   f"load {load_time:.1f}s "
                   f"[{elapsed:.0f}s elapsed, ~{remaining:.0f}s ETA]")
@@ -3912,7 +3986,8 @@ def main():
         sys.exit(1)
 
     total_elapsed = time.time() - t0_all
-    print(f"\n  Processed {loaded} days in {total_elapsed:.0f}s")
+    print(f"\n  Processed {loaded} days in {total_elapsed:.0f}s "
+          f"({cached} cached, {loaded - cached} from ticks)")
 
     # -----------------------------------------------------------------------
     # Pass 2: build DataFrames, add cross-candle/z-score/fwd features,
@@ -3938,7 +4013,7 @@ def main():
 
         n_cols = len(features_df.columns)
 
-        # --- Save per-day parquet files ---
+        # --- Save per-day parquet files (enriched, final) ---
         features_df.index = pd.to_datetime(features_df.index)
         dates_in_data = features_df.index.date
         unique_dates = sorted(set(dates_in_data))
