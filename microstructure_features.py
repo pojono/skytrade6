@@ -23,9 +23,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from scipy import stats as scipy_stats
+from scipy.spatial import ConvexHull
 
 warnings.filterwarnings("ignore", category=scipy_stats.ConstantInputWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning, message="invalid value")
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 # ---------------------------------------------------------------------------
@@ -1724,6 +1726,317 @@ def compute_features(group: pd.DataFrame) -> dict:
         features["volume_ramp"] = 0.0
         features["activity_curvature"] = 0.0
 
+    # -----------------------------------------------------------------------
+    # 39. Math — Linear Algebra (price-volume covariance structure)
+    # -----------------------------------------------------------------------
+    if n >= 20 and len(valid_returns) >= 10:
+        # 2×2 covariance of (tick_return, log_size)
+        tr_valid = tick_returns[1:]  # skip first NaN
+        sz_valid = np.log1p(sizes[1:])
+        mask_valid = ~np.isnan(tr_valid)
+        if mask_valid.sum() >= 10:
+            tr_v = tr_valid[mask_valid]
+            sz_v = sz_valid[mask_valid]
+            cov_mat = np.cov(tr_v, sz_v)
+            if cov_mat.shape == (2, 2):
+                eigvals = np.linalg.eigvalsh(cov_mat)
+                eigvals = np.sort(eigvals)[::-1]  # descending
+                features["eigen_ratio"] = eigvals[0] / eigvals[1] if eigvals[1] > 0 else eigvals[0]
+                features["eigen_sum"] = float(eigvals[0] + eigvals[1])  # total variance
+                # Principal axis angle: arctan of eigenvector direction
+                # Positive angle = price and volume move together
+                if cov_mat[0, 0] != cov_mat[1, 1]:
+                    angle = 0.5 * np.arctan2(2 * cov_mat[0, 1], cov_mat[0, 0] - cov_mat[1, 1])
+                else:
+                    angle = np.pi / 4 if cov_mat[0, 1] > 0 else -np.pi / 4
+                features["pv_principal_angle"] = float(angle)
+            else:
+                features["eigen_ratio"] = 1.0
+                features["eigen_sum"] = 0.0
+                features["pv_principal_angle"] = 0.0
+        else:
+            features["eigen_ratio"] = 1.0
+            features["eigen_sum"] = 0.0
+            features["pv_principal_angle"] = 0.0
+    else:
+        features["eigen_ratio"] = 1.0
+        features["eigen_sum"] = 0.0
+        features["pv_principal_angle"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 40. Math — Geometry (price path shape)
+    # -----------------------------------------------------------------------
+    if n >= 10 and price_range > 0 and candle_duration_s > 0:
+        # Normalize to [0,1] × [0,1] for shape analysis
+        norm_time = rel_time
+        norm_price = (prices - l) / price_range
+
+        # Convex hull area (using Shoelace formula on sorted boundary)
+        try:
+            pts = np.column_stack([norm_time, norm_price])
+            if len(np.unique(pts, axis=0)) >= 3:
+                hull = ConvexHull(pts)
+                features["convex_hull_area"] = float(hull.volume)  # 2D: volume = area
+                # Path efficiency: how much of the hull does the path fill?
+                # Approximate path area using trapezoidal rule
+                path_area = float(np.trapezoid(norm_price, norm_time))
+                features["path_hull_ratio"] = path_area / hull.volume if hull.volume > 0 else 0.0
+            else:
+                features["convex_hull_area"] = 0.0
+                features["path_hull_ratio"] = 0.0
+        except Exception:
+            features["convex_hull_area"] = 0.0
+            features["path_hull_ratio"] = 0.0
+
+        # Triangle area from OHLC: area of triangle (open, high, low)
+        # Normalized: open at t=0, close at t=1, high/low at their relative times
+        o_norm = (o - l) / price_range
+        c_norm = (c - l) / price_range
+        # Shoelace for triangle (0, o_norm), (0.5, 1), (1, c_norm)
+        features["ohlc_triangle_area"] = abs(0 * (1 - c_norm) + 0.5 * (c_norm - o_norm) + 1 * (o_norm - 1)) / 2
+
+        # Aspect ratio: range / duration (in normalized units → bps per second)
+        features["candle_aspect_ratio"] = (price_range / vwap * 10000) / candle_duration_s if vwap > 0 else 0.0
+    else:
+        features["convex_hull_area"] = 0.0
+        features["path_hull_ratio"] = 0.0
+        features["ohlc_triangle_area"] = 0.0
+        features["candle_aspect_ratio"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 41. Math — Angles & Slopes
+    # -----------------------------------------------------------------------
+    # Price slope angle (in degrees): steepness of the move
+    if candle_duration_s > 0 and vwap > 0:
+        # Normalize return to bps, time to minutes
+        ret_bps = candle_ret * 10000
+        duration_min = candle_duration_s / 60
+        features["price_slope_angle"] = float(np.degrees(np.arctan2(ret_bps, duration_min)))
+    else:
+        features["price_slope_angle"] = 0.0
+
+    # Angle between price direction and volume direction
+    # Price vector: (1, return), Volume vector: (1, volume_change_normalized)
+    if n >= 20 and candle_duration_s > 0:
+        vol_h1_t = sizes[:mid_idx].sum()
+        vol_h2_t = sizes[mid_idx:].sum()
+        vol_change = (vol_h2_t - vol_h1_t) / (vol_h1_t + vol_h2_t) if (vol_h1_t + vol_h2_t) > 0 else 0.0
+        # Cosine of angle between (1, return) and (1, vol_change)
+        dot = 1 + candle_ret * vol_change
+        mag1 = np.sqrt(1 + candle_ret ** 2)
+        mag2 = np.sqrt(1 + vol_change ** 2)
+        features["price_volume_angle_cos"] = dot / (mag1 * mag2) if (mag1 * mag2) > 0 else 0.0
+    else:
+        features["price_volume_angle_cos"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 42. Math — Distance Metrics
+    # -----------------------------------------------------------------------
+    if n >= 10:
+        # Manhattan distance of price path (sum of |Δprice| + |Δtime|)
+        dp = np.abs(np.diff(prices))
+        dt = np.abs(np.diff(timestamps_s))
+        # Normalize price to same scale as time
+        if vwap > 0 and candle_duration_s > 0:
+            dp_norm = dp / vwap * candle_duration_s  # scale price changes to time units
+            features["manhattan_distance"] = float(np.sum(dp_norm + dt))
+            features["chebyshev_distance"] = float(np.max(np.maximum(dp_norm, dt)))
+        else:
+            features["manhattan_distance"] = 0.0
+            features["chebyshev_distance"] = 0.0
+
+        # Cosine similarity between first-half and second-half price vectors
+        p_h1 = prices[:mid_idx]
+        p_h2 = prices[mid_idx:]
+        if len(p_h1) >= 5 and len(p_h2) >= 5:
+            # Resample to same length for comparison
+            min_len = min(len(p_h1), len(p_h2))
+            v1 = np.diff(p_h1[:min_len])
+            v2 = np.diff(p_h2[:min_len])
+            if len(v1) > 0 and len(v2) > 0:
+                dot_p = np.dot(v1, v2)
+                m1 = np.linalg.norm(v1)
+                m2 = np.linalg.norm(v2)
+                features["half_cosine_similarity"] = float(dot_p / (m1 * m2)) if (m1 * m2) > 0 else 0.0
+            else:
+                features["half_cosine_similarity"] = 0.0
+        else:
+            features["half_cosine_similarity"] = 0.0
+    else:
+        features["manhattan_distance"] = 0.0
+        features["chebyshev_distance"] = 0.0
+        features["half_cosine_similarity"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 43. Math — Calculus (integrals, derivatives)
+    # -----------------------------------------------------------------------
+    if n >= 10 and candle_duration_s > 0 and vwap > 0:
+        # Signed area: integral of (price - VWAP) over time
+        deviation = prices - vwap
+        # Trapezoidal integration over relative time
+        features["signed_area"] = float(np.trapezoid(deviation, rel_time))
+        features["signed_area_bps"] = features["signed_area"] / vwap * 10000
+
+        # Positive area vs negative area (above/below VWAP)
+        pos_dev = np.maximum(deviation, 0)
+        neg_dev = np.minimum(deviation, 0)
+        pos_area = float(np.trapezoid(pos_dev, rel_time))
+        neg_area = float(np.trapezoid(neg_dev, rel_time))
+        total_area = pos_area - neg_area  # both positive
+        features["area_above_vwap_pct"] = pos_area / total_area if total_area > 0 else 0.5
+
+        # Jerk: third derivative of price (rate of change of acceleration)
+        if n >= 12:
+            t1, t2, t3, t4 = n // 4, n // 2, 3 * n // 4, n - 1
+            r1 = np.log(prices[t1] / prices[0]) if prices[0] > 0 else 0.0
+            r2 = np.log(prices[t2] / prices[t1]) if prices[t1] > 0 else 0.0
+            r3 = np.log(prices[t3] / prices[t2]) if prices[t2] > 0 else 0.0
+            r4 = np.log(prices[t4] / prices[t3]) if prices[t3] > 0 else 0.0
+            accel_1 = r2 - r1
+            accel_2 = r4 - r3
+            features["price_jerk"] = accel_2 - accel_1  # change in acceleration
+        else:
+            features["price_jerk"] = 0.0
+    else:
+        features["signed_area"] = 0.0
+        features["signed_area_bps"] = 0.0
+        features["area_above_vwap_pct"] = 0.5
+        features["price_jerk"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 44. Math — Topology / Shape Analysis
+    # -----------------------------------------------------------------------
+    if n >= 10:
+        # Number of local extrema (peaks + valleys)
+        if len(prices) >= 3:
+            dp_sign = np.sign(np.diff(prices))
+            dp_sign_nz = dp_sign[dp_sign != 0]  # remove flats
+            if len(dp_sign_nz) >= 2:
+                direction_changes = np.sum(np.diff(dp_sign_nz) != 0)
+                features["num_extrema"] = int(direction_changes)
+                features["extrema_density"] = direction_changes / candle_duration_s if candle_duration_s > 0 else 0.0
+            else:
+                features["num_extrema"] = 0
+                features["extrema_density"] = 0.0
+        else:
+            features["num_extrema"] = 0
+            features["extrema_density"] = 0.0
+
+        # Monotonicity score: longest monotonic run / total ticks
+        if len(prices) >= 3:
+            dp_dir = np.sign(np.diff(prices))
+            up_run = _max_run(dp_dir > 0)
+            down_run = _max_run(dp_dir < 0)
+            features["max_monotonic_run"] = max(up_run, down_run)
+            features["monotonicity_score"] = features["max_monotonic_run"] / (n - 1) if n > 1 else 0.0
+        else:
+            features["max_monotonic_run"] = 0
+            features["monotonicity_score"] = 0.0
+
+        # Tortuosity: path length / straight-line distance
+        straight_dist = abs(prices[-1] - prices[0])
+        if straight_dist > 0:
+            features["tortuosity"] = features.get("price_path_length", 0.0) / straight_dist
+        else:
+            features["tortuosity"] = 1.0
+    else:
+        features["num_extrema"] = 0
+        features["extrema_density"] = 0.0
+        features["max_monotonic_run"] = 0
+        features["monotonicity_score"] = 0.0
+        features["tortuosity"] = 1.0
+
+    # -----------------------------------------------------------------------
+    # 45. Math — Number Theory (Fibonacci / Golden Ratio)
+    # -----------------------------------------------------------------------
+    # Fibonacci retracement levels from candle range
+    if price_range > 0:
+        fib_levels = [0.236, 0.382, 0.5, 0.618, 0.786]
+        close_pct = (c - l) / price_range  # where close is in the range [0,1]
+        fib_distances = [abs(close_pct - fl) for fl in fib_levels]
+        features["fib_nearest_dist"] = min(fib_distances)
+        features["fib_nearest_level"] = fib_levels[np.argmin(fib_distances)]
+        # Is close near a Fibonacci level? (within 5%)
+        features["fib_proximity"] = 1.0 if features["fib_nearest_dist"] < 0.05 else 0.0
+    else:
+        features["fib_nearest_dist"] = 0.5
+        features["fib_nearest_level"] = 0.5
+        features["fib_proximity"] = 0.0
+
+    # Golden ratio in volume split
+    if total_vol > 0:
+        phi = 1.618033988749895
+        buy_sell_ratio = buy_vol / sell_vol if sell_vol > 0 else 0.0
+        features["golden_ratio_dist"] = abs(buy_sell_ratio - phi)
+        features["golden_ratio_inv_dist"] = abs(buy_sell_ratio - 1 / phi)
+        features["golden_ratio_proximity"] = min(features["golden_ratio_dist"], features["golden_ratio_inv_dist"])
+    else:
+        features["golden_ratio_dist"] = phi
+        features["golden_ratio_inv_dist"] = 1 / phi
+        features["golden_ratio_proximity"] = 1.0
+
+    # -----------------------------------------------------------------------
+    # 46. Math — Spectral / Fourier Analysis
+    # -----------------------------------------------------------------------
+    if n >= 64:
+        # FFT of tick returns (detrended)
+        ret_series = valid_returns - valid_returns.mean()
+        n_fft = len(ret_series)
+        fft_vals = np.fft.rfft(ret_series)
+        power = np.abs(fft_vals) ** 2
+        freqs = np.fft.rfftfreq(n_fft)
+
+        if len(power) > 2:
+            # Skip DC component (index 0)
+            power_no_dc = power[1:]
+            freqs_no_dc = freqs[1:]
+            total_power = power_no_dc.sum()
+
+            if total_power > 0:
+                # Dominant frequency
+                dom_idx = np.argmax(power_no_dc)
+                features["dominant_freq"] = float(freqs_no_dc[dom_idx])
+                features["dominant_freq_power_pct"] = float(power_no_dc[dom_idx] / total_power)
+
+                # Spectral energy ratio: low freq (bottom 25%) vs high freq (top 25%)
+                n_freq = len(power_no_dc)
+                low_cutoff = n_freq // 4
+                high_cutoff = 3 * n_freq // 4
+                low_power = power_no_dc[:low_cutoff].sum()
+                high_power = power_no_dc[high_cutoff:].sum()
+                features["spectral_energy_ratio"] = low_power / high_power if high_power > 0 else 1.0
+
+                # Spectral entropy
+                spec_probs = power_no_dc / total_power
+                spec_probs = spec_probs[spec_probs > 0]
+                features["spectral_entropy"] = float(-np.sum(spec_probs * np.log2(spec_probs)))
+                max_spec_entropy = np.log2(len(power_no_dc)) if len(power_no_dc) > 1 else 1.0
+                features["spectral_flatness"] = features["spectral_entropy"] / max_spec_entropy if max_spec_entropy > 0 else 1.0
+
+                # Spectral centroid: "center of mass" of the spectrum
+                features["spectral_centroid"] = float(np.average(freqs_no_dc, weights=power_no_dc))
+            else:
+                features["dominant_freq"] = 0.0
+                features["dominant_freq_power_pct"] = 0.0
+                features["spectral_energy_ratio"] = 1.0
+                features["spectral_entropy"] = 0.0
+                features["spectral_flatness"] = 1.0
+                features["spectral_centroid"] = 0.0
+        else:
+            features["dominant_freq"] = 0.0
+            features["dominant_freq_power_pct"] = 0.0
+            features["spectral_energy_ratio"] = 1.0
+            features["spectral_entropy"] = 0.0
+            features["spectral_flatness"] = 1.0
+            features["spectral_centroid"] = 0.0
+    else:
+        features["dominant_freq"] = 0.0
+        features["dominant_freq_power_pct"] = 0.0
+        features["spectral_energy_ratio"] = 1.0
+        features["spectral_entropy"] = 0.0
+        features["spectral_flatness"] = 1.0
+        features["spectral_centroid"] = 0.0
+
     return features
 
 
@@ -1992,6 +2305,26 @@ ZSCORE_FEATURES = [
     "trade_time_entropy", "trade_time_uniformity",
     "volume_time_entropy", "volume_time_uniformity",
     "activity_ramp", "volume_ramp", "activity_curvature",
+    # --- NEW: Math — Linear Algebra ---
+    "eigen_ratio", "eigen_sum", "pv_principal_angle",
+    # --- NEW: Math — Geometry ---
+    "convex_hull_area", "path_hull_ratio",
+    "ohlc_triangle_area", "candle_aspect_ratio",
+    # --- NEW: Math — Angles & Slopes ---
+    "price_slope_angle", "price_volume_angle_cos",
+    # --- NEW: Math — Distance Metrics ---
+    "manhattan_distance", "chebyshev_distance", "half_cosine_similarity",
+    # --- NEW: Math — Calculus ---
+    "signed_area_bps", "area_above_vwap_pct", "price_jerk",
+    # --- NEW: Math — Topology ---
+    "num_extrema", "extrema_density",
+    "max_monotonic_run", "monotonicity_score", "tortuosity",
+    # --- NEW: Math — Number Theory ---
+    "fib_nearest_dist", "golden_ratio_proximity",
+    # --- NEW: Math — Spectral / Fourier ---
+    "dominant_freq", "dominant_freq_power_pct",
+    "spectral_energy_ratio", "spectral_entropy",
+    "spectral_flatness", "spectral_centroid",
 ]
 
 ZSCORE_WINDOW = 20
@@ -2031,7 +2364,9 @@ def correlation_analysis(df: pd.DataFrame, timeframe: str) -> pd.DataFrame:
                                   "fair_value", "value_area_low", "value_area_high",
                                   "close_above_value_area", "close_below_value_area",
                                   "overlap_asia_europe", "overlap_europe_us",
-                                  "fvg_bullish", "fvg_bearish")
+                                  "fvg_bullish", "fvg_bearish",
+                                  "fib_nearest_level", "fib_proximity",
+                                  "busiest_quartile", "busiest_vol_quartile")
                     and not c.startswith("fwd_")]
 
     rows = []
