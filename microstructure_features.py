@@ -3891,16 +3891,63 @@ def main():
         (features_dir / symbol / tf_label / ".raw").mkdir(parents=True, exist_ok=True)
     results_dir.mkdir(parents=True, exist_ok=True)
 
+    # -----------------------------------------------------------------------
+    # Pre-validate: check which days have tick data or cached features
+    # -----------------------------------------------------------------------
+    available_dates = []
+    missing_dates = []
+    d = s
+    while d <= e:
+        date_str = d.strftime("%Y-%m-%d")
+        fname = f"{symbol}{date_str}.csv.gz"
+        tick_path = data_dir / symbol / "bybit" / "futures" / fname
+        has_tick = tick_path.exists()
+        has_cache = all(
+            _raw_cache_path(features_dir, symbol, tf, date_str).exists()
+            for tf in args.timeframes
+        )
+        if has_tick or has_cache:
+            available_dates.append(date_str)
+        else:
+            missing_dates.append(date_str)
+        d += timedelta(days=1)
+
     print("=" * 70)
     print(f"Microstructure Feature Aggregation (streaming, low-RAM)")
     print(f"  Symbol:     {symbol}")
     print(f"  Period:     {args.start_date} -> {args.end_date} ({total_days} days)")
+    print(f"  Available:  {len(available_dates)} days with data, {len(missing_dates)} missing")
     print(f"  Timeframes: {', '.join(args.timeframes)}")
     print(f"  Output:     {features_dir}/{symbol}/{{tf}}/YYYY-MM-DD.parquet")
     print(f"  Cache:      {features_dir}/{symbol}/{{tf}}/.raw/  (raw candle features)")
     if args.force:
         print(f"  Mode:       FORCE (ignoring cache)")
     print("=" * 70)
+
+    if len(available_dates) == 0:
+        tick_dir = data_dir / symbol / "bybit" / "futures"
+        print(f"\nERROR: No tick data found for {symbol} in {tick_dir}")
+        print(f"  Expected files like: {symbol}YYYY-MM-DD.csv.gz")
+        if tick_dir.exists():
+            files = sorted(tick_dir.glob(f"{symbol}*.csv.gz"))
+            if files:
+                print(f"  Found {len(files)} files, date range: "
+                      f"{files[0].name} -> {files[-1].name}")
+            else:
+                print(f"  Directory exists but contains no {symbol}*.csv.gz files")
+        else:
+            print(f"  Directory does not exist: {tick_dir}")
+        sys.exit(1)
+
+    if missing_dates:
+        print(f"\n  WARNING: {len(missing_dates)} dates have no tick data or cache:")
+        if len(missing_dates) <= 10:
+            for md in missing_dates:
+                print(f"    - {md}")
+        else:
+            for md in missing_dates[:5]:
+                print(f"    - {md}")
+            print(f"    ... and {len(missing_dates) - 5} more")
 
     # -----------------------------------------------------------------------
     # Pass 1: stream through days, compute raw candle features per timeframe.
