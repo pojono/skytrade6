@@ -17,12 +17,14 @@ import gc
 import sys
 import time
 import warnings
+from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from scipy import stats as scipy_stats
+from scipy.signal import hilbert as scipy_hilbert
 from scipy.spatial import ConvexHull
 
 warnings.filterwarnings("ignore", category=scipy_stats.ConstantInputWarning)
@@ -2779,6 +2781,612 @@ def compute_features(group: pd.DataFrame) -> dict:
         features["taylor_price_vol_divergence"] = 0.0
         features["taylor_price_rate_divergence"] = 0.0
 
+    # -----------------------------------------------------------------------
+    # 49. Information Theory — Beyond Shannon Entropy
+    # -----------------------------------------------------------------------
+    if n >= 30:
+        # --- Transfer entropy: does price predict volume or vice versa? ---
+        # Discretize into up/down/flat bins
+        ret_disc = np.sign(tick_returns[1:])  # skip first NaN
+        size_disc = np.where(sizes[1:] > np.median(sizes), 1, 0)
+        valid_te = ~np.isnan(ret_disc)
+        ret_d = ret_disc[valid_te].astype(int)
+        sz_d = size_disc[valid_te].astype(int)
+
+        if len(ret_d) >= 20:
+            # Simplified transfer entropy using histogram-based approach
+            def _simple_te(source, target):
+                """Transfer entropy from source to target (vectorized)."""
+                n_te = min(len(source), len(target)) - 1
+                if n_te < 10:
+                    return 0.0
+                tp = target[:n_te]
+                sp = source[:n_te]
+                tf = target[1:n_te + 1]
+                # Encode triplets as single integers for fast counting
+                key_joint = tp * 100 + sp * 10 + tf
+                key_tp_sp = tp * 10 + sp
+                key_tp_tf = tp * 10 + tf
+                c_joint = Counter(key_joint)
+                c_tp_sp = Counter(key_tp_sp)
+                c_tp_tf = Counter(key_tp_tf)
+                c_tp = Counter(tp)
+                te = 0.0
+                for k, cnt in c_joint.items():
+                    p_j = cnt / n_te
+                    p_ts = c_tp_sp.get(k // 10 * 10 + (k % 100) // 10, 0) / n_te
+                    # Decode: tp = k // 100, sp = (k % 100) // 10, tf = k % 10
+                    tp_v = k // 100
+                    tf_v = k % 10
+                    p_ttf = c_tp_tf.get(tp_v * 10 + tf_v, 0) / n_te
+                    p_t = c_tp.get(tp_v, 0) / n_te
+                    if p_j > 0 and p_ts > 0 and p_ttf > 0 and p_t > 0:
+                        te += p_j * np.log2(p_j * p_t / (p_ts * p_ttf))
+                return max(te, 0.0)
+
+            features["te_price_to_volume"] = _simple_te(ret_d, sz_d)
+            features["te_volume_to_price"] = _simple_te(sz_d, ret_d)
+            features["te_net_direction"] = features["te_price_to_volume"] - features["te_volume_to_price"]
+
+            # --- Mutual information between buy/sell sequence and returns ---
+            side_seq = sides[1:][valid_te].astype(int)
+            if len(side_seq) >= 10:
+                # MI(side, return_sign)
+                mi = 0.0
+                for vs in np.unique(side_seq):
+                    for vr in np.unique(ret_d):
+                        p_joint = np.mean((side_seq == vs) & (ret_d == vr))
+                        p_s = np.mean(side_seq == vs)
+                        p_r = np.mean(ret_d == vr)
+                        if p_joint > 0 and p_s > 0 and p_r > 0:
+                            mi += p_joint * np.log2(p_joint / (p_s * p_r))
+                features["mi_side_return"] = max(mi, 0.0)
+            else:
+                features["mi_side_return"] = 0.0
+        else:
+            features["te_price_to_volume"] = 0.0
+            features["te_volume_to_price"] = 0.0
+            features["te_net_direction"] = 0.0
+            features["mi_side_return"] = 0.0
+
+        # --- Lempel-Ziv complexity of price direction sequence ---
+        dir_seq = np.sign(np.diff(prices))
+        dir_str = ''.join(['1' if d > 0 else '0' if d < 0 else '2' for d in dir_seq[:2000]])
+        # LZ76 complexity
+        def _lz_complexity(s):
+            """Lempel-Ziv complexity (number of distinct substrings)."""
+            i, k, l = 0, 1, 1
+            c = 1
+            n_s = len(s)
+            while True:
+                if s[i + k - 1] == s[l + k - 1] if (l + k - 1) < n_s else False:
+                    k += 1
+                    if l + k > n_s:
+                        c += 1
+                        break
+                else:
+                    if k > 1:
+                        c += 1
+                        l += k
+                        if l > n_s:
+                            break
+                        i = 0
+                        k = 1
+                    else:
+                        i += 1
+                        if i == l:
+                            c += 1
+                            l += 1
+                            if l > n_s:
+                                break
+                            i = 0
+            return c
+
+        if len(dir_str) >= 10:
+            lz_c = _lz_complexity(dir_str)
+            # Normalize by theoretical max for random sequence: n / log2(n)
+            n_dir = len(dir_str)
+            lz_max = n_dir / max(np.log2(n_dir), 1)
+            features["lz_complexity"] = lz_c
+            features["lz_complexity_norm"] = lz_c / lz_max if lz_max > 0 else 0.0
+        else:
+            features["lz_complexity"] = 0
+            features["lz_complexity_norm"] = 0.0
+
+        # --- Self-information / surprise per trade ---
+        # Average surprise: -log2(P(event)) for each trade direction
+        dir_counts = np.array([np.sum(dir_seq > 0), np.sum(dir_seq == 0), np.sum(dir_seq < 0)])
+        dir_total = dir_counts.sum()
+        if dir_total > 0:
+            dir_probs = dir_counts / dir_total
+            dir_probs = dir_probs[dir_probs > 0]
+            features["avg_surprise"] = float(-np.mean(np.log2(dir_probs)))
+        else:
+            features["avg_surprise"] = 0.0
+    else:
+        features["te_price_to_volume"] = 0.0
+        features["te_volume_to_price"] = 0.0
+        features["te_net_direction"] = 0.0
+        features["mi_side_return"] = 0.0
+        features["lz_complexity"] = 0
+        features["lz_complexity_norm"] = 0.0
+        features["avg_surprise"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 50. Game Theory / Auction Theory
+    # -----------------------------------------------------------------------
+    if n >= 20:
+        # --- Nash equilibrium proximity ---
+        # Measure how balanced buy/sell forces are (equilibrium = balanced)
+        buy_force = buy_vol * (buy_count / n if n > 0 else 0)
+        sell_force = sell_vol * (sell_count / n if n > 0 else 0)
+        total_force = buy_force + sell_force
+        if total_force > 0:
+            features["nash_balance"] = 1.0 - abs(buy_force - sell_force) / total_force
+        else:
+            features["nash_balance"] = 0.5
+
+        # --- Stackelberg leader detection ---
+        # Does one side consistently move first after price changes?
+        # Look at who initiates after each direction change
+        if len(tick_returns) >= 10:
+            ret_signs = np.sign(tick_returns[1:])
+            valid_rs = ~np.isnan(ret_signs)
+            if valid_rs.sum() >= 10:
+                rs = ret_signs[valid_rs]
+                sd = sides[1:][valid_rs]
+                # After up-tick, who trades next?
+                up_ticks = np.where(rs > 0)[0]
+                down_ticks = np.where(rs < 0)[0]
+                leader_buy = 0
+                leader_sell = 0
+                for ut in up_ticks:
+                    if ut + 1 < len(sd):
+                        if sd[ut + 1] > 0:
+                            leader_buy += 1
+                        else:
+                            leader_sell += 1
+                total_leaders = leader_buy + leader_sell
+                features["stackelberg_buy_leader"] = leader_buy / total_leaders if total_leaders > 0 else 0.5
+            else:
+                features["stackelberg_buy_leader"] = 0.5
+        else:
+            features["stackelberg_buy_leader"] = 0.5
+
+        # --- Auction clearing speed ---
+        # After large trades (>2× median), how quickly does price stabilize?
+        med_size = np.median(sizes)
+        large_mask_gt = sizes > 2 * med_size
+        large_indices = np.where(large_mask_gt)[0]
+        if len(large_indices) >= 3:
+            clearing_times = []
+            for li in large_indices:
+                if li + 5 < n:
+                    post_vol = np.std(prices[li:li+5]) if len(prices[li:li+5]) > 1 else 0
+                    pre_vol = np.std(prices[max(0,li-5):li]) if li >= 5 else 0
+                    if pre_vol > 0:
+                        clearing_times.append(post_vol / pre_vol)
+            if clearing_times:
+                features["auction_clearing_speed"] = float(np.mean(clearing_times))
+            else:
+                features["auction_clearing_speed"] = 1.0
+        else:
+            features["auction_clearing_speed"] = 1.0
+
+        # --- Strategic timing: do large trades cluster at specific candle positions? ---
+        if large_mask_gt.sum() >= 3:
+            large_times = rel_time[large_mask_gt]
+            features["large_trade_centroid"] = float(np.mean(large_times))
+            features["large_trade_time_std"] = float(np.std(large_times))
+        else:
+            features["large_trade_centroid"] = 0.5
+            features["large_trade_time_std"] = 0.3
+    else:
+        features["nash_balance"] = 0.5
+        features["stackelberg_buy_leader"] = 0.5
+        features["auction_clearing_speed"] = 1.0
+        features["large_trade_centroid"] = 0.5
+        features["large_trade_time_std"] = 0.3
+
+    # -----------------------------------------------------------------------
+    # 51. Network / Graph Theory
+    # -----------------------------------------------------------------------
+    if n >= 30 and price_range > 0:
+        # --- Price level transition graph ---
+        # Discretize price into 10 levels, build transition matrix
+        n_levels = 10
+        price_levels = np.clip(
+            ((prices - l) / price_range * (n_levels - 1)).astype(int), 0, n_levels - 1
+        )
+        # Transition matrix
+        trans_mat = np.zeros((n_levels, n_levels))
+        for i_tr in range(len(price_levels) - 1):
+            trans_mat[price_levels[i_tr], price_levels[i_tr + 1]] += 1
+
+        total_trans = trans_mat.sum()
+        if total_trans > 0:
+            trans_prob = trans_mat / total_trans
+
+            # Graph entropy: how predictable are transitions?
+            tp_flat = trans_prob.flatten()
+            tp_pos = tp_flat[tp_flat > 0]
+            features["graph_transition_entropy"] = float(-np.sum(tp_pos * np.log2(tp_pos)))
+            max_graph_entropy = np.log2(n_levels * n_levels)
+            features["graph_transition_uniformity"] = features["graph_transition_entropy"] / max_graph_entropy if max_graph_entropy > 0 else 1.0
+
+            # Self-loop ratio: how often does price stay at same level?
+            self_loops = np.trace(trans_mat)
+            features["graph_self_loop_ratio"] = self_loops / total_trans
+
+            # Number of unique transitions (graph edges)
+            features["graph_edge_count"] = int(np.count_nonzero(trans_mat))
+            features["graph_edge_density"] = features["graph_edge_count"] / (n_levels * n_levels)
+
+            # Asymmetry: is the transition matrix symmetric? (directional bias)
+            asym = np.abs(trans_mat - trans_mat.T).sum()
+            features["graph_asymmetry"] = asym / (2 * total_trans) if total_trans > 0 else 0.0
+        else:
+            features["graph_transition_entropy"] = 0.0
+            features["graph_transition_uniformity"] = 1.0
+            features["graph_self_loop_ratio"] = 0.0
+            features["graph_edge_count"] = 0
+            features["graph_edge_density"] = 0.0
+            features["graph_asymmetry"] = 0.0
+
+        # --- Recurrence: how often does price revisit levels? ---
+        unique_levels = len(np.unique(price_levels))
+        features["price_level_recurrence"] = 1.0 - unique_levels / n_levels
+        # Average visits per level
+        level_counts = np.bincount(price_levels, minlength=n_levels)
+        features["avg_visits_per_level"] = float(np.mean(level_counts[level_counts > 0]))
+        features["max_visits_level"] = int(np.max(level_counts))
+    else:
+        features["graph_transition_entropy"] = 0.0
+        features["graph_transition_uniformity"] = 1.0
+        features["graph_self_loop_ratio"] = 0.0
+        features["graph_edge_count"] = 0
+        features["graph_edge_density"] = 0.0
+        features["graph_asymmetry"] = 0.0
+        features["price_level_recurrence"] = 0.0
+        features["avg_visits_per_level"] = 0.0
+        features["max_visits_level"] = 0
+
+    # -----------------------------------------------------------------------
+    # 52. Chaos Theory / Nonlinear Dynamics
+    # -----------------------------------------------------------------------
+    if n >= 50 and len(valid_returns) >= 30:
+        vr = valid_returns
+
+        # --- Hurst exponent (uses top-level _hurst_rs) ---
+        # H > 0.5 = trending, H < 0.5 = mean-reverting, H = 0.5 = random walk
+        features["hurst_regime"] = features.get("hurst_exponent", 0.5) - 0.5
+
+        # --- Approximate Lyapunov exponent ---
+        # Measure average rate of divergence of nearby trajectories
+        embedding_dim = 3
+        tau = 1
+        if len(vr) >= embedding_dim * tau + 10:
+            # Create delay embedding
+            m = len(vr) - (embedding_dim - 1) * tau
+            embedded = np.array([vr[i*tau:i*tau + m] for i in range(embedding_dim)]).T
+
+            if len(embedded) >= 10:
+                # For each point, find nearest neighbor and track divergence
+                lyap_sum = 0.0
+                lyap_count = 0
+                step = max(1, len(embedded) // 50)  # subsample for speed
+                for i_ly in range(0, len(embedded) - 2, step):
+                    # Find nearest neighbor (excluding immediate neighbors)
+                    dists = np.linalg.norm(embedded - embedded[i_ly], axis=1)
+                    dists[max(0, i_ly-2):min(len(dists), i_ly+3)] = np.inf
+                    nn = np.argmin(dists)
+                    d0 = dists[nn]
+                    if d0 > 0 and nn + 1 < len(embedded) and i_ly + 1 < len(embedded):
+                        d1 = np.linalg.norm(embedded[i_ly + 1] - embedded[nn + 1])
+                        if d1 > 0:
+                            lyap_sum += np.log(d1 / d0)
+                            lyap_count += 1
+                features["lyapunov_exponent"] = lyap_sum / lyap_count if lyap_count > 0 else 0.0
+            else:
+                features["lyapunov_exponent"] = 0.0
+        else:
+            features["lyapunov_exponent"] = 0.0
+
+        # --- Recurrence Quantification Analysis (simplified) ---
+        # Recurrence rate: fraction of point pairs within threshold distance
+        n_rqa = min(len(vr), 200)  # subsample for speed
+        rqa_data = vr[:n_rqa]
+        threshold = np.std(rqa_data) * 0.5
+        if threshold > 0 and n_rqa >= 10:
+            # Compute recurrence matrix (subsampled)
+            step_rqa = max(1, n_rqa // 50)
+            rec_count = 0
+            det_count = 0
+            total_pairs = 0
+            for i_rq in range(0, n_rqa, step_rqa):
+                diffs = np.abs(rqa_data - rqa_data[i_rq])
+                recurrent = diffs < threshold
+                rec_count += recurrent.sum() - 1  # exclude self
+                total_pairs += n_rqa - 1
+                # Determinism: count diagonal lines (consecutive recurrences)
+                if i_rq + 1 < n_rqa:
+                    diffs_next = np.abs(rqa_data[1:] - rqa_data[min(i_rq+1, n_rqa-1)])
+                    det_count += (recurrent[:-1] & (diffs_next < threshold)).sum()
+
+            features["rqa_recurrence_rate"] = rec_count / total_pairs if total_pairs > 0 else 0.0
+            features["rqa_determinism"] = det_count / max(rec_count, 1)
+        else:
+            features["rqa_recurrence_rate"] = 0.0
+            features["rqa_determinism"] = 0.0
+    else:
+        features["hurst_exponent"] = 0.5
+        features["hurst_regime"] = 0.0
+        features["lyapunov_exponent"] = 0.0
+        features["rqa_recurrence_rate"] = 0.0
+        features["rqa_determinism"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 53. Signal Processing — Wavelet & Hilbert
+    # -----------------------------------------------------------------------
+    if n >= 64 and len(valid_returns) >= 32:
+        vr_sp = valid_returns
+
+        # --- Wavelet energy decomposition (Haar wavelet, manual) ---
+        # Decompose into scales: each level halves the resolution
+        def _haar_wavelet_energy(signal, max_levels=5):
+            """Compute energy at each Haar wavelet scale."""
+            energies = []
+            approx = signal.copy()
+            for lev in range(max_levels):
+                if len(approx) < 4:
+                    break
+                n_a = len(approx) // 2 * 2  # make even
+                approx_trunc = approx[:n_a]
+                # Detail coefficients (high-pass)
+                detail = (approx_trunc[::2] - approx_trunc[1::2]) / np.sqrt(2)
+                # Approximation (low-pass)
+                approx = (approx_trunc[::2] + approx_trunc[1::2]) / np.sqrt(2)
+                energies.append(float(np.sum(detail ** 2)))
+            return energies
+
+        wave_energies = _haar_wavelet_energy(vr_sp)
+        total_wave_energy = sum(wave_energies) if wave_energies else 1.0
+
+        if total_wave_energy > 0 and len(wave_energies) >= 2:
+            # Energy at each scale (normalized)
+            for wi, we in enumerate(wave_energies[:5]):
+                features[f"wavelet_energy_s{wi+1}"] = we / total_wave_energy
+
+            # Pad if fewer than 5 levels
+            for wi in range(len(wave_energies), 5):
+                features[f"wavelet_energy_s{wi+1}"] = 0.0
+
+            # High-freq vs low-freq energy ratio
+            hf_energy = sum(wave_energies[:len(wave_energies)//2])
+            lf_energy = sum(wave_energies[len(wave_energies)//2:])
+            features["wavelet_hf_lf_ratio"] = hf_energy / lf_energy if lf_energy > 0 else 1.0
+
+            # Wavelet entropy
+            we_probs = np.array(wave_energies) / total_wave_energy
+            we_probs = we_probs[we_probs > 0]
+            features["wavelet_entropy"] = float(-np.sum(we_probs * np.log2(we_probs)))
+        else:
+            for wi in range(5):
+                features[f"wavelet_energy_s{wi+1}"] = 0.0
+            features["wavelet_hf_lf_ratio"] = 1.0
+            features["wavelet_entropy"] = 0.0
+
+        # --- Hilbert transform: instantaneous frequency & amplitude ---
+        try:
+            analytic = scipy_hilbert(vr_sp[:min(len(vr_sp), 2000)])
+            amplitude_env = np.abs(analytic)
+            inst_phase = np.unwrap(np.angle(analytic))
+            inst_freq = np.diff(inst_phase) / (2 * np.pi)
+
+            features["hilbert_mean_amplitude"] = float(np.mean(amplitude_env))
+            features["hilbert_std_amplitude"] = float(np.std(amplitude_env))
+            features["hilbert_mean_freq"] = float(np.mean(inst_freq))
+            features["hilbert_std_freq"] = float(np.std(inst_freq))
+            # Amplitude-frequency correlation
+            if len(inst_freq) >= 3:
+                features["hilbert_amp_freq_corr"] = _safe_corr(
+                    amplitude_env[:-1], inst_freq
+                )
+            else:
+                features["hilbert_amp_freq_corr"] = 0.0
+        except Exception:
+            features["hilbert_mean_amplitude"] = 0.0
+            features["hilbert_std_amplitude"] = 0.0
+            features["hilbert_mean_freq"] = 0.0
+            features["hilbert_std_freq"] = 0.0
+            features["hilbert_amp_freq_corr"] = 0.0
+    else:
+        for wi in range(5):
+            features[f"wavelet_energy_s{wi+1}"] = 0.0
+        features["wavelet_hf_lf_ratio"] = 1.0
+        features["wavelet_entropy"] = 0.0
+        features["hilbert_mean_amplitude"] = 0.0
+        features["hilbert_std_amplitude"] = 0.0
+        features["hilbert_mean_freq"] = 0.0
+        features["hilbert_std_freq"] = 0.0
+        features["hilbert_amp_freq_corr"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 54. Biological / Ecological Analogies
+    # -----------------------------------------------------------------------
+    if n >= 30:
+        # --- Predator-prey dynamics (Lotka-Volterra) ---
+        # "Predators" = large trades (>2× median), "Prey" = small trades
+        med_sz = np.median(sizes)
+        predator_mask = sizes > 2 * med_sz
+        prey_mask = ~predator_mask
+        n_pred = predator_mask.sum()
+        n_prey = prey_mask.sum()
+
+        features["predator_prey_ratio"] = n_pred / n_prey if n_prey > 0 else 0.0
+        features["predator_vol_share"] = sizes[predator_mask].sum() / total_vol if total_vol > 0 else 0.0
+
+        # Do predators follow prey? (large trades after clusters of small trades)
+        if n >= 50:
+            # Split into 10 time slices
+            slice_sz = n // 10
+            pred_counts = []
+            prey_counts = []
+            for sl in range(10):
+                s_start = sl * slice_sz
+                s_end = (sl + 1) * slice_sz if sl < 9 else n
+                pred_counts.append(predator_mask[s_start:s_end].sum())
+                prey_counts.append(prey_mask[s_start:s_end].sum())
+            pred_counts = np.array(pred_counts, dtype=float)
+            prey_counts = np.array(prey_counts, dtype=float)
+            # Correlation with lag: do predators follow prey?
+            if len(pred_counts) >= 3 and len(prey_counts) >= 3:
+                features["predator_follows_prey"] = _safe_corr(prey_counts[:-1], pred_counts[1:])
+            else:
+                features["predator_follows_prey"] = 0.0
+        else:
+            features["predator_follows_prey"] = 0.0
+
+        # --- Population dynamics ---
+        # Trade rate as "population" — estimate growth rate
+        if candle_duration_s > 0:
+            # Split into 5 epochs, measure trade rate in each
+            epoch_sz = n // 5
+            if epoch_sz >= 3:
+                epoch_rates = []
+                for ep in range(5):
+                    ep_start = ep * epoch_sz
+                    ep_end = (ep + 1) * epoch_sz if ep < 4 else n
+                    ep_duration = (timestamps_s[min(ep_end-1, n-1)] - timestamps_s[ep_start])
+                    if ep_duration > 0:
+                        epoch_rates.append((ep_end - ep_start) / ep_duration)
+                    else:
+                        epoch_rates.append(0.0)
+                epoch_rates = np.array(epoch_rates)
+                if epoch_rates[0] > 0:
+                    features["population_growth_rate"] = (epoch_rates[-1] - epoch_rates[0]) / epoch_rates[0]
+                else:
+                    features["population_growth_rate"] = 0.0
+                # Carrying capacity: max sustainable rate
+                features["carrying_capacity_ratio"] = epoch_rates.max() / np.mean(epoch_rates) if np.mean(epoch_rates) > 0 else 1.0
+            else:
+                features["population_growth_rate"] = 0.0
+                features["carrying_capacity_ratio"] = 1.0
+        else:
+            features["population_growth_rate"] = 0.0
+            features["carrying_capacity_ratio"] = 1.0
+
+        # --- Ecosystem diversity (Simpson's index) ---
+        # Diversity of trade sizes (binned into 10 size categories)
+        if total_vol > 0:
+            size_bins = np.clip(
+                (np.log1p(sizes) / np.log1p(sizes.max()) * 9).astype(int), 0, 9
+            ) if sizes.max() > 0 else np.zeros(n, dtype=int)
+            bin_counts = np.bincount(size_bins, minlength=10).astype(float)
+            bin_probs = bin_counts / bin_counts.sum() if bin_counts.sum() > 0 else np.ones(10) / 10
+            # Simpson's diversity: 1 - Σ(p²)
+            features["simpson_diversity"] = 1.0 - float(np.sum(bin_probs ** 2))
+            # Shannon diversity (already have entropy, but this is for sizes)
+            bp_pos = bin_probs[bin_probs > 0]
+            features["shannon_size_diversity"] = float(-np.sum(bp_pos * np.log2(bp_pos)))
+        else:
+            features["simpson_diversity"] = 0.0
+            features["shannon_size_diversity"] = 0.0
+    else:
+        features["predator_prey_ratio"] = 0.0
+        features["predator_vol_share"] = 0.0
+        features["predator_follows_prey"] = 0.0
+        features["population_growth_rate"] = 0.0
+        features["carrying_capacity_ratio"] = 1.0
+        features["simpson_diversity"] = 0.0
+        features["shannon_size_diversity"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 55. Compression / Complexity
+    # -----------------------------------------------------------------------
+    if n >= 30:
+        # --- Approximate Entropy (ApEn) & Sample Entropy — fully vectorized ---
+        # Subsample to 100 points max for O(n²) broadcasting
+        n_sub_ae = 100
+        vr_apen = valid_returns[::max(1, len(valid_returns) // n_sub_ae)][:n_sub_ae]
+        n_ae = len(vr_apen)
+        r_ae = 0.2 * np.std(vr_apen)
+        if n_ae >= 10 and r_ae > 0:
+            try:
+                # Build template matrices via broadcasting (no Python loops)
+                def _phi_broadcast(data, m_val, r_val):
+                    n_d = len(data) - m_val + 1
+                    if n_d < 2:
+                        return 0.0
+                    tmpl = np.array([data[i:i + m_val] for i in range(n_d)])
+                    # Pairwise Chebyshev distance matrix: (n_d, n_d)
+                    dists = np.max(np.abs(tmpl[:, None, :] - tmpl[None, :, :]), axis=2)
+                    counts = np.sum(dists <= r_val, axis=1).astype(float) / n_d
+                    counts = counts[counts > 0]
+                    return float(np.mean(np.log(counts)))
+
+                phi2 = _phi_broadcast(vr_apen, 2, r_ae)
+                phi3 = _phi_broadcast(vr_apen, 3, r_ae)
+                features["approx_entropy"] = abs(phi2 - phi3)
+
+                # SampEn: same but exclude self-matches, use upper triangle
+                def _sampen_broadcast(data, m_val, r_val):
+                    n_d = len(data) - m_val
+                    if n_d < 2:
+                        return 0
+                    tmpl = np.array([data[i:i + m_val] for i in range(n_d)])
+                    dists = np.max(np.abs(tmpl[:, None, :] - tmpl[None, :, :]), axis=2)
+                    # Upper triangle only (exclude self and double-counting)
+                    return int(np.sum(np.triu(dists <= r_val, k=1)))
+
+                b = _sampen_broadcast(vr_apen, 2, r_ae)
+                a = _sampen_broadcast(vr_apen, 3, r_ae)
+                features["sample_entropy"] = -np.log(a / b) if b > 0 and a > 0 else 0.0
+            except Exception:
+                features["approx_entropy"] = 0.0
+                features["sample_entropy"] = 0.0
+        else:
+            features["approx_entropy"] = 0.0
+            features["sample_entropy"] = 0.0
+
+        # --- Permutation entropy (order 3, subsample for speed) ---
+        price_sub = prices[:min(n, 1000)]
+        n_pe = len(price_sub)
+        if n_pe >= 10:
+            patterns = {}
+            for i_pe in range(n_pe - 2):
+                pattern = tuple(np.argsort(price_sub[i_pe:i_pe + 3]))
+                patterns[pattern] = patterns.get(pattern, 0) + 1
+            total_patterns = sum(patterns.values())
+            if total_patterns > 0:
+                probs = np.array(list(patterns.values())) / total_patterns
+                probs = probs[probs > 0]
+                pe = float(-np.sum(probs * np.log2(probs)))
+                features["permutation_entropy"] = pe / np.log2(6)  # 3! = 6
+            else:
+                features["permutation_entropy"] = 0.0
+        else:
+            features["permutation_entropy"] = 0.0
+
+        # --- Compression ratio (run-length encoding efficiency) ---
+        dir_seq_comp = np.sign(np.diff(prices))
+        if len(dir_seq_comp) >= 5:
+            # RLE: count runs
+            runs = 1
+            for i_c in range(1, len(dir_seq_comp)):
+                if dir_seq_comp[i_c] != dir_seq_comp[i_c - 1]:
+                    runs += 1
+            features["rle_compression_ratio"] = runs / len(dir_seq_comp)
+            # Low ratio = highly compressible = trending
+            # High ratio = incompressible = noisy
+        else:
+            features["rle_compression_ratio"] = 1.0
+    else:
+        features["approx_entropy"] = 0.0
+        features["sample_entropy"] = 0.0
+        features["permutation_entropy"] = 0.0
+        features["rle_compression_ratio"] = 1.0
+
     return features
 
 
@@ -3095,6 +3703,33 @@ ZSCORE_FEATURES = [
     "taylor_ofi_a1", "taylor_ofi_a2", "taylor_ofi_a3", "taylor_ofi_r2",
     "taylor_rate_a1", "taylor_rate_a2", "taylor_rate_a3", "taylor_rate_r2",
     "taylor_price_vol_divergence", "taylor_price_rate_divergence",
+    # --- NEW: Information Theory ---
+    "te_price_to_volume", "te_volume_to_price", "te_net_direction",
+    "mi_side_return", "lz_complexity", "lz_complexity_norm", "avg_surprise",
+    # --- NEW: Game Theory ---
+    "nash_balance", "stackelberg_buy_leader", "auction_clearing_speed",
+    "large_trade_centroid", "large_trade_time_std",
+    # --- NEW: Network / Graph Theory ---
+    "graph_transition_entropy", "graph_transition_uniformity",
+    "graph_self_loop_ratio", "graph_edge_count", "graph_edge_density",
+    "graph_asymmetry", "price_level_recurrence",
+    "avg_visits_per_level", "max_visits_level",
+    # --- NEW: Chaos Theory ---
+    "hurst_exponent", "hurst_regime", "lyapunov_exponent",
+    "rqa_recurrence_rate", "rqa_determinism",
+    # --- NEW: Signal Processing ---
+    "wavelet_energy_s1", "wavelet_energy_s2", "wavelet_energy_s3",
+    "wavelet_energy_s4", "wavelet_energy_s5",
+    "wavelet_hf_lf_ratio", "wavelet_entropy",
+    "hilbert_mean_amplitude", "hilbert_std_amplitude",
+    "hilbert_mean_freq", "hilbert_std_freq", "hilbert_amp_freq_corr",
+    # --- NEW: Biological / Ecological ---
+    "predator_prey_ratio", "predator_vol_share", "predator_follows_prey",
+    "population_growth_rate", "carrying_capacity_ratio",
+    "simpson_diversity", "shannon_size_diversity",
+    # --- NEW: Compression / Complexity ---
+    "approx_entropy", "sample_entropy", "permutation_entropy",
+    "rle_compression_ratio",
 ]
 
 ZSCORE_WINDOW = 20
