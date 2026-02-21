@@ -3439,12 +3439,392 @@ def process_day_into_candles(
     return rows
 
 
-def add_forward_returns(df: pd.DataFrame) -> pd.DataFrame:
-    """Add forward return columns for predictability analysis."""
-    for periods, label in [(1, "fwd_ret_1"), (2, "fwd_ret_2"), (3, "fwd_ret_3"),
-                           (5, "fwd_ret_5"), (10, "fwd_ret_10")]:
-        df[label] = df["return"].shift(-periods)
-    return df
+def add_targets(df: pd.DataFrame, fee_bps: float = 4.0) -> pd.DataFrame:
+    """Add ML target columns derived strictly from FUTURE candle data.
+
+    ALL targets use .shift(-N) to look forward — no lookahead bias.
+    At training time, rows where targets are NaN (end of dataset) must be dropped.
+
+    Parameters
+    ----------
+    df : DataFrame with columns: open, high, low, close, return, range,
+         realized_vol, vwap, total_volume, effective_spread_bps, etc.
+    fee_bps : round-trip fee in basis points (default 4 bps = 2 bps each way,
+              typical for Bybit VIP maker+taker).
+    """
+    n = len(df)
+    close = df["close"].values
+    high = df["high"].values
+    low = df["low"].values
+    opn = df["open"].values
+    ret = df["return"].values
+    vol = df["realized_vol"].values if "realized_vol" in df.columns else None
+    rng = df["range"].values
+    vwap_arr = df["vwap"].values if "vwap" in df.columns else None
+    total_vol = df["total_volume"].values if "total_volume" in df.columns else None
+    eff_spread = df["effective_spread_bps"].values if "effective_spread_bps" in df.columns else None
+
+    fee_frac = fee_bps / 10000.0
+
+    # Build all targets in a dict, then concat once (avoids fragmentation)
+    tgt = {}
+
+    # ===================================================================
+    # GROUP 1: Return-Based Targets
+    # ===================================================================
+
+    # 1a. Forward returns at multiple horizons
+    for p in [1, 2, 3, 5, 10]:
+        arr = np.full(n, np.nan)
+        if p < n:
+            arr[:n-p] = ret[p:]
+        tgt[f"tgt_ret_{p}"] = arr
+
+    # 1b. Forward return sign (classification)
+    for p in [1, 3, 5, 10]:
+        tgt[f"tgt_ret_sign_{p}"] = np.sign(tgt[f"tgt_ret_{p}"])
+
+    # 1c. Forward return magnitude
+    for p in [1, 3, 5]:
+        tgt[f"tgt_ret_magnitude_{p}"] = np.abs(tgt[f"tgt_ret_{p}"])
+
+    # 1d. Forward cumulative return over N bars
+    for p in [3, 5, 10]:
+        arr = np.full(n, np.nan)
+        if p < n:
+            arr[:n-p] = close[p:] / close[:n-p] - 1.0
+        tgt[f"tgt_cum_ret_{p}"] = arr
+
+    # 1e. Forward max drawdown / drawup (max adverse/favorable excursion)
+    for p in [3, 5, 10]:
+        fwd_min_low = np.full(n, np.nan)
+        fwd_max_high = np.full(n, np.nan)
+        for i in range(n - p):
+            fwd_min_low[i] = low[i+1:i+1+p].min()
+            fwd_max_high[i] = high[i+1:i+1+p].max()
+        safe_close = np.where(close > 0, close, np.nan)
+        tgt[f"tgt_max_drawdown_long_{p}"] = fwd_min_low / safe_close - 1.0
+        tgt[f"tgt_max_drawup_long_{p}"] = fwd_max_high / safe_close - 1.0
+        tgt[f"tgt_max_drawdown_short_{p}"] = 1.0 - fwd_max_high / safe_close
+        tgt[f"tgt_max_drawup_short_{p}"] = 1.0 - fwd_min_low / safe_close
+
+    # 1f. Forward Sharpe (mean/std of next N returns)
+    for p in [5, 10]:
+        fwd_mean = np.full(n, np.nan)
+        fwd_std = np.full(n, np.nan)
+        for i in range(n - p):
+            w = ret[i+1:i+1+p]
+            fwd_mean[i] = w.mean()
+            fwd_std[i] = w.std()
+        tgt[f"tgt_sharpe_{p}"] = np.where(fwd_std > 0, fwd_mean / fwd_std, 0.0)
+
+    # 1g. Risk-adjusted return: fwd_ret / current realized_vol
+    if vol is not None:
+        safe_vol = np.where(vol > 0, vol, np.nan)
+        for p in [1, 3, 5]:
+            tgt[f"tgt_ret_risk_adj_{p}"] = tgt[f"tgt_ret_{p}"] / safe_vol
+
+    # ===================================================================
+    # GROUP 2: Volatility Targets
+    # ===================================================================
+
+    # 2a. Forward realized volatility
+    for p in [5, 10]:
+        fwd_vol_arr = np.full(n, np.nan)
+        for i in range(n - p):
+            fwd_vol_arr[i] = ret[i+1:i+1+p].std()
+        tgt[f"tgt_realized_vol_{p}"] = fwd_vol_arr
+
+    # 2b. Volatility regime (0=low, 1=medium, 2=high)
+    if vol is not None:
+        vol_s = pd.Series(vol)
+        vol_p33 = vol_s.rolling(20, min_periods=10).quantile(0.33).values
+        vol_p67 = vol_s.rolling(20, min_periods=10).quantile(0.67).values
+        for p in [5, 10]:
+            fv = tgt[f"tgt_realized_vol_{p}"]
+            tgt[f"tgt_vol_regime_{p}"] = np.where(
+                fv < vol_p33, 0.0, np.where(fv > vol_p67, 2.0, 1.0)
+            )
+
+    # 2c. Volatility expansion
+    if vol is not None:
+        for p in [5, 10]:
+            tgt[f"tgt_vol_expansion_{p}"] = (tgt[f"tgt_realized_vol_{p}"] > vol).astype(float)
+
+    # 2d. Forward range in bps
+    for p in [1, 3, 5]:
+        arr = np.full(n, np.nan)
+        if p < n:
+            arr[:n-p] = rng[p:]
+        safe_close = np.where(close > 0, close, np.nan)
+        tgt[f"tgt_range_bps_{p}"] = arr / safe_close * 10000
+
+    # ===================================================================
+    # GROUP 3: Trend / Regime Targets
+    # ===================================================================
+
+    # 3a. Trend strength: slope of close prices over next N bars (bps/bar)
+    for p in [5, 10]:
+        fwd_slope = np.full(n, np.nan)
+        x_arr = np.arange(p, dtype=float)
+        for i in range(n - p):
+            y = close[i+1:i+1+p]
+            if np.std(y) > 0:
+                slope = np.polyfit(x_arr, y, 1)[0]
+                fwd_slope[i] = slope / close[i] * 10000
+            else:
+                fwd_slope[i] = 0.0
+        tgt[f"tgt_trend_strength_{p}"] = fwd_slope
+
+    # 3b. Mean reversion: does price return to current close within N bars?
+    for p in [5, 10]:
+        reverts = np.full(n, np.nan)
+        for i in range(n - p):
+            c = close[i]
+            crossed = ((low[i+1:i+1+p] <= c) & (high[i+1:i+1+p] >= c)).any()
+            reverts[i] = 1.0 if crossed else 0.0
+        tgt[f"tgt_mean_reversion_{p}"] = reverts
+
+    # 3c. Regime change: vol regime differs from current
+    if vol is not None:
+        cur_regime = np.where(vol < vol_p33, 0.0, np.where(vol > vol_p67, 2.0, 1.0))
+        for p in [5, 10]:
+            tgt[f"tgt_regime_change_{p}"] = (tgt[f"tgt_vol_regime_{p}"] != cur_regime).astype(float)
+
+    # 3d. Breakout: price exceeds current candle's high or low within N bars
+    for p in [3, 5, 10]:
+        bu = np.full(n, np.nan)
+        bd = np.full(n, np.nan)
+        for i in range(n - p):
+            bu[i] = 1.0 if (high[i+1:i+1+p] > high[i]).any() else 0.0
+            bd[i] = 1.0 if (low[i+1:i+1+p] < low[i]).any() else 0.0
+        tgt[f"tgt_breakout_up_{p}"] = bu
+        tgt[f"tgt_breakout_down_{p}"] = bd
+        tgt[f"tgt_breakout_any_{p}"] = np.where((bu == 1.0) | (bd == 1.0), 1.0, 0.0)
+
+    # 3e. Consolidation: next N bars total range < current range
+    for p in [3, 5]:
+        consol = np.full(n, np.nan)
+        for i in range(n - p):
+            fwd_range = high[i+1:i+1+p].max() - low[i+1:i+1+p].min()
+            consol[i] = 1.0 if fwd_range < rng[i] else 0.0
+        tgt[f"tgt_consolidation_{p}"] = consol
+
+    # ===================================================================
+    # GROUP 4: Optimal Execution Targets
+    # ===================================================================
+
+    # 4a. Best entry % within next candle
+    next_opn = np.full(n, np.nan); next_opn[:n-1] = opn[1:]
+    next_hi = np.full(n, np.nan); next_hi[:n-1] = high[1:]
+    next_lo = np.full(n, np.nan); next_lo[:n-1] = low[1:]
+    next_rng = next_hi - next_lo
+
+    tgt["tgt_best_long_entry_pct"] = np.where(
+        next_rng > 0, (next_opn - next_lo) / next_rng, 0.0
+    )
+    tgt["tgt_best_short_entry_pct"] = np.where(
+        next_rng > 0, (next_hi - next_opn) / next_rng, 0.0
+    )
+
+    # 4b. Slippage: VWAP vs close of next candle
+    if vwap_arr is not None:
+        next_vwap = np.full(n, np.nan); next_vwap[:n-1] = vwap_arr[1:]
+        safe_close = np.where(close > 0, close, np.nan)
+        tgt["tgt_slippage_long_bps"] = (next_vwap - close) / safe_close * 10000
+        tgt["tgt_slippage_short_bps"] = (close - next_vwap) / safe_close * 10000
+
+    # 4c. Spread cost: effective spread of next candle
+    if eff_spread is not None:
+        arr1 = np.full(n, np.nan); arr1[:n-1] = eff_spread[1:]
+        tgt["tgt_fwd_spread_bps_1"] = arr1
+        # 3-bar avg spread
+        arr3 = np.full(n, np.nan)
+        for i in range(n - 3):
+            arr3[i] = eff_spread[i+1:i+4].mean()
+        tgt["tgt_fwd_spread_bps_3"] = arr3
+
+    # 4d. Fill probability: limit order at current close fills in next N bars?
+    tgt["tgt_fill_prob_long_1"] = np.where(next_lo <= close, 1.0, 0.0)
+    tgt["tgt_fill_prob_short_1"] = np.where(next_hi >= close, 1.0, 0.0)
+    for p in [3, 5]:
+        fl = np.full(n, np.nan)
+        fs = np.full(n, np.nan)
+        for i in range(n - p):
+            fl[i] = 1.0 if (low[i+1:i+1+p] <= close[i]).any() else 0.0
+            fs[i] = 1.0 if (high[i+1:i+1+p] >= close[i]).any() else 0.0
+        tgt[f"tgt_fill_prob_long_{p}"] = fl
+        tgt[f"tgt_fill_prob_short_{p}"] = fs
+
+    # ===================================================================
+    # GROUP 5: Risk / Tail Targets
+    # ===================================================================
+
+    if vol is not None:
+        safe_vol = np.where(vol > 0, vol, np.nan)
+        threshold_2s = 2.0 * safe_vol
+        threshold_3s = 3.0 * safe_vol
+
+        # 5a. Tail event: |return| > 2σ in next N bars
+        for p in [1, 3, 5]:
+            tail = np.full(n, np.nan)
+            for i in range(n - p):
+                t = threshold_2s[i]
+                if np.isfinite(t) and t > 0:
+                    tail[i] = 1.0 if (np.abs(ret[i+1:i+1+p]) > t).any() else 0.0
+            tgt[f"tgt_tail_event_{p}"] = tail
+
+        # 5b. Crash: return < -3σ in next N bars
+        for p in [3, 5, 10]:
+            crash = np.full(n, np.nan)
+            for i in range(n - p):
+                t = threshold_3s[i]
+                if np.isfinite(t) and t > 0:
+                    crash[i] = 1.0 if (ret[i+1:i+1+p] < -t).any() else 0.0
+            tgt[f"tgt_crash_{p}"] = crash
+
+        # 5c. Liquidation cascade: extreme move (>3σ) AND volume spike (>2x mean)
+        if total_vol is not None:
+            vol_mean_s = pd.Series(total_vol).rolling(20, min_periods=5).mean().values
+            for p in [3, 5]:
+                cascade = np.full(n, np.nan)
+                for i in range(n - p):
+                    t = threshold_3s[i]
+                    vm = vol_mean_s[i]
+                    if np.isfinite(t) and t > 0 and np.isfinite(vm) and vm > 0:
+                        extreme = (np.abs(ret[i+1:i+1+p]) > t).any()
+                        spike = (total_vol[i+1:i+1+p] > 2.0 * vm).any()
+                        cascade[i] = 1.0 if (extreme and spike) else 0.0
+                tgt[f"tgt_liquidation_cascade_{p}"] = cascade
+
+    # 5d. Recovery time: bars until price recovers from max drawdown
+    for p in [5, 10]:
+        recovery = np.full(n, np.nan)
+        for i in range(n - p):
+            entry = close[i]
+            fwd = close[i+1:i+1+p]
+            min_pos = np.argmin(fwd)
+            recovered = False
+            for j in range(min_pos + 1, len(fwd)):
+                if fwd[j] >= entry:
+                    recovery[i] = float(j - min_pos)
+                    recovered = True
+                    break
+            if not recovered:
+                recovery[i] = float(p)
+        tgt[f"tgt_recovery_time_{p}"] = recovery
+
+    # ===================================================================
+    # GROUP 6: Market Making / Spread Targets
+    # ===================================================================
+
+    # 6a. Mid-reversion: does price revert to current close within N bars?
+    for p in [1, 3]:
+        rev = np.full(n, np.nan)
+        for i in range(n - p):
+            c = close[i]
+            rev[i] = 1.0 if ((low[i+1:i+1+p] <= c) & (high[i+1:i+1+p] >= c)).any() else 0.0
+        tgt[f"tgt_mid_reversion_{p}"] = rev
+
+    # 6b. Adverse selection: price moves against candle direction
+    candle_dir = np.sign(close - opn)
+    next_ret_arr = np.full(n, np.nan); next_ret_arr[:n-1] = ret[1:]
+    tgt["tgt_adverse_selection_1"] = ((candle_dir * next_ret_arr) < 0).astype(float)
+    for p in [3, 5]:
+        adv = np.full(n, np.nan)
+        for i in range(n - p):
+            fwd_cum = close[i+p] / close[i] - 1.0
+            adv[i] = 1.0 if (candle_dir[i] * fwd_cum) < 0 else 0.0
+        tgt[f"tgt_adverse_selection_{p}"] = adv
+
+    # 6c. Inventory cost: cumulative absolute return over N bars
+    for p in [3, 5, 10]:
+        ic = np.full(n, np.nan)
+        for i in range(n - p):
+            ic[i] = np.abs(ret[i+1:i+1+p]).sum()
+        tgt[f"tgt_inventory_cost_{p}"] = ic
+
+    # ===================================================================
+    # GROUP 7: Multi-Asset / Cross-Signal Targets
+    # ===================================================================
+
+    # 7a. Relative return vs rolling mean
+    ret_mean_20 = pd.Series(ret).rolling(20, min_periods=5).mean().values
+    for p in [1, 3, 5]:
+        tgt[f"tgt_relative_ret_{p}"] = tgt[f"tgt_ret_{p}"] - ret_mean_20
+
+    # 7b. Alpha (same proxy — subtract market trend)
+    for p in [1, 3, 5]:
+        tgt[f"tgt_alpha_{p}"] = tgt[f"tgt_ret_{p}"] - ret_mean_20
+
+    # 7c. Autocorrelation break
+    autocorr_s = pd.Series(ret).rolling(10, min_periods=5).apply(
+        lambda x: pd.Series(x).autocorr(lag=1) if len(x) >= 5 else 0.0, raw=True
+    ).values
+    fwd_ac = np.full(n, np.nan)
+    if n > 5:
+        fwd_ac[:n-5] = autocorr_s[5:]
+    tgt["tgt_autocorr_break_5"] = (np.sign(fwd_ac) != np.sign(autocorr_s)).astype(float)
+
+    # ===================================================================
+    # GROUP 8: Composite / Practical Targets
+    # ===================================================================
+
+    # 8a. Profitable long/short (after fees)
+    for p in [1, 3, 5, 10]:
+        fwd_cum = tgt[f"tgt_cum_ret_{p}"] if p in [3, 5, 10] else tgt[f"tgt_ret_{p}"]
+        tgt[f"tgt_profitable_long_{p}"] = (fwd_cum > fee_frac).astype(float)
+        tgt[f"tgt_profitable_short_{p}"] = (fwd_cum < -fee_frac).astype(float)
+
+    # 8b. Optimal action: long (+1), short (-1), flat (0)
+    for p in [1, 3, 5]:
+        fwd_cum = tgt[f"tgt_cum_ret_{p}"] if p in [3, 5] else tgt[f"tgt_ret_{p}"]
+        tgt[f"tgt_optimal_action_{p}"] = np.where(
+            fwd_cum > fee_frac, 1.0, np.where(fwd_cum < -fee_frac, -1.0, 0.0)
+        )
+
+    # 8c. Kelly fraction: mean / variance of next N returns
+    for p in [5, 10]:
+        kelly = np.full(n, np.nan)
+        for i in range(n - p):
+            w = ret[i+1:i+1+p]
+            mu = w.mean()
+            var = w.var()
+            kelly[i] = np.clip(mu / var, -5.0, 5.0) if var > 0 else 0.0
+        tgt[f"tgt_kelly_{p}"] = kelly
+
+    # 8d. Optimal holding period: which horizon gives best Sharpe?
+    horizons = [1, 3, 5, 10]
+    best_h = np.full(n, np.nan)
+    for i in range(n - max(horizons)):
+        best_sharpe = -np.inf
+        bh = 1
+        for h in horizons:
+            w = ret[i+1:i+1+h]
+            mu = w.mean()
+            std = w.std()
+            s = mu / std if std > 0 else 0.0
+            if s > best_sharpe:
+                best_sharpe = s
+                bh = h
+        best_h[i] = float(bh)
+    tgt["tgt_optimal_horizon"] = best_h
+
+    # 8e. Net P&L in bps (after fees)
+    for p in [1, 3, 5, 10]:
+        fwd_cum = tgt[f"tgt_cum_ret_{p}"] if p in [3, 5, 10] else tgt[f"tgt_ret_{p}"]
+        tgt[f"tgt_pnl_long_bps_{p}"] = (fwd_cum - fee_frac) * 10000
+        tgt[f"tgt_pnl_short_bps_{p}"] = (-fwd_cum - fee_frac) * 10000
+
+    # 8f. Best side: long or short?
+    for p in [1, 3, 5]:
+        lp = tgt[f"tgt_pnl_long_bps_{p}"]
+        sp = tgt[f"tgt_pnl_short_bps_{p}"]
+        tgt[f"tgt_best_side_{p}"] = np.where(lp > sp, 1.0, np.where(sp > lp, -1.0, 0.0))
+
+    # --- Concat all targets at once (avoids DataFrame fragmentation) ---
+    tgt_df = pd.DataFrame(tgt, index=df.index)
+    return pd.concat([df, tgt_df], axis=1)
 
 
 def add_cross_candle_features(df: pd.DataFrame) -> pd.DataFrame:
@@ -3783,39 +4163,52 @@ def add_zscore_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def correlation_analysis(df: pd.DataFrame, timeframe: str) -> pd.DataFrame:
-    """Compute correlation of each feature with forward returns."""
-    fwd_cols = [c for c in df.columns if c.startswith("fwd_ret_")]
+    """Compute correlation of each feature with target columns (tgt_*)."""
+    # Target columns = anything starting with "tgt_"
+    tgt_cols = [c for c in df.columns if c.startswith("tgt_")]
+    # Use a small subset of key targets for correlation (avoid combinatorial explosion)
+    key_targets = [c for c in tgt_cols if c in (
+        "tgt_ret_1", "tgt_ret_3", "tgt_ret_5", "tgt_ret_10",
+        "tgt_ret_sign_1", "tgt_ret_sign_5",
+        "tgt_cum_ret_5", "tgt_cum_ret_10",
+        "tgt_profitable_long_1", "tgt_profitable_long_5",
+        "tgt_profitable_short_1", "tgt_profitable_short_5",
+    )]
+    if not key_targets:
+        key_targets = tgt_cols[:10]  # fallback
+
+    # Feature columns = everything that is NOT a target and NOT excluded
+    excluded = {"open", "high", "low", "close", "vwap", "twap",
+                "vwap_buy", "vwap_sell", "candle_time",
+                "session_asia", "session_europe", "session_us",
+                "high_before_low", "poc_price", "fair_price",
+                "fair_value", "value_area_low", "value_area_high",
+                "close_above_value_area", "close_below_value_area",
+                "overlap_asia_europe", "overlap_europe_us",
+                "fvg_bullish", "fvg_bearish",
+                "fib_nearest_level", "fib_proximity",
+                "busiest_quartile", "busiest_vol_quartile"}
     feature_cols = [c for c in df.columns
-                    if c not in fwd_cols
-                    and c not in ("open", "high", "low", "close", "vwap", "twap",
-                                  "vwap_buy", "vwap_sell", "candle_time",
-                                  "session_asia", "session_europe", "session_us",
-                                  "high_before_low", "poc_price", "fair_price",
-                                  "fair_value", "value_area_low", "value_area_high",
-                                  "close_above_value_area", "close_below_value_area",
-                                  "overlap_asia_europe", "overlap_europe_us",
-                                  "fvg_bullish", "fvg_bearish",
-                                  "fib_nearest_level", "fib_proximity",
-                                  "busiest_quartile", "busiest_vol_quartile")
-                    and not c.startswith("fwd_")]
+                    if not c.startswith("tgt_")
+                    and c not in excluded]
 
     rows = []
     for feat in feature_cols:
         row = {"feature": feat, "timeframe": timeframe}
-        for fwd in fwd_cols:
-            valid = df[[feat, fwd]].dropna()
+        for tgt in key_targets:
+            valid = df[[feat, tgt]].dropna()
             if len(valid) > 30:
-                corr, pval = scipy_stats.pearsonr(valid[feat], valid[fwd])
-                row[f"{fwd}_corr"] = corr
-                row[f"{fwd}_pval"] = pval
-                scorr, spval = scipy_stats.spearmanr(valid[feat], valid[fwd])
-                row[f"{fwd}_scorr"] = scorr
-                row[f"{fwd}_spval"] = spval
+                corr, pval = scipy_stats.pearsonr(valid[feat], valid[tgt])
+                row[f"{tgt}_corr"] = corr
+                row[f"{tgt}_pval"] = pval
+                scorr, spval = scipy_stats.spearmanr(valid[feat], valid[tgt])
+                row[f"{tgt}_scorr"] = scorr
+                row[f"{tgt}_spval"] = spval
             else:
-                row[f"{fwd}_corr"] = np.nan
-                row[f"{fwd}_pval"] = np.nan
-                row[f"{fwd}_scorr"] = np.nan
-                row[f"{fwd}_spval"] = np.nan
+                row[f"{tgt}_corr"] = np.nan
+                row[f"{tgt}_pval"] = np.nan
+                row[f"{tgt}_scorr"] = np.nan
+                row[f"{tgt}_spval"] = np.nan
         rows.append(row)
 
     return pd.DataFrame(rows)
@@ -4056,7 +4449,7 @@ def main():
 
         features_df = add_cross_candle_features(features_df)
         features_df = add_zscore_features(features_df)
-        features_df = add_forward_returns(features_df)
+        features_df = add_targets(features_df)
 
         n_cols = len(features_df.columns)
 
@@ -4093,27 +4486,32 @@ def main():
         corr_all.to_csv(corr_path, index=False)
         print(f"\n  Saved correlations -> {corr_path.name}")
 
-        # Print top features
+        # Print top features for key targets
         print(f"\n{'=' * 70}")
-        print(f"TOP PREDICTIVE FEATURES (|Spearman corr| with 1-candle forward return)")
+        print(f"TOP PREDICTIVE FEATURES (|Spearman corr|)")
         print(f"{'=' * 70}")
 
-        for tf_label in args.timeframes:
-            tf_corr = corr_all[corr_all["timeframe"] == tf_label].copy()
-            if "fwd_ret_1_scorr" not in tf_corr.columns:
+        for tgt_name in ("tgt_ret_1", "tgt_profitable_long_5"):
+            scorr_col = f"{tgt_name}_scorr"
+            spval_col = f"{tgt_name}_spval"
+            pcorr_col = f"{tgt_name}_corr"
+            if scorr_col not in corr_all.columns:
                 continue
-            tf_corr["abs_scorr"] = tf_corr["fwd_ret_1_scorr"].abs()
-            tf_corr = tf_corr.sort_values("abs_scorr", ascending=False)
-            print(f"\n  --- {tf_label} ---")
-            print(f"  {'Feature':<35} {'Spearman':>10} {'p-value':>12} {'Pearson':>10}")
-            print(f"  {'-'*35} {'-'*10} {'-'*12} {'-'*10}")
-            for _, row in tf_corr.head(20).iterrows():
-                feat = row["feature"]
-                scorr = row.get("fwd_ret_1_scorr", np.nan)
-                spval = row.get("fwd_ret_1_spval", np.nan)
-                pcorr = row.get("fwd_ret_1_corr", np.nan)
-                sig = "***" if spval < 0.001 else "**" if spval < 0.01 else "*" if spval < 0.05 else ""
-                print(f"  {feat:<35} {scorr:>9.4f} {spval:>11.2e} {pcorr:>9.4f} {sig}")
+            print(f"\n  === Target: {tgt_name} ===")
+            for tf_label in args.timeframes:
+                tf_corr = corr_all[corr_all["timeframe"] == tf_label].copy()
+                tf_corr["abs_scorr"] = tf_corr[scorr_col].abs()
+                tf_corr = tf_corr.sort_values("abs_scorr", ascending=False)
+                print(f"\n  --- {tf_label} ---")
+                print(f"  {'Feature':<35} {'Spearman':>10} {'p-value':>12} {'Pearson':>10}")
+                print(f"  {'-'*35} {'-'*10} {'-'*12} {'-'*10}")
+                for _, row in tf_corr.head(15).iterrows():
+                    feat = row["feature"]
+                    scorr = row.get(scorr_col, np.nan)
+                    spval = row.get(spval_col, np.nan)
+                    pcorr = row.get(pcorr_col, np.nan)
+                    sig = "***" if spval < 0.001 else "**" if spval < 0.01 else "*" if spval < 0.05 else ""
+                    print(f"  {feat:<35} {scorr:>9.4f} {spval:>11.2e} {pcorr:>9.4f} {sig}")
 
     print(f"\nDone! Parquet files in {features_dir}/{symbol}/")
 
