@@ -1,0 +1,11 @@
+pair,lag0_corr,peak_lag,peak_lag_min,peak_corr,leader,lead_minutes
+BTCUSDT-ETHUSDT,0.8112,0,0,0.8112,simultaneous,0
+BTCUSDT-SOLUSDT,0.6784,0,0,0.6784,simultaneous,0
+BTCUSDT-DOGEUSDT,0.6417,0,0,0.6417,simultaneous,0
+BTCUSDT-XRPUSDT,0.6022,0,0,0.6022,simultaneous,0
+ETHUSDT-SOLUSDT,0.6685,0,0,0.6685,simultaneous,0
+ETHUSDT-DOGEUSDT,0.7188,0,0,0.7188,simultaneous,0
+ETHUSDT-XRPUSDT,0.6406,0,0,0.6406,simultaneous,0
+SOLUSDT-DOGEUSDT,0.6383,0,0,0.6383,simultaneous,0
+SOLUSDT-XRPUSDT,0.5832,0,0,0.5832,simultaneous,0
+DOGEUSDT-XRPUSDT,0.6575,0,0,0.6575,simultaneous,0
