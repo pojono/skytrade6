@@ -3832,32 +3832,43 @@ def main():
     parser.add_argument("start_date", help="YYYY-MM-DD")
     parser.add_argument("end_date", help="YYYY-MM-DD")
     parser.add_argument("--data-dir", default="./data", help="Root data directory")
-    parser.add_argument("--output-dir", default="./results", help="Output directory")
+    parser.add_argument("--features-dir", default="./features", help="Parquet output directory")
+    parser.add_argument("--results-dir", default="./results", help="Correlation results directory")
     parser.add_argument("--timeframes", nargs="+", default=list(TIMEFRAMES.keys()),
                         choices=list(TIMEFRAMES.keys()), help="Timeframes to compute")
+    parser.add_argument("--no-correlations", action="store_true",
+                        help="Skip correlation analysis (faster, just produce features)")
     args = parser.parse_args()
 
     data_dir = Path(args.data_dir)
-    output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    features_dir = Path(args.features_dir)
+    results_dir = Path(args.results_dir)
 
     symbol = args.symbol.upper()
     s = datetime.strptime(args.start_date, "%Y-%m-%d")
     e = datetime.strptime(args.end_date, "%Y-%m-%d")
     total_days = (e - s).days + 1
 
+    # Create output directories:
+    #   features/{symbol}/{timeframe}/YYYY-MM-DD.parquet
+    for tf_label in args.timeframes:
+        (features_dir / symbol / tf_label).mkdir(parents=True, exist_ok=True)
+    results_dir.mkdir(parents=True, exist_ok=True)
+
     print("=" * 70)
     print(f"Microstructure Feature Aggregation (streaming, low-RAM)")
     print(f"  Symbol:     {symbol}")
     print(f"  Period:     {args.start_date} -> {args.end_date} ({total_days} days)")
     print(f"  Timeframes: {', '.join(args.timeframes)}")
+    print(f"  Output:     {features_dir}/{symbol}/{{tf}}/YYYY-MM-DD.parquet")
     print("=" * 70)
 
     # -----------------------------------------------------------------------
     # Pass 1: stream through days, compute candle features per timeframe
     # -----------------------------------------------------------------------
-    # Accumulate feature rows per timeframe (tiny: ~100 rows/day for 15m)
     tf_rows: dict[str, list[dict]] = {tf: [] for tf in args.timeframes}
+    # Track which dates have data for each timeframe (for per-day parquet)
+    tf_date_ranges: dict[str, list[str]] = {tf: [] for tf in args.timeframes}
 
     print(f"\n[1/2] Processing tick data day-by-day...")
     t0_all = time.time()
@@ -3879,8 +3890,8 @@ def main():
                 freq = TIMEFRAMES[tf_label]
                 rows = process_day_into_candles(day_df, freq)
                 tf_rows[tf_label].extend(rows)
+                tf_date_ranges[tf_label].append(date_str)
 
-            # Free memory immediately
             del day_df
             gc.collect()
 
@@ -3904,9 +3915,10 @@ def main():
     print(f"\n  Processed {loaded} days in {total_elapsed:.0f}s")
 
     # -----------------------------------------------------------------------
-    # Pass 2: build DataFrames, add forward returns, correlations
+    # Pass 2: build DataFrames, add cross-candle/z-score/fwd features,
+    #         split into per-day parquet files, run correlations
     # -----------------------------------------------------------------------
-    print(f"\n[2/2] Building feature tables & correlation analysis...")
+    print(f"\n[2/2] Building feature tables & saving parquet...")
     all_corr = []
 
     for tf_label in args.timeframes:
@@ -3918,57 +3930,70 @@ def main():
         features_df = pd.DataFrame(rows)
         features_df.set_index("candle_time", inplace=True)
         features_df.sort_index(inplace=True)
-
-        # Merge partial candles at day boundaries for multi-hour timeframes
-        # (groupby already handles this since we use pd.Grouper with UTC)
-        # But day-boundary candles may be split — deduplicate by taking last
         features_df = features_df[~features_df.index.duplicated(keep="last")]
 
         features_df = add_cross_candle_features(features_df)
         features_df = add_zscore_features(features_df)
         features_df = add_forward_returns(features_df)
 
-        out_path = output_dir / f"microstructure_{symbol}_{tf_label}_{args.start_date}_{args.end_date}.csv"
-        features_df.to_csv(out_path)
-        print(f"  {tf_label}: {len(features_df)} candles, {len(features_df.columns)} features -> {out_path.name}")
+        n_cols = len(features_df.columns)
 
-        corr_df = correlation_analysis(features_df, tf_label)
-        all_corr.append(corr_df)
+        # --- Save per-day parquet files ---
+        features_df.index = pd.to_datetime(features_df.index)
+        dates_in_data = features_df.index.date
+        unique_dates = sorted(set(dates_in_data))
+        day_count = 0
+        for dt in unique_dates:
+            day_mask = dates_in_data == dt
+            day_df = features_df.loc[day_mask]
+            if len(day_df) == 0:
+                continue
+            pq_path = features_dir / symbol / tf_label / f"{dt}.parquet"
+            day_df.to_parquet(pq_path, engine="pyarrow")
+            day_count += 1
 
-        # Free
+        print(f"  {tf_label}: {len(features_df)} candles, {n_cols} cols -> "
+              f"{day_count} parquet files in features/{symbol}/{tf_label}/")
+
+        # --- Correlation analysis (optional) ---
+        if not args.no_correlations:
+            corr_df = correlation_analysis(features_df, tf_label)
+            all_corr.append(corr_df)
+
         del features_df, rows
         tf_rows[tf_label] = []
         gc.collect()
 
-    # Combine correlation results
-    corr_all = pd.concat(all_corr, ignore_index=True)
-    corr_path = output_dir / f"microstructure_correlations_{symbol}_{args.start_date}_{args.end_date}.csv"
-    corr_all.to_csv(corr_path, index=False)
-    print(f"\n  Saved correlations -> {corr_path.name}")
+    # Save correlations
+    if all_corr and not args.no_correlations:
+        corr_all = pd.concat(all_corr, ignore_index=True)
+        corr_path = results_dir / f"microstructure_correlations_{symbol}_{args.start_date}_{args.end_date}.csv"
+        corr_all.to_csv(corr_path, index=False)
+        print(f"\n  Saved correlations -> {corr_path.name}")
 
-    # Print top features by absolute Spearman correlation with fwd_ret_1
-    print(f"\n{'=' * 70}")
-    print(f"TOP PREDICTIVE FEATURES (|Spearman corr| with 1-candle forward return)")
-    print(f"{'=' * 70}")
+        # Print top features
+        print(f"\n{'=' * 70}")
+        print(f"TOP PREDICTIVE FEATURES (|Spearman corr| with 1-candle forward return)")
+        print(f"{'=' * 70}")
 
-    for tf_label in args.timeframes:
-        tf_corr = corr_all[corr_all["timeframe"] == tf_label].copy()
-        if "fwd_ret_1_scorr" not in tf_corr.columns:
-            continue
-        tf_corr["abs_scorr"] = tf_corr["fwd_ret_1_scorr"].abs()
-        tf_corr = tf_corr.sort_values("abs_scorr", ascending=False)
-        print(f"\n  --- {tf_label} ---")
-        print(f"  {'Feature':<35} {'Spearman':>10} {'p-value':>12} {'Pearson':>10}")
-        print(f"  {'-'*35} {'-'*10} {'-'*12} {'-'*10}")
-        for _, row in tf_corr.head(20).iterrows():
-            feat = row["feature"]
-            scorr = row.get("fwd_ret_1_scorr", np.nan)
-            spval = row.get("fwd_ret_1_spval", np.nan)
-            pcorr = row.get("fwd_ret_1_corr", np.nan)
-            sig = "***" if spval < 0.001 else "**" if spval < 0.01 else "*" if spval < 0.05 else ""
-            print(f"  {feat:<35} {scorr:>9.4f} {spval:>11.2e} {pcorr:>9.4f} {sig}")
+        for tf_label in args.timeframes:
+            tf_corr = corr_all[corr_all["timeframe"] == tf_label].copy()
+            if "fwd_ret_1_scorr" not in tf_corr.columns:
+                continue
+            tf_corr["abs_scorr"] = tf_corr["fwd_ret_1_scorr"].abs()
+            tf_corr = tf_corr.sort_values("abs_scorr", ascending=False)
+            print(f"\n  --- {tf_label} ---")
+            print(f"  {'Feature':<35} {'Spearman':>10} {'p-value':>12} {'Pearson':>10}")
+            print(f"  {'-'*35} {'-'*10} {'-'*12} {'-'*10}")
+            for _, row in tf_corr.head(20).iterrows():
+                feat = row["feature"]
+                scorr = row.get("fwd_ret_1_scorr", np.nan)
+                spval = row.get("fwd_ret_1_spval", np.nan)
+                pcorr = row.get("fwd_ret_1_corr", np.nan)
+                sig = "***" if spval < 0.001 else "**" if spval < 0.01 else "*" if spval < 0.05 else ""
+                print(f"  {feat:<35} {scorr:>9.4f} {spval:>11.2e} {pcorr:>9.4f} {sig}")
 
-    print(f"\nDone! Results in {output_dir}/")
+    print(f"\nDone! Parquet files in {features_dir}/{symbol}/")
 
 
 if __name__ == "__main__":

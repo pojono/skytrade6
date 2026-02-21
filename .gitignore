@@ -1,5 +1,6 @@
 data/
 parquet/
+features/
 .idea/
 __pycache__/
 results/microstructure_*.csv
