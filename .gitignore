@@ -2,3 +2,5 @@ data/
 parquet/
 .idea/
 __pycache__/
+*.csv
+results/*.csv
