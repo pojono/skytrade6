@@ -1571,6 +1571,159 @@ def compute_features(group: pd.DataFrame) -> dict:
     else:
         features["surprise_magnitude"] = 0.0
 
+    # -----------------------------------------------------------------------
+    # 38. Trade Event Temporal Distribution
+    # -----------------------------------------------------------------------
+    if n >= 20 and candle_duration_s > 0:
+        # --- Temporal centroid (center of mass of trades in time) ---
+        # 0.0 = all at start, 0.5 = uniform, 1.0 = all at end
+        features["activity_centroid"] = float(np.mean(rel_time))
+        features["activity_centroid_vol"] = float(np.average(rel_time, weights=sizes))
+
+        # Buy vs sell centroid: who trades earlier/later?
+        if buy_count >= 5:
+            features["buy_centroid"] = float(np.mean(rel_time[buy_mask]))
+        else:
+            features["buy_centroid"] = 0.5
+        if sell_count >= 5:
+            features["sell_centroid"] = float(np.mean(rel_time[sell_mask]))
+        else:
+            features["sell_centroid"] = 0.5
+        features["centroid_buy_sell_gap"] = features["buy_centroid"] - features["sell_centroid"]
+
+        # --- Spikiness vs flatness ---
+        # Split candle into 20 time bins, count trades per bin
+        n_tbins = 20
+        tbin_edges = np.linspace(0, 1, n_tbins + 1)
+        tbin_idx = np.clip(np.digitize(rel_time, tbin_edges) - 1, 0, n_tbins - 1)
+
+        tbin_counts = np.zeros(n_tbins)
+        np.add.at(tbin_counts, tbin_idx, 1)
+        tbin_vol = np.zeros(n_tbins)
+        np.add.at(tbin_vol, tbin_idx, sizes)
+
+        mean_count = tbin_counts.mean()
+        max_count = tbin_counts.max()
+        features["activity_peak_to_mean"] = max_count / mean_count if mean_count > 0 else 1.0
+
+        mean_vol_bin = tbin_vol.mean()
+        max_vol_bin = tbin_vol.max()
+        features["volume_peak_to_mean"] = max_vol_bin / mean_vol_bin if mean_vol_bin > 0 else 1.0
+
+        # Temporal kurtosis of trade arrival times
+        features["arrival_time_kurtosis"] = _fast_kurtosis(rel_time)
+
+        # Burstiness coefficient: (σ - μ) / (σ + μ) of inter-trade times
+        # -1 = perfectly periodic, 0 = Poisson, +1 = extremely bursty
+        it_all = np.diff(timestamps_s)
+        it_pos = it_all[it_all > 0]
+        if len(it_pos) >= 5:
+            it_mean = np.mean(it_pos)
+            it_std = np.std(it_pos)
+            features["burstiness"] = (it_std - it_mean) / (it_std + it_mean) if (it_std + it_mean) > 0 else 0.0
+        else:
+            features["burstiness"] = 0.0
+
+        # --- Quartile analysis ---
+        q_edges = [0.0, 0.25, 0.5, 0.75, 1.0]
+        q_counts = np.zeros(4)
+        q_vols = np.zeros(4)
+        for qi in range(4):
+            q_mask = (rel_time >= q_edges[qi]) & (rel_time < q_edges[qi + 1])
+            if qi == 3:  # include endpoint
+                q_mask = (rel_time >= q_edges[qi]) & (rel_time <= q_edges[qi + 1])
+            q_counts[qi] = q_mask.sum()
+            q_vols[qi] = sizes[q_mask].sum()
+
+        total_q_counts = q_counts.sum()
+        total_q_vol = q_vols.sum()
+        for qi, ql in enumerate(["q1", "q2", "q3", "q4"]):
+            features[f"trade_pct_{ql}"] = q_counts[qi] / total_q_counts if total_q_counts > 0 else 0.25
+            features[f"volume_pct_{ql}"] = q_vols[qi] / total_q_vol if total_q_vol > 0 else 0.25
+
+        # Max/min quartile ratio
+        if q_counts.min() > 0:
+            features["quartile_count_ratio"] = q_counts.max() / q_counts.min()
+        else:
+            features["quartile_count_ratio"] = q_counts.max() / max(q_counts.min(), 1)
+        if q_vols.min() > 0:
+            features["quartile_vol_ratio"] = q_vols.max() / q_vols.min()
+        else:
+            features["quartile_vol_ratio"] = q_vols.max() / max(q_vols.min(), 1e-12)
+
+        # Which quartile is busiest? (0-3 → 1-4)
+        features["busiest_quartile"] = int(np.argmax(q_counts)) + 1
+        features["busiest_vol_quartile"] = int(np.argmax(q_vols)) + 1
+
+        # Front-heavy vs back-heavy: (Q1+Q2 vol) / (Q3+Q4 vol)
+        front_vol = q_vols[0] + q_vols[1]
+        back_vol = q_vols[2] + q_vols[3]
+        features["front_back_vol_ratio"] = front_vol / back_vol if back_vol > 0 else 1.0
+
+        # Middle-heavy: (Q2+Q3) / (Q1+Q4)
+        middle_vol = q_vols[1] + q_vols[2]
+        edge_vol = q_vols[0] + q_vols[3]
+        features["middle_edge_vol_ratio"] = middle_vol / edge_vol if edge_vol > 0 else 1.0
+
+        # --- Temporal entropy ---
+        # How uniform is the trade distribution across time bins?
+        count_probs = tbin_counts / tbin_counts.sum() if tbin_counts.sum() > 0 else np.ones(n_tbins) / n_tbins
+        count_probs = count_probs[count_probs > 0]
+        max_entropy = np.log2(n_tbins)
+        features["trade_time_entropy"] = float(-np.sum(count_probs * np.log2(count_probs)))
+        features["trade_time_uniformity"] = features["trade_time_entropy"] / max_entropy if max_entropy > 0 else 1.0
+
+        vol_probs = tbin_vol / tbin_vol.sum() if tbin_vol.sum() > 0 else np.ones(n_tbins) / n_tbins
+        vol_probs = vol_probs[vol_probs > 0]
+        features["volume_time_entropy"] = float(-np.sum(vol_probs * np.log2(vol_probs)))
+        features["volume_time_uniformity"] = features["volume_time_entropy"] / max_entropy if max_entropy > 0 else 1.0
+
+        # --- Activity acceleration profile ---
+        # Linear regression of bin counts over time → slope = ramp direction
+        bin_x = np.arange(n_tbins, dtype=float)
+        if np.std(tbin_counts) > 0:
+            features["activity_ramp"] = float(np.polyfit(bin_x, tbin_counts, 1)[0])
+        else:
+            features["activity_ramp"] = 0.0
+        if np.std(tbin_vol) > 0:
+            features["volume_ramp"] = float(np.polyfit(bin_x, tbin_vol, 1)[0])
+        else:
+            features["volume_ramp"] = 0.0
+
+        # Curvature: fit quadratic, coefficient of x² tells us if ramp is accelerating
+        if np.std(tbin_counts) > 0 and n_tbins >= 5:
+            poly = np.polyfit(bin_x, tbin_counts, 2)
+            features["activity_curvature"] = float(poly[0])  # +ve = U-shape, -ve = ∩-shape
+        else:
+            features["activity_curvature"] = 0.0
+
+    else:
+        features["activity_centroid"] = 0.5
+        features["activity_centroid_vol"] = 0.5
+        features["buy_centroid"] = 0.5
+        features["sell_centroid"] = 0.5
+        features["centroid_buy_sell_gap"] = 0.0
+        features["activity_peak_to_mean"] = 1.0
+        features["volume_peak_to_mean"] = 1.0
+        features["arrival_time_kurtosis"] = 0.0
+        features["burstiness"] = 0.0
+        for ql in ["q1", "q2", "q3", "q4"]:
+            features[f"trade_pct_{ql}"] = 0.25
+            features[f"volume_pct_{ql}"] = 0.25
+        features["quartile_count_ratio"] = 1.0
+        features["quartile_vol_ratio"] = 1.0
+        features["busiest_quartile"] = 1
+        features["busiest_vol_quartile"] = 1
+        features["front_back_vol_ratio"] = 1.0
+        features["middle_edge_vol_ratio"] = 1.0
+        features["trade_time_entropy"] = 0.0
+        features["trade_time_uniformity"] = 1.0
+        features["volume_time_entropy"] = 0.0
+        features["volume_time_uniformity"] = 1.0
+        features["activity_ramp"] = 0.0
+        features["volume_ramp"] = 0.0
+        features["activity_curvature"] = 0.0
+
     return features
 
 
@@ -1827,6 +1980,18 @@ ZSCORE_FEATURES = [
     "micro_fear_greed", "micro_fear_score", "micro_greed_score",
     # --- NEW: Psychology — Attention / Surprise ---
     "shock_attention_ratio", "rubberneck_ratio", "surprise_magnitude",
+    # --- NEW: Temporal Distribution ---
+    "activity_centroid", "activity_centroid_vol",
+    "buy_centroid", "sell_centroid", "centroid_buy_sell_gap",
+    "activity_peak_to_mean", "volume_peak_to_mean",
+    "arrival_time_kurtosis", "burstiness",
+    "trade_pct_q1", "trade_pct_q2", "trade_pct_q3", "trade_pct_q4",
+    "volume_pct_q1", "volume_pct_q2", "volume_pct_q3", "volume_pct_q4",
+    "quartile_count_ratio", "quartile_vol_ratio",
+    "front_back_vol_ratio", "middle_edge_vol_ratio",
+    "trade_time_entropy", "trade_time_uniformity",
+    "volume_time_entropy", "volume_time_uniformity",
+    "activity_ramp", "volume_ramp", "activity_curvature",
 ]
 
 ZSCORE_WINDOW = 20
