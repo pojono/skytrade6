@@ -24,6 +24,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from scipy import stats as scipy_stats
+from numpy.lib.stride_tricks import sliding_window_view
 from scipy.signal import hilbert as scipy_hilbert
 from scipy.spatial import ConvexHull
 
@@ -1993,18 +1994,19 @@ def compute_features(group: pd.DataFrame) -> dict:
         features["fib_vol_ratio"] = fib_vol_at_level / fib_vol_away if fib_vol_away > 0 else 1.0
 
         # Fib level "respect" score: do prices bounce at Fib levels?
-        # A bounce = price approaches a Fib level and reverses direction
+        # Vectorized: precompute direction changes, then check near-Fib points
+        before_diff = np.zeros(n)
+        after_diff = np.zeros(n)
+        before_diff[2:] = prices[2:] - prices[:-2]
+        after_diff[:n-2] = prices[2:] - prices[:n-2]
+        reversal_mask = (before_diff * after_diff < 0)  # direction reversal at each point
+
         fib_bounces = 0
         for fl in fib_levels:
-            diff_from_fib = price_pct_fib - fl
-            near = np.abs(diff_from_fib) < fib_threshold
-            near_indices = np.where(near)[0]
-            for ni in near_indices:
-                if ni >= 2 and ni < n - 2:
-                    before = prices[ni] - prices[ni - 2]
-                    after = prices[ni + 2] - prices[ni]
-                    if before * after < 0:  # direction reversal
-                        fib_bounces += 1
+            near = np.abs(price_pct_fib - fl) < fib_threshold
+            near[0:2] = False
+            near[n-2:] = False
+            fib_bounces += int((near & reversal_mask).sum())
         features["fib_bounce_count"] = fib_bounces
         features["fib_respect_score"] = fib_bounces / max(fib_crosses, 1)
     else:
@@ -2102,25 +2104,42 @@ def compute_features(group: pd.DataFrame) -> dict:
 
     # --- 45f. Fibonacci Wave Structure (Elliott-like) ---
     if n >= 30 and price_range > 0:
-        # Find swing points (local extrema with minimum 5-tick separation)
-        swing_prices = []
-        swing_types = []  # 1=high, -1=low
+        # Find swing points using vectorized rolling max/min
         min_swing = max(5, n // 50)
-        dp_smooth = np.sign(np.diff(prices))
-        i_sw = min_swing
-        while i_sw < n - min_swing:
-            # Look for local max
-            window = prices[i_sw - min_swing:i_sw + min_swing + 1]
-            if prices[i_sw] == window.max() and prices[i_sw] > prices[i_sw - min_swing]:
-                swing_prices.append(prices[i_sw])
-                swing_types.append(1)
-                i_sw += min_swing
-            elif prices[i_sw] == window.min() and prices[i_sw] < prices[i_sw - min_swing]:
-                swing_prices.append(prices[i_sw])
-                swing_types.append(-1)
-                i_sw += min_swing
-            else:
-                i_sw += 1
+        # Subsample prices for swing detection if too many ticks
+        if n > 5000:
+            step_sw = n // 2500
+            p_sw = prices[::step_sw]
+            min_swing_sw = max(3, min_swing // step_sw)
+        else:
+            p_sw = prices
+            step_sw = 1
+            min_swing_sw = min_swing
+        n_sw = len(p_sw)
+        swing_prices = []
+        swing_types = []
+        if n_sw > 2 * min_swing_sw:
+            # Vectorized: compute rolling max and min
+            win_sz = 2 * min_swing_sw + 1
+            if n_sw >= win_sz:
+                windows = sliding_window_view(p_sw, win_sz)
+                center_idx = min_swing_sw  # center of each window
+                center_vals = p_sw[min_swing_sw:min_swing_sw + len(windows)]
+                is_max = (center_vals == windows.max(axis=1)) & (center_vals > p_sw[0:len(windows)])
+                is_min = (center_vals == windows.min(axis=1)) & (center_vals < p_sw[0:len(windows)])
+                # Enforce minimum separation
+                last_idx = -min_swing_sw * 2
+                for i_sw in range(len(is_max)):
+                    if i_sw - last_idx < min_swing_sw:
+                        continue
+                    if is_max[i_sw]:
+                        swing_prices.append(float(center_vals[i_sw]))
+                        swing_types.append(1)
+                        last_idx = i_sw
+                    elif is_min[i_sw]:
+                        swing_prices.append(float(center_vals[i_sw]))
+                        swing_types.append(-1)
+                        last_idx = i_sw
 
         if len(swing_prices) >= 3:
             # Wave amplitudes: absolute price changes between consecutive swings
@@ -2259,23 +2278,36 @@ def compute_features(group: pd.DataFrame) -> dict:
     ew_types = swing_types if 'swing_types' in dir() and len(swing_types) >= 5 else []
 
     if len(ew_swings) < 5 and n >= 50 and price_range > 0:
-        # Recompute swings with coarser granularity for EW analysis
+        # Recompute swings — reuse the same vectorized approach from 45f
+        ew_min_swing = max(5, n // 30)
+        if n > 5000:
+            step_ew = n // 2500
+            p_ew = prices[::step_ew]
+            ew_ms = max(3, ew_min_swing // step_ew)
+        else:
+            p_ew = prices
+            ew_ms = ew_min_swing
+        n_ew = len(p_ew)
         ew_swings = []
         ew_types = []
-        ew_min_swing = max(5, n // 30)
-        i_ew = ew_min_swing
-        while i_ew < n - ew_min_swing:
-            window_ew = prices[i_ew - ew_min_swing:i_ew + ew_min_swing + 1]
-            if prices[i_ew] == window_ew.max() and prices[i_ew] > prices[i_ew - ew_min_swing]:
-                ew_swings.append(prices[i_ew])
-                ew_types.append(1)
-                i_ew += ew_min_swing
-            elif prices[i_ew] == window_ew.min() and prices[i_ew] < prices[i_ew - ew_min_swing]:
-                ew_swings.append(prices[i_ew])
-                ew_types.append(-1)
-                i_ew += ew_min_swing
-            else:
-                i_ew += 1
+        win_ew = 2 * ew_ms + 1
+        if n_ew >= win_ew:
+            windows_ew = sliding_window_view(p_ew, win_ew)
+            cv_ew = p_ew[ew_ms:ew_ms + len(windows_ew)]
+            is_max_ew = (cv_ew == windows_ew.max(axis=1)) & (cv_ew > p_ew[0:len(windows_ew)])
+            is_min_ew = (cv_ew == windows_ew.min(axis=1)) & (cv_ew < p_ew[0:len(windows_ew)])
+            last_ew = -ew_ms * 2
+            for i_ew in range(len(is_max_ew)):
+                if i_ew - last_ew < ew_ms:
+                    continue
+                if is_max_ew[i_ew]:
+                    ew_swings.append(float(cv_ew[i_ew]))
+                    ew_types.append(1)
+                    last_ew = i_ew
+                elif is_min_ew[i_ew]:
+                    ew_swings.append(float(cv_ew[i_ew]))
+                    ew_types.append(-1)
+                    last_ew = i_ew
 
     if len(ew_swings) >= 5:
         ew_waves = np.diff(ew_swings)  # signed wave moves
@@ -2959,15 +2991,18 @@ def compute_features(group: pd.DataFrame) -> dict:
         large_mask_gt = sizes > 2 * med_size
         large_indices = np.where(large_mask_gt)[0]
         if len(large_indices) >= 3:
-            clearing_times = []
-            for li in large_indices:
-                if li + 5 < n:
-                    post_vol = np.std(prices[li:li+5]) if len(prices[li:li+5]) > 1 else 0
-                    pre_vol = np.std(prices[max(0,li-5):li]) if li >= 5 else 0
-                    if pre_vol > 0:
-                        clearing_times.append(post_vol / pre_vol)
-            if clearing_times:
-                features["auction_clearing_speed"] = float(np.mean(clearing_times))
+            # Vectorized: only process first 50 large trades for speed
+            li_sample = large_indices[:50]
+            li_valid = li_sample[(li_sample >= 5) & (li_sample + 5 < n)]
+            if len(li_valid) >= 2:
+                # Compute pre/post volatility in one pass
+                pre_vols = np.array([prices[li-5:li].std() for li in li_valid])
+                post_vols = np.array([prices[li:li+5].std() for li in li_valid])
+                valid_mask = pre_vols > 0
+                if valid_mask.sum() > 0:
+                    features["auction_clearing_speed"] = float(np.mean(post_vols[valid_mask] / pre_vols[valid_mask]))
+                else:
+                    features["auction_clearing_speed"] = 1.0
             else:
                 features["auction_clearing_speed"] = 1.0
         else:
@@ -3061,60 +3096,50 @@ def compute_features(group: pd.DataFrame) -> dict:
         # H > 0.5 = trending, H < 0.5 = mean-reverting, H = 0.5 = random walk
         features["hurst_regime"] = features.get("hurst_exponent", 0.5) - 0.5
 
-        # --- Approximate Lyapunov exponent ---
-        # Measure average rate of divergence of nearby trajectories
+        # --- Approximate Lyapunov exponent (subsampled for speed) ---
         embedding_dim = 3
         tau = 1
-        if len(vr) >= embedding_dim * tau + 10:
-            # Create delay embedding
-            m = len(vr) - (embedding_dim - 1) * tau
-            embedded = np.array([vr[i*tau:i*tau + m] for i in range(embedding_dim)]).T
-
-            if len(embedded) >= 10:
-                # For each point, find nearest neighbor and track divergence
-                lyap_sum = 0.0
-                lyap_count = 0
-                step = max(1, len(embedded) // 50)  # subsample for speed
-                for i_ly in range(0, len(embedded) - 2, step):
-                    # Find nearest neighbor (excluding immediate neighbors)
-                    dists = np.linalg.norm(embedded - embedded[i_ly], axis=1)
-                    dists[max(0, i_ly-2):min(len(dists), i_ly+3)] = np.inf
-                    nn = np.argmin(dists)
-                    d0 = dists[nn]
-                    if d0 > 0 and nn + 1 < len(embedded) and i_ly + 1 < len(embedded):
-                        d1 = np.linalg.norm(embedded[i_ly + 1] - embedded[nn + 1])
+        # Subsample to 500 points max before embedding
+        vr_lyap = vr[::max(1, len(vr) // 500)][:500]
+        if len(vr_lyap) >= embedding_dim + 10:
+            m_ly = len(vr_lyap) - (embedding_dim - 1) * tau
+            embedded = np.array([vr_lyap[i*tau:i*tau + m_ly] for i in range(embedding_dim)]).T
+            n_emb = len(embedded)
+            if n_emb >= 20:
+                # Vectorized: pick 30 reference points, find nearest neighbors
+                ref_idx = np.linspace(2, n_emb - 3, min(30, n_emb - 4), dtype=int)
+                lyap_vals = []
+                for i_ly in ref_idx:
+                    diffs_ly = np.sum((embedded - embedded[i_ly]) ** 2, axis=1)
+                    diffs_ly[max(0, i_ly-2):min(n_emb, i_ly+3)] = np.inf
+                    nn = np.argmin(diffs_ly)
+                    d0 = np.sqrt(diffs_ly[nn])
+                    if d0 > 0 and nn + 1 < n_emb and i_ly + 1 < n_emb:
+                        d1 = np.sqrt(np.sum((embedded[i_ly + 1] - embedded[nn + 1]) ** 2))
                         if d1 > 0:
-                            lyap_sum += np.log(d1 / d0)
-                            lyap_count += 1
-                features["lyapunov_exponent"] = lyap_sum / lyap_count if lyap_count > 0 else 0.0
+                            lyap_vals.append(np.log(d1 / d0))
+                features["lyapunov_exponent"] = float(np.mean(lyap_vals)) if lyap_vals else 0.0
             else:
                 features["lyapunov_exponent"] = 0.0
         else:
             features["lyapunov_exponent"] = 0.0
 
-        # --- Recurrence Quantification Analysis (simplified) ---
-        # Recurrence rate: fraction of point pairs within threshold distance
-        n_rqa = min(len(vr), 200)  # subsample for speed
-        rqa_data = vr[:n_rqa]
-        threshold = np.std(rqa_data) * 0.5
-        if threshold > 0 and n_rqa >= 10:
-            # Compute recurrence matrix (subsampled)
-            step_rqa = max(1, n_rqa // 50)
-            rec_count = 0
-            det_count = 0
-            total_pairs = 0
-            for i_rq in range(0, n_rqa, step_rqa):
-                diffs = np.abs(rqa_data - rqa_data[i_rq])
-                recurrent = diffs < threshold
-                rec_count += recurrent.sum() - 1  # exclude self
-                total_pairs += n_rqa - 1
-                # Determinism: count diagonal lines (consecutive recurrences)
-                if i_rq + 1 < n_rqa:
-                    diffs_next = np.abs(rqa_data[1:] - rqa_data[min(i_rq+1, n_rqa-1)])
-                    det_count += (recurrent[:-1] & (diffs_next < threshold)).sum()
-
-            features["rqa_recurrence_rate"] = rec_count / total_pairs if total_pairs > 0 else 0.0
-            features["rqa_determinism"] = det_count / max(rec_count, 1)
+        # --- Recurrence Quantification Analysis (fully vectorized) ---
+        n_rqa = min(len(vr), 150)
+        rqa_data = vr[::max(1, len(vr) // n_rqa)][:n_rqa]
+        rqa_std = np.std(rqa_data)
+        if rqa_std > 0 and len(rqa_data) >= 10:
+            threshold = rqa_std * 0.5
+            # Full distance matrix via broadcasting (150×150 = tiny)
+            dist_mat = np.abs(rqa_data[:, None] - rqa_data[None, :])
+            rec_mat = dist_mat < threshold
+            np.fill_diagonal(rec_mat, False)
+            n_rq = len(rqa_data)
+            total_pairs = n_rq * (n_rq - 1)
+            features["rqa_recurrence_rate"] = float(rec_mat.sum()) / total_pairs if total_pairs > 0 else 0.0
+            # Determinism: diagonal lines in recurrence matrix
+            diag_match = rec_mat[:-1, :-1] & rec_mat[1:, 1:]
+            features["rqa_determinism"] = float(diag_match.sum()) / max(float(rec_mat.sum()), 1)
         else:
             features["rqa_recurrence_rate"] = 0.0
             features["rqa_determinism"] = 0.0
