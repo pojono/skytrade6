@@ -1947,36 +1947,575 @@ def compute_features(group: pd.DataFrame) -> dict:
         features["tortuosity"] = 1.0
 
     # -----------------------------------------------------------------------
-    # 45. Math — Number Theory (Fibonacci / Golden Ratio)
+    # 45. Deep Fibonacci / Golden Ratio Analysis
     # -----------------------------------------------------------------------
-    # Fibonacci retracement levels from candle range
+    phi = 1.618033988749895
+    inv_phi = 0.618033988749895  # 1/φ = φ-1
+    fib_levels = [0.236, 0.382, 0.5, 0.618, 0.786]
+    fib_ratios = [phi, inv_phi, phi**2, 1/phi**2, phi**3, 1/phi**3]
+
+    # --- 45a. Fibonacci Price Retracement (close position) ---
     if price_range > 0:
-        fib_levels = [0.236, 0.382, 0.5, 0.618, 0.786]
-        close_pct = (c - l) / price_range  # where close is in the range [0,1]
+        close_pct = (c - l) / price_range
         fib_distances = [abs(close_pct - fl) for fl in fib_levels]
         features["fib_nearest_dist"] = min(fib_distances)
-        features["fib_nearest_level"] = fib_levels[np.argmin(fib_distances)]
-        # Is close near a Fibonacci level? (within 5%)
+        features["fib_nearest_level"] = fib_levels[int(np.argmin(fib_distances))]
         features["fib_proximity"] = 1.0 if features["fib_nearest_dist"] < 0.05 else 0.0
     else:
         features["fib_nearest_dist"] = 0.5
         features["fib_nearest_level"] = 0.5
         features["fib_proximity"] = 0.0
 
-    # Golden ratio in volume split
-    if total_vol > 0:
-        phi = 1.618033988749895
-        buy_sell_ratio = buy_vol / sell_vol if sell_vol > 0 else 0.0
-        features["golden_ratio_dist"] = abs(buy_sell_ratio - phi)
-        features["golden_ratio_inv_dist"] = abs(buy_sell_ratio - 1 / phi)
-        features["golden_ratio_proximity"] = min(features["golden_ratio_dist"], features["golden_ratio_inv_dist"])
+    # --- 45b. Intra-candle Fibonacci level interaction ---
+    if n >= 20 and price_range > 0:
+        price_pct_fib = (prices - l) / price_range  # normalize to [0,1]
+
+        # How many times does price cross each Fib level?
+        fib_crosses = 0
+        fib_vol_at_level = 0.0
+        fib_vol_away = 0.0
+        fib_threshold = 0.02  # within 2% of range = "at" a Fib level
+
+        for fl in fib_levels:
+            near_fib = np.abs(price_pct_fib - fl) < fib_threshold
+            fib_vol_at_level += sizes[near_fib].sum()
+            # Count crossings: sign changes of (price_pct - fib_level)
+            diff_from_fib = price_pct_fib - fl
+            sign_changes = np.diff(np.sign(diff_from_fib))
+            fib_crosses += np.count_nonzero(sign_changes)
+
+        fib_vol_away = total_vol - fib_vol_at_level
+        features["fib_total_crosses"] = fib_crosses
+        features["fib_crosses_per_level"] = fib_crosses / len(fib_levels)
+        features["fib_vol_concentration"] = fib_vol_at_level / total_vol if total_vol > 0 else 0.0
+        features["fib_vol_ratio"] = fib_vol_at_level / fib_vol_away if fib_vol_away > 0 else 1.0
+
+        # Fib level "respect" score: do prices bounce at Fib levels?
+        # A bounce = price approaches a Fib level and reverses direction
+        fib_bounces = 0
+        for fl in fib_levels:
+            diff_from_fib = price_pct_fib - fl
+            near = np.abs(diff_from_fib) < fib_threshold
+            near_indices = np.where(near)[0]
+            for ni in near_indices:
+                if ni >= 2 and ni < n - 2:
+                    before = prices[ni] - prices[ni - 2]
+                    after = prices[ni + 2] - prices[ni]
+                    if before * after < 0:  # direction reversal
+                        fib_bounces += 1
+        features["fib_bounce_count"] = fib_bounces
+        features["fib_respect_score"] = fib_bounces / max(fib_crosses, 1)
     else:
-        features["golden_ratio_dist"] = phi
-        features["golden_ratio_inv_dist"] = 1 / phi
-        features["golden_ratio_proximity"] = 1.0
+        features["fib_total_crosses"] = 0
+        features["fib_crosses_per_level"] = 0.0
+        features["fib_vol_concentration"] = 0.0
+        features["fib_vol_ratio"] = 0.0
+        features["fib_bounce_count"] = 0
+        features["fib_respect_score"] = 0.0
+
+    # --- 45c. Fibonacci Time Zones ---
+    if n >= 20 and candle_duration_s > 0:
+        # Fibonacci time fractions: 1/21, 1/13, 1/8, 2/13, 3/13, 5/13, 8/13, 13/21
+        fib_time_fracs = [1/21, 1/13, 2/21, 1/8, 3/21, 2/13, 5/21, 3/13,
+                          8/21, 5/13, 8/13, 13/21]
+        fib_time_fracs = sorted(set([f for f in fib_time_fracs if 0 < f < 1]))
+
+        # Volume at Fibonacci time zones (within 2% of candle duration)
+        fib_time_vol = 0.0
+        fib_time_trades = 0
+        time_threshold = 0.02
+        for ftf in fib_time_fracs:
+            near_fib_time = np.abs(rel_time - ftf) < time_threshold
+            fib_time_vol += sizes[near_fib_time].sum()
+            fib_time_trades += near_fib_time.sum()
+
+        features["fib_time_vol_pct"] = fib_time_vol / total_vol if total_vol > 0 else 0.0
+        features["fib_time_trade_pct"] = fib_time_trades / n
+
+        # Expected if uniform: len(fib_time_fracs) * 2 * time_threshold * total_vol
+        expected_fib_vol = len(fib_time_fracs) * 2 * time_threshold * total_vol
+        features["fib_time_vol_surprise"] = fib_time_vol / expected_fib_vol if expected_fib_vol > 0 else 1.0
+    else:
+        features["fib_time_vol_pct"] = 0.0
+        features["fib_time_trade_pct"] = 0.0
+        features["fib_time_vol_surprise"] = 1.0
+
+    # --- 45d. Golden Ratio in Volume Splits ---
+    if total_vol > 0:
+        # Buy/sell volume ratio vs φ
+        bs_ratio = buy_vol / sell_vol if sell_vol > 0 else 0.0
+        features["golden_ratio_bs_dist"] = min(abs(bs_ratio - phi), abs(bs_ratio - inv_phi))
+
+        # First-half / second-half volume ratio vs φ
+        vol_h1_fib = sizes[:mid_idx].sum() if mid_idx > 0 else 0.0
+        vol_h2_fib = sizes[mid_idx:].sum() if mid_idx < n else total_vol
+        hh_ratio = vol_h1_fib / vol_h2_fib if vol_h2_fib > 0 else 0.0
+        features["golden_ratio_half_dist"] = min(abs(hh_ratio - phi), abs(hh_ratio - inv_phi))
+
+        # Quartile volume ratios: how many consecutive pairs are near φ?
+        if n >= 20:
+            q_size_fib = n // 4
+            q_vols_fib = [sizes[i*q_size_fib:(i+1)*q_size_fib].sum() for i in range(4)]
+            golden_pairs = 0
+            for i in range(3):
+                if q_vols_fib[i+1] > 0:
+                    qr = q_vols_fib[i] / q_vols_fib[i+1]
+                    if min(abs(qr - phi), abs(qr - inv_phi)) < 0.15:
+                        golden_pairs += 1
+            features["golden_quartile_pairs"] = golden_pairs
+        else:
+            features["golden_quartile_pairs"] = 0
+
+        # Composite golden ratio proximity (average of all ratio distances)
+        features["golden_ratio_composite"] = (
+            features["golden_ratio_bs_dist"] +
+            features["golden_ratio_half_dist"]
+        ) / 2
+    else:
+        features["golden_ratio_bs_dist"] = 1.0
+        features["golden_ratio_half_dist"] = 1.0
+        features["golden_quartile_pairs"] = 0
+        features["golden_ratio_composite"] = 1.0
+
+    # --- 45e. Fibonacci in Trade Size Ratios ---
+    if n >= 30:
+        # Consecutive trade size ratios
+        size_ratios = sizes[1:] / np.maximum(sizes[:-1], 1e-12)
+        # How many consecutive size ratios are near a Fibonacci ratio?
+        fib_size_count = 0
+        for fr in [phi, inv_phi, phi**2, 1/phi**2]:
+            fib_size_count += (np.abs(size_ratios - fr) < 0.1 * fr).sum()
+        features["fib_size_ratio_count"] = fib_size_count
+        features["fib_size_ratio_pct"] = fib_size_count / len(size_ratios)
+
+        # Largest trade / median trade — distance to nearest Fibonacci number
+        fib_numbers = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377]
+        max_med_ratio = sizes.max() / np.median(sizes) if np.median(sizes) > 0 else 0.0
+        fib_num_dists = [abs(max_med_ratio - fn) / fn for fn in fib_numbers if fn > 0]
+        features["fib_size_max_med_dist"] = min(fib_num_dists) if fib_num_dists else 1.0
+    else:
+        features["fib_size_ratio_count"] = 0
+        features["fib_size_ratio_pct"] = 0.0
+        features["fib_size_max_med_dist"] = 1.0
+
+    # --- 45f. Fibonacci Wave Structure (Elliott-like) ---
+    if n >= 30 and price_range > 0:
+        # Find swing points (local extrema with minimum 5-tick separation)
+        swing_prices = []
+        swing_types = []  # 1=high, -1=low
+        min_swing = max(5, n // 50)
+        dp_smooth = np.sign(np.diff(prices))
+        i_sw = min_swing
+        while i_sw < n - min_swing:
+            # Look for local max
+            window = prices[i_sw - min_swing:i_sw + min_swing + 1]
+            if prices[i_sw] == window.max() and prices[i_sw] > prices[i_sw - min_swing]:
+                swing_prices.append(prices[i_sw])
+                swing_types.append(1)
+                i_sw += min_swing
+            elif prices[i_sw] == window.min() and prices[i_sw] < prices[i_sw - min_swing]:
+                swing_prices.append(prices[i_sw])
+                swing_types.append(-1)
+                i_sw += min_swing
+            else:
+                i_sw += 1
+
+        if len(swing_prices) >= 3:
+            # Wave amplitudes: absolute price changes between consecutive swings
+            wave_amps = np.abs(np.diff(swing_prices))
+
+            # Consecutive wave amplitude ratios
+            if len(wave_amps) >= 2:
+                wave_ratios = wave_amps[1:] / np.maximum(wave_amps[:-1], 1e-12)
+                # How many wave ratios are near Fibonacci ratios?
+                fib_wave_count = 0
+                for wr in wave_ratios:
+                    for fr in [phi, inv_phi, 0.382, 0.236, 1.0]:
+                        if abs(wr - fr) < 0.15 * max(fr, 0.1):
+                            fib_wave_count += 1
+                            break
+                features["fib_wave_ratio_count"] = fib_wave_count
+                features["fib_wave_ratio_pct"] = fib_wave_count / len(wave_ratios)
+
+                # Average distance of wave ratios from nearest Fib ratio
+                avg_fib_dist = 0.0
+                for wr in wave_ratios:
+                    min_d = min(abs(wr - fr) for fr in [phi, inv_phi, 0.382, 0.236, 1.0, 2.618])
+                    avg_fib_dist += min_d
+                features["fib_wave_avg_dist"] = avg_fib_dist / len(wave_ratios)
+            else:
+                features["fib_wave_ratio_count"] = 0
+                features["fib_wave_ratio_pct"] = 0.0
+                features["fib_wave_avg_dist"] = 1.0
+
+            features["fib_swing_count"] = len(swing_prices)
+
+            # Up-waves vs down-waves ratio: is it near φ?
+            up_waves = sum(1 for i in range(len(wave_amps)) if swing_types[i+1] == 1)
+            down_waves = sum(1 for i in range(len(wave_amps)) if swing_types[i+1] == -1)
+            if down_waves > 0:
+                ud_ratio = up_waves / down_waves
+                features["fib_updown_wave_ratio"] = ud_ratio
+                features["fib_updown_golden_dist"] = min(abs(ud_ratio - phi), abs(ud_ratio - inv_phi))
+            else:
+                features["fib_updown_wave_ratio"] = float(up_waves)
+                features["fib_updown_golden_dist"] = 1.0
+        else:
+            features["fib_wave_ratio_count"] = 0
+            features["fib_wave_ratio_pct"] = 0.0
+            features["fib_wave_avg_dist"] = 1.0
+            features["fib_swing_count"] = len(swing_prices)
+            features["fib_updown_wave_ratio"] = 1.0
+            features["fib_updown_golden_dist"] = 1.0
+    else:
+        features["fib_wave_ratio_count"] = 0
+        features["fib_wave_ratio_pct"] = 0.0
+        features["fib_wave_avg_dist"] = 1.0
+        features["fib_swing_count"] = 0
+        features["fib_updown_wave_ratio"] = 1.0
+        features["fib_updown_golden_dist"] = 1.0
+
+    # --- 45g. Golden Angle Distribution (Phyllotaxis) ---
+    if n >= 30 and candle_duration_s > 0:
+        # Map each trade to an angle on a circle using golden angle (137.508°)
+        golden_angle_rad = 2 * np.pi * (1 - 1 / phi)  # ≈ 2.399 rad ≈ 137.508°
+
+        # Ideal golden angle positions for n trades
+        ideal_angles = np.mod(np.arange(n) * golden_angle_rad, 2 * np.pi)
+        # Actual trade positions mapped to circle by time
+        actual_angles = rel_time * 2 * np.pi
+
+        # Circular variance: how well do actual trades follow golden angle spacing?
+        # Low variance = good golden angle distribution
+        angle_diffs = np.mod(actual_angles - ideal_angles, 2 * np.pi)
+        angle_diffs = np.minimum(angle_diffs, 2 * np.pi - angle_diffs)
+        features["golden_angle_deviation"] = float(np.mean(angle_diffs))
+        features["golden_angle_uniformity"] = 1.0 - features["golden_angle_deviation"] / np.pi
+
+        # Sunflower score: how "sunflower-like" is the trade distribution?
+        # Perfect sunflower = trades at golden angle intervals
+        # Compare actual inter-trade angles to golden angle
+        if n >= 10:
+            actual_inter = np.diff(actual_angles)
+            golden_inter = golden_angle_rad
+            inter_diffs = np.abs(np.mod(actual_inter, 2 * np.pi) - np.mod(golden_inter, 2 * np.pi))
+            inter_diffs = np.minimum(inter_diffs, 2 * np.pi - inter_diffs)
+            features["sunflower_score"] = 1.0 - float(np.mean(inter_diffs)) / np.pi
+        else:
+            features["sunflower_score"] = 0.0
+    else:
+        features["golden_angle_deviation"] = np.pi
+        features["golden_angle_uniformity"] = 0.0
+        features["sunflower_score"] = 0.0
+
+    # --- 45h. Fibonacci Inter-Trade Time Analysis ---
+    if n >= 20:
+        it_fib = np.diff(timestamps_s)
+        it_fib = it_fib[it_fib > 0]
+        if len(it_fib) >= 10:
+            # Ratio of consecutive inter-trade times
+            it_ratios = it_fib[1:] / np.maximum(it_fib[:-1], 1e-12)
+            # How many are near golden ratio?
+            golden_it_count = 0
+            for itr in it_ratios:
+                if min(abs(itr - phi), abs(itr - inv_phi)) < 0.15:
+                    golden_it_count += 1
+            features["fib_intertime_ratio_pct"] = golden_it_count / len(it_ratios)
+
+            # Distribution of inter-trade times: does it follow Fibonacci scaling?
+            # Sort inter-trade times, check if quantile ratios are near φ
+            sorted_it = np.sort(it_fib)
+            q25 = np.percentile(sorted_it, 25)
+            q50 = np.percentile(sorted_it, 50)
+            q75 = np.percentile(sorted_it, 75)
+            q90 = np.percentile(sorted_it, 90)
+            if q25 > 0 and q50 > 0:
+                r1 = q50 / q25
+                r2 = q75 / q50
+                r3 = q90 / q75 if q75 > 0 else 0.0
+                fib_scale_score = 0
+                for r in [r1, r2, r3]:
+                    if r > 0 and min(abs(r - phi), abs(r - inv_phi), abs(r - phi**2)) < 0.3:
+                        fib_scale_score += 1
+                features["fib_time_scaling_score"] = fib_scale_score / 3
+            else:
+                features["fib_time_scaling_score"] = 0.0
+        else:
+            features["fib_intertime_ratio_pct"] = 0.0
+            features["fib_time_scaling_score"] = 0.0
+    else:
+        features["fib_intertime_ratio_pct"] = 0.0
+        features["fib_time_scaling_score"] = 0.0
 
     # -----------------------------------------------------------------------
-    # 46. Math — Spectral / Fourier Analysis
+    # 46. Elliott Wave Principle Analysis
+    # -----------------------------------------------------------------------
+    # Detect impulse (5-wave) and corrective (3-wave) patterns in tick data
+    # using the swing points already found in section 45f.
+    # Re-use swing_prices and swing_types if available, else recompute.
+    ew_swings = swing_prices if 'swing_prices' in dir() and len(swing_prices) >= 5 else []
+    ew_types = swing_types if 'swing_types' in dir() and len(swing_types) >= 5 else []
+
+    if len(ew_swings) < 5 and n >= 50 and price_range > 0:
+        # Recompute swings with coarser granularity for EW analysis
+        ew_swings = []
+        ew_types = []
+        ew_min_swing = max(5, n // 30)
+        i_ew = ew_min_swing
+        while i_ew < n - ew_min_swing:
+            window_ew = prices[i_ew - ew_min_swing:i_ew + ew_min_swing + 1]
+            if prices[i_ew] == window_ew.max() and prices[i_ew] > prices[i_ew - ew_min_swing]:
+                ew_swings.append(prices[i_ew])
+                ew_types.append(1)
+                i_ew += ew_min_swing
+            elif prices[i_ew] == window_ew.min() and prices[i_ew] < prices[i_ew - ew_min_swing]:
+                ew_swings.append(prices[i_ew])
+                ew_types.append(-1)
+                i_ew += ew_min_swing
+            else:
+                i_ew += 1
+
+    if len(ew_swings) >= 5:
+        ew_waves = np.diff(ew_swings)  # signed wave moves
+        ew_abs = np.abs(ew_waves)
+        n_waves = len(ew_waves)
+
+        # --- EW Rule: 5-wave impulse detection ---
+        # Look for 5 consecutive waves where waves 1,3,5 are same direction
+        # and waves 2,4 are opposite (corrections)
+        impulse_score = 0.0
+        best_impulse_quality = 0.0
+
+        for start_w in range(n_waves - 4):
+            w = ew_waves[start_w:start_w + 5]
+            wa = ew_abs[start_w:start_w + 5]
+
+            # Check alternating direction: w1,w3,w5 same sign; w2,w4 opposite
+            if np.sign(w[0]) == np.sign(w[2]) == np.sign(w[4]) and \
+               np.sign(w[1]) == np.sign(w[3]) and \
+               np.sign(w[0]) != np.sign(w[1]):
+
+                quality = 0.0
+
+                # Rule: Wave 3 is never the shortest of 1, 3, 5
+                impulse_waves = [wa[0], wa[2], wa[4]]
+                if wa[2] != min(impulse_waves):
+                    quality += 0.2
+
+                # Rule: Wave 3 is typically the longest
+                if wa[2] == max(impulse_waves):
+                    quality += 0.15
+
+                # Rule: Wave 2 retraces less than 100% of Wave 1
+                if wa[1] < wa[0]:
+                    quality += 0.15
+
+                # Rule: Wave 4 doesn't overlap Wave 1 territory
+                # (Wave 4 end doesn't go past Wave 1 start)
+                w1_start = ew_swings[start_w]
+                w1_end = ew_swings[start_w + 1]
+                w4_end = ew_swings[start_w + 4]
+                if np.sign(w[0]) > 0:  # uptrend impulse
+                    if w4_end > w1_end:  # Wave 4 low above Wave 1 high
+                        quality += 0.15
+                else:  # downtrend impulse
+                    if w4_end < w1_end:
+                        quality += 0.15
+
+                # Fibonacci ratios in wave relationships
+                # Wave 3 ≈ 1.618 × Wave 1
+                if wa[0] > 0:
+                    w3_w1_ratio = wa[2] / wa[0]
+                    if abs(w3_w1_ratio - phi) < 0.3:
+                        quality += 0.1
+                    # Wave 5 ≈ Wave 1 or 0.618 × Wave 3
+                    w5_w1_ratio = wa[4] / wa[0]
+                    if abs(w5_w1_ratio - 1.0) < 0.2 or abs(w5_w1_ratio - inv_phi) < 0.2:
+                        quality += 0.1
+
+                # Wave 2 retracement near Fib level (38.2%, 50%, 61.8%)
+                if wa[0] > 0:
+                    w2_retrace = wa[1] / wa[0]
+                    fib_retrace_dists = [abs(w2_retrace - fl) for fl in [0.382, 0.5, 0.618]]
+                    if min(fib_retrace_dists) < 0.08:
+                        quality += 0.075
+
+                # Alternation: Wave 2 and Wave 4 should differ in character
+                # Sharp (>61.8% retrace) vs flat (<38.2% retrace)
+                if wa[0] > 0 and wa[2] > 0:
+                    w2_depth = wa[1] / wa[0]
+                    w4_depth = wa[3] / wa[2]
+                    # One deep, one shallow = alternation
+                    if (w2_depth > 0.5 and w4_depth < 0.5) or \
+                       (w2_depth < 0.5 and w4_depth > 0.5):
+                        quality += 0.075
+
+                impulse_score = max(impulse_score, 1.0)
+                best_impulse_quality = max(best_impulse_quality, quality)
+
+        features["ew_impulse_detected"] = impulse_score
+        features["ew_impulse_quality"] = best_impulse_quality
+
+        # --- EW: 3-wave correction (ABC) detection ---
+        correction_score = 0.0
+        best_correction_quality = 0.0
+
+        for start_w in range(n_waves - 2):
+            w = ew_waves[start_w:start_w + 3]
+            wa = ew_abs[start_w:start_w + 3]
+
+            # ABC: A and C same direction, B opposite
+            if np.sign(w[0]) == np.sign(w[2]) and np.sign(w[0]) != np.sign(w[1]):
+                quality = 0.0
+
+                # Wave C ≈ Wave A (common)
+                if wa[0] > 0:
+                    c_a_ratio = wa[2] / wa[0]
+                    if abs(c_a_ratio - 1.0) < 0.2:
+                        quality += 0.25
+                    # Wave C ≈ 1.618 × Wave A (extended)
+                    elif abs(c_a_ratio - phi) < 0.3:
+                        quality += 0.2
+                    # Wave C ≈ 0.618 × Wave A (truncated)
+                    elif abs(c_a_ratio - inv_phi) < 0.2:
+                        quality += 0.15
+
+                # Wave B retracement of A near Fib level
+                if wa[0] > 0:
+                    b_retrace = wa[1] / wa[0]
+                    fib_b_dists = [abs(b_retrace - fl) for fl in [0.382, 0.5, 0.618, 0.786]]
+                    if min(fib_b_dists) < 0.08:
+                        quality += 0.25
+
+                # Flat correction: B retraces >90% of A, C ≈ A
+                if wa[0] > 0:
+                    if wa[1] / wa[0] > 0.9 and abs(wa[2] / wa[0] - 1.0) < 0.15:
+                        quality += 0.25  # flat pattern
+
+                # Zigzag: B retraces 38-62% of A, C > A
+                if wa[0] > 0:
+                    b_r = wa[1] / wa[0]
+                    if 0.35 < b_r < 0.65 and wa[2] > wa[0]:
+                        quality += 0.25  # zigzag pattern
+
+                correction_score = max(correction_score, 1.0)
+                best_correction_quality = max(best_correction_quality, quality)
+
+        features["ew_correction_detected"] = correction_score
+        features["ew_correction_quality"] = best_correction_quality
+
+        # --- EW: Wave personality signatures ---
+        # In a 5-wave impulse, each wave has characteristic behavior:
+        # Wave 1: low volume, hesitant
+        # Wave 3: highest volume, strongest momentum
+        # Wave 5: declining volume, divergence
+
+        # Volume distribution across waves (using all waves)
+        if n_waves >= 3:
+            # Approximate volume per wave using time-proportional allocation
+            wave_vols = []
+            cumulative_swings = 0
+            for wi in range(n_waves):
+                # Rough: allocate volume proportional to wave amplitude
+                wave_vols.append(ew_abs[wi])
+
+            wave_vols = np.array(wave_vols)
+            total_wave_vol = wave_vols.sum()
+            if total_wave_vol > 0:
+                wave_vol_pcts = wave_vols / total_wave_vol
+
+                # Is volume declining in later waves? (exhaustion signal)
+                if n_waves >= 4:
+                    first_half_vol = wave_vols[:n_waves // 2].mean()
+                    second_half_vol = wave_vols[n_waves // 2:].mean()
+                    features["ew_vol_exhaustion"] = second_half_vol / first_half_vol if first_half_vol > 0 else 1.0
+                else:
+                    features["ew_vol_exhaustion"] = 1.0
+
+                # Wave amplitude trend: are waves getting smaller? (completion signal)
+                if n_waves >= 3:
+                    amp_slope = np.polyfit(range(n_waves), ew_abs, 1)[0]
+                    features["ew_amplitude_trend"] = float(amp_slope)
+                    features["ew_amplitude_trend_norm"] = float(amp_slope / np.mean(ew_abs)) if np.mean(ew_abs) > 0 else 0.0
+                else:
+                    features["ew_amplitude_trend"] = 0.0
+                    features["ew_amplitude_trend_norm"] = 0.0
+            else:
+                features["ew_vol_exhaustion"] = 1.0
+                features["ew_amplitude_trend"] = 0.0
+                features["ew_amplitude_trend_norm"] = 0.0
+        else:
+            features["ew_vol_exhaustion"] = 1.0
+            features["ew_amplitude_trend"] = 0.0
+            features["ew_amplitude_trend_norm"] = 0.0
+
+        # --- EW: Wave count and structure ---
+        features["ew_wave_count"] = n_waves
+        features["ew_swing_count"] = len(ew_swings)
+
+        # Ratio of impulse waves (odd) to corrective waves (even)
+        # In perfect EW: 3 impulse + 2 corrective in a 5-wave
+        odd_waves = ew_abs[::2]   # waves 1, 3, 5, ...
+        even_waves = ew_abs[1::2]  # waves 2, 4, ...
+        features["ew_impulse_correction_ratio"] = odd_waves.sum() / even_waves.sum() if even_waves.sum() > 0 else 1.0
+
+        # Alternation score: do consecutive correction waves differ in depth?
+        if len(even_waves) >= 2:
+            alt_diffs = np.abs(np.diff(even_waves))
+            features["ew_alternation_score"] = float(np.mean(alt_diffs) / np.mean(even_waves)) if np.mean(even_waves) > 0 else 0.0
+        else:
+            features["ew_alternation_score"] = 0.0
+
+        # Wave symmetry: how symmetric is the wave structure?
+        if n_waves >= 4:
+            first_half_waves = ew_abs[:n_waves // 2]
+            second_half_waves = ew_abs[n_waves // 2:]
+            min_len_ew = min(len(first_half_waves), len(second_half_waves))
+            if min_len_ew > 0:
+                sym_corr = _safe_corr(first_half_waves[:min_len_ew], second_half_waves[:min_len_ew])
+                features["ew_wave_symmetry"] = sym_corr
+            else:
+                features["ew_wave_symmetry"] = 0.0
+        else:
+            features["ew_wave_symmetry"] = 0.0
+
+        # Net wave direction: sum of all waves / sum of absolute waves
+        features["ew_net_direction"] = float(np.sum(ew_waves) / np.sum(ew_abs)) if np.sum(ew_abs) > 0 else 0.0
+
+        # Wave completion estimate: where are we in the cycle?
+        # Based on cumulative wave amplitude vs total range
+        cum_amp = np.cumsum(ew_abs)
+        total_amp = cum_amp[-1]
+        if total_amp > 0:
+            # What fraction of total wave energy is complete?
+            features["ew_completion_pct"] = float(cum_amp[-1] / total_amp)  # always 1.0 for current candle
+            # But the SHAPE tells us: if last wave is small vs first, we're near end
+            features["ew_last_wave_pct"] = float(ew_abs[-1] / total_amp)
+            features["ew_first_wave_pct"] = float(ew_abs[0] / total_amp)
+        else:
+            features["ew_completion_pct"] = 0.0
+            features["ew_last_wave_pct"] = 0.0
+            features["ew_first_wave_pct"] = 0.0
+
+    else:
+        features["ew_impulse_detected"] = 0.0
+        features["ew_impulse_quality"] = 0.0
+        features["ew_correction_detected"] = 0.0
+        features["ew_correction_quality"] = 0.0
+        features["ew_vol_exhaustion"] = 1.0
+        features["ew_amplitude_trend"] = 0.0
+        features["ew_amplitude_trend_norm"] = 0.0
+        features["ew_wave_count"] = 0
+        features["ew_swing_count"] = 0
+        features["ew_impulse_correction_ratio"] = 1.0
+        features["ew_alternation_score"] = 0.0
+        features["ew_wave_symmetry"] = 0.0
+        features["ew_net_direction"] = 0.0
+        features["ew_last_wave_pct"] = 0.0
+        features["ew_first_wave_pct"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 47. Math — Spectral / Fourier Analysis
     # -----------------------------------------------------------------------
     if n >= 64:
         # FFT of tick returns (detrended)
@@ -2036,6 +2575,209 @@ def compute_features(group: pd.DataFrame) -> dict:
         features["spectral_entropy"] = 0.0
         features["spectral_flatness"] = 1.0
         features["spectral_centroid"] = 0.0
+
+    # -----------------------------------------------------------------------
+    # 48. Taylor Series Decomposition of Price/Volume/OFI Paths
+    # -----------------------------------------------------------------------
+    # Fit polynomial to normalized price path: p(t) = a0 + a1*t + a2*t² + ...
+    # Coefficients capture the SHAPE of the path at different orders.
+    # We fit up to degree 5 for price, degree 3 for volume and OFI.
+
+    if n >= 30 and candle_duration_s > 0 and price_range > 0:
+        # Normalize: t ∈ [0,1], price ∈ [0,1] (relative to range)
+        t_norm = rel_time
+        p_norm = (prices - l) / price_range
+
+        # --- Price Taylor coefficients (degree 5) ---
+        # Subsample if too many ticks (polyfit is O(n*d²), keep fast)
+        max_pts = 2000
+        if n > max_pts:
+            idx_sub = np.linspace(0, n - 1, max_pts, dtype=int)
+            t_sub = t_norm[idx_sub]
+            p_sub = p_norm[idx_sub]
+        else:
+            t_sub = t_norm
+            p_sub = p_norm
+
+        try:
+            price_poly = np.polyfit(t_sub, p_sub, 5)
+            # polyfit returns [a5, a4, a3, a2, a1, a0] (highest degree first)
+            features["taylor_price_a0"] = float(price_poly[5])  # intercept (≈ open position)
+            features["taylor_price_a1"] = float(price_poly[4])  # linear trend
+            features["taylor_price_a2"] = float(price_poly[3])  # curvature
+            features["taylor_price_a3"] = float(price_poly[2])  # asymmetry/skew
+            features["taylor_price_a4"] = float(price_poly[1])  # kurtosis-like
+            features["taylor_price_a5"] = float(price_poly[0])  # 5th order complexity
+
+            # Residual: how well does the polynomial fit?
+            p_fitted = np.polyval(price_poly, t_sub)
+            residuals = p_sub - p_fitted
+            features["taylor_price_r2"] = 1.0 - (np.var(residuals) / np.var(p_sub)) if np.var(p_sub) > 0 else 1.0
+            features["taylor_price_rmse"] = float(np.sqrt(np.mean(residuals ** 2)))
+
+            # Coefficient ratios: curvature relative to trend
+            if abs(price_poly[4]) > 1e-10:
+                features["taylor_curvature_trend_ratio"] = float(price_poly[3] / price_poly[4])
+            else:
+                features["taylor_curvature_trend_ratio"] = 0.0
+
+            # Asymmetry relative to curvature
+            if abs(price_poly[3]) > 1e-10:
+                features["taylor_asymmetry_curvature_ratio"] = float(price_poly[2] / price_poly[3])
+            else:
+                features["taylor_asymmetry_curvature_ratio"] = 0.0
+
+            # Dominant order: which coefficient has the most influence?
+            # Weight by typical t^k contribution at t=0.5
+            coeff_influence = [abs(price_poly[5-k]) * (0.5 ** k) for k in range(6)]
+            features["taylor_dominant_order"] = int(np.argmax(coeff_influence))
+
+            # Complexity: how many terms needed for 90% of R²?
+            complexity = 0
+            for deg in range(1, 6):
+                try:
+                    partial_poly = np.polyfit(t_sub, p_sub, deg)
+                    partial_fit = np.polyval(partial_poly, t_sub)
+                    partial_r2 = 1.0 - (np.var(p_sub - partial_fit) / np.var(p_sub)) if np.var(p_sub) > 0 else 1.0
+                    if partial_r2 >= 0.9:
+                        complexity = deg
+                        break
+                except Exception:
+                    pass
+            if complexity == 0:
+                complexity = 5
+            features["taylor_complexity"] = complexity
+
+        except Exception:
+            features["taylor_price_a0"] = 0.0
+            features["taylor_price_a1"] = 0.0
+            features["taylor_price_a2"] = 0.0
+            features["taylor_price_a3"] = 0.0
+            features["taylor_price_a4"] = 0.0
+            features["taylor_price_a5"] = 0.0
+            features["taylor_price_r2"] = 0.0
+            features["taylor_price_rmse"] = 0.0
+            features["taylor_curvature_trend_ratio"] = 0.0
+            features["taylor_asymmetry_curvature_ratio"] = 0.0
+            features["taylor_dominant_order"] = 0
+            features["taylor_complexity"] = 0
+
+        # --- Volume path Taylor coefficients (degree 3) ---
+        # Cumulative volume over time → shape of volume accumulation
+        cum_vol = np.cumsum(sizes) / total_vol if total_vol > 0 else np.linspace(0, 1, n)
+        if n > max_pts:
+            cv_sub = cum_vol[idx_sub]
+        else:
+            cv_sub = cum_vol
+
+        try:
+            vol_poly = np.polyfit(t_sub, cv_sub, 3)
+            features["taylor_vol_a1"] = float(vol_poly[2])  # linear rate
+            features["taylor_vol_a2"] = float(vol_poly[1])  # acceleration
+            features["taylor_vol_a3"] = float(vol_poly[0])  # jerk
+
+            vol_fitted = np.polyval(vol_poly, t_sub)
+            vol_resid = cv_sub - vol_fitted
+            features["taylor_vol_r2"] = 1.0 - (np.var(vol_resid) / np.var(cv_sub)) if np.var(cv_sub) > 0 else 1.0
+
+            # Volume acceleration relative to rate
+            if abs(vol_poly[2]) > 1e-10:
+                features["taylor_vol_accel_ratio"] = float(vol_poly[1] / vol_poly[2])
+            else:
+                features["taylor_vol_accel_ratio"] = 0.0
+        except Exception:
+            features["taylor_vol_a1"] = 0.0
+            features["taylor_vol_a2"] = 0.0
+            features["taylor_vol_a3"] = 0.0
+            features["taylor_vol_r2"] = 0.0
+            features["taylor_vol_accel_ratio"] = 0.0
+
+        # --- OFI (Order Flow Imbalance) path Taylor coefficients (degree 3) ---
+        # Cumulative signed volume over time → shape of order flow
+        signed_vol = sizes * sides
+        cum_ofi = np.cumsum(signed_vol)
+        ofi_range = cum_ofi.max() - cum_ofi.min()
+        if ofi_range > 0:
+            ofi_norm = (cum_ofi - cum_ofi.min()) / ofi_range
+        else:
+            ofi_norm = np.zeros(n)
+
+        if n > max_pts:
+            ofi_sub = ofi_norm[idx_sub]
+        else:
+            ofi_sub = ofi_norm
+
+        try:
+            ofi_poly = np.polyfit(t_sub, ofi_sub, 3)
+            features["taylor_ofi_a1"] = float(ofi_poly[2])  # OFI trend
+            features["taylor_ofi_a2"] = float(ofi_poly[1])  # OFI acceleration
+            features["taylor_ofi_a3"] = float(ofi_poly[0])  # OFI jerk
+
+            ofi_fitted = np.polyval(ofi_poly, t_sub)
+            ofi_resid = ofi_sub - ofi_fitted
+            features["taylor_ofi_r2"] = 1.0 - (np.var(ofi_resid) / np.var(ofi_sub)) if np.var(ofi_sub) > 0 else 1.0
+
+            # OFI-price alignment: do their Taylor trends agree?
+            features["taylor_price_ofi_alignment"] = float(
+                np.sign(features.get("taylor_price_a1", 0)) * np.sign(features.get("taylor_ofi_a1", 0))
+            )
+        except Exception:
+            features["taylor_ofi_a1"] = 0.0
+            features["taylor_ofi_a2"] = 0.0
+            features["taylor_ofi_a3"] = 0.0
+            features["taylor_ofi_r2"] = 0.0
+            features["taylor_price_ofi_alignment"] = 0.0
+
+        # --- Trade rate path Taylor coefficients (degree 3) ---
+        # Cumulative trade count over time → shape of activity
+        cum_trades = np.arange(1, n + 1, dtype=float) / n
+        if n > max_pts:
+            ct_sub = cum_trades[idx_sub]
+        else:
+            ct_sub = cum_trades
+
+        try:
+            rate_poly = np.polyfit(t_sub, ct_sub, 3)
+            features["taylor_rate_a1"] = float(rate_poly[2])  # activity rate
+            features["taylor_rate_a2"] = float(rate_poly[1])  # activity acceleration
+            features["taylor_rate_a3"] = float(rate_poly[0])  # activity jerk
+
+            rate_fitted = np.polyval(rate_poly, t_sub)
+            rate_resid = ct_sub - rate_fitted
+            features["taylor_rate_r2"] = 1.0 - (np.var(rate_resid) / np.var(ct_sub)) if np.var(ct_sub) > 0 else 1.0
+        except Exception:
+            features["taylor_rate_a1"] = 0.0
+            features["taylor_rate_a2"] = 0.0
+            features["taylor_rate_a3"] = 0.0
+            features["taylor_rate_r2"] = 0.0
+
+        # --- Cross-series Taylor divergence ---
+        # Do price and volume paths diverge? (different shapes = divergence signal)
+        features["taylor_price_vol_divergence"] = abs(
+            features.get("taylor_price_a2", 0) - features.get("taylor_vol_a2", 0)
+        )
+        features["taylor_price_rate_divergence"] = abs(
+            features.get("taylor_price_a2", 0) - features.get("taylor_rate_a2", 0)
+        )
+
+    else:
+        for suffix in ["a0", "a1", "a2", "a3", "a4", "a5"]:
+            features[f"taylor_price_{suffix}"] = 0.0
+        features["taylor_price_r2"] = 0.0
+        features["taylor_price_rmse"] = 0.0
+        features["taylor_curvature_trend_ratio"] = 0.0
+        features["taylor_asymmetry_curvature_ratio"] = 0.0
+        features["taylor_dominant_order"] = 0
+        features["taylor_complexity"] = 0
+        for prefix in ["taylor_vol", "taylor_ofi", "taylor_rate"]:
+            features[f"{prefix}_a1"] = 0.0
+            features[f"{prefix}_a2"] = 0.0
+            features[f"{prefix}_a3"] = 0.0
+            features[f"{prefix}_r2"] = 0.0
+        features["taylor_vol_accel_ratio"] = 0.0
+        features["taylor_price_ofi_alignment"] = 0.0
+        features["taylor_price_vol_divergence"] = 0.0
+        features["taylor_price_rate_divergence"] = 0.0
 
     return features
 
@@ -2319,12 +3061,40 @@ ZSCORE_FEATURES = [
     # --- NEW: Math — Topology ---
     "num_extrema", "extrema_density",
     "max_monotonic_run", "monotonicity_score", "tortuosity",
-    # --- NEW: Math — Number Theory ---
-    "fib_nearest_dist", "golden_ratio_proximity",
+    # --- NEW: Deep Fibonacci ---
+    "fib_nearest_dist", "fib_total_crosses", "fib_crosses_per_level",
+    "fib_vol_concentration", "fib_vol_ratio",
+    "fib_bounce_count", "fib_respect_score",
+    "fib_time_vol_pct", "fib_time_trade_pct", "fib_time_vol_surprise",
+    "golden_ratio_bs_dist", "golden_ratio_half_dist",
+    "golden_quartile_pairs", "golden_ratio_composite",
+    "fib_size_ratio_count", "fib_size_ratio_pct", "fib_size_max_med_dist",
+    "fib_wave_ratio_count", "fib_wave_ratio_pct", "fib_wave_avg_dist",
+    "fib_swing_count", "fib_updown_wave_ratio", "fib_updown_golden_dist",
+    "golden_angle_deviation", "golden_angle_uniformity", "sunflower_score",
+    "fib_intertime_ratio_pct", "fib_time_scaling_score",
+    # --- NEW: Elliott Wave ---
+    "ew_impulse_quality", "ew_correction_quality",
+    "ew_vol_exhaustion", "ew_amplitude_trend", "ew_amplitude_trend_norm",
+    "ew_wave_count", "ew_swing_count",
+    "ew_impulse_correction_ratio", "ew_alternation_score",
+    "ew_wave_symmetry", "ew_net_direction",
+    "ew_last_wave_pct", "ew_first_wave_pct",
     # --- NEW: Math — Spectral / Fourier ---
     "dominant_freq", "dominant_freq_power_pct",
     "spectral_energy_ratio", "spectral_entropy",
     "spectral_flatness", "spectral_centroid",
+    # --- NEW: Taylor Series ---
+    "taylor_price_a1", "taylor_price_a2", "taylor_price_a3",
+    "taylor_price_a4", "taylor_price_a5",
+    "taylor_price_r2", "taylor_price_rmse",
+    "taylor_curvature_trend_ratio", "taylor_asymmetry_curvature_ratio",
+    "taylor_complexity",
+    "taylor_vol_a1", "taylor_vol_a2", "taylor_vol_a3", "taylor_vol_r2",
+    "taylor_vol_accel_ratio",
+    "taylor_ofi_a1", "taylor_ofi_a2", "taylor_ofi_a3", "taylor_ofi_r2",
+    "taylor_rate_a1", "taylor_rate_a2", "taylor_rate_a3", "taylor_rate_r2",
+    "taylor_price_vol_divergence", "taylor_price_rate_divergence",
 ]
 
 ZSCORE_WINDOW = 20
