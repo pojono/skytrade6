@@ -87,8 +87,8 @@ META_TARGET_SHORT = "tgt_profitable_short_3"
 
 # Gate model: regime-based confidence filter
 # These targets predict market CONDITIONS, not direction
+# Note: vol_expansion_5 already in BASE_MODELS, so not duplicated here
 GATE_MODELS = {
-    "vol_expansion_5":  {"model": "logistic", "features": "raw"},
     "consolidation_3":  {"model": "logistic", "features": "raw+lags"},
     "tail_event_3":     {"model": "logistic", "features": "raw"},
 }
@@ -393,28 +393,53 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
     try:
         auc_long = roc_auc_score(y_meta_long, meta_long.predict_proba(X_meta_scaled)[:, 1])
         auc_short = roc_auc_score(y_meta_short, meta_short.predict_proba(X_meta_scaled)[:, 1])
-        print(f"    Meta AUC (9-feat): long={auc_long:.3f}, short={auc_short:.3f}")
+        n_mf = len(BASE_MODELS) + len(GATE_MODELS)
+        print(f"    Meta AUC ({n_mf}-feat): long={auc_long:.3f}, short={auc_short:.3f}")
     except:
         pass
 
-    # ---- Step 3b: Calibrate confidence threshold from inner_val ----
-    # Find the threshold where meta-model predictions are actually profitable
-    meta_pred_long_val = meta_long.predict_proba(X_meta_scaled)[:, 1]
-    meta_pred_short_val = meta_short.predict_proba(X_meta_scaled)[:, 1]
-
-    # For each bar, what would the trade return be?
+    # ---- Step 3b: Calibrate confidence threshold using LOO on inner_val ----
+    # Use leave-one-out cross-val predictions to avoid in-sample bias
     cum_ret_3_col = "tgt_cum_ret_3"
     conf_threshold = 0.5  # default
+
     if cum_ret_3_col in df_inner_val.columns:
         cum_ret_3_val = df_inner_val[cum_ret_3_col].values[meta_valid]
-        # Test thresholds: find one that maximizes avg trade return
+
+        # 3-fold CV on inner_val to get OOS meta predictions for threshold tuning
+        n_cv = len(X_meta)
+        fold_size = n_cv // 3
+        cv_pred_long = np.full(n_cv, np.nan)
+        cv_pred_short = np.full(n_cv, np.nan)
+
+        for fold in range(3):
+            val_start = fold * fold_size
+            val_end = n_cv if fold == 2 else (fold + 1) * fold_size
+            cv_mask = np.ones(n_cv, dtype=bool)
+            cv_mask[val_start:val_end] = False
+
+            sc = StandardScaler()
+            X_cv_tr = sc.fit_transform(X_meta[cv_mask])
+            X_cv_te = sc.transform(X_meta[~cv_mask])
+
+            ml = LogisticRegression(C=1.0, max_iter=500, solver="lbfgs")
+            ml.fit(X_cv_tr, y_meta_long[cv_mask])
+            cv_pred_long[val_start:val_end] = ml.predict_proba(X_cv_te)[:, 1]
+
+            ms = LogisticRegression(C=1.0, max_iter=500, solver="lbfgs")
+            ms.fit(X_cv_tr, y_meta_short[cv_mask])
+            cv_pred_short[val_start:val_end] = ms.predict_proba(X_cv_te)[:, 1]
+
+        # Now calibrate threshold on OOS predictions (no lookahead)
         best_thresh = 0.5
         best_avg_ret = -999
         for thresh in [0.50, 0.52, 0.54, 0.56, 0.58, 0.60]:
             rets = []
-            for j in range(len(meta_pred_long_val)):
-                pl = meta_pred_long_val[j]
-                ps = meta_pred_short_val[j]
+            for j in range(n_cv):
+                pl = cv_pred_long[j]
+                ps = cv_pred_short[j]
+                if np.isnan(pl) or np.isnan(ps):
+                    continue
                 max_p = max(pl, ps)
                 if max_p > thresh and np.isfinite(cum_ret_3_val[j]):
                     if pl > ps:
@@ -427,8 +452,8 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
                     best_avg_ret = avg
                     best_thresh = thresh
         conf_threshold = best_thresh
-        print(f"    Calibrated confidence threshold: {conf_threshold:.2f} "
-              f"(val avg ret: {best_avg_ret*100:+.3f}%)")
+        print(f"    Calibrated threshold (3-fold CV): {conf_threshold:.2f} "
+              f"(OOS avg ret: {best_avg_ret*100:+.3f}%)")
 
     # ---- Step 4: Retrain ALL models on full selection window ----
     trade_all_preds = retrain_and_predict(all_models, df_sel, df_trade)
@@ -801,11 +826,14 @@ def main():
     avg_signal_rate = np.mean([r["signal_rate"] for r in all_results])
     avg_gate_rate = np.mean([r["gate_rate"] for r in all_results])
 
-    # Sharpe ratio (annualized from per-bar PnL)
+    # Sharpe ratio — trade-level (more honest than bar-level with many flat bars)
     all_bar_pnl = np.concatenate([r["bar_pnl"] for r in all_results])
-    bars_per_year = cpd * 365
-    if all_bar_pnl.std() > 0:
-        sharpe = all_bar_pnl.mean() / all_bar_pnl.std() * np.sqrt(bars_per_year)
+    if len(all_trade_rets) > 1 and np.std(all_trade_rets) > 0:
+        # Annualize: avg trades per year = total_trades / (trade periods * 30d / 365d)
+        trade_years = len(all_results) * TRADE_DAYS / 365.0
+        trades_per_year = total_trades / trade_years if trade_years > 0 else total_trades
+        sharpe = (np.mean(all_trade_rets) / np.std(all_trade_rets)
+                  * np.sqrt(trades_per_year))
     else:
         sharpe = 0
 
