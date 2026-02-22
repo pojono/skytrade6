@@ -4,7 +4,8 @@ Tier 5: Walk-Forward Single-Feature Predictive Power
 
 For each (feature, target) pair from Tier 4 representatives:
   - Fit univariate Ridge (continuous) or Logistic (binary) in walk-forward fashion
-  - Train 60d, test 30d, expanding window
+  - Expanding window: min 120d train, 45d test, 2d purge
+  - Each fold trains on ALL data from start; later folds have more data
   - Measure OOS R² (regression) or OOS AUC (classification)
 
 Usage:
@@ -27,10 +28,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score, r2_score
 
 # WFO parameters
-TRAIN_DAYS = 60
-TEST_DAYS = 30
-PURGE_DAYS = 1  # gap between train and test to avoid lookahead
-MIN_TRAIN_CANDLES = 200
+MIN_TRAIN_DAYS = 120  # minimum training window (expanding from here)
+TEST_DAYS = 45        # OOS test window
+PURGE_DAYS = 2        # gap between train and test to avoid lookahead
+MIN_TRAIN_CANDLES = 500
 
 
 def load_features(features_dir: Path, symbol: str, tf: str) -> pd.DataFrame:
@@ -69,19 +70,23 @@ def classify_targets(df):
 
 
 def make_wfo_folds(n_candles, candles_per_day):
-    """Create walk-forward folds."""
-    train_size = int(TRAIN_DAYS * candles_per_day)
+    """Create expanding-window walk-forward folds.
+
+    Train always starts at index 0 and expands forward.
+    Test windows are non-overlapping and slide forward by test_size.
+    """
+    min_train = int(MIN_TRAIN_DAYS * candles_per_day)
     test_size = int(TEST_DAYS * candles_per_day)
     purge_size = int(PURGE_DAYS * candles_per_day)
 
     folds = []
-    start = 0
-    while start + train_size + purge_size + test_size <= n_candles:
-        train_end = start + train_size
-        test_start = train_end + purge_size
+    # First test block starts after min_train + purge
+    test_start = min_train + purge_size
+    while test_start + test_size <= n_candles:
+        train_end = test_start - purge_size  # train up to purge gap
         test_end = test_start + test_size
-        folds.append((start, train_end, test_start, test_end))
-        start += test_size  # slide by test_size (non-overlapping test)
+        folds.append((0, train_end, test_start, test_end))
+        test_start += test_size  # slide test forward (non-overlapping)
 
     return folds
 
@@ -157,7 +162,14 @@ def run_tier5(df, symbol, tf, rep_feats, output_dir):
     print(f"  Candles:    {len(df):,}", flush=True)
     print(f"  Features:   {n_feats} (Tier 4 representatives)", flush=True)
     print(f"  Targets:    {n_tgts} ({len(continuous_tgts)} continuous + {len(binary_tgts)} binary)", flush=True)
-    print(f"  WFO folds:  {len(folds)} (train {TRAIN_DAYS}d, test {TEST_DAYS}d, purge {PURGE_DAYS}d)", flush=True)
+    # Print fold details
+    for i, (ts, te, tes, tee) in enumerate(folds):
+        tr_days = (te - ts) / candles_per_day
+        te_days = (tee - tes) / candles_per_day
+        print(f"    Fold {i+1}: train {te-ts} candles ({tr_days:.0f}d), "
+              f"test {tee-tes} candles ({te_days:.0f}d)", flush=True)
+    print(f"  WFO folds:  {len(folds)} (expanding, min train {MIN_TRAIN_DAYS}d, "
+          f"test {TEST_DAYS}d, purge {PURGE_DAYS}d)", flush=True)
     print(f"  Total pairs: {total_pairs:,}", flush=True)
     print(f"{'='*70}", flush=True)
 

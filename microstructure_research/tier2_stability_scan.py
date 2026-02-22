@@ -2,7 +2,7 @@
 """
 Tier 2: Temporal Stability Scan
 
-For each (feature, target) pair, compute rolling Spearman/AUC in 30-day windows
+For each (feature, target) pair, compute rolling Spearman/AUC in 90-day windows
 and measure:
   1. Sign consistency: % of windows with same sign as full-period
   2. Signal-to-noise: |mean_r| / std_r
@@ -41,9 +41,9 @@ KEY_TARGETS_BINARY = [
 ]
 
 # Window parameters
-WINDOW_DAYS = 30
-STEP_DAYS = 15
-MIN_CANDLES_PER_WINDOW = 100
+WINDOW_DAYS = 90
+STEP_DAYS = 30
+MIN_CANDLES_PER_WINDOW = 200
 
 
 def load_features(features_dir: Path, symbol: str, tf: str) -> pd.DataFrame:
@@ -260,7 +260,7 @@ def run_stability(df, symbol, tf, output_dir):
         res_df["tier2_pass"] = (
             (res_df["sign_pct"] >= 0.70) &
             (res_df["snr"] >= 0.5) &
-            (res_df["max_wrong_streak"] <= 4) &
+            (res_df["max_wrong_streak"] <= 3) &
             (res_df["regime_consistent"])
         )
     else:
