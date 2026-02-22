@@ -44,6 +44,7 @@ KEY_TARGETS_BINARY = [
 WINDOW_DAYS = 90
 STEP_DAYS = 30
 MIN_CANDLES_PER_WINDOW = 200
+MIN_EFFECT_SIZE = 0.03  # minimum |full_r| to pass
 
 
 def load_features(features_dir: Path, symbol: str, tf: str) -> pd.DataFrame:
@@ -258,6 +259,7 @@ def run_stability(df, symbol, tf, output_dir):
     # --- Tier 2 pass/fail ---
     if len(res_df) > 0:
         res_df["tier2_pass"] = (
+            (res_df["full_r"].abs() >= MIN_EFFECT_SIZE) &
             (res_df["sign_pct"] >= 0.70) &
             (res_df["snr"] >= 0.5) &
             (res_df["max_wrong_streak"] <= 3) &
@@ -405,7 +407,13 @@ def main():
     parser.add_argument("timeframe", help="e.g. 4h")
     parser.add_argument("--features-dir", default="./features")
     parser.add_argument("--output-dir", default="./microstructure_research/results")
+    parser.add_argument("--min-r", type=float, default=None,
+                        help="Override MIN_EFFECT_SIZE (default 0.03)")
     args = parser.parse_args()
+
+    if args.min_r is not None:
+        global MIN_EFFECT_SIZE
+        MIN_EFFECT_SIZE = args.min_r
 
     features_dir = Path(args.features_dir)
     output_dir = Path(args.output_dir)

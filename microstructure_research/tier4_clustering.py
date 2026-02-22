@@ -2,14 +2,15 @@
 """
 Tier 4: Feature Redundancy & Clustering
 
-Takes the Tier 2 survivors and:
+Per-coin clustering: takes one coin's Tier 2 survivors and:
   1. Computes feature-feature Spearman correlation matrix
   2. Hierarchical clustering to group redundant features
-  3. Picks best representative per cluster (highest Tier 1+2 combined score)
+  3. Picks best representative per cluster (highest composite score)
   4. Outputs a clean, non-redundant feature set
 
 Usage:
-  python tier4_clustering.py --timeframe 4h
+  python tier4_clustering.py SOLUSDT 4h
+  python tier4_clustering.py DOGEUSDT 4h
 """
 
 import argparse
@@ -39,40 +40,34 @@ def load_features(features_dir: Path, symbol: str, tf: str) -> pd.DataFrame:
     return df
 
 
-def get_tier2_survivors(results_dir: Path, tf: str):
-    """Load Tier 2 results for both coins and find cross-symbol survivors."""
-    doge = pd.read_csv(results_dir / f"tier2_DOGEUSDT_{tf}_stability.csv")
-    sol = pd.read_csv(results_dir / f"tier2_SOLUSDT_{tf}_stability.csv")
+def get_tier2_survivors(results_dir: Path, symbol: str, tf: str):
+    """Load Tier 2 results for a single coin and find survivors."""
+    path = results_dir / f"tier2_{symbol}_{tf}_stability.csv"
+    if not path.exists():
+        print(f"ERROR: {path} not found. Run tier2_stability_scan.py first.")
+        sys.exit(1)
+    df = pd.read_csv(path)
+    passed = df[df["tier2_pass"] == True]
 
-    doge_pass = doge[doge["tier2_pass"] == True]
-    sol_pass = sol[sol["tier2_pass"] == True]
-
-    # Cross-symbol: pass on both, same sign
     survivors = {}
-    for tgt in doge_pass["target"].unique():
-        d = doge_pass[doge_pass["target"] == tgt].set_index("feature")
-        s = sol_pass[sol_pass["target"] == tgt].set_index("feature")
-        common = sorted(set(d.index) & set(s.index))
-        for f in common:
-            if (d.loc[f, "full_r"] * s.loc[f, "full_r"]) > 0:
-                if f not in survivors:
-                    survivors[f] = {
-                        "n_targets": 0,
-                        "targets": [],
-                        "avg_r": [],
-                        "avg_sign": [],
-                        "avg_snr": [],
-                    }
-                avg_r = (abs(d.loc[f, "full_r"]) + abs(s.loc[f, "full_r"])) / 2
-                avg_sign = (d.loc[f, "sign_pct"] + s.loc[f, "sign_pct"]) / 2
-                avg_snr = (d.loc[f, "snr"] + s.loc[f, "snr"]) / 2
-                survivors[f]["n_targets"] += 1
-                survivors[f]["targets"].append(tgt)
-                survivors[f]["avg_r"].append(avg_r)
-                survivors[f]["avg_sign"].append(avg_sign)
-                survivors[f]["avg_snr"].append(avg_snr)
+    for tgt in passed["target"].unique():
+        tgt_df = passed[passed["target"] == tgt]
+        for _, row in tgt_df.iterrows():
+            f = row["feature"]
+            if f not in survivors:
+                survivors[f] = {
+                    "n_targets": 0,
+                    "targets": [],
+                    "avg_r": [],
+                    "avg_sign": [],
+                    "avg_snr": [],
+                }
+            survivors[f]["n_targets"] += 1
+            survivors[f]["targets"].append(tgt)
+            survivors[f]["avg_r"].append(abs(row["full_r"]))
+            survivors[f]["avg_sign"].append(row["sign_pct"])
+            survivors[f]["avg_snr"].append(row["snr"])
 
-    # Compute composite score per feature
     surv_list = []
     for f, info in survivors.items():
         surv_list.append({
@@ -89,36 +84,27 @@ def get_tier2_survivors(results_dir: Path, tf: str):
     return pd.DataFrame(surv_list).sort_values("composite", ascending=False)
 
 
-def run_clustering(features_dir, results_dir, tf, output_dir, corr_threshold=0.7):
-    """Run hierarchical clustering on Tier 2 survivors."""
+def run_clustering(features_dir, results_dir, symbol, tf, output_dir, corr_threshold=0.7):
+    """Run hierarchical clustering on Tier 2 survivors for a single coin."""
 
     # Get survivors
-    surv_df = get_tier2_survivors(results_dir, tf)
+    surv_df = get_tier2_survivors(results_dir, symbol, tf)
     survivor_feats = surv_df["feature"].tolist()
-    print(f"Tier 2 cross-symbol survivors: {len(survivor_feats)} features")
+    print(f"Tier 2 survivors for {symbol}: {len(survivor_feats)} features")
 
-    # Load feature data from both coins
-    doge_df = load_features(features_dir, "DOGEUSDT", tf)
-    sol_df = load_features(features_dir, "SOLUSDT", tf)
+    # Load feature data
+    coin_df = load_features(features_dir, symbol, tf)
 
-    # Use only survivor features present in both
-    common_feats = [f for f in survivor_feats if f in doge_df.columns and f in sol_df.columns]
-    print(f"Features present in both datasets: {len(common_feats)}")
+    # Use only survivor features present in data
+    common_feats = [f for f in survivor_feats if f in coin_df.columns]
+    print(f"Features present in dataset: {len(common_feats)}")
 
-    # Compute correlation matrix using DOGE data (representative)
-    print(f"\nComputing {len(common_feats)}×{len(common_feats)} correlation matrix...")
+    # Compute correlation matrix
+    print(f"\nComputing {len(common_feats)}x{len(common_feats)} correlation matrix...")
     t0 = time.time()
-    feat_data = doge_df[common_feats].replace([np.inf, -np.inf], np.nan).fillna(0)
+    feat_data = coin_df[common_feats].replace([np.inf, -np.inf], np.nan).fillna(0)
     corr_matrix = feat_data.corr(method="spearman")
     print(f"  Done in {time.time()-t0:.1f}s")
-
-    # Verify with SOL data
-    print(f"Verifying with SOL data...")
-    sol_feat_data = sol_df[common_feats].replace([np.inf, -np.inf], np.nan).fillna(0)
-    sol_corr = sol_feat_data.corr(method="spearman")
-    # Average correlation agreement
-    corr_agreement = np.corrcoef(corr_matrix.values.flatten(), sol_corr.values.flatten())[0, 1]
-    print(f"  DOGE-SOL correlation matrix agreement: {corr_agreement:.4f}")
 
     # Hierarchical clustering
     print(f"\nClustering with threshold |r| > {corr_threshold}...")
@@ -166,7 +152,7 @@ def run_clustering(features_dir, results_dir, tf, output_dir, corr_threshold=0.7
 
     # Save results
     output_dir.mkdir(parents=True, exist_ok=True)
-    prefix = f"tier4_{tf}"
+    prefix = f"tier4_{symbol}_{tf}"
 
     cluster_path = output_dir / f"{prefix}_clusters.csv"
     cluster_df.to_csv(cluster_path, index=False)
@@ -182,7 +168,7 @@ def run_clustering(features_dir, results_dir, tf, output_dir, corr_threshold=0.7
 
     # --- Console Report ---
     print(f"\n{'='*90}")
-    print(f"TIER 4 RESULTS: {tf} — {len(common_feats)} features → {n_clusters} clusters")
+    print(f"TIER 4 RESULTS: {symbol} {tf} — {len(common_feats)} features -> {n_clusters} clusters")
     print(f"{'='*90}")
 
     print(f"\n--- Cluster Representatives (sorted by composite score) ---")
@@ -219,7 +205,7 @@ def run_clustering(features_dir, results_dir, tf, output_dir, corr_threshold=0.7
     ax.axvline(x=1 - corr_threshold, color="red", linestyle="--", linewidth=1,
                label=f"threshold |r|={corr_threshold}")
     ax.set_xlabel("Distance (1 - |Spearman|)")
-    ax.set_title(f"Feature Clustering — Tier 2 Survivors\n{tf} (threshold |r|>{corr_threshold})",
+    ax.set_title(f"Feature Clustering — {symbol} Tier 2 Survivors\n{tf} (threshold |r|>{corr_threshold})",
                  fontsize=13, fontweight="bold")
     ax.legend()
     plt.tight_layout()
@@ -239,7 +225,7 @@ def run_clustering(features_dir, results_dir, tf, output_dir, corr_threshold=0.7
         ax.set_xticklabels(rep_feats, rotation=90, fontsize=7)
         ax.set_yticks(range(len(rep_feats)))
         ax.set_yticklabels(rep_feats, fontsize=7)
-        ax.set_title(f"Correlation of Cluster Representatives\n{tf}",
+        ax.set_title(f"Correlation of Cluster Representatives\n{symbol} {tf}",
                      fontsize=13, fontweight="bold")
         plt.colorbar(im, ax=ax, label="Spearman r", shrink=0.6)
         # Annotate high correlations
@@ -268,8 +254,9 @@ def run_clustering(features_dir, results_dir, tf, output_dir, corr_threshold=0.7
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Tier 4: Feature Redundancy Clustering")
-    parser.add_argument("--timeframe", default="4h", help="e.g. 4h")
+    parser = argparse.ArgumentParser(description="Tier 4: Per-Coin Feature Redundancy Clustering")
+    parser.add_argument("symbol", help="e.g. SOLUSDT")
+    parser.add_argument("timeframe", help="e.g. 4h")
     parser.add_argument("--features-dir", default="./features")
     parser.add_argument("--results-dir", default="./microstructure_research/results")
     parser.add_argument("--output-dir", default="./microstructure_research/results")
@@ -280,6 +267,7 @@ def main():
     run_clustering(
         Path(args.features_dir),
         Path(args.results_dir),
+        args.symbol,
         args.timeframe,
         Path(args.output_dir),
         args.corr_threshold,

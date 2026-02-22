@@ -33,6 +33,10 @@ TEST_DAYS = 45        # OOS test window
 PURGE_DAYS = 2        # gap between train and test to avoid lookahead
 MIN_TRAIN_CANDLES = 500
 
+# Hard OOS filter thresholds
+MIN_OOS_SCORE = 0.02   # minimum mean OOS to pass (binary: AUC_dev, continuous: R2)
+MIN_PCT_POSITIVE = 0.6 # at least 60% of folds must be positive
+
 
 def load_features(features_dir: Path, symbol: str, tf: str) -> pd.DataFrame:
     tf_dir = features_dir / symbol / tf
@@ -46,9 +50,9 @@ def load_features(features_dir: Path, symbol: str, tf: str) -> pd.DataFrame:
     return df
 
 
-def get_tier4_representatives(results_dir: Path, tf: str):
-    """Load Tier 4 cluster representatives."""
-    path = results_dir / f"tier4_{tf}_representatives.csv"
+def get_tier4_representatives(results_dir: Path, symbol: str, tf: str):
+    """Load per-coin Tier 4 cluster representatives."""
+    path = results_dir / f"tier4_{symbol}_{tf}_representatives.csv"
     if not path.exists():
         print(f"ERROR: {path} not found. Run tier4_clustering.py first.", flush=True)
         sys.exit(1)
@@ -292,6 +296,67 @@ def run_tier5(df, symbol, tf, rep_feats, output_dir):
     fs_df.to_csv(fs_path, index=False)
     print(f"\nSaved: {fs_path}", flush=True)
 
+    # --- Hard OOS Filter: per-target survivor lists ---
+    print(f"\n{'='*70}", flush=True)
+    print(f"HARD OOS FILTER: mean_oos > {MIN_OOS_SCORE}, pct_positive >= {MIN_PCT_POSITIVE:.0%}", flush=True)
+    print(f"{'='*70}", flush=True)
+
+    all_survivors = []
+    for tgt in all_tgts:
+        tgt_res = res_df[res_df["target"] == tgt].copy()
+        is_binary = tgt in binary_tgts
+
+        if is_binary:
+            passed = tgt_res[
+                (tgt_res["mean_oos"].abs() >= MIN_OOS_SCORE) &
+                (tgt_res["pct_positive"] >= MIN_PCT_POSITIVE)
+            ].copy()
+        else:
+            passed = tgt_res[
+                (tgt_res["mean_oos"] >= MIN_OOS_SCORE) &
+                (tgt_res["pct_positive"] >= MIN_PCT_POSITIVE)
+            ].copy()
+
+        if len(passed) > 0:
+            passed = passed.sort_values("mean_oos", key=abs, ascending=False)
+            for _, r in passed.iterrows():
+                all_survivors.append({
+                    "feature": r["feature"],
+                    "target": tgt,
+                    "mean_oos": r["mean_oos"],
+                    "pct_positive": r["pct_positive"],
+                    "n_folds": r["n_folds"],
+                    "snr": r["snr"],
+                    "metric": r["metric"],
+                })
+
+        n_total = len(tgt_res)
+        n_pass = len(passed)
+        print(f"  {tgt:<35} {n_pass:>3}/{n_total:>3} pass", flush=True)
+
+    surv_df = pd.DataFrame(all_survivors)
+    surv_path = output_dir / f"{prefix}_survivors.csv"
+    surv_df.to_csv(surv_path, index=False)
+    print(f"\nSaved: {surv_path}", flush=True)
+
+    # Summary: unique features that survive for at least 1 target
+    if len(surv_df) > 0:
+        unique_feats = surv_df["feature"].nunique()
+        unique_tgts = surv_df["target"].nunique()
+        total_pairs = len(surv_df)
+        print(f"\n  SURVIVORS: {unique_feats} unique features across {unique_tgts} targets ({total_pairs} pairs)", flush=True)
+
+        # Per-feature: how many targets does it survive for?
+        feat_tgt_counts = surv_df.groupby("feature")["target"].count().sort_values(ascending=False)
+        print(f"\n  Top features by target breadth:", flush=True)
+        print(f"  {'Feature':<40} {'#targets':>8} {'avg_oos':>10}", flush=True)
+        print(f"  {'-'*60}", flush=True)
+        for feat, n_tgt in feat_tgt_counts.head(30).items():
+            avg_oos = surv_df[surv_df["feature"] == feat]["mean_oos"].abs().mean()
+            print(f"  {feat:<40} {n_tgt:>8} {avg_oos:>+10.4f}", flush=True)
+    else:
+        print(f"\n  NO SURVIVORS — all features failed the hard OOS filter", flush=True)
+
     elapsed = time.time() - t0
     print(f"\nTotal time: {elapsed:.0f}s", flush=True)
     print(f"Done! Results in {output_dir}/", flush=True)
@@ -316,10 +381,10 @@ def main():
     print(f"Loaded {len(df)} candles for {args.symbol} {args.timeframe} "
           f"({df.index[0]} -> {df.index[-1]})", flush=True)
 
-    # Get Tier 4 representatives
-    rep_df = get_tier4_representatives(results_dir, args.timeframe)
+    # Get per-coin Tier 4 representatives
+    rep_df = get_tier4_representatives(results_dir, args.symbol, args.timeframe)
     rep_feats = rep_df["feature"].tolist()
-    print(f"Tier 4 representatives: {len(rep_feats)} features", flush=True)
+    print(f"Tier 4 representatives for {args.symbol}: {len(rep_feats)} features", flush=True)
 
     run_tier5(df, args.symbol, args.timeframe, rep_feats, output_dir)
 
