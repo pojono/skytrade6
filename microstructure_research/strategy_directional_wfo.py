@@ -2,22 +2,23 @@
 """
 Strategy 1: Directional Momentum — Walk-Forward Backtest (Zero Lookahead)
 
-Architecture:
+Architecture (v4 — best iteration):
   For each 30-day trade period:
-    1. Train 6 base models on training window (360d):
-       - P(breakout_up_3)     : LightGBM  + core+lags
-       - P(breakout_down_3)   : LightGBM  + core+lags  (mirror)
-       - P(profitable_long_1) : Logistic   + raw+lags
-       - P(profitable_short_1): Logistic   + raw+lags   (mirror)
-       - P(vol_expansion_5)   : Logistic   + raw
-       - alpha_1              : Ridge      + all_core    (continuous)
-    2. Inner train/val split (80/20) to generate OOS base predictions
-    3. Train meta-model (Logistic) on val_inner base predictions
+    1. Train 15 base models + 4 regime models on training window (360d):
+       - Directional: breakout_up/down_3/5/10 (LightGBM/RidgeClf)
+       - Volatility: vol_expansion_5/10 (Logistic)
+       - Profitability: profitable_long/short_1/5 (Logistic/LightGBM)
+       - Continuous: alpha_1, relative_ret_1 (Ridge)
+       - Risk: adverse_selection_1 (LightGBM)
+       - Regime: consolidation_3, tail_event_3/5, crash_10
+    2. Inner train/val split (80/20) to generate OOS predictions
+    3. Train LightGBM meta-model on 19 base+regime predictions
        → predicts P(profitable trade over next 3 bars)
-    4. Retrain base models on full training window
-    5. Generate base predictions on trade window
-    6. Meta-model outputs trade signal + position size
-    7. Track PnL bar-by-bar with realistic fees
+    4. Calibrate confidence threshold via 3-fold CV (no lookahead)
+    5. Retrain all models on full training window
+    6. Generate predictions on trade window, apply confidence gate
+    7. Early exit on signal reversal (don't hold if signal flips)
+    8. Track PnL bar-by-bar with realistic fees
 
 Anti-Lookahead Measures:
   - Purge gap between training and trade windows
@@ -47,7 +48,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LogisticRegression, Ridge
+from sklearn.linear_model import LogisticRegression, Ridge, RidgeClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score
 import lightgbm as lgb
@@ -71,34 +72,52 @@ FEE_BPS = 4.0             # round-trip fee (2 bps each way, maker)
 FEE_FRAC = FEE_BPS / 10000.0
 INITIAL_CAPITAL = 10000.0
 
-# Base model configurations (from ML comparison results)
+# Base model configurations (expanded from ML comparison — best model/feat per target)
 BASE_MODELS = {
-    "breakout_up_3":     {"model": "lightgbm", "features": "core+lags"},
-    "breakout_down_3":   {"model": "lightgbm", "features": "core+lags"},
+    # STRONG directional (AUC 0.79-0.86)
+    "breakout_up_3":     {"model": "lightgbm",  "features": "core+lags"},
+    "breakout_down_3":   {"model": "ridgeclf",  "features": "all_core"},
+    "breakout_up_5":     {"model": "lightgbm",  "features": "core+lags"},
+    "breakout_down_5":   {"model": "ridgeclf",  "features": "all_core"},
+    "breakout_up_10":    {"model": "lightgbm",  "features": "core+lags"},
+    "breakout_down_10":  {"model": "ridgeclf",  "features": "all_core"},
+    # STRONG volatility (AUC 0.77-0.83)
+    "vol_expansion_5":   {"model": "logistic",  "features": "raw"},
+    "vol_expansion_10":  {"model": "logistic",  "features": "raw"},
+    # MODERATE profitability (AUC 0.55-0.67)
     "profitable_long_1": {"model": "logistic",  "features": "raw+lags"},
     "profitable_short_1":{"model": "logistic",  "features": "raw+lags"},
-    "vol_expansion_5":   {"model": "logistic",  "features": "raw"},
+    "profitable_long_5": {"model": "lightgbm",  "features": "raw+lags"},
+    "profitable_short_5":{"model": "lightgbm",  "features": "raw+lags"},
+    # STRONG continuous
     "alpha_1":           {"model": "ridge",     "features": "all_core"},
+    "relative_ret_1":    {"model": "ridge",     "features": "all_core"},
+    # MODERATE risk
+    "adverse_selection_1":{"model": "lightgbm", "features": "raw+lags"},
 }
 
 # Meta-model target: profitable trade over 3 bars
 META_TARGET_LONG = "tgt_profitable_long_3"
 META_TARGET_SHORT = "tgt_profitable_short_3"
 
-# Gate model: regime-based confidence filter
-# These targets predict market CONDITIONS, not direction
-# Note: vol_expansion_5 already in BASE_MODELS, so not duplicated here
+# Regime models: predict market CONDITIONS (fed into meta-model as extra features)
 GATE_MODELS = {
-    "consolidation_3":  {"model": "logistic", "features": "raw+lags"},
-    "tail_event_3":     {"model": "logistic", "features": "raw"},
+    "consolidation_3":  {"model": "logistic",  "features": "raw+lags"},
+    "tail_event_3":     {"model": "lightgbm",  "features": "raw+lags"},
+    "tail_event_5":     {"model": "lightgbm",  "features": "all_core"},
+    "crash_10":         {"model": "lightgbm",  "features": "raw+lags"},
 }
-# Gate target: |3-bar cumulative return| > median of training data
-# This gives ~50% base rate — gate learns "above-median movement" vs quiet bars
-# Threshold is computed per-period from training data (no lookahead)
+
+# Meta-model type: "logistic" or "lightgbm"
+META_MODEL_TYPE = "lightgbm"
+
+# Early exit: close position if signal reverses before hold period ends
+EARLY_EXIT = True
 
 # Position sizing
 MAX_POSITION_FRAC = 1.0    # max fraction of capital per trade
 HOLD_BARS = 3              # hold for 3 bars (12h on 4h TF)
+CONTINUOUS_TARGETS = {"alpha_1", "relative_ret_1"}
 
 
 # ============================================================
@@ -193,6 +212,15 @@ def train_base_model(X_train, y_train, X_test, model_type, is_binary=True):
         model.fit(Xtr, y_train)
         return model.predict_proba(Xte)[:, 1]
 
+    elif model_type == "ridgeclf":
+        scaler = StandardScaler()
+        Xtr = scaler.fit_transform(X_train)
+        Xte = scaler.transform(X_test)
+        model = RidgeClassifier(alpha=1.0)
+        model.fit(Xtr, y_train)
+        dec = model.decision_function(Xte)
+        return 1.0 / (1.0 + np.exp(-dec))  # sigmoid
+
     elif model_type == "ridge":
         scaler = StandardScaler()
         Xtr = scaler.fit_transform(X_train)
@@ -259,7 +287,7 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
             full_tgt = f"tgt_{tgt_name}"
             model_type = cfg["model"]
             feat_set_name = cfg["features"]
-            is_binary = tgt_name != "alpha_1"
+            is_binary = tgt_name not in CONTINUOUS_TARGETS
 
             tgt_feats = target_features_map.get(full_tgt, core_features)
             fs_train = prepare_feature_sets(df_tr, tgt_feats, core_features)
@@ -298,7 +326,7 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
             full_tgt = f"tgt_{tgt_name}"
             model_type = cfg["model"]
             feat_set_name = cfg["features"]
-            is_binary = tgt_name != "alpha_1"
+            is_binary = tgt_name not in CONTINUOUS_TARGETS
 
             tgt_feats = target_features_map.get(full_tgt, core_features)
             fs_full = prepare_feature_sets(df_full, tgt_feats, core_features)
@@ -380,33 +408,45 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
         print(f"    SKIP: insufficient meta training data ({len(X_meta)} samples)")
         return None
 
-    # Train two meta-models (direction) — now with 9 features including regime
-    scaler_meta = StandardScaler()
-    X_meta_scaled = scaler_meta.fit_transform(X_meta)
+    # Train two meta-models (direction) — with regime features
+    def _train_meta(X, y):
+        sc = StandardScaler()
+        Xs = sc.fit_transform(X)
+        if META_MODEL_TYPE == "lightgbm":
+            m = lgb.LGBMClassifier(
+                objective="binary", metric="auc", verbosity=-1,
+                n_estimators=100, max_depth=3, learning_rate=0.1,
+                num_leaves=8, min_child_samples=30,
+                subsample=0.8, colsample_bytree=0.8,
+                reg_alpha=1.0, reg_lambda=1.0, random_state=42,
+            )
+        else:
+            m = LogisticRegression(C=1.0, max_iter=500, solver="lbfgs")
+        m.fit(Xs, y)
+        return m, sc
 
-    meta_long = LogisticRegression(C=1.0, max_iter=500, solver="lbfgs")
-    meta_long.fit(X_meta_scaled, y_meta_long)
+    def _meta_proba(m, sc, X):
+        Xs = sc.transform(np.nan_to_num(X, nan=0, posinf=0, neginf=0))
+        return m.predict_proba(Xs)[:, 1]
 
-    meta_short = LogisticRegression(C=1.0, max_iter=500, solver="lbfgs")
-    meta_short.fit(X_meta_scaled, y_meta_short)
+    meta_long, scaler_long = _train_meta(X_meta, y_meta_long)
+    meta_short, scaler_short = _train_meta(X_meta, y_meta_short)
 
     try:
-        auc_long = roc_auc_score(y_meta_long, meta_long.predict_proba(X_meta_scaled)[:, 1])
-        auc_short = roc_auc_score(y_meta_short, meta_short.predict_proba(X_meta_scaled)[:, 1])
+        auc_long = roc_auc_score(y_meta_long, _meta_proba(meta_long, scaler_long, X_meta))
+        auc_short = roc_auc_score(y_meta_short, _meta_proba(meta_short, scaler_short, X_meta))
         n_mf = len(BASE_MODELS) + len(GATE_MODELS)
-        print(f"    Meta AUC ({n_mf}-feat): long={auc_long:.3f}, short={auc_short:.3f}")
+        print(f"    Meta AUC ({n_mf}-feat, {META_MODEL_TYPE}): long={auc_long:.3f}, short={auc_short:.3f}")
     except:
         pass
 
-    # ---- Step 3b: Calibrate confidence threshold using LOO on inner_val ----
-    # Use leave-one-out cross-val predictions to avoid in-sample bias
+    # ---- Step 3b: Calibrate confidence threshold using 3-fold CV on inner_val ----
     cum_ret_3_col = "tgt_cum_ret_3"
     conf_threshold = 0.5  # default
 
     if cum_ret_3_col in df_inner_val.columns:
         cum_ret_3_val = df_inner_val[cum_ret_3_col].values[meta_valid]
 
-        # 3-fold CV on inner_val to get OOS meta predictions for threshold tuning
         n_cv = len(X_meta)
         fold_size = n_cv // 3
         cv_pred_long = np.full(n_cv, np.nan)
@@ -418,17 +458,13 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
             cv_mask = np.ones(n_cv, dtype=bool)
             cv_mask[val_start:val_end] = False
 
-            sc = StandardScaler()
-            X_cv_tr = sc.fit_transform(X_meta[cv_mask])
-            X_cv_te = sc.transform(X_meta[~cv_mask])
-
-            ml = LogisticRegression(C=1.0, max_iter=500, solver="lbfgs")
-            ml.fit(X_cv_tr, y_meta_long[cv_mask])
-            cv_pred_long[val_start:val_end] = ml.predict_proba(X_cv_te)[:, 1]
-
-            ms = LogisticRegression(C=1.0, max_iter=500, solver="lbfgs")
-            ms.fit(X_cv_tr, y_meta_short[cv_mask])
-            cv_pred_short[val_start:val_end] = ms.predict_proba(X_cv_te)[:, 1]
+            try:
+                ml, sl = _train_meta(X_meta[cv_mask], y_meta_long[cv_mask])
+                ms, ss = _train_meta(X_meta[cv_mask], y_meta_short[cv_mask])
+                cv_pred_long[val_start:val_end] = _meta_proba(ml, sl, X_meta[~cv_mask])
+                cv_pred_short[val_start:val_end] = _meta_proba(ms, ss, X_meta[~cv_mask])
+            except:
+                pass
 
         # Now calibrate threshold on OOS predictions (no lookahead)
         best_thresh = 0.5
@@ -476,11 +512,8 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
         else:
             trade_meta_valid[:] = False
 
-    meta_features_trade_scaled = scaler_meta.transform(
-        np.nan_to_num(meta_features_trade, nan=0, posinf=0, neginf=0)
-    )
-    p_long = meta_long.predict_proba(meta_features_trade_scaled)[:, 1]
-    p_short = meta_short.predict_proba(meta_features_trade_scaled)[:, 1]
+    p_long = _meta_proba(meta_long, scaler_long, meta_features_trade)
+    p_short = _meta_proba(meta_short, scaler_short, meta_features_trade)
     p_gate = np.maximum(p_long, p_short)  # confidence = max of the two
 
     # ---- Step 6: Generate signals with calibrated confidence threshold ----
@@ -512,7 +545,7 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
             signals[bar] = -1.0
             sizes[bar] = min((ps - 0.5) * 2.0, MAX_POSITION_FRAC)
 
-    # ---- Step 7: Simulate trades — ONE position at a time (no overlap) ----
+    # ---- Step 7: Simulate trades — ONE position at a time, with early exit ----
     bar_pnl = np.zeros(n_trade)
     bar_gross = np.zeros(n_trade)
     bar_fees = np.zeros(n_trade)
@@ -525,6 +558,15 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
     current_exit_bar = -1  # tracks when current position expires
 
     for bar in range(n_trade):
+        # Early exit: close current position if signal reverses
+        if EARLY_EXIT and bar <= current_exit_bar and len(active_trades) > 0:
+            last_trade = active_trades[-1]
+            if (signals[bar] != 0 and
+                signals[bar] != last_trade["direction"] and
+                bar > last_trade["entry_bar"]):
+                last_trade["exit_bar"] = bar
+                current_exit_bar = bar
+
         # Only enter if no active position and signal exists
         if bar > current_exit_bar and signals[bar] != 0 and bar + HOLD_BARS < n_trade:
             direction = signals[bar]
@@ -565,12 +607,13 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
         if net_ret > 0:
             n_wins += 1
 
-        # Distribute PnL across holding bars
+        # Distribute PnL across actual holding bars (may be shorter with early exit)
+        actual_hold = max(xb - eb + 1, 1)
         for b in range(eb, xb + 1):
             if b < n_trade:
-                bar_pnl[b] += net_ret * sz / HOLD_BARS
-                bar_gross[b] += gross_ret * sz / HOLD_BARS
-                bar_fees[b] += fee * sz / HOLD_BARS
+                bar_pnl[b] += net_ret * sz / actual_hold
+                bar_gross[b] += gross_ret * sz / actual_hold
+                bar_fees[b] += fee * sz / actual_hold
                 bar_position[b] = d * sz
 
     # ---- Compute period metrics ----
