@@ -77,6 +77,17 @@ def load_day(path: Path) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 
 
+def _count_trailing_ones(x):
+    """Count consecutive 1s from the end of array."""
+    count = 0
+    for v in reversed(x):
+        if v > 0.5:
+            count += 1
+        else:
+            break
+    return float(count)
+
+
 def _safe_corr(a, b):
     """Correlation that returns 0.0 when either array is constant or result is NaN."""
     a = np.asarray(a, dtype=np.float64)
@@ -3930,6 +3941,243 @@ def add_cross_candle_features(df: pd.DataFrame) -> pd.DataFrame:
         0.0
     )
 
+    # -------------------------------------------------------------------
+    # Market Structure: Higher Highs, Lower Lows, Swing Points
+    # -------------------------------------------------------------------
+    h = df["high"]
+    l = df["low"]
+    c = df["close"]
+    o = df["open"]
+    prev_h = h.shift(1)
+    prev_l = l.shift(1)
+    prev2_h_ms = h.shift(2)
+    prev2_l_ms = l.shift(2)
+
+    # Higher High / Lower Low / Higher Low / Lower High
+    df["higher_high"] = (h > prev_h).astype(float)
+    df["lower_low"] = (l < prev_l).astype(float)
+    df["higher_low"] = (l > prev_l).astype(float)
+    df["lower_high"] = (h < prev_h).astype(float)
+
+    # Rolling counts (last 5 candles)
+    df["hh_count_5"] = df["higher_high"].rolling(5, min_periods=1).sum()
+    df["ll_count_5"] = df["lower_low"].rolling(5, min_periods=1).sum()
+    df["hl_count_5"] = df["higher_low"].rolling(5, min_periods=1).sum()
+    df["lh_count_5"] = df["lower_high"].rolling(5, min_periods=1).sum()
+
+    # Rolling counts (last 10 candles)
+    df["hh_count_10"] = df["higher_high"].rolling(10, min_periods=1).sum()
+    df["ll_count_10"] = df["lower_low"].rolling(10, min_periods=1).sum()
+    df["hl_count_10"] = df["higher_low"].rolling(10, min_periods=1).sum()
+    df["lh_count_10"] = df["lower_high"].rolling(10, min_periods=1).sum()
+
+    # Market structure score: bullish = HH+HL, bearish = LL+LH
+    df["ms_bullish_5"] = df["hh_count_5"] + df["hl_count_5"]
+    df["ms_bearish_5"] = df["ll_count_5"] + df["lh_count_5"]
+    df["ms_score_5"] = df["ms_bullish_5"] - df["ms_bearish_5"]
+    df["ms_score_10"] = (df["hh_count_10"] + df["hl_count_10"]) - (df["ll_count_10"] + df["lh_count_10"])
+
+    # Consecutive HH or LL streak
+    hh_streak = df["higher_high"].copy()
+    ll_streak = df["lower_low"].copy()
+    for i in range(1, 5):
+        hh_streak = hh_streak + df["higher_high"].shift(i).fillna(0) * (hh_streak > 0).astype(float)
+        ll_streak = ll_streak + df["lower_low"].shift(i).fillna(0) * (ll_streak > 0).astype(float)
+    # Simpler: just use rolling sum as proxy for streak
+    df["hh_streak"] = df["higher_high"].rolling(5, min_periods=1).apply(
+        lambda x: _count_trailing_ones(x), raw=True
+    )
+    df["ll_streak"] = df["lower_low"].rolling(5, min_periods=1).apply(
+        lambda x: _count_trailing_ones(x), raw=True
+    )
+
+    # -------------------------------------------------------------------
+    # Smart Money Concepts: BOS, CHoCH, Order Blocks, Liquidity Sweeps
+    # -------------------------------------------------------------------
+    # Swing highs/lows (3-bar pivots)
+    swing_high = (h > h.shift(1)) & (h > h.shift(-1))
+    swing_low = (l < l.shift(1)) & (l < l.shift(-1))
+    df["is_swing_high"] = swing_high.astype(float)
+    df["is_swing_low"] = swing_low.astype(float)
+
+    # Recent swing high/low values (last swing point)
+    df["last_swing_high"] = h.where(swing_high).ffill()
+    df["last_swing_low"] = l.where(swing_low).ffill()
+
+    # Break of Structure (BOS): close breaks above last swing high or below last swing low
+    df["bos_bullish"] = (c > df["last_swing_high"].shift(1)).astype(float)
+    df["bos_bearish"] = (c < df["last_swing_low"].shift(1)).astype(float)
+    df["bos_net"] = df["bos_bullish"] - df["bos_bearish"]
+
+    # Change of Character (CHoCH): trend reversal signal
+    # Bullish CHoCH: was making LL, now breaks above last swing high
+    prev_ll = df["lower_low"].shift(1)
+    prev_hh = df["higher_high"].shift(1)
+    df["choch_bullish"] = ((df["bos_bullish"] > 0) & (prev_ll > 0)).astype(float)
+    df["choch_bearish"] = ((df["bos_bearish"] > 0) & (prev_hh > 0)).astype(float)
+    df["choch_net"] = df["choch_bullish"] - df["choch_bearish"]
+
+    # Rolling BOS/CHoCH counts
+    df["bos_bullish_count_5"] = df["bos_bullish"].rolling(5, min_periods=1).sum()
+    df["bos_bearish_count_5"] = df["bos_bearish"].rolling(5, min_periods=1).sum()
+    df["bos_net_5"] = df["bos_bullish_count_5"] - df["bos_bearish_count_5"]
+    df["choch_count_5"] = (df["choch_bullish"] + df["choch_bearish"]).rolling(5, min_periods=1).sum()
+
+    # Order Block: last bearish candle before a bullish BOS (demand zone)
+    # Simplified: bearish candle followed by bullish BOS
+    bearish_candle = (c < o).astype(float)
+    bullish_candle = (c > o).astype(float)
+    df["ob_demand"] = (bearish_candle.shift(1) * df["bos_bullish"]).astype(float)
+    df["ob_supply"] = (bullish_candle.shift(1) * df["bos_bearish"]).astype(float)
+    df["ob_demand_count_10"] = df["ob_demand"].rolling(10, min_periods=1).sum()
+    df["ob_supply_count_10"] = df["ob_supply"].rolling(10, min_periods=1).sum()
+    df["ob_net_10"] = df["ob_demand_count_10"] - df["ob_supply_count_10"]
+
+    # Liquidity sweep: price briefly exceeds swing level then reverses
+    # Bullish sweep: low goes below last swing low but close is above it
+    df["liq_sweep_bull"] = ((l < df["last_swing_low"].shift(1)) & (c > df["last_swing_low"].shift(1))).astype(float)
+    df["liq_sweep_bear"] = ((h > df["last_swing_high"].shift(1)) & (c < df["last_swing_high"].shift(1))).astype(float)
+    df["liq_sweep_count_10"] = (df["liq_sweep_bull"] + df["liq_sweep_bear"]).rolling(10, min_periods=1).sum()
+
+    # Distance to last swing levels (in bps)
+    df["dist_to_swing_high_bps"] = np.where(
+        df["last_swing_high"] > 0,
+        (c - df["last_swing_high"]) / df["last_swing_high"] * 10000,
+        0.0
+    )
+    df["dist_to_swing_low_bps"] = np.where(
+        df["last_swing_low"] > 0,
+        (c - df["last_swing_low"]) / df["last_swing_low"] * 10000,
+        0.0
+    )
+
+    # -------------------------------------------------------------------
+    # Support / Resistance Levels
+    # -------------------------------------------------------------------
+    # Rolling highest high and lowest low as dynamic S/R
+    for win in [5, 10, 20]:
+        rolling_hh = h.rolling(win, min_periods=1).max()
+        rolling_ll = l.rolling(win, min_periods=1).min()
+        rolling_range = rolling_hh - rolling_ll
+
+        # Position within range (0 = at support, 1 = at resistance)
+        df[f"sr_position_{win}"] = np.where(
+            rolling_range > 0,
+            (c - rolling_ll) / rolling_range,
+            0.5
+        )
+
+        # Distance to resistance and support (bps)
+        df[f"dist_to_resistance_{win}_bps"] = np.where(
+            rolling_hh > 0,
+            (rolling_hh - c) / c * 10000,
+            0.0
+        )
+        df[f"dist_to_support_{win}_bps"] = np.where(
+            rolling_ll > 0,
+            (c - rolling_ll) / c * 10000,
+            0.0
+        )
+
+        # Is price near resistance or support? (within 10% of range)
+        near_threshold = rolling_range * 0.1
+        df[f"near_resistance_{win}"] = (rolling_hh - c <= near_threshold).astype(float)
+        df[f"near_support_{win}"] = (c - rolling_ll <= near_threshold).astype(float)
+
+    # Pivot points (classic: PP = (H+L+C)/3)
+    df["pivot_pp"] = (h.shift(1) + l.shift(1) + c.shift(1)) / 3
+    df["pivot_r1"] = 2 * df["pivot_pp"] - l.shift(1)
+    df["pivot_s1"] = 2 * df["pivot_pp"] - h.shift(1)
+    df["pivot_r2"] = df["pivot_pp"] + (h.shift(1) - l.shift(1))
+    df["pivot_s2"] = df["pivot_pp"] - (h.shift(1) - l.shift(1))
+
+    # Distance to pivot levels (bps)
+    df["dist_to_pivot_bps"] = np.where(
+        df["pivot_pp"] > 0,
+        (c - df["pivot_pp"]) / df["pivot_pp"] * 10000,
+        0.0
+    )
+    df["dist_to_r1_bps"] = np.where(
+        df["pivot_r1"] > 0,
+        (c - df["pivot_r1"]) / df["pivot_r1"] * 10000,
+        0.0
+    )
+    df["dist_to_s1_bps"] = np.where(
+        df["pivot_s1"] > 0,
+        (c - df["pivot_s1"]) / df["pivot_s1"] * 10000,
+        0.0
+    )
+
+    # Level test count: how many times price touched the rolling high/low
+    # (proxy: close within 0.1% of level)
+    touch_threshold_pct = 0.001
+    for win in [10, 20]:
+        rh = h.rolling(win, min_periods=1).max()
+        rl = l.rolling(win, min_periods=1).min()
+        df[f"resistance_touches_{win}"] = (
+            (h >= rh * (1 - touch_threshold_pct))
+        ).rolling(win, min_periods=1).sum()
+        df[f"support_touches_{win}"] = (
+            (l <= rl * (1 + touch_threshold_pct))
+        ).rolling(win, min_periods=1).sum()
+
+    # -------------------------------------------------------------------
+    # Breakout Detection
+    # -------------------------------------------------------------------
+    for win in [5, 10, 20]:
+        rh = h.rolling(win, min_periods=1).max().shift(1)
+        rl = l.rolling(win, min_periods=1).min().shift(1)
+        prev_range = rh - rl
+
+        # Breakout: close exceeds previous range
+        df[f"breakout_up_{win}"] = (c > rh).astype(float)
+        df[f"breakout_down_{win}"] = (c < rl).astype(float)
+        df[f"breakout_any_{win}"] = ((c > rh) | (c < rl)).astype(float)
+
+        # Breakout strength: how far beyond the level (bps)
+        df[f"breakout_up_bps_{win}"] = np.where(
+            (c > rh) & (rh > 0),
+            (c - rh) / rh * 10000,
+            0.0
+        )
+        df[f"breakout_down_bps_{win}"] = np.where(
+            (c < rl) & (rl > 0),
+            (rl - c) / rl * 10000,
+            0.0
+        )
+
+        # Volume confirmation: is volume above average on breakout?
+        vol_avg = df["total_volume"].rolling(win, min_periods=1).mean()
+        vol_ratio = df["total_volume"] / vol_avg.replace(0, np.nan)
+        df[f"breakout_vol_confirm_{win}"] = np.where(
+            df[f"breakout_any_{win}"] > 0,
+            vol_ratio.fillna(1.0),
+            0.0
+        )
+
+        # Consolidation: range compression before breakout
+        recent_range = h.rolling(win, min_periods=1).max() - l.rolling(win, min_periods=1).min()
+        longer_range = h.rolling(win * 2, min_periods=1).max() - l.rolling(win * 2, min_periods=1).min()
+        df[f"range_compression_{win}"] = np.where(
+            longer_range > 0,
+            recent_range / longer_range,
+            1.0
+        )
+
+    # Rolling breakout counts
+    df["breakout_up_count_10"] = df["breakout_up_10"].rolling(10, min_periods=1).sum()
+    df["breakout_down_count_10"] = df["breakout_down_10"].rolling(10, min_periods=1).sum()
+    df["breakout_net_10"] = df["breakout_up_count_10"] - df["breakout_down_count_10"]
+
+    # Failed breakout: broke out but reversed back within range
+    for win in [5, 10]:
+        rh = h.rolling(win, min_periods=1).max().shift(1)
+        rl = l.rolling(win, min_periods=1).min().shift(1)
+        broke_up_prev = (h.shift(1) > rh.shift(1))
+        broke_down_prev = (l.shift(1) < rl.shift(1))
+        df[f"failed_breakout_up_{win}"] = (broke_up_prev & (c < rh)).astype(float)
+        df[f"failed_breakout_down_{win}"] = (broke_down_prev & (c > rl)).astype(float)
+
     return df
 
 
@@ -4135,6 +4383,29 @@ ZSCORE_FEATURES = [
     # --- NEW: Compression / Complexity ---
     "approx_entropy", "sample_entropy", "permutation_entropy",
     "rle_compression_ratio",
+    # --- NEW: Market Structure ---
+    "hh_count_5", "ll_count_5", "hl_count_5", "lh_count_5",
+    "hh_count_10", "ll_count_10", "hl_count_10", "lh_count_10",
+    "ms_score_5", "ms_score_10", "hh_streak", "ll_streak",
+    # --- NEW: Smart Money Concepts ---
+    "bos_net", "bos_net_5", "choch_net", "choch_count_5",
+    "ob_net_10", "liq_sweep_count_10",
+    "dist_to_swing_high_bps", "dist_to_swing_low_bps",
+    # --- NEW: Support / Resistance ---
+    "sr_position_5", "sr_position_10", "sr_position_20",
+    "dist_to_resistance_5_bps", "dist_to_support_5_bps",
+    "dist_to_resistance_10_bps", "dist_to_support_10_bps",
+    "dist_to_resistance_20_bps", "dist_to_support_20_bps",
+    "dist_to_pivot_bps", "dist_to_r1_bps", "dist_to_s1_bps",
+    "resistance_touches_10", "resistance_touches_20",
+    "support_touches_10", "support_touches_20",
+    # --- NEW: Breakout ---
+    "breakout_up_bps_5", "breakout_down_bps_5",
+    "breakout_up_bps_10", "breakout_down_bps_10",
+    "breakout_up_bps_20", "breakout_down_bps_20",
+    "breakout_vol_confirm_5", "breakout_vol_confirm_10", "breakout_vol_confirm_20",
+    "range_compression_5", "range_compression_10", "range_compression_20",
+    "breakout_net_10",
 ]
 
 ZSCORE_WINDOW = 20
@@ -4265,6 +4536,10 @@ def main():
                         help="Skip correlation analysis (faster, just produce features)")
     parser.add_argument("--force", action="store_true",
                         help="Force reprocessing even if cached parquet exists")
+    parser.add_argument("--from-cache", action="store_true",
+                        help="Skip tick processing (Pass 1), load raw cache directly, "
+                             "re-run Pass 2 (cross-candle, z-score, targets). "
+                             "Use when adding candle-derived features.")
     args = parser.parse_args()
 
     global _EXPECTED_RAW_COLS
@@ -4352,7 +4627,9 @@ def main():
     print(f"  Output:     {features_dir}/{symbol}/{{tf}}/YYYY-MM-DD.parquet "
           f"(only requested range)")
     print(f"  Cache:      {features_dir}/{symbol}/{{tf}}/.raw/  (raw candle features)")
-    if args.force:
+    if args.from_cache:
+        print(f"  Mode:       FROM-CACHE (skip tick processing, re-run Pass 2 only)")
+    elif args.force:
         print(f"  Mode:       FORCE (ignoring cache)")
     print("=" * 70)
 
@@ -4384,96 +4661,120 @@ def main():
     # -----------------------------------------------------------------------
     # Pass 1: stream through days, compute raw candle features per timeframe.
     #         Skip tick processing if valid raw cache exists.
+    #         --from-cache: skip entirely, load all raw cache files.
     # -----------------------------------------------------------------------
     tf_rows: dict[str, list[dict]] = {tf: [] for tf in args.timeframes}
 
-    print(f"\n[1/2] Processing tick data day-by-day...")
     t0_all = time.time()
-    loaded = 0
-    cached = 0
 
-    d = s_warmup
-    while d <= e_warmup:
-        date_str = d.strftime("%Y-%m-%d")
-        if date_str not in available_dates:
-            d += timedelta(days=1)
-            continue
-        fname = f"{symbol}{date_str}.csv.gz"
-        path = data_dir / symbol / "bybit" / "futures" / fname
-        is_warmup = (d < s) or (d > e)
-
-        # Check if ALL timeframes have valid raw cache for this date
-        all_cached = not args.force
-        cached_dfs: dict[str, pd.DataFrame] = {}
-        if all_cached:
+    if args.from_cache:
+        # FAST PATH: load raw cache directly, skip all tick processing
+        print(f"\n[1/2] Loading raw cache (skipping tick processing)...")
+        loaded = 0
+        for date_str in available_dates:
             for tf_label in args.timeframes:
-                cdf = _check_raw_cache(features_dir, symbol, tf_label, date_str,
-                                       _EXPECTED_RAW_COLS)
-                if cdf is not None:
-                    cached_dfs[tf_label] = cdf
+                cache_path = _raw_cache_path(features_dir, symbol, tf_label, date_str)
+                if cache_path.exists():
+                    cdf = pd.read_parquet(cache_path)
+                    tf_rows[tf_label].extend(cdf.to_dict("records"))
                 else:
-                    all_cached = False
-                    cached_dfs.clear()
-                    break
-
-        if all_cached and cached_dfs:
-            # Load from cache — no tick processing needed
-            for tf_label in args.timeframes:
-                cdf = cached_dfs[tf_label]
-                tf_rows[tf_label].extend(cdf.to_dict("records"))
+                    print(f"  WARNING: no cache for {date_str} {tf_label}, skipping")
             loaded += 1
-            cached += 1
-            elapsed = time.time() - t0_all
-            n_candles = sum(len(cached_dfs[tf]) for tf in args.timeframes)
-            tag = " [WARMUP]" if is_warmup else ""
-            print(f"  [{loaded}/{total_processing}] {date_str}: CACHED ({n_candles} candles) "
-                  f"[{elapsed:.0f}s elapsed]{tag}")
-        elif path.exists():
-            # Process from raw tick data
-            day_t0 = time.time()
-            day_df = load_day(path)
-            n_trades = len(day_df)
-            load_time = time.time() - day_t0
+            if loaded % 50 == 0 or loaded == len(available_dates):
+                elapsed = time.time() - t0_all
+                print(f"  [{loaded}/{len(available_dates)}] loaded "
+                      f"[{elapsed:.1f}s elapsed]")
 
-            for tf_label in args.timeframes:
-                freq = TIMEFRAMES[tf_label]
-                rows = process_day_into_candles(day_df, freq)
-                tf_rows[tf_label].extend(rows)
+        total_elapsed = time.time() - t0_all
+        print(f"\n  Loaded {loaded} days from cache in {total_elapsed:.1f}s")
+    else:
+        # NORMAL PATH: process tick data or use cache per-day
+        print(f"\n[1/2] Processing tick data day-by-day...")
+        loaded = 0
+        cached = 0
 
-                # Save raw cache
-                if rows:
-                    raw_df = pd.DataFrame(rows)
-                    raw_cache = _raw_cache_path(features_dir, symbol, tf_label, date_str)
-                    raw_df.to_parquet(raw_cache, engine="pyarrow")
-                    # Set expected column count from first computation
-                    if _EXPECTED_RAW_COLS is None:
-                        _EXPECTED_RAW_COLS = len(raw_df.columns)
+        d = s_warmup
+        while d <= e_warmup:
+            date_str = d.strftime("%Y-%m-%d")
+            if date_str not in available_dates:
+                d += timedelta(days=1)
+                continue
+            fname = f"{symbol}{date_str}.csv.gz"
+            path = data_dir / symbol / "bybit" / "futures" / fname
+            is_warmup = (d < s) or (d > e)
 
-            del day_df
-            gc.collect()
+            # Check if ALL timeframes have valid raw cache for this date
+            all_cached = not args.force
+            cached_dfs: dict[str, pd.DataFrame] = {}
+            if all_cached:
+                for tf_label in args.timeframes:
+                    cdf = _check_raw_cache(features_dir, symbol, tf_label, date_str,
+                                           _EXPECTED_RAW_COLS)
+                    if cdf is not None:
+                        cached_dfs[tf_label] = cdf
+                    else:
+                        all_cached = False
+                        cached_dfs.clear()
+                        break
 
-            loaded += 1
-            elapsed = time.time() - t0_all
-            rate = (loaded - cached) / (elapsed if elapsed > 0 else 1)
-            days_to_process = total_processing - loaded
-            remaining = days_to_process / rate if rate > 0 else 0
-            tag = " [WARMUP]" if is_warmup else ""
-            print(f"  [{loaded}/{total_processing}] {date_str}: {n_trades:,} trades, "
-                  f"load {load_time:.1f}s "
-                  f"[{elapsed:.0f}s elapsed, ~{remaining:.0f}s ETA]{tag}")
-        else:
-            print(f"  [?/{total_days}] {date_str}: MISSING")
+            if all_cached and cached_dfs:
+                # Load from cache — no tick processing needed
+                for tf_label in args.timeframes:
+                    cdf = cached_dfs[tf_label]
+                    tf_rows[tf_label].extend(cdf.to_dict("records"))
+                loaded += 1
+                cached += 1
+                elapsed = time.time() - t0_all
+                n_candles = sum(len(cached_dfs[tf]) for tf in args.timeframes)
+                tag = " [WARMUP]" if is_warmup else ""
+                print(f"  [{loaded}/{total_processing}] {date_str}: CACHED ({n_candles} candles) "
+                      f"[{elapsed:.0f}s elapsed]{tag}")
+            elif path.exists():
+                # Process from raw tick data
+                day_t0 = time.time()
+                day_df = load_day(path)
+                n_trades = len(day_df)
+                load_time = time.time() - day_t0
 
-        d += timedelta(days=1)
+                for tf_label in args.timeframes:
+                    freq = TIMEFRAMES[tf_label]
+                    rows = process_day_into_candles(day_df, freq)
+                    tf_rows[tf_label].extend(rows)
 
-    if loaded == 0:
-        print("ERROR: No data files found!")
-        sys.exit(1)
+                    # Save raw cache
+                    if rows:
+                        raw_df = pd.DataFrame(rows)
+                        raw_cache = _raw_cache_path(features_dir, symbol, tf_label, date_str)
+                        raw_df.to_parquet(raw_cache, engine="pyarrow")
+                        # Set expected column count from first computation
+                        if _EXPECTED_RAW_COLS is None:
+                            _EXPECTED_RAW_COLS = len(raw_df.columns)
 
-    total_elapsed = time.time() - t0_all
-    print(f"\n  Processed {loaded} days in {total_elapsed:.0f}s "
-          f"({cached} cached, {loaded - cached} from ticks, "
-          f"{n_warmup_back}+{n_warmup_fwd} warmup)")
+                del day_df
+                gc.collect()
+
+                loaded += 1
+                elapsed = time.time() - t0_all
+                rate = (loaded - cached) / (elapsed if elapsed > 0 else 1)
+                days_to_process = total_processing - loaded
+                remaining = days_to_process / rate if rate > 0 else 0
+                tag = " [WARMUP]" if is_warmup else ""
+                print(f"  [{loaded}/{total_processing}] {date_str}: {n_trades:,} trades, "
+                      f"load {load_time:.1f}s "
+                      f"[{elapsed:.0f}s elapsed, ~{remaining:.0f}s ETA]{tag}")
+            else:
+                print(f"  [?/{total_days}] {date_str}: MISSING")
+
+            d += timedelta(days=1)
+
+        if loaded == 0:
+            print("ERROR: No data files found!")
+            sys.exit(1)
+
+        total_elapsed = time.time() - t0_all
+        print(f"\n  Processed {loaded} days in {total_elapsed:.0f}s "
+              f"({cached} cached, {loaded - cached} from ticks, "
+              f"{n_warmup_back}+{n_warmup_fwd} warmup)")
 
     # -----------------------------------------------------------------------
     # Pass 2: build DataFrames, add cross-candle/z-score/fwd features,
