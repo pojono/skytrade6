@@ -4181,6 +4181,283 @@ def add_cross_candle_features(df: pd.DataFrame) -> pd.DataFrame:
         df[f"failed_breakout_up_{win}"] = (broke_up_prev & (c < rh)).astype(float)
         df[f"failed_breakout_down_{win}"] = (broke_down_prev & (c > rl)).astype(float)
 
+    # -------------------------------------------------------------------
+    # Liquidity Pools: Equal Highs/Lows, Pool Depth, Voids
+    # -------------------------------------------------------------------
+    # Equal highs: count of candles in last N with highs within threshold
+    eq_threshold_pct = 0.002  # 0.2% = 20 bps
+    for win in [10, 20]:
+        # Equal highs: how many of last N highs are within threshold of current high
+        rolling_highs = h.rolling(win, min_periods=1)
+        rolling_lows = l.rolling(win, min_periods=1)
+
+        def _count_equal_levels(series, threshold_pct, win_size):
+            """Count how many values in rolling window are within threshold of the last value."""
+            result = np.zeros(len(series))
+            vals = series.values
+            for i in range(win_size, len(vals)):
+                ref = vals[i]
+                if ref == 0 or np.isnan(ref):
+                    continue
+                window = vals[max(0, i - win_size):i]
+                valid = window[~np.isnan(window)]
+                if len(valid) == 0:
+                    continue
+                result[i] = np.sum(np.abs(valid - ref) / ref < threshold_pct)
+            return result
+
+        df[f"equal_highs_{win}"] = _count_equal_levels(h, eq_threshold_pct, win)
+        df[f"equal_lows_{win}"] = _count_equal_levels(l, eq_threshold_pct, win)
+
+        # Liquidity pool strength: touches × recency-weighted
+        df[f"liq_pool_above_{win}"] = df[f"equal_highs_{win}"] * df[f"resistance_touches_{win}"] if f"resistance_touches_{win}" in df.columns else df[f"equal_highs_{win}"]
+        df[f"liq_pool_below_{win}"] = df[f"equal_lows_{win}"] * df[f"support_touches_{win}"] if f"support_touches_{win}" in df.columns else df[f"equal_lows_{win}"]
+
+    # Distance to nearest equal high/low cluster (bps)
+    df["dist_to_equal_high_bps"] = np.where(
+        df["equal_highs_10"] > 1,
+        df.get("dist_to_resistance_10_bps", 0.0),
+        0.0
+    )
+    df["dist_to_equal_low_bps"] = np.where(
+        df["equal_lows_10"] > 1,
+        df.get("dist_to_support_10_bps", 0.0),
+        0.0
+    )
+
+    # Liquidity void: large body candle with no overlap with previous candle
+    prev_body_high = np.maximum(o.shift(1), c.shift(1))
+    prev_body_low = np.minimum(o.shift(1), c.shift(1))
+    cur_body_high = np.maximum(o, c)
+    cur_body_low = np.minimum(o, c)
+    void_up = cur_body_low - prev_body_high  # gap up in bodies
+    void_down = prev_body_low - cur_body_high  # gap down in bodies
+    df["liq_void_up_bps"] = np.where(void_up > 0, void_up / c * 10000, 0.0)
+    df["liq_void_down_bps"] = np.where(void_down > 0, void_down / c * 10000, 0.0)
+    df["liq_void_any"] = ((void_up > 0) | (void_down > 0)).astype(float)
+    df["liq_void_count_10"] = df["liq_void_any"].rolling(10, min_periods=1).sum()
+
+    # Stop hunt score: approaching equal highs/lows with momentum
+    df["stop_hunt_up_score"] = df["equal_highs_10"] * np.where(
+        df.get("dist_to_resistance_10_bps", pd.Series(0, index=df.index)) < 50,
+        1.0, 0.0
+    )
+    df["stop_hunt_down_score"] = df["equal_lows_10"] * np.where(
+        df.get("dist_to_support_10_bps", pd.Series(0, index=df.index)) < 50,
+        1.0, 0.0
+    )
+
+    # -------------------------------------------------------------------
+    # Wick Analysis
+    # -------------------------------------------------------------------
+    candle_range = h - l
+    body_high = np.maximum(o, c)
+    body_low = np.minimum(o, c)
+    body_size = body_high - body_low
+
+    # Wick ratios (0-1)
+    df["upper_wick_ratio"] = np.where(candle_range > 0, (h - body_high) / candle_range, 0.0)
+    df["lower_wick_ratio"] = np.where(candle_range > 0, (body_low - l) / candle_range, 0.0)
+    df["body_ratio"] = np.where(candle_range > 0, body_size / candle_range, 0.0)
+
+    # Wick rejection strength: large wick relative to body = rejection
+    df["upper_wick_rejection"] = np.where(body_size > 0, (h - body_high) / body_size, 0.0)
+    df["lower_wick_rejection"] = np.where(body_size > 0, (body_low - l) / body_size, 0.0)
+
+    # Wick dominance: which wick is larger?
+    upper_wick = h - body_high
+    lower_wick = body_low - l
+    total_wick = upper_wick + lower_wick
+    df["wick_dominance"] = np.where(total_wick > 0, (upper_wick - lower_wick) / total_wick, 0.0)
+
+    # Rolling wick stats
+    df["avg_upper_wick_5"] = df["upper_wick_ratio"].rolling(5, min_periods=1).mean()
+    df["avg_lower_wick_5"] = df["lower_wick_ratio"].rolling(5, min_periods=1).mean()
+    df["avg_body_ratio_5"] = df["body_ratio"].rolling(5, min_periods=1).mean()
+
+    # -------------------------------------------------------------------
+    # Candle Patterns
+    # -------------------------------------------------------------------
+    bullish_body = c > o
+    bearish_body = c < o
+    prev_bullish = c.shift(1) > o.shift(1)
+    prev_bearish = c.shift(1) < o.shift(1)
+    prev_body_size = np.abs(c.shift(1) - o.shift(1))
+
+    # Engulfing
+    df["engulfing_bullish"] = (
+        bullish_body & prev_bearish &
+        (o <= c.shift(1)) & (c >= o.shift(1)) &
+        (body_size > prev_body_size)
+    ).astype(float)
+    df["engulfing_bearish"] = (
+        bearish_body & prev_bullish &
+        (o >= c.shift(1)) & (c <= o.shift(1)) &
+        (body_size > prev_body_size)
+    ).astype(float)
+
+    # Pin bar / Hammer / Shooting star
+    # Hammer: small body at top, long lower wick (>2x body)
+    df["hammer"] = (
+        (df["lower_wick_ratio"] > 0.6) &
+        (df["body_ratio"] < 0.3) &
+        (df["upper_wick_ratio"] < 0.15)
+    ).astype(float)
+    # Shooting star: small body at bottom, long upper wick
+    df["shooting_star"] = (
+        (df["upper_wick_ratio"] > 0.6) &
+        (df["body_ratio"] < 0.3) &
+        (df["lower_wick_ratio"] < 0.15)
+    ).astype(float)
+
+    # Doji: very small body relative to range
+    df["doji"] = (df["body_ratio"] < 0.1).astype(float)
+
+    # Inside bar: current range entirely within previous range
+    df["inside_bar"] = ((h <= h.shift(1)) & (l >= l.shift(1))).astype(float)
+
+    # Outside bar: current range engulfs previous range
+    df["outside_bar"] = ((h > h.shift(1)) & (l < l.shift(1))).astype(float)
+
+    # Three soldiers / three crows
+    three_bull = bullish_body & prev_bullish & (c.shift(2) < o.shift(2)).map({True: False, False: True})
+    three_bear = bearish_body & prev_bearish & (c.shift(2) > o.shift(2)).map({True: False, False: True})
+    # Simpler: 3 consecutive bullish/bearish with increasing close
+    df["three_soldiers"] = (
+        bullish_body & prev_bullish &
+        (c.shift(2) < o.shift(2)).eq(False) &
+        (c > c.shift(1)) & (c.shift(1) > c.shift(2))
+    ).astype(float)
+    df["three_crows"] = (
+        bearish_body & prev_bearish &
+        (c.shift(2) > o.shift(2)).eq(False) &
+        (c < c.shift(1)) & (c.shift(1) < c.shift(2))
+    ).astype(float)
+
+    # Morning/evening star (3-candle reversal)
+    small_body_mid = np.abs(c.shift(1) - o.shift(1)) < candle_range.shift(1) * 0.3
+    df["morning_star"] = (
+        (c.shift(2) < o.shift(2)) &  # bearish first
+        small_body_mid &               # small middle
+        bullish_body &                  # bullish third
+        (c > (o.shift(2) + c.shift(2)) / 2)  # close above midpoint of first
+    ).astype(float)
+    df["evening_star"] = (
+        (c.shift(2) > o.shift(2)) &  # bullish first
+        small_body_mid &               # small middle
+        bearish_body &                  # bearish third
+        (c < (o.shift(2) + c.shift(2)) / 2)  # close below midpoint of first
+    ).astype(float)
+
+    # Rolling pattern counts
+    df["bullish_patterns_5"] = (
+        df["engulfing_bullish"] + df["hammer"] + df["morning_star"] + df["three_soldiers"]
+    ).rolling(5, min_periods=1).sum()
+    df["bearish_patterns_5"] = (
+        df["engulfing_bearish"] + df["shooting_star"] + df["evening_star"] + df["three_crows"]
+    ).rolling(5, min_periods=1).sum()
+    df["pattern_bias_5"] = df["bullish_patterns_5"] - df["bearish_patterns_5"]
+
+    # -------------------------------------------------------------------
+    # Gap Analysis
+    # -------------------------------------------------------------------
+    gap = o - c.shift(1)
+    df["gap_bps"] = np.where(c.shift(1) > 0, gap / c.shift(1) * 10000, 0.0)
+    df["gap_up"] = (gap > 0).astype(float)
+    df["gap_down"] = (gap < 0).astype(float)
+    df["gap_abs_bps"] = np.abs(df["gap_bps"])
+
+    # Gap fill: did price fill the gap during this candle?
+    df["gap_filled"] = np.where(
+        gap > 0,
+        (l <= c.shift(1)).astype(float),  # gap up filled if low reaches prev close
+        np.where(
+            gap < 0,
+            (h >= c.shift(1)).astype(float),  # gap down filled if high reaches prev close
+            0.0
+        )
+    )
+    df["gap_fill_pct"] = np.where(
+        np.abs(gap) > 0,
+        np.clip(np.where(gap > 0, (o - l) / gap, (h - o) / (-gap)), 0, 1),
+        0.0
+    )
+
+    # Rolling gap stats
+    df["gap_count_10"] = (df["gap_abs_bps"] > 10).astype(float).rolling(10, min_periods=1).sum()
+    df["gap_fill_rate_10"] = df["gap_filled"].rolling(10, min_periods=1).mean()
+
+    # -------------------------------------------------------------------
+    # ATR and ATR-normalized features
+    # -------------------------------------------------------------------
+    tr = np.maximum(h - l, np.maximum(np.abs(h - c.shift(1)), np.abs(l - c.shift(1))))
+    df["true_range"] = tr
+
+    for atr_win in [5, 10, 14, 20]:
+        atr = tr.rolling(atr_win, min_periods=1).mean()
+        df[f"atr_{atr_win}"] = atr
+
+        # Range / ATR: is this candle unusually large?
+        df[f"range_atr_ratio_{atr_win}"] = np.where(atr > 0, candle_range / atr, 1.0)
+
+        # Body / ATR
+        df[f"body_atr_ratio_{atr_win}"] = np.where(atr > 0, body_size / atr, 0.0)
+
+        # ATR percentile (is current ATR high or low vs recent history?)
+        atr_rolling_max = atr.rolling(atr_win * 3, min_periods=atr_win).max()
+        atr_rolling_min = atr.rolling(atr_win * 3, min_periods=atr_win).min()
+        atr_range = atr_rolling_max - atr_rolling_min
+        df[f"atr_percentile_{atr_win}"] = np.where(
+            atr_range > 0,
+            (atr - atr_rolling_min) / atr_range,
+            0.5
+        )
+
+    # ATR expansion/contraction rate
+    df["atr_change_pct_14"] = np.where(
+        df["atr_14"].shift(1) > 0,
+        (df["atr_14"] - df["atr_14"].shift(1)) / df["atr_14"].shift(1),
+        0.0
+    )
+
+    # -------------------------------------------------------------------
+    # Donchian Channel
+    # -------------------------------------------------------------------
+    for dc_win in [10, 20]:
+        dc_high = h.rolling(dc_win, min_periods=1).max()
+        dc_low = l.rolling(dc_win, min_periods=1).min()
+        dc_mid = (dc_high + dc_low) / 2
+        dc_width = dc_high - dc_low
+
+        # Position within channel (0=bottom, 1=top)
+        df[f"donchian_position_{dc_win}"] = np.where(
+            dc_width > 0,
+            (c - dc_low) / dc_width,
+            0.5
+        )
+
+        # Channel width in bps
+        df[f"donchian_width_bps_{dc_win}"] = np.where(
+            dc_mid > 0,
+            dc_width / dc_mid * 10000,
+            0.0
+        )
+
+        # Width change (expansion/contraction)
+        prev_width = dc_width.shift(1)
+        df[f"donchian_width_change_{dc_win}"] = np.where(
+            prev_width > 0,
+            (dc_width - prev_width) / prev_width,
+            0.0
+        )
+
+        # Close vs midline
+        df[f"donchian_mid_dist_bps_{dc_win}"] = np.where(
+            dc_mid > 0,
+            (c - dc_mid) / dc_mid * 10000,
+            0.0
+        )
+
     return df
 
 
@@ -4409,6 +4686,32 @@ ZSCORE_FEATURES = [
     "breakout_vol_confirm_5", "breakout_vol_confirm_10", "breakout_vol_confirm_20",
     "range_compression_5", "range_compression_10", "range_compression_20",
     "breakout_net_10",
+    # --- NEW: Liquidity Pools ---
+    "equal_highs_10", "equal_highs_20", "equal_lows_10", "equal_lows_20",
+    "liq_pool_above_10", "liq_pool_above_20", "liq_pool_below_10", "liq_pool_below_20",
+    "dist_to_equal_high_bps", "dist_to_equal_low_bps",
+    "liq_void_up_bps", "liq_void_down_bps", "liq_void_count_10",
+    "stop_hunt_up_score", "stop_hunt_down_score",
+    # --- NEW: Wick Analysis ---
+    "upper_wick_ratio", "lower_wick_ratio", "body_ratio",
+    "upper_wick_rejection", "lower_wick_rejection", "wick_dominance",
+    "avg_upper_wick_5", "avg_lower_wick_5", "avg_body_ratio_5",
+    # --- NEW: Candle Patterns ---
+    "bullish_patterns_5", "bearish_patterns_5", "pattern_bias_5",
+    # --- NEW: Gap Analysis ---
+    "gap_bps", "gap_abs_bps", "gap_fill_pct",
+    "gap_count_10", "gap_fill_rate_10",
+    # --- NEW: ATR ---
+    "true_range", "atr_5", "atr_10", "atr_14", "atr_20",
+    "range_atr_ratio_5", "range_atr_ratio_10", "range_atr_ratio_14", "range_atr_ratio_20",
+    "body_atr_ratio_5", "body_atr_ratio_10", "body_atr_ratio_14", "body_atr_ratio_20",
+    "atr_percentile_5", "atr_percentile_10", "atr_percentile_14", "atr_percentile_20",
+    "atr_change_pct_14",
+    # --- NEW: Donchian Channel ---
+    "donchian_position_10", "donchian_position_20",
+    "donchian_width_bps_10", "donchian_width_bps_20",
+    "donchian_width_change_10", "donchian_width_change_20",
+    "donchian_mid_dist_bps_10", "donchian_mid_dist_bps_20",
 ]
 
 ZSCORE_WINDOW = 20
