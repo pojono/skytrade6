@@ -4153,7 +4153,7 @@ def add_zscore_features(df: pd.DataFrame) -> pd.DataFrame:
     for col in cols_present:
         rm = df[col].rolling(window=ZSCORE_WINDOW, min_periods=ZSCORE_MIN_PERIODS).mean()
         rs = df[col].rolling(window=ZSCORE_WINDOW, min_periods=ZSCORE_MIN_PERIODS).std()
-        z_cols[f"{col}_z"] = (df[col] - rm) / rs.replace(0, np.nan)
+        z_cols[f"{col}_z"] = ((df[col] - rm) / rs.replace(0, np.nan)).fillna(0.0)
     return pd.concat([df, pd.DataFrame(z_cols, index=df.index)], axis=1)
 
 
@@ -4278,6 +4278,27 @@ def main():
     e = datetime.strptime(args.end_date, "%Y-%m-%d")
     total_days = (e - s).days + 1
 
+    # -----------------------------------------------------------------------
+    # Compute warmup days needed for rolling features & forward targets.
+    # The coarsest timeframe determines how many calendar days we need.
+    #
+    # Backward lookback: ZSCORE_WINDOW=20 candles (largest rolling window)
+    # Forward lookahead: max target horizon = 10 candles
+    # Total candles needed beyond requested range: 20 (back) + 10 (fwd)
+    # -----------------------------------------------------------------------
+    TF_HOURS = {"15m": 0.25, "30m": 0.5, "1h": 1, "2h": 2, "4h": 4}
+    max_candle_hours = max(TF_HOURS.get(tf, 1) for tf in args.timeframes)
+    warmup_candles_back = ZSCORE_WINDOW  # 20 candles backward for z-scores
+    warmup_candles_fwd = 10              # 10 candles forward for targets
+    warmup_hours_back = warmup_candles_back * max_candle_hours
+    warmup_hours_fwd = warmup_candles_fwd * max_candle_hours
+    warmup_days_back = int(np.ceil(warmup_hours_back / 24)) + 1  # +1 safety
+    warmup_days_fwd = int(np.ceil(warmup_hours_fwd / 24)) + 1
+
+    # Extend processing window
+    s_warmup = s - timedelta(days=warmup_days_back)
+    e_warmup = e + timedelta(days=warmup_days_fwd)
+
     # Create output directories (including .raw cache dirs)
     for tf_label in args.timeframes:
         (features_dir / symbol / tf_label).mkdir(parents=True, exist_ok=True)
@@ -4289,8 +4310,10 @@ def main():
     # -----------------------------------------------------------------------
     available_dates = []
     missing_dates = []
-    d = s
-    while d <= e:
+    warmup_dates_back = []
+    warmup_dates_fwd = []
+    d = s_warmup
+    while d <= e_warmup:
         date_str = d.strftime("%Y-%m-%d")
         fname = f"{symbol}{date_str}.csv.gz"
         tick_path = data_dir / symbol / "bybit" / "futures" / fname
@@ -4301,23 +4324,39 @@ def main():
         )
         if has_tick or has_cache:
             available_dates.append(date_str)
+            if d < s:
+                warmup_dates_back.append(date_str)
+            elif d > e:
+                warmup_dates_fwd.append(date_str)
         else:
-            missing_dates.append(date_str)
+            if s <= d <= e:
+                missing_dates.append(date_str)
         d += timedelta(days=1)
+
+    n_warmup_back = len(warmup_dates_back)
+    n_warmup_fwd = len(warmup_dates_fwd)
+    n_requested = len([d for d in available_dates
+                       if s.strftime('%Y-%m-%d') <= d <= e.strftime('%Y-%m-%d')])
+    total_processing = len(available_dates)
 
     print("=" * 70)
     print(f"Microstructure Feature Aggregation (streaming, low-RAM)")
     print(f"  Symbol:     {symbol}")
     print(f"  Period:     {args.start_date} -> {args.end_date} ({total_days} days)")
-    print(f"  Available:  {len(available_dates)} days with data, {len(missing_dates)} missing")
+    print(f"  Warmup:     {n_warmup_back} days before + {n_warmup_fwd} days after "
+          f"(for {max_candle_hours}h candles)")
+    print(f"  Processing: {total_processing} total days "
+          f"({n_requested} requested + {n_warmup_back}+{n_warmup_fwd} warmup)")
+    print(f"  Available:  {n_requested} days with data, {len(missing_dates)} missing")
     print(f"  Timeframes: {', '.join(args.timeframes)}")
-    print(f"  Output:     {features_dir}/{symbol}/{{tf}}/YYYY-MM-DD.parquet")
+    print(f"  Output:     {features_dir}/{symbol}/{{tf}}/YYYY-MM-DD.parquet "
+          f"(only requested range)")
     print(f"  Cache:      {features_dir}/{symbol}/{{tf}}/.raw/  (raw candle features)")
     if args.force:
         print(f"  Mode:       FORCE (ignoring cache)")
     print("=" * 70)
 
-    if len(available_dates) == 0:
+    if n_requested == 0:
         tick_dir = data_dir / symbol / "bybit" / "futures"
         print(f"\nERROR: No tick data found for {symbol} in {tick_dir}")
         print(f"  Expected files like: {symbol}YYYY-MM-DD.csv.gz")
@@ -4353,11 +4392,15 @@ def main():
     loaded = 0
     cached = 0
 
-    d = s
-    while d <= e:
+    d = s_warmup
+    while d <= e_warmup:
         date_str = d.strftime("%Y-%m-%d")
+        if date_str not in available_dates:
+            d += timedelta(days=1)
+            continue
         fname = f"{symbol}{date_str}.csv.gz"
         path = data_dir / symbol / "bybit" / "futures" / fname
+        is_warmup = (d < s) or (d > e)
 
         # Check if ALL timeframes have valid raw cache for this date
         all_cached = not args.force
@@ -4382,8 +4425,9 @@ def main():
             cached += 1
             elapsed = time.time() - t0_all
             n_candles = sum(len(cached_dfs[tf]) for tf in args.timeframes)
-            print(f"  [{loaded}/{total_days}] {date_str}: CACHED ({n_candles} candles) "
-                  f"[{elapsed:.0f}s elapsed]")
+            tag = " [WARMUP]" if is_warmup else ""
+            print(f"  [{loaded}/{total_processing}] {date_str}: CACHED ({n_candles} candles) "
+                  f"[{elapsed:.0f}s elapsed]{tag}")
         elif path.exists():
             # Process from raw tick data
             day_t0 = time.time()
@@ -4411,11 +4455,12 @@ def main():
             loaded += 1
             elapsed = time.time() - t0_all
             rate = (loaded - cached) / (elapsed if elapsed > 0 else 1)
-            days_to_process = total_days - loaded
+            days_to_process = total_processing - loaded
             remaining = days_to_process / rate if rate > 0 else 0
-            print(f"  [{loaded}/{total_days}] {date_str}: {n_trades:,} trades, "
+            tag = " [WARMUP]" if is_warmup else ""
+            print(f"  [{loaded}/{total_processing}] {date_str}: {n_trades:,} trades, "
                   f"load {load_time:.1f}s "
-                  f"[{elapsed:.0f}s elapsed, ~{remaining:.0f}s ETA]")
+                  f"[{elapsed:.0f}s elapsed, ~{remaining:.0f}s ETA]{tag}")
         else:
             print(f"  [?/{total_days}] {date_str}: MISSING")
 
@@ -4427,7 +4472,8 @@ def main():
 
     total_elapsed = time.time() - t0_all
     print(f"\n  Processed {loaded} days in {total_elapsed:.0f}s "
-          f"({cached} cached, {loaded - cached} from ticks)")
+          f"({cached} cached, {loaded - cached} from ticks, "
+          f"{n_warmup_back}+{n_warmup_fwd} warmup)")
 
     # -----------------------------------------------------------------------
     # Pass 2: build DataFrames, add cross-candle/z-score/fwd features,
@@ -4454,7 +4500,21 @@ def main():
         n_cols = len(features_df.columns)
 
         # --- Save per-day parquet files (enriched, final) ---
+        # ONLY save days within the user-requested range (not warmup)
         features_df.index = pd.to_datetime(features_df.index)
+        # Match timezone of the index (may be UTC-aware or naive)
+        if features_df.index.tz is not None:
+            req_start = pd.Timestamp(args.start_date, tz=features_df.index.tz)
+            req_end = pd.Timestamp(args.end_date, tz=features_df.index.tz) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+        else:
+            req_start = pd.Timestamp(args.start_date)
+            req_end = pd.Timestamp(args.end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+        total_candles = len(features_df)
+        features_df = features_df.loc[
+            (features_df.index >= req_start) & (features_df.index <= req_end)
+        ]
+        trimmed = total_candles - len(features_df)
+
         dates_in_data = features_df.index.date
         unique_dates = sorted(set(dates_in_data))
         day_count = 0
@@ -4468,7 +4528,8 @@ def main():
             day_count += 1
 
         print(f"  {tf_label}: {len(features_df)} candles, {n_cols} cols -> "
-              f"{day_count} parquet files in features/{symbol}/{tf_label}/")
+              f"{day_count} parquet files in features/{symbol}/{tf_label}/"
+              f" (trimmed {trimmed} warmup candles)")
 
         # --- Correlation analysis (optional) ---
         if not args.no_correlations:
