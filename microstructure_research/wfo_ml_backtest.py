@@ -19,6 +19,7 @@ Usage:
 """
 
 import argparse
+import json
 import sys
 import time
 import warnings
@@ -45,7 +46,7 @@ from scipy.spatial.distance import squareform
 # WFO PARAMETERS
 # ============================================================
 SELECTION_DAYS = 360       # fixed 12-month rolling window
-PURGE_DAYS = 30            # gap between selection and trade
+PURGE_DAYS = 3             # gap between selection and trade (autocorr decays in ~3d)
 TRADE_DAYS = 30            # each trade window (monthly rebalance)
 MIN_DATA_DAYS = SELECTION_DAYS + PURGE_DAYS + TRADE_DAYS  # ~420d minimum
 
@@ -529,7 +530,258 @@ def generate_rebalance_schedule(df, tf):
 # ============================================================
 # MAIN WFO BACKTEST
 # ============================================================
-def run_wfo_backtest(symbol, tf, features_dir, output_dir, max_periods=0):
+# ============================================================
+# CONSTRAINED MODE: Use only validated targets + features
+# ============================================================
+def load_constraints(json_path):
+    """Load predictable targets and their feature lists."""
+    with open(json_path) as f:
+        data = json.load(f)
+    return data
+
+
+def run_tier2_constrained(df, tf, targets, features):
+    """Run Tier 2 stability scan on constrained target/feature sets."""
+    _, continuous_tgts, binary_tgts = classify_columns(df)
+    cpd = get_candles_per_day(tf)
+
+    # Only scan targets we care about
+    all_tgts = [t for t in targets if t in df.columns]
+    # Only scan features we care about
+    feat_cols = [f for f in features if f in df.columns]
+
+    win_size = int(T2_WINDOW_DAYS * cpd)
+    step_size = int(T2_STEP_DAYS * cpd)
+    windows = []
+    start = 0
+    while start + win_size <= len(df):
+        windows.append((start, start + win_size))
+        start += step_size
+
+    if len(windows) < 3:
+        return pd.DataFrame()
+
+    results = []
+    for ti, tgt in enumerate(all_tgts):
+        is_binary = tgt in binary_tgts
+        tgt_vals_full = df[tgt].values
+
+        for feat in feat_cols:
+            feat_vals_full = df[feat].values
+
+            mask = np.isfinite(feat_vals_full) & np.isfinite(tgt_vals_full)
+            if mask.sum() < 30:
+                continue
+
+            if is_binary:
+                unique = np.unique(tgt_vals_full[mask])
+                if len(unique) < 2:
+                    continue
+                try:
+                    auc = roc_auc_score(tgt_vals_full[mask].astype(int),
+                                        feat_vals_full[mask])
+                    full_r = auc - 0.5
+                except:
+                    continue
+            else:
+                r, _ = stats.spearmanr(feat_vals_full[mask], tgt_vals_full[mask])
+                if not np.isfinite(r):
+                    continue
+                full_r = r
+
+            win_rs = []
+            for ws, we in windows:
+                fv = feat_vals_full[ws:we]
+                tv = tgt_vals_full[ws:we]
+                m = np.isfinite(fv) & np.isfinite(tv)
+                if m.sum() < T2_MIN_CANDLES:
+                    win_rs.append(np.nan)
+                    continue
+                if is_binary:
+                    u = np.unique(tv[m])
+                    if len(u) < 2:
+                        win_rs.append(np.nan)
+                        continue
+                    try:
+                        a = roc_auc_score(tv[m].astype(int), fv[m])
+                        win_rs.append(a - 0.5)
+                    except:
+                        win_rs.append(np.nan)
+                else:
+                    rr, _ = stats.spearmanr(fv[m], tv[m])
+                    win_rs.append(rr if np.isfinite(rr) else np.nan)
+
+            valid_rs = [r for r in win_rs if np.isfinite(r)]
+            if len(valid_rs) < 3:
+                continue
+
+            full_sign = np.sign(full_r)
+            signs = [np.sign(r) for r in valid_rs]
+            sign_pct = sum(1 for s in signs if s == full_sign) / len(signs)
+            mean_r = np.mean(valid_rs)
+            std_r = np.std(valid_rs)
+            snr = abs(mean_r) / std_r if std_r > 0 else 0
+
+            wrong = [1 if s != full_sign else 0 for s in signs]
+            max_wrong = 0
+            cur = 0
+            for w in wrong:
+                if w:
+                    cur += 1
+                    max_wrong = max(max_wrong, cur)
+                else:
+                    cur = 0
+
+            mid = len(df) // 2
+            fv1, tv1 = feat_vals_full[:mid], tgt_vals_full[:mid]
+            fv2, tv2 = feat_vals_full[mid:], tgt_vals_full[mid:]
+            m1 = np.isfinite(fv1) & np.isfinite(tv1)
+            m2 = np.isfinite(fv2) & np.isfinite(tv2)
+            regime_ok = True
+            if m1.sum() >= 30 and m2.sum() >= 30:
+                if is_binary:
+                    try:
+                        r1 = roc_auc_score(tv1[m1].astype(int), fv1[m1]) - 0.5
+                        r2 = roc_auc_score(tv2[m2].astype(int), fv2[m2]) - 0.5
+                        regime_ok = (r1 * r2) > 0
+                    except:
+                        pass
+                else:
+                    r1, _ = stats.spearmanr(fv1[m1], tv1[m1])
+                    r2, _ = stats.spearmanr(fv2[m2], tv2[m2])
+                    if np.isfinite(r1) and np.isfinite(r2):
+                        regime_ok = (r1 * r2) > 0
+
+            tier2_pass = (
+                abs(full_r) >= T2_MIN_EFFECT_SIZE and
+                sign_pct >= 0.70 and
+                snr >= 0.5 and
+                max_wrong <= 3 and
+                regime_ok
+            )
+
+            if tier2_pass:
+                results.append({
+                    "feature": feat,
+                    "target": tgt,
+                    "full_r": full_r,
+                    "sign_pct": sign_pct,
+                    "snr": snr,
+                })
+
+        if (ti + 1) % 5 == 0 or ti == len(all_tgts) - 1:
+            print(f"      T2: [{ti+1}/{len(all_tgts)}] targets, "
+                  f"{len(results)} pairs pass", flush=True)
+
+    return pd.DataFrame(results)
+
+
+def run_tier5_constrained(df, tf, features, targets):
+    """Run Tier 5 WFO on constrained feature/target sets (no clustering needed)."""
+    _, continuous_tgts, binary_tgts = classify_columns(df)
+    cpd = get_candles_per_day(tf)
+
+    all_tgts = [t for t in targets if t in df.columns]
+    feats = [f for f in features if f in df.columns]
+
+    min_train = int(T5_MIN_TRAIN_DAYS * cpd)
+    test_size = int(T5_TEST_DAYS * cpd)
+    purge_size = int(T5_PURGE_DAYS * cpd)
+
+    folds = []
+    test_start = min_train + purge_size
+    while test_start + test_size <= len(df):
+        train_end = test_start - purge_size
+        folds.append((0, train_end, test_start, test_start + test_size))
+        test_start += test_size
+
+    if len(folds) < 2:
+        return pd.DataFrame()
+
+    survivors = []
+    total = len(feats) * len(all_tgts)
+    done = 0
+
+    for tgt in all_tgts:
+        is_binary = tgt in binary_tgts
+        tgt_vals = df[tgt].values
+
+        for feat in feats:
+            feat_vals = df[feat].values
+            oos_scores = []
+
+            for (tr_s, tr_e, te_s, te_e) in folds:
+                X_tr = feat_vals[tr_s:tr_e].reshape(-1, 1)
+                y_tr = tgt_vals[tr_s:tr_e]
+                X_te = feat_vals[te_s:te_e].reshape(-1, 1)
+                y_te = tgt_vals[te_s:te_e]
+
+                tr_mask = np.isfinite(X_tr.ravel()) & np.isfinite(y_tr)
+                te_mask = np.isfinite(X_te.ravel()) & np.isfinite(y_te)
+
+                if tr_mask.sum() < 30 or te_mask.sum() < 10:
+                    oos_scores.append(np.nan)
+                    continue
+
+                Xtr, ytr = X_tr[tr_mask], y_tr[tr_mask]
+                Xte, yte = X_te[te_mask], y_te[te_mask]
+
+                scaler = StandardScaler()
+                Xtr = scaler.fit_transform(Xtr)
+                Xte = scaler.transform(Xte)
+
+                if is_binary:
+                    if len(np.unique(ytr)) < 2 or len(np.unique(yte)) < 2:
+                        oos_scores.append(np.nan)
+                        continue
+                    try:
+                        m = LogisticRegression(C=1.0, max_iter=200, solver="lbfgs")
+                        m.fit(Xtr, ytr.astype(int))
+                        p = m.predict_proba(Xte)[:, 1]
+                        oos_scores.append(roc_auc_score(yte.astype(int), p) - 0.5)
+                    except:
+                        oos_scores.append(np.nan)
+                else:
+                    try:
+                        m = Ridge(alpha=1.0)
+                        m.fit(Xtr, ytr)
+                        pred = m.predict(Xte)
+                        oos_scores.append(r2_score(yte, pred))
+                    except:
+                        oos_scores.append(np.nan)
+
+            valid = [s for s in oos_scores if np.isfinite(s)]
+            if len(valid) < 2:
+                done += 1
+                continue
+
+            mean_oos = np.mean(valid)
+            pct_pos = (np.array(valid) > 0).mean()
+
+            if is_binary:
+                passes = abs(mean_oos) >= T5_MIN_OOS and pct_pos >= T5_MIN_PCT_POS
+            else:
+                passes = mean_oos >= T5_MIN_OOS and pct_pos >= T5_MIN_PCT_POS
+
+            if passes:
+                survivors.append({
+                    "feature": feat,
+                    "target": tgt,
+                    "mean_oos": mean_oos,
+                    "pct_positive": pct_pos,
+                })
+
+            done += 1
+
+        if done % (len(feats) * 3) < len(feats) or done == total:
+            print(f"      T5: [{done}/{total}] pairs, "
+                  f"{len(survivors)} survive", flush=True)
+
+    return pd.DataFrame(survivors)
+
+
+def run_wfo_backtest(symbol, tf, features_dir, output_dir, max_periods=0,
+                    constraints=None):
     t0_total = time.time()
 
     # Load full data
@@ -548,8 +800,17 @@ def run_wfo_backtest(symbol, tf, features_dir, output_dir, max_periods=0):
     if max_periods > 0:
         schedule = schedule[:max_periods]
 
+    constrained = constraints is not None
+    if constrained:
+        c_targets = constraints["predictable_targets"]
+        c_features = constraints["core_features"]
+        c_target_features = constraints.get("target_features", {})
+        print(f"  CONSTRAINED MODE: {len(c_targets)} targets, "
+              f"{len(c_features)} features", flush=True)
+
     print(f"\n{'='*80}", flush=True)
-    print(f"WFO ML BACKTEST: {symbol} {tf}", flush=True)
+    print(f"WFO ML BACKTEST: {symbol} {tf}"
+          f"{' [CONSTRAINED]' if constrained else ''}", flush=True)
     print(f"  Selection: {SELECTION_DAYS}d rolling, Purge: {PURGE_DAYS}d, "
           f"Trade: {TRADE_DAYS}d", flush=True)
     print(f"  Rebalance periods: {len(schedule)}", flush=True)
@@ -582,43 +843,75 @@ def run_wfo_backtest(symbol, tf, features_dir, output_dir, max_periods=0):
               f"[{df_trade.index[0].date()} -> {df_trade.index[-1].date()}]",
               flush=True)
 
-        # --- Tier 2 ---
-        print(f"\n    --- Tier 2: Stability Scan ---", flush=True)
-        t2_start = time.time()
-        tier2_df = run_tier2(df_select, tf)
-        n_t2_feats = tier2_df["feature"].nunique() if len(tier2_df) > 0 else 0
-        n_t2_pairs = len(tier2_df)
-        print(f"    T2 done: {n_t2_feats} features, {n_t2_pairs} pairs "
-              f"[{time.time()-t2_start:.0f}s]", flush=True)
+        if constrained:
+            # --- Constrained: Tier 2 on 30 targets × 67 features ---
+            print(f"\n    --- Tier 2: Stability Scan (constrained) ---", flush=True)
+            t2_start = time.time()
+            tier2_df = run_tier2_constrained(df_select, tf, c_targets, c_features)
+            n_t2_feats = tier2_df["feature"].nunique() if len(tier2_df) > 0 else 0
+            n_t2_pairs = len(tier2_df)
+            print(f"    T2 done: {n_t2_feats} features, {n_t2_pairs} pairs "
+                  f"[{time.time()-t2_start:.0f}s]", flush=True)
 
-        if n_t2_feats == 0:
-            print(f"    SKIP: No Tier 2 survivors", flush=True)
-            continue
+            if n_t2_feats == 0:
+                print(f"    SKIP: No Tier 2 survivors", flush=True)
+                continue
 
-        # --- Tier 4 ---
-        print(f"\n    --- Tier 4: Clustering ---", flush=True)
-        t4_start = time.time()
-        rep_feats = run_tier4(df_select, tier2_df)
-        print(f"    T4 done: {n_t2_feats} -> {len(rep_feats)} reps "
-              f"[{time.time()-t4_start:.0f}s]", flush=True)
+            # Skip Tier 4 — features already curated
+            t2_feats = sorted(tier2_df["feature"].unique())
 
-        if len(rep_feats) == 0:
-            print(f"    SKIP: No Tier 4 representatives", flush=True)
-            continue
+            # --- Constrained: Tier 5 on surviving features × targets ---
+            print(f"\n    --- Tier 5: Single-Feature WFO (constrained) ---", flush=True)
+            t5_start = time.time()
+            t2_targets = sorted(tier2_df["target"].unique())
+            survivors_df = run_tier5_constrained(df_select, tf, t2_feats, t2_targets)
+            n_t5_feats = survivors_df["feature"].nunique() if len(survivors_df) > 0 else 0
+            n_t5_tgts = survivors_df["target"].nunique() if len(survivors_df) > 0 else 0
+            print(f"    T5 done: {len(t2_feats)} feats -> {n_t5_feats} features, "
+                  f"{n_t5_tgts} targets ({len(survivors_df)} pairs) "
+                  f"[{time.time()-t5_start:.0f}s]", flush=True)
 
-        # --- Tier 5 ---
-        print(f"\n    --- Tier 5: Single-Feature WFO ---", flush=True)
-        t5_start = time.time()
-        survivors_df = run_tier5(df_select, tf, rep_feats)
-        n_t5_feats = survivors_df["feature"].nunique() if len(survivors_df) > 0 else 0
-        n_t5_tgts = survivors_df["target"].nunique() if len(survivors_df) > 0 else 0
-        print(f"    T5 done: {len(rep_feats)} reps -> {n_t5_feats} features, "
-              f"{n_t5_tgts} targets ({len(survivors_df)} pairs) "
-              f"[{time.time()-t5_start:.0f}s]", flush=True)
+            if len(survivors_df) == 0:
+                print(f"    SKIP: No Tier 5 survivors", flush=True)
+                continue
+        else:
+            # --- Full: Tier 2 on all targets × all features ---
+            print(f"\n    --- Tier 2: Stability Scan ---", flush=True)
+            t2_start = time.time()
+            tier2_df = run_tier2(df_select, tf)
+            n_t2_feats = tier2_df["feature"].nunique() if len(tier2_df) > 0 else 0
+            n_t2_pairs = len(tier2_df)
+            print(f"    T2 done: {n_t2_feats} features, {n_t2_pairs} pairs "
+                  f"[{time.time()-t2_start:.0f}s]", flush=True)
 
-        if len(survivors_df) == 0:
-            print(f"    SKIP: No Tier 5 survivors", flush=True)
-            continue
+            if n_t2_feats == 0:
+                print(f"    SKIP: No Tier 2 survivors", flush=True)
+                continue
+
+            # --- Tier 4 ---
+            print(f"\n    --- Tier 4: Clustering ---", flush=True)
+            t4_start = time.time()
+            rep_feats = run_tier4(df_select, tier2_df)
+            print(f"    T4 done: {n_t2_feats} -> {len(rep_feats)} reps "
+                  f"[{time.time()-t4_start:.0f}s]", flush=True)
+
+            if len(rep_feats) == 0:
+                print(f"    SKIP: No Tier 4 representatives", flush=True)
+                continue
+
+            # --- Tier 5 ---
+            print(f"\n    --- Tier 5: Single-Feature WFO ---", flush=True)
+            t5_start = time.time()
+            survivors_df = run_tier5(df_select, tf, rep_feats)
+            n_t5_feats = survivors_df["feature"].nunique() if len(survivors_df) > 0 else 0
+            n_t5_tgts = survivors_df["target"].nunique() if len(survivors_df) > 0 else 0
+            print(f"    T5 done: {len(rep_feats)} reps -> {n_t5_feats} features, "
+                  f"{n_t5_tgts} targets ({len(survivors_df)} pairs) "
+                  f"[{time.time()-t5_start:.0f}s]", flush=True)
+
+            if len(survivors_df) == 0:
+                print(f"    SKIP: No Tier 5 survivors", flush=True)
+                continue
 
         # --- Train & Predict on Trade Window ---
         print(f"\n    --- Train & Predict ---", flush=True)
@@ -840,11 +1133,19 @@ def main():
     parser.add_argument("--output-dir", default="./microstructure_research/results")
     parser.add_argument("--periods", type=int, default=0,
                         help="Max periods to run (0=all)")
+    parser.add_argument("--constrained", type=str, default="",
+                        help="Path to predictable_targets.json for constrained mode")
     args = parser.parse_args()
+
+    constraints = None
+    if args.constrained:
+        constraints = load_constraints(args.constrained)
+        print(f"Loaded constraints: {len(constraints['predictable_targets'])} targets, "
+              f"{len(constraints['core_features'])} features", flush=True)
 
     run_wfo_backtest(args.symbol, args.timeframe,
                      Path(args.features_dir), Path(args.output_dir),
-                     max_periods=args.periods)
+                     max_periods=args.periods, constraints=constraints)
 
 
 if __name__ == "__main__":
