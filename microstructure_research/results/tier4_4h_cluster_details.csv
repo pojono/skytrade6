@@ -1,45 +1,62 @@
 cluster,size,representative,composite,n_targets,members
-26,13,close,0.14844282902452646,11,"close, twap, poc_price, fair_value, fair_price, vwap_buy, vwap, vwap_sell, value_area_low, value_area_high, low, high, open"
-24,5,avg_buy_size,0.10654549882905096,9,"avg_buy_size, avg_sell_size, avg_trade_size, trade_size_iqr, trade_size_p75"
-43,1,fvg_bearish_count_10,0.10143935339611744,2,fvg_bearish_count_10
-11,1,hilbert_std_amplitude,0.09471008081297348,9,hilbert_std_amplitude
-16,3,absorption_ratio,0.09363913645682992,5,"absorption_ratio, market_pressure, bernoulli"
-23,2,trade_size_p25,0.08786600155807932,6,"trade_size_p25, median_trade_size"
-39,4,golden_ratio_half_dist_z,0.0856404191971371,6,"golden_ratio_half_dist_z, golden_ratio_half_dist, golden_ratio_composite, golden_ratio_composite_z"
-38,2,price_volume_angle_cos_z,0.06549091178635395,5,"price_volume_angle_cos_z, price_volume_angle_cos"
-12,2,vpin,0.06330393324409923,7,"vpin, vpin_z"
-27,1,max_monotonic_run,0.060376651981685035,3,max_monotonic_run
+49,1,is_swing_low,0.24251728370358316,8,is_swing_low
+44,1,is_swing_high,0.23281733904627192,9,is_swing_high
+24,20,close,0.14844282902452646,11,"close, twap, poc_price, fair_value, fair_price, vwap_buy, vwap, vwap_sell, value_area_low, value_area_high, low, high, open, last_swing_low, pivot_s1, pivot_r1, pivot_pp, pivot_r2, pivot_s2, last_swing_high"
+32,5,avg_buy_size,0.10654549882905096,9,"avg_buy_size, avg_sell_size, avg_trade_size, trade_size_iqr, trade_size_p75"
+18,1,fvg_bearish_count_10,0.10143935339611744,2,fvg_bearish_count_10
+13,1,hilbert_std_amplitude,0.09471008081297348,9,hilbert_std_amplitude
+33,3,market_pressure,0.09363913645682992,5,"market_pressure, absorption_ratio, bernoulli"
+31,2,trade_size_p25,0.08786600155807932,6,"trade_size_p25, median_trade_size"
+42,4,golden_ratio_half_dist_z,0.0856404191971371,6,"golden_ratio_half_dist_z, golden_ratio_half_dist, golden_ratio_composite, golden_ratio_composite_z"
+41,2,price_volume_angle_cos_z,0.06549091178635395,5,"price_volume_angle_cos_z, price_volume_angle_cos"
+36,2,vpin,0.06330393324409923,7,"vpin, vpin_z"
+25,1,max_monotonic_run,0.060376651981685035,3,max_monotonic_run
 5,8,busiest_quartile,0.058633618609186346,2,"busiest_quartile, trade_rate_decay, trade_rate_decay_z, sell_centroid, large_trade_centroid_z, activity_centroid_vol_z, buy_centroid, buy_centroid_z"
-42,2,consecutive_direction_z,0.055776097537239215,4,"consecutive_direction_z, return_reversal"
-20,1,vol_price_feedback,0.050652495018379456,6,vol_price_feedback
-31,4,vol_asymmetry_z,0.040479100104227554,1,"vol_asymmetry_z, vol_asymmetry, return_skewness_z, return_skewness"
-35,8,drawdown_drawup_asymmetry,0.040244523039333145,1,"drawdown_drawup_asymmetry, return, drift_from_open_bps, price_slope_angle, ew_net_direction, ew_net_direction_z, market_momentum, close_to_vwap"
-34,3,downtick_pct,0.03853288833007261,1,"downtick_pct, net_tick_direction, uptick_pct"
+10,2,consecutive_direction_z,0.055776097537239215,4,"consecutive_direction_z, return_reversal"
+17,2,support_touches_10,0.05326285488972949,2,"support_touches_10, breakout_down_count_10"
+28,1,vol_price_feedback,0.050652495018379456,6,vol_price_feedback
+46,1,near_support_20,0.04899838487344873,2,near_support_20
+56,11,dist_to_s1_bps,0.04467827010965186,1,"dist_to_s1_bps, dist_to_s1_bps_z, dist_to_pivot_bps, drawdown_drawup_asymmetry, return, drift_from_open_bps, price_slope_angle, ew_net_direction, ew_net_direction_z, market_momentum, close_to_vwap"
+16,4,donchian_mid_dist_bps_20,0.042662434057104265,2,"donchian_mid_dist_bps_20, dist_to_support_20_bps, sr_position_20, donchian_position_20"
+14,2,failed_breakout_down_10,0.041813986127202676,2,"failed_breakout_down_10, failed_breakout_down_5"
+61,1,gap_abs_bps,0.0406767679506764,2,gap_abs_bps
+52,4,vol_asymmetry_z,0.040479100104227554,1,"vol_asymmetry_z, vol_asymmetry, return_skewness_z, return_skewness"
+55,3,uptick_pct,0.03853288833007261,1,"uptick_pct, downtick_pct, net_tick_direction"
 6,2,hour_cos,0.03836690463124139,3,"hour_cos, session_europe"
-29,2,aggression_imbalance_z,0.037264565636657976,1,"aggression_imbalance_z, aggression_imbalance"
+45,1,hh_streak_z,0.03826220347503772,3,hh_streak_z
+50,2,aggression_imbalance_z,0.037264565636657976,1,"aggression_imbalance_z, aggression_imbalance"
 1,1,ew_impulse_detected,0.03726140759573981,1,ew_impulse_detected
-25,2,volume_autocorr,0.036934903252065575,2,"volume_autocorr, volume_skewness"
-28,9,sell_urgency_ratio,0.03482817176846505,1,"sell_urgency_ratio, buy_sell_trade_ratio, trade_imbalance, sell_urgency_ratio_z, trade_imbalance_z, price_impact_asymmetry_z, price_impact_asymmetry, response_asymmetry, response_asymmetry_z"
-32,1,large_buy_pct,0.032238561582932174,1,large_buy_pct
-44,1,fvg_bearish_size_bps_z,0.03171611701752306,1,fvg_bearish_size_bps_z
+23,2,volume_autocorr,0.036934903252065575,2,"volume_autocorr, volume_skewness"
+48,3,higher_low,0.035445260220465756,1,"higher_low, lower_low, ll_streak_z"
+26,9,sell_urgency_ratio,0.03482817176846505,1,"sell_urgency_ratio, buy_sell_trade_ratio, trade_imbalance, sell_urgency_ratio_z, trade_imbalance_z, price_impact_asymmetry_z, price_impact_asymmetry, response_asymmetry, response_asymmetry_z"
+15,2,resistance_touches_10,0.0347391409557142,4,"resistance_touches_10, breakout_up_count_10"
+20,1,resistance_touches_20,0.03256433896139476,1,resistance_touches_20
+53,1,large_buy_pct,0.032238561582932174,1,large_buy_pct
+22,1,fvg_bearish_size_bps_z,0.03171611701752306,1,fvg_bearish_size_bps_z
 2,1,ew_impulse_quality_z,0.031606334528833525,1,ew_impulse_quality_z
+11,1,engulfing_bearish,0.028787663036592085,1,engulfing_bearish
 3,2,taylor_rate_a1,0.02837189494915574,1,"taylor_rate_a1, taylor_vol_a1_z"
-17,3,absorption_ratio_z,0.028199975035538193,2,"absorption_ratio_z, market_pressure_z, bernoulli_z"
-13,1,max_drawup_z,0.027960079104634394,1,max_drawup_z
+34,3,absorption_ratio_z,0.028199975035538193,2,"absorption_ratio_z, market_pressure_z, bernoulli_z"
+37,1,max_drawup_z,0.027960079104634394,1,max_drawup_z
 7,1,session_asia,0.027701312139673098,1,session_asia
-37,1,taylor_price_a0,0.027470706284771763,1,taylor_price_a0
-15,1,inter_trade_entropy,0.027460234187885547,1,inter_trade_entropy
-40,1,turbulence,0.026986339607796575,1,turbulence
-21,2,size_gini_z,0.026480865976142163,2,"size_gini_z, trade_size_p75_z"
-19,3,side_sequence_entropy_z,0.026125777202292467,1,"side_sequence_entropy_z, side_switch_rate, side_sequence_entropy"
-30,1,volume_profile_skew_z,0.025347017958573775,1,volume_profile_skew_z
-36,1,time_to_low_pct,0.023674159929911114,1,time_to_low_pct
+58,1,taylor_price_a0,0.027470706284771763,1,taylor_price_a0
+39,1,inter_trade_entropy,0.027460234187885547,1,inter_trade_entropy
+43,1,turbulence,0.026986339607796575,1,turbulence
+29,2,size_gini_z,0.026480865976142163,2,"size_gini_z, trade_size_p75_z"
+27,3,side_sequence_entropy_z,0.026125777202292467,1,"side_sequence_entropy_z, side_switch_rate, side_sequence_entropy"
+51,1,volume_profile_skew_z,0.025347017958573775,1,volume_profile_skew_z
+57,1,time_to_low_pct,0.023674159929911114,1,time_to_low_pct
+47,1,near_support_5,0.02360689201281594,1,near_support_5
 4,3,volume_pct_q4_z,0.023382650485522412,1,"volume_pct_q4_z, volume_pct_q4, volume_q4_pct"
-41,1,fib_size_ratio_pct_z,0.022479015921126267,1,fib_size_ratio_pct_z
-33,4,area_above_vwap_pct_z,0.02246520083404595,1,"area_above_vwap_pct_z, area_above_vwap_pct, signed_area_bps_z, twap_vwap_spread_bps_z"
-22,1,avg_trade_size_z,0.02231123761708812,1,avg_trade_size_z
-10,2,hilbert_mean_amplitude,0.021343122175804596,1,"hilbert_mean_amplitude, hilbert_mean_amplitude_z"
-18,1,taylor_price_rmse_z,0.02131998613352417,1,taylor_price_rmse_z
+59,1,fib_size_ratio_pct_z,0.022479015921126267,1,fib_size_ratio_pct_z
+54,4,area_above_vwap_pct_z,0.02246520083404595,1,"area_above_vwap_pct_z, area_above_vwap_pct, signed_area_bps_z, twap_vwap_spread_bps_z"
+30,1,avg_trade_size_z,0.02231123761708812,1,avg_trade_size_z
+12,2,hilbert_mean_amplitude,0.021343122175804596,1,"hilbert_mean_amplitude, hilbert_mean_amplitude_z"
+35,1,taylor_price_rmse_z,0.02131998613352417,1,taylor_price_rmse_z
 8,1,hour_sin,0.019633180854806632,1,hour_sin
+40,1,atr_percentile_14,0.019378814357348544,1,atr_percentile_14
 9,1,session_us,0.0186713914265473,2,session_us
-14,1,buy_volume_z,0.015684747056901614,1,buy_volume_z
+21,1,liq_pool_above_20,0.017240038227191213,2,liq_pool_above_20
+19,1,failed_breakout_up_10,0.016727459775587428,1,failed_breakout_up_10
+38,1,buy_volume_z,0.015684747056901614,1,buy_volume_z
+60,1,ob_demand,0.003230933660005866,1,ob_demand
