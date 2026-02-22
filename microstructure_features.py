@@ -3840,6 +3840,9 @@ def add_targets(df: pd.DataFrame, fee_bps: float = 4.0) -> pd.DataFrame:
 
 def add_cross_candle_features(df: pd.DataFrame) -> pd.DataFrame:
     """Add features that require cross-candle context (lagged values)."""
+    import warnings
+    warnings.filterwarnings("ignore", category=pd.errors.PerformanceWarning)
+
     # Return reversal score: current return × previous return
     df["return_reversal"] = df["return"] * df["return"].shift(1)
 
