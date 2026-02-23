@@ -518,34 +518,41 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
 
     for bar in range(n_trade):
         # Early exit on signal reversal
+        # Reversal detected at bar (after bar closes) -> exit at bar+1 open
         if EARLY_EXIT and bar <= current_exit_bar and len(active_trades) > 0:
             last_trade = active_trades[-1]
             if (signals[bar] != 0 and
                 signals[bar] != last_trade["direction"] and
                 bar > last_trade["entry_bar"]):
-                last_trade["exit_bar"] = bar
-                current_exit_bar = bar
+                early_exit_bar = bar + 1  # exit at NEXT bar's open
+                if early_exit_bar < n_trade:
+                    last_trade["exit_bar"] = early_exit_bar
+                    current_exit_bar = early_exit_bar
 
-        if bar > current_exit_bar and signals[bar] != 0 and bar + HOLD_BARS < n_trade:
+        # Signal at bar (after bar closes) -> enter at bar+1 open
+        if bar > current_exit_bar and signals[bar] != 0 and bar + HOLD_BARS + 1 < n_trade:
             entry_bar = bar + 1
-            if entry_bar < n_trade:
-                entry_price = open_prices[entry_bar]
-                exit_bar = min(entry_bar + HOLD_BARS, n_trade - 1)
-                current_exit_bar = exit_bar
-                active_trades.append({
-                    "entry_bar": entry_bar,
-                    "exit_bar": exit_bar,
-                    "direction": signals[bar],
-                    "size": sizes[bar],
-                    "entry_price": entry_price,
-                })
+            entry_price = open_prices[entry_bar]
+            # Exit at bar after last hold bar's open (entry + HOLD_BARS)
+            exit_bar = entry_bar + HOLD_BARS
+            if exit_bar >= n_trade:
+                continue
+            current_exit_bar = exit_bar
+            active_trades.append({
+                "entry_bar": entry_bar,
+                "exit_bar": exit_bar,
+                "direction": signals[bar],
+                "size": sizes[bar],
+                "entry_price": entry_price,
+            })
 
+    # Calculate PnL: entry at open[entry_bar], exit at open[exit_bar]
     for trade in active_trades:
         eb, xb = trade["entry_bar"], trade["exit_bar"]
         d, sz, ep = trade["direction"], trade["size"], trade["entry_price"]
         if xb >= n_trade or ep <= 0:
             continue
-        exit_price = close_prices[xb]
+        exit_price = open_prices[xb]  # exit at open of exit bar
         gross_ret = d * (exit_price / ep - 1.0)
         net_ret = gross_ret - FEE_FRAC
         trade_returns.append(net_ret)

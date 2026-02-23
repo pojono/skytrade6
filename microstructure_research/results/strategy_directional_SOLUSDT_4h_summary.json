@@ -2,14 +2,14 @@
   "symbol": "SOLUSDT",
   "tf": "4h",
   "n_periods": 12,
-  "total_net_return": 1.4481109850020695,
-  "total_gross_return": 1.5257430245085344,
-  "total_fees": 0.07763203950646488,
+  "total_net_return": 0.576733603322015,
+  "total_gross_return": 0.641080439732682,
+  "total_fees": 0.06434683641066707,
   "bnh_return": -0.17680892621833832,
-  "total_trades": 469,
-  "avg_win_rate": 0.5941730714246054,
+  "total_trades": 372,
+  "avg_win_rate": 0.5658366373692431,
   "avg_gate_rate": 0.6939814814814816,
-  "sharpe": 4.578827665209319,
-  "max_drawdown": -0.1727259611879124,
-  "profit_factor": 1.8530131953623472
+  "sharpe": 2.438055098224667,
+  "max_drawdown": -0.2013364596458615,
+  "profit_factor": 1.4041816540902283
 }
