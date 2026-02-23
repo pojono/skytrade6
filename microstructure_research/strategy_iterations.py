@@ -149,6 +149,58 @@ CONFIG_V5 = {
     "dynamic_hold": True,
 }
 
+# ---- v2 IMPROVEMENTS (post-audit, open-to-open execution) ----
+
+# v6: Hold 4 bars (capture momentum continuation)
+CONFIG_V6 = {
+    **copy.deepcopy(CONFIG_V3),
+    "name": "v6_hold4",
+    "hold_bars": 4,
+}
+
+# v7: Hold 5 bars with matched meta-target
+CONFIG_V7 = {
+    **copy.deepcopy(CONFIG_V3),
+    "name": "v7_hold5",
+    "hold_bars": 5,
+    "meta_target_long": "tgt_profitable_long_5",
+    "meta_target_short": "tgt_profitable_short_5",
+}
+
+# v8: Higher threshold floor (only take high-conviction trades)
+CONFIG_V8 = {
+    **copy.deepcopy(CONFIG_V3),
+    "name": "v8_high_thresh",
+    "threshold_floor": 0.56,
+}
+
+# v9: Convex sizing (concentrate capital on high-conviction)
+CONFIG_V9 = {
+    **copy.deepcopy(CONFIG_V3),
+    "name": "v9_convex_size",
+    "sizing_mode": "convex",
+}
+
+# v10: Hold 4 + high threshold + convex sizing
+CONFIG_V10 = {
+    **copy.deepcopy(CONFIG_V3),
+    "name": "v10_combined_v2",
+    "hold_bars": 4,
+    "threshold_floor": 0.56,
+    "sizing_mode": "convex",
+}
+
+# v11: Hold 5 + matched target + high threshold + convex
+CONFIG_V11 = {
+    **copy.deepcopy(CONFIG_V3),
+    "name": "v11_hold5_combo",
+    "hold_bars": 5,
+    "meta_target_long": "tgt_profitable_long_5",
+    "meta_target_short": "tgt_profitable_short_5",
+    "threshold_floor": 0.56,
+    "sizing_mode": "convex",
+}
+
 
 # ============================================================
 # DATA LOADING
@@ -309,6 +361,8 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
     dynamic_hold = config["dynamic_hold"]
     meta_tgt_long = config["meta_target_long"]
     meta_tgt_short = config["meta_target_short"]
+    threshold_floor = config.get("threshold_floor", 0.50)
+    sizing_mode = config.get("sizing_mode", "linear")
 
     df_sel = df.iloc[sel_start:sel_end].copy()
     df_trade = df.iloc[trade_start:trade_end].copy()
@@ -448,10 +502,11 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
     meta_short, scaler_meta_s = train_meta_model(X_meta, y_meta_short, meta_model_type)
 
     # Calibrate threshold via 3-fold CV
-    cum_ret_3_col = "tgt_cum_ret_3"
-    conf_threshold = 0.5
-    if cum_ret_3_col in df_inner_val.columns:
-        cum_ret_3_val = df_inner_val[cum_ret_3_col].values[meta_valid]
+    # Use cum_ret matching the hold period for CV evaluation
+    cum_ret_col = f"tgt_cum_ret_{hold_bars}" if f"tgt_cum_ret_{hold_bars}" in df_inner_val.columns else "tgt_cum_ret_3"
+    conf_threshold = threshold_floor
+    if cum_ret_col in df_inner_val.columns:
+        cum_ret_3_val = df_inner_val[cum_ret_col].values[meta_valid]
         n_cv = len(X_meta)
         fold_size = n_cv // 3
         cv_pred_long = np.full(n_cv, np.nan)
@@ -470,8 +525,9 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
             except:
                 pass
 
-        best_thresh, best_avg = 0.5, -999
-        for thresh in [0.50, 0.52, 0.54, 0.56, 0.58, 0.60]:
+        best_thresh, best_avg = threshold_floor, -999
+        thresholds = [t for t in [0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.62, 0.64] if t >= threshold_floor]
+        for thresh in thresholds:
             rets = []
             for j in range(n_cv):
                 pl, ps = cv_pred_long[j], cv_pred_short[j]
@@ -529,10 +585,16 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
 
         if pl > ps:
             signals[bar] = 1.0
-            sizes[bar] = min((pl - 0.5) * 2.0, MAX_POSITION_FRAC)
+            if sizing_mode == "convex":
+                sizes[bar] = min(((pl - 0.5) * 2.0) ** 2, MAX_POSITION_FRAC)
+            else:
+                sizes[bar] = min((pl - 0.5) * 2.0, MAX_POSITION_FRAC)
         else:
             signals[bar] = -1.0
-            sizes[bar] = min((ps - 0.5) * 2.0, MAX_POSITION_FRAC)
+            if sizing_mode == "convex":
+                sizes[bar] = min(((ps - 0.5) * 2.0) ** 2, MAX_POSITION_FRAC)
+            else:
+                sizes[bar] = min((ps - 0.5) * 2.0, MAX_POSITION_FRAC)
 
         # Dynamic hold: longer hold when vol_expansion is predicted
         if dynamic_hold and p_vol is not None:
@@ -651,12 +713,10 @@ def run_config(df, config, constraints, cpd, n_periods=12):
     name = config["name"]
     print(f"\n{'='*70}")
     print(f"  RUNNING: {name}")
-    print(f"  Base models: {len(config['base_models'])}, "
-          f"Regime: {len(config['regime_models'])}, "
-          f"Meta: {config['meta_model']}, "
-          f"Hold: {config['hold_bars']}, "
-          f"Early exit: {config['early_exit']}, "
-          f"Dynamic hold: {config['dynamic_hold']}")
+    print(f"  Base: {len(config['base_models'])}, Regime: {len(config['regime_models'])}, "
+          f"Meta: {config['meta_model']}, Hold: {config['hold_bars']}, "
+          f"Exit: {config['early_exit']}, ThreshFloor: {config.get('threshold_floor', 0.50)}, "
+          f"Sizing: {config.get('sizing_mode', 'linear')}")
     print(f"{'='*70}")
 
     n_candles = len(df)
@@ -842,7 +902,7 @@ def main():
 
     print(f"{'='*70}")
     print(f"  STRATEGY ITERATION RUNNER")
-    print(f"  Testing {6} configurations on {SYMBOL} {TF}")
+    print(f"  Testing {7} configurations on {SYMBOL} {TF} (v2 improvements)")
     print(f"{'='*70}")
 
     # Load data
@@ -854,13 +914,13 @@ def main():
         constraints = json.load(f)
 
     # Check required targets
-    required = {"tgt_profitable_long_3", "tgt_profitable_short_3", "tgt_cum_ret_3"}
+    required = {"tgt_profitable_long_3", "tgt_profitable_short_3", "tgt_cum_ret_3",
+                  "tgt_profitable_long_5", "tgt_profitable_short_5", "tgt_cum_ret_5"}
     missing = required - set(df.columns)
     if missing:
-        print(f"  ERROR: Missing targets: {missing}")
-        sys.exit(1)
+        print(f"  WARNING: Missing targets: {missing}")
 
-    configs = [CONFIG_V0, CONFIG_V1, CONFIG_V2, CONFIG_V3, CONFIG_V4, CONFIG_V5]
+    configs = [CONFIG_V3, CONFIG_V6, CONFIG_V7, CONFIG_V8, CONFIG_V9, CONFIG_V10, CONFIG_V11]
 
     all_summaries = []
     for config in configs:

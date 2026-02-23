@@ -1,603 +1,517 @@
 {
-  "v0_baseline": {
-    "net_return": 0.5067147496033176,
-    "total_trades": 347,
-    "avg_trade_return": 0.0046276312564988865,
-    "win_rate": 0.566123209500914,
-    "profit_factor": 1.4856542538439825,
-    "sharpe": 2.6092629226484427,
-    "max_drawdown": -0.16097952394116993,
-    "periods_positive": 8,
+  "v5_simple_size": {
+    "net_return": 1.1696730274946663,
+    "total_trades": 370,
+    "avg_trade_return": 0.005774766953957613,
+    "win_rate": 0.5812254903731136,
+    "profit_factor": 1.669869913249254,
+    "sharpe": 3.549095763458579,
+    "max_drawdown": -0.18624683565273858,
+    "periods_positive": 10,
     "total_periods": 12,
-    "signal_rate": 0.39814814814814814,
+    "signal_rate": 0.6083333333333333,
     "per_period": [
       {
         "period": 1,
-        "net_return": 0.029690610041275205,
-        "n_trades": 27,
-        "win_rate": 0.6296296296296297
+        "net_return": 0.1162613634339946,
+        "n_trades": 32,
+        "win_rate": 0.6875
       },
       {
         "period": 2,
-        "net_return": 0.0869193594046775,
+        "net_return": 0.03526665078154732,
+        "n_trades": 31,
+        "win_rate": 0.5806451612903226
+      },
+      {
+        "period": 3,
+        "net_return": 0.15617457366048826,
         "n_trades": 29,
         "win_rate": 0.6551724137931034
       },
       {
-        "period": 3,
-        "net_return": -0.060788983353568436,
-        "n_trades": 34,
-        "win_rate": 0.4411764705882353
-      },
-      {
         "period": 4,
-        "net_return": 0.15152893650211618,
-        "n_trades": 24,
-        "win_rate": 0.7083333333333334
+        "net_return": 0.0931333025073815,
+        "n_trades": 33,
+        "win_rate": 0.48484848484848486
       },
       {
         "period": 5,
-        "net_return": 0.08533963808090103,
-        "n_trades": 32,
-        "win_rate": 0.5625
+        "net_return": -0.020610754048516804,
+        "n_trades": 31,
+        "win_rate": 0.5161290322580645
       },
       {
         "period": 6,
-        "net_return": -0.04204278818857622,
-        "n_trades": 30,
-        "win_rate": 0.5666666666666667
+        "net_return": 0.21736400393385313,
+        "n_trades": 28,
+        "win_rate": 0.6428571428571429
       },
       {
         "period": 7,
-        "net_return": 0.020754411573863586,
-        "n_trades": 35,
-        "win_rate": 0.6
+        "net_return": 0.05611691274407561,
+        "n_trades": 31,
+        "win_rate": 0.45161290322580644
       },
       {
         "period": 8,
-        "net_return": 0.20460322850328821,
-        "n_trades": 27,
-        "win_rate": 0.6666666666666666
+        "net_return": 0.2466149273461702,
+        "n_trades": 29,
+        "win_rate": 0.7931034482758621
       },
       {
         "period": 9,
-        "net_return": 0.14376694410201052,
-        "n_trades": 30,
-        "win_rate": 0.7
+        "net_return": 0.12398430705215875,
+        "n_trades": 34,
+        "win_rate": 0.6470588235294118
       },
       {
         "period": 10,
-        "net_return": -0.07709517052556311,
-        "n_trades": 25,
-        "win_rate": 0.48
+        "net_return": -0.13620493400382402,
+        "n_trades": 33,
+        "win_rate": 0.3939393939393939
       },
       {
         "period": 11,
-        "net_return": 0.0005718226351533913,
-        "n_trades": 24,
-        "win_rate": 0.4166666666666667
+        "net_return": 0.12484628827412428,
+        "n_trades": 30,
+        "win_rate": 0.4666666666666667
       },
       {
         "period": 12,
-        "net_return": -0.036533259172260246,
-        "n_trades": 30,
-        "win_rate": 0.36666666666666664
+        "net_return": 0.1567263858132135,
+        "n_trades": 29,
+        "win_rate": 0.6551724137931034
       }
     ]
   },
-  "v1_low_gate": {
-    "net_return": 0.2753965103386425,
-    "total_trades": 381,
-    "avg_trade_return": 0.003909623564171427,
-    "win_rate": 0.5706267949628697,
-    "profit_factor": 1.402769042047671,
-    "sharpe": 2.3078802510228176,
-    "max_drawdown": -0.16395517320267286,
-    "periods_positive": 7,
+  "v7_hold4": {
+    "net_return": 1.069438177581172,
+    "total_trades": 332,
+    "avg_trade_return": 0.006387931804428281,
+    "win_rate": 0.5933436833974468,
+    "profit_factor": 1.6751107710306532,
+    "sharpe": 3.359807514953263,
+    "max_drawdown": -0.24987824591745922,
+    "periods_positive": 9,
     "total_periods": 12,
-    "signal_rate": 0.47361111111111115,
+    "signal_rate": 0.6083333333333333,
     "per_period": [
       {
         "period": 1,
-        "net_return": -0.08046732170740727,
-        "n_trades": 30,
-        "win_rate": 0.6
+        "net_return": 0.15056419670964627,
+        "n_trades": 28,
+        "win_rate": 0.7142857142857143
       },
       {
         "period": 2,
-        "net_return": 0.06765865111083155,
-        "n_trades": 32,
-        "win_rate": 0.53125
+        "net_return": -0.0030084489173444855,
+        "n_trades": 28,
+        "win_rate": 0.5714285714285714
       },
       {
         "period": 3,
-        "net_return": -0.05335831461625736,
-        "n_trades": 34,
-        "win_rate": 0.47058823529411764
+        "net_return": -0.000908276401151667,
+        "n_trades": 26,
+        "win_rate": 0.46153846153846156
       },
       {
         "period": 4,
-        "net_return": 0.15242452438624385,
+        "net_return": 0.17101049377766803,
+        "n_trades": 31,
+        "win_rate": 0.5806451612903226
+      },
+      {
+        "period": 5,
+        "net_return": 0.010725152689385172,
+        "n_trades": 28,
+        "win_rate": 0.5714285714285714
+      },
+      {
+        "period": 6,
+        "net_return": 0.20638929107250736,
+        "n_trades": 25,
+        "win_rate": 0.64
+      },
+      {
+        "period": 7,
+        "net_return": 0.04423348960589213,
+        "n_trades": 29,
+        "win_rate": 0.6206896551724138
+      },
+      {
+        "period": 8,
+        "net_return": 0.23432686686495913,
         "n_trades": 25,
         "win_rate": 0.76
       },
       {
-        "period": 5,
-        "net_return": 0.08581107051874362,
-        "n_trades": 32,
-        "win_rate": 0.5625
-      },
-      {
-        "period": 6,
-        "net_return": -0.05967752442701565,
-        "n_trades": 35,
-        "win_rate": 0.4857142857142857
-      },
-      {
-        "period": 7,
-        "net_return": 0.02965370664639322,
-        "n_trades": 35,
-        "win_rate": 0.6571428571428571
-      },
-      {
-        "period": 8,
-        "net_return": 0.08836760066993714,
-        "n_trades": 34,
-        "win_rate": 0.5882352941176471
-      },
-      {
         "period": 9,
-        "net_return": 0.1406184308845003,
-        "n_trades": 31,
-        "win_rate": 0.7096774193548387
+        "net_return": 0.23380045413201145,
+        "n_trades": 30,
+        "win_rate": 0.7666666666666667
       },
       {
         "period": 10,
-        "net_return": -0.09440730577228953,
+        "net_return": -0.20834779655314234,
         "n_trades": 29,
         "win_rate": 0.3793103448275862
       },
       {
         "period": 11,
-        "net_return": -0.020086212235460373,
-        "n_trades": 27,
-        "win_rate": 0.48148148148148145
+        "net_return": 0.051710241011222936,
+        "n_trades": 26,
+        "win_rate": 0.46153846153846156
       },
       {
         "period": 12,
-        "net_return": 0.018859204880422982,
-        "n_trades": 37,
-        "win_rate": 0.6216216216216216
+        "net_return": 0.17894251358951846,
+        "n_trades": 27,
+        "win_rate": 0.5925925925925926
       }
     ]
   },
-  "v2_no_gate": {
-    "net_return": 2.671500773330122,
-    "total_trades": 479,
-    "avg_trade_return": 0.0064129501519412605,
-    "win_rate": 0.5990175177854927,
-    "profit_factor": 1.730636331162924,
-    "sharpe": 4.323087544988087,
-    "max_drawdown": -0.2122688836642087,
-    "periods_positive": 12,
+  "v8_hold5": {
+    "net_return": 1.0204251960416617,
+    "total_trades": 317,
+    "avg_trade_return": 0.00610784063478501,
+    "win_rate": 0.6047256080445736,
+    "profit_factor": 1.556341327532305,
+    "sharpe": 2.794649967792714,
+    "max_drawdown": -0.25550586196407454,
+    "periods_positive": 8,
     "total_periods": 12,
-    "signal_rate": 0.7425925925925926,
+    "signal_rate": 0.6421296296296297,
     "per_period": [
       {
         "period": 1,
-        "net_return": 0.3088451809220613,
-        "n_trades": 40,
+        "net_return": 0.1785925391438364,
+        "n_trades": 27,
+        "win_rate": 0.7407407407407407
+      },
+      {
+        "period": 2,
+        "net_return": -0.016922806486392362,
+        "n_trades": 27,
+        "win_rate": 0.6296296296296297
+      },
+      {
+        "period": 3,
+        "net_return": 0.06666597925838194,
+        "n_trades": 25,
+        "win_rate": 0.68
+      },
+      {
+        "period": 4,
+        "net_return": 0.2024164171588939,
+        "n_trades": 27,
+        "win_rate": 0.6666666666666666
+      },
+      {
+        "period": 5,
+        "net_return": 0.05722105876074586,
+        "n_trades": 26,
+        "win_rate": 0.5384615384615384
+      },
+      {
+        "period": 6,
+        "net_return": 0.1250372842876794,
+        "n_trades": 24,
         "win_rate": 0.625
       },
       {
-        "period": 2,
-        "net_return": 0.04546447610278083,
-        "n_trades": 40,
-        "win_rate": 0.575
-      },
-      {
-        "period": 3,
-        "net_return": 0.045098241694076543,
-        "n_trades": 46,
-        "win_rate": 0.5217391304347826
-      },
-      {
-        "period": 4,
-        "net_return": 0.4112550488605211,
-        "n_trades": 37,
-        "win_rate": 0.6216216216216216
-      },
-      {
-        "period": 5,
-        "net_return": 0.09772925776893898,
-        "n_trades": 40,
-        "win_rate": 0.475
-      },
-      {
-        "period": 6,
-        "net_return": 0.295594666671444,
-        "n_trades": 38,
-        "win_rate": 0.6842105263157895
-      },
-      {
         "period": 7,
-        "net_return": 0.3435387959100838,
-        "n_trades": 39,
-        "win_rate": 0.6410256410256411
+        "net_return": -0.015049920267329639,
+        "n_trades": 29,
+        "win_rate": 0.4827586206896552
       },
       {
         "period": 8,
-        "net_return": 0.45888109605623373,
-        "n_trades": 41,
-        "win_rate": 0.6097560975609756
+        "net_return": 0.2850485460895511,
+        "n_trades": 24,
+        "win_rate": 0.8333333333333334
       },
       {
         "period": 9,
-        "net_return": 0.42738660909716597,
-        "n_trades": 42,
-        "win_rate": 0.7619047619047619
+        "net_return": 0.2243449752727407,
+        "n_trades": 29,
+        "win_rate": 0.7241379310344828
       },
       {
         "period": 10,
-        "net_return": 0.0625419744251429,
-        "n_trades": 38,
-        "win_rate": 0.5526315789473685
+        "net_return": -0.1922897665519353,
+        "n_trades": 27,
+        "win_rate": 0.4074074074074074
       },
       {
         "period": 11,
-        "net_return": 0.07125496418699354,
-        "n_trades": 34,
-        "win_rate": 0.5294117647058824
-      },
-      {
-        "period": 12,
-        "net_return": 0.10391046163467965,
-        "n_trades": 44,
-        "win_rate": 0.5909090909090909
-      }
-    ]
-  },
-  "v3_expanded": {
-    "net_return": 2.4529434535216517,
-    "total_trades": 474,
-    "avg_trade_return": 0.005839529573815715,
-    "win_rate": 0.5945020621810708,
-    "profit_factor": 1.705307601771173,
-    "sharpe": 4.000635782181762,
-    "max_drawdown": -0.36815445606623737,
-    "periods_positive": 12,
-    "total_periods": 12,
-    "signal_rate": 0.7324074074074075,
-    "per_period": [
-      {
-        "period": 1,
-        "net_return": 0.34313763602255004,
-        "n_trades": 38,
-        "win_rate": 0.5789473684210527
-      },
-      {
-        "period": 2,
-        "net_return": 0.11220038545952707,
-        "n_trades": 40,
-        "win_rate": 0.55
-      },
-      {
-        "period": 3,
-        "net_return": 0.08398019479278893,
-        "n_trades": 33,
-        "win_rate": 0.6060606060606061
-      },
-      {
-        "period": 4,
-        "net_return": 0.47109710932936055,
-        "n_trades": 43,
-        "win_rate": 0.6744186046511628
-      },
-      {
-        "period": 5,
-        "net_return": 0.022307596743167596,
-        "n_trades": 40,
-        "win_rate": 0.475
-      },
-      {
-        "period": 6,
-        "net_return": 0.2231460780984389,
-        "n_trades": 37,
-        "win_rate": 0.6216216216216216
-      },
-      {
-        "period": 7,
-        "net_return": 0.3566772628934555,
-        "n_trades": 40,
-        "win_rate": 0.675
-      },
-      {
-        "period": 8,
-        "net_return": 0.4313519325007409,
-        "n_trades": 40,
-        "win_rate": 0.675
-      },
-      {
-        "period": 9,
-        "net_return": 0.16120120455610126,
-        "n_trades": 43,
-        "win_rate": 0.5813953488372093
-      },
-      {
-        "period": 10,
-        "net_return": 0.10110158218018209,
-        "n_trades": 39,
-        "win_rate": 0.6410256410256411
-      },
-      {
-        "period": 11,
-        "net_return": 0.070000664268412,
-        "n_trades": 36,
+        "net_return": -0.013171987075674574,
+        "n_trades": 24,
         "win_rate": 0.5
       },
       {
         "period": 12,
-        "net_return": 0.07674180667692616,
-        "n_trades": 45,
-        "win_rate": 0.5555555555555556
+        "net_return": 0.1185328764511642,
+        "n_trades": 28,
+        "win_rate": 0.42857142857142855
       }
     ]
   },
-  "v4_hold2": {
-    "net_return": 2.683745258539228,
-    "total_trades": 535,
-    "avg_trade_return": 0.005365769550950824,
-    "win_rate": 0.5924665322817316,
-    "profit_factor": 1.67165754871759,
-    "sharpe": 4.31168662768374,
-    "max_drawdown": -0.19250536433601706,
+  "v9_high_thresh": {
+    "net_return": 1.2244196869923916,
+    "total_trades": 367,
+    "avg_trade_return": 0.006129460239026919,
+    "win_rate": 0.5963770055246287,
+    "profit_factor": 1.7379279993415888,
+    "sharpe": 3.8075298180159476,
+    "max_drawdown": -0.1862468356527387,
     "periods_positive": 10,
     "total_periods": 12,
-    "signal_rate": 0.7324074074074075,
+    "signal_rate": 0.5976851851851853,
     "per_period": [
       {
         "period": 1,
-        "net_return": 0.2260122536413992,
-        "n_trades": 42,
-        "win_rate": 0.6190476190476191
-      },
-      {
-        "period": 2,
-        "net_return": 0.14890872045452458,
-        "n_trades": 45,
-        "win_rate": 0.5777777777777777
-      },
-      {
-        "period": 3,
-        "net_return": 0.28907722796311225,
-        "n_trades": 37,
-        "win_rate": 0.6216216216216216
-      },
-      {
-        "period": 4,
-        "net_return": 0.6572691043299348,
-        "n_trades": 48,
+        "net_return": 0.1162613634339946,
+        "n_trades": 32,
         "win_rate": 0.6875
       },
       {
-        "period": 5,
-        "net_return": 0.20977610381887277,
-        "n_trades": 45,
-        "win_rate": 0.6
-      },
-      {
-        "period": 6,
-        "net_return": 0.2103103614524691,
-        "n_trades": 43,
-        "win_rate": 0.6046511627906976
-      },
-      {
-        "period": 7,
-        "net_return": 0.35724199305602955,
-        "n_trades": 44,
-        "win_rate": 0.6590909090909091
-      },
-      {
-        "period": 8,
-        "net_return": 0.3460819990628662,
-        "n_trades": 48,
-        "win_rate": 0.6666666666666666
-      },
-      {
-        "period": 9,
-        "net_return": 0.24788512994129472,
-        "n_trades": 45,
-        "win_rate": 0.5777777777777777
-      },
-      {
-        "period": 10,
-        "net_return": -0.029920245597478606,
-        "n_trades": 44,
-        "win_rate": 0.5
-      },
-      {
-        "period": 11,
-        "net_return": -0.01421108279622943,
-        "n_trades": 45,
-        "win_rate": 0.4444444444444444
-      },
-      {
-        "period": 12,
-        "net_return": 0.03531369321243289,
-        "n_trades": 49,
-        "win_rate": 0.5510204081632653
-      }
-    ]
-  },
-  "v5_simple_size": {
-    "net_return": 1.5098473680279028,
-    "total_trades": 474,
-    "avg_trade_return": 0.005839529573815715,
-    "win_rate": 0.5945020621810708,
-    "profit_factor": 1.705307601771173,
-    "sharpe": 4.000635782181762,
-    "max_drawdown": -0.1904857389752217,
-    "periods_positive": 12,
-    "total_periods": 12,
-    "signal_rate": 0.7324074074074075,
-    "per_period": [
-      {
-        "period": 1,
-        "net_return": 0.19001817993878126,
-        "n_trades": 38,
-        "win_rate": 0.5789473684210527
-      },
-      {
         "period": 2,
-        "net_return": 0.0731357065281942,
-        "n_trades": 40,
-        "win_rate": 0.55
+        "net_return": 0.03526665078154732,
+        "n_trades": 31,
+        "win_rate": 0.5806451612903226
       },
       {
         "period": 3,
-        "net_return": 0.04680286293245337,
+        "net_return": 0.15617457366048826,
+        "n_trades": 29,
+        "win_rate": 0.6551724137931034
+      },
+      {
+        "period": 4,
+        "net_return": 0.14787996200510672,
+        "n_trades": 30,
+        "win_rate": 0.6666666666666666
+      },
+      {
+        "period": 5,
+        "net_return": -0.020610754048516804,
+        "n_trades": 31,
+        "win_rate": 0.5161290322580645
+      },
+      {
+        "period": 6,
+        "net_return": 0.21736400393385313,
+        "n_trades": 28,
+        "win_rate": 0.6428571428571429
+      },
+      {
+        "period": 7,
+        "net_return": 0.05611691274407561,
+        "n_trades": 31,
+        "win_rate": 0.45161290322580644
+      },
+      {
+        "period": 8,
+        "net_return": 0.2466149273461702,
+        "n_trades": 29,
+        "win_rate": 0.7931034482758621
+      },
+      {
+        "period": 9,
+        "net_return": 0.12398430705215875,
+        "n_trades": 34,
+        "win_rate": 0.6470588235294118
+      },
+      {
+        "period": 10,
+        "net_return": -0.13620493400382402,
         "n_trades": 33,
-        "win_rate": 0.6060606060606061
-      },
-      {
-        "period": 4,
-        "net_return": 0.2977841067339684,
-        "n_trades": 43,
-        "win_rate": 0.6744186046511628
-      },
-      {
-        "period": 5,
-        "net_return": 0.027384104660429894,
-        "n_trades": 40,
-        "win_rate": 0.475
-      },
-      {
-        "period": 6,
-        "net_return": 0.14941508034015652,
-        "n_trades": 37,
-        "win_rate": 0.6216216216216216
-      },
-      {
-        "period": 7,
-        "net_return": 0.1927712094345335,
-        "n_trades": 40,
-        "win_rate": 0.675
-      },
-      {
-        "period": 8,
-        "net_return": 0.23872803527168063,
-        "n_trades": 40,
-        "win_rate": 0.675
-      },
-      {
-        "period": 9,
-        "net_return": 0.12274257727822926,
-        "n_trades": 43,
-        "win_rate": 0.5813953488372093
-      },
-      {
-        "period": 10,
-        "net_return": 0.07608005613697413,
-        "n_trades": 39,
-        "win_rate": 0.6410256410256411
+        "win_rate": 0.3939393939393939
       },
       {
         "period": 11,
-        "net_return": 0.05185916583199243,
-        "n_trades": 36,
-        "win_rate": 0.5
+        "net_return": 0.12484628827412428,
+        "n_trades": 30,
+        "win_rate": 0.4666666666666667
       },
       {
         "period": 12,
-        "net_return": 0.04312628294050926,
-        "n_trades": 45,
-        "win_rate": 0.5555555555555556
+        "net_return": 0.1567263858132135,
+        "n_trades": 29,
+        "win_rate": 0.6551724137931034
       }
     ]
   },
-  "v6_best_combo": {
-    "net_return": 1.6328721439974938,
-    "total_trades": 535,
-    "avg_trade_return": 0.005365769550950824,
-    "win_rate": 0.5924665322817316,
-    "profit_factor": 1.67165754871759,
-    "sharpe": 4.31168662768374,
-    "max_drawdown": -0.09992819983263224,
-    "periods_positive": 12,
+  "v10_convex": {
+    "net_return": 0.6513733483173303,
+    "total_trades": 370,
+    "avg_trade_return": 0.005774766953957613,
+    "win_rate": 0.5812254903731136,
+    "profit_factor": 1.669869913249254,
+    "sharpe": 3.549095763458579,
+    "max_drawdown": -0.09397324088903525,
+    "periods_positive": 10,
     "total_periods": 12,
-    "signal_rate": 0.7324074074074075,
+    "signal_rate": 0.6083333333333333,
     "per_period": [
       {
         "period": 1,
-        "net_return": 0.1327958355850702,
-        "n_trades": 42,
-        "win_rate": 0.6190476190476191
-      },
-      {
-        "period": 2,
-        "net_return": 0.08908755890793839,
-        "n_trades": 45,
-        "win_rate": 0.5777777777777777
-      },
-      {
-        "period": 3,
-        "net_return": 0.14913407115638228,
-        "n_trades": 37,
-        "win_rate": 0.6216216216216216
-      },
-      {
-        "period": 4,
-        "net_return": 0.3916134434375689,
-        "n_trades": 48,
+        "net_return": 0.046542332229719874,
+        "n_trades": 32,
         "win_rate": 0.6875
       },
       {
+        "period": 2,
+        "net_return": 0.033598368859798514,
+        "n_trades": 31,
+        "win_rate": 0.5806451612903226
+      },
+      {
+        "period": 3,
+        "net_return": 0.06934339034720495,
+        "n_trades": 29,
+        "win_rate": 0.6551724137931034
+      },
+      {
+        "period": 4,
+        "net_return": 0.05125924780991036,
+        "n_trades": 33,
+        "win_rate": 0.48484848484848486
+      },
+      {
         "period": 5,
-        "net_return": 0.13231227975532162,
-        "n_trades": 45,
-        "win_rate": 0.6
+        "net_return": -0.021104139895569723,
+        "n_trades": 31,
+        "win_rate": 0.5161290322580645
       },
       {
         "period": 6,
-        "net_return": 0.11469287018074324,
-        "n_trades": 43,
-        "win_rate": 0.6046511627906976
+        "net_return": 0.1277905315041794,
+        "n_trades": 28,
+        "win_rate": 0.6428571428571429
       },
       {
         "period": 7,
-        "net_return": 0.22003570343983925,
-        "n_trades": 44,
-        "win_rate": 0.6590909090909091
+        "net_return": 0.03976782654909328,
+        "n_trades": 31,
+        "win_rate": 0.45161290322580644
       },
       {
         "period": 8,
-        "net_return": 0.18607368637522,
-        "n_trades": 48,
-        "win_rate": 0.6666666666666666
+        "net_return": 0.1246619442923097,
+        "n_trades": 29,
+        "win_rate": 0.7931034482758621
       },
       {
         "period": 9,
-        "net_return": 0.187946601644232,
-        "n_trades": 45,
-        "win_rate": 0.5777777777777777
+        "net_return": 0.08545758666876398,
+        "n_trades": 34,
+        "win_rate": 0.6470588235294118
       },
       {
         "period": 10,
-        "net_return": 0.0008354328407685491,
-        "n_trades": 44,
-        "win_rate": 0.5
+        "net_return": -0.06351580631912458,
+        "n_trades": 33,
+        "win_rate": 0.3939393939393939
       },
       {
         "period": 11,
-        "net_return": 0.006155980643002754,
-        "n_trades": 45,
-        "win_rate": 0.4444444444444444
+        "net_return": 0.07751507686741521,
+        "n_trades": 30,
+        "win_rate": 0.4666666666666667
       },
       {
         "period": 12,
-        "net_return": 0.022188680031406817,
-        "n_trades": 49,
-        "win_rate": 0.5510204081632653
+        "net_return": 0.08005698940362926,
+        "n_trades": 29,
+        "win_rate": 0.6551724137931034
+      }
+    ]
+  },
+  "v11_hold4_combo": {
+    "net_return": 0.7017427468113384,
+    "total_trades": 332,
+    "avg_trade_return": 0.007334163903253213,
+    "win_rate": 0.5987200274834683,
+    "profit_factor": 1.79350661917005,
+    "sharpe": 3.7575252605319123,
+    "max_drawdown": -0.16856133187866196,
+    "periods_positive": 9,
+    "total_periods": 12,
+    "signal_rate": 0.5976851851851853,
+    "per_period": [
+      {
+        "period": 1,
+        "net_return": 0.10138646078408863,
+        "n_trades": 28,
+        "win_rate": 0.7142857142857143
+      },
+      {
+        "period": 2,
+        "net_return": 0.01078763625822013,
+        "n_trades": 28,
+        "win_rate": 0.5714285714285714
+      },
+      {
+        "period": 3,
+        "net_return": -0.01892652925002923,
+        "n_trades": 26,
+        "win_rate": 0.46153846153846156
+      },
+      {
+        "period": 4,
+        "net_return": 0.2199646686980362,
+        "n_trades": 31,
+        "win_rate": 0.6451612903225806
+      },
+      {
+        "period": 5,
+        "net_return": -0.0029708877416437397,
+        "n_trades": 28,
+        "win_rate": 0.5714285714285714
+      },
+      {
+        "period": 6,
+        "net_return": 0.12494900771866076,
+        "n_trades": 25,
+        "win_rate": 0.64
+      },
+      {
+        "period": 7,
+        "net_return": 0.02580880417726723,
+        "n_trades": 29,
+        "win_rate": 0.6206896551724138
+      },
+      {
+        "period": 8,
+        "net_return": 0.12404752536162057,
+        "n_trades": 25,
+        "win_rate": 0.76
+      },
+      {
+        "period": 9,
+        "net_return": 0.15042184885001336,
+        "n_trades": 30,
+        "win_rate": 0.7666666666666667
+      },
+      {
+        "period": 10,
+        "net_return": -0.1403896675117721,
+        "n_trades": 29,
+        "win_rate": 0.3793103448275862
+      },
+      {
+        "period": 11,
+        "net_return": 0.013518579366715744,
+        "n_trades": 26,
+        "win_rate": 0.46153846153846156
+      },
+      {
+        "period": 12,
+        "net_return": 0.09314530010016081,
+        "n_trades": 27,
+        "win_rate": 0.5925925925925926
       }
     ]
   }

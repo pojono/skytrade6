@@ -151,6 +151,57 @@ CONFIGS = {
         "vol_gate_floor": 0.0,
         "sizing": "confidence",
     },
+    # ---- v2 IMPROVEMENTS (post-audit, open-to-open execution) ----
+    "v7_hold4": {
+        "vol_models": VOL_MODELS_BASE,
+        "dir_models": DIR_MODELS_EXPANDED,
+        "meta_type": "lightgbm",
+        "hold_bars": 4,
+        "early_exit": True,
+        "vol_gate_floor": 0.0,
+        "sizing": "confidence",
+        "threshold_floor": 0.50,
+    },
+    "v8_hold5": {
+        "vol_models": VOL_MODELS_BASE,
+        "dir_models": DIR_MODELS_EXPANDED,
+        "meta_type": "lightgbm",
+        "hold_bars": 5,
+        "early_exit": True,
+        "vol_gate_floor": 0.0,
+        "sizing": "confidence",
+        "threshold_floor": 0.50,
+    },
+    "v9_high_thresh": {
+        "vol_models": VOL_MODELS_BASE,
+        "dir_models": DIR_MODELS_EXPANDED,
+        "meta_type": "lightgbm",
+        "hold_bars": 3,
+        "early_exit": True,
+        "vol_gate_floor": 0.0,
+        "sizing": "confidence",
+        "threshold_floor": 0.56,
+    },
+    "v10_convex": {
+        "vol_models": VOL_MODELS_BASE,
+        "dir_models": DIR_MODELS_EXPANDED,
+        "meta_type": "lightgbm",
+        "hold_bars": 3,
+        "early_exit": True,
+        "vol_gate_floor": 0.0,
+        "sizing": "convex",
+        "threshold_floor": 0.50,
+    },
+    "v11_hold4_combo": {
+        "vol_models": VOL_MODELS_BASE,
+        "dir_models": DIR_MODELS_EXPANDED,
+        "meta_type": "lightgbm",
+        "hold_bars": 4,
+        "early_exit": True,
+        "vol_gate_floor": 0.0,
+        "sizing": "convex",
+        "threshold_floor": 0.56,
+    },
 }
 
 
@@ -255,6 +306,7 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
     early_exit = cfg["early_exit"]
     vol_gate_floor = cfg["vol_gate_floor"]
     sizing_mode = cfg["sizing"]
+    threshold_floor = cfg.get("threshold_floor", 0.50)
 
     df_sel = df.iloc[sel_start:sel_end].copy()
     df_trade = df.iloc[trade_start:trade_end].copy()
@@ -393,8 +445,8 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
     meta_short, scaler_short = _train_meta(X_meta, y_meta_short)
 
     # Calibrate threshold via 3-fold CV
-    cum_ret_col = "tgt_cum_ret_3"
-    conf_threshold = 0.5
+    cum_ret_col = f"tgt_cum_ret_{hold_bars}" if f"tgt_cum_ret_{hold_bars}" in df_inner_val.columns else "tgt_cum_ret_3"
+    conf_threshold = threshold_floor
 
     if cum_ret_col in df_inner_val.columns:
         cum_ret_val = df_inner_val[cum_ret_col].values[meta_valid]
@@ -418,8 +470,9 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
             except:
                 pass
 
-        best_thresh, best_avg = 0.5, -999
-        for thresh in [0.50, 0.52, 0.54, 0.56, 0.58, 0.60]:
+        best_thresh, best_avg = threshold_floor, -999
+        thresholds = [t for t in [0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.62, 0.64] if t >= threshold_floor]
+        for thresh in thresholds:
             rets = []
             for j in range(n_cv):
                 pl, ps = cv_pred_long[j], cv_pred_short[j]
@@ -482,6 +535,8 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
                 vc = min((p_vol[bar] - 0.5) * 2.0, 1.0) if vol_gate_floor > 0 else 1.0
                 dc = min((pl - 0.5) * 2.0, 1.0)
                 sizes[bar] = min(vc * dc * 2.0, 1.0)
+            elif sizing_mode == "convex":
+                sizes[bar] = min(((pl - 0.5) * 2.0) ** 2, 1.0)
             else:  # confidence
                 sizes[bar] = min((pl - 0.5) * 2.0, 1.0)
         else:
@@ -490,6 +545,8 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
                 vc = min((p_vol[bar] - 0.5) * 2.0, 1.0) if vol_gate_floor > 0 else 1.0
                 dc = min((ps - 0.5) * 2.0, 1.0)
                 sizes[bar] = min(vc * dc * 2.0, 1.0)
+            elif sizing_mode == "convex":
+                sizes[bar] = min(((ps - 0.5) * 2.0) ** 2, 1.0)
             else:
                 sizes[bar] = min((ps - 0.5) * 2.0, 1.0)
 
@@ -598,7 +655,9 @@ def main():
 
     all_iteration_results = {}
 
-    for cfg_name, cfg_params in CONFIGS.items():
+    # Only run v2 improvement configs (v5 as baseline + new v7-v11)
+    v2_configs = {k: v for k, v in CONFIGS.items() if k in ("v5_simple_size", "v7_hold4", "v8_hold5", "v9_high_thresh", "v10_convex", "v11_hold4_combo")}
+    for cfg_name, cfg_params in v2_configs.items():
         cfg = {**cfg_params, "name": cfg_name}
 
         n_vol = len(cfg["vol_models"])
