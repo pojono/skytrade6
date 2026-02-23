@@ -1,14 +1,108 @@
-# Precision3 Strategy — Findings
+# Precision3 Strategy — Findings & Audit
 
 **Date:** 2026-02-23
 **Strategy:** Precision3 (5 models, no meta-stacking)
-**Version:** v2 — strict no-lookahead (feature selection inside each training split)
+**Version:** v3 — after full audit and contaminated feature removal
+**Status:** ❌ **STRATEGY DOES NOT WORK** — previous results were driven by lookahead features
 
 ---
 
-## Design Philosophy
+## Critical Bug Found: Feature Lookahead via Swing Points
 
-Instead of 15-19 base models → meta-model stacking, Precision3 uses **5 purpose-built models** with direct outputs driving trade decisions:
+### The Bug
+
+In `microstructure_features.py`, the swing point detection uses `.shift(-1)` (future data):
+
+```python
+# line 4001-4002 of microstructure_features.py
+swing_high = (h > h.shift(1)) & (h > h.shift(-1))  # ← LOOKS AT NEXT CANDLE
+swing_low  = (l < l.shift(1)) & (l < l.shift(-1))   # ← LOOKS AT NEXT CANDLE
+```
+
+This contaminates **36 features** derived from swing points:
+`is_swing_high`, `is_swing_low`, `last_swing_high`, `last_swing_low`,
+`bos_*`, `choch_*`, `ob_demand*`, `ob_supply*`, `ob_net*`,
+`liq_sweep_*`, `dist_to_swing_*`, `ew_swing_count*`, `fib_swing_count*`
+
+### Impact on Feature Selection
+
+When `auto_select_features` ranks features by Spearman correlation with `tgt_ret_1`:
+- **#1:** `is_swing_low` (corr=0.261) ← CONTAMINATED
+- **#2:** `is_swing_high` (corr=0.228) ← CONTAMINATED
+- **#3:** `dist_to_swing_high_bps` (corr=0.071) ← CONTAMINATED
+- #4: `overlap_asia_europe` (corr=0.057) — first clean feature
+- **6 of top 30** features for direction model are contaminated
+- **1 of top 30** for stop-loss model (`is_swing_low` at #4)
+
+The contaminated features have 4-5x higher correlation than any clean feature,
+so the model was essentially learning "if next candle confirms a swing point,
+the return is predictable" — which is trivially true but unknowable in real time.
+
+---
+
+## Results Comparison: Before vs After Bug Fix
+
+### v2 (WITH contaminated features — INVALID)
+
+| Metric | SOLUSDT | DOGEUSDT | XRPUSDT |
+|--------|---------|----------|---------|
+| Net Return | +400.9% | +292.0% | +98.6% |
+| Sharpe | 7.33 | 4.64 | 2.23 |
+| Profit Factor | 3.07 | 2.01 | 1.42 |
+| Max Drawdown | -12.7% | -15.8% | -15.6% |
+| Periods Positive | 12/12 | 12/12 | 9/12 |
+
+### v3 (WITHOUT contaminated features — VALID)
+
+| Metric | SOLUSDT | DOGEUSDT | XRPUSDT |
+|--------|---------|----------|---------|
+| Net Return | **+37.2%** | **-21.4%** | **-8.2%** |
+| Sharpe | **0.50** | **-0.38** | **-0.83** |
+| Profit Factor | **1.10** | **0.93** | **0.85** |
+| Max Drawdown | **-56.6%** | **-50.5%** | **-39.5%** |
+| Periods Positive | **7/12** | **3/12** | **7/12** |
+
+### Conclusion
+
+**The strategy is not profitable without the contaminated features.**
+SOL drops from +401% to +37% (barely positive, Sharpe 0.50).
+DOGE and XRP become net losers. The "edge" was entirely driven by
+features that peek at the next candle.
+
+---
+
+## Full Audit Checklist
+
+### ✅ Items that passed audit
+
+- **WFO boundaries:** 18-bar (3-day) purge gap between selection and trade windows, no overlap confirmed for all 12 periods
+- **Trade entry:** Signal at bar close → entry at bar+1 open (no lookahead)
+- **Trade exit:** Exit at open of exit bar (not close)
+- **Stop-loss:** Detected at bar close using low/high, exit at next bar open (conservative)
+- **Fee handling:** 4 bps round-trip applied per trade (reasonable for major exchanges)
+- **Feature selection (v2+):** Spearman correlation on training data only, re-selected per CV fold
+- **Inner CV:** Features re-selected on CV-train split only
+- **Targets:** All use `.shift(-N)` correctly (forward-looking by design)
+- **Rolling features:** All use backward-looking windows (pandas default)
+- **Lag features:** Use `.shift(1,2,3)` — past only
+- **Z-score features:** Rolling mean/std — backward-looking only
+
+### ❌ Items that FAILED audit
+
+- **Swing point features:** `is_swing_high/low` use `.shift(-1)` — **FUTURE DATA**
+- **36 derived features** inherit this contamination (BOS, CHoCH, order blocks, liquidity sweeps, etc.)
+- **These features dominate feature selection** for the direction model (top 2 by correlation)
+
+### ⚠️ Minor concerns (not bugs)
+
+- **WFO is sliding window, not expanding:** Each period uses a fixed 360-day window, not all data from start. Docstring says "expanding" but implementation is sliding. Not a correctness issue.
+- **Stop-loss exit pricing:** When stop is hit, exit is at next bar open (which could be better or worse than stop price). Minor impact since only ~4-8% of trades hit stops.
+
+---
+
+## Design Philosophy (still valid)
+
+5 purpose-built models, NO meta-model stacking:
 
 | Model | Target | Type | Role |
 |-------|--------|------|------|
@@ -18,129 +112,23 @@ Instead of 15-19 base models → meta-model stacking, Precision3 uses **5 purpos
 | Filter 1 | `tgt_consolidation_3` | Classifier | Skip low-opportunity bars |
 | Filter 2 | `tgt_crash_10` | Classifier | Halve size before crashes |
 
-**Key difference from Strategy 1/2:** No meta-model. Each model has one job. Simpler = more robust OOS.
+The architecture is sound. The problem is that the clean features don't have
+enough predictive power for `tgt_ret_1` to generate a tradeable edge.
 
 ---
 
-## Lookahead Fix (v1 → v2)
+## Lessons Learned
 
-v1 used pre-computed feature lists from `predictable_targets.json`, which were derived from
-a full-dataset analysis that included test periods. This is feature-selection lookahead.
-
-**v2 fix:** All feature selection is done fresh each period via Spearman correlation on
-training data only. Inner CV re-selects features on the CV-train split (never sees CV-val
-targets). No pre-computed feature lists are used.
-
----
-
-## Results — Cross-Coin Comparison (v2, strict no-lookahead)
-
-| Metric | SOLUSDT | DOGEUSDT |
-|--------|---------|----------|
-| **Net Return** | **+400.9%** | **+292.0%** |
-| **Compound Return** | **+2,784%** | **+1,338%** |
-| **Sharpe (ann)** | **7.33** | **4.64** |
-| **Profit Factor** | **3.07** | **2.01** |
-| **Win Rate** | 67.4% | 61.8% |
-| **Max Drawdown** | **-12.7%** | **-15.8%** |
-| **Periods Positive** | **12/12** | **12/12** |
-| **Total Trades** | 321 | 329 |
-| **Avg Trade Return** | +1.088% | +0.873% |
-| **Buy & Hold** | -17.7% | -58.9% |
-| **Models** | 5 | 5 |
-
-### vs Strategy 1/2 (SOLUSDT)
-
-| Metric | Precision3 v2 | Strategy 1 (best) | Strategy 2 (best) |
-|--------|--------------|-------------------|-------------------|
-| **Net Return** | **+400.9%** | +102.4% | +122.4% |
-| **Sharpe** | **7.33** | 4.05 | 3.81 |
-| **Profit Factor** | **3.07** | 1.80 | 1.74 |
-| **Max Drawdown** | **-12.7%** | -19.7% | -18.6% |
-| **Periods Positive** | **12/12** | 11/12 | 10/12 |
-| **Models** | **5** | 19 | 19 |
-
-### Per-Period Breakdown — SOLUSDT
-
-| Period | Dates | Net % | B&H % | Trades | Win Rate |
-|--------|-------|-------|-------|--------|----------|
-| P1 | Dec 29 → Jan 27 | +23.45% | +20.57% | 25 | 64.0% |
-| P2 | Jan 28 → Feb 26 | +29.85% | -42.80% | 27 | 63.0% |
-| P3 | Feb 27 → Mar 28 | +36.82% | -6.60% | 25 | 72.0% |
-| P4 | Mar 29 → Apr 27 | +38.58% | +14.87% | 30 | 73.3% |
-| P5 | Apr 28 → May 27 | +7.99% | +19.05% | 30 | 46.7% |
-| P6 | May 28 → Jun 26 | +29.38% | -20.59% | 25 | 72.0% |
-| P7 | Jun 27 → Jul 26 | +39.43% | +30.86% | 28 | 75.0% |
-| P8 | Jul 27 → Aug 25 | +16.73% | -0.07% | 26 | 61.5% |
-| P9 | Aug 26 → Sep 24 | +17.14% | +13.21% | 24 | 66.7% |
-| P10 | Sep 25 → Oct 24 | +53.52% | -6.61% | 26 | 69.2% |
-| P11 | Oct 25 → Nov 23 | +49.09% | -32.52% | 29 | 69.0% |
-| P12 | Nov 24 → Dec 23 | +58.91% | -7.06% | 26 | 76.9% |
-
-### Per-Period Breakdown — DOGEUSDT
-
-| Period | Dates | Net % | B&H % | Trades | Win Rate |
-|--------|-------|-------|-------|--------|----------|
-| P1 | Dec 29 → Jan 27 | +33.14% | +2.52% | 28 | 71.4% |
-| P2 | Jan 28 → Feb 26 | +37.51% | -39.20% | 30 | 70.0% |
-| P3 | Feb 27 → Mar 28 | +44.71% | -12.67% | 28 | 57.1% |
-| P4 | Mar 29 → Apr 27 | +18.88% | +0.36% | 27 | 48.1% |
-| P5 | Apr 28 → May 27 | +25.01% | +26.39% | 24 | 62.5% |
-| P6 | May 28 → Jun 26 | +24.22% | -28.79% | 27 | 59.3% |
-| P7 | Jun 27 → Jul 26 | +13.29% | +45.22% | 28 | 57.1% |
-| P8 | Jul 27 → Aug 25 | +14.36% | -12.43% | 31 | 54.8% |
-| P9 | Aug 26 → Sep 24 | +20.56% | +14.92% | 28 | 64.3% |
-| P10 | Sep 25 → Oct 24 | +23.27% | -16.23% | 27 | 59.3% |
-| P11 | Oct 25 → Nov 23 | +32.98% | -26.72% | 28 | 67.9% |
-| P12 | Nov 24 → Dec 23 | +4.05% | -12.27% | 23 | 69.6% |
-
----
-
-## Why It Works Better
-
-### 1. Direct Return Prediction vs Binary Classification
-Strategy 1/2 predict binary targets (profitable_long/short) and lose magnitude information. Precision3 predicts the actual return value, so it naturally takes bigger positions on stronger signals.
-
-### 2. Fewer Models = Less Overfitting
-19 base models → meta-model has many degrees of freedom to overfit the inner validation set. 5 direct models with clear roles have far less room to overfit.
-
-### 3. Inverse-Vol Sizing
-Instead of confidence-based sizing (which depends on meta-model calibration), Precision3 sizes inversely to predicted volatility. This is a well-established risk management technique that doesn't depend on model confidence being well-calibrated.
-
-### 4. Adaptive Stops
-Predicted drawdown-based stops (from `tgt_max_drawdown_long_3`) cut losers early when the model expects large adverse moves. Only 15/321 trades (4.7%) hit stops on SOL — the model is selective about when to set tight stops.
-
-### 5. Regime Filters Are Multiplicative
-The consolidation filter blocks ~5-10% of signals (low-opportunity bars). The crash filter doesn't block trades but halves position size. This preserves trade count while reducing risk.
-
----
-
-## Anti-Lookahead Verification (v2)
-
-- [x] Expanding window: each period trains on all data before purge boundary
-- [x] 3-day purge gap between training end and trade start
-- [x] **Feature selection via Spearman on training data only — NO pre-computed lists**
-- [x] **Inner CV re-selects features on CV-train split (never sees CV-val targets)**
-- [x] Direction threshold calibrated via inner 3-fold CV on training data only
-- [x] All 5 models retrained each period
-- [x] Entry at next-bar open after signal (signal at bar close → enter bar+1 open)
-- [x] Stop-loss evaluated at bar close (conservative)
-- [x] No future data in any feature (all features use `.shift()` or past-only windows)
-
----
-
-## Concerns / Caveats
-
-1. **Results improved after removing lookahead** — this is unusual and warrants scrutiny. Possible explanation: the JSON feature lists were suboptimal (selected from a different pipeline) and fresh per-period selection finds better features.
-2. **Single timeframe (4h)** — needs multi-timeframe validation.
-3. **Two assets only** — needs more coins (ETH, BTC, XRP) for full validation.
-4. **Direction threshold always calibrates to 40-50 bps** — model only trades when it predicts >0.4-0.5% moves. Good for quality but limits trade count.
+1. **Always audit `.shift(-N)` in feature code** — any negative shift in a feature (not target) is lookahead.
+2. **Suspiciously good results should trigger deeper audits** — Sharpe 7.33 on 12 OOS periods is too good to be true.
+3. **Feature correlation analysis should be part of every backtest** — if the top features have 4-5x higher correlation than the rest, investigate why.
+4. **The "it improved after removing lookahead" red flag** — when v2 (removing JSON feature lists) improved over v1, that was a sign something else was wrong. The contaminated features were still present and being auto-selected.
 
 ---
 
 ## Next Steps
 
-1. **More cross-coin validation** — run on XRPUSDT, ETHUSDT, BTCUSDT
-2. **Drawdown reduction** — test convex sizing (size = confidence^2) to reduce max DD
-3. **Robustness test** — vary threshold, hold period, stop buffer to check sensitivity
-4. **Live paper trading** — deploy on Bybit testnet with real-time feature pipeline
+1. **Fix `microstructure_features.py`** — replace `.shift(-1)` in swing detection with a purely backward-looking approach (e.g., confirmed swing = bar[i-2] is a swing if bar[i-1] already reversed)
+2. **Regenerate all feature parquet files** with clean swing features
+3. **Re-evaluate all strategies** (1, 2, 3) that may have used contaminated features
+4. **Investigate whether Strategy 1/2 results are also inflated** by the same bug

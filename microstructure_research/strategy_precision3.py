@@ -215,17 +215,29 @@ def predict_model(model, scaler, X, model_type):
 # ============================================================
 # FEATURE SELECTION (no lookahead — always from training data)
 # ============================================================
+
+# NOTE: Swing-derived features were previously contaminated by .shift(-1) lookahead.
+# Fixed in microstructure_features.py — swing detection now uses lagged 3-bar pivots:
+#   swing_high_raw = (h.shift(1) > h.shift(2)) & (h.shift(1) > h)
+# Features below are now CLEAN after feature regeneration, but kept as reference.
+# The ew_swing_count and fib_swing_count (tick-level) were always clean.
+CONTAMINATED_FEATURES = set()  # Empty — all swing features fixed at source
+
+
 def auto_select_features(df_train, target_col, n_top=30):
     """Auto-select top N features by absolute Spearman correlation with target.
 
     CRITICAL: df_train must be ONLY training data — never include validation
     or test data. This function sees target values, so any future data in
     df_train would be lookahead.
+
+    Also excludes CONTAMINATED_FEATURES (swing-derived, use .shift(-1)).
     """
     from scipy.stats import spearmanr
     feat_cols = [c for c in df_train.columns
                  if not c.startswith("tgt_")
-                 and c not in ("open", "high", "low", "close", "volume")]
+                 and c not in ("open", "high", "low", "close", "volume")
+                 and c not in CONTAMINATED_FEATURES]
     y = df_train[target_col].values
     valid_y = np.isfinite(y)
     corrs = []
