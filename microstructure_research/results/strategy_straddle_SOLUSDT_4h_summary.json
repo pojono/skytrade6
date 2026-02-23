@@ -1,0 +1,23 @@
+{
+  "strategy": "volatility_breakout",
+  "symbol": "SOLUSDT",
+  "tf": "4h",
+  "total_net_return": 2.671500773330122,
+  "total_gross_return": 2.8106340649570587,
+  "total_fees": 0.13913329162693674,
+  "bnh_return": -0.17680892621833832,
+  "excess_return": 2.8483096995484605,
+  "total_trades": 479,
+  "total_longs": 244,
+  "total_shorts": 235,
+  "avg_trade_return": 0.0064129501519412605,
+  "median_trade_return": 0.006140487353128621,
+  "win_rate": 0.5990175177854927,
+  "profit_factor": 1.730636331162924,
+  "sharpe_ratio": 4.323087544988087,
+  "max_drawdown": -0.2122688836642087,
+  "signal_rate": 0.7425925925925926,
+  "vol_gate_rate": 1.0,
+  "periods_positive": 12,
+  "total_periods": 12
+}
