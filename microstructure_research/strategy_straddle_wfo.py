@@ -14,13 +14,13 @@ Concept:
   - No vol gate — the meta-model handles regime awareness internally
   - Early exit on signal reversal
 
-Architecture (v2 — best iteration: +267%, Sharpe 4.32, PF 1.73, 12/12 pos):
+Architecture (v9 — best iteration: +122%, Sharpe 3.81, PF 1.74, 10/12 pos):
   For each 30-day trade period:
-    1. Train 6 vol/regime models + 8 directional models on training window (360d)
+    1. Train 6 vol/regime models + 13 directional models on training window (360d)
     2. Inner train/val split (80/20) to generate OOS predictions
-    3. Train LightGBM meta-model on 14 base predictions
+    3. Train LightGBM meta-model on 19 base predictions
        → predicts P(profitable trade over next 3 bars)
-    4. Calibrate confidence threshold via 3-fold CV (no lookahead)
+    4. Calibrate confidence threshold via 3-fold CV (floor=0.56, no lookahead)
     5. Retrain all models on full training window
     6. Generate predictions on trade window, apply confidence gate
     7. Early exit on signal reversal
@@ -79,15 +79,20 @@ VOL_MODELS = {
     "crash_10":          {"model": "lightgbm",  "features": "raw+lags"},
 }
 
-# Directional models — SECONDARY signal (direction once vol gate passes)
+# Directional models — expanded set (13 models, v9 best iteration)
 DIR_MODELS = {
     "breakout_up_3":     {"model": "lightgbm",  "features": "core+lags"},
     "breakout_down_3":   {"model": "ridgeclf",  "features": "all_core"},
     "breakout_up_5":     {"model": "lightgbm",  "features": "core+lags"},
     "breakout_down_5":   {"model": "ridgeclf",  "features": "all_core"},
+    "breakout_up_10":    {"model": "lightgbm",  "features": "core+lags"},
+    "breakout_down_10":  {"model": "ridgeclf",  "features": "all_core"},
     "profitable_long_1": {"model": "logistic",  "features": "raw+lags"},
     "profitable_short_1":{"model": "logistic",  "features": "raw+lags"},
+    "profitable_long_5": {"model": "lightgbm",  "features": "raw+lags"},
+    "profitable_short_5":{"model": "lightgbm",  "features": "raw+lags"},
     "alpha_1":           {"model": "ridge",     "features": "all_core"},
+    "relative_ret_1":    {"model": "ridge",     "features": "all_core"},
     "adverse_selection_1":{"model": "lightgbm", "features": "raw+lags"},
 }
 
@@ -391,7 +396,8 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
 
     # ---- Step 3b: Calibrate vol gate + confidence threshold via 3-fold CV ----
     cum_ret_col = "tgt_cum_ret_3"
-    conf_threshold = 0.5
+    THRESHOLD_FLOOR = 0.56  # v9 best iteration
+    conf_threshold = THRESHOLD_FLOOR
     vol_gate_threshold = VOL_GATE_FLOOR
 
     if cum_ret_col in df_inner_val.columns:
@@ -419,8 +425,9 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
                 pass
 
         # Calibrate: joint threshold on meta confidence AND vol gate
-        best_thresh, best_avg = 0.5, -999
-        for thresh in [0.50, 0.52, 0.54, 0.56, 0.58, 0.60]:
+        best_thresh, best_avg = THRESHOLD_FLOOR, -999
+        thresholds = [t for t in [0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.62, 0.64] if t >= THRESHOLD_FLOOR]
+        for thresh in thresholds:
             rets = []
             for j in range(n_cv):
                 pl, ps = cv_pred_long[j], cv_pred_short[j]
@@ -496,14 +503,10 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
         # Direction from meta-model
         if pl > ps:
             signals[bar] = 1.0
-            vol_conf = min((p_vol[bar] - 0.5) * 2.0, 1.0) if VOL_GATE_FLOOR > 0 else 1.0
-            dir_conf = min((pl - 0.5) * 2.0, 1.0)
-            sizes[bar] = min(vol_conf * dir_conf * 2.0, MAX_POSITION_FRAC)
+            sizes[bar] = min((pl - 0.5) * 2.0, MAX_POSITION_FRAC)
         else:
             signals[bar] = -1.0
-            vol_conf = min((p_vol[bar] - 0.5) * 2.0, 1.0) if VOL_GATE_FLOOR > 0 else 1.0
-            dir_conf = min((ps - 0.5) * 2.0, 1.0)
-            sizes[bar] = min(vol_conf * dir_conf * 2.0, MAX_POSITION_FRAC)
+            sizes[bar] = min((ps - 0.5) * 2.0, MAX_POSITION_FRAC)
 
     # ---- Step 6: Simulate trades with early exit ----
     bar_pnl = np.zeros(n_trade)
