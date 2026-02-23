@@ -1,0 +1,21 @@
+{
+  "strategy": "Precision3",
+  "symbol": "XRPUSDT",
+  "tf": "4h",
+  "n_periods": 12,
+  "total_net_return": 0.986224105614528,
+  "compound_return": 1.6452120074926415,
+  "total_gross_return": 1.0862632096574971,
+  "total_fees": 0.10003910404296934,
+  "bnh_return": 0.07081492572017012,
+  "total_trades": 296,
+  "total_longs": 143,
+  "total_shorts": 153,
+  "total_stopped": 11,
+  "total_reversals": 141,
+  "avg_win_rate": 0.5399504348354924,
+  "sharpe": 2.2265031391611636,
+  "max_drawdown": -0.1556212331165417,
+  "profit_factor": 1.4215286223633663,
+  "periods_positive": 9
+}
