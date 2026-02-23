@@ -1,768 +1,529 @@
 {
   "predictable_targets": [
+    "tgt_best_short_entry_pct",
+    "tgt_relative_ret_1",
+    "tgt_range_bps_1",
+    "tgt_fwd_spread_bps_3",
+    "tgt_consolidation_5",
+    "tgt_ret_risk_adj_1",
+    "tgt_consolidation_3",
+    "tgt_breakout_up_3",
+    "tgt_optimal_action_1",
+    "tgt_breakout_down_3",
+    "tgt_vol_expansion_10",
+    "tgt_breakout_down_5",
+    "tgt_range_bps_3",
+    "tgt_max_drawdown_long_3",
     "tgt_breakout_down_10",
     "tgt_breakout_up_5",
-    "tgt_consolidation_3",
-    "tgt_vol_expansion_10",
-    "tgt_breakout_up_3",
-    "tgt_crash_10",
-    "tgt_breakout_down_3",
+    "tgt_vol_regime_10",
+    "tgt_max_drawup_long_3",
+    "tgt_realized_vol_5",
     "tgt_breakout_up_10",
-    "tgt_breakout_down_5",
-    "tgt_tail_event_3",
+    "tgt_inventory_cost_5",
     "tgt_vol_expansion_5",
+    "tgt_vol_regime_5",
+    "tgt_realized_vol_10",
+    "tgt_crash_10",
     "tgt_tail_event_5",
-    "tgt_profitable_long_1",
-    "tgt_profitable_long_3",
-    "tgt_profitable_short_1",
-    "tgt_profitable_long_5",
-    "tgt_profitable_short_5",
-    "tgt_profitable_short_3",
-    "tgt_alpha_1",
-    "tgt_relative_ret_1",
+    "tgt_inventory_cost_3",
+    "tgt_range_bps_5",
+    "tgt_alpha_3",
+    "tgt_alpha_5",
+    "tgt_liquidation_cascade_5",
+    "tgt_liquidation_cascade_3",
+    "tgt_max_drawup_long_5",
+    "tgt_max_drawdown_long_5",
+    "tgt_tail_event_3",
+    "tgt_crash_5",
+    "tgt_crash_3",
+    "tgt_best_side_3",
+    "tgt_tail_event_1",
+    "tgt_ret_magnitude_1",
+    "tgt_ret_magnitude_5",
+    "tgt_pnl_short_bps_3",
+    "tgt_max_drawup_long_10",
+    "tgt_max_drawup_short_10",
     "tgt_adverse_selection_1",
-    "tgt_profitable_long_10",
-    "tgt_profitable_short_10"
+    "tgt_regime_change_5",
+    "tgt_ret_magnitude_3",
+    "tgt_cum_ret_5",
+    "tgt_recovery_time_5",
+    "tgt_optimal_action_5",
+    "tgt_autocorr_break_5",
+    "tgt_regime_change_10",
+    "tgt_ret_2",
+    "tgt_ret_sign_10"
   ],
   "target_details": [
     {
-      "target": "tgt_breakout_down_10",
-      "wfo_p1": 0.3432567155912489,
-      "sol_research": 0.2820448772154056,
-      "xrp_research": 0.271273673023937,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_breakout_up_5",
-      "wfo_p1": 0.3202468487394957,
-      "sol_research": 0.3147238902874809,
-      "xrp_research": 0.3285020123340895,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_consolidation_3",
-      "wfo_p1": 0.3176823176823177,
-      "sol_research": 0.3562602901406706,
-      "xrp_research": 0.3446053015379817,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_vol_expansion_10",
-      "wfo_p1": 0.3173968253968254,
-      "sol_research": 0.327367644353955,
-      "xrp_research": 0.3167612694841272,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_breakout_up_3",
-      "wfo_p1": 0.3171811740890689,
-      "sol_research": 0.3351166102036608,
-      "xrp_research": 0.3442545688195553,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_crash_10",
-      "wfo_p1": 0.2909134538473844,
-      "sol_research": 0.250426297917721,
-      "xrp_research": 0.2051646334367182,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_breakout_down_3",
-      "wfo_p1": 0.2875501411380181,
-      "sol_research": 0.3145030834419896,
-      "xrp_research": 0.320491043343349,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_breakout_up_10",
-      "wfo_p1": 0.2860023041474655,
-      "sol_research": 0.2948946550159165,
-      "xrp_research": 0.3068993387599846,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_breakout_down_5",
-      "wfo_p1": 0.2837577160493827,
-      "sol_research": 0.3048905828411278,
-      "xrp_research": 0.2984957938416653,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_tail_event_3",
-      "wfo_p1": 0.2405215165573508,
-      "sol_research": 0.2064219517171307,
-      "xrp_research": 0.1770329604285051,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_vol_expansion_5",
-      "wfo_p1": 0.2343653250773993,
-      "sol_research": 0.2485471324871011,
-      "xrp_research": 0.2451706685612366,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_tail_event_5",
-      "wfo_p1": 0.2341443411700382,
-      "sol_research": 0.2292993230454361,
-      "xrp_research": 0.2118341510947837,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_profitable_long_1",
-      "wfo_p1": 0.191875,
-      "sol_research": 0.19119894303204,
-      "xrp_research": 0.2164699498969655,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_profitable_long_3",
-      "wfo_p1": 0.1812187940084495,
-      "sol_research": 0.1249640524208209,
-      "xrp_research": 0.0955481275419902,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_profitable_short_1",
-      "wfo_p1": 0.1745745870078251,
-      "sol_research": 0.1936708470281469,
-      "xrp_research": 0.2094376843978474,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_profitable_long_5",
-      "wfo_p1": 0.1714150047483379,
-      "sol_research": 0.0921497210970637,
-      "xrp_research": 0.0977146937795234,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_profitable_short_5",
-      "wfo_p1": 0.1403556034482759,
-      "sol_research": 0.0958853566423277,
-      "xrp_research": 0.0971051545118615,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_profitable_short_3",
-      "wfo_p1": 0.117846626552298,
-      "sol_research": 0.1283971914693978,
-      "xrp_research": 0.0998123199076133,
-      "is_binary": "True"
-    },
-    {
-      "target": "tgt_alpha_1",
-      "wfo_p1": 0.1117006758950375,
-      "sol_research": 0.1439324869856686,
-      "xrp_research": 0.106258577086305,
-      "is_binary": "False"
+      "target": "tgt_best_short_entry_pct",
+      "type": "continuous",
+      "sol_score": 0.5034329508223101,
+      "base_rate": null
     },
     {
       "target": "tgt_relative_ret_1",
-      "wfo_p1": 0.1117006758950375,
-      "sol_research": 0.1439324869856686,
-      "xrp_research": 0.106258577086305,
-      "is_binary": "False"
+      "type": "continuous",
+      "sol_score": 0.4217407682098047,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_range_bps_1",
+      "type": "continuous",
+      "sol_score": 0.391155965554804,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_fwd_spread_bps_3",
+      "type": "continuous",
+      "sol_score": 0.3857307229275817,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_consolidation_5",
+      "type": "binary",
+      "sol_score": 0.3848865033508989,
+      "base_rate": 0.0605646630236794
+    },
+    {
+      "target": "tgt_ret_risk_adj_1",
+      "type": "continuous",
+      "sol_score": 0.3723564613277161,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_consolidation_3",
+      "type": "binary",
+      "sol_score": 0.3529586528422224,
+      "base_rate": 0.1479963570127504
+    },
+    {
+      "target": "tgt_breakout_up_3",
+      "type": "binary",
+      "sol_score": 0.3462867007989961,
+      "base_rate": 0.6618852459016393
+    },
+    {
+      "target": "tgt_optimal_action_1",
+      "type": "continuous",
+      "sol_score": 0.3428985233672812,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_breakout_down_3",
+      "type": "binary",
+      "sol_score": 0.3267637732581727,
+      "base_rate": 0.6411657559198543
+    },
+    {
+      "target": "tgt_vol_expansion_10",
+      "type": "binary",
+      "sol_score": 0.3215792455902037,
+      "base_rate": 0.4924863387978142
+    },
+    {
+      "target": "tgt_breakout_down_5",
+      "type": "binary",
+      "sol_score": 0.2983105493030129,
+      "base_rate": 0.7174408014571949
+    },
+    {
+      "target": "tgt_range_bps_3",
+      "type": "continuous",
+      "sol_score": 0.2897972139060071,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_max_drawdown_long_3",
+      "type": "continuous",
+      "sol_score": 0.2820558990888884,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_breakout_down_10",
+      "type": "binary",
+      "sol_score": 0.2711380900067394,
+      "base_rate": 0.7871129326047359
+    },
+    {
+      "target": "tgt_breakout_up_5",
+      "type": "binary",
+      "sol_score": 0.2629928787504983,
+      "base_rate": 0.7308743169398907
+    },
+    {
+      "target": "tgt_vol_regime_10",
+      "type": "continuous",
+      "sol_score": 0.2609212200232839,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_max_drawup_long_3",
+      "type": "continuous",
+      "sol_score": 0.2594746725554442,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_realized_vol_5",
+      "type": "continuous",
+      "sol_score": 0.2578009399768048,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_breakout_up_10",
+      "type": "binary",
+      "sol_score": 0.2539646160956594,
+      "base_rate": 0.8119307832422586
+    },
+    {
+      "target": "tgt_inventory_cost_5",
+      "type": "continuous",
+      "sol_score": 0.234187985635154,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_vol_expansion_5",
+      "type": "binary",
+      "sol_score": 0.2326133632881368,
+      "base_rate": 0.3938979963570127
+    },
+    {
+      "target": "tgt_vol_regime_5",
+      "type": "continuous",
+      "sol_score": 0.2286931868872671,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_realized_vol_10",
+      "type": "continuous",
+      "sol_score": 0.2236687337915333,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_crash_10",
+      "type": "binary",
+      "sol_score": 0.2190844894169438,
+      "base_rate": 0.1602914389799635
+    },
+    {
+      "target": "tgt_tail_event_5",
+      "type": "binary",
+      "sol_score": 0.2190631154226865,
+      "base_rate": 0.3554189435336976
+    },
+    {
+      "target": "tgt_inventory_cost_3",
+      "type": "continuous",
+      "sol_score": 0.2156349056734071,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_range_bps_5",
+      "type": "continuous",
+      "sol_score": 0.203493137358922,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_alpha_3",
+      "type": "continuous",
+      "sol_score": 0.2022646194773054,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_alpha_5",
+      "type": "continuous",
+      "sol_score": 0.1890868929837732,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_liquidation_cascade_5",
+      "type": "binary",
+      "sol_score": 0.1876506207557715,
+      "base_rate": 0.0979052823315118
+    },
+    {
+      "target": "tgt_liquidation_cascade_3",
+      "type": "binary",
+      "sol_score": 0.1848894541611153,
+      "base_rate": 0.0573770491803278
+    },
+    {
+      "target": "tgt_max_drawup_long_5",
+      "type": "continuous",
+      "sol_score": 0.1790876577442265,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_max_drawdown_long_5",
+      "type": "continuous",
+      "sol_score": 0.1777220874702652,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_tail_event_3",
+      "type": "binary",
+      "sol_score": 0.1749386953760632,
+      "base_rate": 0.2488615664845173
+    },
+    {
+      "target": "tgt_crash_5",
+      "type": "binary",
+      "sol_score": 0.1707814201386206,
+      "base_rate": 0.0858378870673952
+    },
+    {
+      "target": "tgt_crash_3",
+      "type": "binary",
+      "sol_score": 0.167015003230656,
+      "base_rate": 0.0539617486338797
+    },
+    {
+      "target": "tgt_best_side_3",
+      "type": "continuous",
+      "sol_score": 0.1586446564265825,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_tail_event_1",
+      "type": "binary",
+      "sol_score": 0.150032540433146,
+      "base_rate": 0.0958561020036429
+    },
+    {
+      "target": "tgt_ret_magnitude_1",
+      "type": "continuous",
+      "sol_score": 0.1453174727451329,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_ret_magnitude_5",
+      "type": "continuous",
+      "sol_score": 0.1371540174887573,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_pnl_short_bps_3",
+      "type": "continuous",
+      "sol_score": 0.1356923060118201,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_max_drawup_long_10",
+      "type": "continuous",
+      "sol_score": 0.1223539672102468,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_max_drawup_short_10",
+      "type": "continuous",
+      "sol_score": 0.1129239433952418,
+      "base_rate": null
     },
     {
       "target": "tgt_adverse_selection_1",
-      "wfo_p1": 0.0848589807026224,
-      "sol_research": 0.0801112049696057,
-      "xrp_research": 0.1016420513368505,
-      "is_binary": "True"
+      "type": "binary",
+      "sol_score": 0.1033029792743389,
+      "base_rate": 0.5095628415300546
     },
     {
-      "target": "tgt_profitable_long_10",
-      "wfo_p1": 0.0834136933461908,
-      "sol_research": 0.0726979875919969,
-      "xrp_research": 0.0700075306104063,
-      "is_binary": "True"
+      "target": "tgt_regime_change_5",
+      "type": "binary",
+      "sol_score": 0.0959830813683974,
+      "base_rate": 0.6097449908925319
     },
     {
-      "target": "tgt_profitable_short_10",
-      "wfo_p1": 0.0750103320016531,
-      "sol_research": 0.0751297992639063,
-      "xrp_research": 0.0629304682099534,
-      "is_binary": "True"
+      "target": "tgt_ret_magnitude_3",
+      "type": "continuous",
+      "sol_score": 0.0938239170576242,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_cum_ret_5",
+      "type": "continuous",
+      "sol_score": 0.0828224415641166,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_recovery_time_5",
+      "type": "continuous",
+      "sol_score": 0.0806531052108359,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_optimal_action_5",
+      "type": "continuous",
+      "sol_score": 0.0796964233167466,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_autocorr_break_5",
+      "type": "binary",
+      "sol_score": 0.0782886365491071,
+      "base_rate": 0.3545081967213114
+    },
+    {
+      "target": "tgt_regime_change_10",
+      "type": "binary",
+      "sol_score": 0.0663010643855065,
+      "base_rate": 0.6270491803278688
+    },
+    {
+      "target": "tgt_ret_2",
+      "type": "continuous",
+      "sol_score": 0.0417468795798342,
+      "base_rate": null
+    },
+    {
+      "target": "tgt_ret_sign_10",
+      "type": "continuous",
+      "sol_score": 0.0253311968596507,
+      "base_rate": null
     }
   ],
-  "target_features": {
-    "tgt_breakout_down_10": [
-      "close_to_vwap",
-      "max_drawup",
-      "dist_to_support_5_bps",
-      "dist_to_r1_bps",
-      "time_to_high_pct",
-      "is_swing_low",
-      "cvd_close_vs_range",
-      "breakout_up_bps_5_z",
-      "low",
-      "atr_change_pct_14",
-      "wave_wavelength_z",
-      "dist_to_resistance_10_bps_z",
-      "total_energy",
-      "kinetic_energy",
-      "max_up_sweep_z",
-      "disposition_sell_z",
-      "panic_sell_ratio",
-      "dist_to_resistance_5_bps",
-      "cvd_max",
-      "bos_net_z"
-    ],
-    "tgt_breakout_up_5": [
-      "close_to_vwap",
-      "dist_to_r1_bps",
-      "max_drawdown",
-      "time_to_high_pct",
-      "dist_to_resistance_5_bps",
-      "cvd_close_vs_range",
-      "is_swing_high",
-      "dist_to_resistance_10_bps_z",
-      "dist_to_support_5_bps",
-      "cvd_min",
-      "fair_value_change_bps_z",
-      "dist_to_resistance_10_bps",
-      "golden_ratio_composite",
-      "taylor_price_a0",
-      "bos_net_z",
-      "dist_to_support_20_bps",
-      "wave_wavelength_z",
-      "twap_vwap_spread_bps",
-      "ofi_persistence",
-      "trade_rate_std"
-    ],
-    "tgt_consolidation_3": [
-      "kinetic_energy",
-      "volume_per_second_std",
-      "trade_rate_std",
-      "price_path_length",
-      "max_drawup",
-      "realized_vol",
-      "wave_wavelength_z",
-      "atr_change_pct_14",
-      "burstiness",
-      "total_energy",
-      "monotonicity_score",
-      "max_up_sweep_z",
-      "trade_time_uniformity",
-      "convex_hull_area",
-      "eigen_ratio_z",
-      "roll_spread",
-      "max_trades_per_second_z",
-      "taylor_rate_r2",
-      "max_monotonic_run",
-      "quartile_count_ratio"
-    ],
-    "tgt_vol_expansion_10": [
-      "realized_vol",
-      "volume_per_second_std",
-      "trade_rate_std",
-      "price_path_length",
-      "eigen_ratio_z",
-      "roll_spread",
-      "wave_wavelength_z",
-      "max_trades_per_second_z",
-      "max_monotonic_run",
-      "max_up_sweep_z",
-      "vol_price_feedback_z",
-      "max_monotonic_run_z",
-      "max_sell_run",
-      "total_energy",
-      "max_drawdown",
-      "path_length_over_range",
-      "burstiness",
-      "kinetic_energy",
-      "atr_change_pct_14",
-      "monotonicity_score"
-    ],
-    "tgt_breakout_up_3": [
-      "close_to_vwap",
-      "dist_to_r1_bps",
-      "max_drawdown",
-      "is_swing_high",
-      "time_to_high_pct",
-      "dist_to_resistance_5_bps",
-      "cvd_close_vs_range",
-      "dist_to_support_5_bps",
-      "dist_to_resistance_10_bps_z",
-      "cvd_min",
-      "dist_to_resistance_10_bps",
-      "fair_value_change_bps_z",
-      "ofi_persistence",
-      "golden_ratio_composite",
-      "bos_net_z",
-      "aggression_imbalance",
-      "dist_to_support_20_bps",
-      "taylor_price_a0",
-      "vol_asymmetry",
-      "twap_vwap_spread_bps"
-    ],
-    "tgt_crash_10": [
-      "realized_vol",
-      "volume_per_second_std",
-      "trade_rate_std",
-      "roll_spread",
-      "price_path_length",
-      "max_trades_per_second_z",
-      "vol_price_feedback_z",
-      "max_sell_run",
-      "max_monotonic_run",
-      "eigen_ratio_z",
-      "max_sell_run_z",
-      "max_up_sweep_z",
-      "path_length_over_range",
-      "wave_wavelength_z",
-      "trade_time_uniformity",
-      "max_monotonic_run_z",
-      "max_drawdown",
-      "total_energy",
-      "kinetic_energy",
-      "max_drawup"
-    ],
-    "tgt_breakout_down_3": [
-      "close_to_vwap",
-      "max_drawup",
-      "dist_to_r1_bps",
-      "time_to_high_pct",
-      "dist_to_support_5_bps",
-      "is_swing_low",
-      "cvd_close_vs_range",
-      "dist_to_resistance_5_bps",
-      "panic_sell_ratio",
-      "disposition_sell_z",
-      "fair_value_change_bps_z",
-      "cvd_max",
-      "max_buy_run_z",
-      "aggression_imbalance",
-      "taylor_price_a0",
-      "atr_change_pct_14",
-      "ofi_persistence",
-      "vol_asymmetry",
-      "breakout_up_bps_5_z",
-      "burstiness"
-    ],
-    "tgt_breakout_up_10": [
-      "close_to_vwap",
-      "is_swing_high",
-      "dist_to_r1_bps",
-      "max_drawdown",
-      "dist_to_resistance_10_bps_z",
-      "time_to_high_pct",
-      "cvd_close_vs_range",
-      "dist_to_resistance_5_bps",
-      "atr_change_pct_14",
-      "wave_wavelength_z",
-      "dist_to_support_5_bps",
-      "trade_rate_std",
-      "cvd_min",
-      "bos_net_z",
-      "dist_to_resistance_10_bps",
-      "te_price_to_volume_z",
-      "taylor_price_r2",
-      "fair_value_change_bps_z",
-      "convex_hull_area",
-      "golden_ratio_composite"
-    ],
-    "tgt_breakout_down_5": [
-      "close_to_vwap",
-      "max_drawup",
-      "dist_to_r1_bps",
-      "time_to_high_pct",
-      "dist_to_support_5_bps",
-      "is_swing_low",
-      "cvd_close_vs_range",
-      "dist_to_resistance_5_bps",
-      "breakout_up_bps_5_z",
-      "panic_sell_ratio",
-      "dist_to_resistance_10_bps_z",
-      "aggression_imbalance",
-      "disposition_sell_z",
-      "atr_change_pct_14",
-      "fair_value_change_bps_z",
-      "kinetic_energy",
-      "max_buy_run_z",
-      "golden_ratio_composite",
-      "total_energy",
-      "cvd_max"
-    ],
-    "tgt_tail_event_3": [
-      "realized_vol",
-      "trade_rate_std",
-      "volume_per_second_std",
-      "eigen_ratio_z",
-      "price_path_length",
-      "roll_spread",
-      "max_trades_per_second_z",
-      "max_sell_run",
-      "vol_price_feedback_z",
-      "max_monotonic_run",
-      "max_up_sweep_z",
-      "wave_wavelength_z",
-      "path_length_over_range",
-      "max_monotonic_run_z",
-      "max_sell_run_z",
-      "trade_time_uniformity",
-      "turbulence",
-      "max_drawdown",
-      "te_price_to_volume",
-      "path_length_over_range_z"
-    ],
-    "tgt_vol_expansion_5": [
-      "realized_vol",
-      "volume_per_second_std",
-      "trade_rate_std",
-      "price_path_length",
-      "roll_spread",
-      "eigen_ratio_z",
-      "wave_wavelength_z",
-      "max_trades_per_second_z",
-      "vol_price_feedback_z",
-      "max_sell_run",
-      "max_up_sweep_z",
-      "max_monotonic_run",
-      "path_length_over_range",
-      "total_energy",
-      "kinetic_energy",
-      "monotonicity_score",
-      "max_drawdown",
-      "burstiness",
-      "max_sell_run_z",
-      "trade_time_uniformity"
-    ],
-    "tgt_tail_event_5": [
-      "realized_vol",
-      "volume_per_second_std",
-      "trade_rate_std",
-      "price_path_length",
-      "eigen_ratio_z",
-      "roll_spread",
-      "wave_wavelength_z",
-      "max_sell_run",
-      "vol_price_feedback_z",
-      "max_trades_per_second_z",
-      "path_length_over_range",
-      "max_monotonic_run",
-      "max_up_sweep_z",
-      "max_sell_run_z",
-      "max_monotonic_run_z",
-      "monotonicity_score",
-      "max_drawdown",
-      "kinetic_energy",
-      "path_length_over_range_z",
-      "total_energy"
-    ],
-    "tgt_profitable_long_1": [
-      "is_swing_low",
-      "is_swing_high",
-      "predator_follows_prey_z",
-      "close_to_vwap",
-      "dist_to_r1_bps",
-      "taylor_price_a0",
-      "low",
-      "dist_to_resistance_5_bps",
-      "pattern_bias_5",
-      "fib_swing_count",
-      "side_switch_rate",
-      "hour_sin",
-      "dist_to_resistance_10_bps",
-      "cvd_close_vs_range",
-      "hilbert_amp_freq_corr_z",
-      "volume_per_second_std",
-      "max_drawdown",
-      "dist_to_support_5_bps",
-      "ew_alternation_score",
-      "side_sequence_entropy_z"
-    ],
-    "tgt_profitable_long_3": [
-      "low",
-      "hilbert_std_amplitude",
-      "is_swing_low",
-      "support_touches_20",
-      "max_drawdown",
-      "fvg_bearish_count_10",
-      "predator_follows_prey_z",
-      "ew_impulse_quality",
-      "burstiness",
-      "taylor_price_a0",
-      "ms_bullish_5",
-      "hour_sin",
-      "dist_to_resistance_5_bps",
-      "max_sell_run_z",
-      "cvd_min",
-      "hilbert_std_amplitude_z",
-      "quartile_count_ratio",
-      "net_tick_direction",
-      "ll_count_10",
-      "dist_to_r1_bps"
-    ],
-    "tgt_profitable_short_1": [
-      "is_swing_low",
-      "is_swing_high",
-      "close_to_vwap",
-      "dist_to_r1_bps",
-      "dist_to_resistance_5_bps",
-      "dist_to_resistance_10_bps",
-      "predator_follows_prey_z",
-      "pattern_bias_5",
-      "taylor_price_a0",
-      "side_switch_rate",
-      "hilbert_amp_freq_corr_z",
-      "dist_to_support_5_bps",
-      "fib_swing_count",
-      "cvd_close_vs_range",
-      "hour_sin",
-      "panic_sell_ratio",
-      "low",
-      "dist_to_support_20_bps",
-      "net_tick_direction",
-      "lz_complexity_norm"
-    ],
-    "tgt_profitable_long_5": [
-      "low",
-      "hilbert_std_amplitude",
-      "trade_size_iqr",
-      "gap_fill_rate_10",
-      "is_swing_low",
-      "rqa_recurrence_rate",
-      "max_drawdown",
-      "stop_hunt_up_score_z",
-      "is_swing_high",
-      "predator_follows_prey_z",
-      "heat_capacity",
-      "hilbert_std_amplitude_z",
-      "hilbert_amp_freq_corr_z",
-      "stop_hunt_down_score_z",
-      "max_drawup",
-      "total_energy",
-      "fvg_bearish_count_10",
-      "sub_regime_transitions",
-      "fib_wave_avg_dist",
-      "liq_void_up_bps_z"
-    ],
-    "tgt_profitable_short_5": [
-      "low",
-      "hilbert_std_amplitude",
-      "trade_size_iqr",
-      "is_swing_low",
-      "gap_fill_rate_10",
-      "max_drawdown",
-      "stop_hunt_up_score_z",
-      "is_swing_high",
-      "predator_follows_prey_z",
-      "fvg_bearish_count_10",
-      "hilbert_amp_freq_corr_z",
-      "hilbert_std_amplitude_z",
-      "rqa_recurrence_rate",
-      "total_energy",
-      "sub_regime_transitions",
-      "liq_void_up_bps_z",
-      "auction_clearing_speed",
-      "hilbert_amp_freq_corr",
-      "vpin",
-      "donchian_width_bps_20_z"
-    ],
-    "tgt_profitable_short_3": [
-      "low",
-      "hilbert_std_amplitude",
-      "trade_size_iqr",
-      "is_swing_low",
-      "support_touches_20",
-      "max_drawdown",
-      "fvg_bearish_count_10",
-      "quartile_count_ratio",
-      "hour_sin",
-      "predator_follows_prey_z",
-      "ew_impulse_quality",
-      "burstiness",
-      "is_swing_high",
-      "taylor_price_a0",
-      "ms_bullish_5",
-      "fib_wave_avg_dist_z",
-      "donchian_width_bps_20_z",
-      "net_tick_direction",
-      "hilbert_std_amplitude_z",
-      "dist_to_resistance_5_bps"
-    ],
-    "tgt_alpha_1": [
-      "is_swing_high",
-      "is_swing_low",
-      "resistance_touches_20",
-      "support_touches_20",
-      "breakout_net_10"
-    ],
-    "tgt_relative_ret_1": [
-      "is_swing_high",
-      "is_swing_low",
-      "resistance_touches_20",
-      "support_touches_20",
-      "breakout_net_10"
-    ],
-    "tgt_adverse_selection_1": [
-      "is_swing_low",
-      "size_escalation",
-      "breakout_up_bps_5_z",
-      "taylor_price_a4",
-      "dist_to_resistance_10_bps_z",
-      "ll_streak_z",
-      "fib_vol_ratio",
-      "breakout_vol_confirm_5_z",
-      "price_tick_entropy",
-      "dist_to_support_5_bps",
-      "gap_down",
-      "vwap_gravity",
-      "is_swing_high",
-      "response_asymmetry",
-      "taylor_complexity_z",
-      "choch_net_z",
-      "size_gini_z",
-      "dist_to_resistance_10_bps",
-      "permutation_entropy",
-      "dist_to_resistance_5_bps"
-    ],
-    "tgt_profitable_long_10": [
-      "low",
-      "trade_size_iqr",
-      "hilbert_std_amplitude",
-      "gap_fill_rate_10",
-      "graph_edge_count_z",
-      "liq_void_down_bps_z",
-      "predator_prey_ratio",
-      "resistance_touches_20",
-      "fib_wave_avg_dist_z",
-      "breakout_up_bps_5_z",
-      "ob_net_10_z",
-      "gap_abs_bps",
-      "stackelberg_buy_leader_z",
-      "side_switch_rate",
-      "atr_percentile_10_z",
-      "avg_lower_wick_5_z",
-      "side_sequence_entropy_z",
-      "resistance_touches_10_z",
-      "herding_ratio_z",
-      "path_length_over_range"
-    ],
-    "tgt_profitable_short_10": [
-      "low",
-      "trade_size_iqr",
-      "hilbert_std_amplitude",
-      "graph_edge_count_z",
-      "gap_fill_rate_10",
-      "liq_void_down_bps_z",
-      "predator_prey_ratio",
-      "resistance_touches_20",
-      "breakout_up_bps_5_z",
-      "ob_net_10_z",
-      "gap_abs_bps",
-      "side_switch_rate",
-      "atr_percentile_10_z",
-      "side_sequence_entropy_z",
-      "stackelberg_buy_leader_z",
-      "avg_lower_wick_5_z",
-      "resistance_touches_10_z",
-      "fib_wave_avg_dist_z",
-      "herding_ratio_z",
-      "sample_entropy"
-    ]
-  },
-  "core_features": [
-    "max_drawdown",
-    "is_swing_low",
-    "dist_to_resistance_5_bps",
-    "is_swing_high",
-    "dist_to_support_5_bps",
-    "dist_to_r1_bps",
-    "low",
-    "wave_wavelength_z",
-    "total_energy",
-    "close_to_vwap",
-    "cvd_close_vs_range",
-    "trade_rate_std",
-    "kinetic_energy",
-    "max_up_sweep_z",
-    "taylor_price_a0",
-    "volume_per_second_std",
-    "max_drawup",
-    "time_to_high_pct",
-    "breakout_up_bps_5_z",
-    "atr_change_pct_14",
-    "dist_to_resistance_10_bps_z",
-    "dist_to_resistance_10_bps",
-    "price_path_length",
-    "realized_vol",
-    "burstiness",
-    "eigen_ratio_z",
-    "roll_spread",
-    "max_trades_per_second_z",
-    "max_monotonic_run",
-    "path_length_over_range",
-    "predator_follows_prey_z",
-    "hilbert_std_amplitude",
-    "fair_value_change_bps_z",
-    "vol_price_feedback_z",
-    "max_sell_run",
-    "max_sell_run_z",
-    "trade_size_iqr",
-    "panic_sell_ratio",
-    "bos_net_z",
-    "cvd_min",
-    "golden_ratio_composite",
-    "monotonicity_score",
-    "trade_time_uniformity",
-    "max_monotonic_run_z",
-    "side_switch_rate",
-    "hour_sin",
-    "hilbert_amp_freq_corr_z",
-    "support_touches_20",
-    "fvg_bearish_count_10",
-    "hilbert_std_amplitude_z",
-    "gap_fill_rate_10",
-    "resistance_touches_20",
-    "disposition_sell_z",
-    "cvd_max",
-    "dist_to_support_20_bps",
-    "ofi_persistence",
-    "quartile_count_ratio",
-    "aggression_imbalance",
-    "side_sequence_entropy_z",
-    "net_tick_direction",
-    "fib_wave_avg_dist_z",
-    "twap_vwap_spread_bps",
-    "convex_hull_area",
-    "vol_asymmetry",
-    "max_buy_run_z",
-    "path_length_over_range_z",
-    "pattern_bias_5",
-    "fib_swing_count",
-    "ew_impulse_quality",
-    "ms_bullish_5",
-    "rqa_recurrence_rate",
-    "stop_hunt_up_score_z",
-    "sub_regime_transitions",
-    "liq_void_up_bps_z",
-    "donchian_width_bps_20_z",
-    "breakout_net_10",
-    "graph_edge_count_z",
-    "liq_void_down_bps_z",
-    "predator_prey_ratio",
-    "ob_net_10_z",
-    "gap_abs_bps",
-    "stackelberg_buy_leader_z",
-    "atr_percentile_10_z",
-    "avg_lower_wick_5_z",
-    "resistance_touches_10_z",
-    "herding_ratio_z"
+  "dedup_clusters": [
+    {
+      "representative": "tgt_best_short_entry_pct",
+      "duplicates": [
+        "tgt_best_long_entry_pct",
+        "tgt_slippage_short_bps",
+        "tgt_slippage_long_bps"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_relative_ret_1",
+      "duplicates": [
+        "tgt_alpha_1",
+        "tgt_pnl_short_bps_1",
+        "tgt_ret_1",
+        "tgt_pnl_long_bps_1"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_range_bps_1",
+      "duplicates": [
+        "tgt_fwd_spread_bps_1"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_optimal_action_1",
+      "duplicates": [
+        "tgt_best_side_1",
+        "tgt_ret_sign_1",
+        "tgt_profitable_short_1",
+        "tgt_profitable_long_1"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_max_drawdown_long_3",
+      "duplicates": [
+        "tgt_max_drawup_short_3"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_max_drawup_long_3",
+      "duplicates": [
+        "tgt_max_drawdown_short_3"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_realized_vol_10",
+      "duplicates": [
+        "tgt_inventory_cost_10"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_alpha_3",
+      "duplicates": [
+        "tgt_relative_ret_3"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_alpha_5",
+      "duplicates": [
+        "tgt_relative_ret_5"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_max_drawup_long_5",
+      "duplicates": [
+        "tgt_max_drawdown_short_5"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_max_drawdown_long_5",
+      "duplicates": [
+        "tgt_max_drawup_short_5"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_best_side_3",
+      "duplicates": [
+        "tgt_optimal_action_3",
+        "tgt_profitable_short_3",
+        "tgt_profitable_long_3"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_pnl_short_bps_3",
+      "duplicates": [
+        "tgt_pnl_long_bps_3",
+        "tgt_cum_ret_3"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_max_drawup_long_10",
+      "duplicates": [
+        "tgt_max_drawdown_short_10"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_max_drawup_short_10",
+      "duplicates": [
+        "tgt_max_drawdown_long_10"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_cum_ret_5",
+      "duplicates": [
+        "tgt_pnl_long_bps_5",
+        "tgt_pnl_short_bps_5"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    },
+    {
+      "representative": "tgt_optimal_action_5",
+      "duplicates": [
+        "tgt_best_side_5",
+        "tgt_kelly_5",
+        "tgt_profitable_long_5",
+        "tgt_profitable_short_5"
+      ],
+      "reason": "Spearman |r| > 0.95"
+    }
   ],
-  "filter_applied": "base_rate_10_90_pct",
-  "dropped_targets": [
-    "tgt_breakout_any_3",
-    "tgt_breakout_any_5",
-    "tgt_consolidation_5",
-    "tgt_crash_3",
-    "tgt_crash_5",
-    "tgt_liquidation_cascade_5",
-    "tgt_tail_event_1"
-  ],
-  "n_targets": 23,
-  "n_core_features": 86
+  "metadata": {
+    "source": "target_audit_SOLUSDT_4h.csv",
+    "method": "3-fold expanding WFO, LightGBM",
+    "criteria": "STRONG (all folds positive, mean > 0.05) or GOOD (all folds positive, mean > 0.02)",
+    "dedup_threshold": 0.95,
+    "original_count": 86,
+    "after_dedup": 54,
+    "duplicates_removed": 32
+  }
 }
