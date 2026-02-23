@@ -1,0 +1,21 @@
+{
+  "strategy": "Precision3",
+  "symbol": "DOGEUSDT",
+  "tf": "4h",
+  "n_periods": 12,
+  "total_net_return": 2.917384564604535,
+  "compound_return": 14.250085575820256,
+  "total_gross_return": 3.038495523426608,
+  "total_fees": 0.12111095882207316,
+  "bnh_return": -0.5888918908493,
+  "total_trades": 332,
+  "total_longs": 155,
+  "total_shorts": 177,
+  "total_stopped": 12,
+  "total_reversals": 200,
+  "avg_win_rate": 0.6182422496295802,
+  "sharpe": 4.739778340502253,
+  "max_drawdown": -0.1577988188537458,
+  "profit_factor": 2.034367388150318,
+  "periods_positive": 12
+}

@@ -213,17 +213,41 @@ def predict_model(model, scaler, X, model_type):
 # ============================================================
 # FEATURE RESOLUTION
 # ============================================================
-def resolve_features(model_name, model_cfg, constraints):
-    """Resolve which features to use for a given model."""
+def auto_select_features(df, target_col, n_top=30):
+    """Auto-select top N features by absolute Spearman correlation with target.
+    Only uses columns available in df. No lookahead — call on training data only."""
+    from scipy.stats import spearmanr
+    feat_cols = [c for c in df.columns
+                 if not c.startswith("tgt_")
+                 and c not in ("open", "high", "low", "close", "volume")]
+    y = df[target_col].values
+    valid_y = np.isfinite(y)
+    corrs = []
+    for f in feat_cols:
+        x = df[f].values
+        mask = valid_y & np.isfinite(x)
+        if mask.sum() < 100:
+            corrs.append(0.0)
+            continue
+        try:
+            c, _ = spearmanr(x[mask], y[mask])
+            corrs.append(abs(c) if np.isfinite(c) else 0.0)
+        except Exception:
+            corrs.append(0.0)
+    idx = np.argsort(corrs)[::-1][:n_top]
+    return [feat_cols[i] for i in idx if corrs[idx[0]] > 0]
+
+
+def resolve_features(model_name, model_cfg, constraints, df=None):
+    """Resolve which features to use for a given model.
+    If JSON features don't exist in df, falls back to auto-selection."""
     target = model_cfg["target"]
     feat_type = model_cfg["features"]
     target_features_map = constraints.get("target_features", {})
     core_features = constraints.get("core_features", [])
 
-    # Direction features: use target-specific features if available, else core
+    # Collect candidate features from JSON
     if feat_type == "direction":
-        # For tgt_ret_1, we don't have pre-validated features in the JSON
-        # Use features from profitable_long_1 + profitable_short_1 (closest proxy)
         feats = set()
         for proxy in ["tgt_profitable_long_1", "tgt_profitable_short_1",
                        "tgt_alpha_1", "tgt_relative_ret_1"]:
@@ -231,10 +255,9 @@ def resolve_features(model_name, model_cfg, constraints):
                 feats.update(target_features_map[proxy])
         if not feats:
             feats = set(core_features[:30])
-        return list(feats)
+        candidates = list(feats)
 
     elif feat_type == "volatility":
-        # Volatility/regime features
         feats = set()
         for proxy in ["tgt_vol_expansion_5", "tgt_vol_expansion_10",
                        "tgt_consolidation_3", "tgt_crash_10",
@@ -243,13 +266,25 @@ def resolve_features(model_name, model_cfg, constraints):
                 feats.update(target_features_map[proxy])
         if not feats:
             feats = set(core_features[:30])
-        return list(feats)
+        candidates = list(feats)
 
     else:
-        # Fallback to target-specific or core
         if target in target_features_map:
-            return target_features_map[target]
-        return core_features[:30]
+            candidates = target_features_map[target]
+        else:
+            candidates = core_features[:30]
+
+    # Filter to features that actually exist in the DataFrame
+    if df is not None:
+        available = [f for f in candidates if f in df.columns]
+        # If fewer than 5 JSON features exist, fall back to auto-selection
+        if len(available) < 5 and target in df.columns:
+            print(f"    [feature fallback] {model_name}: only {len(available)} JSON features "
+                  f"in data, auto-selecting top 30 by correlation")
+            available = auto_select_features(df, target, n_top=30)
+        return available
+
+    return candidates
 
 
 # ============================================================
@@ -284,7 +319,7 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
             print(f"    WARN: target {target} not in data, skipping {model_name}")
             continue
 
-        feat_list = resolve_features(model_name, cfg, constraints)
+        feat_list = resolve_features(model_name, cfg, constraints, df=df_sel)
         df_feat, feat_cols = get_feature_set(df_sel, feat_list, add_lags=True)
 
         if len(feat_cols) < 3:
