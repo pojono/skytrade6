@@ -23,11 +23,13 @@ Architecture:
   Anti-Lookahead Measures:
     - Expanding-window WFO: train on all data up to purge boundary
     - 3-day purge gap between training and trade windows
-    - Feature selection from predictable_targets.json (pre-validated per target)
+    - Feature selection via Spearman correlation on TRAINING DATA ONLY each period
+    - Inner CV: features re-selected on CV-train split (never sees CV-val targets)
     - Direction threshold calibrated via inner 3-fold CV on training data only
     - All models retrained each period on full training window
     - Entry at next-bar open after signal
     - Stop-loss evaluated at bar close (conservative — real would be intrabar)
+    - NO pre-computed feature lists — everything derived fresh each period
 
 Usage:
   python microstructure_research/strategy_precision3.py [--periods N] [--symbol SYMBOL]
@@ -58,8 +60,8 @@ import lightgbm as lgb
 # ============================================================
 TF = "4h"
 FEATURES_DIR = Path("./features")
-CONSTRAINTS_PATH = Path("./microstructure_research/predictable_targets.json")
 RESULTS_DIR = Path("./microstructure_research/results")
+N_TOP_FEATURES = 30        # auto-select top N features per model by Spearman corr
 
 SELECTION_DAYS = 360       # training window
 PURGE_DAYS = 3             # gap between train and trade
@@ -211,20 +213,24 @@ def predict_model(model, scaler, X, model_type):
 
 
 # ============================================================
-# FEATURE RESOLUTION
+# FEATURE SELECTION (no lookahead — always from training data)
 # ============================================================
-def auto_select_features(df, target_col, n_top=30):
+def auto_select_features(df_train, target_col, n_top=30):
     """Auto-select top N features by absolute Spearman correlation with target.
-    Only uses columns available in df. No lookahead — call on training data only."""
+
+    CRITICAL: df_train must be ONLY training data — never include validation
+    or test data. This function sees target values, so any future data in
+    df_train would be lookahead.
+    """
     from scipy.stats import spearmanr
-    feat_cols = [c for c in df.columns
+    feat_cols = [c for c in df_train.columns
                  if not c.startswith("tgt_")
                  and c not in ("open", "high", "low", "close", "volume")]
-    y = df[target_col].values
+    y = df_train[target_col].values
     valid_y = np.isfinite(y)
     corrs = []
     for f in feat_cols:
-        x = df[f].values
+        x = df_train[f].values
         mask = valid_y & np.isfinite(x)
         if mask.sum() < 100:
             corrs.append(0.0)
@@ -238,60 +244,10 @@ def auto_select_features(df, target_col, n_top=30):
     return [feat_cols[i] for i in idx if corrs[idx[0]] > 0]
 
 
-def resolve_features(model_name, model_cfg, constraints, df=None):
-    """Resolve which features to use for a given model.
-    If JSON features don't exist in df, falls back to auto-selection."""
-    target = model_cfg["target"]
-    feat_type = model_cfg["features"]
-    target_features_map = constraints.get("target_features", {})
-    core_features = constraints.get("core_features", [])
-
-    # Collect candidate features from JSON
-    if feat_type == "direction":
-        feats = set()
-        for proxy in ["tgt_profitable_long_1", "tgt_profitable_short_1",
-                       "tgt_alpha_1", "tgt_relative_ret_1"]:
-            if proxy in target_features_map:
-                feats.update(target_features_map[proxy])
-        if not feats:
-            feats = set(core_features[:30])
-        candidates = list(feats)
-
-    elif feat_type == "volatility":
-        feats = set()
-        for proxy in ["tgt_vol_expansion_5", "tgt_vol_expansion_10",
-                       "tgt_consolidation_3", "tgt_crash_10",
-                       "tgt_tail_event_3"]:
-            if proxy in target_features_map:
-                feats.update(target_features_map[proxy])
-        if not feats:
-            feats = set(core_features[:30])
-        candidates = list(feats)
-
-    else:
-        if target in target_features_map:
-            candidates = target_features_map[target]
-        else:
-            candidates = core_features[:30]
-
-    # Filter to features that actually exist in the DataFrame
-    if df is not None:
-        available = [f for f in candidates if f in df.columns]
-        # If fewer than 5 JSON features exist, fall back to auto-selection
-        if len(available) < 5 and target in df.columns:
-            print(f"    [feature fallback] {model_name}: only {len(available)} JSON features "
-                  f"in data, auto-selecting top 30 by correlation")
-            available = auto_select_features(df, target, n_top=30)
-        return available
-
-    return candidates
-
-
 # ============================================================
 # SINGLE PERIOD EXECUTION
 # ============================================================
-def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
-               constraints, cpd):
+def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end, cpd):
     """
     Run one WFO period:
       1. Train 5 models on selection window
@@ -309,6 +265,8 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
     print(f"    Trade:     {len(df_trade)} bars [{df_trade.index[0]} -> {df_trade.index[-1]}]")
 
     # ---- Step 1: Train all 5 models ----
+    # Feature selection happens HERE on df_sel (training data only).
+    # df_sel ends before the purge gap, so no future data leaks.
     trained = {}  # model_name -> (model, scaler, feat_cols)
 
     for model_name, cfg in MODELS.items():
@@ -319,7 +277,8 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
             print(f"    WARN: target {target} not in data, skipping {model_name}")
             continue
 
-        feat_list = resolve_features(model_name, cfg, constraints, df=df_sel)
+        # Auto-select features from training data only
+        feat_list = auto_select_features(df_sel, target, n_top=N_TOP_FEATURES)
         df_feat, feat_cols = get_feature_set(df_sel, feat_list, add_lags=True)
 
         if len(feat_cols) < 3:
@@ -347,10 +306,9 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
         return None
 
     # ---- Step 2: Calibrate direction threshold via inner 3-fold CV ----
-    dir_model_info = trained["direction"]
-    _, _, dir_feats, dir_feat_list, _ = dir_model_info
+    # CRITICAL: feature selection is re-done inside each CV fold using
+    # only the CV-train portion. This prevents feature-selection lookahead.
 
-    # Inner CV on training data
     n_sel = len(df_sel)
     fold_size = n_sel // 4  # use last 3/4 for 3-fold CV, first 1/4 always in train
     min_train = n_sel // 4
@@ -368,8 +326,10 @@ def run_period(df, period_idx, sel_start, sel_end, trade_start, trade_end,
             df_cv_train = df_sel.iloc[:cv_val_start]
             df_cv_val = df_sel.iloc[cv_val_start:cv_val_end]
 
-            df_feat_tr, feat_cols_tr = get_feature_set(df_cv_train, dir_feat_list, add_lags=True)
-            df_feat_val, feat_cols_val = get_feature_set(df_cv_val, dir_feat_list, add_lags=True)
+            # Feature selection on CV-train only (no lookahead)
+            cv_feat_list = auto_select_features(df_cv_train, "tgt_ret_1", n_top=N_TOP_FEATURES)
+            df_feat_tr, feat_cols_tr = get_feature_set(df_cv_train, cv_feat_list, add_lags=True)
+            df_feat_val, feat_cols_val = get_feature_set(df_cv_val, cv_feat_list, add_lags=True)
             common = [f for f in feat_cols_tr if f in feat_cols_val]
 
             X_cv_tr, y_cv_tr, _, _ = get_Xy(df_feat_tr, common, df_cv_train["tgt_ret_1"])
@@ -803,10 +763,6 @@ def main():
     df = load_features(FEATURES_DIR, symbol, TF)
     print(f"  Loaded {len(df)} candles, range: {df.index[0]} -> {df.index[-1]}")
 
-    # Load constraints
-    with open(CONSTRAINTS_PATH) as f:
-        constraints = json.load(f)
-
     cpd = get_candles_per_day(TF)
     sel_candles = int(SELECTION_DAYS * cpd)
     purge_candles = int(PURGE_DAYS * cpd)
@@ -845,8 +801,7 @@ def main():
             print(f"\n  Period {p+1}: not enough data, stopping")
             break
 
-        result = run_period(df, p, sel_start, sel_end, trade_start, trade_end,
-                           constraints, cpd)
+        result = run_period(df, p, sel_start, sel_end, trade_start, trade_end, cpd)
         if result is not None:
             all_results.append(result)
 
