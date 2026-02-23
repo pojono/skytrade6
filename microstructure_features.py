@@ -3997,15 +3997,19 @@ def add_cross_candle_features(df: pd.DataFrame) -> pd.DataFrame:
     # -------------------------------------------------------------------
     # Smart Money Concepts: BOS, CHoCH, Order Blocks, Liquidity Sweeps
     # -------------------------------------------------------------------
-    # Swing highs/lows (3-bar pivots)
-    swing_high = (h > h.shift(1)) & (h > h.shift(-1))
-    swing_low = (l < l.shift(1)) & (l < l.shift(-1))
-    df["is_swing_high"] = swing_high.astype(float)
-    df["is_swing_low"] = swing_low.astype(float)
+    # Swing highs/lows (3-bar pivots, lagged to avoid lookahead)
+    # A swing high at bar t-1 is confirmed at bar t: h[t-2] < h[t-1] > h[t]
+    # We detect this at bar t and shift back, so is_swing_high[t]=1 means
+    # "the PREVIOUS bar was a confirmed swing high" — no future data used.
+    swing_high_raw = (h.shift(1) > h.shift(2)) & (h.shift(1) > h)
+    swing_low_raw = (l.shift(1) < l.shift(2)) & (l.shift(1) < l)
+    df["is_swing_high"] = swing_high_raw.astype(float)
+    df["is_swing_low"] = swing_low_raw.astype(float)
 
-    # Recent swing high/low values (last swing point)
-    df["last_swing_high"] = h.where(swing_high).ffill()
-    df["last_swing_low"] = l.where(swing_low).ffill()
+    # Recent swing high/low values (last confirmed swing point)
+    # Use h.shift(1) since the swing was at the previous bar
+    df["last_swing_high"] = h.shift(1).where(swing_high_raw).ffill()
+    df["last_swing_low"] = l.shift(1).where(swing_low_raw).ffill()
 
     # Break of Structure (BOS): close breaks above last swing high or below last swing low
     df["bos_bullish"] = (c > df["last_swing_high"].shift(1)).astype(float)
