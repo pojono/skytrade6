@@ -311,3 +311,92 @@ EXIT:   FR drops below 3-5 bps
 - Winners: +$380 avg (10h hold) | Losers: -$26 avg (1.6h hold)
 - Every month profitable over 106-day test
 - 15:1 winner/loser ratio
+
+---
+
+## 11. Delta Neutral Execution: Futures Premium & Hedging
+
+### What is the futures premium (basis)?
+
+Perpetual futures trade at a slight premium or discount to spot. Measured from 2 days of Bybit tick data:
+
+| Coin | Basis mean | Basis std | Futures spread |
+|------|-----------|-----------|----------------|
+| BTCUSDT | -5.1 bps | 0.7 bps | 0.02 bps |
+| ETHUSDT | -5.6 bps | 0.7 bps | 0.05 bps |
+| SOLUSDT | -6.8 bps | 1.7 bps | 1.2 bps |
+| DOGEUSDT | -6.8 bps | 2.0 bps | 1.1 bps |
+| ADAUSDT | -7.3 bps | 3.4 bps | 3.7 bps |
+
+Negative basis = futures trading at discount (bearish period in sample). Altcoins have wider basis and spreads.
+
+### Basis risk is negligible vs FR income
+
+| Metric | Value |
+|--------|-------|
+| Basis drift over 6.5h hold | std ≈ 2 bps = **$2 on $10k** |
+| FR income per trade (avg) | 368 bps = **$368 on $10k** |
+| Basis risk as % of income | **0.5%** |
+
+Even a 2-sigma basis move ($4) is < 2% of the average winning trade ($382). The basis is mean-reverting (it's what drives the funding rate mechanism), so over multiple settlements it averages out.
+
+### Why basis doesn't break the hedge
+
+1. **Perpetual futures converge to spot** via the funding rate — that's literally the mechanism we're harvesting
+2. When FR is high (positive), basis tends to narrow (self-correcting)
+3. Over multiple settlements, basis noise cancels out
+4. Entry/exit spread cost is **already included** in our 39 bps RT estimate
+
+### How to stay delta-neutral: execution rules
+
+**CRITICAL: Match QUANTITIES, not dollar amounts.**
+
+If you buy 150.0 SOL spot, short exactly 150.0 SOL futures. The dollar amounts will differ by the basis (~$0.50 per $10k), but the **delta** (exposure to price moves) is exactly zero.
+
+```
+ENTRY at :55:
+  1. Get spot ask price and futures bid price
+  2. Compute quantity: qty = $10,000 / spot_ask_price
+  3. Round qty to exchange lot size
+  4. Submit BOTH orders within <1 second:
+     • BUY qty spot (market or IOC limit at ask)
+     • SELL qty futures (market or IOC limit at bid)
+  5. Verify: |spot_filled_qty - futures_filled_qty| < 1 lot
+  6. If partial fill: immediately fill remainder or close excess
+
+EXIT when FR < 8bps:
+  1. Submit BOTH close orders within <1 second:
+     • SELL spot (same qty as held)
+     • BUY futures (close short, same qty)
+  2. Same simultaneity requirement as entry
+```
+
+### Leg execution risk
+
+5-second price moves (our data resolution):
+
+| Coin | Mean move | P99 move | P99 on $10k |
+|------|----------|----------|-------------|
+| BTCUSDT | 0.9 bps | 7.1 bps | $7.07 |
+| SOLUSDT | 1.5 bps | 10.2 bps | $10.22 |
+| DOGEUSDT | 1.3 bps | 10.8 bps | $10.83 |
+
+Submitting both legs within <1 second keeps leg risk to ~1 bps = $1 on average. Even at P99 it's ~$10 — one bad fill per 100 trades, trivially absorbed by $382 avg winner.
+
+### Liquidation risk: zero
+
+- **Spot leg**: fully paid, no leverage, cannot be liquidated
+- **Futures leg**: set to 1× leverage (cross margin with enough balance) — the spot position covers any futures P&L
+- **Net exposure**: zero — if price goes up, spot gains = futures losses, and vice versa
+- Only risk: exchange counterparty risk (exchange goes down with your funds)
+
+### Risk summary
+
+| Risk | Magnitude | Impact on $10k | Mitigation |
+|------|-----------|---------------|------------|
+| Basis drift (6.5h) | 2 bps std | $2.00 | Negligible vs $382 avg trade |
+| Leg execution gap | ~1 bps | $1.00 | Submit both within <1s |
+| Size mismatch | <$20 | $1.00 at 5% move | Match quantities, not dollars |
+| Bid-ask spread | 1-4 bps per leg | Already in 39 bps RT | Use liquid coins |
+| Liquidation | N/A | $0 | Spot fully paid, futures 1× leverage |
+| **Total hedge risk** | **~3-5 bps** | **$3-5 per trade** | **<1.5% of avg profit** |
