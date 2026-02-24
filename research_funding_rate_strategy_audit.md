@@ -154,33 +154,108 @@ Mean: 45.6 bps | Median: 21.6 bps | p75: 32.4 bps
 
 ---
 
-## 7. Key Data Findings
+## 7. Lookahead Bias Audit (2026-02-24)
 
-- **Binance FR is observable before settlement** — `lastFundingRate` is the predicted/accumulating rate. Signal error < 1.3 bps. No information disadvantage.
-- **103 Bybit coins now have 1h funding** (same as Binance). This eliminates the 1h vs 8h mismatch edge for those coins.
+### Cross-checked dataminer data against official REST API endpoints
+
+| Exchange | REST Endpoint | Match |
+|---|---|---|
+| Binance | `GET /fapi/v1/fundingRate` | **24/24 exact match** with `lastFundingRate` at settlement row |
+| Bybit | `GET /v5/market/funding/history` | **0.31 bps avg prediction error** (dataminer `fundingRate` is a live prediction) |
+
+### What each exchange's fields actually mean
+
+| Field | Exchange | Meaning | Updates |
+|---|---|---|---|
+| `lastFundingRate` | Binance | **Last SETTLED rate** (historical) | Only at settlement, to new settled value |
+| `fundingRate` | Bybit | **Live PREDICTED next rate** | Continuously; resets to ~0 after settlement |
+
+### FR prediction visibility before settlement
+
+| Exchange | Can see FR before settlement? | How | Accuracy |
+|---|---|---|---|
+| Binance | Partially | Previous hour's settled rate (autocorrelation proxy) | ~0.04 bps |
+| Bybit | **Yes, directly** | `fundingRate` field IS the live prediction | ~0.31 bps avg, max 3.42 bps |
+
+### Backtest data correctness
+
+- **Binance backtest used `shift(1)`** = previous hour's settled rate. This is **stale** (not lookahead), causing ~0.04 bps avg conservative error. Fix: use `lastFundingRate` directly at settlement row.
+- **Bybit backtest used `fundingRate` before settlement** = predicted rate. Correct approach for live trading. ~0.31 bps avg error vs actual.
+- **No lookahead bias confirmed** on either exchange.
+
+---
+
+## 8. Four-Way Comparison — Official REST API FR (2026-02-24)
+
+All results below use **official settled FR** fetched from exchange REST APIs.
+
+### Binance: 1a HOLD vs 3a SCALP
+
+| Option | Trades | Settlements | FR $ | Cost $ | Net P&L | Daily | Fee % of FR |
+|---|---|---|---|---|---|---|---|
+| **1a: BN HOLD** | 4 | 83 | $2,040 | $156 | **+$1,884** | **+$962** | **8%** |
+| 3a: BN SCALP | 12 | 12 | $1,386 | $468 | +$918 | +$469 | 34% |
+
+Top 1a trades: AZTECUSDT (43 settles, $625), AWEUSDT (11 settles, $750), OMUSDT (29 settles, $547)
+
+### Bybit: 1b HOLD vs 3b SCALP
+
+| Option | Trades | Settlements | FR $ | Cost $ | Net P&L | Daily | Fee % of FR |
+|---|---|---|---|---|---|---|---|
+| **1b: BB HOLD** | 5 | 56 | $1,552 | $195 | **+$1,357** | **+$693** | **13%** |
+| 3b: BB SCALP | 16 | 16 | $957 | $624 | +$333 | +$170 | **65%** |
+
+Top 1b trades: LAUSDT (17 settles, $804), AZTECUSDT (26 settles, $466), SENTUSDT (5 settles, $46)
+
+### Why HOLD dominates SCALP
+
+- **Cost amortization**: Hold pays $1.88–$3.48/settlement vs Scalp's $39.00/settlement
+- **Settlement count**: Hold collects 56–83 FR payments vs Scalp's 12–16
+- **Scalp per-settlement profit is higher** ($76 vs $23) but volume of settlements wins
+- **3b Bybit Scalp loses 65% of FR income to fees** — barely viable
+
+### Cross-exchange note
+
+- Binance has higher extreme FR coins (AWEUSDT, POWERUSDT) → 1a > 1b
+- Bybit has better FR prediction visibility → better entry timing for scalp
+- Coin overlap (AZTECUSDT, LAUSDT on both) → hybrid must deduplicate
+
+---
+
+## 9. Key Data Findings
+
+- **Binance `lastFundingRate`** = last settled rate, NOT a prediction. Updates at settlement. Verified via REST API 24/24.
+- **Bybit `fundingRate`** = live predicted rate. Resets after settlement. Converges to actual (0.31 bps avg error).
+- **103 Bybit coins now have 1h funding** (same as Binance). Eliminates 1h vs 8h mismatch edge.
 - **OMUSDT is Binance-only** (not on Bybit futures).
 - **Cross-exchange basis** on target altcoins: 7–91 bps (too wide for Approach 2).
-- **No FR sign flips** occurred in this 2-day sample during held positions (0 negative payments).
+- **No FR sign flips** occurred in this 2-day sample during held positions.
+- **Binance Mark Price stream** (`r` field) has real-time predicted FR — we don't collect it yet but could.
 
 ---
 
-## 8. Conclusions
+## 10. Conclusions
 
-1. **Approach 1 + Strategy B (hold) is the clear winner.** The 10 bps spot taker fee is irrelevant when amortized over 20+ settlements (1.9 bps/settle).
+1. **Approach 1 + Hold is the clear winner on both exchanges.** Fee amortization over many settlements is the key mechanic.
 
-2. **Approach 2 (cross-exchange) is a trap.** Lower per-trade fees but you only collect the FR spread (not full FR) and eat 50–100 bps cross-exchange basis on illiquid alts.
+2. **1a (Binance Hold) is best single option:** +$962/day, 8% fee overhead.
 
-3. **Approach 3 (scalp) is marginal.** Only 25% of settlements exceed the 39 bps break-even. Works as a supplement but not standalone.
+3. **1b (Bybit Hold) is a solid second:** +$693/day, 13% fee overhead. Better FR visibility.
 
-4. **Strategy B is nearly fee-insensitive.** Going from best to worst fee model costs only $60 more over 2 days (5 RTs vs 53 RTs).
+4. **Scalp is marginal on both exchanges.** 34-65% of FR goes to fees. Only viable on extremely high FR settlements.
+
+5. **Approach 2 (cross-exchange) is a trap.** Basis risk (23-108 bps std) dwarfs the FR spread.
+
+6. **Hybrid (1a+1b) could work** with deduplication, but need to avoid doubling up on same coin.
 
 ---
 
-## 9. Caveats & Next Steps
+## 11. Caveats & Next Steps
 
 - **Only 2 days of data.** Need weeks/months to validate FR persistence and sign-flip frequency.
 - **5 trades is a tiny sample.** 100% win rate is not statistically significant.
 - **Capacity limits.** These are small-cap altcoins. $10k is likely near max per position.
 - **Need to test:** What happens during regime changes (bull→bear, volatility spikes)?
-- **Accumulate more data** via `download_ticker_all.sh` running continuously.
+- **FR autocorrelation / predictability** from previous values — crucial for HOLD entry/exit decisions.
+- **Next:** Download full historical FR from REST APIs (all 400+ coins) for long-term analysis.
 - **Build live signal generator** once strategy is validated on longer data.
