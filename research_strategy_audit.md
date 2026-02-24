@@ -239,6 +239,64 @@ This is the recommended config — slightly tighter exit, minimal IS/OOS gap.
 
 ---
 
+## FINDING 9: CRITICAL — Most Backtest Coins Are NOT Tradeable
+
+### The problem
+
+The backtest trades 86 coins on Bybit. But checking against the LIVE Bybit API:
+
+| Filter | Coins | % of 86 |
+|---|---|---|
+| Have futures (in backtest) | 86 | 100% |
+| Have spot pair on Bybit | 48 | 56% |
+| **Have margin trading (can short spot)** | **28** | **33%** |
+
+Since 99.2% of entries require **short spot** (negative FR), we need margin borrowing. Only 28 of 86 coins support this.
+
+### Impact on P&L
+
+| Coin filter | Trades | Daily P&L | % of backtest |
+|---|---|---|---|
+| All coins (unrestricted backtest) | 712 | $1,330 | 100% |
+| Only coins with spot pair | 515 | $617 | 46% |
+| **Only margin-enabled (actually tradeable)** | **292** | **$320** | **24%** |
+
+**The backtest overstates P&L by 77%.** 55% of the reported P&L came from coins with NO spot pair at all.
+
+### P&L attribution by tradeability
+
+| Category | Total P&L (106 days) | % of total |
+|---|---|---|
+| Margin-enabled (tradeable) | $31,947 | 22.6% |
+| Spot but no margin (untradeable for neg FR) | $31,938 | 22.6% |
+| No spot pair at all (impossible) | $77,662 | **54.9%** |
+
+### Top contributing coins — mostly untradeable
+
+| Coin | Total P&L | Spot? | Margin? |
+|---|---|---|---|
+| RIVERUSDT | +$22,197 | ✗ | ✗ |
+| PIPPINUSDT | +$11,355 | ✗ | ✗ |
+| BEATUSDT | +$7,514 | ✗ | ✗ |
+| SENTUSDT | +$7,401 | ✓ | ✗ |
+| LAUSDT | +$5,393 | ✓ | ✓ ← actually tradeable |
+| AXSUSDT | +$4,748 | ✓ | ✓ ← actually tradeable |
+
+### Why this happens
+
+New coin listings often launch with **futures only** (no spot or margin). These coins tend to have extreme funding rates because:
+- High speculative demand on futures
+- No spot market to arbitrage against → FR stays extreme longer
+- Our backtest captures these "impossible" trades
+
+### The true strategy performance
+
+**With only margin-enabled coins: $320/day on $60k capital = 195% annual ROI.**
+
+Still profitable, but dramatically less than the $1,330/day headline.
+
+---
+
 ## SUMMARY: Audit Verdict
 
 | Question | Verdict | Details |
@@ -249,12 +307,15 @@ This is the recommended config — slightly tighter exit, minimal IS/OOS gap.
 | Slippage? | ⚠ **Significant** | 15-18 bps hidden cost from spread (esp. spot) |
 | Delta-neutral risk? | ⚠ **Moderate** | Borrow recall is the main risk; FR flips handled |
 | Fee calculation? | ✗ **Was wrong** | True RT = ~50 bps (31 fees + 15 spread + 1.5 borrow) |
-| **Strategy still profitable?** | **✓ YES** | **$1,330/day at realistic 50 bps RT** |
+| Tradeability? | ✗ **CRITICAL** | Only 28/86 coins have margin; backtest overstated by 77% |
+| **Strategy still profitable?** | **⚠ YES, but** | **$320/day realistic (not $1,330)** |
 
 ### Key corrections from this audit
 
-1. **FR is overwhelmingly negative** (99.2% of entries) → strategy requires margin borrowing for short spot, NOT standard cash-and-carry
-2. **True RT cost is ~50 bps**, not 31 or 39 — spot spread is the biggest hidden cost
-3. **Strategy is robust**: even at 60 bps RT, still earns $1,263/day
-4. **Best config shifts to tighter exit** (exit < 5 instead of < 8) at higher costs
-5. **Borrow recall risk** is the most dangerous operational risk, not basis or fees
+1. **77% of backtest P&L is untradeable** — most high-FR coins lack spot/margin pairs on Bybit
+2. **FR is overwhelmingly negative** (99.2% of entries) → requires margin borrowing for short spot
+3. **True RT cost is ~50 bps**, not 31 or 39 — spot spread is the biggest hidden cost
+4. **Realistic daily P&L: ~$320** with 28 margin-enabled 1h coins (not $1,330)
+5. **Borrow recall risk** is the most dangerous operational risk
+6. **Best config shifts to tighter exit** (exit < 5 instead of < 8) at higher costs
+7. **Multi-exchange expansion** may help recover some P&L if Binance/OKX have more margin pairs
