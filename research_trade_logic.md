@@ -400,3 +400,86 @@ Submitting both legs within <1 second keeps leg risk to ~1 bps = $1 on average. 
 | Bid-ask spread | 1-4 bps per leg | Already in 39 bps RT | Use liquid coins |
 | Liquidation | N/A | $0 | Spot fully paid, futures 1× leverage |
 | **Total hedge risk** | **~3-5 bps** | **$3-5 per trade** | **<1.5% of avg profit** |
+
+---
+
+## 12. Leverage: Can We Increase Profit?
+
+### Short answer: marginally, and the bottleneck is opportunities, not capital.
+
+Leverage doesn't multiply FR income per dollar of notional — FR is always paid on notional size. Leverage only affects **capital efficiency**: how much margin you post per position.
+
+### The real constraint: diminishing returns on positions
+
+Backtest on Bybit 1h (95 coins, 106 days):
+
+| Max Positions | Daily P&L | Marginal value of +1 | % of max captured |
+|---|---|---|---|
+| 1 | $829 | — | 55% |
+| 2 | $1,206 | +$378 | 80% |
+| **3** | **$1,416** | **+$210** | **93%** |
+| 4 | $1,477 | +$61 | 98% |
+| 5 | $1,504 | +$27 | 99% |
+| 6+ | $1,514 | +$7 | 100% |
+
+**After 3 positions, you've captured 93% of all available FR opportunities.** Position 4 adds only $61/day. The bottleneck is not capital — it's how many coins have FR ≥ 20 bps at any given hour.
+
+### Capital efficiency with leverage
+
+For $10,000 notional per leg:
+
+| Futures leverage | Capital per position | With $60k: positions | Daily P&L |
+|---|---|---|---|
+| 1× (baseline) | $20,000 (10k spot + 10k margin) | 3 | $1,416 |
+| 2× | $15,000 (10k spot + 5k margin) | 4 | $1,477 |
+| 3× | $13,333 (10k spot + 3.3k margin) | 4 + buffer | $1,477 |
+| 5× | $12,000 (10k spot + 2k margin) | 5 | $1,504 |
+
+Going from 1× to 3× frees ~$6.7k per position in margin. With $60k total capital this means 4 positions instead of 3 — a **$61/day improvement (4.3%)**. Not a game-changer.
+
+### Liquidation risk with leverage
+
+**The exchange sees each leg independently.** Your futures short can be liquidated even though your spot covers it.
+
+Liquidation distance ≈ 1/leverage (minus ~1% maintenance margin).
+
+| Leverage | Liq distance | vs worst 1h move (18.8%) | Safety |
+|---|---|---|---|
+| 1× | 99% | Safe | ✓✓✓ |
+| 2× | 49% | Safe | ✓✓ |
+| 3× | 32% | Safe | ✓ |
+| 5× | 19% | Close on altcoins | ⚠ |
+| 10× | 9% | Will get liquidated | ✗ |
+
+Worst observed 1h intra-hour range on 1h altcoins: **18.8%**. In a real crash (like 2022 LUNA), moves can exceed 50% in hours.
+
+### Margin borrowing for spot side
+
+Borrowing USDT to buy more spot costs 10-36% APR on Bybit. At $10k:
+
+| Borrow rate | Daily cost | vs $650/day income | Net impact |
+|---|---|---|---|
+| 10% APR | $2.74 | 0.4% | Negligible |
+| 20% APR | $5.48 | 0.8% | Negligible |
+| 36% APR | $9.86 | 1.5% | Still fine |
+
+Margin borrow costs are trivial compared to FR income. But this doesn't help unless you need more positions — and we've shown 3-4 is nearly optimal.
+
+### Recommendation
+
+| Capital | Strategy | Positions | Leverage | Daily P&L |
+|---|---|---|---|---|
+| $30k | Conservative | 1-2 | 1× | $829-1,206 |
+| $60k | **Recommended** | **3** | **1×** | **$1,416** |
+| $60k | Moderate | 4 | 2-3× | $1,477 |
+| $100k+ | Multi-exchange | 3 per exchange | 1× | ~$2,500 |
+
+**Best use of extra capital: spread across exchanges (Bybit + Binance + OKX), not leverage on one exchange.** Going from Bybit-only to 3 exchanges adds ~$1,100/day — far more than going from 3× to 5× leverage (+$27/day).
+
+### Safe leverage rules
+
+1. **Never exceed 3× on futures** for altcoins (5× ok for BTC/ETH only)
+2. **Use cross margin**, not isolated — pools margin across positions
+3. **Keep 30-50% buffer** above minimum margin requirement
+4. **Monitor**: if any single coin drops >15% in an hour, have an alert to add margin
+5. **Spot is the anchor**: fully paid, zero liquidation risk, always safe
