@@ -250,12 +250,94 @@ Top 1b trades: LAUSDT (17 settles, $804), AZTECUSDT (26 settles, $466), SENTUSDT
 
 ---
 
-## 11. Caveats & Next Steps
+## 11. 200-Day Historical Validation (2025-08-08 → 2026-02-24)
 
-- **Only 2 days of data.** Need weeks/months to validate FR persistence and sign-flip frequency.
-- **5 trades is a tiny sample.** 100% win rate is not statistically significant.
+**Data:** Official settled FR from REST APIs for ALL coins on both exchanges.
+- Binance: 576,672 records, 580 symbols (28 with 1h funding)
+- Bybit: 728,226 records, 552 symbols (86 with 1h funding)
+- Script: `download_historical_fr.py`
+
+### Extreme FR frequency (1h coins only)
+
+| Threshold | Binance (28 coins) | Bybit (86 coins) |
+|---|---|---|
+| FR ≥ 10 bps | 60.8% of settlements | 79.3% |
+| FR ≥ 20 bps (entry) | 40.6% | **61.3%** |
+| FR ≥ 39 bps (scalp BE) | 21.8% | **39.5%** |
+| FR ≥ 100 bps | 6.2% | 15.2% |
+
+Bybit has 3× more 1h coins → more extreme FR opportunities per settlement.
+
+### FR autocorrelation (crucial for HOLD)
+
+| Lag | Binance mean r | Bybit mean r |
+|---|---|---|
+| 1h | **0.729** | 0.637 |
+| 2h | **0.572** | 0.485 |
+| 4h | **0.456** | 0.350 |
+| 8h | **0.322** | 0.245 |
+| 24h | 0.193 | 0.139 |
+
+Binance FR is significantly more autocorrelated. 96.4% of BN 1h coins have lag-1 r > 0.5.
+
+### HOLD strategy results (entry ≥ 20bps, exit < 8bps, max 3 positions)
+
+| Metric | Binance | Bybit |
+|---|---|---|
+| Trades | 228 | 743 |
+| **Win rate** | **75.4%** | 65.4% |
+| Total net P&L | +$121,467 | +$202,858 |
+| **Daily P&L** | +$607 | **+$1,015** |
+| Avg winning trade | +$714 (20 settles) | +$431 (10 settles) |
+| Avg losing trade | -$24 (1.7 settles) | -$25 (1.6 settles) |
+| All 7 months profitable | **YES** | **YES** |
+
+### FR persistence when extreme (Bybit 1h coins)
+
+- 1,292 trades: entry ≥ 20bps, exit when < 8bps
+- **77% profitable** (total FR collected > RT cost of 39 bps)
+- Median trade: 3 settlements, 85 bps total FR collected
+- Mean trade: 6 settlements, 256 bps total FR collected
+- p95 streak: 18 settlements (1046 bps collected)
+- Avg losing trade: -$11 (only 1.2 settlements before normalization)
+
+### Monthly breakdown
+
+| Month | BN trades | BN net | BB trades | BB net |
+|---|---|---|---|---|
+| 2025-08 | 16 | +$3,556 | 39 | +$8,275 |
+| 2025-09 | 24 | +$7,667 | 71 | +$13,811 |
+| 2025-10 | 40 | +$23,004 | 96 | +$29,123 |
+| 2025-11 | 57 | +$27,827 | 143 | +$40,650 |
+| 2025-12 | 34 | +$15,839 | 148 | +$41,265 |
+| 2026-01 | 35 | +$28,633 | 128 | +$40,539 |
+| 2026-02 | 22 | +$14,942 | 118 | +$29,194 |
+
+---
+
+## 12. Conclusions (Updated with 200-day data)
+
+1. **HOLD strategy is validated over 200 days.** Profitable every month on both exchanges. Not a fluke.
+
+2. **Bybit generates higher daily P&L** (+$1,015/day vs +$607/day) due to 3× more 1h coins.
+
+3. **Binance has higher win rate** (75% vs 65%) due to stronger FR autocorrelation (r=0.73 vs 0.64).
+
+4. **Losses are tiny and asymmetric**: avg loss -$25 (1.6 settlements) vs avg win +$431-714 (10-20 settlements).
+
+5. **FR ≥ 20 bps exists 41-61% of all hours** — abundant opportunities, not dependent on rare events.
+
+6. **Scalp is confirmed marginal**: only 22-40% of settlements beat the 39 bps RT cost.
+
+7. **Hybrid (1a+1b) is the optimal approach**: run both exchanges for diversification and higher throughput.
+
+---
+
+## 13. Caveats & Next Steps
+
 - **Capacity limits.** These are small-cap altcoins. $10k is likely near max per position.
 - **Need to test:** What happens during regime changes (bull→bear, volatility spikes)?
-- **FR autocorrelation / predictability** from previous values — crucial for HOLD entry/exit decisions.
-- **Next:** Download full historical FR from REST APIs (all 400+ coins) for long-term analysis.
-- **Build live signal generator** once strategy is validated on longer data.
+- **Slippage model:** 2 bps/leg is an estimate. Live testing needed to validate.
+- **Execution risk:** Spot + futures legs must execute within 1s to avoid basis drift.
+- **Build live signal generator** using confirmed strategy parameters.
+- **Paper trade** for 2-4 weeks before deploying real capital.
