@@ -1,17 +1,21 @@
 #!/bin/bash
-# Download symbol=ALL ticker data from Binance and Bybit via dataminer server
+# Download symbol=ALL ticker data from Binance, Bybit, and OKX via dataminer server
 #
 # Data streams downloaded:
-#   1. Binance  rest/linear/ticker/symbol=ALL     (~38MB/hr compressed)
-#   2. Binance  rest/linear/fundingRate/symbol=ALL (~13MB/hr compressed)
-#   3. Bybit    rest/linear/ticker/symbol=ALL      (~44MB/hr compressed)
+#   1. Binance  rest/linear/ticker/symbol=ALL       (~38MB/hr compressed)
+#   2. Binance  rest/linear/fundingRate/symbol=ALL   (~13MB/hr compressed)
+#   3. Binance  rest/spot/ticker/symbol=ALL          (~12MB/hr compressed)
+#   4. Bybit    rest/linear/ticker/symbol=ALL        (~44MB/hr compressed)
+#   5. Bybit    rest/spot/ticker/symbol=ALL
+#   6. OKX     rest/linear/ticker/symbol=ALL         (~12MB/hr compressed)
+#   7. OKX     rest/spot/ticker/symbol=ALL
 #
 # Approach: create one tar per exchange on remote, download, extract locally.
 #
 # Local output structure:
-#   data_all/binance/ticker/ticker_{date}_hr{HH}.jsonl.gz
-#   data_all/binance/fundingRate/fundingRate_{date}_hr{HH}.jsonl.gz
-#   data_all/bybit/ticker/ticker_{date}_hr{HH}.jsonl.gz
+#   data_all/{exchange}/{market}/{stream}/{stream}_{date}_hr{HH}.jsonl.gz
+#   e.g. data_all/binance/linear/ticker/ticker_{date}_hr{HH}.jsonl.gz
+#        data_all/okx/spot/ticker/ticker_{date}_hr{HH}.jsonl.gz
 #
 # Usage:
 #   ./download_ticker_all.sh                          # all available dates
@@ -77,14 +81,16 @@ fi
 
 # ── Discover available dates ──────────────────────────────────────────────────
 echo "======================================================================"
-echo "DOWNLOAD symbol=ALL TICKER DATA (Binance + Bybit)"
+echo "DOWNLOAD symbol=ALL TICKER DATA (Binance + Bybit + OKX)"
 echo "======================================================================"
 echo "Discovering dates with symbol=ALL data..."
 
 ALL_DATES=$(remote "for d in \$(ls -1 $REMOTE_BASE/ | sed 's/dt=//'); do
-    if [ -f $REMOTE_BASE/dt=\$d/hr=00/exchange=binance/source=rest/market=linear/stream=ticker/symbol=ALL/data.jsonl.gz ]; then
-        echo \$d
-    fi
+    for ex in binance bybit okx; do
+        if [ -f $REMOTE_BASE/dt=\$d/hr=00/exchange=\$ex/source=rest/market=linear/stream=ticker/symbol=ALL/data.jsonl.gz ]; then
+            echo \$d; break;
+        fi;
+    done;
 done")
 
 DATES=()
@@ -104,8 +110,9 @@ fi
 echo ""
 echo "Date range:  ${DATES[0]} -> ${DATES[-1]} (${#DATES[@]} days)"
 echo "Streams:"
-echo "  Binance: ticker (rest/linear), fundingRate (rest/linear)"
-echo "  Bybit:   ticker (rest/linear)"
+echo "  Binance: linear/ticker, linear/fundingRate, spot/ticker"
+echo "  Bybit:   linear/ticker, spot/ticker"
+echo "  OKX:     linear/ticker, spot/ticker"
 echo "Output:    ./$LOCAL_BASE/{exchange}/{stream}/"
 echo "Skip existing: $SKIP_EXISTING"
 echo "Include partial hours: $INCLUDE_PARTIAL"
@@ -124,12 +131,17 @@ echo ""
 # ── Define download jobs ─────────────────────────────────────────────────────
 # Each job: EXCHANGE SOURCE MARKET STREAM LOCAL_SUBDIR
 JOBS=(
-    "binance rest linear ticker      binance/ticker"
-    "binance rest linear fundingRate binance/fundingRate"
-    "bybit   rest linear ticker      bybit/ticker"
+    "binance rest linear ticker      binance/linear/ticker"
+    "binance rest linear fundingRate binance/linear/fundingRate"
+    "binance rest spot   ticker      binance/spot/ticker"
+    "bybit   rest linear ticker      bybit/linear/ticker"
+    "bybit   rest spot   ticker      bybit/spot/ticker"
+    "okx     rest linear ticker      okx/linear/ticker"
+    "okx     rest spot   ticker      okx/spot/ticker"
 )
 
 # ── Download function ─────────────────────────────────────────────────────────
+# Downloads files individually via scp (no tar) for natural resume support.
 download_job() {
     local EXCHANGE="$1"
     local SOURCE="$2"
@@ -138,13 +150,14 @@ download_job() {
     local LOCAL_DIR="$LOCAL_BASE/$5"
 
     echo "══════════════════════════════════════════════════════════════════════"
-    echo "  $EXCHANGE / $STREAM  →  $LOCAL_DIR"
+    echo "  $EXCHANGE / $MARKET / $STREAM  →  $LOCAL_DIR"
     echo "══════════════════════════════════════════════════════════════════════"
 
     mkdir -p "$LOCAL_DIR"
 
-    # Build list of remote paths we need
-    FILE_LIST=""
+    # Build list of files we need
+    declare -a NEED_DATES=()
+    declare -a NEED_HOURS=()
     NEEDED=0
     SKIPPED=0
 
@@ -156,20 +169,14 @@ download_job() {
             fi
 
             LOCAL_FILE="$LOCAL_DIR/${STREAM}_${DATE}_hr${HR}.jsonl.gz"
-            PARTIAL_MARKER="${LOCAL_FILE}.partial"
-
-            # If file was previously downloaded as partial, re-download it
-            if [[ -f "$PARTIAL_MARKER" ]]; then
-                rm -f "$LOCAL_FILE" "$PARTIAL_MARKER"
-            fi
 
             if $SKIP_EXISTING && [[ -f "$LOCAL_FILE" ]] && [[ -s "$LOCAL_FILE" ]]; then
                 SKIPPED=$((SKIPPED + 1))
                 continue
             fi
 
-            REMOTE_PATH="dt=${DATE}/hr=${HR}/exchange=${EXCHANGE}/source=${SOURCE}/market=${MARKET}/stream=${STREAM}/symbol=ALL/data.jsonl.gz"
-            FILE_LIST+="${REMOTE_PATH}\n"
+            NEED_DATES+=("$DATE")
+            NEED_HOURS+=("$HR")
             NEEDED=$((NEEDED + 1))
         done
     done
@@ -188,91 +195,46 @@ download_job() {
         return 0
     fi
 
-    # Send file list to remote, filter existing, create tar
-    REMOTE_TAR="/tmp/all_${EXCHANGE}_${STREAM}_$$.tar"
-    REMOTE_FILELIST="/tmp/all_${EXCHANGE}_${STREAM}_$$.txt"
+    # Download each file individually via scp
+    T_JOB=$SECONDS
+    DOWNLOADED=0
+    MISSING=0
+    FAILED=0
 
-    echo "  Creating archive on remote server..."
-    T_ARCHIVE=$SECONDS
+    for i in $(seq 0 $((NEEDED - 1))); do
+        DATE="${NEED_DATES[$i]}"
+        HR="${NEED_HOURS[$i]}"
+        REMOTE_PATH="$REMOTE_BASE/dt=${DATE}/hr=${HR}/exchange=${EXCHANGE}/source=${SOURCE}/market=${MARKET}/stream=${STREAM}/symbol=ALL/data.jsonl.gz"
+        LOCAL_FILE="$LOCAL_DIR/${STREAM}_${DATE}_hr${HR}.jsonl.gz"
 
-    FOUND_COUNT=$(echo -e "$FILE_LIST" | \
-        remote "cat > $REMOTE_FILELIST && cd $REMOTE_BASE && \
-            FOUND=0; TOTAL=\$(grep -c . $REMOTE_FILELIST || echo 0); \
-            > ${REMOTE_FILELIST}.found; \
-            while IFS= read -r f; do \
-                [[ -z \"\$f\" ]] && continue; \
-                if [[ -f \"\$f\" ]]; then \
-                    echo \"\$f\" >> ${REMOTE_FILELIST}.found; \
-                    FOUND=\$((FOUND + 1)); \
-                fi; \
-            done < $REMOTE_FILELIST; \
-            echo \$FOUND; \
-            if [[ \$FOUND -gt 0 ]]; then \
-                tar -cf $REMOTE_TAR -T ${REMOTE_FILELIST}.found 2>/dev/null; \
-            fi; \
-            rm -f $REMOTE_FILELIST ${REMOTE_FILELIST}.found" | tail -1)
+        if scp -q -i "$SSH_KEY" -o ConnectTimeout=10 "$REMOTE_HOST:$REMOTE_PATH" "$LOCAL_FILE" 2>/dev/null; then
+            DOWNLOADED=$((DOWNLOADED + 1))
+        else
+            # File might not exist on remote — that's OK
+            rm -f "$LOCAL_FILE"
+            MISSING=$((MISSING + 1))
+        fi
 
-    ARCHIVE_SECS=$((SECONDS - T_ARCHIVE))
-
-    if [[ -z "$FOUND_COUNT" || "$FOUND_COUNT" -eq 0 ]]; then
-        echo "  No files found on remote for $EXCHANGE/$STREAM"
-        remote "rm -f $REMOTE_TAR" 2>/dev/null || true
-        echo ""
-        return 1
-    fi
-
-    # Get tar size
-    TAR_SIZE=$(remote "ls -lh $REMOTE_TAR 2>/dev/null | awk '{print \$5}'" || echo "?")
-    echo "  Archive: $FOUND_COUNT files, ${TAR_SIZE} [${ARCHIVE_SECS}s]"
-
-    # Download tar (no compression — files inside are already gzipped)
-    echo "  Downloading..."
-    T_DL=$SECONDS
-    LOCAL_TAR="/tmp/all_${EXCHANGE}_${STREAM}_$$.tar"
-
-    if ! scp -i "$SSH_KEY" -o ConnectTimeout=10 "$REMOTE_HOST:$REMOTE_TAR" "$LOCAL_TAR"; then
-        echo "  ✗ Download failed"
-        remote "rm -f $REMOTE_TAR" 2>/dev/null || true
-        echo ""
-        return 1
-    fi
-
-    DL_SIZE=$(du -sh "$LOCAL_TAR" | cut -f1)
-    DL_SECS=$((SECONDS - T_DL))
-    echo "  Downloaded ${DL_SIZE} [${DL_SECS}s]"
-
-    # Clean up remote tar immediately
-    remote "rm -f $REMOTE_TAR" 2>/dev/null || true
-
-    # Extract and reorganize
-    echo "  Extracting and organizing..."
-    WORK_DIR="/tmp/all_${EXCHANGE}_${STREAM}_work_$$"
-    mkdir -p "$WORK_DIR"
-    tar -xf "$LOCAL_TAR" -C "$WORK_DIR"
-
-    FILE_COUNT=0
-    while IFS= read -r file; do
-        DATE=$(echo "$file" | grep -oP 'dt=\K[0-9-]+')
-        HOUR=$(echo "$file" | grep -oP 'hr=\K[0-9]+')
-
-        if [[ -n "$DATE" && -n "$HOUR" ]]; then
-            cp "$file" "$LOCAL_DIR/${STREAM}_${DATE}_hr${HOUR}.jsonl.gz"
-            FILE_COUNT=$((FILE_COUNT + 1))
-            if (( FILE_COUNT % 10 == 0 )); then
-                printf "\r  Organized: %d/%d files" "$FILE_COUNT" "$FOUND_COUNT"
+        # Progress every 5 files or on last file
+        if (( (DOWNLOADED + MISSING) % 5 == 0 )) || (( i == NEEDED - 1 )); then
+            ELAPSED=$((SECONDS - T_JOB))
+            DONE=$((DOWNLOADED + MISSING))
+            if [[ $ELAPSED -gt 0 && $DONE -gt 0 ]]; then
+                RATE=$(echo "$DONE $ELAPSED" | awk '{printf "%.1f", $1/$2*60}')
+                ETA=$(echo "$NEEDED $DONE $ELAPSED" | awk '{rem=$1-$2; if($2>0) printf "%.0f", rem*$3/$2; else print "?"}')
+                printf "\r  [%3d/%d] ✓ %d  ✗ %d  (%s files/min, ETA %ss)  " "$DONE" "$NEEDED" "$DOWNLOADED" "$MISSING" "$RATE" "$ETA"
             fi
         fi
-    done < <(find "$WORK_DIR" -name 'data.jsonl.gz' -type f | sort)
+    done
+    echo ""
 
-    printf "\r  Organized: %d/%d files\n" "$FILE_COUNT" "$FOUND_COUNT"
-
-    # Cleanup
-    rm -rf "$WORK_DIR" "$LOCAL_TAR"
+    JOB_SECS=$((SECONDS - T_JOB))
 
     # Local summary
     TOTAL_LOCAL=$(find "$LOCAL_DIR" -name "${STREAM}_*.jsonl.gz" -type f | wc -l)
     TOTAL_SIZE=$(du -sh "$LOCAL_DIR" 2>/dev/null | cut -f1)
-    echo "  ✓ Done: $FILE_COUNT new files  |  Total: $TOTAL_LOCAL files, $TOTAL_SIZE"
+    echo "  ✓ Done: +${DOWNLOADED} new, ${MISSING} missing  [${JOB_SECS}s]"
+    echo "    Total: $TOTAL_LOCAL files, $TOTAL_SIZE"
     echo ""
 }
 
@@ -299,7 +261,7 @@ for JOB in "${JOBS[@]}"; do
     if [[ -d "$DIR" ]]; then
         COUNT=$(find "$DIR" -name "${STREAM}_*.jsonl.gz" -type f | wc -l)
         SIZE=$(du -sh "$DIR" 2>/dev/null | cut -f1)
-        echo "  $EX/$STREAM: $COUNT files, $SIZE"
+        echo "  $LDIR: $COUNT files, $SIZE"
     fi
 done
 
