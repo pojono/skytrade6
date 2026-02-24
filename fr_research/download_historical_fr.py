@@ -29,7 +29,8 @@ def make_session():
     s.mount("http://", adapter)
     return s
 
-OUTPUT_DIR = "data_all/historical_fr"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUTPUT_DIR = os.path.join(REPO_ROOT, "data_all/historical_fr")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Target: last 200 days

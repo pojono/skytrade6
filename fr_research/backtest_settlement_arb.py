@@ -27,7 +27,8 @@ import pyarrow.parquet as pq
 # Force unbuffered output
 sys.stdout.reconfigure(line_buffering=True)
 
-DATA = Path("data_all")
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DATA = REPO_ROOT / "data_all"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # CONFIG

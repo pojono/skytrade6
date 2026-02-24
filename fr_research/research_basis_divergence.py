@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 """
-Research: Futures Premium (Basis) Divergence Between Binance & Bybit
+Research: Cross-Exchange Funding Rate Spread Arbitrage (Binance vs Bybit)
 
-Question: When funding rate is positive on one exchange and negative on the other,
-does the premium converge? Is there a tradeable edge?
+Trade: Short futures on the exchange with HIGHER FR, long futures on the exchange
+with LOWER FR. Delta-neutral. Profit from FR spread convergence.
 
-Approach:
-1. Historical FR (200 days): Find sign-disagreement events between BN and BB
-2. Track what happens to FR on BOTH exchanges in the hours after divergence
-3. Real-time ticker (2 days): High-resolution basis analysis for recent divergences
-4. Quantify convergence speed, magnitude, and potential P&L
+Key insight: We don't need opposite signs — any large |FR_BN - FR_BB| is tradeable.
 """
 
 import pandas as pd
@@ -23,7 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO_ROOT / "data_all"
 
 print("=" * 80)
-print("RESEARCH: Futures Premium Divergence — Binance vs Bybit")
+print("RESEARCH: Cross-Exchange FR Spread Arb — Binance vs Bybit")
 print("=" * 80)
 
 # ── 1. Load historical FR data ─────────────────────────────────────────────
@@ -48,58 +44,64 @@ merged = pd.merge(
     on=['symbol', 'hour'],
     how='inner'
 )
-print(f"  Matched records: {len(merged):,}")
-print(f"  Common symbols: {merged.symbol.nunique()}")
-print(f"  Date range: {merged.hour.min()} to {merged.hour.max()}")
-
-# ── 3. Identify sign disagreements ─────────────────────────────────────────
-print("\n[3] Finding sign disagreements (BN+ & BB- or BN- & BB+)...")
-merged['bn_pos_bb_neg'] = (merged['fr_bn'] > 0) & (merged['fr_bb'] < 0)
-merged['bn_neg_bb_pos'] = (merged['fr_bn'] < 0) & (merged['fr_bb'] > 0)
-merged['sign_disagree'] = merged['bn_pos_bb_neg'] | merged['bn_neg_bb_pos']
-
-n_disagree = merged['sign_disagree'].sum()
-n_total = len(merged)
-print(f"  Sign disagreements: {n_disagree:,} / {n_total:,} ({n_disagree/n_total*100:.1f}%)")
-print(f"    BN+ & BB-: {merged['bn_pos_bb_neg'].sum():,}")
-print(f"    BN- & BB+: {merged['bn_neg_bb_pos'].sum():,}")
-
-# ── 4. Extreme disagreements (large magnitude on both sides) ───────────────
-print("\n[4] Extreme disagreements (both sides |FR| >= 5bps)...")
 merged['fr_bn_bps'] = merged['fr_bn'] * 10000
 merged['fr_bb_bps'] = merged['fr_bb'] * 10000
-merged['fr_spread'] = merged['fr_bn_bps'] - merged['fr_bb_bps']  # positive = BN more bullish
+merged['fr_spread'] = merged['fr_bn_bps'] - merged['fr_bb_bps']  # positive = BN higher
+merged['abs_spread'] = merged['fr_spread'].abs()
 
-disagree = merged[merged['sign_disagree']].copy()
+data_days = (merged.hour.max() - merged.hour.min()).total_seconds() / 86400
+n_total = len(merged)
 
-# Categorize by magnitude
-for min_bps in [0, 5, 10, 20, 50]:
-    extreme = disagree[(disagree['fr_bn_bps'].abs() >= min_bps) & (disagree['fr_bb_bps'].abs() >= min_bps)]
-    print(f"  Both |FR| >= {min_bps}bps: {len(extreme):,} events")
+print(f"  Matched records: {n_total:,}")
+print(f"  Common symbols: {merged.symbol.nunique()}")
+print(f"  Date range: {merged.hour.min()} to {merged.hour.max()} ({data_days:.0f} days)")
+print(f"  Settlements/day: {n_total/data_days:.0f}")
 
-# ── 5. Detailed analysis of sign disagreements ─────────────────────────────
-print("\n[5] Sign disagreement statistics...")
-disagree_stats = disagree.groupby('symbol').agg(
-    count=('hour', 'size'),
-    avg_bn_bps=('fr_bn_bps', 'mean'),
-    avg_bb_bps=('fr_bb_bps', 'mean'),
-    avg_spread=('fr_spread', 'mean'),
-    max_spread=('fr_spread', lambda x: x.abs().max()),
-).sort_values('count', ascending=False)
+# ── 3. FR spread distribution ──────────────────────────────────────────────
+print("\n[3] FR spread distribution (|FR_BN - FR_BB|)...")
+print(f"  Mean |spread|: {merged['abs_spread'].mean():.2f} bps")
+print(f"  Median |spread|: {merged['abs_spread'].median():.2f} bps")
+for pct in [75, 90, 95, 99, 99.5, 99.9]:
+    val = merged['abs_spread'].quantile(pct/100)
+    print(f"  P{pct}: {val:.1f} bps")
 
-print(f"\n  Top 20 symbols with most sign disagreements:")
-print(f"  {'Symbol':<20} {'Count':>6} {'Avg BN(bps)':>12} {'Avg BB(bps)':>12} {'Avg Spread':>11} {'Max |Spread|':>13}")
-print(f"  {'-'*74}")
-for sym, row in disagree_stats.head(20).iterrows():
-    print(f"  {sym:<20} {row['count']:>6.0f} {row['avg_bn_bps']:>12.1f} {row['avg_bb_bps']:>12.1f} "
-          f"{row['avg_spread']:>11.1f} {row['max_spread']:>13.1f}")
+# ── 4. Event frequency by threshold ───────────────────────────────────────
+print("\n[4] Tradeable events by |spread| threshold:")
+print(f"  {'Threshold':<15} {'Events':>8} {'Per day':>10} {'Same-sign':>12} {'Opp-sign':>12}")
+print(f"  {'-'*57}")
+for thresh in [5, 10, 15, 20, 30, 50, 100]:
+    sub = merged[merged['abs_spread'] >= thresh]
+    n = len(sub)
+    per_day = n / data_days
+    same = ((sub.fr_bn > 0) & (sub.fr_bb > 0) | (sub.fr_bn < 0) & (sub.fr_bb < 0)).sum()
+    opp = n - same
+    print(f"  |spread|≥{thresh:<4} bps {n:>8,} {per_day:>10.1f} {same:>8,} ({same/max(n,1)*100:.0f}%) "
+          f"{opp:>5,} ({opp/max(n,1)*100:.0f}%)")
+
+# ── 5. Top symbols by spread ──────────────────────────────────────────────
+print("\n[5] Top 20 symbols with largest avg |spread|:")
+sym_stats = merged.groupby('symbol').agg(
+    n=('hour', 'size'),
+    avg_abs_spread=('abs_spread', 'mean'),
+    max_abs_spread=('abs_spread', 'max'),
+    avg_bn=('fr_bn_bps', 'mean'),
+    avg_bb=('fr_bb_bps', 'mean'),
+    pct_gt10=('abs_spread', lambda x: (x >= 10).mean()),
+    pct_gt20=('abs_spread', lambda x: (x >= 20).mean()),
+).sort_values('avg_abs_spread', ascending=False)
+
+print(f"  {'Symbol':<18} {'N':>6} {'Avg|Spr|':>9} {'Max|Spr|':>9} {'Avg BN':>8} {'Avg BB':>8} {'%>10':>6} {'%>20':>6}")
+print(f"  {'-'*70}")
+for sym, row in sym_stats.head(20).iterrows():
+    print(f"  {sym:<18} {row['n']:>6.0f} {row['avg_abs_spread']:>9.1f} {row['max_abs_spread']:>9.1f} "
+          f"{row['avg_bn']:>8.1f} {row['avg_bb']:>8.1f} {row['pct_gt10']*100:>5.0f}% {row['pct_gt20']*100:>5.0f}%")
 
 # ── 6. CONVERGENCE ANALYSIS ────────────────────────────────────────────────
 print("\n" + "=" * 80)
-print("[6] CONVERGENCE ANALYSIS: What happens after a sign disagreement?")
+print("[6] CONVERGENCE ANALYSIS: What happens after a large FR spread?")
 print("=" * 80)
 
-# Vectorized: use groupby + shift to build forward-looking columns in one pass
+# Build forward-looking columns for ALL settlements (not just sign-disagree)
 print("\n  Building forward-looking FR sequences (vectorized)...")
 merged_sorted = merged.sort_values(['symbol', 'hour']).reset_index(drop=True)
 
@@ -109,110 +111,95 @@ for t in range(1, MAX_FWD + 1):
     merged_sorted[f'fr_bn_t{t}'] = grp['fr_bn_bps'].shift(-t)
     merged_sorted[f'fr_bb_t{t}'] = grp['fr_bb_bps'].shift(-t)
     merged_sorted[f'spread_t{t}'] = grp['fr_spread'].shift(-t)
-    merged_sorted[f'still_disagree_t{t}'] = grp['sign_disagree'].shift(-t)
+    merged_sorted[f'abs_spread_t{t}'] = grp['abs_spread'].shift(-t)
 
-# Filter to disagreement rows that have at least 1 forward period
-events_df = merged_sorted[merged_sorted['sign_disagree'] & merged_sorted['fr_bn_t1'].notna()].copy()
-events_df.rename(columns={'fr_bn_bps': 'fr_bn_t0', 'fr_bb_bps': 'fr_bb_t0', 'fr_spread': 'spread_t0'}, inplace=True)
-events_df['type'] = np.where(events_df['bn_pos_bb_neg'], 'BN+_BB-', 'BN-_BB+')
+# Rename t0 columns
+merged_sorted.rename(columns={
+    'fr_bn_bps': 'fr_bn_t0', 'fr_bb_bps': 'fr_bb_t0',
+    'fr_spread': 'spread_t0', 'abs_spread': 'abs_spread_t0',
+}, inplace=True)
+
+# Filter to rows with at least 1 forward period
+events_df = merged_sorted[merged_sorted['fr_bn_t1'].notna()].copy()
+
+# Trade direction: short the higher-FR exchange, long the lower-FR one
+# If BN > BB (spread > 0): short BN (+1), long BB (-1) → collect spread
+# If BN < BB (spread < 0): long BN (-1), short BB (+1) → collect spread
+# In both cases, the per-period P&L = |spread| when spread persists in same direction
+events_df['bn_higher'] = events_df['spread_t0'] > 0
 
 print(f"  Total events with forward data: {len(events_df):,}")
 
-# ── 7. Convergence speed ───────────────────────────────────────────────────
-print("\n[7] Convergence speed analysis...")
-print(f"\n  After a sign disagreement, how quickly do the signs re-align?")
-print(f"  (i.e., both become positive, both become negative, or one goes to zero)")
+# ── 7. Spread convergence speed ───────────────────────────────────────────
+print("\n[7] Spread convergence speed...")
+print(f"  How quickly does |spread| decay toward zero?")
+print(f"  (Analyzed across ALL settlements, grouped by initial |spread|)")
 
-for t in range(1, 7):
-    col = f'still_disagree_t{t}'
-    if col in events_df.columns:
-        still = events_df[col].sum()
-        total = events_df[col].notna().sum()
-        if total > 0:
-            pct = still / total * 100
-            print(f"    t+{t}: {still:,}/{total:,} still disagree ({pct:.1f}%)")
-
-# ── 8. Spread convergence magnitude ────────────────────────────────────────
-print("\n[8] Spread convergence magnitude...")
-print(f"  Does the FR spread (BN - BB) revert toward zero after disagreement?")
-
-for t in range(1, 7):
-    spread_col = f'spread_t{t}'
-    if spread_col in events_df.columns:
-        valid = events_df[[f'spread_t0', spread_col]].dropna()
-        if len(valid) > 0:
-            initial_spread = valid['spread_t0'].abs().mean()
-            later_spread = valid[spread_col].abs().mean()
-            reversion = (initial_spread - later_spread) / initial_spread * 100
-            
-            # Also check: does spread flip sign? (overshoot)
-            same_sign = ((valid['spread_t0'] > 0) & (valid[spread_col] > 0) | 
-                        (valid['spread_t0'] < 0) & (valid[spread_col] < 0)).mean() * 100
-            
-            print(f"    t+{t}: |spread| {initial_spread:.1f} → {later_spread:.1f} bps "
-                  f"({reversion:+.1f}% reversion), same sign: {same_sign:.0f}%")
-
-# ── 9. Analyze by direction type ───────────────────────────────────────────
-print("\n[9] Convergence by divergence type...")
-for dtype in ['BN+_BB-', 'BN-_BB+']:
-    sub = events_df[events_df['type'] == dtype]
-    print(f"\n  {dtype} ({len(sub):,} events):")
-    print(f"    Avg initial spread: {sub['spread_t0'].mean():.1f} bps")
-    for t in range(1, 5):
-        col = f'spread_t{t}'
+for min_spread in [5, 10, 20, 30, 50]:
+    sub = events_df[events_df['abs_spread_t0'] >= min_spread]
+    if len(sub) < 10:
+        continue
+    initial = sub['abs_spread_t0'].mean()
+    print(f"\n  Events with |spread| >= {min_spread} bps ({len(sub):,} events, initial avg: {initial:.1f} bps):")
+    for t in range(1, 7):
+        col = f'abs_spread_t{t}'
         if col in sub.columns:
-            valid = sub[['spread_t0', col]].dropna()
+            valid = sub[['abs_spread_t0', col]].dropna()
             if len(valid) > 0:
-                # Mean reversion: how much of the initial spread is recovered?
-                initial = valid['spread_t0'].mean()
                 later = valid[col].mean()
-                print(f"    t+{t}: spread {initial:.1f} → {later:.1f} bps "
-                      f"(converged {abs(initial - later):.1f} bps)")
+                reversion_pct = (initial - later) / initial * 100
+                print(f"    t+{t}: |spread| → {later:.1f} bps ({reversion_pct:+.0f}% reversion)")
 
-# ── 10. Extreme events deep dive ──────────────────────────────────────────
+# ── 8. Extreme events deep dive ──────────────────────────────────────────
 print("\n" + "=" * 80)
-print("[10] EXTREME EVENTS DEEP DIVE (|spread| >= 30 bps at t0)")
+print("[8] EXTREME EVENTS (|spread| >= 30 bps)")
 print("=" * 80)
 
-extreme = events_df[events_df['spread_t0'].abs() >= 30].copy()
-print(f"\n  Extreme events: {len(extreme):,}")
+extreme = events_df[events_df['abs_spread_t0'] >= 30].copy()
+print(f"\n  Total extreme events: {len(extreme):,} ({len(extreme)/data_days:.1f}/day)")
 
 if len(extreme) > 0:
-    print(f"\n  {'Symbol':<18} {'Hour':<22} {'Type':<10} {'Spread t0':>10} {'t+1':>8} {'t+2':>8} {'t+3':>8}")
-    print(f"  {'-'*84}")
-    for _, row in extreme.sort_values('spread_t0', key=abs, ascending=False).head(40).iterrows():
-        t1 = f"{row.get('spread_t1', float('nan')):.1f}" if pd.notna(row.get('spread_t1')) else "N/A"
-        t2 = f"{row.get('spread_t2', float('nan')):.1f}" if pd.notna(row.get('spread_t2')) else "N/A"
-        t3 = f"{row.get('spread_t3', float('nan')):.1f}" if pd.notna(row.get('spread_t3')) else "N/A"
-        print(f"  {row['symbol']:<18} {str(row['hour']):<22} {row['type']:<10} "
-              f"{row['spread_t0']:>10.1f} {t1:>8} {t2:>8} {t3:>8}")
+    extreme['direction'] = np.where(extreme['bn_higher'], 'BN>BB', 'BB>BN')
+    print(f"\n  {'Symbol':<18} {'Hour':<22} {'Dir':<7} {'BN FR':>7} {'BB FR':>7} {'|Spread|':>9} {'t+1':>7} {'t+2':>7} {'t+3':>7}")
+    print(f"  {'-'*95}")
+    for _, row in extreme.sort_values('abs_spread_t0', ascending=False).head(40).iterrows():
+        t1 = f"{row.get('abs_spread_t1', float('nan')):.1f}" if pd.notna(row.get('abs_spread_t1')) else "N/A"
+        t2 = f"{row.get('abs_spread_t2', float('nan')):.1f}" if pd.notna(row.get('abs_spread_t2')) else "N/A"
+        t3 = f"{row.get('abs_spread_t3', float('nan')):.1f}" if pd.notna(row.get('abs_spread_t3')) else "N/A"
+        print(f"  {row['symbol']:<18} {str(row['hour']):<22} {row['direction']:<7} "
+              f"{row['fr_bn_t0']:>7.1f} {row['fr_bb_t0']:>7.1f} {row['abs_spread_t0']:>9.1f} "
+              f"{t1:>7} {t2:>7} {t3:>7}")
 
-# ── 11. FUTURES vs FUTURES CROSS-EXCHANGE ARB P&L ─────────────────────────
+# ── 9. FUTURES vs FUTURES CROSS-EXCHANGE ARB P&L ─────────────────────────
 print("\n" + "=" * 80)
-print("[11] FUTURES vs FUTURES CROSS-EXCHANGE ARB — P&L SIMULATION")
+print("[9] FUTURES vs FUTURES CROSS-EXCHANGE ARB — P&L SIMULATION")
 print("=" * 80)
 print("""
-  Trade: Short futures on exchange with positive FR,
-         Long futures on exchange with negative FR.
-         Delta-neutral (no spot leg needed).
+  Trade: Short futures on exchange with HIGHER FR,
+         Long futures on exchange with LOWER FR.
+         Delta-neutral. No spot leg needed.
 
-  P&L sources:
-    1. FR collection: collect positive FR on short side + receive negative FR on long side
-    2. Basis convergence: if mark prices converge, the spread trade profits
+  P&L = sum of FR collected on both legs (short high, long low).
   
-  Fees: Futures only (no spot fees!)
-    - VIP-0 taker: 5.0 bps/side × 2 sides (open) + 5.0 bps × 2 sides (close) = 20 bps RT
-    - VIP-0 maker: 2.0 bps/side × 4 = 8 bps RT  
-    - VIP-1 taker: 4.0 bps × 4 = 16 bps RT
-    - VIP-1 maker: 1.6 bps × 4 = 6.4 bps RT
+  Fees: Futures only
+    - VIP-0 taker: 5.0 bps × 4 legs = 20 bps RT
+    - VIP-0 maker: 2.0 bps × 4 legs =  8 bps RT
 """)
 
-# Vectorized P&L simulation
-# Position signs: BN+_BB- → short BN (+1), long BB (-1); BN-_BB+ → opposite
-sign_bn = np.where(events_df['type'] == 'BN+_BB-', +1, -1)
-sign_bb = np.where(events_df['type'] == 'BN+_BB-', -1, +1)
+NOTIONAL = 10_000
+fee_scenarios = [
+    ("VIP-0 taker", 20.0),
+    ("VIP-0 maker", 8.0),
+    ("VIP-1 taker", 16.0),
+    ("VIP-1 maker", 6.4),
+]
 
-# Build per-period P&L and find first exit (signs re-align)
+# Vectorized P&L simulation
+# Short the higher-FR exchange, long the lower → always collect the spread
+# sign_bn: +1 if we short BN (BN has higher FR), -1 if we long BN
+sign_bn = np.where(events_df['bn_higher'], +1, -1)
+sign_bb = -sign_bn  # opposite side
+
 n = len(events_df)
 cum_pnl = np.zeros(n)
 hold_periods = np.zeros(n, dtype=int)
@@ -222,14 +209,19 @@ exited = np.zeros(n, dtype=bool)
 cum_pnl += sign_bn * events_df['fr_bn_t0'].values + sign_bb * events_df['fr_bb_t0'].values
 hold_periods += 1
 
+# Exit when |spread| drops below entry threshold / 2, or max periods
+ENTRY_THRESHOLDS = [5, 10, 15, 20, 30]  # we'll compute P&L for each
+
+# For the main simulation, exit when |spread| < 5 bps (spread has converged)
+EXIT_SPREAD = 5.0
 for t in range(1, MAX_FWD + 1):
     bn_col = f'fr_bn_t{t}'
-    disagree_col = f'still_disagree_t{t}'
+    abs_spread_col = f'abs_spread_t{t}'
     if bn_col not in events_df.columns:
         break
     
     has_data = events_df[bn_col].notna().values
-    still_disagree = events_df[disagree_col].fillna(False).astype(bool).values
+    spread_above_exit = events_df[abs_spread_col].fillna(0).values >= EXIT_SPREAD
     
     # Only accumulate for rows that haven't exited and have data
     active = ~exited & has_data
@@ -237,107 +229,77 @@ for t in range(1, MAX_FWD + 1):
     cum_pnl += np.where(active, period_pnl, 0)
     hold_periods += active.astype(int)
     
-    # Exit if signs re-aligned (no longer disagree)
-    exited |= (active & ~still_disagree)
+    # Exit if spread has converged
+    exited |= (active & ~spread_above_exit)
 
 trades_df = pd.DataFrame({
     'symbol': events_df['symbol'].values,
     'hour': events_df['hour'].values,
-    'type': events_df['type'].values,
-    'initial_spread_bps': events_df['spread_t0'].values,
+    'initial_abs_spread': events_df['abs_spread_t0'].values,
     'hold_periods': hold_periods,
     'cum_pnl_bps': cum_pnl,
 })
 
-# ── Gross stats ──
-print(f"  GROSS P&L (before fees):")
-print(f"  Total convergence trades: {len(trades_df):,}")
-print(f"  Avg hold periods: {trades_df['hold_periods'].mean():.1f}")
-print(f"  Avg P&L: {trades_df['cum_pnl_bps'].mean():.2f} bps")
-print(f"  Median P&L: {trades_df['cum_pnl_bps'].median():.2f} bps")
-print(f"  Win rate: {(trades_df['cum_pnl_bps'] > 0).mean()*100:.1f}%")
-print(f"  Avg win: {trades_df[trades_df['cum_pnl_bps'] > 0]['cum_pnl_bps'].mean():.2f} bps")
-print(f"  Avg loss: {trades_df[trades_df['cum_pnl_bps'] <= 0]['cum_pnl_bps'].mean():.2f} bps")
+# ── Gross stats by entry threshold ──
+print(f"  GROSS P&L by entry threshold (exit when |spread| < {EXIT_SPREAD} bps):")
+print(f"  {'Filter':<18} {'Trades':>8} {'Per day':>8} {'Gross':>8} {'Median':>8} {'WR':>6} {'Hold':>6} "
+      f"{'Net@20':>8} {'Net@8':>8} {'$/day@20':>10} {'$/day@8':>10}")
+print(f"  {'-'*108}")
+for thresh in [0, 5, 10, 15, 20, 30, 50]:
+    bucket = trades_df[trades_df['initial_abs_spread'] >= thresh]
+    if len(bucket) < 10:
+        continue
+    gross = bucket['cum_pnl_bps'].mean()
+    med = bucket['cum_pnl_bps'].median()
+    wr = (bucket['cum_pnl_bps'] > 0).mean() * 100
+    hold = bucket['hold_periods'].mean()
+    n_trades = len(bucket)
+    per_day = n_trades / data_days
+    d_taker = ((bucket['cum_pnl_bps'] - 20.0) * NOTIONAL / 10000).sum() / data_days
+    d_maker = ((bucket['cum_pnl_bps'] - 8.0) * NOTIONAL / 10000).sum() / data_days
+    print(f"  |spr|≥{thresh:<3} bps    {n_trades:>8,} {per_day:>8.1f} {gross:>8.1f} {med:>8.1f} {wr:>5.0f}% {hold:>6.1f} "
+          f"{gross-20:>8.1f} {gross-8:>8.1f} {d_taker:>10.0f} {d_maker:>10.0f}")
 
-# ── Net P&L at different fee tiers ──
-data_days = (merged.hour.max() - merged.hour.min()).total_seconds() / 86400
-NOTIONAL = 10_000  # $ per leg
-
-fee_scenarios = [
-    ("VIP-0 taker", 20.0),
-    ("VIP-0 maker", 8.0),
-    ("VIP-1 taker", 16.0),
-    ("VIP-1 maker", 6.4),
-]
-
-print(f"\n  NET P&L BY FEE SCENARIO (${NOTIONAL:,}/leg, {data_days:.0f} days of data):")
+# ── Net P&L at different fee tiers (for 10 bps filter) ──
+print(f"\n  NET P&L BY FEE SCENARIO (|spread|≥10 bps, ${NOTIONAL:,}/leg):")
+filt = trades_df[trades_df['initial_abs_spread'] >= 10]
 print(f"  {'Scenario':<18} {'RT Fee':>8} {'Avg Net':>10} {'Net WR':>8} {'Trades':>8} "
       f"{'Total $':>10} {'$/day':>8}")
 print(f"  {'-'*70}")
 for name, rt_fee in fee_scenarios:
-    net = trades_df['cum_pnl_bps'] - rt_fee
+    net = filt['cum_pnl_bps'] - rt_fee
     wr = (net > 0).mean() * 100
     total_dollar = (net * NOTIONAL / 10000).sum()
     per_day = total_dollar / data_days
     print(f"  {name:<18} {rt_fee:>7.1f} {net.mean():>10.2f} {wr:>7.1f}% {len(net):>8,} "
           f"{total_dollar:>10,.0f} {per_day:>8,.0f}")
 
-# ── Gross P&L by bucket ──
-print(f"\n  GROSS P&L by initial |spread| bucket:")
-print(f"  {'Bucket':<14} {'Trades':>7} {'Gross':>8} {'WR':>6} {'Hold':>6} "
-      f"{'Net@20':>8} {'Net@8':>8} {'$/day@20':>10} {'$/day@8':>10}")
-print(f"  {'-'*85}")
-for lo, hi in [(0, 5), (5, 10), (10, 20), (20, 30), (30, 50), (50, 100), (100, 500)]:
-    bucket = trades_df[(trades_df['initial_spread_bps'].abs() >= lo) & 
-                       (trades_df['initial_spread_bps'].abs() < hi)]
-    if len(bucket) > 0:
-        gross = bucket['cum_pnl_bps'].mean()
-        wr = (bucket['cum_pnl_bps'] > 0).mean() * 100
-        hold = bucket['hold_periods'].mean()
-        net_taker = gross - 20.0
-        net_maker = gross - 8.0
-        dollar_day_taker = ((bucket['cum_pnl_bps'] - 20.0) * NOTIONAL / 10000).sum() / data_days
-        dollar_day_maker = ((bucket['cum_pnl_bps'] - 8.0) * NOTIONAL / 10000).sum() / data_days
-        print(f"  {lo}-{hi} bps{'':<7} {len(bucket):>7,} {gross:>8.1f} {wr:>5.0f}% {hold:>6.1f} "
-              f"{net_taker:>8.1f} {net_maker:>8.1f} {dollar_day_taker:>10.1f} {dollar_day_maker:>10.1f}")
-
-# ── P&L by direction type ──
-print(f"\n  P&L by direction type:")
-for dtype in ['BN+_BB-', 'BN-_BB+']:
-    sub = trades_df[trades_df['type'] == dtype]
-    print(f"    {dtype}: {len(sub):,} trades, gross={sub['cum_pnl_bps'].mean():.2f} bps, "
-          f"WR={( sub['cum_pnl_bps'] > 0).mean()*100:.1f}%")
-
-# ── Filter to profitable-only: spread >= 20 bps ──
-print(f"\n  FILTERED STRATEGY: Only trade when |FR spread| >= 20 bps")
-for min_spread in [10, 15, 20, 30]:
-    filt = trades_df[trades_df['initial_spread_bps'].abs() >= min_spread]
-    if len(filt) > 0:
-        gross = filt['cum_pnl_bps'].mean()
-        n_trades = len(filt)
-        per_day = n_trades / data_days
-        for name, rt_fee in fee_scenarios:
-            net = filt['cum_pnl_bps'] - rt_fee
-            total_dollar = (net * NOTIONAL / 10000).sum()
-            dollar_day = total_dollar / data_days
-            if name in ("VIP-0 taker", "VIP-0 maker"):
-                print(f"    |spread|≥{min_spread}bps + {name}: {n_trades} trades ({per_day:.1f}/day), "
-                      f"gross={gross:.1f}bps, net={net.mean():.1f}bps, "
-                      f"${dollar_day:.0f}/day (${NOTIONAL/1000:.0f}K/leg)")
+# ── P&L by direction ──
+print(f"\n  P&L by direction (|spread| >= 10 bps):")
+filt_events = events_df[events_df['abs_spread_t0'] >= 10]
+filt_trades = trades_df[trades_df['initial_abs_spread'] >= 10]
+for label, mask in [("BN > BB (short BN)", filt_events['bn_higher'].values),
+                     ("BB > BN (short BB)", ~filt_events['bn_higher'].values)]:
+    sub = filt_trades[mask]
+    if len(sub) > 0:
+        print(f"    {label}: {len(sub):,} trades, gross={sub['cum_pnl_bps'].mean():.1f} bps, "
+              f"WR={(sub['cum_pnl_bps'] > 0).mean()*100:.0f}%")
 
 # ── Scaling analysis ──
-print(f"\n  SCALING: What if we use larger notional?")
+print(f"\n  SCALING (maker fees, 8 bps RT):")
+print(f"  {'Notional/leg':<15} {'|spr|≥10':>12} {'|spr|≥20':>12} {'|spr|≥30':>12}")
+print(f"  {'-'*51}")
 for notional in [10_000, 25_000, 50_000, 100_000]:
-    for min_spread in [10, 20]:
-        filt = trades_df[trades_df['initial_spread_bps'].abs() >= min_spread]
+    vals = []
+    for min_spread in [10, 20, 30]:
+        filt = trades_df[trades_df['initial_abs_spread'] >= min_spread]
         if len(filt) > 0:
-            # Use maker fees (8 bps RT)
             net = filt['cum_pnl_bps'] - 8.0
-            total_dollar = (net * notional / 10000).sum()
-            dollar_day = total_dollar / data_days
-            dollar_year = dollar_day * 365
-            print(f"    ${notional/1000:.0f}K/leg, |spread|≥{min_spread}bps, maker fees: "
-                  f"${dollar_day:,.0f}/day = ${dollar_year:,.0f}/year")
+            dollar_day = (net * notional / 10000).sum() / data_days
+            vals.append(f"${dollar_day:>8,.0f}/day")
+        else:
+            vals.append(f"{'N/A':>12}")
+    print(f"  ${notional/1000:>5.0f}K/leg    {'  '.join(vals)}")
 
 # ── 12. Real-time basis analysis (high-res, 2 days) ───────────────────────
 print("\n" + "=" * 80)
@@ -484,31 +446,32 @@ avg_pnl = trades_df['cum_pnl_bps'].mean()
 wr = (trades_df['cum_pnl_bps'] > 0).mean() * 100
 
 # Filtered stats
-filt_10 = trades_df[trades_df['initial_spread_bps'].abs() >= 10]
-filt_20 = trades_df[trades_df['initial_spread_bps'].abs() >= 20]
+filt_10 = trades_df[trades_df['initial_abs_spread'] >= 10]
+filt_20 = trades_df[trades_df['initial_abs_spread'] >= 20]
 f10_pnl = filt_10['cum_pnl_bps'].mean() if len(filt_10) > 0 else 0
 f20_pnl = filt_20['cum_pnl_bps'].mean() if len(filt_20) > 0 else 0
 f10_day = len(filt_10) / data_days
 f20_day = len(filt_20) / data_days
 
 print(f"""
-  TRADE: Short futures on exchange A + Long futures on exchange B (delta-neutral)
+  TRADE: Short higher-FR exchange + Long lower-FR exchange (delta-neutral)
   FEES:  Futures-only — 20 bps RT (taker) or 8 bps RT (maker)
+  NOTE:  Opposite signs NOT required — any large |FR_BN - FR_BB| is tradeable
 
-  1. FREQUENCY: {n_disagree:,} FR sign disagreements ({n_disagree/n_total*100:.1f}% of all settlements)
+  1. FREQUENCY (200 days, {n_total:,} matched settlements):
+     - |spread|≥10bps: {len(filt_10):,} events ({f10_day:.1f}/day)
+     - |spread|≥20bps: {len(filt_20):,} events ({f20_day:.1f}/day)
   
-  2. CONVERGENCE: YES — spread converges with {wr:.0f}% gross win rate
-     - All trades: avg gross {avg_pnl:.1f} bps → net {avg_pnl-20:.1f} bps (taker) / {avg_pnl-8:.1f} bps (maker)
-     - |spread|≥10bps ({len(filt_10):,} trades, {f10_day:.1f}/day): gross {f10_pnl:.0f} bps → net {f10_pnl-20:.0f} (taker) / {f10_pnl-8:.0f} (maker)
-     - |spread|≥20bps ({len(filt_20):,} trades, {f20_day:.1f}/day): gross {f20_pnl:.0f} bps → net {f20_pnl-20:.0f} (taker) / {f20_pnl-8:.0f} (maker)
+  2. CONVERGENCE: YES — spread converges
+     - |spread|≥10bps: gross {f10_pnl:.0f} bps → net {f10_pnl-20:.0f} (taker) / {f10_pnl-8:.0f} (maker)
+     - |spread|≥20bps: gross {f20_pnl:.0f} bps → net {f20_pnl-20:.0f} (taker) / {f20_pnl-8:.0f} (maker)
   
   3. REAL-TIME BASIS: Autocorrelation decays ~1.0 → ~{ac_df['ac_60m'].mean():.2f} over 60 min
      → Strong mean-reversion in basis spread
   
   4. VERDICT:
-     - With MAKER fees (8 bps RT): profitable on ALL trades (avg net = {avg_pnl-8:.1f} bps)
-     - With TAKER fees (20 bps RT): profitable only on |spread|≥10 bps trades
-     - Bigger spreads = bigger edge, but rarer events
+     - |spread|≥10bps with maker fees: {f10_day:.0f} trades/day × {f10_pnl-8:.0f} bps net
+     - |spread|≥20bps with maker fees: {f20_day:.0f} trades/day × {f20_pnl-8:.0f} bps net
      - Key risk: basis risk (mark prices may diverge further before converging)
 """)
 

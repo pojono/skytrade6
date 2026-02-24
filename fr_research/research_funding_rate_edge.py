@@ -22,7 +22,8 @@ pd.set_option("display.max_columns", 40)
 pd.set_option("display.width", 200)
 pd.set_option("display.float_format", lambda x: f"{x:.6f}")
 
-DATA = Path("data_all")
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DATA = REPO_ROOT / "data_all"
 t0 = time.time()
 
 

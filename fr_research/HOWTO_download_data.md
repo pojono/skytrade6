@@ -9,6 +9,8 @@
 
 ## Step 1: Download raw JSONL data from dataminer
 
+Run from **repo root** (these scripts live in the repo root, not fr_research/):
+
 ```bash
 # Download ALL new data (incremental — skips already-downloaded files)
 ./download_ticker_all.sh
@@ -40,6 +42,8 @@ Output goes to: `data_all/{exchange}/{market}/{stream}/{stream}_{date}_hr{HH}.js
 
 ## Step 2: Convert JSONL to Parquet
 
+Run from **repo root**:
+
 ```bash
 # Incremental conversion (only processes new files, appends to existing parquet)
 python3 build_ticker_all_parquet.py
@@ -61,14 +65,14 @@ The script tracks processed files in `.manifest.json` — so re-running it only 
 
 ## Step 3: Download historical funding rates (REST API, no dataminer needed)
 
-These scripts pull directly from exchange APIs — no dataminer server required:
+These scripts live in `fr_research/` and resolve data paths automatically:
 
 ```bash
-# Bybit + Binance historical FR (goes back ~200 days)
-python3 download_historical_fr.py
+# Bybit + Binance + OKX historical FR (goes back ~200 days)
+python3 fr_research/download_historical_fr.py
 
 # Bitget historical FR (goes back ~17 days only)
-python3 download_bitget_fr.py
+python3 fr_research/download_bitget_fr.py
 ```
 
 Output: `data_all/historical_fr/{exchange}_fr_history.parquet`
@@ -87,14 +91,14 @@ Run these 3 commands to keep everything up to date:
 python3 build_ticker_all_parquet.py
 
 # 3. Update historical FR parquets from APIs (~1-2 min)
-python3 download_historical_fr.py
-python3 download_bitget_fr.py
+python3 fr_research/download_historical_fr.py
+python3 fr_research/download_bitget_fr.py
 ```
 
 Or as a one-liner:
 
 ```bash
-./download_ticker_all.sh && python3 build_ticker_all_parquet.py && python3 download_historical_fr.py && python3 download_bitget_fr.py
+./download_ticker_all.sh && python3 build_ticker_all_parquet.py && python3 fr_research/download_historical_fr.py && python3 fr_research/download_bitget_fr.py
 ```
 
 ---

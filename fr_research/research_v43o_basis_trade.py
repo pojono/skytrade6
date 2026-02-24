@@ -31,7 +31,8 @@ from pathlib import Path
 sys.stdout.reconfigure(line_buffering=True)
 np.random.seed(42)
 
-PARQUET_DIR = Path('parquet')
+REPO_ROOT = Path(__file__).resolve().parent.parent
+PARQUET_DIR = REPO_ROOT / 'parquet'
 # Fees: maker on both spot and futures, entry + exit
 # Spot: maker 0.1% on Bybit spot (VIP0) — much higher than futures!
 # Futures: maker 0.02%

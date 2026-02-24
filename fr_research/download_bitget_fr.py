@@ -117,7 +117,10 @@ def main():
     df["interval_h"] = df["symbol"].map(lambda s: sym_intervals.get(s, 8))
     df["fr_bps"] = df["fundingRate"].abs() * 10000
     df["fr_signed_bps"] = df["fundingRate"] * 10000
-    df.to_parquet("data_all/historical_fr/bitget_fr_history.parquet", index=False)
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    out_path = os.path.join(repo_root, "data_all/historical_fr/bitget_fr_history.parquet")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    df.to_parquet(out_path, index=False)
     days = (df["fundingTime"].max() - df["fundingTime"].min()).total_seconds() / 86400
     print(f"   {len(df):,} records, {df['symbol'].nunique()} symbols, {days:.0f} days")
     print(f"   {df['fundingTime'].min().date()} to {df['fundingTime'].max().date()}")
