@@ -116,27 +116,83 @@ For events with |spread| ≥ 20 bps (initial avg ~38 bps):
 
 ---
 
+## 9. Slippage Reality Check (Bybit ob200 Orderbook Data)
+
+**Script:** `fr_research/research_ob200_slippage.py`
+
+Downloaded and processed 200-level orderbook snapshots (ob200) for the top 18 FR-arb symbols to measure **actual** book depth and slippage.
+
+### Orderbook Depth (Bybit futures, Feb 2026)
+
+| Symbol | BA Spread | Slip $1K | Slip $5K | Slip $10K |
+|---|---|---|---|---|
+| PIPPINUSDT | 0.14 bps | 0.8 | 2.3 | 2.8 |
+| ENSOUSDT | 0.51 bps | 1.7 | 4.5 | 7.0 |
+| AXSUSDT | 0.77 bps | 1.0 | 2.1 | 2.8 |
+| RIVERUSDT | 1.25 bps | 1.9 | 5.0 | 8.6 |
+| 0GUSDT | 1.56 bps | 2.0 | 4.3 | 5.3 |
+| LAUSDT | ~1.5 bps | 2.1 | 5.2 | 10.3 |
+| COAIUSDT | 3.2–6.6 bps | 7.3 | 22.8 | 51+ |
+| SOONUSDT | 9–11 bps | 9.0 | 20.2 | 54+ |
+| MYXUSDT | 11–15 bps | 8.3 | 13.8 | 21.8 |
+
+**Key finding:** The top arb symbols split into two groups:
+- **Tradeable (BA < 3 bps):** PIPPINUSDT, AXSUSDT, ENSOUSDT, 0GUSDT, RIVERUSDT, LAUSDT — slippage $5K < 6 bps
+- **Expensive (BA > 5 bps):** COAIUSDT, SOONUSDT, MYXUSDT — slippage eats most of the edge
+
+### Realistic P&L with Per-Symbol Slippage
+
+Using **maker entry + taker exit** (the realistic scenario — you place limits to enter, but need to cross spread to exit):
+
+| Notional/leg | $/day | vs. ideal |
+|---|---|---|
+| $1K | **$258** | — |
+| $2K | **$478** | — |
+| $5K | **$1,023** | 35% of ideal |
+| $10K | **$1,386** | 47% of ideal |
+
+### Top Symbols by Realistic P&L ($5K/leg)
+
+| Symbol | Trades | Gross | Slip/leg | Net | $/day |
+|---|---|---|---|---|---|
+| RIVERUSDT | 349 | 160.0 | 4.2 | 143.6 | **$125** |
+| AXSUSDT | 144 | 207.2 | 2.7 | 193.8 | **$70** |
+| ENSOUSDT | 147 | 195.4 | 4.5 | 178.4 | **$66** |
+| 0GUSDT | 238 | 108.5 | 5.7 | 89.1 | **$53** |
+| COAIUSDT | 249 | 135.7 | 24.3 | 79.2 | **$49** |
+| PIPPINUSDT | 215 | 99.4 | 2.3 | 86.7 | **$47** |
+
+204 out of 404 symbols are net profitable.
+
+---
+
 ## Verdict
 
-**This is a strong strategy.** The numbers are dramatically better than the initial (opposite-sign only) analysis.
+**The edge is real, but slippage on altcoins is the binding constraint.**
 
-| Aspect | Assessment |
+| Aspect | Ideal (all maker) | Realistic (maker+taker exit) |
+|---|---|---|
+| Frequency | 38.9/day | 38.9/day |
+| $/day ($5K/leg) | $2,960 | **$1,023** |
+| $/day ($10K/leg) | $5,920 | **$1,386** |
+| Win rate | 93% | 58% |
+| Profitable symbols | 404/404 | 204/404 |
+
+| Risk | Assessment |
 |---|---|
-| Edge exists? | ✅ 96% WR, 84 bps avg gross at ≥10 bps filter |
-| Profitable after fees? | ✅ Even with taker fees at ≥5 bps filter |
-| Frequency? | ✅ **38.9 events/day** at ≥10 bps (was 5.6 with opposite-sign only) |
-| Daily P&L ($10K/leg) | ✅ **$2,960/day** maker fees, $2,494 taker |
-| Scalable? | ✅ $29.6K/day at $100K/leg |
-| Key risk | ⚠️ Basis risk (spread may widen before converging) |
-| Key risk | ⚠️ Liquidity on altcoins — can we fill $50K+ without slippage? |
+| Edge exists? | ✅ 96% gross WR, 84 bps avg gross |
+| Profitable after slippage? | ✅ Yes, ~$1K/day at $5K/leg realistic |
+| Scalable beyond $10K/leg? | ⚠️ Limited — book depth too thin on most altcoins |
+| Key risk | ⚠️ Slippage on exit — taker fills eat 30–65% of gross edge |
+| Key risk | ⚠️ Concentration — top 6 symbols drive 50%+ of P&L |
 
 ---
 
 ## Next Steps
 
 - [ ] Build real-time monitor for FR spread across all common symbols
-- [ ] Backtest with slippage model — are maker fills realistic on both exchanges simultaneously?
+- [ ] Test limit-order-only execution (maker entry AND maker exit) — is it feasible?
 - [ ] Analyze max adverse excursion — how much does spread widen before converging?
-- [ ] Check overlap with single-exchange HOLD strategy — are we double-counting?
-- [ ] Add OKX as a third exchange for more arb opportunities
-- [ ] Filter by liquidity/volume to avoid illiquid altcoins
+- [ ] Add OKX as third exchange for more arb pairs
+- [ ] Download ob200 for more symbols to improve slippage coverage
+- [ ] Research optimal position sizing per symbol based on book depth
