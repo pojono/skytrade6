@@ -297,6 +297,48 @@ Still profitable, but dramatically less than the $1,330/day headline.
 
 ---
 
+## FINDING 10: Multi-Exchange Expansion — Binance + Bitget
+
+After discovering the tradeability problem on Bybit, we ran the same analysis on Binance and Bitget.
+
+### Binance (106-day backtest)
+
+- 28 1h coins in data, **13 have margin** (Binance enables margin on almost all spot pairs)
+- 395 4h coins in data, **231 have margin**
+- Binance 1h: $218/day, **81% WR** (much higher than Bybit's 59%)
+- Binance 4h: $177/day, 76% WR
+- Only 5 coins overlap with Bybit trades → largely independent opportunities
+
+### Bitget (17-day backtest — shorter history)
+
+- Only 9 coins with 1h settlement (too few to be useful)
+- 371 4h coins, **304 have spot** (82%)
+- Bitget 1h: $28/day (not worth a pool)
+- Bitget 4h: $211/day, 60% WR
+
+### Recommended 4-pool strategy
+
+| Pool | Coins | Daily P&L | Capital | ROI/yr |
+|---|---|---|---|---|
+| Bybit 1h | 32 | $273 | $20k | 498% |
+| Binance 1h | 13 | $218 | $20k | 398% |
+| Binance 4h | 231 | $177 | $20k | 323% |
+| Bitget 4h | 304 | $211 | $20k | 385% |
+| **TOTAL** | | **$879/day** | **$80k** | **401%** |
+
+All pools use: 1 position, $10k notional, 50 bps RT cost, entry ≥ 20 bps (30 for 4h), exit < 5 bps.
+
+### Key insight: ~400% annual ROI is the ceiling
+
+Every single pool converges to 300-500% annual ROI regardless of exchange or interval. Adding more pools increases absolute dollars but not percentage — the opportunity density (how many coins have high FR with margin) is the bottleneck, not capital.
+
+Ways to potentially exceed 400%:
+1. Lower fees via VIP tiers
+2. Limit orders instead of market orders (saves ~15 bps spread)
+3. Earlier FR spike detection (enter before others)
+
+---
+
 ## SUMMARY: Audit Verdict
 
 | Question | Verdict | Details |
@@ -307,15 +349,18 @@ Still profitable, but dramatically less than the $1,330/day headline.
 | Slippage? | ⚠ **Significant** | 15-18 bps hidden cost from spread (esp. spot) |
 | Delta-neutral risk? | ⚠ **Moderate** | Borrow recall is the main risk; FR flips handled |
 | Fee calculation? | ✗ **Was wrong** | True RT = ~50 bps (31 fees + 15 spread + 1.5 borrow) |
-| Tradeability? | ✗ **CRITICAL** | Only 28/86 coins have margin; backtest overstated by 77% |
-| **Strategy still profitable?** | **⚠ YES, but** | **$320/day realistic (not $1,330)** |
+| Tradeability? | ✗ **CRITICAL** | Only 33% of backtest coins have margin on Bybit |
+| **Strategy profitable?** | **✓ YES** | **~400% annual across all exchanges** |
 
-### Key corrections from this audit
+### Key findings from this audit
 
-1. **77% of backtest P&L is untradeable** — most high-FR coins lack spot/margin pairs on Bybit
-2. **FR is overwhelmingly negative** (99.2% of entries) → requires margin borrowing for short spot
-3. **True RT cost is ~50 bps**, not 31 or 39 — spot spread is the biggest hidden cost
-4. **Realistic daily P&L: ~$320** with 28 margin-enabled 1h coins (not $1,330)
-5. **Borrow recall risk** is the most dangerous operational risk
-6. **Best config shifts to tighter exit** (exit < 5 instead of < 8) at higher costs
-7. **Multi-exchange expansion** may help recover some P&L if Binance/OKX have more margin pairs
+1. **Not a cash-and-carry** — 99.2% of entries are negative FR → requires margin borrowing to short spot
+2. **True RT cost is ~50 bps** (31 exchange fees + 15 spread + 1.5 borrow), not 31 or 39
+3. **77% of single-exchange backtest P&L was untradeable** — most high-FR coins lack spot/margin pairs
+4. **Multi-exchange is essential** — Bybit alone: $273/day; 4-pool combined: $879/day on $80k
+5. **~400% annual ROI is the consistent ceiling** across all exchanges and intervals
+6. **Borrow recall** is the most dangerous operational risk (forced close of short spot)
+7. **1 position per pool is optimal** — 2nd position adds <20% marginal P&L for 100% more capital
+8. **Binance has highest WR** (81% vs 59% Bybit) due to better FR autocorrelation
+9. **Bitget 4h is a strong addition** ($211/day, 304 coins) but only 17 days of history
+10. **Best config**: entry ≥ 20 bps, exit < 5 bps — minimal IS/OOS degradation (-1%)
