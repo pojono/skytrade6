@@ -45,3 +45,12 @@ The funding interval mismatch (1h vs 8h) is a real structural inefficiency, but:
 - Track cross-exchange price spread dynamics during FR normalization
 - Evaluate if a signal-based approach (enter when FR diverges, exit when it converges) is viable
 - Consider spot vs perp arb as alternative to cross-exchange perp arb
+
+## Update (2026-02-24)
+
+**See `research_funding_rate_strategy_audit.md` for comprehensive follow-up.**
+
+Key corrections to findings above:
+- Finding #3 (interval mismatch): 103 Bybit coins now have 1h funding, reducing mismatch edge
+- Finding #5 (no settlement edge): Incorrect. Binance FR IS observable before settlement (signal error <1.3 bps). Same-exchange spot+futures hold strategy yields +$1,154/day on $10k
+- Verdict updated: Cross-exchange arb is not viable (basis too wide). Same-exchange spot+futures with hold strategy is the winner
