@@ -168,18 +168,85 @@ The combined pool adds value because coins have **different FR cycles** — when
 
 ---
 
-## 8. Summary: The Simple Playbook
+## 8. Multi-Interval Allocation: 1h vs 4h vs 8h
 
+### Do NOT mix intervals in the same pool
+
+When 1h and 4h coins compete for the same 3 position slots, 4h coins steal slots from the more profitable 1h coins:
+
+| Pool (Bybit, 3 slots) | Daily |
+|---|---|
+| **1h only** | **$1,443** |
+| 1h + 4h mixed | $1,034 ← worse! |
+
+### Run separate allocations per interval instead
+
+| Allocation (Bybit) | Daily |
+|---|---|
+| 1h × 3 slots | $1,443 |
+| 4h × 3 slots (separate capital) | $287 |
+| **1h + 4h = 6 slots** | **$1,730** |
+
+### Why 1h coins are 5× more capital-efficient
+
+| Metric | 1h coins | 4h coins | 8h coins |
+|---|---|---|---|
+| FR per settlement (held) | 39.5 bps | 30.0 bps | 27.6 bps |
+| **Effective hourly FR** | **39.5 bps/hr** | **7.5 bps/hr** | **3.5 bps/hr** |
+| Avg winner | +$382 | +$183 | +$178 |
+
+A 4h coin settling at 30 bps only earns 7.5 bps per hour of capital locked. A 1h coin at 39.5 bps earns 5.3× more per hour.
+
+### Different thresholds per interval
+
+4h/8h coins settle less often, so each settlement matters more. They need higher entry bars and tighter exits:
+
+| Interval | Entry | Exit | Best Daily (Bybit) |
+|---|---|---|---|
+| 1h | ≥ 20 bps | < 5 bps | $1,451 |
+| 4h | ≥ 30 bps | < 3 bps | $337 |
+| 8h | ≥ 30 bps | < 5 bps | $136 |
+
+### Full multi-exchange, multi-interval potential
+
+| Exchange | 1h (3 slots) | 4h (3 slots) | Total (6 slots) |
+|---|---|---|---|
+| Bybit | $1,443 | $287 | $1,730 |
+| Binance | $820 | $615 | $1,435 |
+| OKX | $752 | $483 | $1,235 |
+
+Note: Binance 4h is strong ($615/day, 395 coins, 69% WR) because it has only 32 1h coins but 395 4h coins.
+
+---
+
+## 9. Summary: The Full Playbook
+
+### Primary: 1h coins (3 slots per exchange)
 ```
-1. SCAN:  Every 1-4 hours, check FR on all 1h-settlement coins across BB/BN/OKX
-2. ENTER: If FR ≥ 20 bps and position slots available → open spot long + futures short
-3. HOLD:  Collect FR every hour. Do nothing while FR stays ≥ 8 bps.
-4. EXIT:  When FR drops below 8 bps → close both legs.
-5. SWITCH: Only if a new coin has FR ≥ 5× your worst position (rare).
+SCAN:   Every 1-4 hours, check FR on all 1h-settlement coins across BB/BN/OKX
+ENTER:  FR ≥ 20 bps and slot available → open spot long + futures short
+HOLD:   Collect FR every hour. Do nothing while FR ≥ 8 bps.
+EXIT:   FR drops below 5-8 bps → close both legs.
+SWITCH: Only if new coin FR ≥ 5× worst position (rare, ~once per 2 days).
 ```
 
-**Expected performance (3 positions, $10k each):**
-- ~$1,400–1,700/day
+### Secondary: 4h coins (separate 3 slots per exchange)
+```
+SCAN:   Every 4 hours (at settlement times)
+ENTER:  FR ≥ 30 bps
+HOLD:   Do nothing while FR ≥ 8 bps.
+EXIT:   FR drops below 3-5 bps
+```
+
+### Expected performance ($10k notional per slot)
+
+| Config | Slots | Daily P&L |
+|---|---|---|
+| Bybit 1h only | 3 | $1,443 |
+| All exchanges, 1h only | 9 | ~$2,500 |
+| Bybit 1h + 4h | 6 | $1,730 |
+| All exchanges, 1h + 4h | 18 | ~$4,000 |
+
 - 60–70% win rate
 - Winners: +$380 avg (10h hold) | Losers: -$26 avg (1.6h hold)
 - Every month profitable over 106-day test
