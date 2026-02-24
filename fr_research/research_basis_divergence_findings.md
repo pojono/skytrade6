@@ -1,8 +1,14 @@
 # Cross-Exchange FR Spread Arbitrage: Binance vs Bybit
 
-**Date:** 2026-02-24 (v2: corrected to use absolute spread, not just opposite-sign)  
+**Date:** 2026-02-24 (v3: AUDITED — fixed lookahead bug + overlap double-counting)  
 **Script:** `fr_research/research_basis_divergence.py`  
 **Data:** Historical FR (200 days, Aug 2025 – Feb 2026) + real-time ticker (2 days)
+
+> ⚠️ **AUDIT FINDINGS (v3):** The original analysis had two critical bugs:
+> 1. **Lookahead in t=0:** Counting the entry-signal FR as P&L (31% of gross)
+> 2. **Overlapping trades:** 74% of trades overlap with existing positions on same symbol
+> 
+> Corrected numbers are shown below. Original inflated numbers struck through where relevant.
 
 ---
 
@@ -52,34 +58,29 @@ When `|FR_Binance - FR_Bybit|` is large on a given symbol:
 
 ### 3. Convergence: P&L by Entry Threshold ($10K/leg)
 
+> ⚠️ **CORRECTED (v3):** P&L now starts from t+1 (no lookahead). Original numbers included t=0 which inflated results by ~31%.
+
 | Filter | Trades | Per day | Gross | WR | Hold | Net @20bps | Net @8bps | **$/day taker** | **$/day maker** |
 |---|---|---|---|---|---|---|---|---|---|
-| ≥0 (all) | 465,367 | 2,328 | +2.9 | 60% | 2.1 | −17.1 | −5.1 | −$39,828 | −$11,894 |
-| ≥5 bps | 20,907 | 105 | +41.2 | 96% | 3.6 | +21.2 | +33.2 | **+$2,214** | **+$3,469** |
-| **≥10 bps** | **7,760** | **38.8** | **+84.2** | **96%** | **4.9** | **+64.2** | **+76.2** | **+$2,494** | **+$2,960** |
-| ≥15 bps | 4,499 | 22.5 | +118.3 | 96% | 5.5 | +98.3 | +110.3 | +$2,212 | +$2,482 |
-| **≥20 bps** | **3,114** | **15.6** | **+143.5** | **96%** | **5.8** | **+123.5** | **+135.5** | **+$1,923** | **+$2,110** |
-| ≥30 bps | 1,865 | 9.3 | +177.7 | 96% | 6.1 | +157.7 | +169.7 | +$1,471 | +$1,583 |
-| ≥50 bps | 862 | 4.3 | +218.0 | 96% | 6.1 | +198.0 | +210.0 | +$854 | +$905 |
+| ≥5 bps | 20,907 | 105 | +27.3 | 80% | 2.6 | +7.3 | +19.3 | **+$761** | **+$2,016** |
+| **≥10 bps** | **7,760** | **38.8** | **+58.3** | **81%** | **3.9** | **+38.3** | **+50.3** | **+$1,488** | **+$1,954** |
+| ≥20 bps | 3,114 | 15.6 | +99.3 | 82% | 4.8 | +79.3 | +91.3 | +$1,235 | +$1,422 |
+| ≥30 bps | 1,865 | 9.3 | +120.3 | 82% | 5.1 | +100.3 | +112.3 | +$935 | +$1,047 |
+| ≥50 bps | 862 | 4.3 | +138.2 | 81% | 5.1 | +118.2 | +130.2 | +$510 | +$561 |
 
-**96% win rate across all filtered buckets.** Even with taker fees, every bucket ≥5 bps is profitable.
+**81% win rate (was 96%).** Still profitable at ≥5 bps with maker fees.
 
-### 4. Net P&L by Fee Scenario (≥10 bps filter, $10K/leg)
+### 4. Single-Position-Per-Symbol P&L (no overlap, ≥10 bps, $10K/leg)
 
-| Scenario | RT Fee | Avg Net | Net WR | Total $ (200d) | $/day |
-|---|---|---|---|---|---|
-| VIP-0 taker | 20 bps | +64.2 | 71.5% | $498K | **$2,494** |
-| VIP-0 maker | 8 bps | +76.2 | 93.4% | $592K | **$2,960** |
-| VIP-1 maker | 6.4 bps | +77.8 | 94.2% | $604K | **$3,022** |
+> ⚠️ **CORRECTED (v3):** Original counted overlapping trades on the same symbol independently (74% overlap). With 1-position-per-symbol constraint:
 
-### 5. Scaling Analysis (Maker Fees, 8 bps RT)
-
-| Notional/leg | ≥10 bps | ≥20 bps | ≥30 bps |
-|---|---|---|---|
-| $10K | **$2,960/day** | $2,110/day | $1,583/day |
-| $25K | **$7,399/day** | $5,276/day | $3,958/day |
-| $50K | **$14,798/day** | $10,552/day | $7,916/day |
-| $100K | **$29,595/day** | $21,103/day | $15,833/day |
+| Metric | Original (buggy) | Fixed (no t=0, no overlap) |
+|---|---|---|
+| Trades | 7,760 | **2,562** |
+| Avg gross | 84 bps | **28 bps** |
+| Win rate | 96% | **74%** |
+| $/day maker ($10K) | $2,960 | **$254** |
+| $/day taker ($10K) | $2,494 | **$101** |
 
 ### 6. Direction Asymmetry
 
@@ -140,59 +141,54 @@ Downloaded and processed 200-level orderbook snapshots (ob200) for the top 18 FR
 - **Tradeable (BA < 3 bps):** PIPPINUSDT, AXSUSDT, ENSOUSDT, 0GUSDT, RIVERUSDT, LAUSDT — slippage $5K < 6 bps
 - **Expensive (BA > 5 bps):** COAIUSDT, SOONUSDT, MYXUSDT — slippage eats most of the edge
 
-### Realistic P&L with Per-Symbol Slippage
+---
 
-Using **maker entry + taker exit** (the realistic scenario — you place limits to enter, but need to cross spread to exit):
+## 10. Audit Results
 
-| Notional/leg | $/day | vs. ideal |
-|---|---|---|
-| $1K | **$258** | — |
-| $2K | **$478** | — |
-| $5K | **$1,023** | 35% of ideal |
-| $10K | **$1,386** | 47% of ideal |
+Three critical bugs were found and fixed:
 
-### Top Symbols by Realistic P&L ($5K/leg)
+### Bug 1: Lookahead in t=0 P&L (31% of gross)
 
-| Symbol | Trades | Gross | Slip/leg | Net | $/day |
-|---|---|---|---|---|---|
-| RIVERUSDT | 349 | 160.0 | 4.2 | 143.6 | **$125** |
-| AXSUSDT | 144 | 207.2 | 2.7 | 193.8 | **$70** |
-| ENSOUSDT | 147 | 195.4 | 4.5 | 178.4 | **$66** |
-| 0GUSDT | 238 | 108.5 | 5.7 | 89.1 | **$53** |
-| COAIUSDT | 249 | 135.7 | 24.3 | 79.2 | **$49** |
-| PIPPINUSDT | 215 | 99.4 | 2.3 | 86.7 | **$47** |
+The original code counted FR at t=0 as profit, but t=0 is the settlement we **observe** to decide entry. You can't collect t=0 FR unless you were positioned before seeing the spread. By construction, t=0 P&L = |spread| (always positive) — this is circular. **Fix: P&L starts from t+1.**
 
-204 out of 404 symbols are net profitable.
+### Bug 2: Overlapping trades (74% of trades)
+
+The original counted each settlement with |spread| ≥ 10 bps as an independent trade, even if the same symbol already had an open position. 74% of "trades" overlap. **Fix: 1 position per symbol at a time.**
+
+### Bug 3: t=0 P&L always positive by construction
+
+`pnl_t0 = sign_bn × FR_BN + sign_bb × FR_BB = |FR_BN - FR_BB|` — always equals the absolute spread. Selecting events with large |spread| and counting |spread| as profit is tautological.
+
+### Impact
+
+| Metric | Original (buggy) | Fixed (no t=0, no overlap) | Change |
+|---|---|---|---|
+| Trades (≥10 bps) | 7,760 | **2,562** | -67% |
+| Avg gross | 84 bps | **28 bps** | -67% |
+| Win rate | 96% | **74%** | -22 pp |
+| $/day maker ($10K) | $2,960 | **$254** | **-91%** |
+| $/day taker ($10K) | $2,494 | **$101** | -96% |
 
 ---
 
 ## Verdict
 
-**The edge is real, but slippage on altcoins is the binding constraint.**
+**Small edge exists, but far weaker than originally reported.**
 
-| Aspect | Ideal (all maker) | Realistic (maker+taker exit) |
-|---|---|---|
-| Frequency | 38.9/day | 38.9/day |
-| $/day ($5K/leg) | $2,960 | **$1,023** |
-| $/day ($10K/leg) | $5,920 | **$1,386** |
-| Win rate | 93% | 58% |
-| Profitable symbols | 404/404 | 204/404 |
-
-| Risk | Assessment |
+| Aspect | Assessment |
 |---|---|
-| Edge exists? | ✅ 96% gross WR, 84 bps avg gross |
-| Profitable after slippage? | ✅ Yes, ~$1K/day at $5K/leg realistic |
-| Scalable beyond $10K/leg? | ⚠️ Limited — book depth too thin on most altcoins |
-| Key risk | ⚠️ Slippage on exit — taker fills eat 30–65% of gross edge |
-| Key risk | ⚠️ Concentration — top 6 symbols drive 50%+ of P&L |
+| Edge exists? | ⚠️ Yes, but 74% WR and 28 bps gross (not 96%/84 bps) |
+| Profitable after fees? | ⚠️ Marginal — $254/day maker, $101/day taker at $10K/leg |
+| After slippage too? | ❌ Likely breakeven or negative for most symbols |
+| Scalable? | ❌ Book depth too thin, overlap constraint limits trades |
+| Key insight | The "spread convergence" is mostly regression to the mean — not a tradeable edge |
+
+**This strategy is NOT worth pursuing as a standalone system.** The corrected numbers show ~$100–250/day on $10K/leg before slippage, which likely disappears with realistic execution.
 
 ---
 
 ## Next Steps
 
-- [ ] Build real-time monitor for FR spread across all common symbols
-- [ ] Test limit-order-only execution (maker entry AND maker exit) — is it feasible?
-- [ ] Analyze max adverse excursion — how much does spread widen before converging?
-- [ ] Add OKX as third exchange for more arb pairs
-- [ ] Download ob200 for more symbols to improve slippage coverage
-- [ ] Research optimal position sizing per symbol based on book depth
+- [x] ~~Build real-time monitor~~ — not warranted given weak corrected edge
+- [ ] Consider as a **secondary signal** in the single-exchange HOLD strategy (boost confidence when cross-exchange spread is large)
+- [ ] Test whether the predicted/next FR (available before settlement) has enough signal to enter early and collect t=0 legitimately
