@@ -1,6 +1,6 @@
-# Futures Premium (Basis) Divergence: Binance vs Bybit
+# Cross-Exchange FR Spread Arbitrage: Binance vs Bybit
 
-**Date:** 2026-02-24  
+**Date:** 2026-02-24 (v2: corrected to use absolute spread, not just opposite-sign)  
 **Script:** `fr_research/research_basis_divergence.py`  
 **Data:** Historical FR (200 days, Aug 2025 – Feb 2026) + real-time ticker (2 days)
 
@@ -8,135 +8,135 @@
 
 ## The Trade
 
-When funding rate is **positive on exchange A** and **negative on exchange B**:
+When `|FR_Binance - FR_Bybit|` is large on a given symbol:
 
-- **Short futures** on exchange A (collect positive FR)
-- **Long futures** on exchange B (collect negative FR — shorts pay you)
+- **Short futures** on the exchange with the **higher** FR (collect more funding)
+- **Long futures** on the exchange with the **lower** FR
 - **Delta-neutral** — no spot leg, no directional exposure
-- **Profit from:** (1) FR collection on both legs + (2) basis convergence
+- **Opposite signs NOT required** — same-sign spreads are 86–92% of all events!
 
-### Fee Structure (Futures-Only)
+### Fee Structure (Futures-Only, no spot)
 
-| Tier | Per-side | Round-trip (4 legs) |
+| Tier | Per-side | Round-trip (open+close both exchanges) |
 |---|---|---|
 | VIP-0 taker | 5.0 bps | **20 bps** |
 | VIP-0 maker | 2.0 bps | **8 bps** |
-| VIP-1 taker | 4.0 bps | 16 bps |
 | VIP-1 maker | 1.6 bps | 6.4 bps |
 
 ---
 
 ## Key Findings
 
-### 1. FR Sign Disagreements Are Common
+### 1. FR Spread Distribution
 
 | Metric | Value |
 |---|---|
 | Matched settlements (BN × BB) | 465,843 |
 | Common symbols | 476 |
-| Sign disagreements | 87,630 (**18.8%**) |
-| BN+ & BB− | 17,072 (19%) |
-| BN− & BB+ | 70,558 (81%) |
+| Data period | 200 days |
+| Mean |spread| | 1.0 bps |
+| P99 |spread| | 14.6 bps |
+| P99.9 |spread| | 67.8 bps |
 
-**Asymmetry:** BN−/BB+ is 4× more common — Binance FR skews more negative than Bybit.
+### 2. Event Frequency — Much Higher Than Previously Thought
 
-### 2. Convergence Is Real — 94% Gross Win Rate
+| Threshold | Events | Per day | Same-sign | Opp-sign |
+|---|---|---|---|---|
+| ≥5 bps | 20,945 | **104.8** | 78% | 22% |
+| ≥10 bps | 7,774 | **38.9** | 86% | 14% |
+| ≥20 bps | 3,117 | **15.6** | 89% | 11% |
+| ≥30 bps | 1,867 | **9.3** | 92% | 8% |
+| ≥50 bps | 864 | **4.3** | 93% | 7% |
 
-| Metric | Value |
-|---|---|
-| Total trades | 87,486 |
-| Avg hold | 3.2 periods |
-| Gross P&L | **+4.63 bps** |
-| Gross Win Rate | **94.2%** |
+**Previous analysis only counted opposite-sign events (14% of total) — we were missing 86% of the opportunity.**
 
-53% of disagreements resolve within 1 settlement period. By t+6, 63% have re-aligned.
+### 3. Convergence: P&L by Entry Threshold ($10K/leg)
 
-### 3. Gross P&L by Spread Bucket
+| Filter | Trades | Per day | Gross | WR | Hold | Net @20bps | Net @8bps | **$/day taker** | **$/day maker** |
+|---|---|---|---|---|---|---|---|---|---|
+| ≥0 (all) | 465,367 | 2,328 | +2.9 | 60% | 2.1 | −17.1 | −5.1 | −$39,828 | −$11,894 |
+| ≥5 bps | 20,907 | 105 | +41.2 | 96% | 3.6 | +21.2 | +33.2 | **+$2,214** | **+$3,469** |
+| **≥10 bps** | **7,760** | **38.8** | **+84.2** | **96%** | **4.9** | **+64.2** | **+76.2** | **+$2,494** | **+$2,960** |
+| ≥15 bps | 4,499 | 22.5 | +118.3 | 96% | 5.5 | +98.3 | +110.3 | +$2,212 | +$2,482 |
+| **≥20 bps** | **3,114** | **15.6** | **+143.5** | **96%** | **5.8** | **+123.5** | **+135.5** | **+$1,923** | **+$2,110** |
+| ≥30 bps | 1,865 | 9.3 | +177.7 | 96% | 6.1 | +157.7 | +169.7 | +$1,471 | +$1,583 |
+| ≥50 bps | 862 | 4.3 | +218.0 | 96% | 6.1 | +198.0 | +210.0 | +$854 | +$905 |
 
-| Bucket | Trades | Gross | WR | Net @20bps | Net @8bps | $/day @20 | $/day @8 |
-|---|---|---|---|---|---|---|---|
-| 0–5 bps | 82,870 | +3.7 | 94% | −16.3 | −4.3 | −$6,761 | −$1,787 |
-| 5–10 bps | 3,505 | +15.3 | 98% | −4.7 | +7.3 | −$82 | +$129 |
-| **10–20 bps** | **782** | **+30.7** | **98%** | **+10.7** | **+22.7** | **+$42** | **+$89** |
-| **20–30 bps** | **176** | **+50.2** | **100%** | **+30.2** | **+42.2** | **+$27** | **+$37** |
-| **30–50 bps** | **94** | **+70.6** | **99%** | **+50.6** | **+62.6** | **+$24** | **+$29** |
-| **50–100 bps** | **45** | **+86.0** | **100%** | **+66.0** | **+78.0** | **+$15** | **+$18** |
-| **100–500 bps** | **14** | **+178.3** | **100%** | **+158.3** | **+170.3** | **+$11** | **+$12** |
+**96% win rate across all filtered buckets.** Even with taker fees, every bucket ≥5 bps is profitable.
 
-**Key insight:** Everything above 5 bps is profitable with maker fees. Everything above 10 bps is profitable even with taker fees.
+### 4. Net P&L by Fee Scenario (≥10 bps filter, $10K/leg)
 
-### 4. Filtered Strategy Performance ($10K/leg)
-
-| Filter | Trades | Per day | Gross | Net (taker) | Net (maker) | $/day (taker) | $/day (maker) |
-|---|---|---|---|---|---|---|---|
-| ≥10 bps | 1,111 | 5.6 | 41.3 | +21.3 | +33.3 | **$118** | **$185** |
-| ≥15 bps | 522 | 2.6 | 57.9 | +37.9 | +49.9 | **$99** | **$130** |
-| ≥20 bps | 329 | 1.6 | 66.3 | +46.3 | +58.3 | **$76** | **$96** |
-| ≥30 bps | 153 | 0.8 | 85.0 | +65.0 | +77.0 | **$50** | **$59** |
-
-**Best risk/reward: ≥10 bps filter with maker fees → $185/day on $10K/leg.**
+| Scenario | RT Fee | Avg Net | Net WR | Total $ (200d) | $/day |
+|---|---|---|---|---|---|
+| VIP-0 taker | 20 bps | +64.2 | 71.5% | $498K | **$2,494** |
+| VIP-0 maker | 8 bps | +76.2 | 93.4% | $592K | **$2,960** |
+| VIP-1 maker | 6.4 bps | +77.8 | 94.2% | $604K | **$3,022** |
 
 ### 5. Scaling Analysis (Maker Fees, 8 bps RT)
 
-| Notional/leg | ≥10 bps | ≥20 bps |
+| Notional/leg | ≥10 bps | ≥20 bps | ≥30 bps |
+|---|---|---|---|
+| $10K | **$2,960/day** | $2,110/day | $1,583/day |
+| $25K | **$7,399/day** | $5,276/day | $3,958/day |
+| $50K | **$14,798/day** | $10,552/day | $7,916/day |
+| $100K | **$29,595/day** | $21,103/day | $15,833/day |
+
+### 6. Direction Asymmetry
+
+| Direction | Trades | Gross | WR |
+|---|---|---|---|
+| BN > BB (short BN, long BB) | 3,252 | +73.7 bps | 94% |
+| BB > BN (short BB, long BN) | 4,508 | +91.8 bps | 97% |
+
+BB > BN direction is more common and more profitable.
+
+### 7. Spread Convergence Speed
+
+For events with |spread| ≥ 20 bps (initial avg ~38 bps):
+
+| Period | |Spread| | Reversion |
 |---|---|---|
-| $10K | $185/day ($67K/yr) | $96/day ($35K/yr) |
-| $25K | $462/day ($169K/yr) | $240/day ($88K/yr) |
-| $50K | $924/day ($337K/yr) | $480/day ($175K/yr) |
-| $100K | $1,848/day ($674K/yr) | $960/day ($350K/yr) |
+| t+0 | 38.1 bps | — |
+| t+1 | 11.3 bps | +70% |
+| t+2 | 8.7 bps | +77% |
+| t+3 | 7.2 bps | +81% |
 
-### 6. Extreme Events (|spread| ≥ 30 bps)
+→ **70% of the spread reverts in just 1 settlement period.** Very fast convergence.
 
-153 events total over 200 days. Top examples show **hard snap-back within 1–2 periods**:
+### 8. Real-Time Basis Analysis (1-min resolution, 2 days)
 
-| Symbol | Date | Spread t0 | t+1 | t+2 |
-|---|---|---|---|---|
-| TUTUSDT | 2025-10-11 | −254 bps | 0 | 0 |
-| LYNUSDT | 2025-10-06 | −201 bps | −56 | −47 |
-| COTIUSDT | 2025-10-11 | +139 bps | +3 | +4 |
-| FLOWUSDT | 2026-02-06 | +118 bps | −8 | −11 |
-
-FLOWUSDT is a **serial diverger** (8 times in top-40). The 2025-10-11 cluster suggests a Binance-wide anomaly.
-
-### 7. Real-Time Basis Analysis (1-min resolution, 2 days)
-
-| Metric | Value |
-|---|---|
-| Basis spread mean (BN−BB) | −3.07 bps |
-| Std | 20.00 bps |
-| P1/P99 | −53 / +42 bps |
-
-**Basis spread autocorrelation:**
-
-| Lag | AC |
+| Lag | Basis Spread Autocorrelation |
 |---|---|
 | 1 min | 0.774 |
 | 5 min | 0.479 |
 | 30 min | 0.274 |
 | 60 min | 0.207 |
 
-→ **Strong mean-reversion within 30–60 min.** Basis convergence is not just a FR-settlement phenomenon — it happens continuously.
+→ **Strong mean-reversion within 30–60 min** on an intraday timescale.
 
 ---
 
 ## Verdict
 
-**YES — this is a viable strategy**, particularly with maker fees.
+**This is a strong strategy.** The numbers are dramatically better than the initial (opposite-sign only) analysis.
 
 | Aspect | Assessment |
 |---|---|
-| Edge exists? | ✅ 94% gross WR, convergence confirmed |
-| Profitable after fees? | ✅ With maker fees (≥5 bps spread) or taker fees (≥10 bps) |
-| Frequency? | ✅ 5.6 events/day at ≥10 bps filter |
-| Scalable? | ✅ $185–$1,848/day depending on notional |
-| Key risk | ⚠️ Basis risk — spread may widen before converging |
+| Edge exists? | ✅ 96% WR, 84 bps avg gross at ≥10 bps filter |
+| Profitable after fees? | ✅ Even with taker fees at ≥5 bps filter |
+| Frequency? | ✅ **38.9 events/day** at ≥10 bps (was 5.6 with opposite-sign only) |
+| Daily P&L ($10K/leg) | ✅ **$2,960/day** maker fees, $2,494 taker |
+| Scalable? | ✅ $29.6K/day at $100K/leg |
+| Key risk | ⚠️ Basis risk (spread may widen before converging) |
+| Key risk | ⚠️ Liquidity on altcoins — can we fill $50K+ without slippage? |
 
 ---
 
 ## Next Steps
 
-- [ ] Build real-time monitor for FR sign divergence across all symbols
-- [ ] Backtest with proper slippage model (are maker fills realistic on both exchanges simultaneously?)
-- [ ] Analyze max adverse excursion — how much does basis widen before converging?
-- [ ] Test combining with the single-exchange HOLD FR arb
-- [ ] Deep-dive FLOWUSDT as a dedicated pair trade
+- [ ] Build real-time monitor for FR spread across all common symbols
+- [ ] Backtest with slippage model — are maker fills realistic on both exchanges simultaneously?
+- [ ] Analyze max adverse excursion — how much does spread widen before converging?
+- [ ] Check overlap with single-exchange HOLD strategy — are we double-counting?
+- [ ] Add OKX as a third exchange for more arb opportunities
+- [ ] Filter by liquidity/volume to avoid illiquid altcoins
