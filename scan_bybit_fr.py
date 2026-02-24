@@ -118,6 +118,28 @@ def fetch_spot_tickers():
     return spot
 
 
+def fetch_margin_pairs():
+    """Fetch spot instruments to check which pairs support margin trading (short spot)."""
+    margin_syms = set()
+    cursor = ""
+    while True:
+        params = {"category": "spot", "limit": "1000"}
+        if cursor:
+            params["cursor"] = cursor
+        result = api_get("/v5/market/instruments-info", params)
+        if not result:
+            break
+        for item in result.get("list", []):
+            sym = item.get("symbol", "")
+            # marginTrading: "utaOnly", "both", or "none"/""
+            if item.get("marginTrading", "") in ("utaOnly", "both"):
+                margin_syms.add(sym)
+        cursor = result.get("nextPageCursor", "")
+        if not cursor:
+            break
+    return margin_syms
+
+
 def main():
     parser = argparse.ArgumentParser(description="Bybit FR Scanner")
     parser.add_argument("--top", type=int, default=20, help="Show top N coins")
@@ -140,11 +162,15 @@ def main():
     spot = fetch_spot_tickers()
     print(f" {len(spot)} symbols")
 
+    print("  Fetching margin availability...", end="", flush=True)
+    margin_pairs = fetch_margin_pairs()
+    print(f" {len(margin_pairs)} margin-enabled pairs")
+
     if not futures:
         print("  ERROR: No futures data received.")
         sys.exit(1)
 
-    # Enrich with spot data
+    # Enrich with spot data + margin availability
     for t in futures:
         sym = t["symbol"]
         if sym in spot:
@@ -155,6 +181,23 @@ def main():
             t["spot_spread_bps"] = None
             t["total_spread_bps"] = None
             t["has_spot"] = False
+        t["has_margin"] = sym in margin_pairs
+        # Can we actually trade this coin?
+        # Positive FR: need long spot (easy) + short futures (easy) → only need spot pair
+        # Negative FR: need short spot (margin borrow) + long futures → need margin
+        if t["fr"] > 0:
+            t["tradeable"] = t["has_spot"]
+            t["trade_note"] = "" if t["has_spot"] else "no spot"
+        else:
+            if t["has_margin"]:
+                t["tradeable"] = True
+                t["trade_note"] = ""
+            elif t["has_spot"]:
+                t["tradeable"] = False
+                t["trade_note"] = "no margin"
+            else:
+                t["tradeable"] = False
+                t["trade_note"] = "no spot"
 
     # Filter
     filtered = futures
@@ -220,12 +263,13 @@ def main():
         oi_str = f"${t['oi_usd']/1e6:.1f}M" if t['oi_usd'] >= 1e6 else f"${t['oi_usd']/1e3:.0f}K"
         income = est_income(t["fr_bps"])
 
-        # Profitable after RT cost AND has spot market for hedging?
-        profitable = t["fr_bps"] > RT_COST_BPS and t["has_spot"]
+        # Tradeable AND profitable after RT cost?
         if not t["has_spot"]:
-            marker = "⊘"  # no spot market
-        elif profitable:
-            marker = "✓"
+            marker = "⊘"  # no spot pair
+        elif not t["tradeable"]:
+            marker = "⊗"  # has spot but no margin (needed for negative FR)
+        elif t["fr_bps"] > RT_COST_BPS:
+            marker = "✓"  # profitable and tradeable
         else:
             marker = " "
 
@@ -236,7 +280,7 @@ def main():
               f"{direction(t['fr']):>24} {marker}")
 
     # ─── Action summary ──────────────────────────────────────────────
-    actionable = [t for t in top if t["fr_bps"] >= 20 and t["has_spot"] 
+    actionable = [t for t in filtered if t["fr_bps"] >= 20 and t["tradeable"]
                    and t.get("total_spread_bps", 999) < 80]
     if actionable:
         print(f"\n  {'='*100}")
@@ -257,7 +301,20 @@ def main():
             print(f"      24h volume:      ${t['volume_24h_usd']:,.0f}")
             print(f"      Open interest:   ${t['oi_usd']:,.0f}")
     else:
-        print(f"\n  ⚠ No coins with |FR| ≥ 20 bps and spot market available right now.")
+        print(f"\n  ⚠ No actionable coins right now (need |FR| ≥ 20 bps + tradeable).")
+        # Show why
+        high_fr_coins = [t for t in filtered if t["fr_bps"] >= 20]
+        if high_fr_coins:
+            no_spot = sum(1 for t in high_fr_coins if not t["has_spot"])
+            no_margin = sum(1 for t in high_fr_coins if t["has_spot"] and not t["tradeable"])
+            ok = sum(1 for t in high_fr_coins if t["tradeable"])
+            print(f"    {len(high_fr_coins)} coins have |FR| ≥ 20 bps but:")
+            if no_spot:
+                print(f"      {no_spot} have no spot pair on Bybit")
+            if no_margin:
+                print(f"      {no_margin} have spot but no margin (can't short spot for negative FR)")
+            if ok:
+                print(f"      {ok} are tradeable but spread too wide")
         print(f"    Check back at the next settlement hour.")
 
     print()
