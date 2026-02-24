@@ -137,7 +137,68 @@ Neither is catastrophic because the average trade lasts 6.5 settlements anyway.
 
 ---
 
-## 6. Position Utilization
+## 6. Settlement Timing: When Exactly to Enter/Exit
+
+### The hourly cycle (1h coins)
+
+```
+:00  ──── SETTLEMENT fires ──────────────────────────────────────
+:05  You SEE the just-settled FR. Evaluate exits.
+      If position FR < 8 bps → close position.
+ ⋮   (positions are earning, nothing to do)
+:50  Start scanning for new high-FR coins.
+:55  ──── DECISION POINT ─────────────────────────────────────────
+      ENTER new positions (FR ≥ 20 bps, slot available)
+      Uses the :00 settled FR as signal (55 min old, still valid).
+:58  Last safe moment to have orders filled.
+:00  ──── NEXT SETTLEMENT ──── you collect FR ✓ ──────────────────
+```
+
+### Enter at :55, not :05
+
+Both approaches use the **same information** (the last settled FR) and **collect the same next settlement**. The difference is price exposure:
+
+| Enter at | Price exposure before next settlement | Risk |
+|----------|--------------------------------------|------|
+| :05 | 55 minutes | Higher — legs can diverge |
+| :30 | 30 minutes | Medium |
+| **:55** | **5 minutes** | **Lowest** |
+
+You have 55 minutes after seeing the settled FR to analyze and decide. Then execute at :55 with minimal time exposed before settlement.
+
+### Do NOT try to "predict" the next settlement and enter early
+
+Entering based on the **previous** hour's FR to "capture one extra settlement" sounds attractive but is **6% worse** in practice:
+
+- 13% of the time, FR collapses between settlements (previous ≥ 20bps but next < 8bps)
+- Those bad entries cost ~$39 each in wasted round-trip fees
+- The extra settlements captured don't compensate for the bad entries
+
+```
+Post-settle (see FR, enter at :55):  $1,416/day (baseline)
+Pre-settle (predict, enter early):   $1,332/day (-6%)
+```
+
+### FR persistence validates the :55 approach
+
+When current settled FR is high, the next settlement is almost always high too:
+
+| Current FR | Next FR mean | Next still ≥ 20bps | Next < 8bps (bad) |
+|------------|-------------|--------------------|--------------------|
+| 20-30 bps  | 22.2 bps    | 44.5%              | 13.0%              |
+| 30-50 bps  | 34.9 bps    | 67.4%              | 7.0%               |
+| 50-100 bps | 58.7 bps    | 81.8%              | 5.0%               |
+| ≥ 100 bps  | 123.1 bps   | 92.8%              | 3.4%               |
+
+The signal (just-settled FR) is reliable. No need to rush — analyze at :05, execute at :55.
+
+### Exit timing doesn't matter
+
+When FR drops below 8 bps, the last settlement was worth ~$0.40-0.80. Over 700 trades that's $3-5/day. Close whenever convenient after seeing the drop.
+
+---
+
+## 7. Position Utilization
 
 With 95 Bybit 1h coins and entry ≥ 20 bps:
 
@@ -153,7 +214,7 @@ You're running at ~74% capacity on average (2.22 / 3 slots).
 
 ---
 
-## 7. Multi-Exchange Execution
+## 8. Multi-Exchange Execution
 
 Running the same logic across all 3 exchanges simultaneously:
 
@@ -168,7 +229,7 @@ The combined pool adds value because coins have **different FR cycles** — when
 
 ---
 
-## 8. Multi-Interval Allocation: 1h vs 4h vs 8h
+## 9. Multi-Interval Allocation: 1h vs 4h vs 8h
 
 ### Do NOT mix intervals in the same pool
 
@@ -219,22 +280,21 @@ Note: Binance 4h is strong ($615/day, 395 coins, 69% WR) because it has only 32 
 
 ---
 
-## 9. Summary: The Full Playbook
+## 10. Summary: The Full Playbook
 
 ### Primary: 1h coins (3 slots per exchange)
 ```
-SCAN:   Every 1-4 hours, check FR on all 1h-settlement coins across BB/BN/OKX
-ENTER:  FR ≥ 20 bps and slot available → open spot long + futures short
-HOLD:   Collect FR every hour. Do nothing while FR ≥ 8 bps.
-EXIT:   FR drops below 5-8 bps → close both legs.
-SWITCH: Only if new coin FR ≥ 5× worst position (rare, ~once per 2 days).
+:00  Settlement fires
+:05  See settled FR → evaluate exits (close if FR < 8 bps)
+ ⋮   Analyze candidates (55 min to decide)
+:55  ENTER new positions (FR ≥ 20 bps, slot available)
+:00  Next settlement → collect FR ✓
 ```
 
 ### Secondary: 4h coins (separate 3 slots per exchange)
 ```
-SCAN:   Every 4 hours (at settlement times)
-ENTER:  FR ≥ 30 bps
-HOLD:   Do nothing while FR ≥ 8 bps.
+Same logic at 4h settlement times (00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC)
+ENTER:  FR ≥ 30 bps at :55 before settlement
 EXIT:   FR drops below 3-5 bps
 ```
 
