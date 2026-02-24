@@ -173,6 +173,49 @@ The entire price dislocation happens in a **single 5-second window** at settleme
 6. **No stop-loss needed**: 2-5 second hold means no time for adverse moves beyond the spread
 7. **API latency**: Need websocket connection to Bybit for fast order placement (<100ms)
 
+## Capacity Constraints (THE KILLER)
+
+### Orderbook Depth on Extreme-FR Coins
+
+| Position Size | Fits in 10bps slippage? | Avg Slippage |
+|---|---|---|
+| $500 | 94% of settlements | ~5 bps |
+| $1,000 | 89% | ~8 bps |
+| $2,000 | 63% | ~11 bps |
+| $5,000 | 6% | ~19 bps |
+| **$10,000** | **0%** | **~24 bps** |
+
+Per-coin USD depth at ask side (before settlement):
+- At 5 bps: **$758 avg** ($19 to $2,371)
+- At 10 bps: **$2,497 avg**
+- At 25 bps: **$9,796 avg**
+
+### The Fundamental Paradox
+
+Coins with **extreme negative FR** (where the edge exists) are tiny altcoins with **thin orderbooks** (LAUSDT, AWEUSDT, POWERUSDT). Coins with **deep orderbooks** (BTC, ETH, SOL) almost never have extreme FR.
+
+### Realistic P&L
+
+At $1,000 per trade (max realistic size):
+- Edge: +11 bps = $1.10
+- Slippage: ~8 bps = -$0.80
+- **Net: ~$0.30 per trade**
+- ~46 trades/day → **~$14/day → ~$5k/year**
+
+### Crowding Risk
+
+If 2-3 other traders do the same strategy, the $2-3k of depth gets eaten and slippage doubles → edge disappears completely.
+
+### Conclusion
+
+**FR arbitrage at retail scale is a $5-15/day business** regardless of variant:
+- Delta-neutral: limited by margin borrow caps (~$100-500/coin)
+- Flash scalp: limited by orderbook depth (~$500-1,000/coin)
+
+The edge is real and proven, but not scalable.
+
+---
+
 ## Caveats
 
 - **Small sample**: Only 35 trades from 2 days of ob200 data. Need weeks/months of live monitoring to validate.
