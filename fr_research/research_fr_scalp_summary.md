@@ -299,6 +299,87 @@ Fees: 4×market = 4×5.5 = 22 bps; mixed (2 taker + 2 maker) = 2×5.5 + 2×2.0 =
 
 ---
 
+## Volume Microstructure at Settlement (ms resolution)
+
+### USD Volume Timeline (per-settlement average, 33 settlements)
+
+| Window | Avg $/settle | Buy/Sell Imbalance | Price | What's happening |
+|---|---|---|---|---|
+| T-2s to T-1s | $5,326 | **+59% buy** | flat | Scalpers entering long |
+| T-1s to T-500ms | $7,988 | **+40% buy** | flat | More longs piling in |
+| T-500ms to T-100ms | $5,030 | +1% balanced | flat | Calm before storm |
+| T-100ms to T+0ms | $1,629 | **-49% sell** | -5 bps | Early sellers |
+| **T+0 to T+10ms** | **$1,741** | **-73% sell** | **-13 bps** | **First drop — thin, almost all sells** |
+| T+10 to T+20ms | $4,313 | **-74% sell** | -18 bps | Sell cascade |
+| **T+20 to T+50ms** | **$26,949** | **-43% sell** | **-46 bps** | **Massive volume spike — the cliff** |
+| T+50 to T+100ms | $9,167 | **+5% balanced** | -57 bps | Overshoot — buyers step in |
+| T+100 to T+200ms | $13,371 | **+33% buy** | -50 bps | Mean reversion buying |
+| T+200ms to T+500ms | $16,664 | -26% sell | -55 bps | Second sell wave |
+| T+1s to T+2s | $19,537 | +7% balanced | -61 bps | Stabilizing |
+
+### Key Observations
+
+1. **The first drop (T+0 to T+10ms) is THIN** — only $1,741/settle. A $1k order is ~57% of all volume in that window. Being first matters enormously.
+2. **The real volume hits T+20-50ms** — $27k/settle, mostly sells (-43% imbalance). This is the cliff.
+3. **Buyers return at T+50-200ms** — imbalance flips to +5% then +33% buy. This is where the flip covers.
+4. **Pre-settlement buying is obvious** — T-2s to T-500ms is +40-60% buy-heavy. Everyone loading up.
+
+### Per-Coin Volume in First 100ms
+
+| Coin | Settlements | $/settle | Imbalance | Note |
+|---|---|---|---|---|
+| **POWERUSDT** | 2 | **$118,430** | +31% buy | Deep — $1k is a drop in bucket |
+| **AGLDUSDT** | 5 | $65,053 | +31% buy | Deep |
+| **LAUSDT** | 16 | $43,913 | -5% balanced | Most data |
+| AWEUSDT | 11 | $22,707 | -51% sell | Sell-heavy |
+| BELUSDT | 2 | $20,135 | -37% sell | |
+| ENSOUSDT | 2 | $4,484 | -79% sell | Thin |
+| LSKUSDT | 1 | $207 | -100% sell | Dead — skip |
+
+---
+
+## Entry Filter: ob200 as Go/No-Go Signal
+
+ob200 snapshots (1/sec) are available in real-time before settlement. Can we use pre-settlement orderbook conditions to decide whether to enter?
+
+### What Predicts P&L? (correlation with gross P&L, n=33)
+
+| Feature | r (simple) | r (flip) |
+|---|---|---|
+| **FR magnitude** | **+0.975** | **+0.980** |
+| Spread | +0.444 | +0.405 |
+| Trade count 60s | +0.443 | +0.431 |
+| Trade count 5s | +0.394 | +0.407 |
+| Trade vol 60s ($) | +0.348 | +0.326 |
+| Trade vol 5s ($) | +0.301 | +0.309 |
+| Buy/Sell imbalance | -0.222 | -0.215 |
+
+**FR magnitude is almost perfectly correlated with P&L** (r=0.98). The bigger the FR, the bigger the ex-dividend drop, the more the FR income exceeds the drop. All other features are secondary.
+
+### Filter Results
+
+| Filter | n | Simple (gross) | WR (net) | Flip (gross) | WR (net) |
+|---|---|---|---|---|---|
+| All trades | 33 | +64.1 bps | 100% | +113.1 bps | 97% |
+| Vol 60s >= $5k | 29 | +66.5 bps | 100% | +118.4 bps | 97% |
+| Vol 60s >= $10k | 28 | +67.2 bps | 100% | +119.6 bps | 96% |
+| Vol 5s >= $1k | 30 | +65.5 bps | 100% | +116.5 bps | 97% |
+| Vol >= $5k & Sprd <= 10 | 29 | +66.5 bps | 100% | +118.4 bps | 97% |
+
+### Recommended Entry Criteria
+
+**The strategy is so robust that no filter significantly improves it.** All 33 settlements were profitable on the simple scalp (100% WR). The flip lost only 1/33.
+
+Still, for a live system, sensible go/no-go checks:
+1. **FR <= -15 bps** (mandatory — this IS the edge)
+2. **Trade volume in last 60s >= $5,000** (confirms the coin is actively traded)
+3. **Spread <= 10 bps** (avoids dead books like LSKUSDT at $207 volume)
+4. **ob200 available** (confirms the orderbook is functional)
+
+These filters reject ~4/33 settlements (12%) with marginally lower P&L, keeping the highest-confidence trades.
+
+---
+
 ## Capacity Constraints
 
 ### Orderbook Depth on Extreme-FR Coins
