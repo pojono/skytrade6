@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
-"""
-ML Settlement Prediction Pipeline
+"""ML Settlement Prediction Pipeline
 ===================================
 End-to-end pipeline:
   1. Download latest JSONL data from remote dataminer server (skip existing)
-  2. Extract V2 features from all JSONL files
-  3. Train models with honest validation (LOSO + temporal)
-  4. Generate markdown report with findings
+  2. Extract V2 features from all JSONL files (full 60s window)
+  3. Train settlement prediction models with honest validation (LOSO + temporal)
+  4. Train microstructure exit ML (100ms ticks, predict further drop)
+  5. Backtest exit strategies (fixed, trailing, ML, oracle)
+  6. Generate comprehensive markdown report
 
 Usage:
     python3 ml_settlement_pipeline.py                    # full pipeline
     python3 ml_settlement_pipeline.py --skip-download    # skip download step
     python3 ml_settlement_pipeline.py --report-only      # just regenerate report from existing CSV
+    python3 ml_settlement_pipeline.py --skip-exit-ml     # skip exit ML (faster)
 
 Requirements:
     - SSH key at ~/.ssh/id_ed25519_remote
@@ -41,6 +43,7 @@ REMOTE_DATA_DIR = "~/skytrade7/logs/market_data"
 LOCAL_DATA_DIR = Path("charts_settlement")
 FEATURES_CSV = Path("settlement_features_v2.csv")
 REPORT_FILE = Path("REPORT_ml_settlement.md")
+EXIT_ML_TICKS = Path("exit_ml_ticks.parquet")
 
 # Best model: FR + depth + OI (proven honest by integrity audit)
 PRODUCTION_FEATURES = [
@@ -487,10 +490,10 @@ def step_train_and_validate(df):
 # STEP 4: GENERATE REPORT
 # ═══════════════════════════════════════════════════════════════════════
 
-def step_generate_report(df, results):
+def step_generate_report(df, results, exit_results=None):
     """Generate markdown report."""
     print("\n" + "=" * 70)
-    print("STEP 4: GENERATE REPORT")
+    print("STEP 6: GENERATE REPORT")
     print("=" * 70)
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
@@ -696,6 +699,9 @@ def step_generate_report(df, results):
                 lines.append(f"| T+{label} | {df[col].mean():.1%} |")
         lines.append(f"")
 
+    # Exit ML section
+    _append_exit_ml_report(lines, exit_results)
+
     # Per-date summary
     lines.append(f"## Per-Date Summary")
     lines.append(f"")
@@ -715,20 +721,164 @@ def step_generate_report(df, results):
 
 
 # ═══════════════════════════════════════════════════════════════════════
+# STEP 5: EXIT ML — MICROSTRUCTURE EXIT TIMING
+# ═══════════════════════════════════════════════════════════════════════
+
+def step_exit_ml():
+    """Build tick-level features, train exit model, backtest strategies."""
+    from research_exit_ml import build_tick_features, train_and_evaluate, backtest_exits
+
+    print("\n" + "=" * 70)
+    print("STEP 5: MICROSTRUCTURE EXIT ML")
+    print("=" * 70)
+
+    jsonl_files = sorted(LOCAL_DATA_DIR.glob("*.jsonl"))
+    if not jsonl_files:
+        print("  ✗ No JSONL files")
+        return None
+
+    print(f"  Building tick features from {len(jsonl_files)} recordings...")
+
+    all_dfs = []
+    t0 = time.time()
+    for i, fp in enumerate(jsonl_files, 1):
+        tick_df = build_tick_features(fp)
+        if tick_df is not None:
+            all_dfs.append(tick_df)
+        if i % 30 == 0:
+            n_ticks = sum(len(d) for d in all_dfs)
+            print(f"    [{i}/{len(jsonl_files)}] {len(all_dfs)} valid, {n_ticks} ticks, {time.time()-t0:.1f}s")
+
+    if not all_dfs:
+        print("  ✗ No valid tick data")
+        return None
+
+    tick_df = pd.concat(all_dfs, ignore_index=True)
+    n_ticks = len(tick_df)
+    n_settle = tick_df["settle_id"].nunique()
+    n_sym = tick_df["symbol"].nunique()
+    print(f"  ✅ {n_ticks} ticks from {n_settle} settlements, {n_sym} symbols [{time.time()-t0:.1f}s]")
+    print(f"  Target positive rate: {tick_df['target_further_drop'].mean()*100:.1f}%")
+
+    # Train
+    ml_results, feature_cols = train_and_evaluate(tick_df)
+
+    # Backtest
+    strats = backtest_exits(tick_df, ml_results)
+
+    # Save ticks
+    tick_df.to_parquet(EXIT_ML_TICKS, index=False)
+    print(f"  Saved tick data to: {EXIT_ML_TICKS}")
+
+    return {
+        "n_ticks": n_ticks,
+        "n_settle": n_settle,
+        "n_symbols": n_sym,
+        "n_features": len(feature_cols),
+        "feature_cols": feature_cols,
+        "ml_results": ml_results,
+        "strategies": {name: np.array(pnls) for name, pnls in strats.items()},
+    }
+
+
+def _append_exit_ml_report(lines, exit_results):
+    """Append exit ML section to report."""
+    if exit_results is None:
+        return
+
+    ml = exit_results["ml_results"]
+    strats = exit_results["strategies"]
+    FEE = 20
+
+    lines.append(f"## Microstructure Exit ML")
+    lines.append(f"")
+    lines.append(f"Real-time exit signal trained on {exit_results['n_ticks']:,} ticks ")
+    lines.append(f"(100ms intervals) from {exit_results['n_settle']} settlements.")
+    lines.append(f"")
+    lines.append(f"Target: \"will price drop ≥5 bps more in next 1s?\"")
+    lines.append(f"")
+
+    # Model comparison table
+    lines.append(f"### Model Performance")
+    lines.append(f"")
+    lines.append(f"| Model | Train AUC | Test AUC | LOSO (symbol) | Overfit Gap |")
+    lines.append(f"|-------|-----------|----------|---------------|-------------|")
+    for name in ["LogReg", "HGBC_light", "HGBC_deep"]:
+        r = ml.get(name, {})
+        auc_tr = r.get("auc_train", float("nan"))
+        auc_te = r.get("auc_test", float("nan"))
+        auc_loso = r.get("auc_loso", float("nan"))
+        gap = auc_tr - auc_te if not np.isnan(auc_tr) else float("nan")
+        loso_s = f"{auc_loso:.3f}" if not np.isnan(auc_loso) else "—"
+        lines.append(f"| {name} | {auc_tr:.3f} | {auc_te:.3f} | {loso_s} | {gap:.3f} |")
+    lines.append(f"")
+
+    # Top features
+    lines.append(f"### Top Predictive Features")
+    lines.append(f"")
+    lines.append(f"1. **distance_from_low_bps** — how far above running minimum")
+    lines.append(f"2. **running_min_bps** — depth of drop so far")
+    lines.append(f"3. **price_velocity_1s** — momentum / speed of price change")
+    lines.append(f"4. **trade_rate_2s** — trading intensity (exhaustion signal)")
+    lines.append(f"5. **time_since_new_low_ms** — how long since last new low")
+    lines.append(f"6. **ob1_imbalance** — bid/ask imbalance (buyers stepping in?)")
+    lines.append(f"")
+
+    # Backtest table
+    lines.append(f"### Exit Strategy Backtest")
+    lines.append(f"")
+    lines.append(f"| Strategy | Avg PnL | Median PnL | Win Rate | Total PnL |")
+    lines.append(f"|----------|---------|------------|----------|-----------|")
+    strat_order = ["oracle", "ml_exit_30", "ml_exit_40", "fixed_10s", "fixed_5s",
+                   "fixed_30s", "trailing_15bps"]
+    for name in strat_order:
+        pnls = strats.get(name)
+        if pnls is None:
+            continue
+        if name == "time_tiers":
+            pnls = pnls[pnls != 0]
+        if len(pnls) == 0:
+            continue
+        label = name.replace("_", " ").title()
+        lines.append(f"| {label} | {pnls.mean():+.1f} | {np.median(pnls):+.1f} | "
+                     f"{(pnls > 0).mean()*100:.0f}% | {pnls.sum():+,.0f} |")
+    lines.append(f"")
+
+    # Key insight
+    ml30 = strats.get("ml_exit_30", np.array([0]))
+    fixed5 = strats.get("fixed_5s", np.array([0]))
+    fixed10 = strats.get("fixed_10s", np.array([0]))
+    oracle = strats.get("oracle", np.array([0]))
+
+    lines.append(f"**Key findings:**")
+    lines.append(f"- Oracle (perfect exit): {oracle.mean():+.1f} bps/trade — theoretical ceiling")
+    if len(ml30) > 0 and len(fixed5) > 0:
+        pct_vs_5s = (ml30.sum() - fixed5.sum()) / abs(fixed5.sum()) * 100 if fixed5.sum() != 0 else 0
+        lines.append(f"- ML exit (P<0.30): **{ml30.mean():+.1f} bps/trade** ({pct_vs_5s:+.0f}% vs fixed T+5s)")
+    lines.append(f"- Fixed T+10s: {fixed10.mean():+.1f} bps/trade — best simple strategy")
+    lines.append(f"- Fixed T+5s (current): {fixed5.mean():+.1f} bps/trade")
+    lines.append(f"- Trailing stops HURT performance — do not use")
+    lines.append(f"")
+    lines.append(f"**Quick win: Change exit from T+5.5s → T+10s** (+{fixed10.mean() - fixed5.mean():.1f} bps/trade for zero complexity)")
+    lines.append(f"")
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # MAIN
 # ═══════════════════════════════════════════════════════════════════════
 
 def main():
     parser = argparse.ArgumentParser(description="ML Settlement Prediction Pipeline")
     parser.add_argument("--skip-download", action="store_true", help="Skip download step")
+    parser.add_argument("--skip-exit-ml", action="store_true", help="Skip exit ML step (faster)")
     parser.add_argument("--report-only", action="store_true", help="Only regenerate report from existing CSV")
     args = parser.parse_args()
 
     t0 = time.time()
 
     print("╔══════════════════════════════════════════════════════════════════╗")
-    print("║        ML SETTLEMENT PREDICTION PIPELINE                       ║")
-    print("║        Download → Extract → Train → Validate → Report          ║")
+    print("║        ML SETTLEMENT PREDICTION PIPELINE v2                     ║")
+    print("║  Download → Extract → Train → Exit ML → Backtest → Report      ║")
     print("╚══════════════════════════════════════════════════════════════════╝")
     print()
 
@@ -752,17 +902,26 @@ def main():
         df = pd.read_csv(FEATURES_CSV)
         print(f"\n  Loaded {len(df)} settlements from {FEATURES_CSV}")
 
-    # Step 3: Train / Validate / Test
+    # Step 3: Train / Validate / Test (settlement-level)
     results = step_train_and_validate(df)
 
-    # Step 4: Generate report
-    step_generate_report(df, results)
+    # Step 4: Exit ML (tick-level microstructure)
+    exit_results = None
+    if not args.skip_exit_ml:
+        exit_results = step_exit_ml()
+    else:
+        print("\n  (Exit ML skipped)")
+
+    # Step 5: Generate report
+    step_generate_report(df, results, exit_results=exit_results)
 
     elapsed = time.time() - t0
     print(f"\n{'='*70}")
     print(f"PIPELINE COMPLETE  [{elapsed:.1f}s elapsed]")
     print(f"{'='*70}")
     print(f"  Data:    {len(df)} settlements")
+    if exit_results:
+        print(f"  Ticks:   {exit_results['n_ticks']:,} (100ms intervals)")
     print(f"  Report:  {REPORT_FILE}")
     print(f"  CSV:     {FEATURES_CSV}")
 

@@ -1,6 +1,6 @@
 # ML Settlement Prediction Report
 
-**Generated:** 2026-02-28 09:01 UTC  
+**Generated:** 2026-02-28 09:30 UTC  
 **Dataset:** 131 settlements, 31 symbols, 3 dates (2026-02-26 to 2026-02-28)  
 **Pipeline:** `ml_settlement_pipeline.py`
 
@@ -180,6 +180,51 @@ Target `drop_min_bps` uses the **full recording window** (up to 60s), not just f
 | T+5s | 59.1% |
 | T+10s | 60.8% |
 | T+30s | 55.4% |
+
+## Microstructure Exit ML
+
+Real-time exit signal trained on 74,898 ticks 
+(100ms intervals) from 130 settlements.
+
+Target: "will price drop ≥5 bps more in next 1s?"
+
+### Model Performance
+
+| Model | Train AUC | Test AUC | LOSO (symbol) | Overfit Gap |
+|-------|-----------|----------|---------------|-------------|
+| LogReg | 0.768 | 0.732 | — | 0.037 |
+| HGBC_light | 0.874 | 0.735 | 0.742 | 0.139 |
+| HGBC_deep | 0.926 | 0.729 | — | 0.197 |
+
+### Top Predictive Features
+
+1. **distance_from_low_bps** — how far above running minimum
+2. **running_min_bps** — depth of drop so far
+3. **price_velocity_1s** — momentum / speed of price change
+4. **trade_rate_2s** — trading intensity (exhaustion signal)
+5. **time_since_new_low_ms** — how long since last new low
+6. **ob1_imbalance** — bid/ask imbalance (buyers stepping in?)
+
+### Exit Strategy Backtest
+
+| Strategy | Avg PnL | Median PnL | Win Rate | Total PnL |
+|----------|---------|------------|----------|-----------|
+| Oracle | +81.5 | +55.1 | 88% | +10,589 |
+| Ml Exit 30 | +39.3 | +13.7 | 65% | +5,115 |
+| Ml Exit 40 | +38.1 | +16.1 | 67% | +4,956 |
+| Fixed 10S | +33.9 | +17.4 | 72% | +4,411 |
+| Fixed 5S | +31.0 | +15.5 | 67% | +4,030 |
+| Fixed 30S | +32.0 | +11.5 | 63% | +4,155 |
+| Trailing 15Bps | +23.2 | +13.1 | 66% | +3,012 |
+
+**Key findings:**
+- Oracle (perfect exit): +81.5 bps/trade — theoretical ceiling
+- ML exit (P<0.30): **+39.3 bps/trade** (+27% vs fixed T+5s)
+- Fixed T+10s: +33.9 bps/trade — best simple strategy
+- Fixed T+5s (current): +31.0 bps/trade
+- Trailing stops HURT performance — do not use
+
+**Quick win: Change exit from T+5.5s → T+10s** (+2.9 bps/trade for zero complexity)
 
 ## Per-Date Summary
 
