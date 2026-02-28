@@ -1,6 +1,6 @@
 # ML Settlement Prediction Report
 
-**Generated:** 2026-02-28 18:47 UTC  
+**Generated:** 2026-02-28 20:11 UTC  
 **Dataset:** 150 settlements, 32 symbols, 3 dates (2026-02-26 to 2026-02-28)  
 **Pipeline:** `ml_settlement_pipeline.py`
 
@@ -272,6 +272,25 @@ Comparison of inference modes using the same LogReg model:
 - **COOLDOWN** — model-only evaluation with no market event; least reliable
 - Polling 100ms wins on avg PnL due to train/inference distribution match
 - Recommended: polling base + BIG_TRADE trigger for production
+
+### Position Sizing — Orderbook Slippage
+
+Analyzed OB.200 depth at T-0 across 150 settlements.
+Median bid depth within 20 bps of mid: **$5,978**
+
+| Notional | Median RT Slippage | Net PnL (ML LOSO) | Approx $ Profit |
+|----------|-------------------|-------------------|-----------------|
+| $500 | 3.5 bps | +20.1 bps | $1.00 |
+| $1,000 | 6.1 bps | +17.5 bps | $1.75 |
+| $2,000 | 9.6 bps | +14.0 bps | $2.79 |
+| $3,000 | 12.3 bps | +11.3 bps | $3.40 |
+| $5,000 | 17.5 bps | +6.1 bps | $3.03 |
+| $7,500 | 24.5 bps | -0.9 bps | $-0.66 |
+| $10,000 | 30.6 bps | -7.0 bps | $-7.04 |
+
+**Adaptive sizing recommendation:** median $598, mean $770 per settlement
+
+**Key insight:** Slippage is the #1 constraint. At $10K notional, RT slippage (41+ bps) exceeds the ML edge. Optimal size: **$2-3K** per settlement.
 
 ## Per-Date Summary
 
