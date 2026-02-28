@@ -424,39 +424,69 @@ def extract_features(filepath: Path) -> dict | None:
     feat["fr_squared"]     = fr * fr
 
     # ════════════════════════════════════════════════════════════════════
-    # TARGETS (regression + classification)
+    # TARGETS (full 60s window — not just first 5s!)
     # ════════════════════════════════════════════════════════════════════
-    post = [(t, p, q, s, n) for t, p, q, s, n in trades if 0 <= t <= 5000]
-    if not post:
+    post_all = [(t, p, q, s, n) for t, p, q, s, n in trades if t >= 0]
+    if not post_all:
         print(f"  ⚠ {symbol}: no post-settlement trades")
         return None
 
-    post_prices_bps = [bps(p) for _, p, _, _, _ in sorted(post, key=lambda x: x[0])]
+    post_sorted = sorted(post_all, key=lambda x: x[0])
+    post_prices_bps = [bps(p) for _, p, _, _, _ in post_sorted]
+    feat["max_post_ms"] = post_sorted[-1][0]
 
-    # Regression targets
+    # Regression targets — full window
     feat["drop_min_bps"]   = min(post_prices_bps)
     feat["drop_final_bps"] = post_prices_bps[-1]
     feat["recovery_bps"]   = post_prices_bps[-1] - min(post_prices_bps)
 
     min_idx = post_prices_bps.index(min(post_prices_bps))
-    feat["time_to_bottom_ms"] = sorted(post, key=lambda x: x[0])[min_idx][0]
+    feat["time_to_bottom_ms"] = post_sorted[min_idx][0]
 
-    # Horizon targets: price at CLOSEST trade to each horizon
-    for horizon, label in [(100, "100ms"), (500, "500ms"), (1000, "1s"), (5000, "5s")]:
-        h_trades = [(t, bps(p)) for t, p, _, _, _ in post if t <= horizon]
+    # Horizon targets: price + worst at multiple horizons (100ms to 60s)
+    for horizon, label in [(100, "100ms"), (250, "250ms"), (500, "500ms"),
+                           (1000, "1s"), (2000, "2s"), (5000, "5s"),
+                           (10000, "10s"), (20000, "20s"), (30000, "30s"), (60000, "60s")]:
+        h_trades = [(t, bps(p)) for t, p, _, _, _ in post_all if t <= horizon]
         if h_trades:
-            # Last trade price before/at horizon = price at that point in time
             last_trade = max(h_trades, key=lambda x: x[0])
             feat[f"price_{label}_bps"] = last_trade[1]
-            # Also keep min drop within window (worst price reached so far)
             feat[f"worst_{label}_bps"] = min(bp for _, bp in h_trades)
         else:
             feat[f"price_{label}_bps"] = np.nan
             feat[f"worst_{label}_bps"] = np.nan
 
-    # Sell wave
-    post_buy  = sum(n for _, _, _, s, n in post if s == "Buy")
-    post_sell = sum(n for _, _, _, s, n in post if s == "Sell")
+    # Recovery from bottom at various offsets
+    bottom_time = feat["time_to_bottom_ms"]
+    bottom_bps = feat["drop_min_bps"]
+    recovery_trades = [(t, bps(p)) for t, p, _, _, _ in post_all if t > bottom_time]
+    if recovery_trades:
+        for dt in [500, 1000, 5000, 10000, 30000]:
+            candidates = [(t, bp) for t, bp in recovery_trades if t <= bottom_time + dt]
+            if candidates:
+                feat[f"recovery_{dt}ms_bps"] = max(candidates, key=lambda x: x[0])[1] - bottom_bps
+            else:
+                feat[f"recovery_{dt}ms_bps"] = np.nan
+        feat["recovery_max_bps"] = max(bp for _, bp in recovery_trades) - bottom_bps
+        feat["recovery_pct"] = feat["recovery_max_bps"] / abs(bottom_bps) * 100 if bottom_bps != 0 else 0
+    else:
+        for dt in [500, 1000, 5000, 10000, 30000]:
+            feat[f"recovery_{dt}ms_bps"] = np.nan
+        feat["recovery_max_bps"] = feat["recovery_pct"] = np.nan
+    feat["full_recovery"] = 1 if feat["drop_final_bps"] > -5 else 0
+
+    # Sell wave — by time window
+    for tw, label in [(1000, "1s"), (5000, "5s"), (10000, "10s"), (30000, "30s")]:
+        window = [(t, p, q, s, n) for t, p, q, s, n in post_all if t <= tw]
+        buy_v  = sum(n for _, _, _, s, n in window if s == "Buy")
+        sell_v = sum(n for _, _, _, s, n in window if s == "Sell")
+        feat[f"sell_ratio_{label}"]   = _safe_div(sell_v, buy_v + sell_v)
+        feat[f"post_vol_{label}_usd"] = buy_v + sell_v
+
+    # Total sell wave (first 5s for backward compat)
+    post_5s = [(t, p, q, s, n) for t, p, q, s, n in post_all if t <= 5000]
+    post_buy  = sum(n for _, _, _, s, n in post_5s if s == "Buy")
+    post_sell = sum(n for _, _, _, s, n in post_5s if s == "Sell")
     feat["post_sell_vol_usd"] = post_sell
     feat["post_sell_ratio"]   = _safe_div(post_sell, post_buy + post_sell)
 

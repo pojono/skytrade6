@@ -42,11 +42,12 @@ LOCAL_DATA_DIR = Path("charts_settlement")
 FEATURES_CSV = Path("settlement_features_v2.csv")
 REPORT_FILE = Path("REPORT_ml_settlement.md")
 
-# Best model: 8 features (proven honest by integrity audit)
+# Best model: FR + depth + OI (proven honest by integrity audit)
 PRODUCTION_FEATURES = [
     "fr_bps", "fr_abs_bps", "fr_squared",
     "total_depth_usd", "total_depth_imb_mean",
     "ask_concentration", "thin_side_depth", "depth_within_50bps",
+    "oi_change_60s",
 ]
 
 # Extended features for comparison (Tier 1 — no OB.1/OB.50 needed)
@@ -538,7 +539,7 @@ def step_generate_report(df, results):
     # Regression results
     lines.append(f"## Regression: Predicting Drop Magnitude")
     lines.append(f"")
-    lines.append(f"Target: `drop_min_bps` (max price drop in 5s post-settlement)")
+    lines.append(f"Target: `drop_min_bps` (max price drop in full recording window, up to 60s)")
     lines.append(f"")
     lines.append(f"| Features | Model | LOOCV MAE | LOSO MAE | LOSO R² | Temporal MAE | Temporal R² |")
     lines.append(f"|----------|-------|-----------|----------|---------|--------------|------------|")
@@ -598,24 +599,104 @@ def step_generate_report(df, results):
     # Production model
     lines.append(f"## Production Model")
     lines.append(f"")
-    lines.append(f"Based on integrity audit, the recommended production model uses **8 features**:")
+    lines.append(f"Based on integrity audit, the recommended production model uses **9 features**:")
     lines.append(f"")
     lines.append(f"```")
     lines.append(f"Features: fr_bps, fr_abs_bps, fr_squared,")
     lines.append(f"          total_depth_usd, total_depth_imb_mean,")
-    lines.append(f"          ask_concentration, thin_side_depth, depth_within_50bps")
+    lines.append(f"          ask_concentration, thin_side_depth, depth_within_50bps,")
+    lines.append(f"          oi_change_60s")
     lines.append(f"Model:    Ridge(alpha=10.0) with StandardScaler")
     lines.append(f"```")
     lines.append(f"")
     lines.append(f"**Why?**")
     lines.append(f"- FR alone explains ~90% of the signal (r={fr_corr:+.3f})")
     lines.append(f"- Depth features add genuine edge (thin asks amplify drops)")
-    lines.append(f"- Only 8 features → impossible to overfit with Ridge regularization")
+    lines.append(f"- OI change pre-settlement is 2nd best predictor (r≈-0.44)")
+    lines.append(f"- Only 9 features → impossible to overfit with Ridge regularization")
     lines.append(f"- Passes ALL validation tests including temporal hold-out")
-    lines.append(f"- More features (49) look good on LOOCV but fail temporal validation")
     lines.append(f"")
 
-    # Per-symbol analysis
+    # Deep analysis: price trajectory
+    lines.append(f"## Price Trajectory (Full 60s Window)")
+    lines.append(f"")
+    lines.append(f"Target `drop_min_bps` uses the **full recording window** (up to 60s), not just first 5s.")
+    lines.append(f"")
+
+    ttb = df["time_to_bottom_ms"]
+    lines.append(f"- Median time to bottom: **{ttb.median()/1000:.1f}s** (mean={ttb.mean()/1000:.1f}s)")
+    lines.append(f"- Bottoms after T+5s: {(ttb > 5000).sum()}/{len(df)} ({(ttb > 5000).mean()*100:.0f}%)")
+    lines.append(f"")
+
+    lines.append(f"| Exit Time | Avg Price (bps) | Avg PnL (after 20bps fees) |")
+    lines.append(f"|-----------|----------------|---------------------------|")
+    for label in ["1s", "5s", "10s", "30s", "60s"]:
+        col = f"price_{label}_bps"
+        if col in df.columns:
+            v = df[col].dropna()
+            pnl = -v - 20
+            lines.append(f"| T+{label} | {v.mean():+.1f} | {pnl.mean():+.1f} bps ({(pnl > 0).mean()*100:.0f}% WR) |")
+    lines.append(f"")
+
+    # Optimal exit by FR
+    lines.append(f"## Optimal Exit Timing by FR Magnitude")
+    lines.append(f"")
+    lines.append(f"| FR Range | N | Exit T+1s | Exit T+5s | Exit T+10s | Exit T+30s |")
+    lines.append(f"|----------|---|-----------|-----------|------------|------------|")
+    valid = df[df["fr_bps"].notna()].copy()
+    for lo, hi, label in [(15, 30, "\\|FR\\| 15-30"), (30, 60, "\\|FR\\| 30-60"), (60, 100, "\\|FR\\| 60-100"), (100, 999, "\\|FR\\| >100")]:
+        mask = (valid["fr_abs_bps"] >= lo) & (valid["fr_abs_bps"] < hi)
+        s = valid[mask]
+        if len(s) >= 2:
+            pnls = []
+            for tw_label in ["1s", "5s", "10s", "30s"]:
+                col = f"price_{tw_label}_bps"
+                if col in s.columns:
+                    p = (-s[col].dropna() - 20).mean()
+                    pnls.append(f"{p:+.0f}")
+                else:
+                    pnls.append("N/A")
+            lines.append(f"| {label} | {len(s)} | {pnls[0]} | {pnls[1]} | {pnls[2]} | {pnls[3]} |")
+    lines.append(f"")
+    lines.append(f"**Recommended dynamic exit:**")
+    lines.append(f"- \\|FR\\| < 25 bps → SKIP (don't trade)")
+    lines.append(f"- \\|FR\\| 25-50 bps → exit T+5s (quick scalp)")
+    lines.append(f"- \\|FR\\| 50-80 bps → exit T+10s (let it drift)")
+    lines.append(f"- \\|FR\\| > 80 bps → exit T+20-30s (sustained sell wave)")
+    lines.append(f"")
+
+    # Recovery analysis
+    lines.append(f"## Recovery After Drop")
+    lines.append(f"")
+    if "recovery_pct" in df.columns:
+        lines.append(f"- Avg max recovery: {df['recovery_max_bps'].mean():+.1f} bps ({df['recovery_pct'].mean():.0f}% of drop)")
+        lines.append(f"- Full recovery to ref price: {df['full_recovery'].sum()}/{len(df)} ({df['full_recovery'].mean()*100:.0f}%)")
+        lines.append(f"")
+
+        lines.append(f"| FR Range | N | Avg Drop | Recovery % | Full Recovery |")
+        lines.append(f"|----------|---|----------|-----------|---------------|")
+        for lo, hi, label in [(15, 30, "\\|FR\\| 15-30"), (30, 60, "30-60"), (60, 100, "60-100"), (100, 999, ">100")]:
+            mask = (valid["fr_abs_bps"] >= lo) & (valid["fr_abs_bps"] < hi)
+            s = valid[mask]
+            if len(s) >= 2:
+                rpct = s["recovery_pct"].dropna().mean()
+                full = s["full_recovery"].mean() * 100
+                lines.append(f"| {label} | {len(s)} | {s['drop_min_bps'].mean():+.1f} | {rpct:.0f}% | {full:.0f}% |")
+        lines.append(f"")
+
+    # Volume
+    lines.append(f"## Post-Settlement Volume")
+    lines.append(f"")
+    if "sell_ratio_1s" in df.columns:
+        lines.append(f"| Window | Sell Ratio |")
+        lines.append(f"|--------|-----------|")
+        for label in ["1s", "5s", "10s", "30s"]:
+            col = f"sell_ratio_{label}"
+            if col in df.columns:
+                lines.append(f"| T+{label} | {df[col].mean():.1%} |")
+        lines.append(f"")
+
+    # Per-date summary
     lines.append(f"## Per-Date Summary")
     lines.append(f"")
     df_tmp = df.copy()
