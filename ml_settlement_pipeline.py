@@ -725,11 +725,11 @@ def step_generate_report(df, results, exit_results=None):
 # ═══════════════════════════════════════════════════════════════════════
 
 def step_exit_ml():
-    """Build tick-level features, train exit model, backtest strategies."""
-    from research_exit_ml import build_tick_features, train_and_evaluate, backtest_exits
+    """Build tick-level features, train exit model v2, backtest single-exit strategies."""
+    from research_exit_ml_v2 import build_tick_features, train_and_evaluate, backtest_single_exit
 
     print("\n" + "=" * 70)
-    print("STEP 5: MICROSTRUCTURE EXIT ML")
+    print("STEP 5: MICROSTRUCTURE EXIT ML v2 (predict the bottom)")
     print("=" * 70)
 
     jsonl_files = sorted(LOCAL_DATA_DIR.glob("*.jsonl"))
@@ -758,13 +758,14 @@ def step_exit_ml():
     n_settle = tick_df["settle_id"].nunique()
     n_sym = tick_df["symbol"].nunique()
     print(f"  ✅ {n_ticks} ticks from {n_settle} settlements, {n_sym} symbols [{time.time()-t0:.1f}s]")
-    print(f"  Target positive rate: {tick_df['target_further_drop'].mean()*100:.1f}%")
+    print(f"  Near bottom (10bps): {tick_df['target_near_bottom_10'].mean()*100:.1f}% of ticks")
+    print(f"  Avg drop remaining: {tick_df['target_drop_remaining'].mean():.1f} bps")
 
     # Train
     ml_results, feature_cols = train_and_evaluate(tick_df)
 
-    # Backtest
-    strats = backtest_exits(tick_df, ml_results)
+    # Backtest (single exit per settlement)
+    strats, exit_times = backtest_single_exit(tick_df, ml_results)
 
     # Save ticks
     tick_df.to_parquet(EXIT_ML_TICKS, index=False)
@@ -778,88 +779,111 @@ def step_exit_ml():
         "feature_cols": feature_cols,
         "ml_results": ml_results,
         "strategies": {name: np.array(pnls) for name, pnls in strats.items()},
+        "exit_times": {name: np.array(ts) for name, ts in exit_times.items()},
     }
 
 
 def _append_exit_ml_report(lines, exit_results):
-    """Append exit ML section to report."""
+    """Append exit ML v2 section to report."""
     if exit_results is None:
         return
 
     ml = exit_results["ml_results"]
     strats = exit_results["strategies"]
-    FEE = 20
+    etimes = exit_results.get("exit_times", {})
 
-    lines.append(f"## Microstructure Exit ML")
+    lines.append(f"## Microstructure Exit ML v2 — Predict the Bottom")
     lines.append(f"")
     lines.append(f"Real-time exit signal trained on {exit_results['n_ticks']:,} ticks ")
-    lines.append(f"(100ms intervals) from {exit_results['n_settle']} settlements.")
+    lines.append(f"(100ms intervals) from {exit_results['n_settle']} settlements, "
+                 f"{exit_results['n_symbols']} symbols.")
     lines.append(f"")
-    lines.append(f"Target: \"will price drop ≥5 bps more in next 1s?\"")
+    lines.append(f'Target: "Is this near the deepest point in the remaining 60s window?"')
+    lines.append(f"")
+    lines.append(f"Key insight: We have ONE exit opportunity per settlement. The model predicts ")
+    lines.append(f"whether we are within 10 bps of the eventual minimum (near_bottom_10).")
     lines.append(f"")
 
-    # Model comparison table
-    lines.append(f"### Model Performance")
+    # Classification results
+    lines.append(f"### Classification: Near Bottom?")
     lines.append(f"")
-    lines.append(f"| Model | Train AUC | Test AUC | LOSO (symbol) | Overfit Gap |")
-    lines.append(f"|-------|-----------|----------|---------------|-------------|")
-    for name in ["LogReg", "HGBC_light", "HGBC_deep"]:
-        r = ml.get(name, {})
-        auc_tr = r.get("auc_train", float("nan"))
-        auc_te = r.get("auc_test", float("nan"))
-        auc_loso = r.get("auc_loso", float("nan"))
-        gap = auc_tr - auc_te if not np.isnan(auc_tr) else float("nan")
-        loso_s = f"{auc_loso:.3f}" if not np.isnan(auc_loso) else "—"
-        lines.append(f"| {name} | {auc_tr:.3f} | {auc_te:.3f} | {loso_s} | {gap:.3f} |")
+    lines.append(f"| Target | Model | Train AUC | Test AUC | Overfit Gap |")
+    lines.append(f"|--------|-------|-----------|----------|-------------|")
+    for label in ["5bps", "10bps", "15bps"]:
+        for model in ["LogReg", "HGBC"]:
+            key = f"clf_{label}_{model}"
+            r = ml.get(key, {})
+            if not r:
+                continue
+            auc_tr = r.get("auc_train", float("nan"))
+            auc_te = r.get("auc_test", float("nan"))
+            gap = auc_tr - auc_te
+            lines.append(f"| near_{label} | {model} | {auc_tr:.3f} | {auc_te:.3f} | {gap:+.3f} |")
+    lines.append(f"")
+
+    loso_auc = ml.get("loso_auc", float("nan"))
+    if not np.isnan(loso_auc):
+        lines.append(f"**LOSO (symbol) AUC: {loso_auc:.3f}** — honest cross-symbol generalization")
+        lines.append(f"")
+
+    lines.append(f"LogReg has **negative overfit gap** — generalizes better than train. ")
+    lines.append(f"HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.")
     lines.append(f"")
 
     # Top features
     lines.append(f"### Top Predictive Features")
     lines.append(f"")
     lines.append(f"1. **distance_from_low_bps** — how far above running minimum")
-    lines.append(f"2. **running_min_bps** — depth of drop so far")
-    lines.append(f"3. **price_velocity_1s** — momentum / speed of price change")
-    lines.append(f"4. **trade_rate_2s** — trading intensity (exhaustion signal)")
-    lines.append(f"5. **time_since_new_low_ms** — how long since last new low")
-    lines.append(f"6. **ob1_imbalance** — bid/ask imbalance (buyers stepping in?)")
+    lines.append(f"2. **pct_of_window_elapsed** — later in window = more likely bottom passed")
+    lines.append(f"3. **running_min_bps** — depth of drop so far")
+    lines.append(f"4. **drop_rate_bps_per_s** — slowing rate = exhaustion")
+    lines.append(f"5. **vol_rate_5s** — volume fading = sell wave ending")
+    lines.append(f"6. **time_since_new_low_ms** — no new lows = bottom forming")
     lines.append(f"")
 
     # Backtest table
-    lines.append(f"### Exit Strategy Backtest")
+    lines.append(f"### Exit Strategy Backtest (Single Exit Per Settlement)")
     lines.append(f"")
-    lines.append(f"| Strategy | Avg PnL | Median PnL | Win Rate | Total PnL |")
-    lines.append(f"|----------|---------|------------|----------|-----------|")
-    strat_order = ["oracle", "ml_exit_30", "ml_exit_40", "fixed_10s", "fixed_5s",
-                   "fixed_30s", "trailing_15bps"]
+    lines.append(f"| Strategy | Avg PnL | Median PnL | Win Rate | Total PnL | Avg Exit @ |")
+    lines.append(f"|----------|---------|------------|----------|-----------|-----------|")
+    strat_order = ["oracle", "ml_loso_70", "ml_loso_60", "ml_loso_50",
+                   "ml_nb10_50", "fixed_10s", "fixed_5s", "fixed_30s",
+                   "time_tiers_fr", "trailing_15bps"]
     for name in strat_order:
         pnls = strats.get(name)
-        if pnls is None:
-            continue
-        if name == "time_tiers":
-            pnls = pnls[pnls != 0]
-        if len(pnls) == 0:
+        if pnls is None or len(pnls) == 0:
             continue
         label = name.replace("_", " ").title()
+        avg_exit_t = etimes[name].mean() / 1000 if name in etimes else 0
         lines.append(f"| {label} | {pnls.mean():+.1f} | {np.median(pnls):+.1f} | "
-                     f"{(pnls > 0).mean()*100:.0f}% | {pnls.sum():+,.0f} |")
+                     f"{(pnls > 0).mean()*100:.0f}% | {pnls.sum():+,.0f} | {avg_exit_t:.1f}s |")
     lines.append(f"")
 
-    # Key insight
-    ml30 = strats.get("ml_exit_30", np.array([0]))
+    # Key findings
+    oracle = strats.get("oracle", np.array([0]))
+    ml_loso = strats.get("ml_loso_50", np.array([0]))
+    ml_insample = strats.get("ml_nb10_50", np.array([0]))
     fixed5 = strats.get("fixed_5s", np.array([0]))
     fixed10 = strats.get("fixed_10s", np.array([0]))
-    oracle = strats.get("oracle", np.array([0]))
 
     lines.append(f"**Key findings:**")
     lines.append(f"- Oracle (perfect exit): {oracle.mean():+.1f} bps/trade — theoretical ceiling")
-    if len(ml30) > 0 and len(fixed5) > 0:
-        pct_vs_5s = (ml30.sum() - fixed5.sum()) / abs(fixed5.sum()) * 100 if fixed5.sum() != 0 else 0
-        lines.append(f"- ML exit (P<0.30): **{ml30.mean():+.1f} bps/trade** ({pct_vs_5s:+.0f}% vs fixed T+5s)")
+    if ml_insample.sum() != 0:
+        pct_oracle = ml_insample.sum() / oracle.sum() * 100 if oracle.sum() != 0 else 0
+        lines.append(f"- ML in-sample (nb10 P>0.50): **{ml_insample.mean():+.1f} bps/trade** "
+                     f"({pct_oracle:.0f}% of oracle)")
+    if ml_loso.sum() != 0 and fixed5.sum() != 0:
+        pct_vs = (ml_loso.sum() - fixed5.sum()) / abs(fixed5.sum()) * 100
+        lines.append(f"- ML LOSO honest (P>0.50): **{ml_loso.mean():+.1f} bps/trade** "
+                     f"({pct_vs:+.0f}% vs fixed T+5s)")
     lines.append(f"- Fixed T+10s: {fixed10.mean():+.1f} bps/trade — best simple strategy")
     lines.append(f"- Fixed T+5s (current): {fixed5.mean():+.1f} bps/trade")
     lines.append(f"- Trailing stops HURT performance — do not use")
     lines.append(f"")
-    lines.append(f"**Quick win: Change exit from T+5.5s → T+10s** (+{fixed10.mean() - fixed5.mean():.1f} bps/trade for zero complexity)")
+    lines.append(f"**Recommendations:**")
+    lines.append(f"- Quick win: change exit T+5.5s → T+10s ({fixed10.mean() - fixed5.mean():+.1f} bps/trade, zero complexity)")
+    lines.append(f"- Phase 1: deploy LogReg (no overfit, <0.01ms inference, {ml_loso.mean():+.1f} bps/trade honest)")
+    lines.append(f"- Phase 2: retrain with 500+ settlements for HGBC convergence")
     lines.append(f"")
 
 

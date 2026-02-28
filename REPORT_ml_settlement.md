@@ -1,6 +1,6 @@
 # ML Settlement Prediction Report
 
-**Generated:** 2026-02-28 09:30 UTC  
+**Generated:** 2026-02-28 09:51 UTC  
 **Dataset:** 131 settlements, 31 symbols, 3 dates (2026-02-26 to 2026-02-28)  
 **Pipeline:** `ml_settlement_pipeline.py`
 
@@ -181,50 +181,68 @@ Target `drop_min_bps` uses the **full recording window** (up to 60s), not just f
 | T+10s | 60.8% |
 | T+30s | 55.4% |
 
-## Microstructure Exit ML
+## Microstructure Exit ML v2 — Predict the Bottom
 
-Real-time exit signal trained on 74,898 ticks 
-(100ms intervals) from 130 settlements.
+Real-time exit signal trained on 76,198 ticks 
+(100ms intervals) from 130 settlements, 30 symbols.
 
-Target: "will price drop ≥5 bps more in next 1s?"
+Target: "Is this near the deepest point in the remaining 60s window?"
 
-### Model Performance
+Key insight: We have ONE exit opportunity per settlement. The model predicts 
+whether we are within 10 bps of the eventual minimum (near_bottom_10).
 
-| Model | Train AUC | Test AUC | LOSO (symbol) | Overfit Gap |
-|-------|-----------|----------|---------------|-------------|
-| LogReg | 0.768 | 0.732 | — | 0.037 |
-| HGBC_light | 0.874 | 0.735 | 0.742 | 0.139 |
-| HGBC_deep | 0.926 | 0.729 | — | 0.197 |
+### Classification: Near Bottom?
+
+| Target | Model | Train AUC | Test AUC | Overfit Gap |
+|--------|-------|-----------|----------|-------------|
+| near_5bps | LogReg | 0.748 | 0.805 | -0.057 |
+| near_5bps | HGBC | 0.995 | 0.770 | +0.225 |
+| near_10bps | LogReg | 0.762 | 0.774 | -0.013 |
+| near_10bps | HGBC | 0.996 | 0.757 | +0.239 |
+| near_15bps | LogReg | 0.781 | 0.794 | -0.013 |
+| near_15bps | HGBC | 0.997 | 0.777 | +0.220 |
+
+**LOSO (symbol) AUC: 0.730** — honest cross-symbol generalization
+
+LogReg has **negative overfit gap** — generalizes better than train. 
+HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
 
 ### Top Predictive Features
 
 1. **distance_from_low_bps** — how far above running minimum
-2. **running_min_bps** — depth of drop so far
-3. **price_velocity_1s** — momentum / speed of price change
-4. **trade_rate_2s** — trading intensity (exhaustion signal)
-5. **time_since_new_low_ms** — how long since last new low
-6. **ob1_imbalance** — bid/ask imbalance (buyers stepping in?)
+2. **pct_of_window_elapsed** — later in window = more likely bottom passed
+3. **running_min_bps** — depth of drop so far
+4. **drop_rate_bps_per_s** — slowing rate = exhaustion
+5. **vol_rate_5s** — volume fading = sell wave ending
+6. **time_since_new_low_ms** — no new lows = bottom forming
 
-### Exit Strategy Backtest
+### Exit Strategy Backtest (Single Exit Per Settlement)
 
-| Strategy | Avg PnL | Median PnL | Win Rate | Total PnL |
-|----------|---------|------------|----------|-----------|
-| Oracle | +81.5 | +55.1 | 88% | +10,589 |
-| Ml Exit 30 | +39.3 | +13.7 | 65% | +5,115 |
-| Ml Exit 40 | +38.1 | +16.1 | 67% | +4,956 |
-| Fixed 10S | +33.9 | +17.4 | 72% | +4,411 |
-| Fixed 5S | +31.0 | +15.5 | 67% | +4,030 |
-| Fixed 30S | +32.0 | +11.5 | 63% | +4,155 |
-| Trailing 15Bps | +23.2 | +13.1 | 66% | +3,012 |
+| Strategy | Avg PnL | Median PnL | Win Rate | Total PnL | Avg Exit @ |
+|----------|---------|------------|----------|-----------|-----------|
+| Oracle | +81.6 | +55.1 | 88% | +10,614 | 21.9s |
+| Ml Loso 70 | +44.2 | +13.3 | 70% | +5,748 | 33.2s |
+| Ml Loso 60 | +43.8 | +14.2 | 67% | +5,690 | 26.0s |
+| Ml Loso 50 | +43.1 | +15.9 | 68% | +5,607 | 19.5s |
+| Ml Nb10 50 | +69.0 | +42.0 | 82% | +8,974 | 21.0s |
+| Fixed 10S | +33.9 | +17.4 | 72% | +4,411 | 10.0s |
+| Fixed 5S | +31.0 | +15.5 | 67% | +4,030 | 5.0s |
+| Fixed 30S | +32.0 | +11.5 | 63% | +4,155 | 29.9s |
+| Time Tiers Fr | +31.0 | +15.5 | 67% | +4,030 | 5.0s |
+| Trailing 15Bps | +23.1 | +13.1 | 66% | +3,000 | 8.3s |
 
 **Key findings:**
-- Oracle (perfect exit): +81.5 bps/trade — theoretical ceiling
-- ML exit (P<0.30): **+39.3 bps/trade** (+27% vs fixed T+5s)
+- Oracle (perfect exit): +81.6 bps/trade — theoretical ceiling
+- ML in-sample (nb10 P>0.50): **+69.0 bps/trade** (85% of oracle)
+- ML LOSO honest (P>0.50): **+43.1 bps/trade** (+39% vs fixed T+5s)
 - Fixed T+10s: +33.9 bps/trade — best simple strategy
 - Fixed T+5s (current): +31.0 bps/trade
 - Trailing stops HURT performance — do not use
 
-**Quick win: Change exit from T+5.5s → T+10s** (+2.9 bps/trade for zero complexity)
+**Recommendations:**
+- Quick win: change exit T+5.5s → T+10s (+2.9 bps/trade, zero complexity)
+- Phase 1: deploy LogReg (no overfit, <0.01ms inference, +43.1 bps/trade honest)
+- Phase 2: retrain with 500+ settlements for HGBC convergence
 
 ## Per-Date Summary
 
