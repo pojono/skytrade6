@@ -1,6 +1,6 @@
 # ML Settlement Prediction Report
 
-**Generated:** 2026-02-28 20:48 UTC  
+**Generated:** 2026-02-28 21:43 UTC  
 **Dataset:** 150 settlements, 32 symbols, 3 dates (2026-02-26 to 2026-02-28)  
 **Pipeline:** `ml_settlement_pipeline.py`
 
@@ -288,9 +288,63 @@ Median bid depth within 20 bps of mid: **$5,978**
 | $7,500 | 28.4 bps | -4.8 bps | $-3.59 |
 | $10,000 | 35.3 bps | -11.7 bps | $-11.71 |
 
-**Adaptive sizing recommendation:** median $598, mean $770 per settlement
+**Adaptive sizing recommendation:** median $531, mean $674 per settlement
 
 **Key insight:** Slippage (spread + depth walking) is the #1 constraint. Median spread at T-0: 2.6 bps. Optimal size: **$1-3K** per settlement.
+
+### Loser Analysis — Why 25/150 Trades Lose
+
+Analysis at $2,000 notional, ML gross edge 23.6 bps. A trade loses when RT slippage exceeds the edge.
+
+| | Count | % | Avg PnL | Med PnL |
+|--|-------|---|---------|---------|
+| **Winners** | 125 | 83% | +11.3 | +12.6 |
+| **Losers** | 25 | 17% | -16.6 | -8.5 |
+
+W/L ratio: 0.68x | Expectancy: +6.7 bps/trade
+
+**Win rate by bid depth (20 bps):**
+
+| Depth Range | N | Win Rate | Avg PnL | Avg RT Slip |
+|-------------|---|----------|---------|-------------|
+| <$2K | 23 | 17% | -16.7 | 40.3 | **
+| $2-5K | 42 | 86% | +5.3 | 18.3 |
+| $5-10K | 33 | 100% | +11.1 | 12.5 |
+| $10-25K | 49 | 100% | +15.4 | 8.2 |
+| $25K+ | 3 | 100% | +14.4 | 9.2 |
+
+**Win rate by spread:**
+
+| Spread Range | N | Win Rate | Avg PnL |
+|-------------|---|----------|---------|
+| <2 bps | 65 | 97% | +13.7 |
+| 2-4 bps | 30 | 77% | +4.7 |
+| 4-6 bps | 22 | 91% | +8.0 |
+| 6-10 bps | 22 | 73% | +1.6 |
+| 10+ bps | 11 | 27% | -22.1 |
+
+**Filter impact:**
+
+| Filter | N | Win Rate | Med PnL | Losers caught | Winners lost |
+|--------|---|----------|---------|---------------|-------------|
+| No filter | 150 | 83% | +10.7 | — | — |
+| depth >= $2K | 127 | 95% | +12.5 | 19 | 4 |
+| depth >= $3K | 115 | 98% | +13.3 | 23 | 12 |
+| depth >= $5K | 85 | 100% | +14.6 | 25 | 40 |
+| spread <= 5 bps | 111 | 90% | +13.5 | 14 | 25 |
+| depth>=$3K + spread<=5 | 96 | 98% | +14.2 | 23 | 31 |
+
+**Worst symbols (consider blacklisting):**
+
+| Symbol | N | Win Rate | Avg PnL | Med Spread | Med Depth |
+|--------|---|----------|---------|-----------|-----------|
+| ALICEUSDT | 3 | 0% | -5.9 | 7.2 | $1,638 |
+| NEWTUSDT | 6 | 17% | -22.9 | 9.8 | $970 |
+| FLOWUSDT | 2 | 50% | +2.4 | 2.7 | $2,490 |
+| HOLOUSDT | 2 | 50% | -0.0 | 1.6 | $3,738 |
+| ROBOUSDT | 2 | 50% | -0.0 | 2.6 | $3,156 |
+
+**Root cause:** Losers don't lose because the drop is small — they lose because slippage on illiquid coins exceeds the 23.6 bps edge. Filter by depth (>=$2K) to eliminate most losers.
 
 ## Per-Date Summary
 

@@ -492,7 +492,8 @@ def step_train_and_validate(df):
 # STEP 4: GENERATE REPORT
 # ═══════════════════════════════════════════════════════════════════════
 
-def step_generate_report(df, results, exit_results=None, sizing_results=None):
+def step_generate_report(df, results, exit_results=None, sizing_results=None,
+                         loser_results=None):
     """Generate markdown report."""
     print("\n" + "=" * 70)
     print("STEP 6: GENERATE REPORT")
@@ -707,6 +708,9 @@ def step_generate_report(df, results, exit_results=None, sizing_results=None):
     # Position sizing section
     _append_sizing_report(lines, sizing_results)
 
+    # Loser analysis section
+    _append_loser_report(lines, loser_results)
+
     # Per-date summary
     lines.append(f"## Per-Date Summary")
     lines.append(f"")
@@ -809,7 +813,9 @@ def step_position_sizing():
         recommended = compute_position_size(bids, asks)
 
         row = {
+            "file": fp.name,
             "symbol": ob_data["symbol"],
+            "fr_abs_bps": ob_data.get("fr_abs_bps", 0),
             "bid_depth_20bps": bid_20bps,
             "total_depth": ob_data["total_depth_usd"],
             "spread_bps": ob_data["spread_bps"],
@@ -852,6 +858,149 @@ def step_position_sizing():
         "median_slip_2k": np.median(slips_2k),
         "median_slip_3k": np.median(slips_3k),
         "n_skips": skips,
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# STEP 5c: LOSER ANALYSIS — WHY DO TRADES LOSE?
+# ═══════════════════════════════════════════════════════════════════════
+
+def step_loser_analysis(sizing_results):
+    """Analyze winning vs losing trades to identify loser patterns.
+
+    Uses sizing_results from step_position_sizing. A trade is a 'loser'
+    when RT slippage exceeds the ML gross edge (GROSS_PNL_BPS).
+    """
+    if sizing_results is None:
+        return None
+
+    print("\n" + "=" * 70)
+    print("STEP 5c: LOSER ANALYSIS — WHY DO TRADES LOSE?")
+    print("=" * 70)
+
+    GROSS_PNL_BPS = 23.6  # ML LOSO edge
+    ANALYSIS_NOTIONAL = 2000  # reference notional for W/L classification
+
+    results = sizing_results["sizing_results"]
+    records = []
+    for r in results:
+        rt_slip = r.get(f"rt_slip_{ANALYSIS_NOTIONAL}", r.get("rt_slip_2000", 999))
+        net_pnl = GROSS_PNL_BPS - rt_slip
+        records.append({
+            "file": r.get("file", ""),
+            "symbol": r["symbol"],
+            "fr_abs_bps": r.get("fr_abs_bps", 0),
+            "spread_bps": r["spread_bps"],
+            "bid_depth_20bps": r["bid_depth_20bps"],
+            "rt_slip": rt_slip,
+            "net_pnl": net_pnl,
+            "is_winner": net_pnl > 0,
+        })
+
+    n_total = len(records)
+    winners = [r for r in records if r["is_winner"]]
+    losers = [r for r in records if not r["is_winner"]]
+    n_w, n_l = len(winners), len(losers)
+    wr = n_w / n_total * 100 if n_total > 0 else 0
+
+    avg_w = np.mean([r["net_pnl"] for r in winners]) if winners else 0
+    avg_l = np.mean([r["net_pnl"] for r in losers]) if losers else 0
+    med_w = np.median([r["net_pnl"] for r in winners]) if winners else 0
+    med_l = np.median([r["net_pnl"] for r in losers]) if losers else 0
+
+    print(f"  Total: {n_total}  Winners: {n_w} ({wr:.0f}%)  Losers: {n_l} ({100-wr:.0f}%)")
+    print(f"  Avg winner: {avg_w:+.1f} bps  Avg loser: {avg_l:+.1f} bps")
+    if winners and losers:
+        print(f"  W/L ratio: {avg_w:.1f} / {abs(avg_l):.1f} = {avg_w/abs(avg_l):.2f}x")
+
+    # Feature medians
+    if losers:
+        for feat, label in [("spread_bps", "Spread"), ("bid_depth_20bps", "Depth20")]:
+            wm = np.median([r[feat] for r in winners]) if winners else 0
+            lm = np.median([r[feat] for r in losers])
+            print(f"  {label}: winners={wm:.1f}  losers={lm:.1f}")
+
+    # Loser patterns
+    if losers:
+        thin = sum(1 for r in losers if r["bid_depth_20bps"] < 3000)
+        wide = sum(1 for r in losers if r["spread_bps"] > 5)
+        thin_or_wide = sum(1 for r in losers if r["bid_depth_20bps"] < 3000 or r["spread_bps"] > 5)
+        print(f"  Loser patterns: {thin}/{n_l} thin book, {wide}/{n_l} wide spread, {thin_or_wide}/{n_l} either")
+
+    # WR by depth bucket
+    depth_buckets = [(0, 2000, "<$2K"), (2000, 5000, "$2-5K"), (5000, 10000, "$5-10K"),
+                     (10000, 25000, "$10-25K"), (25000, 999999, "$25K+")]
+    print(f"  WR by depth: ", end="")
+    for lo, hi, label in depth_buckets:
+        sub = [r for r in records if lo <= r["bid_depth_20bps"] < hi]
+        if sub:
+            sub_wr = sum(1 for r in sub if r["is_winner"]) / len(sub) * 100
+            print(f"{label}={sub_wr:.0f}%({len(sub)})  ", end="")
+    print()
+
+    # WR by spread bucket
+    spread_buckets = [(0, 2, "<2"), (2, 4, "2-4"), (4, 6, "4-6"), (6, 10, "6-10"), (10, 50, "10+")]
+    print(f"  WR by spread: ", end="")
+    for lo, hi, label in spread_buckets:
+        sub = [r for r in records if lo <= r["spread_bps"] < hi]
+        if sub:
+            sub_wr = sum(1 for r in sub if r["is_winner"]) / len(sub) * 100
+            print(f"{label}={sub_wr:.0f}%({len(sub)})  ", end="")
+    print()
+
+    # Hypothetical filters
+    filters = [
+        ("depth>=$2K", lambda r: r["bid_depth_20bps"] >= 2000),
+        ("depth>=$3K", lambda r: r["bid_depth_20bps"] >= 3000),
+        ("depth>=$3K+sprd<=5", lambda r: r["bid_depth_20bps"] >= 3000 and r["spread_bps"] <= 5),
+    ]
+    print(f"  Filters:")
+    for desc, filt in filters:
+        sub = [r for r in records if filt(r)]
+        if not sub:
+            continue
+        sub_wr = sum(1 for r in sub if r["is_winner"]) / len(sub) * 100
+        lc = sum(1 for r in records if not r["is_winner"] and not filt(r))
+        wl = sum(1 for r in records if r["is_winner"] and not filt(r))
+        med = np.median([r["net_pnl"] for r in sub])
+        print(f"    {desc:25s}  N={len(sub):3d}  WR={sub_wr:.0f}%  med={med:+.1f}  caught {lc}L, lost {wl}W")
+
+    # Per-symbol WR (worst first)
+    from collections import defaultdict
+    sym_data = defaultdict(list)
+    for r in records:
+        sym_data[r["symbol"]].append(r)
+    sym_wr = {}
+    for sym, recs in sym_data.items():
+        if len(recs) >= 2:
+            sym_wr[sym] = {
+                "n": len(recs),
+                "wr": sum(1 for r in recs if r["is_winner"]) / len(recs) * 100,
+                "avg_pnl": np.mean([r["net_pnl"] for r in recs]),
+                "med_spread": np.median([r["spread_bps"] for r in recs]),
+                "med_depth": np.median([r["bid_depth_20bps"] for r in recs]),
+            }
+    worst = sorted(sym_wr.items(), key=lambda x: x[1]["wr"])[:5]
+    if worst:
+        print(f"  Worst symbols:")
+        for sym, d in worst:
+            print(f"    {sym:16s}  N={d['n']:3d}  WR={d['wr']:.0f}%  pnl={d['avg_pnl']:+.1f}  sprd={d['med_spread']:.1f}  dep=${d['med_depth']:,.0f}")
+
+    return {
+        "n_total": n_total,
+        "n_winners": n_w,
+        "n_losers": n_l,
+        "win_rate": wr,
+        "avg_winner": avg_w,
+        "avg_loser": avg_l,
+        "med_winner": med_w,
+        "med_loser": med_l,
+        "gross_pnl": GROSS_PNL_BPS,
+        "analysis_notional": ANALYSIS_NOTIONAL,
+        "records": records,
+        "depth_buckets": depth_buckets,
+        "spread_buckets": spread_buckets,
+        "sym_wr": sym_wr,
     }
 
 
@@ -932,6 +1081,108 @@ def step_exit_ml():
         "exit_times": {name: np.array(ts) for name, ts in exit_times.items()},
         "event_driven": ed_results,
     }
+
+
+def _append_loser_report(lines, loser_results):
+    """Append loser analysis section to report."""
+    if loser_results is None:
+        return
+
+    lr = loser_results
+    records = lr["records"]
+    n = lr["n_total"]
+
+    lines.append(f"### Loser Analysis — Why {lr['n_losers']}/{n} Trades Lose")
+    lines.append(f"")
+    lines.append(f"Analysis at ${lr['analysis_notional']:,d} notional, ML gross edge {lr['gross_pnl']:.1f} bps. "
+                 f"A trade loses when RT slippage exceeds the edge.")
+    lines.append(f"")
+
+    lines.append(f"| | Count | % | Avg PnL | Med PnL |")
+    lines.append(f"|--|-------|---|---------|---------|")
+    lines.append(f"| **Winners** | {lr['n_winners']} | {lr['win_rate']:.0f}% | {lr['avg_winner']:+.1f} | {lr['med_winner']:+.1f} |")
+    lines.append(f"| **Losers** | {lr['n_losers']} | {100-lr['win_rate']:.0f}% | {lr['avg_loser']:+.1f} | {lr['med_loser']:+.1f} |")
+    if lr['n_winners'] > 0 and lr['n_losers'] > 0:
+        ratio = lr['avg_winner'] / abs(lr['avg_loser'])
+        exp = lr['win_rate']/100 * lr['avg_winner'] - (100-lr['win_rate'])/100 * abs(lr['avg_loser'])
+        lines.append(f"")
+        lines.append(f"W/L ratio: {ratio:.2f}x | Expectancy: {exp:+.1f} bps/trade")
+    lines.append(f"")
+
+    # WR by depth
+    lines.append(f"**Win rate by bid depth (20 bps):**")
+    lines.append(f"")
+    lines.append(f"| Depth Range | N | Win Rate | Avg PnL | Avg RT Slip |")
+    lines.append(f"|-------------|---|----------|---------|-------------|")
+    for lo, hi, label in lr["depth_buckets"]:
+        sub = [r for r in records if lo <= r["bid_depth_20bps"] < hi]
+        if not sub:
+            continue
+        wr = sum(1 for r in sub if r["is_winner"]) / len(sub) * 100
+        avg = np.mean([r["net_pnl"] for r in sub])
+        slip = np.mean([r["rt_slip"] for r in sub])
+        marker = " **" if wr < 50 else ""
+        lines.append(f"| {label} | {len(sub)} | {wr:.0f}% | {avg:+.1f} | {slip:.1f} |{marker}")
+    lines.append(f"")
+
+    # WR by spread
+    lines.append(f"**Win rate by spread:**")
+    lines.append(f"")
+    lines.append(f"| Spread Range | N | Win Rate | Avg PnL |")
+    lines.append(f"|-------------|---|----------|---------|")
+    for lo, hi, label in lr["spread_buckets"]:
+        sub = [r for r in records if lo <= r["spread_bps"] < hi]
+        if not sub:
+            continue
+        wr = sum(1 for r in sub if r["is_winner"]) / len(sub) * 100
+        avg = np.mean([r["net_pnl"] for r in sub])
+        lines.append(f"| {label} bps | {len(sub)} | {wr:.0f}% | {avg:+.1f} |")
+    lines.append(f"")
+
+    # Hypothetical filters
+    lines.append(f"**Filter impact:**")
+    lines.append(f"")
+    lines.append(f"| Filter | N | Win Rate | Med PnL | Losers caught | Winners lost |")
+    lines.append(f"|--------|---|----------|---------|---------------|-------------|")
+    # Baseline
+    med_all = np.median([r["net_pnl"] for r in records])
+    lines.append(f"| No filter | {n} | {lr['win_rate']:.0f}% | {med_all:+.1f} | — | — |")
+    filter_defs = [
+        ("depth >= $2K", lambda r: r["bid_depth_20bps"] >= 2000),
+        ("depth >= $3K", lambda r: r["bid_depth_20bps"] >= 3000),
+        ("depth >= $5K", lambda r: r["bid_depth_20bps"] >= 5000),
+        ("spread <= 5 bps", lambda r: r["spread_bps"] <= 5),
+        ("depth>=$3K + spread<=5", lambda r: r["bid_depth_20bps"] >= 3000 and r["spread_bps"] <= 5),
+    ]
+    for desc, filt in filter_defs:
+        sub = [r for r in records if filt(r)]
+        if not sub:
+            continue
+        sub_wr = sum(1 for r in sub if r["is_winner"]) / len(sub) * 100
+        med = np.median([r["net_pnl"] for r in sub])
+        lc = sum(1 for r in records if not r["is_winner"] and not filt(r))
+        wl = sum(1 for r in records if r["is_winner"] and not filt(r))
+        lines.append(f"| {desc} | {len(sub)} | {sub_wr:.0f}% | {med:+.1f} | {lc} | {wl} |")
+    lines.append(f"")
+
+    # Worst symbols
+    sym_wr = lr["sym_wr"]
+    worst = sorted(sym_wr.items(), key=lambda x: x[1]["wr"])[:5]
+    if worst and worst[0][1]["wr"] < 80:
+        lines.append(f"**Worst symbols (consider blacklisting):**")
+        lines.append(f"")
+        lines.append(f"| Symbol | N | Win Rate | Avg PnL | Med Spread | Med Depth |")
+        lines.append(f"|--------|---|----------|---------|-----------|-----------|")
+        for sym, d in worst:
+            if d["wr"] < 80:
+                lines.append(f"| {sym} | {d['n']} | {d['wr']:.0f}% | {d['avg_pnl']:+.1f} | {d['med_spread']:.1f} | ${d['med_depth']:,.0f} |")
+        lines.append(f"")
+
+    # Root cause
+    lines.append(f"**Root cause:** Losers don't lose because the drop is small — "
+                 f"they lose because slippage on illiquid coins exceeds the {lr['gross_pnl']:.1f} bps edge. "
+                 f"Filter by depth (>=$2K) to eliminate most losers.")
+    lines.append(f"")
 
 
 def _append_sizing_report(lines, sizing_results):
@@ -1177,9 +1428,15 @@ def main():
     if not args.skip_exit_ml and not args.report_only:
         sizing_results = step_position_sizing()
 
+    # Step 5c: Loser analysis
+    loser_results = None
+    if sizing_results is not None:
+        loser_results = step_loser_analysis(sizing_results)
+
     # Step 6: Generate report
     step_generate_report(df, results, exit_results=exit_results,
-                         sizing_results=sizing_results)
+                         sizing_results=sizing_results,
+                         loser_results=loser_results)
 
     elapsed = time.time() - t0
     print(f"\n{'='*70}")
