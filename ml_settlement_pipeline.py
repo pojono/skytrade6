@@ -725,11 +725,11 @@ def step_generate_report(df, results, exit_results=None):
 # ═══════════════════════════════════════════════════════════════════════
 
 def step_exit_ml():
-    """Build tick-level features, train exit model v2, backtest single-exit strategies."""
-    from research_exit_ml_v2 import build_tick_features, train_and_evaluate, backtest_single_exit
+    """Build tick-level features, train exit model v3, backtest single-exit strategies."""
+    from research_exit_ml_v3 import build_tick_features, train_and_evaluate, backtest_single_exit
 
     print("\n" + "=" * 70)
-    print("STEP 5: MICROSTRUCTURE EXIT ML v2 (predict the bottom)")
+    print("STEP 5: MICROSTRUCTURE EXIT ML v3 (predict the bottom + sequence)")
     print("=" * 70)
 
     jsonl_files = sorted(LOCAL_DATA_DIR.glob("*.jsonl"))

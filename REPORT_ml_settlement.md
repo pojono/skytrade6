@@ -1,6 +1,6 @@
 # ML Settlement Prediction Report
 
-**Generated:** 2026-02-28 12:54 UTC  
+**Generated:** 2026-02-28 15:36 UTC  
 **Dataset:** 140 settlements, 32 symbols, 3 dates (2026-02-26 to 2026-02-28)  
 **Pipeline:** `ml_settlement_pipeline.py`
 
@@ -196,14 +196,14 @@ whether we are within 10 bps of the eventual minimum (near_bottom_10).
 
 | Target | Model | Train AUC | Test AUC | Overfit Gap |
 |--------|-------|-----------|----------|-------------|
-| near_5bps | LogReg | 0.741 | 0.789 | -0.048 |
-| near_5bps | HGBC | 0.994 | 0.786 | +0.208 |
-| near_10bps | LogReg | 0.752 | 0.765 | -0.013 |
-| near_10bps | HGBC | 0.994 | 0.786 | +0.208 |
-| near_15bps | LogReg | 0.769 | 0.789 | -0.020 |
-| near_15bps | HGBC | 0.996 | 0.785 | +0.211 |
+| near_5bps | LogReg | 0.747 | 0.793 | -0.047 |
+| near_5bps | HGBC | 0.995 | 0.775 | +0.220 |
+| near_10bps | LogReg | 0.760 | 0.770 | -0.011 |
+| near_10bps | HGBC | 0.995 | 0.790 | +0.206 |
+| near_15bps | LogReg | 0.774 | 0.797 | -0.023 |
+| near_15bps | HGBC | 0.997 | 0.781 | +0.216 |
 
-**LOSO (symbol) AUC: 0.736** — honest cross-symbol generalization
+**LOSO (symbol) AUC: 0.745** — honest cross-symbol generalization
 
 LogReg has **negative overfit gap** — generalizes better than train. 
 HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
@@ -222,10 +222,10 @@ HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
 | Strategy | Avg PnL | Median PnL | Win Rate | Total PnL | Avg Exit @ |
 |----------|---------|------------|----------|-----------|-----------|
 | Oracle | +82.7 | +52.3 | 88% | +11,502 | 22.0s |
-| Ml Loso 70 | +41.8 | +12.4 | 68% | +5,809 | 32.4s |
-| Ml Loso 60 | +44.9 | +12.4 | 68% | +6,236 | 25.4s |
-| Ml Loso 50 | +46.2 | +13.9 | 68% | +6,415 | 19.0s |
-| Ml Nb10 50 | +67.4 | +33.5 | 81% | +9,371 | 20.7s |
+| Ml Loso 70 | +42.0 | +15.2 | 65% | +5,842 | 33.0s |
+| Ml Loso 60 | +44.9 | +12.4 | 67% | +6,242 | 25.8s |
+| Ml Loso 50 | +45.4 | +14.5 | 68% | +6,311 | 19.3s |
+| Ml Nb10 50 | +69.0 | +39.8 | 81% | +9,585 | 21.3s |
 | Fixed 10S | +34.9 | +16.9 | 71% | +4,854 | 10.0s |
 | Fixed 5S | +32.9 | +15.0 | 67% | +4,567 | 5.0s |
 | Fixed 30S | +33.3 | +11.6 | 63% | +4,629 | 29.9s |
@@ -234,15 +234,15 @@ HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
 
 **Key findings:**
 - Oracle (perfect exit): +82.7 bps/trade — theoretical ceiling
-- ML in-sample (nb10 P>0.50): **+67.4 bps/trade** (81% of oracle)
-- ML LOSO honest (P>0.50): **+46.2 bps/trade** (+40% vs fixed T+5s)
+- ML in-sample (nb10 P>0.50): **+69.0 bps/trade** (83% of oracle)
+- ML LOSO honest (P>0.50): **+45.4 bps/trade** (+38% vs fixed T+5s)
 - Fixed T+10s: +34.9 bps/trade — best simple strategy
 - Fixed T+5s (current): +32.9 bps/trade
 - Trailing stops HURT performance — do not use
 
 **Recommendations:**
 - Quick win: change exit T+5.5s → T+10s (+2.1 bps/trade, zero complexity)
-- Phase 1: deploy LogReg (no overfit, <0.01ms inference, +46.2 bps/trade honest)
+- Phase 1: deploy LogReg (no overfit, <0.01ms inference, +45.4 bps/trade honest)
 - Phase 2: retrain with 500+ settlements for HGBC convergence
 
 ## Per-Date Summary
