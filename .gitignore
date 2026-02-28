@@ -5,3 +5,8 @@ features/
 __pycache__/
 results/microstructure_*.csv
 results/microstructure_correlations_*.csv
+charts_settlement/*.jsonl
+settlement_*.csv
+ml_models/
+ml_models_with_fr/
+data_all/
