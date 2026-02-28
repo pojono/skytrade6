@@ -10,3 +10,4 @@ settlement_*.csv
 ml_models/
 ml_models_with_fr/
 data_all/
+*.parquet
