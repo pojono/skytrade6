@@ -44,6 +44,8 @@ LOCAL_DATA_DIR = Path("charts_settlement")
 FEATURES_CSV = Path("settlement_features_v2.csv")
 REPORT_FILE = Path("REPORT_ml_settlement.md")
 EXIT_ML_TICKS = Path("exit_ml_ticks.parquet")
+ENTRY_DELAY_MS = 25               # realistic entry at T+25ms (0 = optimistic T+0)
+FEE_BPS = 20                      # round-trip taker fees (10 bps × 2 legs)
 
 # Best model: FR + depth + OI (proven honest by integrity audit)
 PRODUCTION_FEATURES = [
@@ -726,11 +728,16 @@ def step_generate_report(df, results, exit_results=None):
 
 def step_exit_ml():
     """Build tick-level features, train exit model v3, backtest single-exit + event-driven strategies."""
-    from research_exit_ml_v3 import (build_tick_features, train_and_evaluate,
-                                      backtest_single_exit, backtest_event_driven)
+    import research_exit_ml_v3 as exit_ml
+    exit_ml.ENTRY_DELAY_MS = ENTRY_DELAY_MS
+    exit_ml.FEE_BPS = FEE_BPS
+    build_tick_features = exit_ml.build_tick_features
+    train_and_evaluate = exit_ml.train_and_evaluate
+    backtest_single_exit = exit_ml.backtest_single_exit
+    backtest_event_driven = exit_ml.backtest_event_driven
 
     print("\n" + "=" * 70)
-    print("STEP 5: MICROSTRUCTURE EXIT ML v3 (predict the bottom + sequence + triggers)")
+    print(f"STEP 5: MICROSTRUCTURE EXIT ML v3 (entry_delay={ENTRY_DELAY_MS}ms, fees={FEE_BPS}bps)")
     print("=" * 70)
 
     jsonl_files = sorted(LOCAL_DATA_DIR.glob("*.jsonl"))
@@ -808,6 +815,8 @@ def _append_exit_ml_report(lines, exit_results):
     lines.append(f"Real-time exit signal trained on {exit_results['n_ticks']:,} ticks ")
     lines.append(f"(100ms intervals) from {exit_results['n_settle']} settlements, "
                  f"{exit_results['n_symbols']} symbols.")
+    lines.append(f"")
+    lines.append(f"**Backtest config:** entry at T+{ENTRY_DELAY_MS}ms, fees={FEE_BPS} bps round-trip.")
     lines.append(f"")
     lines.append(f'Target: "Is this near the deepest point in the remaining 60s window?"')
     lines.append(f"")

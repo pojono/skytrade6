@@ -1,6 +1,6 @@
 # ML Settlement Prediction Report
 
-**Generated:** 2026-02-28 16:39 UTC  
+**Generated:** 2026-02-28 18:47 UTC  
 **Dataset:** 150 settlements, 32 symbols, 3 dates (2026-02-26 to 2026-02-28)  
 **Pipeline:** `ml_settlement_pipeline.py`
 
@@ -187,6 +187,8 @@ Target `drop_min_bps` uses the **full recording window** (up to 60s), not just f
 Real-time exit signal trained on 87,165 ticks 
 (100ms intervals) from 149 settlements, 31 symbols.
 
+**Backtest config:** entry at T+25ms, fees=20 bps round-trip.
+
 Target: "Is this near the deepest point in the remaining 60s window?"
 
 Key insight: We have ONE exit opportunity per settlement. The model predicts 
@@ -196,14 +198,14 @@ whether we are within 10 bps of the eventual minimum (near_bottom_10).
 
 | Target | Model | Train AUC | Test AUC | Overfit Gap |
 |--------|-------|-----------|----------|-------------|
-| near_5bps | LogReg | 0.746 | 0.796 | -0.051 |
-| near_5bps | HGBC | 0.995 | 0.747 | +0.248 |
-| near_10bps | LogReg | 0.764 | 0.771 | -0.007 |
-| near_10bps | HGBC | 0.995 | 0.755 | +0.240 |
-| near_15bps | LogReg | 0.781 | 0.793 | -0.012 |
-| near_15bps | HGBC | 0.996 | 0.769 | +0.227 |
+| near_5bps | LogReg | 0.747 | 0.795 | -0.049 |
+| near_5bps | HGBC | 0.996 | 0.727 | +0.269 |
+| near_10bps | LogReg | 0.765 | 0.770 | -0.006 |
+| near_10bps | HGBC | 0.997 | 0.747 | +0.250 |
+| near_15bps | LogReg | 0.782 | 0.791 | -0.009 |
+| near_15bps | HGBC | 0.997 | 0.768 | +0.230 |
 
-**LOSO (symbol) AUC: 0.722** — honest cross-symbol generalization
+**LOSO (symbol) AUC: 0.716** — honest cross-symbol generalization
 
 LogReg has **negative overfit gap** — generalizes better than train. 
 HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
@@ -221,28 +223,28 @@ HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
 
 | Strategy | Avg PnL | Median PnL | Win Rate | Total PnL | Avg Exit @ |
 |----------|---------|------------|----------|-----------|-----------|
-| Oracle | +80.4 | +51.6 | 88% | +11,985 | 22.7s |
-| Ml Loso 70 | +40.8 | +13.1 | 70% | +6,079 | 34.5s |
-| Ml Loso 60 | +39.9 | +13.4 | 68% | +5,940 | 27.3s |
-| Ml Loso 50 | +40.6 | +15.2 | 68% | +6,050 | 22.3s |
-| Ml Nb10 50 | +65.9 | +34.8 | 80% | +9,823 | 21.6s |
-| Fixed 10S | +32.3 | +13.7 | 69% | +4,817 | 10.0s |
-| Fixed 5S | +30.3 | +14.0 | 66% | +4,520 | 5.0s |
-| Fixed 30S | +31.3 | +11.3 | 63% | +4,661 | 29.9s |
-| Time Tiers Fr | +30.3 | +14.0 | 66% | +4,520 | 5.0s |
-| Trailing 15Bps | +23.9 | +12.6 | 65% | +3,565 | 9.1s |
+| Oracle | +64.7 | +34.1 | 85% | +9,638 | 22.7s |
+| Ml Loso 70 | +24.5 | +6.0 | 58% | +3,653 | 35.1s |
+| Ml Loso 60 | +25.8 | +4.1 | 57% | +3,838 | 27.7s |
+| Ml Loso 50 | +23.6 | +2.6 | 53% | +3,513 | 21.7s |
+| Ml Nb10 50 | +51.7 | +19.4 | 70% | +7,700 | 21.8s |
+| Fixed 10S | +16.6 | +3.4 | 56% | +2,469 | 10.0s |
+| Fixed 5S | +14.6 | +2.8 | 54% | +2,173 | 5.0s |
+| Fixed 30S | +15.5 | +3.4 | 53% | +2,314 | 29.9s |
+| Time Tiers Fr | +14.6 | +2.8 | 54% | +2,173 | 5.0s |
+| Trailing 15Bps | +8.2 | -0.8 | 50% | +1,218 | 9.1s |
 
 **Key findings:**
-- Oracle (perfect exit): +80.4 bps/trade — theoretical ceiling
-- ML in-sample (nb10 P>0.50): **+65.9 bps/trade** (82% of oracle)
-- ML LOSO honest (P>0.50): **+40.6 bps/trade** (+34% vs fixed T+5s)
-- Fixed T+10s: +32.3 bps/trade — best simple strategy
-- Fixed T+5s (current): +30.3 bps/trade
+- Oracle (perfect exit): +64.7 bps/trade — theoretical ceiling
+- ML in-sample (nb10 P>0.50): **+51.7 bps/trade** (80% of oracle)
+- ML LOSO honest (P>0.50): **+23.6 bps/trade** (+62% vs fixed T+5s)
+- Fixed T+10s: +16.6 bps/trade — best simple strategy
+- Fixed T+5s (current): +14.6 bps/trade
 - Trailing stops HURT performance — do not use
 
 **Recommendations:**
 - Quick win: change exit T+5.5s → T+10s (+2.0 bps/trade, zero complexity)
-- Phase 1: deploy LogReg (no overfit, <0.01ms inference, +40.6 bps/trade honest)
+- Phase 1: deploy LogReg (no overfit, <0.01ms inference, +23.6 bps/trade honest)
 - Phase 2: retrain with 500+ settlements for HGBC convergence
 
 ### Event-Driven vs Polling (LogReg)
@@ -251,18 +253,18 @@ Comparison of inference modes using the same LogReg model:
 
 | Mode | N | Avg PnL | Median PnL | Win Rate | Avg Exit | Evals/settle |
 |------|---|---------|------------|----------|----------|-------------|
-| Polling 100Ms | 149 | +27.5 | +10.1 | 60% | 13.9s | 58 |
-| Event Driven | 149 | +31.0 | +14.9 | 65% | 9.2s | 567 |
+| Polling 100Ms | 149 | +11.5 | -0.5 | 49% | 14.1s | 59 |
+| Event Driven | 149 | +15.3 | +2.6 | 54% | 9.4s | 579 |
 
 **Exit trigger distribution (event-driven mode):**
 
 | Trigger | Exits | % | Avg PnL | Win Rate |
 |---------|-------|---|---------|----------|
-| BOUNCE | 81 | 54% | +29.3 | 67% |
-| BIG_TRADE | 47 | 32% | +36.8 | 72% |
-| COOLDOWN | 13 | 9% | +4.0 | 38% |
-| NEW_LOW | 7 | 5% | -2.5 | 43% |
-| TIMEOUT | 1 | 1% | +479.4 | 100% |
+| BOUNCE | 81 | 54% | +8.0 | 51% |
+| BIG_TRADE | 48 | 32% | +27.2 | 67% |
+| COOLDOWN | 12 | 8% | -8.2 | 25% |
+| NEW_LOW | 7 | 5% | -3.1 | 43% |
+| TIMEOUT | 1 | 1% | +441.7 | 100% |
 
 **Trigger insights:**
 - **BIG_TRADE** — highest quality trigger (large trade during bounce confirms bottom)

@@ -2,7 +2,8 @@
 
 **Date:** 2026-02-28  
 **Dataset:** 150 settlements, 32 symbols, 87,165 ticks (100ms), 3 days  
-**Pipeline:** `ml_settlement_pipeline.py` → `REPORT_ml_settlement.md`
+**Pipeline:** `ml_settlement_pipeline.py` → `REPORT_ml_settlement.md`  
+**Backtest config:** entry at T+25ms (realistic production), 20 bps round-trip fees
 
 ---
 
@@ -17,7 +18,7 @@ A two-stage ML system for trading post-settlement price drops on Bybit 1h fundin
 
 ## The Phenomenon
 
-Settlement = ex-dividend event. When funding rate (FR) is negative, price drops immediately after settlement as FR is deducted. We short at T+0, close when the drop exhausts.
+Settlement = ex-dividend event. When funding rate (FR) is negative, price drops immediately after settlement as FR is deducted. We short at T+25ms (after FR snapshot), close when the drop exhausts.
 
 | FR Range | N | Avg Drop | Best Exit | Net PnL (after 20bps fees) |
 |----------|---|----------|-----------|---------------------------|
@@ -126,79 +127,94 @@ v2 was the conceptual breakthrough: asking "is this the bottom?" instead of "wil
 
 ---
 
-## Exit Strategy Backtest (149 settlements)
+## Exit Strategy Backtest (149 settlements, entry T+25ms)
 
 ### Tick-based strategies (100ms polling, HGBC in-sample)
 
 | Strategy | Avg PnL | Win Rate | Avg Exit | vs Current |
 |----------|---------|----------|----------|------------|
-| **Oracle** (perfect) | +80.4 bps | 88% | 22.7s | ceiling |
-| **ML in-sample (P>0.50)** | +65.9 bps | 80% | 21.6s | +118% |
-| ML in-sample (P>0.60) | +66.5 bps | 81% | 24.8s | +120% |
-| **ML LOSO honest (P>0.50)** | **+40.6 bps** | **68%** | 22.3s | **+34%** |
-| ML LOSO honest (P>0.70) | +40.8 bps | 70% | 34.5s | +35% |
-| Fixed T+10s | +32.3 bps | 69% | 10.0s | +7% |
-| **Fixed T+5s (current)** | +30.3 bps | 66% | 5.0s | baseline |
-| Fixed T+30s | +31.3 bps | 63% | 29.9s | +3% |
-| Trailing 15bps | +23.9 bps | 65% | 9.1s | **-21%** |
+| **Oracle** (perfect) | +64.7 bps | 85% | 22.7s | ceiling |
+| **ML in-sample (P>0.50)** | +51.7 bps | 70% | 21.8s | +254% |
+| ML in-sample (P>0.60) | +50.8 bps | 70% | 24.7s | +248% |
+| **ML LOSO honest (P>0.50)** | **+23.6 bps** | **53%** | 21.7s | **+62%** |
+| ML LOSO honest (P>0.60) | +25.8 bps | 57% | 27.7s | +77% |
+| ML LOSO honest (P>0.70) | +24.5 bps | 58% | 35.1s | +68% |
+| Fixed T+10s | +16.6 bps | 56% | 10.0s | +14% |
+| **Fixed T+5s (current)** | +14.6 bps | 54% | 5.0s | baseline |
+| Fixed T+30s | +15.5 bps | 53% | 29.9s | +6% |
+| Trailing 15bps | +8.2 bps | 50% | 9.1s | **-44%** |
 
 ### Event-driven strategies (LogReg, replay raw events)
 
 | Mode | Avg PnL | Win Rate | Avg Exit | Evals/settle |
 |------|---------|----------|----------|-------------|
-| **Event-driven** | **+31.0 bps** | **65%** | **9.2s** | 567 |
-| Polling 100ms | +27.5 bps | 60% | 13.9s | 58 |
+| **Event-driven** | **+15.3 bps** | **54%** | **9.4s** | 579 |
+| Polling 100ms | +11.5 bps | 49% | 14.1s | 59 |
 
 ### Trigger quality (event-driven mode)
 
 | Trigger | % of Exits | Avg PnL | Win Rate | Use? |
 |---------|------------|---------|----------|------|
-| **BIG_TRADE** | 32% | **+36.8 bps** | **72%** | ✅ Best trigger |
-| BOUNCE | 54% | +29.3 bps | 67% | ✅ Common, reliable |
-| COOLDOWN | 9% | +4.0 bps | 38% | ❌ Unreliable |
-| NEW_LOW | 5% | -2.5 bps | 43% | ❌ Negative PnL |
+| **BIG_TRADE** | 32% | **+27.2 bps** | **67%** | ✅ Best trigger |
+| BOUNCE | 54% | +8.0 bps | 51% | ⚠️ Marginal |
+| COOLDOWN | 8% | -8.2 bps | 25% | ❌ Unreliable |
+| NEW_LOW | 5% | -3.1 bps | 43% | ❌ Negative PnL |
+
+### Entry delay impact (T+0 vs T+25ms)
+
+By T+25ms, price has already dropped ~16 bps on average. This is the cost of realistic entry:
+
+| Strategy | T+0 (optimistic) | T+25ms (realistic) | Cost |
+|----------|------------------|-------------------|------|
+| Oracle | +80.4 bps | +64.7 bps | -15.7 |
+| ML in-sample | +65.9 bps | +51.7 bps | -14.2 |
+| ML LOSO | +40.6 bps | +23.6 bps | -17.0 |
+| Fixed T+10s | +32.3 bps | +16.6 bps | -15.7 |
+| Fixed T+5s | +30.3 bps | +14.6 bps | -15.7 |
+
+**ENTRY_DELAY_MS is configurable** in both `research_exit_ml_v3.py` and `ml_settlement_pipeline.py` for quick A/B testing.
 
 ---
 
-## Expected Profit — Real Numbers
+## Expected Profit — Real Numbers (T+25ms entry)
 
 ### Per-trade economics (after 20 bps round-trip fees)
 
 | Strategy | PnL/trade | At $1K | At $10K |
-|----------|-----------|--------|---------|
-| Current (fixed T+5s) | +30.3 bps | $3.03 | $30.30 |
-| Quick win (fixed T+10s) | +32.3 bps | $3.23 | $32.30 |
-| **ML exit (LOSO honest)** | **+40.6 bps** | **$4.06** | **$40.60** |
-| ML exit (optimistic in-sample) | +65.9 bps | $6.59 | $65.90 |
-| Oracle (theoretical ceiling) | +80.4 bps | $8.04 | $80.40 |
+|----------|-----------|--------|--------|
+| Current (fixed T+5s) | +14.6 bps | $1.46 | $14.60 |
+| Quick win (fixed T+10s) | +16.6 bps | $1.66 | $16.60 |
+| **ML exit (LOSO honest)** | **+23.6 bps** | **$2.36** | **$23.60** |
+| ML exit (optimistic in-sample) | +51.7 bps | $5.17 | $51.70 |
+| Oracle (theoretical ceiling) | +64.7 bps | $6.47 | $64.70 |
 
 ### Daily revenue estimate
 
 Scanner trades ~10-15 settlements/day (1h coins with |FR| ≥ 25 bps):
 
 | Scenario | Per Trade | 10 trades/day | 15 trades/day | Monthly |
-|----------|-----------|---------------|---------------|---------|
-| **Current (T+5s)** | +30.3 bps | $303/day | $455/day | **$9,090 - $13,635** |
-| **Quick win (T+10s)** | +32.3 bps | $323/day | $485/day | **$9,690 - $14,535** |
-| **ML exit deployed** | +40.6 bps | $406/day | $609/day | **$12,180 - $18,270** |
-| ML optimistic* | +65.9 bps | $659/day | $989/day | **$19,770 - $29,670** |
+|----------|-----------|---------------|---------------|--------|
+| **Current (T+5s)** | +14.6 bps | $146/day | $219/day | **$4,380 - $6,570** |
+| **Quick win (T+10s)** | +16.6 bps | $166/day | $249/day | **$4,980 - $7,470** |
+| **ML exit deployed** | +23.6 bps | $236/day | $354/day | **$7,080 - $10,620** |
+| ML optimistic* | +51.7 bps | $517/day | $776/day | **$15,510 - $23,280** |
 
-*At $10K notional per trade. Real production will be between LOSO (40.6) and in-sample (65.9) — likely ~50 bps as more data accumulates.*
+*At $10K notional per trade. Real production will be between LOSO (23.6) and in-sample (51.7) — likely ~35 bps as more data accumulates.*
 
 ### Conservative profit estimate
 
 With ML exit at $10K notional, 12 trades/day:
-- **Conservative (LOSO):** $40.60 × 12 = **$487/day = $14,610/month**
-- **Expected (mid-range):** $50 × 12 = **$600/day = $18,000/month**
-- **Optimistic (in-sample):** $65.90 × 12 = **$791/day = $23,730/month**
+- **Conservative (LOSO):** $23.60 × 12 = **$283/day = $8,496/month**
+- **Expected (mid-range):** $35 × 12 = **$420/day = $12,600/month**
+- **Optimistic (in-sample):** $51.70 × 12 = **$620/day = $18,612/month**
 
 ### Improvement over current strategy
 
 | Metric | Current | With ML | Improvement |
 |--------|---------|---------|-------------|
-| Avg PnL/trade | +30.3 bps | +40.6 bps | **+34%** |
-| Win rate | 66% | 68% | +2% |
-| Monthly ($10K, 12/day) | $10,908 | $14,616 | **+$3,708/month** |
+| Avg PnL/trade | +14.6 bps | +23.6 bps | **+62%** |
+| Win rate | 54% | 53% | -1% |
+| Monthly ($10K, 12/day) | $5,256 | $8,496 | **+$3,240/month** |
 
 ---
 
@@ -217,15 +233,15 @@ The model identifies sell wave exhaustion by detecting:
 
 When all align → model says "this is the bottom, exit now." Average exit: **T+22s** (vs fixed T+5s).
 
-### The gap we're capturing
+### The gap we're capturing (realistic T+25ms entry)
 
 ```
-Oracle ceiling:     +80.4 bps  ████████████████████████████ 100%
-ML in-sample:       +65.9 bps  ███████████████████████       82%
-ML LOSO (honest):   +40.6 bps  ██████████████                51%
-Fixed T+10s:        +32.3 bps  ████████████                  40%
-Fixed T+5s:         +30.3 bps  ███████████                   38%
-Trailing stop:      +23.9 bps  ████████                      30%
+Oracle ceiling:     +64.7 bps  ████████████████████████████ 100%
+ML in-sample:       +51.7 bps  ██████████████████████        80%
+ML LOSO (honest):   +23.6 bps  ██████████                    36%
+Fixed T+10s:        +16.6 bps  ███████                       26%
+Fixed T+5s:         +14.6 bps  ██████                        23%
+Trailing stop:       +8.2 bps  ███                           13%
 ```
 
 ---
@@ -241,7 +257,7 @@ Trailing stop:      +23.9 bps  ████████                      30%
 | OB depth features (L5-50) | ❌ Hurts HGBC by -0.010 AUC | L1 imbalance captures everything |
 | FR regime interactions | ❌ Exactly 0.000 improvement | Already captured by base features |
 | CVD features | ⚠️ Helps HGBC, hurts LogReg | Nonlinear signal, needs more data |
-| Pure event-driven | ⚠️ -2 bps vs polling (train/inference mismatch) | Must match training distribution |
+| Pure event-driven | ⚠️ Event-driven actually beats polling at T+25ms entry | With realistic entry, faster exits matter more |
 | Full combination (83 feats) | ❌ HGBC -0.017 AUC | Curse of dimensionality |
 
 ---
@@ -249,25 +265,25 @@ Trailing stop:      +23.9 bps  ████████                      30%
 ## Production Deployment Plan
 
 ### Phase 0: Zero-effort quick win ✅ READY
-Change exit from T+5.5s → T+10s. Gains **+$2/day per $10K** immediately.
+Change exit from T+5.5s → T+10s. Gains **+$2/trade at $10K** immediately.
 
 ### Phase 1: Deploy LogReg exit model
 - Model: LogReg, 56 features, <0.01ms inference
-- Architecture: polling 100ms base + BIG_TRADE trigger
+- Architecture: event-driven with BIG_TRADE trigger (beats polling at T+25ms)
 - Min hold: 1s, max hold: 60s, threshold: P(near_bottom) > 0.50
-- Expected: **+40.6 bps/trade honest** (+34% over current)
+- Expected: **+23.6 bps/trade honest** (+62% over current)
 - Risk: zero overfit risk (negative overfit gap)
 
 ### Phase 2: Accumulate data
 - Currently: 150 settlements (3 days)
 - Target: 500+ settlements (~10 days)
-- At 500+: retrain HGBC (will close gap toward +65.9 bps in-sample)
+- At 500+: retrain HGBC (will close gap toward +51.7 bps in-sample)
 - Revisit CVD features (nonlinear signal needs more data)
 
-### Phase 3: Full event-driven
-- Retrain model on variable-interval features
+### Phase 3: Full event-driven retraining
+- Retrain model on variable-interval features (match inference distribution)
 - Add time-since-last-eval as feature
-- Expected: unlock earlier exits with same accuracy
+- Expected: unlock earlier exits with same accuracy, further close LOSO→in-sample gap
 
 ---
 

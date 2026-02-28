@@ -29,6 +29,9 @@ warnings.filterwarnings("ignore")
 LOCAL_DATA_DIR = Path("charts_settlement")
 TICK_MS = 100
 MAX_POST_MS = 60000
+ENTRY_DELAY_MS = 0        # 0 = enter at last pre-settlement price (optimistic)
+                          # 25 = enter at T+25ms (realistic production)
+FEE_BPS = 20              # round-trip taker fees (10 bps × 2 legs)
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -120,6 +123,13 @@ def build_tick_features(fp):
     ob1_post = [(t, bp, bq, ap, aq) for t, bp, bq, ap, aq in ob1 if t >= 0]
     ob1_times = np.array([t for t, _, _, _, _ in ob1_post]) if ob1_post else np.array([])
 
+    # Entry price: where we actually open the short
+    if ENTRY_DELAY_MS > 0:
+        entry_mask = post_times <= ENTRY_DELAY_MS
+        entry_price_bps = float(post_prices_bps[entry_mask][-1]) if entry_mask.sum() > 0 else 0.0
+    else:
+        entry_price_bps = 0.0  # enter at ref_price (last pre-settlement trade)
+
     # Precompute: the GLOBAL minimum price from each tick onwards
     # This is what we need for the "is this the bottom?" target
     global_min_bps = post_prices_bps.min()
@@ -168,6 +178,7 @@ def build_tick_features(fp):
         feat = {}
         feat["t_ms"] = tick_t
         feat["price_bps"] = current_price
+        feat["entry_price_bps"] = entry_price_bps
         feat["running_min_bps"] = running_min_bps
         feat["distance_from_low_bps"] = current_price - running_min_bps
         feat["new_low"] = 1 if current_price <= running_min_bps + 0.5 else 0
@@ -532,10 +543,9 @@ def train_and_evaluate(df):
 
 def backtest_single_exit(df, results):
     """Each strategy gets exactly ONE exit per settlement."""
-    FEE_BPS = 20
 
     print(f"\n{'='*70}")
-    print(f"BACKTEST — SINGLE EXIT PER SETTLEMENT")
+    print(f"BACKTEST — SINGLE EXIT PER SETTLEMENT (entry_delay={ENTRY_DELAY_MS}ms, fees={FEE_BPS}bps)")
     print(f"{'='*70}")
 
     df["ml_prob_nb10"] = results["y_pred_full_nb10"]
@@ -564,6 +574,7 @@ def backtest_single_exit(df, results):
     for sid, sdf in settlements:
         sdf = sdf.sort_values("t_ms")
         fr = sdf["fr_abs_bps"].iloc[0]
+        entry_bps = sdf.iloc[0]["entry_price_bps"]  # price at T+ENTRY_DELAY_MS
 
         # Fixed exits
         for name, t_exit in [("fixed_5s", 5000), ("fixed_10s", 10000), ("fixed_30s", 30000)]:
@@ -574,7 +585,7 @@ def backtest_single_exit(df, results):
             else:
                 exit_price = sdf.iloc[-1]["price_bps"]
                 exit_t = sdf.iloc[-1]["t_ms"]
-            strats[name].append(-exit_price - FEE_BPS)
+            strats[name].append(entry_bps - exit_price - FEE_BPS)
             exit_times[name].append(exit_t)
 
         # Time tiers by FR
@@ -589,7 +600,7 @@ def backtest_single_exit(df, results):
         at_exit = sdf[sdf["t_ms"] <= tier_time]
         exit_price = at_exit.iloc[-1]["price_bps"] if len(at_exit) > 0 else sdf.iloc[-1]["price_bps"]
         exit_t = at_exit.iloc[-1]["t_ms"] if len(at_exit) > 0 else sdf.iloc[-1]["t_ms"]
-        strats["time_tiers_fr"].append(-exit_price - FEE_BPS)
+        strats["time_tiers_fr"].append(entry_bps - exit_price - FEE_BPS)
         exit_times["time_tiers_fr"].append(exit_t)
 
         # Trailing stop
@@ -604,7 +615,7 @@ def backtest_single_exit(df, results):
                 trail_exit_price = p
                 trail_exit_t = row["t_ms"]
                 break
-        strats["trailing_15bps"].append(-trail_exit_price - FEE_BPS)
+        strats["trailing_15bps"].append(entry_bps - trail_exit_price - FEE_BPS)
         exit_times["trailing_15bps"].append(trail_exit_t)
 
         # ML exits: exit at FIRST tick where P(near_bottom_10) > threshold
@@ -622,12 +633,12 @@ def backtest_single_exit(df, results):
                         ml_exit_price = row["price_bps"]
                         ml_exit_t = row["t_ms"]
                         break
-                strats[name].append(-ml_exit_price - FEE_BPS)
+                strats[name].append(entry_bps - ml_exit_price - FEE_BPS)
                 exit_times[name].append(ml_exit_t)
 
         # Oracle
         oracle_price = sdf["price_bps"].min()
-        strats["oracle"].append(-oracle_price - FEE_BPS)
+        strats["oracle"].append(entry_bps - oracle_price - FEE_BPS)
         oracle_idx = sdf["price_bps"].idxmin()
         exit_times["oracle"].append(sdf.loc[oracle_idx, "t_ms"])
 
@@ -661,7 +672,8 @@ def backtest_event_driven(feature_cols, model, jsonl_files, modes=None):
         modes = ["polling_100ms", "event_driven"]
 
     print(f"\n{'='*70}")
-    print(f"EVENT-DRIVEN BACKTEST — {len(jsonl_files)} files, {len(modes)} modes")
+    print(f"EVENT-DRIVEN BACKTEST — {len(jsonl_files)} files, {len(modes)} modes "
+          f"(entry_delay={ENTRY_DELAY_MS}ms, fees={FEE_BPS}bps)")
     print(f"{'='*70}")
 
     results = {m: {"pnls": [], "exit_times": [], "triggers": [], "n_evals": []} for m in modes}
@@ -670,7 +682,8 @@ def backtest_event_driven(feature_cols, model, jsonl_files, modes=None):
     for i, fp in enumerate(jsonl_files, 1):
         for mode in modes:
             r = simulate_settlement(fp, model, feature_cols, threshold=0.5,
-                                    min_exit_ms=1000, mode=mode, cooldown_ms=100)
+                                    min_exit_ms=1000, mode=mode, cooldown_ms=100,
+                                    entry_delay_ms=ENTRY_DELAY_MS, fee_bps=FEE_BPS)
             if r is not None:
                 results[mode]["pnls"].append(r["pnl_bps"])
                 results[mode]["exit_times"].append(r["exit_t"])

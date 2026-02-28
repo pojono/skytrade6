@@ -333,7 +333,7 @@ class StreamingState:
 
 def simulate_settlement(fp, model, feature_cols, threshold=0.5,
                         min_exit_ms=1000, mode="event_driven",
-                        cooldown_ms=100):
+                        cooldown_ms=100, entry_delay_ms=0, fee_bps=20):
     """
     Replay a JSONL file and find exit point.
 
@@ -342,7 +342,9 @@ def simulate_settlement(fp, model, feature_cols, threshold=0.5,
       - "event_driven":  evaluate on triggers + 100ms cooldown
       - "every_trade":   evaluate on every single trade (upper bound)
 
-    Returns: (exit_t_ms, exit_price_bps, n_evals, trigger_type)
+    entry_delay_ms: 0 = enter at last pre-settlement price (optimistic)
+                    25 = enter at T+25ms (realistic production)
+    Returns: dict with exit_t, pnl_bps, n_evals, trigger, etc.
     """
     # Parse all events
     events = []  # (t_ms, type, data)
@@ -401,6 +403,13 @@ def simulate_settlement(fp, model, feature_cols, threshold=0.5,
     post_events = [e for e in events if e[0] >= 0]
     if len([e for e in post_events if e[1] == "trade"]) < 10:
         return None
+
+    # Entry price at T+entry_delay_ms
+    if entry_delay_ms > 0:
+        entry_trades = [e for e in post_events if e[1] == "trade" and e[0] <= entry_delay_ms]
+        entry_price_bps = state.bps(entry_trades[-1][2]) if entry_trades else 0.0
+    else:
+        entry_price_bps = 0.0  # enter at ref_price
 
     # Oracle: find actual minimum
     post_trade_prices = [state.bps(e[2]) for e in post_events if e[1] == "trade"]
@@ -467,8 +476,9 @@ def simulate_settlement(fp, model, feature_cols, threshold=0.5,
         "n_evals": n_evals,
         "trigger": exit_trigger,
         "oracle_min_bps": oracle_min_bps,
-        "pnl_bps": -exit_price - 20 if exit_price is not None else 0,
-        "oracle_pnl_bps": -oracle_min_bps - 20,
+        "entry_price_bps": entry_price_bps,
+        "pnl_bps": (entry_price_bps - exit_price - fee_bps) if exit_price is not None else 0,
+        "oracle_pnl_bps": entry_price_bps - oracle_min_bps - fee_bps,
     }
 
 
