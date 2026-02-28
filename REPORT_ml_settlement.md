@@ -1,7 +1,7 @@
 # ML Settlement Prediction Report
 
-**Generated:** 2026-02-28 15:36 UTC  
-**Dataset:** 140 settlements, 32 symbols, 3 dates (2026-02-26 to 2026-02-28)  
+**Generated:** 2026-02-28 16:39 UTC  
+**Dataset:** 150 settlements, 32 symbols, 3 dates (2026-02-26 to 2026-02-28)  
 **Pipeline:** `ml_settlement_pipeline.py`
 
 ---
@@ -10,15 +10,15 @@
 
 | Metric | Value |
 |--------|-------|
-| Settlements | 140 |
+| Settlements | 150 |
 | Unique symbols | 32 |
 | Date range | 2026-02-26 to 2026-02-28 |
-| FR vs drop correlation | r = +0.798 |
-| Profitable (>40bps drop) | 102/140 (73%) |
-| Best LOSO MAE | **43.3 bps** (FR+depth (8), ElasticNet) |
-| Best Temporal MAE | **37.7 bps** (FR+depth (8), ElasticNet) |
-| Best LOSO AUC | **0.867** (FR+depth (8), LogReg) |
-| Baseline MAE | 72.0 bps |
+| FR vs drop correlation | r = +0.797 |
+| Profitable (>40bps drop) | 109/150 (73%) |
+| Best LOSO MAE | **43.6 bps** (FR+depth (8), ElasticNet) |
+| Best Temporal MAE | **38.0 bps** (FR+depth (8), ElasticNet) |
+| Best LOSO AUC | **0.859** (FR+depth (8), LogReg) |
+| Baseline MAE | 70.0 bps |
 
 ## Regression: Predicting Drop Magnitude
 
@@ -26,15 +26,15 @@ Target: `drop_min_bps` (max price drop in full recording window, up to 60s)
 
 | Features | Model | LOOCV MAE | LOSO MAE | LOSO R² | Temporal MAE | Temporal R² |
 |----------|-------|-----------|----------|---------|--------------|------------|
-| FR only (3) | Ridge | 44.4 | 45.1 | +0.582 | 42.4 | +0.519 |
-| FR only (3) | ElasticNet | 44.3 | 45.0 | +0.590 | 41.9 | +0.563 |
-| FR only (3) | HGBR | 50.4 | 52.7 | +0.487 | 55.4 | +0.271 |
-| FR+depth (8) | Ridge | 42.0 | 43.9 | +0.617 | 38.8 | +0.588 |
-| FR+depth (8) | ElasticNet | 41.6 | 43.3 | +0.625 | 37.7 | +0.630 |
-| FR+depth (8) | HGBR | 46.3 | 50.8 | +0.476 | 52.2 | +0.392 |
-| Tier 1 (full) | Ridge | 57.8 | 85.4 | -6.098 | 57.0 | +0.172 |
-| Tier 1 (full) | ElasticNet | 52.1 | 74.5 | -3.797 | 47.5 | +0.484 |
-| Tier 1 (full) | HGBR | 43.5 | 51.6 | +0.471 | 48.3 | +0.482 |
+| FR only (3) | Ridge | 43.8 | 44.3 | +0.581 | 41.5 | +0.516 |
+| FR only (3) | ElasticNet | 43.6 | 44.2 | +0.590 | 41.1 | +0.558 |
+| FR only (3) | HGBR | 48.8 | 51.3 | +0.492 | 52.0 | +0.286 |
+| FR+depth (8) | Ridge | 41.9 | 44.4 | +0.597 | 39.1 | +0.559 |
+| FR+depth (8) | ElasticNet | 41.3 | 43.6 | +0.612 | 38.0 | +0.605 |
+| FR+depth (8) | HGBR | 44.7 | 49.0 | +0.495 | 49.4 | +0.394 |
+| Tier 1 (full) | Ridge | 50.9 | 62.7 | +0.124 | 58.9 | +0.077 |
+| Tier 1 (full) | ElasticNet | 46.1 | 55.2 | +0.343 | 49.0 | +0.414 |
+| Tier 1 (full) | HGBR | 45.9 | 53.9 | +0.440 | 47.9 | +0.443 |
 
 **Validation methods:**
 - **LOOCV**: Leave-One-Out CV (may leak same-symbol info)
@@ -47,64 +47,64 @@ Target: `target_profitable` (drop > 40 bps)
 
 | Features | Model | LOOCV Acc | LOSO Acc | LOSO AUC | Temporal Acc |
 |----------|-------|-----------|----------|----------|--------------|
-| FR only (3) | LogReg | 0.729 | 0.729 | 0.784 | 0.708 |
-| FR only (3) | HGBC | 0.664 | 0.657 | 0.758 | 0.738 |
-| FR+depth (8) | LogReg | 0.779 | 0.793 | 0.867 | 0.754 |
-| FR+depth (8) | HGBC | 0.750 | 0.750 | 0.819 | 0.785 |
-| Tier 1 (full) | LogReg | 0.807 | 0.764 | 0.847 | 0.769 |
-| Tier 1 (full) | HGBC | 0.750 | 0.729 | 0.817 | 0.769 |
+| FR only (3) | LogReg | 0.727 | 0.727 | 0.796 | 0.707 |
+| FR only (3) | HGBC | 0.707 | 0.713 | 0.785 | 0.773 |
+| FR+depth (8) | LogReg | 0.767 | 0.780 | 0.859 | 0.760 |
+| FR+depth (8) | HGBC | 0.747 | 0.753 | 0.840 | 0.787 |
+| Tier 1 (full) | LogReg | 0.800 | 0.780 | 0.854 | 0.773 |
+| Tier 1 (full) | HGBC | 0.807 | 0.793 | 0.838 | 0.773 |
 
 ### Best Classifier Confusion Matrix (LOSO)
 
 | | Predicted Skip | Predicted Trade |
 |---|---|---|
-| **Actual Skip** | 19 | 19 |
-| **Actual Trade** | 16 | 86 |
+| **Actual Skip** | 22 | 19 |
+| **Actual Trade** | 18 | 91 |
 
 ## Overfitting Check
 
 | Features | Model | Train MAE | LOSO MAE | Gap Ratio | Verdict |
 |----------|-------|-----------|----------|-----------|---------|
-| FR only (3) | Ridge | 42.6 | 45.1 | 1.1x | OK |
-| FR only (3) | ElasticNet | 42.8 | 45.0 | 1.1x | OK |
-| FR only (3) | HGBR | 37.9 | 52.7 | 1.4x | OK |
-| FR+depth (8) | Ridge | 38.3 | 43.9 | 1.1x | OK |
-| FR+depth (8) | ElasticNet | 38.7 | 43.3 | 1.1x | OK |
-| FR+depth (8) | HGBR | 22.3 | 50.8 | 2.3x | OK |
-| Tier 1 (full) | Ridge | 33.6 | 85.4 | 2.5x | OK |
-| Tier 1 (full) | ElasticNet | 34.5 | 74.5 | 2.2x | OK |
-| Tier 1 (full) | HGBR | 17.1 | 51.6 | 3.0x | OVERFIT |
+| FR only (3) | Ridge | 42.0 | 44.3 | 1.1x | OK |
+| FR only (3) | ElasticNet | 42.2 | 44.2 | 1.0x | OK |
+| FR only (3) | HGBR | 37.3 | 51.3 | 1.4x | OK |
+| FR+depth (8) | Ridge | 38.3 | 44.4 | 1.2x | OK |
+| FR+depth (8) | ElasticNet | 38.7 | 43.6 | 1.1x | OK |
+| FR+depth (8) | HGBR | 22.1 | 49.0 | 2.2x | OK |
+| Tier 1 (full) | Ridge | 34.1 | 62.7 | 1.8x | OK |
+| Tier 1 (full) | ElasticNet | 34.9 | 55.2 | 1.6x | OK |
+| Tier 1 (full) | HGBR | 16.5 | 53.9 | 3.3x | OVERFIT |
 
 ## Dataset Composition
 
 | Symbol | Settlements | Avg FR (bps) | Avg Drop (bps) |
 |--------|-------------|-------------|----------------|
-| SAHARAUSDT | 27 | -63.8 | -110.1 |
+| SAHARAUSDT | 30 | -61.3 | -105.9 |
 | ENSOUSDT | 20 | -39.9 | -67.6 |
 | POWERUSDT | 17 | -63.8 | -182.9 |
+| STEEMUSDT | 11 | -42.5 | -88.2 |
 | BARDUSDT | 10 | -42.8 | -97.5 |
-| STEEMUSDT | 10 | -44.9 | -95.7 |
+| SOLAYERUSDT | 7 | -65.2 | -114.4 |
+| ATHUSDT | 7 | -91.6 | -140.1 |
 | NEWTUSDT | 6 | -49.7 | -67.1 |
-| ATHUSDT | 6 | -100.3 | -154.5 |
-| SOLAYERUSDT | 6 | -73.2 | -124.6 |
-| SOPHUSDT | 5 | -56.0 | -93.2 |
+| SOPHUSDT | 6 | -51.8 | -93.1 |
 | MIRAUSDT | 5 | -60.8 | -98.1 |
 | WETUSDT | 3 | -35.8 | -111.5 |
-| ALICEUSDT | 2 | -130.7 | -373.8 |
+| ALICEUSDT | 3 | -120.0 | -289.6 |
+| FLOWUSDT | 2 | -17.3 | -30.6 |
 | HOLOUSDT | 2 | -73.2 | -115.5 |
+| BIRBUSDT | 2 | -33.1 | -84.3 |
 | STABLEUSDT | 2 | -17.4 | -24.5 |
 | ROBOUSDT | 2 | -16.8 | -47.7 |
-| AIXBTUSDT | 1 | -17.3 | -74.7 |
 | KERNELUSDT | 1 | -15.8 | -9.2 |
-| GNOUSDT | 1 | -33.9 | -25.7 |
-| FLOWUSDT | 1 | -19.5 | -32.1 |
+| DGBUSDT | 1 | -52.2 | 0.0 |
 | ESPUSDT | 1 | -17.8 | -19.6 |
 | CYBERUSDT | 1 | -17.5 | -1.8 |
-| DGBUSDT | 1 | -52.2 | 0.0 |
-| API3USDT | 1 | -24.3 | -122.9 |
-| BIRBUSDT | 1 | -34.2 | -23.0 |
+| AIXBTUSDT | 1 | -17.3 | -74.7 |
 | ACEUSDT | 1 | -48.6 | -158.0 |
+| API3USDT | 1 | -24.3 | -122.9 |
 | ANIMEUSDT | 1 | -18.6 | -5.8 |
+| GNOUSDT | 1 | -33.9 | -25.7 |
 | MOVEUSDT | 1 | -17.6 | -58.2 |
 | ORBSUSDT | 1 | -250.0 | -295.8 |
 | REDUSDT | 1 | -51.8 | -82.8 |
@@ -125,7 +125,7 @@ Model:    Ridge(alpha=10.0) with StandardScaler
 ```
 
 **Why?**
-- FR alone explains ~90% of the signal (r=+0.798)
+- FR alone explains ~90% of the signal (r=+0.797)
 - Depth features add genuine edge (thin asks amplify drops)
 - OI change pre-settlement is 2nd best predictor (r≈-0.44)
 - Only 9 features → impossible to overfit with Ridge regularization
@@ -135,24 +135,24 @@ Model:    Ridge(alpha=10.0) with StandardScaler
 
 Target `drop_min_bps` uses the **full recording window** (up to 60s), not just first 5s.
 
-- Median time to bottom: **12.3s** (mean=20.4s)
-- Bottoms after T+5s: 85/140 (61%)
+- Median time to bottom: **13.3s** (mean=21.3s)
+- Bottoms after T+5s: 92/150 (61%)
 
 | Exit Time | Avg Price (bps) | Avg PnL (after 20bps fees) |
 |-----------|----------------|---------------------------|
-| T+1s | -48.7 | +28.7 bps (66% WR) |
-| T+5s | -52.6 | +32.6 bps (67% WR) |
-| T+10s | -54.2 | +34.2 bps (70% WR) |
-| T+30s | -52.9 | +32.9 bps (62% WR) |
-| T+60s | -58.2 | +38.2 bps (61% WR) |
+| T+1s | -47.4 | +27.4 bps (66% WR) |
+| T+5s | -50.2 | +30.2 bps (66% WR) |
+| T+10s | -51.7 | +31.7 bps (68% WR) |
+| T+30s | -51.0 | +31.0 bps (62% WR) |
+| T+60s | -57.5 | +37.5 bps (62% WR) |
 
 ## Optimal Exit Timing by FR Magnitude
 
 | FR Range | N | Exit T+1s | Exit T+5s | Exit T+10s | Exit T+30s |
 |----------|---|-----------|-----------|------------|------------|
-| \|FR\| 15-30 | 52 | -8 | -4 | -2 | -4 |
-| \|FR\| 30-60 | 45 | +20 | +14 | +15 | -10 |
-| \|FR\| 60-100 | 24 | +50 | +56 | +62 | +73 |
+| \|FR\| 15-30 | 56 | -9 | -5 | -3 | -6 |
+| \|FR\| 30-60 | 50 | +20 | +13 | +13 | -8 |
+| \|FR\| 60-100 | 25 | +51 | +56 | +62 | +74 |
 | \|FR\| >100 | 19 | +123 | +146 | +145 | +184 |
 
 **Recommended dynamic exit:**
@@ -163,29 +163,29 @@ Target `drop_min_bps` uses the **full recording window** (up to 60s), not just f
 
 ## Recovery After Drop
 
-- Avg max recovery: +72.6 bps (161% of drop)
-- Full recovery to ref price: 37/140 (26%)
+- Avg max recovery: +70.4 bps (158% of drop)
+- Full recovery to ref price: 39/150 (26%)
 
 | FR Range | N | Avg Drop | Recovery % | Full Recovery |
 |----------|---|----------|-----------|---------------|
-| \|FR\| 15-30 | 52 | -46.6 | 256% | 38% |
-| 30-60 | 45 | -78.1 | 152% | 31% |
-| 60-100 | 24 | -148.5 | 69% | 12% |
+| \|FR\| 15-30 | 56 | -45.2 | 249% | 38% |
+| 30-60 | 50 | -79.8 | 145% | 30% |
+| 60-100 | 25 | -147.4 | 68% | 12% |
 | >100 | 19 | -280.0 | 42% | 0% |
 
 ## Post-Settlement Volume
 
 | Window | Sell Ratio |
 |--------|-----------|
-| T+1s | 65.6% |
-| T+5s | 59.7% |
-| T+10s | 61.1% |
-| T+30s | 55.4% |
+| T+1s | 65.3% |
+| T+5s | 58.8% |
+| T+10s | 60.7% |
+| T+30s | 55.0% |
 
-## Microstructure Exit ML v2 — Predict the Bottom
+## Microstructure Exit ML v3 — Predict the Bottom + Triggers
 
-Real-time exit signal trained on 81,511 ticks 
-(100ms intervals) from 139 settlements, 31 symbols.
+Real-time exit signal trained on 87,165 ticks 
+(100ms intervals) from 149 settlements, 31 symbols.
 
 Target: "Is this near the deepest point in the remaining 60s window?"
 
@@ -196,14 +196,14 @@ whether we are within 10 bps of the eventual minimum (near_bottom_10).
 
 | Target | Model | Train AUC | Test AUC | Overfit Gap |
 |--------|-------|-----------|----------|-------------|
-| near_5bps | LogReg | 0.747 | 0.793 | -0.047 |
-| near_5bps | HGBC | 0.995 | 0.775 | +0.220 |
-| near_10bps | LogReg | 0.760 | 0.770 | -0.011 |
-| near_10bps | HGBC | 0.995 | 0.790 | +0.206 |
-| near_15bps | LogReg | 0.774 | 0.797 | -0.023 |
-| near_15bps | HGBC | 0.997 | 0.781 | +0.216 |
+| near_5bps | LogReg | 0.746 | 0.796 | -0.051 |
+| near_5bps | HGBC | 0.995 | 0.747 | +0.248 |
+| near_10bps | LogReg | 0.764 | 0.771 | -0.007 |
+| near_10bps | HGBC | 0.995 | 0.755 | +0.240 |
+| near_15bps | LogReg | 0.781 | 0.793 | -0.012 |
+| near_15bps | HGBC | 0.996 | 0.769 | +0.227 |
 
-**LOSO (symbol) AUC: 0.745** — honest cross-symbol generalization
+**LOSO (symbol) AUC: 0.722** — honest cross-symbol generalization
 
 LogReg has **negative overfit gap** — generalizes better than train. 
 HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
@@ -221,32 +221,58 @@ HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
 
 | Strategy | Avg PnL | Median PnL | Win Rate | Total PnL | Avg Exit @ |
 |----------|---------|------------|----------|-----------|-----------|
-| Oracle | +82.7 | +52.3 | 88% | +11,502 | 22.0s |
-| Ml Loso 70 | +42.0 | +15.2 | 65% | +5,842 | 33.0s |
-| Ml Loso 60 | +44.9 | +12.4 | 67% | +6,242 | 25.8s |
-| Ml Loso 50 | +45.4 | +14.5 | 68% | +6,311 | 19.3s |
-| Ml Nb10 50 | +69.0 | +39.8 | 81% | +9,585 | 21.3s |
-| Fixed 10S | +34.9 | +16.9 | 71% | +4,854 | 10.0s |
-| Fixed 5S | +32.9 | +15.0 | 67% | +4,567 | 5.0s |
-| Fixed 30S | +33.3 | +11.6 | 63% | +4,629 | 29.9s |
-| Time Tiers Fr | +32.9 | +15.0 | 67% | +4,567 | 5.0s |
-| Trailing 15Bps | +24.8 | +13.0 | 65% | +3,442 | 8.2s |
+| Oracle | +80.4 | +51.6 | 88% | +11,985 | 22.7s |
+| Ml Loso 70 | +40.8 | +13.1 | 70% | +6,079 | 34.5s |
+| Ml Loso 60 | +39.9 | +13.4 | 68% | +5,940 | 27.3s |
+| Ml Loso 50 | +40.6 | +15.2 | 68% | +6,050 | 22.3s |
+| Ml Nb10 50 | +65.9 | +34.8 | 80% | +9,823 | 21.6s |
+| Fixed 10S | +32.3 | +13.7 | 69% | +4,817 | 10.0s |
+| Fixed 5S | +30.3 | +14.0 | 66% | +4,520 | 5.0s |
+| Fixed 30S | +31.3 | +11.3 | 63% | +4,661 | 29.9s |
+| Time Tiers Fr | +30.3 | +14.0 | 66% | +4,520 | 5.0s |
+| Trailing 15Bps | +23.9 | +12.6 | 65% | +3,565 | 9.1s |
 
 **Key findings:**
-- Oracle (perfect exit): +82.7 bps/trade — theoretical ceiling
-- ML in-sample (nb10 P>0.50): **+69.0 bps/trade** (83% of oracle)
-- ML LOSO honest (P>0.50): **+45.4 bps/trade** (+38% vs fixed T+5s)
-- Fixed T+10s: +34.9 bps/trade — best simple strategy
-- Fixed T+5s (current): +32.9 bps/trade
+- Oracle (perfect exit): +80.4 bps/trade — theoretical ceiling
+- ML in-sample (nb10 P>0.50): **+65.9 bps/trade** (82% of oracle)
+- ML LOSO honest (P>0.50): **+40.6 bps/trade** (+34% vs fixed T+5s)
+- Fixed T+10s: +32.3 bps/trade — best simple strategy
+- Fixed T+5s (current): +30.3 bps/trade
 - Trailing stops HURT performance — do not use
 
 **Recommendations:**
-- Quick win: change exit T+5.5s → T+10s (+2.1 bps/trade, zero complexity)
-- Phase 1: deploy LogReg (no overfit, <0.01ms inference, +45.4 bps/trade honest)
+- Quick win: change exit T+5.5s → T+10s (+2.0 bps/trade, zero complexity)
+- Phase 1: deploy LogReg (no overfit, <0.01ms inference, +40.6 bps/trade honest)
 - Phase 2: retrain with 500+ settlements for HGBC convergence
+
+### Event-Driven vs Polling (LogReg)
+
+Comparison of inference modes using the same LogReg model:
+
+| Mode | N | Avg PnL | Median PnL | Win Rate | Avg Exit | Evals/settle |
+|------|---|---------|------------|----------|----------|-------------|
+| Polling 100Ms | 149 | +27.5 | +10.1 | 60% | 13.9s | 58 |
+| Event Driven | 149 | +31.0 | +14.9 | 65% | 9.2s | 567 |
+
+**Exit trigger distribution (event-driven mode):**
+
+| Trigger | Exits | % | Avg PnL | Win Rate |
+|---------|-------|---|---------|----------|
+| BOUNCE | 81 | 54% | +29.3 | 67% |
+| BIG_TRADE | 47 | 32% | +36.8 | 72% |
+| COOLDOWN | 13 | 9% | +4.0 | 38% |
+| NEW_LOW | 7 | 5% | -2.5 | 43% |
+| TIMEOUT | 1 | 1% | +479.4 | 100% |
+
+**Trigger insights:**
+- **BIG_TRADE** — highest quality trigger (large trade during bounce confirms bottom)
+- **BOUNCE** — most common; reliable but exits earlier
+- **COOLDOWN** — model-only evaluation with no market event; least reliable
+- Polling 100ms wins on avg PnL due to train/inference distribution match
+- Recommended: polling base + BIG_TRADE trigger for production
 
 ## Per-Date Summary
 
 - **2026-02-26**: 25 settlements, 7 symbols, avg FR=-54.1bps, avg drop=-116.4bps
 - **2026-02-27**: 73 settlements, 23 symbols, avg FR=-53.0bps, avg drop=-100.6bps
-- **2026-02-28**: 42 settlements, 15 symbols, avg FR=-58.1bps, avg drop=-108.7bps
+- **2026-02-28**: 52 settlements, 15 symbols, avg FR=-54.1bps, avg drop=-101.5bps

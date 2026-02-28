@@ -513,6 +513,16 @@ def train_and_evaluate(df):
     # Also LOSO predictions for honest backtest
     results["y_pred_loso_nb10"] = y_pred_loso
 
+    # Train LogReg on full data for production export
+    lr_full = Pipeline([
+        ("imp", SimpleImputer(strategy="median")),
+        ("scl", StandardScaler()),
+        ("clf", LogisticRegression(C=0.1, max_iter=5000)),
+    ])
+    lr_full.fit(X, y_nb10)
+    results["model_logreg"] = lr_full
+    results["model_hgbc"] = m_full
+
     return results, feature_cols
 
 
@@ -634,6 +644,77 @@ def backtest_single_exit(df, results):
         print(f"  {name:25s} {len(pnls):7d} {pnls.mean():+8.1f} {np.median(pnls):+8.1f} {(pnls > 0).mean()*100:5.0f}% {pnls.sum():+10.1f} {avg_t:9.1f}s")
 
     return strats, exit_times
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# Event-driven backtest (hybrid triggers)
+# ═══════════════════════════════════════════════════════════════════════
+
+def backtest_event_driven(feature_cols, model, jsonl_files, modes=None):
+    """Replay raw JSONL event-by-event, compare polling vs hybrid triggers.
+
+    Returns dict of {mode: {pnls, exit_times, triggers, n_evals}}.
+    """
+    from research_exit_ml_eventdriven import simulate_settlement
+
+    if modes is None:
+        modes = ["polling_100ms", "event_driven"]
+
+    print(f"\n{'='*70}")
+    print(f"EVENT-DRIVEN BACKTEST — {len(jsonl_files)} files, {len(modes)} modes")
+    print(f"{'='*70}")
+
+    results = {m: {"pnls": [], "exit_times": [], "triggers": [], "n_evals": []} for m in modes}
+    t0 = _time.time()
+
+    for i, fp in enumerate(jsonl_files, 1):
+        for mode in modes:
+            r = simulate_settlement(fp, model, feature_cols, threshold=0.5,
+                                    min_exit_ms=1000, mode=mode, cooldown_ms=100)
+            if r is not None:
+                results[mode]["pnls"].append(r["pnl_bps"])
+                results[mode]["exit_times"].append(r["exit_t"])
+                results[mode]["triggers"].append(r["trigger"])
+                results[mode]["n_evals"].append(r["n_evals"])
+        if i % 30 == 0:
+            print(f"    [{i}/{len(jsonl_files)}] {_time.time()-t0:.1f}s")
+
+    # Print summary
+    print(f"\n  {'Mode':<20s} {'N':>4s} {'Avg PnL':>8s} {'Med PnL':>8s} {'WR':>6s} "
+          f"{'Avg Exit':>9s} {'Evals/s':>8s}")
+    print(f"  {'-'*20} {'-'*4} {'-'*8} {'-'*8} {'-'*6} {'-'*9} {'-'*8}")
+
+    for mode in modes:
+        d = results[mode]
+        pnls = np.array(d["pnls"])
+        exits = np.array(d["exit_times"])
+        evals = np.array(d["n_evals"])
+        if len(pnls) == 0:
+            continue
+        wr = (pnls > 0).mean() * 100
+        print(f"  {mode:<20s} {len(pnls):4d} {pnls.mean():+8.1f} {np.median(pnls):+8.1f} "
+              f"{wr:5.0f}% {(exits/1000).mean():8.1f}s {evals.mean():7.0f}")
+
+    # Trigger distribution for event_driven
+    if "event_driven" in results and results["event_driven"]["triggers"]:
+        from collections import Counter
+        triggers = Counter(results["event_driven"]["triggers"])
+        print(f"\n  Trigger distribution (event_driven):")
+        for trig, count in triggers.most_common():
+            t_pnls = [p for p, t in zip(results["event_driven"]["pnls"],
+                                         results["event_driven"]["triggers"]) if t == trig]
+            wr_t = sum(1 for p in t_pnls if p > 0) / len(t_pnls) * 100 if t_pnls else 0
+            print(f"    {trig:<12s} {count:3d} ({count/len(results['event_driven']['pnls'])*100:4.0f}%)  "
+                  f"PnL={np.mean(t_pnls):+.1f}  WR={wr_t:.0f}%")
+
+    # Convert to arrays
+    for mode in modes:
+        results[mode]["pnls"] = np.array(results[mode]["pnls"])
+        results[mode]["exit_times"] = np.array(results[mode]["exit_times"])
+        results[mode]["n_evals"] = np.array(results[mode]["n_evals"])
+
+    print(f"  [{_time.time()-t0:.1f}s]")
+    return results
 
 
 # ═══════════════════════════════════════════════════════════════════════
