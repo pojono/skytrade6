@@ -11,7 +11,7 @@
 If other bots are already trading the settlement drop, what happens when we enter?
 - Do they eat the bids before us?
 - Does our selling make things worse or better?
-- What does the orderbook actually look like at T+15ms when we'd enter?
+- What does the orderbook actually look like at T+20ms (BB fill time) when we'd enter?
 
 ---
 
@@ -125,22 +125,48 @@ In 5 seconds, ~$30K of selling consumes ~32% of bid depth. This is the collectiv
 
 ---
 
-## Revised PnL Estimate: T+15ms Entry on Depleted Book
+## Entry Time Comparison (BB fill time)
 
-| Notional | Entry Slip | RT Slippage | Net PnL | $ Profit | Win % |
-|----------|-----------|-------------|---------|----------|-------|
-| $1,000 | 6.4 bps | 11.6 bps | +12.0 | $1.20 | 89% |
-| **$2,000** | **8.2 bps** | **15.1 bps** | **+8.5** | **$1.69** | **78%** |
-| $3,000 | 9.9 bps | 17.9 bps | +5.7 | $1.70 | 68% |
-| $5,000 | 12.5 bps | 23.1 bps | +0.5 | $0.23 | 51% |
+### Market conditions at each entry time
 
-Note: This does NOT yet include the FR savings from escaping the snapshot.
+| BB Fill Time | Sell Trades Before | Sell Volume Before | Price @ Entry | FR Safe? |
+|-------------|-------------------|-------------------|--------------|----------|
+| T+15ms | 1 | $6 | -0.3 bps | risky (BB created ~T+15ms, boundary T+18ms) |
+| **T+20ms** | **8** | **$220** | **-5.3 bps** | **YES (BB created ~T+20ms > T+18ms)** |
+| T+25ms | 32 | $1,487 | -8.4 bps | YES |
+| T+30ms | 48 | $3,134 | -13.9 bps | YES |
+| T+50ms | 128 | $8,877 | -29.7 bps | YES |
 
-### With FR Savings (avoiding FR payment on short)
+### Slippage & PnL at each entry time (depleted book, includes spread)
 
-If FR is negative and we escape paying it by entering at T+15ms (order created ~T+17ms < T+18ms boundary), we SAVE the FR that we would have paid. For our coins, median |FR| = ~50 bps.
+| BB Fill | Notional | Entry Slip | RT Slip | Net PnL | $ Profit | Win % |
+|---------|----------|-----------|---------|---------|----------|-------|
+| T+15ms | $1,000 | 6.4 bps | 11.0 | +12.6 | $1.26 | 92% |
+| T+15ms | $2,000 | 8.2 bps | 14.3 | +9.3 | $1.87 | 81% |
+| T+15ms | $3,000 | 9.9 bps | 17.0 | +6.6 | $1.99 | 69% |
+| | | | | | | |
+| **T+20ms** | **$1,000** | **7.1 bps** | **11.8** | **+11.8** | **$1.18** | **90%** |
+| **T+20ms** | **$2,000** | **9.1 bps** | **15.3** | **+8.3** | **$1.66** | **78%** |
+| **T+20ms** | **$3,000** | **10.9 bps** | **18.9** | **+4.7** | **$1.41** | **66%** |
+| T+20ms | $5,000 | 14.2 bps | 24.4 | -0.8 | -$0.40 | 47% |
+| | | | | | | |
+| T+25ms | $1,000 | 7.8 bps | 12.4 | +11.2 | $1.12 | 85% |
+| T+25ms | $2,000 | 10.1 bps | 16.2 | +7.4 | $1.49 | 75% |
+| T+25ms | $3,000 | 11.7 bps | 19.6 | +4.0 | $1.19 | 62% |
+| T+25ms | $5,000 | 15.1 bps | 25.6 | -2.0 | -$1.02 | 43% |
 
-But actually — the FR savings depend on the strategy. If we're only holding for 10-30s, we wouldn't be in the position at the NEXT settlement anyway. The FR savings apply only if our short was captured by THIS settlement's snapshot, which it wouldn't be since we're opening AFTER settlement. The key benefit of T+15ms is simply the **better entry price** (-0.3 bps vs -8.4 bps at T+25ms).
+### T+20ms vs T+25ms
+
+| Metric | T+20ms | T+25ms | Difference |
+|--------|--------|--------|------------|
+| Price at entry | -5.3 bps | -8.4 bps | **+3.1 bps better** |
+| Entry slip ($2K) | 9.1 bps | 10.1 bps | **-1.0 bps better** |
+| RT slip ($2K) | 15.3 bps | 16.2 bps | **-0.9 bps better** |
+| Net PnL ($2K) | +8.3 bps | +7.4 bps | **+0.9 bps better** |
+| Win rate ($2K) | 78% | 75% | +3% |
+| FR payment | **NO** | **NO** | same |
+
+T+20ms is better than T+25ms on every metric: better entry price, less book depletion, lower slippage.
 
 ---
 
@@ -151,15 +177,18 @@ BEFORE settlement:  Book is full. Bids stacked. Everyone waiting.
 
 T+0ms:    FR deducted. Nothing visible yet in trades.
 
-T+0-15ms: SILENCE. Almost no one trades.
-          ┌─── YOU ENTER HERE (T+15ms) ───┐
-          │ Book: 100% intact              │
-          │ Price: -0.3 bps from mid       │
-          │ Competition: zero              │
-          └────────────────────────────────┘
+T+0-15ms: SILENCE. Almost no one trades. (median $6 sell volume)
 
-T+15-50ms: SELLING WAVE. Other bots arrive.
-           They push price down 30 bps.
+T+15-20ms: First trickle of sells. $220 median.
+           ┌─── YOU ENTER HERE (T+20ms BB fill) ───┐
+           │ Book: ~99.8% intact                    │
+           │ Price: -5.3 bps from mid               │
+           │ FR: safely escaped (>T+18ms boundary)  │
+           │ Competition: minimal (8 sell trades)    │
+           └────────────────────────────────────────┘
+
+T+20-50ms: MAIN SELLING WAVE. Other bots arrive.
+           $5-9K sell volume. Price crashes to -30 bps.
            This is GOOD for you — you're already short.
 
 T+50ms-1s: Selling fades. Price stabilizes ~-35 bps.
@@ -172,23 +201,40 @@ T+10-30s:  ML model says "exit now" (near bottom).
 
 The question isn't "will competition hurt me?" — it's "am I early enough to get a good entry before the crowd?"
 
-**Answer: At T+15ms, yes. The crowd arrives at T+25-50ms.**
+**Answer: At T+20ms (BB fill), yes. The main crowd arrives at T+25-50ms.**
 
 ---
 
 ## Key Takeaways
 
-1. **At T+15ms, you are FIRST.** The orderbook is untouched. No competition impact on your entry.
+1. **T+20ms (BB fill) is the recommended entry.** Safely escapes FR payment (>T+18ms boundary), only 8 sell trades and $220 of selling before you, book ~99.8% intact.
 
-2. **The selling wave is T+25-50ms.** That's when $5-7K of selling crashes the price 30 bps. You want to be positioned BEFORE this.
+2. **The selling wave is T+25-50ms.** That's when $5-9K of selling crashes the price 30 bps. You want to be positioned BEFORE this.
 
-3. **Your $2K order is ~10% of total selling.** You're riding the wave, not creating it. Your marginal impact is small.
+3. **Your $2K order is ~10% of total 1-second sell volume.** You're riding the wave, not creating it. Your marginal impact is small.
 
 4. **Competition is GOOD for you** (once you're in). More selling after you = bigger drop = more profit when you exit.
 
-5. **T+15ms vs T+25ms:** 8 bps better entry, zero book depletion, avoids FR. T+15ms is strictly superior.
+5. **T+20ms vs T+25ms:** 3 bps better entry price, 1 bps less slippage, same FR safety. T+20ms is strictly better.
 
-6. **The real risk isn't competition** — it's that the drop doesn't happen (low-FR settlements, or market absorbs the selling). The ML model handles this via signal quality.
+6. **T+15ms is tempting** (even better entry, untouched book) but **risky for FR** — BB created time ~T+15ms is too close to the T+18ms boundary. Network jitter could push you into the FR snapshot.
+
+7. **The real risk isn't competition** — it's that the drop doesn't happen (low-FR settlements, or market absorbs the selling). The ML model handles this via signal quality.
+
+---
+
+## Production Entry Plan
+
+```
+1. EC2 sends market sell at T+~17ms (targeting BB fill at ~T+20ms)
+2. BB fill time: T+20ms (safely past T+18ms FR boundary)
+3. Notional: $1-2K based on OB depth at T-0
+4. Book conditions: ~$220 of selling before us, 99.8% bids intact
+5. Entry price: ~-5.3 bps from mid (vs -8.4 at T+25ms)
+6. RT slippage ($2K): ~15.3 bps (spread + depth walking on depleted book)
+7. Expected PnL: +8.3 bps median, $1.66/trade, 78% win rate
+8. ML exit signal at T+10-30s: buy back near the bottom
+```
 
 ---
 
