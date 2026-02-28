@@ -30,7 +30,7 @@ LOCAL_DATA_DIR = Path("charts_settlement")
 TICK_MS = 100
 MAX_POST_MS = 60000
 ENTRY_DELAY_MS = 0        # 0 = enter at last pre-settlement price (optimistic)
-                          # 25 = enter at T+25ms (realistic production)
+                          # 20 = enter at T+20ms BB fill (production, escapes FR)
 FEE_BPS = 20              # round-trip taker fees (10 bps × 2 legs)
 
 

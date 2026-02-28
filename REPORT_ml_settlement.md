@@ -1,6 +1,6 @@
 # ML Settlement Prediction Report
 
-**Generated:** 2026-02-28 20:11 UTC  
+**Generated:** 2026-02-28 20:48 UTC  
 **Dataset:** 150 settlements, 32 symbols, 3 dates (2026-02-26 to 2026-02-28)  
 **Pipeline:** `ml_settlement_pipeline.py`
 
@@ -187,7 +187,7 @@ Target `drop_min_bps` uses the **full recording window** (up to 60s), not just f
 Real-time exit signal trained on 87,165 ticks 
 (100ms intervals) from 149 settlements, 31 symbols.
 
-**Backtest config:** entry at T+25ms, fees=20 bps round-trip.
+**Backtest config:** entry at T+20ms, fees=20 bps round-trip.
 
 Target: "Is this near the deepest point in the remaining 60s window?"
 
@@ -198,14 +198,14 @@ whether we are within 10 bps of the eventual minimum (near_bottom_10).
 
 | Target | Model | Train AUC | Test AUC | Overfit Gap |
 |--------|-------|-----------|----------|-------------|
-| near_5bps | LogReg | 0.747 | 0.795 | -0.049 |
-| near_5bps | HGBC | 0.996 | 0.727 | +0.269 |
-| near_10bps | LogReg | 0.765 | 0.770 | -0.006 |
-| near_10bps | HGBC | 0.997 | 0.747 | +0.250 |
-| near_15bps | LogReg | 0.782 | 0.791 | -0.009 |
-| near_15bps | HGBC | 0.997 | 0.768 | +0.230 |
+| near_5bps | LogReg | 0.746 | 0.798 | -0.051 |
+| near_5bps | HGBC | 0.996 | 0.749 | +0.246 |
+| near_10bps | LogReg | 0.765 | 0.772 | -0.007 |
+| near_10bps | HGBC | 0.996 | 0.758 | +0.238 |
+| near_15bps | LogReg | 0.781 | 0.794 | -0.012 |
+| near_15bps | HGBC | 0.998 | 0.769 | +0.229 |
 
-**LOSO (symbol) AUC: 0.716** — honest cross-symbol generalization
+**LOSO (symbol) AUC: 0.718** — honest cross-symbol generalization
 
 LogReg has **negative overfit gap** — generalizes better than train. 
 HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
@@ -223,28 +223,28 @@ HGBC overfits heavily (train AUC ~0.99). Signal is fundamentally linear.
 
 | Strategy | Avg PnL | Median PnL | Win Rate | Total PnL | Avg Exit @ |
 |----------|---------|------------|----------|-----------|-----------|
-| Oracle | +64.7 | +34.1 | 85% | +9,638 | 22.7s |
-| Ml Loso 70 | +24.5 | +6.0 | 58% | +3,653 | 35.1s |
-| Ml Loso 60 | +25.8 | +4.1 | 57% | +3,838 | 27.7s |
-| Ml Loso 50 | +23.6 | +2.6 | 53% | +3,513 | 21.7s |
-| Ml Nb10 50 | +51.7 | +19.4 | 70% | +7,700 | 21.8s |
-| Fixed 10S | +16.6 | +3.4 | 56% | +2,469 | 10.0s |
-| Fixed 5S | +14.6 | +2.8 | 54% | +2,173 | 5.0s |
-| Fixed 30S | +15.5 | +3.4 | 53% | +2,314 | 29.9s |
-| Time Tiers Fr | +14.6 | +2.8 | 54% | +2,173 | 5.0s |
-| Trailing 15Bps | +8.2 | -0.8 | 50% | +1,218 | 9.1s |
+| Oracle | +70.5 | +44.2 | 86% | +10,503 | 22.7s |
+| Ml Loso 70 | +26.1 | +8.4 | 60% | +3,889 | 35.3s |
+| Ml Loso 60 | +30.8 | +8.0 | 64% | +4,588 | 27.9s |
+| Ml Loso 50 | +29.9 | +6.9 | 62% | +4,462 | 21.5s |
+| Ml Nb10 50 | +57.9 | +25.0 | 77% | +8,633 | 22.3s |
+| Fixed 10S | +22.4 | +6.9 | 62% | +3,335 | 10.0s |
+| Fixed 5S | +20.4 | +4.0 | 58% | +3,038 | 5.0s |
+| Fixed 30S | +21.3 | +3.4 | 56% | +3,179 | 29.9s |
+| Time Tiers Fr | +20.4 | +4.0 | 58% | +3,038 | 5.0s |
+| Trailing 15Bps | +14.0 | +2.9 | 54% | +2,083 | 9.1s |
 
 **Key findings:**
-- Oracle (perfect exit): +64.7 bps/trade — theoretical ceiling
-- ML in-sample (nb10 P>0.50): **+51.7 bps/trade** (80% of oracle)
-- ML LOSO honest (P>0.50): **+23.6 bps/trade** (+62% vs fixed T+5s)
-- Fixed T+10s: +16.6 bps/trade — best simple strategy
-- Fixed T+5s (current): +14.6 bps/trade
+- Oracle (perfect exit): +70.5 bps/trade — theoretical ceiling
+- ML in-sample (nb10 P>0.50): **+57.9 bps/trade** (82% of oracle)
+- ML LOSO honest (P>0.50): **+29.9 bps/trade** (+47% vs fixed T+5s)
+- Fixed T+10s: +22.4 bps/trade — best simple strategy
+- Fixed T+5s (current): +20.4 bps/trade
 - Trailing stops HURT performance — do not use
 
 **Recommendations:**
 - Quick win: change exit T+5.5s → T+10s (+2.0 bps/trade, zero complexity)
-- Phase 1: deploy LogReg (no overfit, <0.01ms inference, +23.6 bps/trade honest)
+- Phase 1: deploy LogReg (no overfit, <0.01ms inference, +29.9 bps/trade honest)
 - Phase 2: retrain with 500+ settlements for HGBC convergence
 
 ### Event-Driven vs Polling (LogReg)
@@ -253,18 +253,18 @@ Comparison of inference modes using the same LogReg model:
 
 | Mode | N | Avg PnL | Median PnL | Win Rate | Avg Exit | Evals/settle |
 |------|---|---------|------------|----------|----------|-------------|
-| Polling 100Ms | 149 | +11.5 | -0.5 | 49% | 14.1s | 59 |
-| Event Driven | 149 | +15.3 | +2.6 | 54% | 9.4s | 579 |
+| Polling 100Ms | 149 | +20.2 | +4.1 | 56% | 11.4s | 45 |
+| Event Driven | 149 | +22.2 | +9.0 | 61% | 7.5s | 418 |
 
 **Exit trigger distribution (event-driven mode):**
 
 | Trigger | Exits | % | Avg PnL | Win Rate |
 |---------|-------|---|---------|----------|
-| BOUNCE | 81 | 54% | +8.0 | 51% |
-| BIG_TRADE | 48 | 32% | +27.2 | 67% |
-| COOLDOWN | 12 | 8% | -8.2 | 25% |
-| NEW_LOW | 7 | 5% | -3.1 | 43% |
-| TIMEOUT | 1 | 1% | +441.7 | 100% |
+| BOUNCE | 82 | 55% | +17.8 | 61% |
+| BIG_TRADE | 46 | 31% | +30.2 | 70% |
+| COOLDOWN | 13 | 9% | +1.1 | 38% |
+| NEW_LOW | 7 | 5% | -3.5 | 43% |
+| TIMEOUT | 1 | 1% | +468.5 | 100% |
 
 **Trigger insights:**
 - **BIG_TRADE** — highest quality trigger (large trade during bounce confirms bottom)
@@ -280,17 +280,17 @@ Median bid depth within 20 bps of mid: **$5,978**
 
 | Notional | Median RT Slippage | Net PnL (ML LOSO) | Approx $ Profit |
 |----------|-------------------|-------------------|-----------------|
-| $500 | 3.5 bps | +20.1 bps | $1.00 |
-| $1,000 | 6.1 bps | +17.5 bps | $1.75 |
-| $2,000 | 9.6 bps | +14.0 bps | $2.79 |
-| $3,000 | 12.3 bps | +11.3 bps | $3.40 |
-| $5,000 | 17.5 bps | +6.1 bps | $3.03 |
-| $7,500 | 24.5 bps | -0.9 bps | $-0.66 |
-| $10,000 | 30.6 bps | -7.0 bps | $-7.04 |
+| $500 | 6.6 bps | +17.0 bps | $0.85 |
+| $1,000 | 9.3 bps | +14.3 bps | $1.43 |
+| $2,000 | 12.9 bps | +10.7 bps | $2.13 |
+| $3,000 | 16.0 bps | +7.6 bps | $2.28 |
+| $5,000 | 22.6 bps | +1.0 bps | $0.51 |
+| $7,500 | 28.4 bps | -4.8 bps | $-3.59 |
+| $10,000 | 35.3 bps | -11.7 bps | $-11.71 |
 
 **Adaptive sizing recommendation:** median $598, mean $770 per settlement
 
-**Key insight:** Slippage is the #1 constraint. At $10K notional, RT slippage (41+ bps) exceeds the ML edge. Optimal size: **$2-3K** per settlement.
+**Key insight:** Slippage (spread + depth walking) is the #1 constraint. Median spread at T-0: 2.6 bps. Optimal size: **$1-3K** per settlement.
 
 ## Per-Date Summary
 

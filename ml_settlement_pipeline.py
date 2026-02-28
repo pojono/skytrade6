@@ -44,7 +44,7 @@ LOCAL_DATA_DIR = Path("charts_settlement")
 FEATURES_CSV = Path("settlement_features_v2.csv")
 REPORT_FILE = Path("REPORT_ml_settlement.md")
 EXIT_ML_TICKS = Path("exit_ml_ticks.parquet")
-ENTRY_DELAY_MS = 25               # realistic entry at T+25ms (0 = optimistic T+0)
+ENTRY_DELAY_MS = 20               # T+20ms BB fill (escapes FR, book 99.8% intact)
 FEE_BPS = 20                      # round-trip taker fees (10 bps × 2 legs)
 
 # Best model: FR + depth + OI (proven honest by integrity audit)
