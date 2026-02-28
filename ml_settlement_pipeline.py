@@ -812,8 +812,8 @@ def step_position_sizing():
         }
 
         for n in notional_sizes:
-            entry_s = compute_slippage_bps(bids, n, "sell")
-            exit_s = compute_slippage_bps(asks, n, "buy")
+            entry_s = compute_slippage_bps(bids, n, "sell", mid_price=mid)
+            exit_s = compute_slippage_bps(asks, n, "buy", mid_price=mid)
             row[f"rt_slip_{n}"] = entry_s["slippage_bps"] + exit_s["slippage_bps"]
 
         sizing_results.append(row)
@@ -958,9 +958,9 @@ def _append_sizing_report(lines, sizing_results):
     lines.append(f"**Adaptive sizing recommendation:** median ${np.median(recs):,.0f}, "
                  f"mean ${np.mean(recs):,.0f} per settlement")
     lines.append(f"")
-    lines.append(f"**Key insight:** Slippage is the #1 constraint. "
-                 f"At $10K notional, RT slippage ({sr['median_slip_3k']*10/3:.0f}+ bps) exceeds the ML edge. "
-                 f"Optimal size: **$2-3K** per settlement.")
+    lines.append(f"**Key insight:** Slippage (spread + depth walking) is the #1 constraint. "
+                 f"Median spread at T-0: {np.median([r['spread_bps'] for r in results]):.1f} bps. "
+                 f"Optimal size: **$1-3K** per settlement.")
     lines.append(f"")
 
 

@@ -40,14 +40,20 @@ STRATEGY_PNL_BPS = {
 
 # ── Slippage calculation ─────────────────────────────────────────────
 
-def compute_slippage_bps(levels, notional_usd, side="sell"):
+def compute_slippage_bps(levels, notional_usd, side="sell", mid_price=None):
     """Walk the orderbook to fill a market order of given notional.
+
+    Slippage is measured vs the TRUE MID PRICE (avg of best bid & best ask),
+    so it includes the half-spread cost of crossing from mid to BBO,
+    plus the depth-walking cost beyond BBO.
 
     Args:
         levels: list of (price, qty) — bids (descending) for sell,
                 asks (ascending) for buy
         notional_usd: total USD to fill
         side: "sell" (hit bids) or "buy" (lift asks)
+        mid_price: true mid = (best_bid + best_ask) / 2.
+                   If None, uses levels[0][0] (less accurate, no spread).
 
     Returns:
         dict with vwap, mid_price, slippage_bps, filled_usd, filled_pct
@@ -56,11 +62,12 @@ def compute_slippage_bps(levels, notional_usd, side="sell"):
         return {"slippage_bps": 0, "filled_usd": 0, "filled_pct": 0,
                 "vwap": 0, "mid_price": 0}
 
-    mid_price = levels[0][0]  # best bid or best ask = reference
+    if mid_price is None:
+        mid_price = levels[0][0]  # fallback: BBO (no spread included)
 
+    # Walk the book
     filled_usd = 0.0
-    cost_weighted_price = 0.0
-
+    filled_qty = 0.0
     for price, qty in levels:
         level_usd = price * qty
         remaining = notional_usd - filled_usd
@@ -68,38 +75,21 @@ def compute_slippage_bps(levels, notional_usd, side="sell"):
             break
         fill_usd = min(level_usd, remaining)
         fill_qty = fill_usd / price
-        cost_weighted_price += price * fill_qty
+        filled_qty += fill_qty
         filled_usd += fill_usd
 
-    if filled_usd <= 0:
+    if filled_qty <= 0:
         return {"slippage_bps": 0, "filled_usd": 0, "filled_pct": 0,
                 "vwap": 0, "mid_price": mid_price}
 
-    total_qty = cost_weighted_price / (cost_weighted_price / (filled_usd / mid_price)) if mid_price > 0 else 0
-    vwap = cost_weighted_price / (filled_usd / mid_price) if mid_price > 0 else mid_price
+    vwap = filled_usd / filled_qty  # volume-weighted average fill price
 
-    # Simpler: vwap = sum(price * qty_filled) / sum(qty_filled)
-    # Recompute properly
-    filled_usd2 = 0.0
-    filled_qty = 0.0
-    for price, qty in levels:
-        level_usd = price * qty
-        remaining = notional_usd - filled_usd2
-        if remaining <= 0:
-            break
-        fill_usd = min(level_usd, remaining)
-        fill_qty = fill_usd / price
-        filled_qty += fill_qty
-        filled_usd2 += fill_usd
-
-    vwap = filled_usd2 / filled_qty if filled_qty > 0 else mid_price
-
-    # Slippage: how much worse than best price
+    # Slippage vs true mid price (includes half-spread + depth walking)
     if side == "sell":
-        # Selling: vwap < best_bid → slippage is positive (bad)
+        # Selling into bids: vwap < mid → slippage is positive (bad)
         slippage_bps = (mid_price - vwap) / mid_price * 10000
     else:
-        # Buying: vwap > best_ask → slippage is positive (bad)
+        # Buying from asks: vwap > mid → slippage is positive (bad)
         slippage_bps = (vwap - mid_price) / mid_price * 10000
 
     filled_pct = filled_usd / notional_usd * 100
@@ -270,12 +260,15 @@ def analyze_all_settlements():
             "ask_levels": ob_data["ask_levels"],
         }
 
-        for notional in NOTIONAL_SIZES:
-            # Entry: sell into bids
-            entry_slip = compute_slippage_bps(ob_data["bids"], notional, side="sell")
-            # Exit: buy from asks
-            exit_slip = compute_slippage_bps(ob_data["asks"], notional, side="buy")
+        mid = ob_data["mid_price"]  # true mid = (best_bid + best_ask) / 2
 
+        for notional in NOTIONAL_SIZES:
+            # Entry: sell into bids (measured vs true mid — includes half-spread)
+            entry_slip = compute_slippage_bps(ob_data["bids"], notional, side="sell", mid_price=mid)
+            # Exit: buy from asks (measured vs true mid — includes half-spread)
+            exit_slip = compute_slippage_bps(ob_data["asks"], notional, side="buy", mid_price=mid)
+
+            # RT total = full spread + all depth walking on both sides
             rt_slippage = entry_slip["slippage_bps"] + exit_slip["slippage_bps"]
             filled_pct = min(entry_slip["filled_pct"], exit_slip["filled_pct"])
 
@@ -284,9 +277,8 @@ def analyze_all_settlements():
             row[f"rt_slip_{notional}"] = rt_slippage
             row[f"filled_pct_{notional}"] = filled_pct
 
-            # Net PnL for each strategy (gross PnL - additional slippage)
-            # Note: our backtest PnL already includes spread + fees for "infinitesimal" size
-            # Real slippage = additional cost beyond spread for large orders
+            # Net PnL for each strategy (gross PnL - slippage including spread)
+            # Slippage now = spread cost + depth-walking cost (complete picture)
             for strat, gross_pnl in STRATEGY_PNL_BPS.items():
                 net_pnl = gross_pnl - rt_slippage
                 row[f"net_pnl_{strat}_{notional}"] = net_pnl
@@ -341,6 +333,20 @@ def print_summary(df):
         else:
             comment = "✅ negligible"
         print(f"  ${n:>9,d} {entry_med:7.1f} {exit_med:7.1f} {rt_med:9.1f} {fill_med:7.0f}% {comment:>20s}")
+
+    # ── 2b. Spread vs depth-walking breakdown ─────────────────────────
+    med_spread = df["spread_bps"].median()
+    print(f"\n## Spread vs Depth-Walking Breakdown")
+    print(f"  Median spread at T-0: {med_spread:.1f} bps (= {med_spread/2:.1f} bps per side)")
+    print(f"  RT slippage = spread + depth-walking:")
+    print(f"  {'Notional':>10s} {'Spread':>8s} {'Depth Walk':>10s} {'RT Total':>10s} {'Spread %':>10s}")
+    print(f"  {'-'*10} {'-'*8} {'-'*10} {'-'*10} {'-'*10}")
+    for n in [500, 1000, 2000, 3000, 5000, 10000]:
+        rt_med = df[f"rt_slip_{n}"].median()
+        spread_cost = med_spread  # full spread is always paid round-trip
+        depth_walk = max(0, rt_med - spread_cost)
+        spread_pct = spread_cost / rt_med * 100 if rt_med > 0 else 0
+        print(f"  ${n:>9,d} {spread_cost:7.1f} {depth_walk:9.1f} {rt_med:9.1f} {spread_pct:8.0f}%")
 
     # ── 3. Dollar PnL optimization ───────────────────────────────────
     print(f"\n## Dollar PnL per Trade by Position Size (ML LOSO strategy, median)")
@@ -494,11 +500,12 @@ At T-0, read the orderbook (OB.200 preferred, OB.50 fallback) and:
   3. Cap: never exceed 10% of bid_depth_within_20bps
   4. Floor: minimum $500 or skip
 
-Key numbers (ML LOSO, T+25ms entry, 20 bps fees):
-  - $2K notional: +14.0 bps net, $2.79 median profit, 91% profitable
-  - $3K notional: +11.3 bps net, $3.40 median profit, 81% profitable
-  - $5K notional:  +6.1 bps net, $3.03 median profit, 65% profitable
-  - Slippage is the #1 constraint — NOT model accuracy
+Key numbers (ML LOSO, T+25ms entry, 20 bps fees, spread included):
+  - $1K notional: +14.3 bps net, $1.43 median profit, 93% profitable
+  - $2K notional: +10.7 bps net, $2.13 median profit, 83% profitable
+  - $3K notional:  +7.6 bps net, $2.28 median profit, 71% profitable
+  - $5K notional:  +1.0 bps net, $0.51 median profit, 55% profitable
+  - Slippage (spread + depth walking) is the #1 constraint — NOT model accuracy
 """)
 
     return df

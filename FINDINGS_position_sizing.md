@@ -42,32 +42,44 @@ Our ML exit strategy produces **+23.6 bps** net PnL per trade (LOSO honest, T+25
 
 ## Slippage vs Position Size
 
-Round-trip slippage (entry sell + exit buy) at each notional size, median across 150 settlements:
+Round-trip slippage (entry sell + exit buy) measured vs **true mid price** (includes spread + depth walking), median across 150 settlements:
 
 | Notional | Entry Slip | Exit Slip | RT Total | Net PnL | $ Profit | Win % |
 |----------|-----------|-----------|----------|---------|----------|-------|
-| $500 | 2.2 bps | 1.5 bps | 3.5 bps | +20.1 | $1.00 | 98% |
-| **$1,000** | 3.3 bps | 2.9 bps | 6.1 bps | +17.5 | $1.75 | 97% |
-| **$2,000** | 5.1 bps | 4.8 bps | **9.6 bps** | **+14.0** | **$2.79** | **91%** |
-| **$3,000** | 6.6 bps | 6.4 bps | 12.3 bps | +11.3 | **$3.40** | 81% |
-| $5,000 | 9.1 bps | 9.0 bps | 17.5 bps | +6.1 | $3.03 | 65% |
-| $7,500 | 12.5 bps | 12.2 bps | 24.5 bps | -0.9 | -$0.66 | 48% |
-| $10,000 | 15.6 bps | 15.3 bps | 30.6 bps | -7.0 | -$7.04 | 38% |
+| $500 | 3.5 bps | 3.1 bps | 6.6 bps | +17.0 | $0.85 | 95% |
+| **$1,000** | 4.8 bps | 4.5 bps | 9.3 bps | **+14.3** | **$1.43** | **93%** |
+| **$2,000** | 6.6 bps | 6.4 bps | **12.9 bps** | **+10.7** | **$2.13** | **83%** |
+| **$3,000** | 8.2 bps | 7.8 bps | 16.0 bps | +7.6 | **$2.28** | 71% |
+| $5,000 | 11.0 bps | 10.5 bps | 22.6 bps | +1.0 | $0.51 | 55% |
+| $7,500 | 14.0 bps | 13.9 bps | 28.4 bps | -4.8 | -$3.59 | 41% |
+| $10,000 | 17.5 bps | 17.1 bps | 35.3 bps | -11.7 | -$11.71 | 33% |
 
-**Sweet spot: $2K-$3K notional.** Beyond $5K, slippage exceeds the ML edge for most coins.
+**Sweet spot: $1K-$3K notional.** Beyond $5K, slippage exceeds the ML edge for most coins.
+
+### Spread vs Depth-Walking Breakdown
+
+Median spread at T-0: **2.6 bps** (= 1.3 bps per side). At small sizes, spread is a major chunk:
+
+| Notional | Spread | Depth Walk | RT Total | Spread % |
+|----------|--------|-----------|----------|----------|
+| $500 | 2.6 bps | 3.9 bps | 6.6 bps | 40% |
+| $1,000 | 2.6 bps | 6.7 bps | 9.3 bps | 28% |
+| $2,000 | 2.6 bps | 10.3 bps | 12.9 bps | 20% |
+| $5,000 | 2.6 bps | 20.0 bps | 22.6 bps | 12% |
+| $10,000 | 2.6 bps | 32.7 bps | 35.3 bps | 7% |
 
 ### Visualized
 
 ```
-Net PnL vs Notional:
+Net PnL vs Notional (spread + depth walking included):
 
-$500   +20.1 bps  ████████████████████  $1.00
-$1K    +17.5 bps  █████████████████▌    $1.75
-$2K    +14.0 bps  ██████████████        $2.79  ← best reliability (91% WR)
-$3K    +11.3 bps  ███████████▎          $3.40  ← best $ profit
-$5K     +6.1 bps  ██████                $3.03
-$7.5K   -0.9 bps                       -$0.66  ← breakeven
-$10K    -7.0 bps  xxxxxxx              -$7.04  ← losing money
+$500   +17.0 bps  █████████████████     $0.85
+$1K    +14.3 bps  ██████████████▎       $1.43  ← best reliability (93% WR)
+$2K    +10.7 bps  ██████████▋           $2.13
+$3K     +7.6 bps  ███████▌              $2.28  ← best $ profit
+$5K     +1.0 bps  █                     $0.51  ← near breakeven
+$7.5K   -4.8 bps  xxxxx                -$3.59
+$10K   -11.7 bps  xxxxxxxxxxxx        -$11.71  ← losing money
 ```
 
 ---
@@ -76,11 +88,11 @@ $10K    -7.0 bps  xxxxxxx              -$7.04  ← losing money
 
 | FR Range | N | Best Notional | Avg $/trade |
 |----------|---|---------------|-------------|
-| 25-50 bps | 44 | $2,000 | $1.85 |
-| 50-80 bps | 31 | $2,000 | $2.39 |
-| 80+ bps | 27 | $2,000 | $2.01 |
+| 25-50 bps | 44 | $1,000 | $1.02 |
+| 50-80 bps | 31 | $2,000 | $1.76 |
+| 80+ bps | 27 | $1,000 | $1.01 |
 
-Higher FR = bigger expected drop, but also these coins tend to have similar depth profiles. The optimal notional stays at **$2K across all FR buckets**. The edge from higher FR is absorbed by similar slippage costs.
+Higher FR = bigger expected drop, but these coins also tend to have wider spreads (the spread at T-0 is larger on high-FR coins). The optimal notional stays at **$1-2K across all FR buckets**. The edge from higher FR is absorbed by larger spread + similar depth-walking costs.
 
 ---
 
@@ -89,23 +101,23 @@ Higher FR = bigger expected drop, but also these coins tend to have similar dept
 When we pick the best notional per settlement (from our grid of sizes):
 
 - Median optimal: **$3,000**
-- Mean optimal: **$4,273**
-- P25-P75: $2,000 - $5,000
-- Avg $/trade: **$4.16** (vs $2.09 at fixed $2K)
+- Mean optimal: **$3,637**
+- P25-P75: $1,000 - $5,000
+- Avg $/trade: **$3.12** (vs $1.34 at fixed $2K)
 
-This means **adaptive sizing based on depth could nearly double returns** vs fixed sizing.
+This means **adaptive sizing based on depth more than doubles returns** vs fixed sizing.
 
 ---
 
 ## Daily Revenue Estimates (12 settlements/day, ML LOSO)
 
 | Strategy | $/trade | $/day | $/month |
-|----------|---------|-------|---------|
-| Fixed $1K | $1.53 | $18 | $552 |
-| **Fixed $2K** | **$2.09** | **$25** | **$754** |
-| Fixed $3K | $1.90 | $23 | $684 |
-| Fixed $5K | -$0.77 | -$9 | -$278 |
-| **Adaptive (per-settlement)** | **$4.16** | **$50** | **$1,496** |
+|----------|---------|-------|--------|
+| Fixed $1K | $1.15 | $14 | $415 |
+| **Fixed $2K** | **$1.34** | **$16** | **$481** |
+| Fixed $3K | $0.76 | $9 | $274 |
+| Fixed $5K | -$2.67 | -$32 | -$961 |
+| **Adaptive (per-settlement)** | **$3.12** | **$38** | **$1,124** |
 
 ---
 
@@ -171,17 +183,19 @@ def compute_position_size(bids, asks):
 
 ## Key Takeaways
 
-1. **Slippage is the #1 constraint** — not model accuracy, not fees. At $10K notional, slippage (30.6 bps) is 1.5x the entire ML edge (23.6 bps).
+1. **Slippage is the #1 constraint** — not model accuracy, not fees. At $10K notional, total cost (spread + depth walking = 35.3 bps) is 1.5x the entire ML edge (23.6 bps).
 
-2. **$2-3K is the universal sweet spot.** Works across all FR ranges and depth profiles. Higher sizes rapidly destroy profitability.
+2. **Spread matters on altcoins.** Median spread at T-0 is 2.6 bps — that's 2.6 bps of unavoidable round-trip cost even for a 1-lot order. At $500 notional, spread is 40% of total slippage.
 
-3. **Near-BBO depth is what matters.** Median bid depth within 10 bps = $1,926. The headline "$93K total depth" is 98% irrelevant for our order sizes.
+3. **$1-3K is the universal sweet spot.** Works across all FR ranges and depth profiles. Higher sizes rapidly destroy profitability.
 
-4. **Adaptive sizing doubles returns** ($4.16/trade vs $2.09). Reading the book at T-0 and adjusting notional is worth implementing.
+4. **Near-BBO depth is what matters.** Median bid depth within 10 bps = $1,926. The headline "$93K total depth" is 98% irrelevant for our order sizes.
 
-5. **$10K notional (our previous assumption) is a losing strategy.** At median slippage of 30.6 bps RT, PnL goes negative for most settlements.
+5. **Adaptive sizing more than doubles returns** ($3.12/trade vs $1.34). Reading the book at T-0 and adjusting notional is worth implementing.
 
-6. **Revenue is modest but consistent.** At $2K fixed: ~$25/day, ~$750/month. With adaptive sizing: ~$50/day, ~$1,500/month.
+6. **$10K notional (our previous assumption) is a losing strategy.** At median slippage of 35.3 bps RT, PnL goes negative for most settlements.
+
+7. **Revenue is modest but consistent.** At $2K fixed: ~$16/day, ~$480/month. With adaptive sizing: ~$38/day, ~$1,124/month.
 
 ---
 
