@@ -750,9 +750,14 @@ def compute_position_size(bids, asks):
         if (mid - p) / mid * 10000 <= 20
     )
 
-    # Sizing table (validated on 150 settlements)
-    if bid_depth_20bps < 1000:
-        return 0        # SKIP — too thin
+    # Spread check: skip if too wide (loser analysis: >10bps spread → 18% WR)
+    spread_bps = (asks[0][0] - bids[0][0]) / mid * 10000
+    if spread_bps > 8:
+        return 0        # SKIP — spread eats the edge
+
+    # Sizing table (validated on 150 settlements, loser analysis)
+    if bid_depth_20bps < 2000:
+        return 0        # SKIP — too thin (13% WR below $2K depth)
     elif bid_depth_20bps < 5000:
         notional = 500
     elif bid_depth_20bps < 20000:
