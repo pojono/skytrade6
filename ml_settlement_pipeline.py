@@ -1384,6 +1384,40 @@ def step_recovery_long_sim():
     daily = best['total_dollar'] / n_days
     print(f"\n  Best hold: +{best_hold / 1000:.0f}s → ${daily:.1f}/day  "
           f"({best['win_rate']:.0f}% WR, {best['n']} trades over {n_days} days)")
+
+    # Conditional analysis: bottom timing filter
+    BOTTOM_CUTOFFS = [10, 15, 20]
+    best_recs = [r for r in records if r['hold_ms'] == best_hold]
+    cond = {}
+    print(f"\n  Conditional long (bottom timing filter, hold +{best_hold/1000:.0f}s):")
+    for cutoff_s in BOTTOM_CUTOFFS:
+        sub = [r for r in best_recs if r['bottom_t_s'] <= cutoff_s]
+        if not sub:
+            continue
+        n_c = len(sub)
+        wr_c = sum(1 for r in sub if r['dollar_long'] > 0) / n_c * 100
+        total_c = sum(r['dollar_long'] for r in sub)
+        daily_c = total_c / n_days
+        cond[cutoff_s] = {
+            'n': n_c, 'win_rate': wr_c, 'total_dollar': total_c,
+            'avg_dollar': np.mean([r['dollar_long'] for r in sub]),
+            'daily_dollar': daily_c,
+        }
+        print(f"    bottom <= {cutoff_s}s: N={n_c}  WR={wr_c:.0f}%  "
+              f"${np.mean([r['dollar_long'] for r in sub]):+.2f}/trade  "
+              f"${daily_c:.1f}/day")
+
+    # WR by bottom timing
+    print(f"\n  Long WR by bottom timing (hold +{best_hold/1000:.0f}s):")
+    for lo, hi, label in [(1, 5, '1-5s'), (5, 10, '5-10s'), (10, 15, '10-15s'),
+                           (15, 20, '15-20s'), (20, 31, '20-30s')]:
+        sub = [r for r in best_recs if r['bottom_t_s'] is not None and lo <= r['bottom_t_s'] < hi]
+        if not sub:
+            continue
+        wr_b = sum(1 for r in sub if r['dollar_long'] > 0) / len(sub) * 100
+        avg_d = np.mean([r['dollar_long'] for r in sub])
+        print(f"    {label}: N={len(sub)}  WR={wr_b:.0f}%  ${avg_d:+.2f}/trade")
+
     print(f"  [{time.time() - t0:.1f}s]")
 
     return {
@@ -1392,6 +1426,7 @@ def step_recovery_long_sim():
         'best_hold_ms': best_hold,
         'n_days': n_days,
         'daily_dollar': daily,
+        'conditional': cond,
     }
 
 
@@ -1579,10 +1614,32 @@ def _append_recovery_long_report(lines, recovery_results):
         lines.append(f"| {label} bps | {len(sub)} | {avg_rec:+.1f} bps | {wr:.0f}% | ${avg_d:+.2f} |")
     lines.append(f"")
 
-    lines.append(f"**Implementation:** When ML signals EXIT_NOW, send buy order for 2x qty. "
-                 f"1x closes the short (existing), 1x opens long (new). "
-                 f"Close the long with limit sell at ask after +{best_hold / 1000:.0f}s. "
-                 f"Rescue with market sell if limit not filled within 1s.")
+    # Conditional analysis
+    cond = rr.get('conditional', {})
+    if cond:
+        lines.append(f"**Conditional long leg (bottom timing filter):**")
+        lines.append(f"")
+        lines.append(f"| Filter | N | Long WR | $/trade | Long $/day |")
+        lines.append(f"|--------|---|---------|---------|-----------|")
+        lines.append(f"| Always (no filter) | {best['n']} | {best['win_rate']:.0f}% | "
+                     f"${best['avg_dollar']:+.2f} | ${daily:.1f} |")
+        for cutoff_s in sorted(cond.keys()):
+            c = cond[cutoff_s]
+            marker = " **← recommended**" if cutoff_s == 15 else ""
+            lines.append(f"| Bottom ≤ {cutoff_s}s | {c['n']} | {c['win_rate']:.0f}% | "
+                         f"${c['avg_dollar']:+.2f} | ${c['daily_dollar']:.1f} |{marker}")
+        lines.append(f"")
+
+    lines.append(f"**Production decision rule:**")
+    lines.append(f"")
+    lines.append(f"```")
+    lines.append(f"IF ml_exit fires at T ≤ 15s:")
+    lines.append(f"    → Buy 2x: close short (1x) + open long (1x)")
+    lines.append(f"    → Hold long +{best_hold / 1000:.0f}s, limit sell exit")
+    lines.append(f"ELSE (ML hasn't fired by T+15s):")
+    lines.append(f"    → Buy 1x: just close the short (standard exit)")
+    lines.append(f"    → No long leg — late bottom = weak recovery")
+    lines.append(f"```")
     lines.append(f"")
 
 
