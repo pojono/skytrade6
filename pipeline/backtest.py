@@ -17,9 +17,9 @@ import pandas as pd
 
 from pipeline.config import (
     TAKER_FEE_BPS, MAKER_FEE_BPS, GROSS_PNL_BPS,
-    LIMIT_FILL_RATE, CAP_PCT, LONG_NOTIONAL_MAX, LONG_SLIP_FACTOR,
+    LIMIT_FILL_RATE, CAP_PCT, LONG_SLIP_FACTOR,
     LONG_HOLD_FIXED_MS, LONG_EXIT_ML_THRESHOLD,
-    compute_notional, mixed_fee_bps,
+    compute_notional, compute_long_notional, mixed_fee_bps,
 )
 from pipeline.features import find_bottom, build_long_exit_ticks
 from pipeline.models import should_go_long, predict_long_exit
@@ -104,9 +104,9 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
     mid = sd.mid_price
     depth_20 = sd.depth_20
 
-    # Position sizing
+    # Position sizing (independent for each leg)
     short_notional = compute_notional(depth_20)
-    long_notional = min(short_notional, LONG_NOTIONAL_MAX)
+    long_notional = compute_long_notional(depth_20)
 
     # Slippage
     entry_s = compute_slippage_bps(sd.asks, short_notional, 'buy', mid_price=mid)
@@ -139,9 +139,11 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
     long_exit_t = None
 
     if long_taken and bottom_bps is not None:
-        # Entry/exit slippage for long (discounted — OB partially depleted)
-        long_entry_slip = entry_s['slippage_bps'] * LONG_SLIP_FACTOR
-        long_exit_slip = exit_s['slippage_bps'] * LONG_SLIP_FACTOR
+        # Entry/exit slippage for long (independent size, discounted — OB depleted)
+        long_entry_s = compute_slippage_bps(sd.asks, long_notional, 'buy', mid_price=mid)
+        long_exit_s = compute_slippage_bps(sd.bids, long_notional, 'sell', mid_price=mid)
+        long_entry_slip = long_entry_s['slippage_bps'] * LONG_SLIP_FACTOR
+        long_exit_slip = long_exit_s['slippage_bps'] * LONG_SLIP_FACTOR
         long_slip = long_entry_slip + long_exit_slip
 
         # Fees (limit both sides)

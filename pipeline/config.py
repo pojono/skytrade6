@@ -35,7 +35,8 @@ MAX_SPREAD_BPS = 8            # maximum spread
 # ── Long leg parameters ──────────────────────────────────────────────
 LONG_ENTRY_MAX_T_S = 15.0    # only go long if bottom at T ≤ 15s
 LONG_HOLD_FIXED_MS = 20000   # fixed hold baseline (for comparison)
-LONG_NOTIONAL_MAX = 1000     # max long notional (conservative)
+LONG_CAP_PCT = 0.15          # long leg: 15% of depth_20 (same cap rule)
+LONG_NOTIONAL_TIERS = [250, 500, 750, 1000, 1500]  # independent tiers
 LONG_SLIP_FACTOR = 0.4       # slippage discount vs T-0 OB
 LONG_EXIT_ML_THRESHOLD = 0.6 # LogReg p(near_peak) threshold
 
@@ -67,3 +68,8 @@ def compute_notional(depth_20, cap_pct=None, tiers=None):
         if n <= depth_20 * cap:
             notional = n
     return notional
+
+
+def compute_long_notional(depth_20):
+    """Adaptive notional sizing for long leg (independent of short)."""
+    return compute_notional(depth_20, cap_pct=LONG_CAP_PCT, tiers=LONG_NOTIONAL_TIERS)
