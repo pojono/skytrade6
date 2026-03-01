@@ -46,6 +46,9 @@ REPORT_FILE = Path("REPORT_ml_settlement.md")
 EXIT_ML_TICKS = Path("exit_ml_ticks.parquet")
 ENTRY_DELAY_MS = 20               # T+20ms BB fill (escapes FR, book 99.8% intact)
 FEE_BPS = 20                      # round-trip taker fees (10 bps × 2 legs)
+TAKER_FEE_BPS = 10                # per-leg taker fee
+MAKER_FEE_BPS = 4                 # per-leg maker fee (0.04%)
+LIMIT_RESCUE_TIMEOUT_MS = 1000    # cancel limit + market buy after this
 
 # Best model: FR + depth + OI (proven honest by integrity audit)
 PRODUCTION_FEATURES = [
@@ -493,7 +496,7 @@ def step_train_and_validate(df):
 # ═══════════════════════════════════════════════════════════════════════
 
 def step_generate_report(df, results, exit_results=None, sizing_results=None,
-                         loser_results=None):
+                         loser_results=None, limit_exit_results=None):
     """Generate markdown report."""
     print("\n" + "=" * 70)
     print("STEP 6: GENERATE REPORT")
@@ -710,6 +713,9 @@ def step_generate_report(df, results, exit_results=None, sizing_results=None,
 
     # Loser analysis section
     _append_loser_report(lines, loser_results)
+
+    # Limit exit section
+    _append_limit_exit_report(lines, limit_exit_results)
 
     # Per-date summary
     lines.append(f"## Per-Date Summary")
@@ -1005,6 +1011,191 @@ def step_loser_analysis(sizing_results):
 
 
 # ═══════════════════════════════════════════════════════════════════════
+# STEP 5d: LIMIT EXIT SIMULATION
+# ═══════════════════════════════════════════════════════════════════════
+
+def step_limit_exit_sim():
+    """Simulate limit buy exit at best_bid with rescue timeout.
+
+    For each settlement, at proxy exit times (T+5s to T+30s):
+    - Place limit buy at best_bid
+    - Check if a sell trade fills it within LIMIT_RESCUE_TIMEOUT_MS
+    - If not, rescue via market buy at current ask
+    - Compute net EV vs pure market exit
+    """
+    import json as _json
+
+    print("\n" + "=" * 70)
+    print(f"STEP 5d: LIMIT EXIT SIMULATION (rescue={LIMIT_RESCUE_TIMEOUT_MS}ms)")
+    print("=" * 70)
+
+    jsonl_files = sorted(LOCAL_DATA_DIR.glob("*.jsonl"))
+    if not jsonl_files:
+        print("  ✗ No JSONL files")
+        return None
+
+    EXIT_TIMES = [5000, 8000, 10000, 15000, 20000, 30000]
+    FEE_SAVE = TAKER_FEE_BPS - MAKER_FEE_BPS  # 6 bps
+    TIMEOUT = LIMIT_RESCUE_TIMEOUT_MS
+
+    records = []  # per-settlement, per-exit-time
+    t0 = time.time()
+
+    for fi, fp in enumerate(jsonl_files):
+        trades_post = []
+        ob1_post = []
+        symbol = None
+
+        with open(fp) as f:
+            for line in f:
+                try:
+                    m = _json.loads(line)
+                except Exception:
+                    continue
+                t = m.get('_t_ms', 0)
+                topic = m.get('topic', '')
+                if t < 0:
+                    if topic.startswith('tickers') and not symbol:
+                        symbol = m.get('data', {}).get('symbol', '')
+                else:
+                    if topic.startswith('publicTrade'):
+                        for tr in m.get('data', []):
+                            trades_post.append((
+                                t, float(tr['p']), float(tr['v']),
+                                1 if tr.get('S') == 'Sell' else 0
+                            ))
+                    elif topic.startswith('orderbook.1.'):
+                        d = m.get('data', {})
+                        if 'b' in d and 'a' in d and d['b'] and d['a']:
+                            try:
+                                ob1_post.append((
+                                    t,
+                                    float(d['b'][0][0]), float(d['b'][0][1]),
+                                    float(d['a'][0][0]), float(d['a'][0][1]),
+                                ))
+                            except (IndexError, ValueError):
+                                pass
+
+        if not trades_post or not ob1_post:
+            continue
+
+        for exit_t in EXIT_TIMES:
+            # Find BBO at exit time
+            ob_at = None
+            for t, bp, bq, ap, aq in ob1_post:
+                if t > exit_t:
+                    break
+                ob_at = (bp, bq, ap, aq)
+            if ob_at is None:
+                continue
+
+            bid_p, bid_q, ask_p, ask_q = ob_at
+            mid = (bid_p + ask_p) / 2
+            spread_bps = (ask_p - bid_p) / mid * 10000 if mid > 0 else 0
+
+            # Limit buy at best_bid
+            limit_price = bid_p
+            price_improve_bps = (ask_p - bid_p) / mid * 10000  # full spread
+
+            # Check for fill: sell trade at or below limit_price within timeout
+            fill_time_ms = None
+            for t, price, qty, is_sell in trades_post:
+                if t <= exit_t:
+                    continue
+                if t > exit_t + TIMEOUT:
+                    break
+                if is_sell and price <= limit_price:
+                    fill_time_ms = t - exit_t
+                    break
+
+            # Rescue cost: ask price at timeout moment
+            rescue_ask = ask_p
+            if fill_time_ms is None:
+                rescue_t = exit_t + TIMEOUT
+                for t, bp2, bq2, ap2, aq2 in ob1_post:
+                    if t > rescue_t:
+                        break
+                    rescue_ask = ap2
+
+            rescue_slip_bps = (rescue_ask - ask_p) / mid * 10000 if mid > 0 else 0
+
+            if fill_time_ms is not None:
+                # Filled as limit: save fee + get price improvement
+                exit_fee = MAKER_FEE_BPS
+                net_benefit = FEE_SAVE + price_improve_bps
+            else:
+                # Rescued: taker fee + rescue slippage
+                exit_fee = TAKER_FEE_BPS
+                net_benefit = -abs(rescue_slip_bps)  # worse than just market at exit_t
+
+            records.append({
+                'file': fp.name,
+                'symbol': symbol or fp.stem.split('_')[0],
+                'exit_t': exit_t,
+                'spread_bps': spread_bps,
+                'filled': fill_time_ms is not None,
+                'fill_time_ms': fill_time_ms,
+                'price_improve_bps': price_improve_bps if fill_time_ms is not None else 0,
+                'rescue_slip_bps': rescue_slip_bps if fill_time_ms is None else 0,
+                'exit_fee_bps': exit_fee,
+                'net_benefit_bps': net_benefit,
+            })
+
+        if (fi + 1) % 50 == 0:
+            print(f"    [{fi+1}/{len(jsonl_files)}] {time.time()-t0:.1f}s")
+
+    if not records:
+        print("  ✗ No valid limit exit simulations")
+        return None
+
+    # Aggregate per exit_t
+    agg = {}
+    for exit_t in EXIT_TIMES:
+        sub = [r for r in records if r['exit_t'] == exit_t]
+        if not sub:
+            continue
+        n = len(sub)
+        filled = [r for r in sub if r['filled']]
+        unfilled = [r for r in sub if not r['filled']]
+        fill_rate = len(filled) / n * 100
+
+        avg_improve = np.mean([r['price_improve_bps'] for r in filled]) if filled else 0
+        med_fill_ms = np.median([r['fill_time_ms'] for r in filled]) if filled else 0
+        avg_rescue = np.mean([r['rescue_slip_bps'] for r in unfilled]) if unfilled else 0
+
+        # Weighted average exit fee
+        avg_exit_fee = (len(filled) * MAKER_FEE_BPS + len(unfilled) * TAKER_FEE_BPS) / n
+        # Net EV vs pure taker exit
+        net_ev = np.mean([r['net_benefit_bps'] for r in sub])
+
+        agg[exit_t] = {
+            'n': n, 'fill_rate': fill_rate,
+            'avg_improve': avg_improve, 'med_fill_ms': med_fill_ms,
+            'avg_rescue': avg_rescue, 'avg_exit_fee': avg_exit_fee,
+            'net_ev': net_ev,
+        }
+
+        print(f"  T+{exit_t/1000:.0f}s: {fill_rate:.0f}% fill  "
+              f"med={med_fill_ms:.0f}ms  improve={avg_improve:+.1f}  "
+              f"rescue={avg_rescue:+.1f}  net_EV={net_ev:+.1f} bps")
+
+    # Overall summary using T+10s as reference exit
+    ref = agg.get(10000, agg.get(list(agg.keys())[0]))
+    print(f"\n  Summary (ref T+10s): fill={ref['fill_rate']:.0f}%  "
+          f"avg_exit_fee={ref['avg_exit_fee']:.1f}bps  net_EV={ref['net_ev']:+.1f}bps")
+    print(f"  Fee reduction: {TAKER_FEE_BPS} → {ref['avg_exit_fee']:.1f} bps/leg  "
+          f"(saves {TAKER_FEE_BPS - ref['avg_exit_fee']:.1f} bps)")
+    print(f"  [{time.time()-t0:.1f}s]")
+
+    return {
+        'records': records,
+        'agg': agg,
+        'fee_save_bps': TAKER_FEE_BPS - MAKER_FEE_BPS,
+        'rescue_timeout_ms': TIMEOUT,
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # STEP 5: EXIT ML — MICROSTRUCTURE EXIT TIMING
 # ═══════════════════════════════════════════════════════════════════════
 
@@ -1081,6 +1272,56 @@ def step_exit_ml():
         "exit_times": {name: np.array(ts) for name, ts in exit_times.items()},
         "event_driven": ed_results,
     }
+
+
+def _append_limit_exit_report(lines, limit_exit_results):
+    """Append limit exit simulation section to report."""
+    if limit_exit_results is None:
+        return
+
+    lr = limit_exit_results
+    agg = lr['agg']
+    fee_save = lr['fee_save_bps']
+    timeout = lr['rescue_timeout_ms']
+
+    lines.append(f"### Limit Exit Simulation (rescue timeout={timeout}ms)")
+    lines.append(f"")
+    lines.append(f"Simulates placing PostOnly limit buy at best_bid when ML signals exit. "
+                 f"If not filled within {timeout}ms, cancel + market buy (rescue). "
+                 f"Maker fee: {MAKER_FEE_BPS} bps vs taker: {TAKER_FEE_BPS} bps (saves {fee_save} bps on fill).")
+    lines.append(f"")
+
+    lines.append(f"| Exit Time | N | Fill Rate | Med Fill | Price Improve | Rescue Cost | Net EV | Avg Exit Fee |")
+    lines.append(f"|-----------|---|-----------|----------|--------------|-------------|--------|-------------|")
+    for exit_t in sorted(agg.keys()):
+        a = agg[exit_t]
+        lines.append(
+            f"| T+{exit_t/1000:.0f}s | {a['n']} | {a['fill_rate']:.0f}% | "
+            f"{a['med_fill_ms']:.0f}ms | {a['avg_improve']:+.1f} bps | "
+            f"{a['avg_rescue']:+.1f} bps | **{a['net_ev']:+.1f} bps** | "
+            f"{a['avg_exit_fee']:.1f} bps |"
+        )
+    lines.append(f"")
+
+    # PnL impact
+    ref = agg.get(10000, agg.get(list(agg.keys())[0]))
+    old_rt_fee = TAKER_FEE_BPS * 2
+    new_rt_fee = TAKER_FEE_BPS + ref['avg_exit_fee']
+    saving = old_rt_fee - new_rt_fee
+
+    lines.append(f"**PnL Impact (ref T+10s):**")
+    lines.append(f"")
+    lines.append(f"| Metric | Market Exit | Limit Exit | Delta |")
+    lines.append(f"|--------|-----------|-----------|-------|")
+    lines.append(f"| Exit fee/leg | {TAKER_FEE_BPS} bps | {ref['avg_exit_fee']:.1f} bps | "
+                 f"-{saving:.1f} bps |")
+    lines.append(f"| RT fees | {old_rt_fee} bps | {new_rt_fee:.1f} bps | -{saving:.1f} bps |")
+    lines.append(f"| + Price improvement | — | {ref['avg_improve']:+.1f} bps | {ref['avg_improve']:+.1f} bps |")
+    lines.append(f"| Net EV vs market | — | — | **{ref['net_ev']:+.1f} bps/trade** |")
+    lines.append(f"")
+    lines.append(f"**Rescue plan:** PostOnly limit buy at best_bid → wait {timeout}ms → "
+                 f"cancel + market buy if unfilled ({100-ref['fill_rate']:.0f}% of trades).")
+    lines.append(f"")
 
 
 def _append_loser_report(lines, loser_results):
@@ -1433,10 +1674,16 @@ def main():
     if sizing_results is not None:
         loser_results = step_loser_analysis(sizing_results)
 
+    # Step 5d: Limit exit simulation
+    limit_exit_results = None
+    if not args.skip_exit_ml and not args.report_only:
+        limit_exit_results = step_limit_exit_sim()
+
     # Step 6: Generate report
     step_generate_report(df, results, exit_results=exit_results,
                          sizing_results=sizing_results,
-                         loser_results=loser_results)
+                         loser_results=loser_results,
+                         limit_exit_results=limit_exit_results)
 
     elapsed = time.time() - t0
     print(f"\n{'='*70}")
