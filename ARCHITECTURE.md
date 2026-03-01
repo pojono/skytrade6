@@ -1,12 +1,13 @@
-# Architecture — Settlement Trading Pipeline v4
+# Architecture — Settlement Trading Pipeline v4 (Short-Only)
 
-**Last updated:** 2026-03-01
+**Last updated:** 2026-03-01  
+**Strategy:** Short-only (long leg excluded — unprofitable without look-ahead)
 
 ---
 
 ## Overview
 
-A modular Python pipeline that exploits funding-rate settlement microstructure on Bybit perpetual futures. The system detects the post-settlement price crash, shorts into it, then optionally goes long to catch the recovery bounce.
+A modular Python pipeline that exploits funding-rate settlement microstructure on Bybit perpetual futures. The system detects the post-settlement price crash and shorts into it, using ML to time the exit near the crash bottom.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -42,9 +43,9 @@ skytrade6/
 │   ├── report.py                # Markdown report generator
 │   └── run.py                   # CLI entry point
 ├── models/                      # Persisted ML models
-│   ├── short_exit_logreg.pkl    # Short exit LogReg (trained, NOT used in backtest)
-│   ├── short_exit_hgbc.pkl      # Short exit HGBC (trained, NOT used in backtest)
-│   └── long_exit_logreg.pkl     # Long exit LogReg (ACTIVE — drives exit timing)
+│   ├── short_exit_logreg.pkl    # Short exit LogReg — ACTIVE (drives exit timing + PnL)
+│   ├── short_exit_hgbc.pkl      # Short exit HGBC (backup, not used in production)
+│   └── long_exit_logreg.pkl     # Long exit LogReg (DEPRECATED — long leg excluded)
 ├── charts_settlement/           # Raw JSONL data (one file per settlement)
 ├── research_position_sizing.py  # Slippage computation (external dependency)
 ├── AUDIT_ML_SYSTEM.md           # Full audit of ML system (2026-03-01)
@@ -63,8 +64,8 @@ Run: `python3 -m pipeline.run [--skip-download] [--skip-training] [--backtest-on
 | 1. Download | `data.py` | SCP new JSONL files from remote server |
 | 2. Parse | `data.py` | Parse all JSONL into `SettlementData` objects (single pass) |
 | 3. Train short exit | `models.py` | Train LogReg + HGBC on `target_near_bottom_10` |
-| 4. Train long exit | `models.py` | Train LogReg on `target_near_peak_10` |
-| 5. Backtest | `backtest.py` | Run 3 strategies: short-only, fixed exit, ML exit |
+| 4. Train long exit | `models.py` | Train LogReg on `target_near_peak_10` (research only) |
+| 5. Backtest | `backtest.py` | Run short-only strategy (+ long variants for research) |
 | 6. Report | `report.py` | Generate `REPORT_ml_settlement.md` |
 
 ---
@@ -93,7 +94,7 @@ Rebuilds the full orderbook at any post-settlement time by applying OB.200 delta
 T-0 snapshot → apply deltas[0..t] → full book at time t
 ```
 
-Returns `bids`, `asks`, `mid_price`, `spread_bps`, `depth_20` at the requested time. Used for long leg sizing and slippage.
+Returns `bids`, `asks`, `mid_price`, `spread_bps`, `depth_20` at the requested time. Used for research (long leg sizing/slippage) and future strategies.
 
 ### Filters
 
@@ -105,7 +106,7 @@ A settlement is skipped if:
 
 ## ML Models (`models.py`, `features.py`)
 
-### Model 1: Short Exit (`short_exit_logreg`) — ACTIVE
+### Production Model: Short Exit (`short_exit_logreg`)
 
 | Property | Value |
 |----------|-------|
@@ -116,29 +117,20 @@ A settlement is skipped if:
 | **Threshold** | p(near_bottom) ≥ 0.4 → exit signal |
 | **Timeout** | 55s forced exit if ML never fires |
 | **Validation** | 70/30 split (alphabetical by symbol) + LOSO |
-| **Status** | ✅ Active — drives per-trade short PnL AND determines long entry point |
+| **Status** | ✅ Active — drives per-trade short PnL |
 
-### Model 2: Long Entry Decision (rule-based, no look-ahead)
+### Deprecated: Long Leg Models
 
-| Property | Value |
-|----------|-------|
-| **Type** | Simple rule, not ML |
-| **Rule** | `short_exit_t ≤ 15 seconds` (ML exit time, not hindsight bottom) |
-| **Rationale** | Early ML exits have higher recovery potential |
-| **Status** | ✅ Fixed — uses ML exit time instead of look-ahead `find_bottom()` |
+> **Why excluded:** The long leg was showing $53/day (60% WR) in backtest, but this relied
+> on `find_bottom()` — a function that scanned all future prices for the perfect minimum
+> (look-ahead bias). Once replaced with the ML-detected exit time (honest, no future data),
+> the long leg collapsed to **−$17 to −$22/day (19–23% WR)**. It is unprofitable and excluded
+> from production.
 
-### Model 3: Long Exit (`long_exit_logreg`) — ACTIVE
-
-| Property | Value |
-|----------|-------|
-| **Target** | `target_near_peak_10` — is price within 10 bps of future recovery max? |
-| **Features** | 28 recovery tick features (100ms resolution) |
-| **Categories** | Recovery dynamics, velocity, buy/sell pressure, OB state, static context |
-| **Model** | LogReg (C=0.1) via Pipeline (Imputer→Scaler→LR) |
-| **Threshold** | p(near_peak) ≥ 0.6 → exit signal |
-| **Precision** | 75.4% at threshold 0.6 |
-| **Fallback** | Fixed +20s hold if ML never fires |
-| **Status** | ✅ Active — loaded at backtest time, drives long exit timing |
+| Model | Status | Notes |
+|-------|--------|-------|
+| Long entry rule (`short_exit_t ≤ 15s`) | ❌ Excluded | Still in code for research, not used in production |
+| Long exit ML (`long_exit_logreg`) | ❌ Excluded | 75.4% precision but recovery too small to cover costs |
 
 ### Persistence
 
@@ -153,61 +145,37 @@ Models are saved as pickle files in `models/`:
 
 ## Backtest Engine (`backtest.py`)
 
-### Per-Settlement Simulation
+### Per-Settlement Simulation (Production: Short-Only)
 
 ```
-simulate_settlement(sd, short_exit_model, long_exit_model, ...)
+simulate_settlement(sd, short_exit_model, ...)
   │
-  ├── SHORT LEG (always, if passes filters)
-  │   ├── Sizing: compute_notional(depth_20) from T-0 OB
-  │   ├── Entry: taker sell at settlement
-  │   ├── Exit: ML-detected near-bottom (p ≥ 0.4) or 55s timeout
-  │   ├── PnL: per-trade (entry_bps - exit_bps) - slippage + fee savings
-  │   └── Slippage: walk T-0 OB (asks for entry, bids for exit)
-  │
-  ├── LONG ENTRY POINT (= short exit point, no look-ahead)
-  │   └── bottom_t = short exit ML time, bottom_bps = exit price
-  │
-  ├── LONG ENTRY DECISION
-  │   └── should_go_long(): short_exit_t ≤ 15s?
-  │
-  └── LONG LEG (conditional)
-      ├── OB Reconstruction: reconstruct_ob_at(sd, bottom_t)
-      ├── Sizing: compute_long_notional(entry_ob['depth_20'])
-      ├── Entry: buy at bottom price (using entry-time OB for slippage)
-      ├── Exit: ML threshold 0.6, or fixed +20s fallback
-      ├── Exit slippage: reconstruct_ob_at(sd, exit_t)
-      └── PnL: recovery_bps - fees - entry_slip - exit_slip
+  └── SHORT LEG (if passes filters)
+      ├── Sizing: compute_notional(depth_20) from T-0 OB
+      ├── Entry: taker sell at settlement (T=0)
+      ├── ML Exit: first tick where p(near_bottom) ≥ 0.4
+      ├── Timeout: forced exit at 55s if ML never fires
+      ├── PnL: (entry_bps - exit_bps) - slippage + fee savings
+      └── Slippage: walk T-0 OB (asks for entry, bids for exit)
 ```
-
-### Strategy Comparison
-
-Three variants are compared:
-1. **short_only** — no long leg
-2. **fixed_exit** — long leg with +20s fixed hold
-3. **ml_exit** — long leg with LogReg exit signal
 
 ### Position Sizing
 
 ```python
 # Short leg
-tiers = [500, 1000, 2000, 3000]
+tiers = [500, 1000, 2000, 3000]   # notional USD
 cap = 15% of depth_20 (at T-0)
-
-# Long leg (independent)
-tiers = [250, 500, 750, 1000, 1500]
-cap = 15% of depth_20 (at bottom_t, from reconstructed OB)
 ```
 
 ### Cost Model
 
-| Component | Short Leg | Long Leg |
-|-----------|-----------|----------|
-| **Entry fee** | 10 bps (taker) | Blended: 54% maker + 46% taker |
-| **Exit fee** | Blended (54% maker) | Blended (54% maker) |
-| **Entry slippage** | Walk T-0 asks | Walk entry-time asks |
-| **Exit slippage** | Walk T-0 bids | Walk exit-time bids |
-| **Spread** | Implicit in slippage vs mid | Implicit in slippage vs mid |
+| Component | Value |
+|-----------|-------|
+| **Entry fee** | 10 bps (taker) |
+| **Exit fee** | Blended: 54% × 4 bps (maker) + 46% × 10 bps (taker) |
+| **Entry slippage** | Walk T-0 asks |
+| **Exit slippage** | Walk T-0 bids |
+| **Spread** | Implicit in slippage vs mid |
 
 ---
 
@@ -224,13 +192,10 @@ charts_settlement/*.jsonl        ← Raw JSONL (162 files)
     ▼
 List[SettlementData]             ← Parsed once, shared everywhere
     │
-    ├──► build_short_exit_ticks()  → train_short_exit()  → models/short_exit_*.pkl
-    │
-    ├──► build_long_exit_ticks()   → train_long_exit()   → models/long_exit_logreg.pkl
+    ├──► build_short_exit_ticks()  → train_short_exit()  → models/short_exit_logreg.pkl
     │
     ├──► simulate_settlement()     → TradeResult per settlement
-    │       uses: reconstruct_ob_at(), compute_slippage_bps(),
-    │             predict_long_exit(), should_go_long()
+    │       uses: short_exit_model, compute_slippage_bps()
     │
     └──► compare_strategies()      → generate_report()   → REPORT_ml_settlement.md
 ```
@@ -243,7 +208,7 @@ List[SettlementData]             ← Parsed once, shared everywhere
 |-----------|----------|
 | `research_position_sizing.py` | `compute_slippage_bps()` — OB depth-walking |
 | `research_position_sizing.py` | `parse_last_ob_before_settlement()` — T-0 OB snapshot |
-| `sklearn` | LogisticRegression, HGBC, Pipeline, LOSO |
+| `sklearn` | LogisticRegression, HGBC, LOSO |
 | `numpy`, `pandas` | Data manipulation |
 
 ---
@@ -257,41 +222,47 @@ List[SettlementData]             ← Parsed once, shared everywhere
 | `TAKER_FEE_BPS` | 10 | Per-leg taker fee |
 | `MAKER_FEE_BPS` | 4 | Per-leg maker fee |
 | `LIMIT_FILL_RATE` | 0.54 | Probability limit order fills |
-| `GROSS_PNL_BPS` | 23.6 | Short leg LOSO average (fallback only) |
+| `GROSS_PNL_BPS` | 23.6 | Short leg LOSO average (fallback if no ML model) |
 | `SHORT_EXIT_ML_THRESHOLD` | 0.4 | p(near_bottom) threshold for short exit |
 | `SHORT_EXIT_TIMEOUT_MS` | 55,000 | Forced exit if ML never fires |
 | `MIN_DEPTH_20` | $2,000 | Minimum bid depth for trading |
 | `MAX_SPREAD_BPS` | 8 | Maximum spread for trading |
-| `LONG_ENTRY_MAX_T_S` | 15s | Bottom time cutoff for long entry |
-| `LONG_EXIT_ML_THRESHOLD` | 0.6 | LogReg probability threshold |
-| `LONG_HOLD_FIXED_MS` | 20,000 | Fixed hold fallback |
 | `CAP_PCT` | 0.15 | Position cap as % of depth_20 |
 | `TICK_MS` | 100 | Feature tick resolution |
 
 ---
 
-## Current Performance (4 days, 160 settlements, honest — no look-ahead)
+## Current Performance (4 days, 160 settlements)
 
-| Strategy | Short $/day | Short WR | Long $/day | Long WR | **Total $/day** |
-|----------|------------|----------|-----------|---------|----------------|
-| **short_only** | **$137.7†** | **76%** | — | — | **$137.7†** |
-| fixed_exit | $137.7† | 76% | −$22.3 | 19% | $115.4† |
-| ml_exit | $137.7† | 76% | −$17.4 | 23% | $120.2† |
+### Production Strategy: Short-Only
 
-**†** Short PnL is inflated (in-sample). LOSO-based conservative: **$72.5/day short-only**.
+| Metric | In-Sample | LOSO Conservative |
+|--------|-----------|-------------------|
+| **Daily revenue** | $137.7† | **$50–$75** |
+| **Win rate** | 76% | ~76% |
+| **Trades/day** | ~32 | ~32 |
+| **Avg $/trade** | $4.34 | ~$1.60–$2.40 |
 
-**Production recommendation: SHORT-ONLY.** Long leg is unprofitable without look-ahead bias.
+**†** In-sample: production model evaluated on its own training data. LOSO gave 23.6 bps average gross edge.
+
+### Why Not the Long Leg?
+
+| Metric | With look-ahead (old) | Without look-ahead (honest) |
+|--------|----------------------|-----------------------------|
+| Long $/day | +$53.1 | **−$17 to −$22** |
+| Long WR | 60% | **19–23%** |
+| Entry method | `find_bottom()` — perfect hindsight | ML exit time — no future data |
+
+The long leg's apparent profitability was entirely due to look-ahead bias. See `AUDIT_ML_SYSTEM.md` for full analysis.
 
 ---
 
-## Known Issues (see AUDIT_ML_SYSTEM.md)
+## Known Issues
 
 | Issue | Severity | Description |
 |-------|----------|-------------|
-| ~~Look-ahead bottom detection~~ | ✅ Fixed | ML exit time replaces `find_bottom()` |
-| ~~Short exit model unused~~ | ✅ Fixed | Now drives per-trade PnL + exit timing |
-| Long leg unprofitable | 🔴 Critical | 19–23% WR without look-ahead; do NOT deploy |
 | Short PnL in-sample | 🟡 Inflated | Production model tested on training data |
 | 4-day sample size | 🔴 Critical | Insufficient for reliable estimates |
 | Alphabetical split | 🟡 Misleading | Not a temporal split |
 | Last-trade price bins | 🟡 Optimistic | Not VWAP |
+| No latency simulation | 🟡 Missing | Real execution adds 50–200ms delay |
