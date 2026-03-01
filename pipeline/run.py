@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""Settlement Trading Pipeline v4 — Modular Architecture.
+"""Settlement Trading Pipeline v4 — Short-Only.
 
 End-to-end pipeline:
   1. Download latest JSONL data from remote server
   2. Parse all settlements (once, shared data layer)
   3. Train short exit ML (predict bottom of crash)
-  4. Train long exit ML (predict peak of recovery)
-  5. Run combined backtest (short + conditional long, ML exits)
-  6. Compare strategies and generate report
+  4. Run short-only backtest with ML-timed exits
+  5. Generate report
 
 Usage:
-    python3 -m pipeline.run                    # full pipeline
+    python3 -m pipeline.run                    # full pipeline (short-only)
     python3 -m pipeline.run --skip-download    # skip download step
     python3 -m pipeline.run --skip-training    # use saved models
     python3 -m pipeline.run --backtest-only    # skip training, just backtest
+    python3 -m pipeline.run --with-long        # include long leg variants (research)
 """
 
 import argparse
@@ -30,17 +30,19 @@ from pipeline.config import GROSS_PNL_BPS
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Settlement Trading Pipeline v4")
+    parser = argparse.ArgumentParser(description="Settlement Trading Pipeline v4 (Short-Only)")
     parser.add_argument("--skip-download", action="store_true", help="Skip data download")
     parser.add_argument("--skip-training", action="store_true", help="Use saved models (skip training)")
     parser.add_argument("--backtest-only", action="store_true", help="Only run backtest + report")
+    parser.add_argument("--with-long", action="store_true",
+                        help="Include long leg variants in backtest (research only — long leg is unprofitable)")
     args = parser.parse_args()
 
     t0 = time.time()
 
     print("╔══════════════════════════════════════════════════════════════════╗")
-    print("║       SETTLEMENT TRADING PIPELINE v4 — MODULAR                  ║")
-    print("║  Parse → Train (short+long ML) → Backtest → Report             ║")
+    print("║       SETTLEMENT TRADING PIPELINE v4 — SHORT-ONLY               ║")
+    print("║  Parse → Train (short exit ML) → Backtest → Report              ║")
     print("╚══════════════════════════════════════════════════════════════════╝")
     print()
 
@@ -99,14 +101,14 @@ def main():
         else:
             print("  ✗ No tick data for short exit")
 
-    # ── Step 4: Train long exit ML ────────────────────────────────────
+    # ── Step 4: Train long exit ML (research only, behind --with-long) ─
     long_exit_results = None
     long_exit_model = None
     long_exit_features = None
 
-    if not args.skip_training and not args.backtest_only:
+    if args.with_long and not args.skip_training and not args.backtest_only:
         print(f"\n{'='*70}")
-        print("STEP 4: TRAIN LONG EXIT ML")
+        print("STEP 4: TRAIN LONG EXIT ML (research only)")
         print(f"{'='*70}")
 
         print("  Building long exit tick features...")
@@ -132,6 +134,8 @@ def main():
             long_exit_features = long_exit_results.get('feature_cols')
         else:
             print("  ✗ No recovery tick data")
+    elif not args.with_long and not args.skip_training and not args.backtest_only:
+        print("\n  (Long exit training skipped — use --with-long for research)")
 
     # Load saved models if skipping training
     short_exit_model = None
@@ -146,28 +150,30 @@ def main():
         else:
             print(f"    ✗ No saved short exit model — will use constant {GROSS_PNL_BPS} bps")
 
-        long_exit_model, long_exit_features = load_model('long_exit_logreg')
-        if long_exit_model is not None:
-            print(f"    ✅ Loaded long_exit_logreg ({len(long_exit_features)} features)")
-        else:
-            print(f"    ✗ No saved long exit model found")
+        if args.with_long:
+            long_exit_model, long_exit_features = load_model('long_exit_logreg')
+            if long_exit_model is not None:
+                print(f"    ✅ Loaded long_exit_logreg ({len(long_exit_features)} features)")
+            else:
+                print(f"    ✗ No saved long exit model found")
     else:
         # After training, use the just-trained models
         if short_exit_results:
             short_exit_model = short_exit_results.get('model_lr')
             short_exit_features_list = short_exit_results.get('feature_cols')
 
-    # ── Step 5: Combined backtest ─────────────────────────────────────
+    # ── Step 5: Backtest ──────────────────────────────────────────────
     print(f"\n{'='*70}")
-    print("STEP 5: COMBINED BACKTEST")
+    print("STEP 5: BACKTEST" + (" (with long leg research)" if args.with_long else " (short-only)"))
     print(f"{'='*70}")
 
     strategies = compare_strategies(
         settlements,
         short_exit_model=short_exit_model,
         short_exit_features=short_exit_features_list,
-        long_exit_model=long_exit_model,
-        long_exit_features=long_exit_features,
+        long_exit_model=long_exit_model if args.with_long else None,
+        long_exit_features=long_exit_features if args.with_long else None,
+        include_long=args.with_long,
     )
 
     # ── Step 6: Generate report ───────────────────────────────────────
@@ -187,13 +193,13 @@ def main():
     print(f"PIPELINE v4 COMPLETE  [{elapsed:.1f}s]")
     print(f"{'='*70}")
 
-    best_name = max(strategies.keys(),
-                    key=lambda k: strategies[k][1]['combined_per_day'])
-    best = strategies[best_name][1]
-    print(f"  Best: {best_name} → ${best['combined_per_day']:.1f}/day")
-    print(f"  Settlements: {best['n_settlements']} total, {best['n_traded']} traded")
-    print(f"  Short: ${best['short_per_day']:.1f}/day ({best['short_wr']:.0f}% WR)")
-    print(f"  Long:  ${best['long_per_day']:.1f}/day ({best['long_wr']:.0f}% WR)")
+    prod = strategies['short_only'][1]
+    print(f"  Production (short-only):")
+    print(f"    Revenue: ${prod['combined_per_day']:.1f}/day (in-sample)")
+    print(f"    Win rate: {prod['short_wr']:.0f}%")
+    print(f"    Trades: {prod['n_traded']} over {prod['n_days']} days (~{prod['n_traded']//max(1,prod['n_days'])}/day)")
+    print(f"    Avg $/trade: ${prod['avg_short_dollar']:.2f}")
+    print(f"    ⚠️  LOSO conservative estimate: $50-$75/day")
 
 
 if __name__ == "__main__":

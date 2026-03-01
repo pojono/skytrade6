@@ -1,11 +1,11 @@
-"""Combined both-legs backtest.
+"""Short-only backtest (with optional long leg for research).
 
-Simulates the full strategy per settlement:
+Production strategy (short-only):
   1. Short entry at settlement (taker)
-  2. Short exit at ML-detected bottom (limit + rescue)
-  3. Long entry decision (rule: bottom T ≤ 15s)
-  4. Long exit at ML-detected peak (limit + rescue) OR fixed hold
-  5. Position sizing (adaptive based on depth)
+  2. Short exit at ML-detected bottom (p ≥ 0.4) or 55s timeout
+  3. Position sizing (adaptive based on depth)
+
+Research mode (--with-long): adds long leg variants for comparison.
 """
 
 import time
@@ -423,19 +423,20 @@ def run_backtest(settlements, short_exit_model=None, short_exit_features=None,
 
 
 def compare_strategies(settlements, short_exit_model=None, short_exit_features=None,
-                       long_exit_model=None, long_exit_features=None):
-    """Run multiple backtest variants for comparison.
+                       long_exit_model=None, long_exit_features=None,
+                       include_long=False):
+    """Run backtest variants for comparison.
+
+    By default only runs short-only (production strategy).
+    Set include_long=True for research comparison with long leg variants.
 
     Returns dict of {strategy_name: (results, summary)}.
     """
-    print(f"\n{'='*70}")
-    print("STRATEGY COMPARISON")
-    print(f"{'='*70}")
-
     strategies = {}
 
-    # 1. Short-only (no long leg)
-    print("\n  [1/3] Short-only...")
+    # 1. Short-only (production strategy)
+    n_variants = 3 if include_long else 1
+    print(f"\n  [1/{n_variants}] Short-only (production)...")
     results_short, summary_short = run_backtest(
         settlements,
         short_exit_model=short_exit_model, short_exit_features=short_exit_features,
@@ -443,37 +444,39 @@ def compare_strategies(settlements, short_exit_model=None, short_exit_features=N
     )
     strategies['short_only'] = (results_short, summary_short)
 
-    # 2. Short + Long (fixed exit)
-    print("\n  [2/3] Short + Long (fixed +20s exit)...")
-    results_fixed, summary_fixed = run_backtest(
-        settlements,
-        short_exit_model=short_exit_model, short_exit_features=short_exit_features,
-        use_ml_exit=False, label="short+long (fixed)"
-    )
-    strategies['fixed_exit'] = (results_fixed, summary_fixed)
-
-    # 3. Short + Long (ML exit)
-    if long_exit_model is not None:
-        print("\n  [3/3] Short + Long (ML exit)...")
-        results_ml, summary_ml = run_backtest(
+    if include_long:
+        # 2. Short + Long (fixed exit) — research only
+        print(f"\n  [2/{n_variants}] Short + Long (fixed +20s exit) [research]...")
+        results_fixed, summary_fixed = run_backtest(
             settlements,
             short_exit_model=short_exit_model, short_exit_features=short_exit_features,
-            long_exit_model=long_exit_model,
-            long_exit_features=long_exit_features,
-            use_ml_exit=True,
-            label="short+long (ML exit)"
+            use_ml_exit=False, label="short+long (fixed)"
         )
-        strategies['ml_exit'] = (results_ml, summary_ml)
+        strategies['fixed_exit'] = (results_fixed, summary_fixed)
+
+        # 3. Short + Long (ML exit) — research only
+        if long_exit_model is not None:
+            print(f"\n  [3/{n_variants}] Short + Long (ML exit) [research]...")
+            results_ml, summary_ml = run_backtest(
+                settlements,
+                short_exit_model=short_exit_model, short_exit_features=short_exit_features,
+                long_exit_model=long_exit_model,
+                long_exit_features=long_exit_features,
+                use_ml_exit=True,
+                label="short+long (ML exit)"
+            )
+            strategies['ml_exit'] = (results_ml, summary_ml)
 
     # Comparison table
-    print(f"\n{'='*70}")
-    print("COMPARISON SUMMARY")
-    print(f"{'='*70}")
     n_days = summary_short['n_days']
-    print(f"\n  {'Strategy':30s}  {'Short $/d':>10s}  {'Long $/d':>10s}  {'Total $/d':>10s}  {'Short WR':>9s}  {'Long WR':>8s}")
-    print(f"  {'-'*30}  {'-'*10}  {'-'*10}  {'-'*10}  {'-'*9}  {'-'*8}")
-    for name, (_, s) in strategies.items():
-        print(f"  {name:30s}  ${s['short_per_day']:9.1f}  ${s['long_per_day']:9.1f}  "
-              f"${s['combined_per_day']:9.1f}  {s['short_wr']:8.0f}%  {s['long_wr']:7.0f}%")
+    if len(strategies) > 1:
+        print(f"\n{'='*70}")
+        print("COMPARISON SUMMARY")
+        print(f"{'='*70}")
+        print(f"\n  {'Strategy':30s}  {'Short $/d':>10s}  {'Long $/d':>10s}  {'Total $/d':>10s}  {'Short WR':>9s}  {'Long WR':>8s}")
+        print(f"  {'-'*30}  {'-'*10}  {'-'*10}  {'-'*10}  {'-'*9}  {'-'*8}")
+        for name, (_, s) in strategies.items():
+            print(f"  {name:30s}  ${s['short_per_day']:9.1f}  ${s['long_per_day']:9.1f}  "
+                  f"${s['combined_per_day']:9.1f}  {s['short_wr']:8.0f}%  {s['long_wr']:7.0f}%")
 
     return strategies

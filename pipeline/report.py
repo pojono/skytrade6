@@ -8,8 +8,8 @@ import numpy as np
 
 from pipeline.config import (
     REPORT_FILE, TAKER_FEE_BPS, MAKER_FEE_BPS,
-    LIMIT_FILL_RATE, CAP_PCT, LONG_ENTRY_MAX_T_S,
-    LONG_EXIT_ML_THRESHOLD, LONG_HOLD_FIXED_MS,
+    LIMIT_FILL_RATE, CAP_PCT,
+    SHORT_EXIT_ML_THRESHOLD, SHORT_EXIT_TIMEOUT_MS,
     GROSS_PNL_BPS,
 )
 
@@ -28,40 +28,41 @@ def generate_report(strategies, short_exit_results=None, long_exit_results=None,
     lines = []
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-    lines.append(f"# Settlement Trading Pipeline — Report")
+    lines.append(f"# Settlement Trading Pipeline — Report (Short-Only)")
     lines.append(f"")
     lines.append(f"**Generated:** {now}")
     lines.append(f"")
 
-    # Get the best strategy for headline numbers
-    best_name = max(strategies.keys(),
-                    key=lambda k: strategies[k][1]['combined_per_day'])
-    best_results, best_summary = strategies[best_name]
-    n_days = best_summary['n_days']
+    # Production strategy is always short_only
+    prod_results, prod_summary = strategies['short_only']
+    n_days = prod_summary['n_days']
 
     lines.append(f"## Executive Summary")
     lines.append(f"")
     lines.append(f"| Metric | Value |")
     lines.append(f"|--------|-------|")
-    lines.append(f"| **Best strategy** | {best_name} |")
-    lines.append(f"| **Daily revenue** | **${best_summary['combined_per_day']:.1f}/day** |")
-    lines.append(f"| Short leg | ${best_summary['short_per_day']:.1f}/day ({best_summary['short_wr']:.0f}% WR) |")
-    lines.append(f"| Long leg | ${best_summary['long_per_day']:.1f}/day ({best_summary['long_wr']:.0f}% WR) |")
-    lines.append(f"| Settlements traded | {best_summary['n_traded']} / {best_summary['n_settlements']} |")
-    lines.append(f"| Long trades taken | {best_summary['n_long_taken']} / {best_summary['n_traded']} |")
+    lines.append(f"| **Strategy** | short-only (ML-timed exit) |")
+    lines.append(f"| **Daily revenue (in-sample)** | **${prod_summary['combined_per_day']:.1f}/day** |")
+    lines.append(f"| **LOSO conservative** | **$50–$75/day** |")
+    lines.append(f"| Win rate | {prod_summary['short_wr']:.0f}% |")
+    lines.append(f"| Avg $/trade | ${prod_summary['avg_short_dollar']:.2f} |")
+    lines.append(f"| Settlements traded | {prod_summary['n_traded']} / {prod_summary['n_settlements']} |")
     lines.append(f"| Data period | {n_days} days |")
     lines.append(f"")
 
     # Strategy comparison
-    lines.append(f"## Strategy Comparison")
-    lines.append(f"")
-    lines.append(f"| Strategy | Short $/day | Long $/day | **Total $/day** | Long WR |")
-    lines.append(f"|----------|------------|-----------|----------------|---------|")
-    for name, (_, s) in strategies.items():
-        marker = " **← best**" if name == best_name else ""
-        lines.append(f"| {name} | ${s['short_per_day']:.1f} | ${s['long_per_day']:.1f} | "
-                     f"**${s['combined_per_day']:.1f}** | {s['long_wr']:.0f}% |{marker}")
-    lines.append(f"")
+    if len(strategies) > 1:
+        lines.append(f"## Strategy Comparison (research)")
+        lines.append(f"")
+        lines.append(f"| Strategy | Short $/day | Long $/day | **Total $/day** | Short WR | Long WR |")
+        lines.append(f"|----------|------------|-----------|----------------|----------|---------|")
+        for name, (_, s) in strategies.items():
+            marker = " **← production**" if name == 'short_only' else ""
+            lines.append(f"| {name} | ${s['short_per_day']:.1f} | ${s['long_per_day']:.1f} | "
+                         f"**${s['combined_per_day']:.1f}** | {s['short_wr']:.0f}% | {s['long_wr']:.0f}% |{marker}")
+        lines.append(f"")
+        lines.append(f"> **Note:** Long leg is unprofitable without look-ahead bias. Short-only is the production strategy.")
+        lines.append(f"")
 
     # Configuration
     lines.append(f"## Configuration")
@@ -72,10 +73,9 @@ def generate_report(strategies, short_exit_results=None, long_exit_results=None,
     lines.append(f"| Maker fee | {MAKER_FEE_BPS} bps/leg |")
     lines.append(f"| Limit fill rate | {LIMIT_FILL_RATE:.0%} |")
     lines.append(f"| Position cap | {CAP_PCT:.0%} of depth_20 |")
-    lines.append(f"| Short gross edge | {GROSS_PNL_BPS} bps (ML LOSO) |")
-    lines.append(f"| Long entry rule | bottom T ≤ {LONG_ENTRY_MAX_T_S:.0f}s |")
-    lines.append(f"| Long exit ML threshold | p ≥ {LONG_EXIT_ML_THRESHOLD} |")
-    lines.append(f"| Long fixed hold | +{LONG_HOLD_FIXED_MS//1000}s |")
+    lines.append(f"| Short gross edge (LOSO avg) | {GROSS_PNL_BPS} bps |")
+    lines.append(f"| Short exit ML threshold | p(near_bottom) ≥ {SHORT_EXIT_ML_THRESHOLD} |")
+    lines.append(f"| Short exit timeout | {SHORT_EXIT_TIMEOUT_MS//1000}s |")
     lines.append(f"")
 
     # ML model performance
@@ -116,9 +116,9 @@ def generate_report(strategies, short_exit_results=None, long_exit_results=None,
         lines.append(f"")
 
     # Outcome distribution
-    lines.append(f"## Outcome Distribution ({best_name})")
+    lines.append(f"## Outcome Distribution (short-only)")
     lines.append(f"")
-    traded = [r for r in best_results if r.passes_filters]
+    traded = [r for r in prod_results if r.passes_filters]
     if traded:
         lines.append(f"| Outcome | Count | % | Avg $ |")
         lines.append(f"|---------|-------|---|-------|")
@@ -136,7 +136,7 @@ def generate_report(strategies, short_exit_results=None, long_exit_results=None,
         lines.append(f"")
 
     # Per-symbol breakdown
-    lines.append(f"## Per-Symbol Performance ({best_name})")
+    lines.append(f"## Per-Symbol Performance (short-only)")
     lines.append(f"")
     from collections import defaultdict
     sym_data = defaultdict(list)
@@ -160,43 +160,38 @@ def generate_report(strategies, short_exit_results=None, long_exit_results=None,
     lines.append(f"")
 
     # Worst trades
-    lines.append(f"## Worst Combined Trades ({best_name})")
+    lines.append(f"## Worst Trades (short-only)")
     lines.append(f"")
-    worst = sorted(traded, key=lambda r: r.combined_dollar)[:10]
-    lines.append(f"| File | Symbol | Short $ | Long $ | Combined $ | Drop | Exit |")
-    lines.append(f"|------|--------|---------|--------|-----------|------|------|")
+    worst = sorted(traded, key=lambda r: r.short_dollar)[:10]
+    lines.append(f"| File | Symbol | Short $ | Gross bps | Slip bps | Depth $20 | Spread |")
+    lines.append(f"|------|--------|---------|-----------|----------|-----------|--------|")
     for r in worst:
         lines.append(f"| {r.file_name} | {r.symbol} | ${r.short_dollar:+.2f} | "
-                     f"${r.long_dollar:+.2f} | ${r.combined_dollar:+.2f} | "
-                     f"{r.drop_bps:+.0f}bps | {r.long_exit_method} |")
+                     f"{r.short_gross_bps:+.1f} | {r.short_slip_bps:.1f} | "
+                     f"${r.depth_20:,.0f} | {r.spread_bps:.1f} |")
     lines.append(f"")
 
     # Production rules
-    lines.append(f"## Production Rules")
+    lines.append(f"## Production Rules (Short-Only)")
     lines.append(f"")
     lines.append(f"```python")
     lines.append(f"# 1. FILTERS (skip if fails)")
     lines.append(f"if depth_20 < 2000 or spread_bps > 8:")
     lines.append(f"    skip()")
     lines.append(f"")
-    lines.append(f"# 2. SHORT LEG (always)")
+    lines.append(f"# 2. SIZE")
     lines.append(f"notional = adaptive_size(depth_20, cap=0.15)")
+    lines.append(f"")
+    lines.append(f"# 3. SHORT ENTRY (at settlement T=0)")
     lines.append(f"short_entry = market_sell(notional)  # taker")
-    lines.append(f"short_exit = limit_buy(notional)     # maker if fills, taker rescue at 1s")
     lines.append(f"")
-    lines.append(f"# 3. LONG ENTRY DECISION (at short exit moment)")
-    lines.append(f"if ml_exit_time <= 15.0:  # seconds since settlement")
-    lines.append(f"    buy_qty = 2 * notional  # 1x close short + 1x open long")
-    lines.append(f"else:")
-    lines.append(f"    buy_qty = 1 * notional  # just close short")
-    lines.append(f"")
-    lines.append(f"# 4. LONG EXIT (if long taken)")
-    lines.append(f"# Poll recovery ticks every 100ms")
-    lines.append(f"# LogReg predicts p(near_peak_10)")
-    lines.append(f"if pred_prob >= 0.6:")
-    lines.append(f"    limit_sell(long_notional)  # recovery peaking")
-    lines.append(f"elif time_since_bottom >= 30s:")
-    lines.append(f"    limit_sell(long_notional)  # forced timeout")
+    lines.append(f"# 4. SHORT EXIT (ML-timed)")
+    lines.append(f"# Poll tick features every 100ms")
+    lines.append(f"# short_exit_logreg predicts p(near_bottom_10)")
+    lines.append(f"if pred_prob >= {SHORT_EXIT_ML_THRESHOLD}:")
+    lines.append(f"    limit_buy(notional)  # near bottom, cover short")
+    lines.append(f"elif time_since_settlement >= {SHORT_EXIT_TIMEOUT_MS // 1000}s:")
+    lines.append(f"    market_buy(notional)  # forced timeout")
     lines.append(f"```")
     lines.append(f"")
 
