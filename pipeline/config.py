@@ -37,7 +37,6 @@ LONG_ENTRY_MAX_T_S = 15.0    # only go long if bottom at T ≤ 15s
 LONG_HOLD_FIXED_MS = 20000   # fixed hold baseline (for comparison)
 LONG_CAP_PCT = 0.15          # long leg: 15% of depth_20 (same cap rule)
 LONG_NOTIONAL_TIERS = [250, 500, 750, 1000, 1500]  # independent tiers
-LONG_SLIP_FACTOR = 0.4       # slippage discount vs T-0 OB
 LONG_EXIT_ML_THRESHOLD = 0.6 # LogReg p(near_peak) threshold
 
 # ── Tick-level ML ─────────────────────────────────────────────────────
