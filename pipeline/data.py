@@ -61,7 +61,65 @@ class SettlementData:
 
     # Derived
     passes_filters: bool     # depth >= MIN and spread <= MAX
+
+    # Fields with defaults must come last
+    ob200_deltas: list = field(default_factory=list)  # [(t_ms, bids_delta, asks_delta), ...]
     price_bins: dict = field(default_factory=dict)  # 100ms -> bps
+
+
+# ── OB reconstruction ────────────────────────────────────────────────
+
+def reconstruct_ob_at(sd, t_ms):
+    """Reconstruct full orderbook at a given post-settlement time.
+
+    Starts from the T-0 snapshot (sd.bids, sd.asks) and applies all
+    ob200 delta updates up to t_ms.
+
+    Returns:
+        dict with 'bids' [(price, qty) desc], 'asks' [(price, qty) asc],
+        'mid_price', 'spread_bps', 'depth_20'
+        or None if no data available.
+    """
+    # Start from T-0 snapshot as dicts {price: qty}
+    bid_book = {p: q for p, q in sd.bids if q > 0}
+    ask_book = {p: q for p, q in sd.asks if q > 0}
+
+    # Apply all ob200 deltas up to t_ms
+    for dt, b_deltas, a_deltas in sd.ob200_deltas:
+        if dt > t_ms:
+            break
+        for price, qty in b_deltas:
+            if qty <= 0:
+                bid_book.pop(price, None)
+            else:
+                bid_book[price] = qty
+        for price, qty in a_deltas:
+            if qty <= 0:
+                ask_book.pop(price, None)
+            else:
+                ask_book[price] = qty
+
+    if not bid_book or not ask_book:
+        return None
+
+    # Sort: bids descending, asks ascending
+    bids = sorted(bid_book.items(), key=lambda x: -x[0])
+    asks = sorted(ask_book.items(), key=lambda x: x[0])
+
+    best_bid = bids[0][0]
+    best_ask = asks[0][0]
+    mid = (best_bid + best_ask) / 2
+    spread_bps = (best_ask - best_bid) / mid * 10000 if mid > 0 else 0
+
+    depth_20 = sum(p * q for p, q in bids if (mid - p) / mid * 10000 <= 20)
+
+    return {
+        'bids': bids,
+        'asks': asks,
+        'mid_price': mid,
+        'spread_bps': spread_bps,
+        'depth_20': depth_20,
+    }
 
 
 # ── JSONL parsing ─────────────────────────────────────────────────────
@@ -70,6 +128,7 @@ def parse_settlement(fp: Path) -> Optional[SettlementData]:
     """Parse a single JSONL file into a SettlementData object."""
     trades_pre, trades_post = [], []
     ob1_data = []
+    ob200_data = []
     tickers = []
     ob_snapshot_bids = []
     ob_snapshot_asks = []
@@ -103,6 +162,13 @@ def parse_settlement(fp: Path) -> Optional[SettlementData]:
                 if b and a:
                     ob1_data.append((t_ms, float(b[0][0]), float(b[0][1]),
                                      float(a[0][0]), float(a[0][1])))
+
+            elif 'orderbook.200' in topic:
+                # OB.200 delta updates (for reconstructing full book at any time)
+                b_deltas = [(float(lv[0]), float(lv[1])) for lv in data.get('b', [])]
+                a_deltas = [(float(lv[0]), float(lv[1])) for lv in data.get('a', [])]
+                if b_deltas or a_deltas:
+                    ob200_data.append((t_ms, b_deltas, a_deltas))
 
             elif 'orderbook' in topic and 'snapshot' in str(data.get('type', '')):
                 # Full OB snapshot (for depth computation)
@@ -177,6 +243,9 @@ def parse_settlement(fp: Path) -> Optional[SettlementData]:
                        key=lambda x: x[0])
     ob1_times = np.array([t for t, _, _, _, _ in ob1_post]) if ob1_post else np.array([])
 
+    # OB.200 deltas sorted by time
+    ob200_sorted = sorted(ob200_data, key=lambda x: x[0])
+
     # Price bins (100ms resolution)
     price_bins = {}
     for t_ms, p, _, _, _ in trades_post:
@@ -210,6 +279,7 @@ def parse_settlement(fp: Path) -> Optional[SettlementData]:
         ob1_times=ob1_times,
         ob1_bids=ob1_post,
         ob1_asks=ob1_post,
+        ob200_deltas=ob200_sorted,
         tickers=tickers,
         passes_filters=passes,
         price_bins=price_bins,

@@ -21,6 +21,7 @@ from pipeline.config import (
     LONG_HOLD_FIXED_MS, LONG_EXIT_ML_THRESHOLD,
     compute_notional, compute_long_notional, mixed_fee_bps,
 )
+from pipeline.data import reconstruct_ob_at
 from pipeline.features import find_bottom, build_long_exit_ticks
 from pipeline.models import should_go_long, predict_long_exit
 
@@ -83,29 +84,6 @@ class TradeResult:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# HELPERS
-# ═══════════════════════════════════════════════════════════════════════
-
-def _get_spread_at(sd, t_ms):
-    """Look up actual L1 spread at a given time from ob1 data.
-    Falls back to T-0 spread if no post-settlement ob1 data available.
-    """
-    if t_ms is None or len(sd.ob1_times) == 0:
-        return sd.spread_bps
-
-    mask = sd.ob1_times <= t_ms
-    if mask.sum() == 0:
-        return sd.spread_bps
-
-    idx = mask.sum() - 1
-    _, bp, bq, ap, aq = sd.ob1_bids[idx]  # ob1_bids stores full (t, bp, bq, ap, aq) tuples
-    if bp <= 0 or ap <= 0:
-        return sd.spread_bps
-    mid = (bp + ap) / 2
-    return (ap - bp) / mid * 10000
-
-
-# ═══════════════════════════════════════════════════════════════════════
 # PER-SETTLEMENT SIMULATION
 # ═══════════════════════════════════════════════════════════════════════
 
@@ -127,11 +105,10 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
     mid = sd.mid_price
     depth_20 = sd.depth_20
 
-    # Position sizing (independent for each leg)
+    # Short leg sizing from T-0 OB
     short_notional = compute_notional(depth_20)
-    long_notional = compute_long_notional(depth_20)
 
-    # Slippage
+    # Short leg slippage from T-0 OB
     entry_s = compute_slippage_bps(sd.asks, short_notional, 'buy', mid_price=mid)
     exit_s = compute_slippage_bps(sd.bids, short_notional, 'sell', mid_price=mid)
     rt_slip = entry_s['slippage_bps'] + exit_s['slippage_bps']
@@ -157,11 +134,26 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
     long_slip = 0.0
     long_net = 0.0
     long_dollar = 0.0
+    long_notional = 0.0
     long_win = False
     long_exit_method = 'none'
     long_exit_t = None
 
     if long_taken and bottom_bps is not None:
+        # ── Reconstruct OB at long entry time (bottom_t) ──
+        entry_ob = reconstruct_ob_at(sd, bottom_t)
+        if entry_ob is None:
+            # Fallback to T-0 OB if reconstruction fails
+            entry_ob = {
+                'bids': sd.bids, 'asks': sd.asks,
+                'mid_price': mid, 'spread_bps': sd.spread_bps,
+                'depth_20': depth_20,
+            }
+
+        # Long sizing from OB at entry time
+        long_notional = compute_long_notional(entry_ob['depth_20'])
+        entry_mid = entry_ob['mid_price']
+
         # Fees (limit both sides)
         long_fee = 2 * mixed_fee_bps()
 
@@ -184,22 +176,26 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
                     long_exit_t = t_ms
                     long_exit_method = 'fixed'
 
-        # ── Honest slippage: actual L1 spread at entry/exit + depth-walking ──
-        # 1) Depth-walking cost from T-0 full OB (only source for depth info)
-        #    = total_slippage_vs_mid - half_spread_at_T0
-        t0_half_spread = sd.spread_bps / 2
-        long_buy_s = compute_slippage_bps(sd.asks, long_notional, 'buy', mid_price=mid)
-        long_sell_s = compute_slippage_bps(sd.bids, long_notional, 'sell', mid_price=mid)
-        depth_walk_buy = max(0, long_buy_s['slippage_bps'] - t0_half_spread)
-        depth_walk_sell = max(0, long_sell_s['slippage_bps'] - t0_half_spread)
+        # ── Slippage from actual OB at entry and exit ──
+        # Entry slippage: walk the entry-time OB (buying at asks)
+        long_entry_s = compute_slippage_bps(
+            entry_ob['asks'], long_notional, 'buy', mid_price=entry_mid)
+        long_entry_slip = long_entry_s['slippage_bps']
 
-        # 2) Actual L1 spread at bottom time (long entry) and exit time
-        entry_spread_bps = _get_spread_at(sd, bottom_t)
-        exit_spread_bps = _get_spread_at(sd, long_exit_t) if long_exit_t else entry_spread_bps
+        # Exit slippage: reconstruct OB at exit time
+        if long_exit_t is not None:
+            exit_ob = reconstruct_ob_at(sd, long_exit_t)
+        else:
+            exit_ob = entry_ob
 
-        # 3) Total long slippage = actual half-spread at each moment + depth-walking
-        long_entry_slip = entry_spread_bps / 2 + depth_walk_buy
-        long_exit_slip = exit_spread_bps / 2 + depth_walk_sell
+        if exit_ob is None:
+            exit_ob = entry_ob
+
+        exit_mid = exit_ob['mid_price']
+        long_exit_s = compute_slippage_bps(
+            exit_ob['bids'], long_notional, 'sell', mid_price=exit_mid)
+        long_exit_slip = long_exit_s['slippage_bps']
+
         long_slip = long_entry_slip + long_exit_slip
 
         long_net = long_recovery_bps - long_fee - long_slip
