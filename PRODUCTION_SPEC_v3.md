@@ -445,6 +445,19 @@ T+9s     1s timeout → cancel limit → market buy at -50 bps.
 | Market exit + **filters** | **+11.6 bps** | **$2.31** | **96%** | 10 bps |
 | **Limit exit + filters** | **+14.5 bps** | **$2.91** | **90-96%** | **6.8 bps avg** |
 
+### Recovery Long — 2x Buy at Bottom (NEW)
+
+When ML signals EXIT, buy **2x**: 1x closes the short, 1x opens a long. The post-crash recovery bounce averages **+33 bps** from the bottom. Hold for +20s, then close with limit sell.
+
+| Hold | N | Gross Recovery | Net PnL | Win Rate | $/trade | $/day |
+|------|---|---------------|---------|----------|---------|-------|
+| +10s | 104 | +30.6 bps | +14.1 bps | 66% | $1.26 | $32.7 |
+| +15s | 111 | +31.5 bps | +15.1 bps | 68% | $1.29 | $35.9 |
+| **+20s** | **105** | **+32.9 bps** | **+16.5 bps** | **63%** | **$1.42** | **$37.3** |
+| +30s | 96 | +33.1 bps | +16.7 bps | 66% | $1.44 | $34.6 |
+
+**Requirements:** Limit orders on both sides of long leg (maker fee). Long notional capped at $1K (conservative). Slippage discounted 60% vs T-0 OB (post-crash asks are thinner).
+
 ### Fresh data validation (11 unseen settlements, 10h, 2026-03-01)
 
 | Metric | Market Exit | Limit Exit |
@@ -458,23 +471,28 @@ T+9s     1s timeout → cancel limit → market buy at -50 bps.
 
 The one correctly skipped settlement (XCNUSDT, $161 depth) would have lost -35.6 bps.
 
-### Revenue estimates (validated on fresh data)
+### Revenue estimates — Bybit maximized
 
-| Phase | Trades/day | $/trade | Daily | Monthly |
-|-------|-----------|---------|-------|---------|
-| **Current (10 coins, mkt exit)** | **10-15** | **$2.31** | **$23-35** | **$690-1,050** |
-| **Current (10 coins, limit exit)** | **10-15** | **$2.91** | **$29-44** | **$870-1,310** |
-| Scale (20 coins) | 20-30 | $2.50 | $50-75 | $1,500-2,250 |
-| Multi-exchange | 30-50 | $2.50 | $75-125 | $2,250-3,750 |
+Scanner already monitors ALL ~552 Bybit perpetuals. 33 symbols with extreme FR produced 40.2 settlements/day over 4 days. This is the Bybit ceiling at current FR threshold (-15 bps).
 
-Revenue scales linearly with number of coins monitored, NOT with position size.
+| Lever | $/day | Monthly | Cumulative |
+|-------|-------|---------|------------|
+| **Short leg** (15% cap, limit exit) | **$77** | **$2,320** | $77 |
+| **+ Long leg** (2x buy, +20s hold) | **+$37** | **+$1,089** | **$114** |
+| + Binance double-dip (future) | +$26 est | +$780 | $140 |
+| + OKX triple-dip (future) | +$16 est | +$480 | $156 |
 
-### Improvement stack (cumulative bps vs naive baseline)
+**Bybit alone crosses $100/day** with short + long legs combined.
+
+Revenue scales with number of exchanges, NOT with position size per trade.
+
+### Improvement stack (cumulative)
 
 ```
-Baseline (market sell+buy, no filters):     +6.7 bps  $1.34/trade
- + Loser filters (depth, spread):           +11.6 bps  $2.31/trade  (+73%)
- + Limit exit (PostOnly, 1s rescue):        +14.5 bps  $2.91/trade  (+117%)
+Baseline (10% cap, market exit):            $43/day
+ + Limit exit on short (saves 3 bps):       $54/day   (+26%)
+ + Relax cap to 15%:                        $77/day   (+79%)
+ + Long leg (2x buy, limit orders):         $114/day  (+165%)
 ```
 
 ---

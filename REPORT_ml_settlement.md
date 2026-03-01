@@ -1,6 +1,6 @@
 # ML Settlement Prediction Report
 
-**Generated:** 2026-03-01 04:44 UTC  
+**Generated:** 2026-03-01 06:20 UTC  
 **Dataset:** 161 settlements, 33 symbols, 4 dates (2026-02-26 to 2026-03-01)  
 **Pipeline:** `ml_settlement_pipeline.py`
 
@@ -370,6 +370,31 @@ Simulates placing PostOnly limit buy at best_bid when ML signals exit. If not fi
 | Net EV vs market | — | — | **+2.8 bps/trade** |
 
 **Rescue plan:** PostOnly limit buy at best_bid → wait 1000ms → cancel + market buy if unfilled (46% of trades).
+
+### Recovery Long — 2x Buy at Bottom
+
+Strategy: when ML signals exit (bottom detected), buy 2x — 1x closes short, 1x opens long. Hold long for recovery bounce.
+Limit orders on both sides of long leg. Notional capped at $1000.
+
+| Hold Time | N | Gross Recovery | Net PnL | Win Rate | $/trade | $/day |
+|-----------|---|---------------|---------|----------|---------|-------|
+| +10s | 104 | +30.6 bps | +14.1 bps | 66% | $+1.26 | $+32.7 |
+| +15s | 111 | +31.5 bps | +15.1 bps | 68% | $+1.29 | $+35.9 |
+| +20s | 105 | +32.9 bps | +16.5 bps | 63% | $+1.42 | $+37.3 | **←best**
+| +30s | 96 | +33.1 bps | +16.7 bps | 66% | $+1.44 | $+34.6 |
+
+**Best hold: +20s** — $37.3/day additional revenue from long leg (63% WR, 105 trades over 4 days)
+
+**Recovery by drop size (hold +20s):**
+
+| Drop Range | N | Avg Recovery | WR | $/trade |
+|-----------|---|-------------|----|---------| 
+| <30 bps | 18 | +38.0 bps | 50% | $+1.38 |
+| 30-60 bps | 34 | +34.9 bps | 59% | $+1.82 |
+| 60-100 bps | 23 | +34.3 bps | 83% | $+1.64 |
+| >100 bps | 29 | +24.7 bps | 59% | $+0.66 |
+
+**Implementation:** When ML signals EXIT_NOW, send buy order for 2x qty. 1x closes the short (existing), 1x opens long (new). Close the long with limit sell at ask after +20s. Rescue with market sell if limit not filled within 1s.
 
 ## Per-Date Summary
 

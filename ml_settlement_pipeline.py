@@ -496,7 +496,8 @@ def step_train_and_validate(df):
 # ═══════════════════════════════════════════════════════════════════════
 
 def step_generate_report(df, results, exit_results=None, sizing_results=None,
-                         loser_results=None, limit_exit_results=None):
+                         loser_results=None, limit_exit_results=None,
+                         recovery_results=None):
     """Generate markdown report."""
     print("\n" + "=" * 70)
     print("STEP 6: GENERATE REPORT")
@@ -716,6 +717,9 @@ def step_generate_report(df, results, exit_results=None, sizing_results=None,
 
     # Limit exit section
     _append_limit_exit_report(lines, limit_exit_results)
+
+    # Recovery long section
+    _append_recovery_long_report(lines, recovery_results)
 
     # Per-date summary
     lines.append(f"## Per-Date Summary")
@@ -1196,6 +1200,202 @@ def step_limit_exit_sim():
 
 
 # ═══════════════════════════════════════════════════════════════════════
+# STEP 5e: RECOVERY LONG SIMULATION (2x buy at bottom)
+# ═══════════════════════════════════════════════════════════════════════
+
+LONG_HOLD_TIMES = [10000, 15000, 20000, 30000]   # hold after bottom (ms)
+LONG_CAP_PCT = 0.15                                # notional cap for long leg
+LONG_NOTIONAL_MAX = 1000                           # max long notional (conservative)
+LONG_SLIP_FACTOR = 0.4                             # slippage discount vs T-0 OB
+
+
+def step_recovery_long_sim():
+    """Simulate 2x buy at ML-detected bottom: close short + open long.
+
+    For each settlement:
+    - Find price bottom between T+1s and T+30s
+    - Measure recovery at multiple hold times after bottom
+    - Compute long leg PnL net of fees (limit both sides) + slippage
+    """
+    import json as _json
+    from research_position_sizing import parse_last_ob_before_settlement, compute_slippage_bps
+
+    print("\n" + "=" * 70)
+    print("STEP 5e: RECOVERY LONG SIMULATION (2x buy at bottom)")
+    print("=" * 70)
+
+    jsonl_files = sorted(LOCAL_DATA_DIR.glob("*.jsonl"))
+    if not jsonl_files:
+        print("  ✗ No JSONL files")
+        return None
+
+    t0 = time.time()
+    records = []
+
+    for fi, fp in enumerate(jsonl_files):
+        ob = parse_last_ob_before_settlement(fp)
+        if ob is None:
+            continue
+
+        mid = ob['mid_price']
+        bids = ob['bids']
+        asks = ob['asks']
+        depth_20 = sum(p * q for p, q in bids if (mid - p) / mid * 10000 <= 20)
+
+        if depth_20 < 2000 or ob['spread_bps'] > 8:
+            continue
+
+        # Adaptive notional (15% cap)
+        notional = 500
+        for n in [500, 1000, 2000, 3000]:
+            if n <= depth_20 * LONG_CAP_PCT:
+                notional = n
+        long_notional = min(notional, LONG_NOTIONAL_MAX)
+
+        # Slippage at T-0 OB (reference)
+        entry_s = compute_slippage_bps(bids, long_notional, "sell", mid_price=mid)
+        exit_s = compute_slippage_bps(asks, long_notional, "buy", mid_price=mid)
+
+        # Parse trades post-settlement
+        trades_post = []
+        with open(fp) as f:
+            for line in f:
+                try:
+                    m = _json.loads(line)
+                except Exception:
+                    continue
+                t_ms = m.get('_t_ms', 0)
+                topic = m.get('topic', '')
+                if t_ms >= 0 and topic.startswith('publicTrade'):
+                    for tr in m.get('data', []):
+                        trades_post.append((t_ms, float(tr['p'])))
+
+        # Build 100ms price bins
+        price_bins = {}
+        for t_ms, price in trades_post:
+            if 0 <= t_ms <= 60000:
+                bk = int(t_ms / 100) * 100
+                price_bins[bk] = price
+
+        # Find bottom (T+1s to T+30s)
+        bottom_p = None
+        bottom_t = None
+        for t_ms in sorted(price_bins.keys()):
+            if t_ms < 1000 or t_ms > 30000:
+                continue
+            if bottom_p is None or price_bins[t_ms] < bottom_p:
+                bottom_p = price_bins[t_ms]
+                bottom_t = t_ms
+
+        if bottom_p is None:
+            continue
+
+        drop_bps = (mid - bottom_p) / mid * 10000
+
+        # Measure recovery at each hold time
+        for hold_ms in LONG_HOLD_TIMES:
+            target_t = bottom_t + hold_ms
+            rec_p = None
+            for t_ms in price_bins:
+                if target_t - 500 <= t_ms <= target_t + 500:
+                    rec_p = price_bins[t_ms]
+
+            if rec_p is None:
+                continue
+
+            recovery_bps = (rec_p - bottom_p) / mid * 10000
+
+            # Long leg slippage (discounted — OB partially depleted post-crash)
+            long_entry_slip = entry_s['slippage_bps'] * LONG_SLIP_FACTOR
+            long_exit_slip = exit_s['slippage_bps'] * LONG_SLIP_FACTOR
+
+            # Fees: limit both sides (maker if filled, taker if rescue)
+            # Use short leg fill rate as proxy
+            fill_rate = 0.54
+            entry_fee = fill_rate * MAKER_FEE_BPS + (1 - fill_rate) * TAKER_FEE_BPS
+            exit_fee = fill_rate * MAKER_FEE_BPS + (1 - fill_rate) * TAKER_FEE_BPS
+            rt_fee = entry_fee + exit_fee
+
+            long_net = recovery_bps - rt_fee - long_entry_slip - long_exit_slip
+            dollar_long = long_net * long_notional / 10000
+
+            records.append({
+                'file': fp.name,
+                'symbol': ob['symbol'],
+                'drop_bps': drop_bps,
+                'bottom_t_s': bottom_t / 1000,
+                'hold_ms': hold_ms,
+                'recovery_bps': recovery_bps,
+                'rt_fee_bps': rt_fee,
+                'slip_bps': long_entry_slip + long_exit_slip,
+                'long_net_bps': long_net,
+                'dollar_long': dollar_long,
+                'long_notional': long_notional,
+            })
+
+        if (fi + 1) % 50 == 0:
+            print(f"    [{fi + 1}/{len(jsonl_files)}] {time.time() - t0:.1f}s")
+
+    if not records:
+        print("  ✗ No valid recovery simulations")
+        return None
+
+    # Aggregate per hold_time
+    agg = {}
+    for hold_ms in LONG_HOLD_TIMES:
+        sub = [r for r in records if r['hold_ms'] == hold_ms]
+        if not sub:
+            continue
+        n = len(sub)
+        recs_bps = [r['recovery_bps'] for r in sub]
+        nets = [r['long_net_bps'] for r in sub]
+        dollars = [r['dollar_long'] for r in sub]
+        wr = sum(1 for d in dollars if d > 0) / n * 100
+        total_dollar = sum(dollars)
+
+        agg[hold_ms] = {
+            'n': n,
+            'mean_recovery': np.mean(recs_bps),
+            'median_recovery': np.median(recs_bps),
+            'mean_net': np.mean(nets),
+            'win_rate': wr,
+            'total_dollar': total_dollar,
+            'avg_dollar': np.mean(dollars),
+            'pct_positive': sum(1 for r in recs_bps if r > 0) / n * 100,
+        }
+
+        print(f"  Hold +{hold_ms / 1000:.0f}s: N={n}  "
+              f"recovery={np.mean(recs_bps):+.1f}bps  net={np.mean(nets):+.1f}bps  "
+              f"WR={wr:.0f}%  ${np.mean(dollars):+.2f}/trade  "
+              f"${total_dollar:.1f} total")
+
+    # Best hold time
+    best_hold = max(agg.keys(), key=lambda h: agg[h]['total_dollar'])
+    best = agg[best_hold]
+    n_days = max(1, len(set(r['file'][:20] for r in records)) // 20)
+    # Estimate days from unique dates in filenames
+    dates = set()
+    for r in records:
+        parts = r['file'].split('_')
+        if len(parts) >= 2:
+            dates.add(parts[1])
+    n_days = max(1, len(dates))
+
+    daily = best['total_dollar'] / n_days
+    print(f"\n  Best hold: +{best_hold / 1000:.0f}s → ${daily:.1f}/day  "
+          f"({best['win_rate']:.0f}% WR, {best['n']} trades over {n_days} days)")
+    print(f"  [{time.time() - t0:.1f}s]")
+
+    return {
+        'records': records,
+        'agg': agg,
+        'best_hold_ms': best_hold,
+        'n_days': n_days,
+        'daily_dollar': daily,
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # STEP 5: EXIT ML — MICROSTRUCTURE EXIT TIMING
 # ═══════════════════════════════════════════════════════════════════════
 
@@ -1321,6 +1521,68 @@ def _append_limit_exit_report(lines, limit_exit_results):
     lines.append(f"")
     lines.append(f"**Rescue plan:** PostOnly limit buy at best_bid → wait {timeout}ms → "
                  f"cancel + market buy if unfilled ({100-ref['fill_rate']:.0f}% of trades).")
+    lines.append(f"")
+
+
+def _append_recovery_long_report(lines, recovery_results):
+    """Append recovery long (2x buy) simulation section to report."""
+    if recovery_results is None:
+        return
+
+    rr = recovery_results
+    agg = rr['agg']
+    best_hold = rr['best_hold_ms']
+    n_days = rr['n_days']
+
+    lines.append(f"### Recovery Long — 2x Buy at Bottom")
+    lines.append(f"")
+    lines.append(f"Strategy: when ML signals exit (bottom detected), buy 2x — "
+                 f"1x closes short, 1x opens long. Hold long for recovery bounce.")
+    lines.append(f"Limit orders on both sides of long leg. "
+                 f"Notional capped at ${LONG_NOTIONAL_MAX}.")
+    lines.append(f"")
+
+    lines.append(f"| Hold Time | N | Gross Recovery | Net PnL | Win Rate | $/trade | $/day |")
+    lines.append(f"|-----------|---|---------------|---------|----------|---------|-------|")
+    for hold_ms in sorted(agg.keys()):
+        a = agg[hold_ms]
+        daily = a['total_dollar'] / n_days
+        marker = " **←best**" if hold_ms == best_hold else ""
+        lines.append(
+            f"| +{hold_ms / 1000:.0f}s | {a['n']} | {a['mean_recovery']:+.1f} bps | "
+            f"{a['mean_net']:+.1f} bps | {a['win_rate']:.0f}% | "
+            f"${a['avg_dollar']:+.2f} | ${daily:+.1f} |{marker}"
+        )
+    lines.append(f"")
+
+    best = agg[best_hold]
+    daily = best['total_dollar'] / n_days
+    lines.append(f"**Best hold: +{best_hold / 1000:.0f}s** — "
+                 f"${daily:.1f}/day additional revenue from long leg "
+                 f"({best['win_rate']:.0f}% WR, {best['n']} trades over {n_days} days)")
+    lines.append(f"")
+
+    # Recovery by drop size
+    records = rr['records']
+    best_recs = [r for r in records if r['hold_ms'] == best_hold]
+    lines.append(f"**Recovery by drop size (hold +{best_hold / 1000:.0f}s):**")
+    lines.append(f"")
+    lines.append(f"| Drop Range | N | Avg Recovery | WR | $/trade |")
+    lines.append(f"|-----------|---|-------------|----|---------| ")
+    for lo, hi, label in [(0, 30, "<30"), (30, 60, "30-60"), (60, 100, "60-100"), (100, 9999, ">100")]:
+        sub = [r for r in best_recs if lo <= r['drop_bps'] < hi]
+        if not sub:
+            continue
+        avg_rec = np.mean([r['recovery_bps'] for r in sub])
+        wr = sum(1 for r in sub if r['dollar_long'] > 0) / len(sub) * 100
+        avg_d = np.mean([r['dollar_long'] for r in sub])
+        lines.append(f"| {label} bps | {len(sub)} | {avg_rec:+.1f} bps | {wr:.0f}% | ${avg_d:+.2f} |")
+    lines.append(f"")
+
+    lines.append(f"**Implementation:** When ML signals EXIT_NOW, send buy order for 2x qty. "
+                 f"1x closes the short (existing), 1x opens long (new). "
+                 f"Close the long with limit sell at ask after +{best_hold / 1000:.0f}s. "
+                 f"Rescue with market sell if limit not filled within 1s.")
     lines.append(f"")
 
 
@@ -1679,11 +1941,17 @@ def main():
     if not args.skip_exit_ml and not args.report_only:
         limit_exit_results = step_limit_exit_sim()
 
+    # Step 5e: Recovery long simulation (2x buy at bottom)
+    recovery_results = None
+    if not args.skip_exit_ml and not args.report_only:
+        recovery_results = step_recovery_long_sim()
+
     # Step 6: Generate report
     step_generate_report(df, results, exit_results=exit_results,
                          sizing_results=sizing_results,
                          loser_results=loser_results,
-                         limit_exit_results=limit_exit_results)
+                         limit_exit_results=limit_exit_results,
+                         recovery_results=recovery_results)
 
     elapsed = time.time() - t0
     print(f"\n{'='*70}")
