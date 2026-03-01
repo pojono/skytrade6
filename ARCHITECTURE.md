@@ -105,7 +105,7 @@ A settlement is skipped if:
 
 ## ML Models (`models.py`, `features.py`)
 
-### Model 1: Short Exit (trained but not used in backtest)
+### Model 1: Short Exit (`short_exit_logreg`) — ACTIVE
 
 | Property | Value |
 |----------|-------|
@@ -113,17 +113,19 @@ A settlement is skipped if:
 | **Features** | 56 tick-level features (100ms resolution) |
 | **Categories** | Price velocity/acceleration, trade flow, OB state, sequence features, static context |
 | **Models** | LogReg (C=0.1), HGBC (max_depth=6, 300 iters) |
+| **Threshold** | p(near_bottom) ≥ 0.4 → exit signal |
+| **Timeout** | 55s forced exit if ML never fires |
 | **Validation** | 70/30 split (alphabetical by symbol) + LOSO |
-| **Status** | ⚠️ Trained and saved but not used in backtest — the 23.6 bps LOSO average is used as a constant |
+| **Status** | ✅ Active — drives per-trade short PnL AND determines long entry point |
 
-### Model 2: Long Entry Decision (rule-based)
+### Model 2: Long Entry Decision (rule-based, no look-ahead)
 
 | Property | Value |
 |----------|-------|
 | **Type** | Simple rule, not ML |
-| **Rule** | `bottom_t ≤ 15 seconds` |
-| **Rationale** | Early bottoms (≤15s) have 73% WR vs 41% for late |
-| **Status** | ⚠️ Uses `find_bottom()` which has look-ahead bias (see audit) |
+| **Rule** | `short_exit_t ≤ 15 seconds` (ML exit time, not hindsight bottom) |
+| **Rationale** | Early ML exits have higher recovery potential |
+| **Status** | ✅ Fixed — uses ML exit time instead of look-ahead `find_bottom()` |
 
 ### Model 3: Long Exit (`long_exit_logreg`) — ACTIVE
 
@@ -154,20 +156,20 @@ Models are saved as pickle files in `models/`:
 ### Per-Settlement Simulation
 
 ```
-simulate_settlement(sd, long_exit_model, ...)
+simulate_settlement(sd, short_exit_model, long_exit_model, ...)
   │
   ├── SHORT LEG (always, if passes filters)
   │   ├── Sizing: compute_notional(depth_20) from T-0 OB
   │   ├── Entry: taker sell at settlement
-  │   ├── Exit: limit buy + taker rescue (blended fee)
-  │   ├── PnL: 23.6 bps gross - RT slippage + fee savings
+  │   ├── Exit: ML-detected near-bottom (p ≥ 0.4) or 55s timeout
+  │   ├── PnL: per-trade (entry_bps - exit_bps) - slippage + fee savings
   │   └── Slippage: walk T-0 OB (asks for entry, bids for exit)
   │
-  ├── BOTTOM DETECTION
-  │   └── find_bottom(): scan price_bins 1s–30s for minimum
+  ├── LONG ENTRY POINT (= short exit point, no look-ahead)
+  │   └── bottom_t = short exit ML time, bottom_bps = exit price
   │
   ├── LONG ENTRY DECISION
-  │   └── should_go_long(): bottom_t ≤ 15s?
+  │   └── should_go_long(): short_exit_t ≤ 15s?
   │
   └── LONG LEG (conditional)
       ├── OB Reconstruction: reconstruct_ob_at(sd, bottom_t)
@@ -255,7 +257,9 @@ List[SettlementData]             ← Parsed once, shared everywhere
 | `TAKER_FEE_BPS` | 10 | Per-leg taker fee |
 | `MAKER_FEE_BPS` | 4 | Per-leg maker fee |
 | `LIMIT_FILL_RATE` | 0.54 | Probability limit order fills |
-| `GROSS_PNL_BPS` | 23.6 | Short leg average edge (LOSO) |
+| `GROSS_PNL_BPS` | 23.6 | Short leg LOSO average (fallback only) |
+| `SHORT_EXIT_ML_THRESHOLD` | 0.4 | p(near_bottom) threshold for short exit |
+| `SHORT_EXIT_TIMEOUT_MS` | 55,000 | Forced exit if ML never fires |
 | `MIN_DEPTH_20` | $2,000 | Minimum bid depth for trading |
 | `MAX_SPREAD_BPS` | 8 | Maximum spread for trading |
 | `LONG_ENTRY_MAX_T_S` | 15s | Bottom time cutoff for long entry |
@@ -266,13 +270,17 @@ List[SettlementData]             ← Parsed once, shared everywhere
 
 ---
 
-## Current Performance (4 days, 160 settlements)
+## Current Performance (4 days, 160 settlements, honest — no look-ahead)
 
-| Strategy | Short $/day | Long $/day | **Total $/day** | Long WR |
-|----------|------------|-----------|----------------|---------|
-| short_only | $72.5 | — | $72.5 | — |
-| fixed_exit | $72.5 | $42.1 | $114.5 | 55% |
-| **ml_exit** | **$72.5** | **$53.1** | **$125.6** | **60%** |
+| Strategy | Short $/day | Short WR | Long $/day | Long WR | **Total $/day** |
+|----------|------------|----------|-----------|---------|----------------|
+| **short_only** | **$137.7†** | **76%** | — | — | **$137.7†** |
+| fixed_exit | $137.7† | 76% | −$22.3 | 19% | $115.4† |
+| ml_exit | $137.7† | 76% | −$17.4 | 23% | $120.2† |
+
+**†** Short PnL is inflated (in-sample). LOSO-based conservative: **$72.5/day short-only**.
+
+**Production recommendation: SHORT-ONLY.** Long leg is unprofitable without look-ahead bias.
 
 ---
 
@@ -280,9 +288,10 @@ List[SettlementData]             ← Parsed once, shared everywhere
 
 | Issue | Severity | Description |
 |-------|----------|-------------|
-| Look-ahead bottom detection | 🔴 Critical | `find_bottom()` uses future prices |
-| Short exit model unused | 🔴 Critical | Trained but never called in backtest |
+| ~~Look-ahead bottom detection~~ | ✅ Fixed | ML exit time replaces `find_bottom()` |
+| ~~Short exit model unused~~ | ✅ Fixed | Now drives per-trade PnL + exit timing |
+| Long leg unprofitable | 🔴 Critical | 19–23% WR without look-ahead; do NOT deploy |
+| Short PnL in-sample | 🟡 Inflated | Production model tested on training data |
 | 4-day sample size | 🔴 Critical | Insufficient for reliable estimates |
 | Alphabetical split | 🟡 Misleading | Not a temporal split |
-| Constant short PnL | 🟡 Simplification | No per-trade variance |
 | Last-trade price bins | 🟡 Optimistic | Not VWAP |

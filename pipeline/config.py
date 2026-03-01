@@ -32,6 +32,10 @@ CAP_PCT = 0.15               # 15% of depth_20
 MIN_DEPTH_20 = 2000           # minimum $2K bid depth within 20bps
 MAX_SPREAD_BPS = 8            # maximum spread
 
+# ── Short exit ML ───────────────────────────────────────────────────
+SHORT_EXIT_ML_THRESHOLD = 0.4  # p(near_bottom_10) threshold for exit
+SHORT_EXIT_TIMEOUT_MS = 55000  # forced exit if ML never fires (55s)
+
 # ── Long leg parameters ──────────────────────────────────────────────
 LONG_ENTRY_MAX_T_S = 15.0    # only go long if bottom at T ≤ 15s
 LONG_HOLD_FIXED_MS = 20000   # fixed hold baseline (for comparison)

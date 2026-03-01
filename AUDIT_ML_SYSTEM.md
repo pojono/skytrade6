@@ -9,18 +9,33 @@
 
 | Area | Verdict | Severity |
 |------|---------|----------|
-| **Short exit ML** | Trained but UNUSED in backtest | 🔴 Critical |
+| **Short exit ML** | ✅ FIXED — now drives per-trade PnL + exit timing | � Fixed |
 | **Long exit ML** | Working, decent precision at threshold 0.6 | 🟢 OK |
-| **Long entry decision** | Rule-based (bottom_t ≤ 15s) — uses look-ahead | 🔴 Critical |
+| **Long entry decision** | ✅ FIXED — uses ML exit time, no look-ahead | � Fixed |
 | **Train/test split** | Alphabetical by symbol, not temporal | 🟡 Misleading |
 | **LOSO validation** | Correct methodology, honest estimate | 🟢 OK |
-| **Bottom detection** | Perfect hindsight — look-ahead bias | 🔴 Critical |
-| **Short PnL model** | Fixed 23.6 bps constant, no per-trade prediction | 🟡 Simplification |
+| **Bottom detection** | ✅ FIXED — ML-detected bottom replaces find_bottom() | � Fixed |
+| **Short PnL model** | ✅ FIXED — per-trade variable PnL (76% WR, not 100%) | � Fixed |
 | **OB reconstruction** | Working, 100% success rate | 🟢 OK |
 | **Sample size** | 160 settlements, 4 days — very thin | 🔴 Critical |
 | **Price bins** | Last trade per 100ms, not VWAP | 🟡 Optimistic |
 | **Feature NaN rate** | 0% — clean | 🟢 OK |
-| **Production model** | Trained on ALL data (no holdout) | 🟡 Accepted risk |
+| **Production model** | Trained on ALL data (no holdout) — short PnL inflated | 🟡 Accepted risk |
+| **Long leg profitability** | ⚠️ UNPROFITABLE without look-ahead (19–23% WR) | 🔴 Critical discovery |
+
+### Post-Fix Honest Results
+
+| Strategy | Short $/d | Short WR | Long $/d | Long WR | Total $/d |
+|----------|----------|----------|---------|---------|----------|
+| **short_only** | **$137.7†** | **76%** | — | — | **$137.7†** |
+| fixed_exit | $137.7† | 76% | −$22.3 | 19% | $115.4† |
+| ml_exit | $137.7† | 76% | −$17.4 | 23% | $120.2† |
+
+**†** Short PnL is inflated (in-sample). The production model was trained on all data; LOSO gave 23.6 bps average. Conservative short estimate: **$72.5/day** (LOSO-based).
+
+### Key Discovery: Long Leg Requires Look-Ahead to Be Profitable
+
+The long leg was previously showing $53.1/day (60% WR) because `find_bottom()` used **perfect hindsight** to pick the exact crash minimum. With the ML-detected exit point as the long entry (no look-ahead), the long leg becomes **unprofitable** (−$17 to −$22/day, 19–23% WR). The recovery measured from a non-optimal entry point is insufficient to cover fees + slippage.
 
 ---
 
@@ -218,13 +233,13 @@ Spread can widen to 3x+ in the crash phase (mean is skewed by outliers at 4.55x)
 - **Fee structure** with maker/taker blended rates
 - **Filter skipping** for thin/wide-spread coins
 
-### 6.2 What's Optimistic
+### 6.2 What's Optimistic (remaining after fixes)
 
 | Assumption | Reality |
 |------------|---------|
-| Perfect bottom detection | ML model has ~10 bps error |
-| Entry at exact bottom price | Would enter when "near bottom" signal fires, not at the actual minimum |
-| Constant 23.6 bps short edge | Per-trade PnL varies; some shorts would lose |
+| ~~Perfect bottom detection~~ | ✅ FIXED — ML exit used as bottom |
+| ~~Constant 23.6 bps short edge~~ | ✅ FIXED — per-trade ML PnL (76% WR) |
+| Short PnL in-sample | Production model trained on all data; LOSO gave 23.6 bps avg |
 | 100ms price bin resolution | Real execution has latency + partial fills |
 | No queue priority modeling | Limit orders may not fill at target price |
 | No adverse selection | Market makers may pull liquidity when we enter |
@@ -233,55 +248,64 @@ Spread can widen to 3x+ in the crash phase (mean is skewed by outliers at 4.55x)
 
 ## 7. Risk Assessment
 
-### 7.1 What Could Break in Production
+### 7.1 What We Now Know (Post-Fix)
 
-1. **Bottom detection error:** Without perfect hindsight, long entry would be ~10 bps worse on average, reducing the $53.1/day long leg revenue by ~$5–15/day.
+1. **Short-only is the reliable strategy.** Short leg: 76% WR, $137.7/day (in-sample) or ~$72.5/day (LOSO-based conservative). The short edge is real.
 
-2. **Regime change:** 4 days of data in a single market regime. If volatility structure changes, both the short edge and recovery pattern could disappear.
+2. **Long leg is UNPROFITABLE without look-ahead.** When entering at the ML-detected exit point (not the perfect bottom), the recovery is insufficient to cover fees + slippage. Long WR drops from 60% (look-ahead) to 19–23% (honest).
 
-3. **Latency:** The 100ms tick resolution assumes we can observe + compute + execute within 100ms. Real systems have 50–200ms additional latency.
+3. **The old $125.6/day combined figure was an illusion.** $53/day of "long leg profit" came from perfect hindsight on the bottom. Honest combined revenue is lower than short-only.
 
-4. **Model staleness:** LogReg trained on 4 days of data will likely degrade as market microstructure shifts. No retraining schedule defined.
+4. **Regime change:** 4 days of data in a single market regime. If volatility structure changes, even the short edge could disappear.
 
-5. **Concurrent trading:** If multiple participants exploit the same settlement pattern, the edge will shrink as liquidity gets consumed.
+5. **Model staleness:** LogReg trained on 4 days will degrade. No retraining schedule defined.
 
-### 7.2 Conservative Revenue Estimate
+6. **Concurrent trading:** If multiple participants exploit the same settlement pattern, the edge will shrink.
+
+### 7.2 Revised Revenue Estimate
 
 | Scenario | Daily Revenue |
 |----------|--------------|
-| **Backtest (optimistic)** | $125.6 |
-| After bottom detection error (−$10) | $115.6 |
-| After short PnL variance (−$5) | $110.6 |
-| After latency degradation (−$10) | $100.6 |
-| After regime uncertainty (−30%) | **$70** |
+| Short-only (in-sample, inflated) | $137.7 |
+| Short-only (LOSO-based conservative) | $72.5 |
+| Short+Long ML exit (honest, no look-ahead) | $120.2† |
+| **Recommended: short-only** | **$50–$75/day** |
 
-**Conservative production estimate: $50–$80/day**, depending on how well the system adapts to real-world conditions.
+**†** Combined figure still uses inflated in-sample short PnL.
+
+**Production recommendation: SHORT-ONLY at $50–$75/day.** The long leg should NOT be deployed until a method exists to profitably enter without hindsight bias.
 
 ---
 
 ## 8. Recommendations
 
+### Completed ✅
+
+1. ~~**Replace `find_bottom()` with ML-detected bottom**~~ — ✅ Done. Short exit ML now drives both exit timing and long entry point. No look-ahead.
+
+2. ~~**Simulate per-trade short PnL variance**~~ — ✅ Done. Short WR now 76% (not 100%). Per-trade PnL varies.
+
 ### Immediate (Before Going Live)
 
-1. **Replace `find_bottom()` with ML-detected bottom in the backtest** — use the short exit model's "near_bottom" signal to trigger long entry, measuring recovery from the ML exit point instead of the perfect hindsight bottom.
+3. **Deploy short-only strategy.** The long leg is unprofitable without look-ahead. Remove it from production plans.
 
-2. **Simulate per-trade short PnL variance** — replace the 23.6 bps constant with per-settlement ML predictions to get realistic short leg WR and variance.
+4. **Collect more data** — 4 days is dangerously thin. Minimum 2–4 weeks (30–60 settlement cycles) before trusting any revenue estimate.
 
-3. **Collect more data** — 4 days is dangerously thin. Minimum 2–4 weeks (30–60 settlement cycles) before trusting any revenue estimate.
+5. **Implement true temporal split** — sort by date, train on first N days, test on last M days.
 
-### Medium-Term
+### Research (Long Leg Improvement)
 
-4. **Implement true temporal split** — sort by date, train on first N days, test on last M days. This tests the question "does yesterday's model work today?"
+6. **Better bottom detection for long entry** — the current "near_bottom_10" target has ~10 bps error. A tighter model or ensemble may reduce entry error enough to make the long leg viable.
 
-5. **Use VWAP for price bins** — switch from last-trade to volume-weighted average price per bin for more realistic fill simulation.
+7. **Alternative long entry signals** — instead of "enter at ML bottom", consider entering on specific recovery patterns (e.g., first 5 bps bounce after crash).
 
-6. **Add model staleness detection** — monitor AUC/precision on recent data and trigger retraining when performance drops.
+8. **Use VWAP for price bins** — switch from last-trade to VWAP for more realistic fill simulation.
 
 ### Architecture
 
-7. **Wire short exit ML into the backtest** — currently the models are trained and saved but never used. Either use them or remove the training step.
+9. **Add latency simulation** — add configurable delay between signal and execution.
 
-8. **Add latency simulation** — add configurable delay between signal and execution.
+10. **Add model staleness detection** — monitor AUC/precision on recent data and trigger retraining.
 
 ---
 

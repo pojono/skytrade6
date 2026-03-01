@@ -26,6 +26,8 @@ import pandas as pd
 
 warnings.filterwarnings("ignore")
 
+from pipeline.config import GROSS_PNL_BPS
+
 
 def main():
     parser = argparse.ArgumentParser(description="Settlement Trading Pipeline v4")
@@ -132,13 +134,28 @@ def main():
             print("  ✗ No recovery tick data")
 
     # Load saved models if skipping training
+    short_exit_model = None
+    short_exit_features_list = None
+
     if args.skip_training or args.backtest_only:
         print("\n  Loading saved models...")
+
+        short_exit_model, short_exit_features_list = load_model('short_exit_logreg')
+        if short_exit_model is not None:
+            print(f"    ✅ Loaded short_exit_logreg ({len(short_exit_features_list)} features)")
+        else:
+            print(f"    ✗ No saved short exit model — will use constant {GROSS_PNL_BPS} bps")
+
         long_exit_model, long_exit_features = load_model('long_exit_logreg')
         if long_exit_model is not None:
             print(f"    ✅ Loaded long_exit_logreg ({len(long_exit_features)} features)")
         else:
             print(f"    ✗ No saved long exit model found")
+    else:
+        # After training, use the just-trained models
+        if short_exit_results:
+            short_exit_model = short_exit_results.get('model_lr')
+            short_exit_features_list = short_exit_results.get('feature_cols')
 
     # ── Step 5: Combined backtest ─────────────────────────────────────
     print(f"\n{'='*70}")
@@ -147,6 +164,8 @@ def main():
 
     strategies = compare_strategies(
         settlements,
+        short_exit_model=short_exit_model,
+        short_exit_features=short_exit_features_list,
         long_exit_model=long_exit_model,
         long_exit_features=long_exit_features,
     )

@@ -18,11 +18,12 @@ import pandas as pd
 from pipeline.config import (
     TAKER_FEE_BPS, MAKER_FEE_BPS, GROSS_PNL_BPS,
     LIMIT_FILL_RATE, CAP_PCT,
+    SHORT_EXIT_ML_THRESHOLD, SHORT_EXIT_TIMEOUT_MS,
     LONG_HOLD_FIXED_MS, LONG_EXIT_ML_THRESHOLD,
     compute_notional, compute_long_notional, mixed_fee_bps,
 )
 from pipeline.data import reconstruct_ob_at
-from pipeline.features import find_bottom, build_long_exit_ticks
+from pipeline.features import find_bottom, build_short_exit_ticks, build_long_exit_ticks
 from pipeline.models import should_go_long, predict_long_exit
 
 from research_position_sizing import compute_slippage_bps
@@ -87,12 +88,53 @@ class TradeResult:
 # PER-SETTLEMENT SIMULATION
 # ═══════════════════════════════════════════════════════════════════════
 
-def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
+def _run_short_exit_ml(sd, short_exit_model, short_exit_features):
+    """Run short exit ML on tick features to find per-trade exit point.
+
+    Returns (exit_bps, exit_t_ms, entry_bps) or (None, None, None) on failure.
+    """
+    ticks = build_short_exit_ticks(sd)
+    if not ticks:
+        return None, None, None
+
+    df = pd.DataFrame(ticks)
+    for c in short_exit_features:
+        if c not in df.columns:
+            df[c] = 0
+
+    X = df[short_exit_features].values.astype(np.float32)
+    probs = short_exit_model.predict_proba(X)[:, 1]
+
+    # Entry price (first tick)
+    entry_bps = float(df['entry_price_bps'].iloc[0])
+
+    # ML exit: first tick where p(near_bottom) >= threshold
+    above = np.where(probs >= SHORT_EXIT_ML_THRESHOLD)[0]
+    if len(above) > 0:
+        idx = above[0]
+    else:
+        # Timeout: find last tick before SHORT_EXIT_TIMEOUT_MS
+        timeout_mask = df['t_ms'] <= SHORT_EXIT_TIMEOUT_MS
+        if timeout_mask.sum() > 0:
+            idx = timeout_mask.sum() - 1
+        else:
+            idx = len(df) - 1
+
+    exit_bps = float(df['price_bps'].iloc[idx])
+    exit_t_ms = float(df['t_ms'].iloc[idx])
+
+    return exit_bps, exit_t_ms, entry_bps
+
+
+def simulate_settlement(sd, short_exit_model=None, short_exit_features=None,
+                        long_exit_model=None, long_exit_features=None,
                         use_ml_exit=True, use_fixed_exit=True, no_long=False):
     """Simulate full strategy on one settlement.
 
     Args:
         sd: SettlementData object
+        short_exit_model: trained LogReg model for short exit (optional)
+        short_exit_features: feature column names for short exit model
         long_exit_model: trained LogReg model for long exit (optional)
         long_exit_features: feature column names for long exit model
         use_ml_exit: if True, use ML for long exit timing
@@ -113,18 +155,41 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
     exit_s = compute_slippage_bps(sd.bids, short_notional, 'sell', mid_price=mid)
     rt_slip = entry_s['slippage_bps'] + exit_s['slippage_bps']
 
-    # Short leg PnL
-    fee_save = LIMIT_FILL_RATE * (TAKER_FEE_BPS - MAKER_FEE_BPS)
-    short_exit_fee = mixed_fee_bps()
-    short_fee = TAKER_FEE_BPS + short_exit_fee
-    short_net = GROSS_PNL_BPS - rt_slip + fee_save
-    short_dollar = short_net * short_notional / 10000
+    # ── Short exit: ML per-trade PnL or constant fallback ──
+    short_exit_bps = None
+    short_exit_t_ms = None
+    if short_exit_model is not None and short_exit_features is not None:
+        short_exit_bps, short_exit_t_ms, entry_bps = _run_short_exit_ml(
+            sd, short_exit_model, short_exit_features)
 
-    # Find bottom
-    bottom_bps, bottom_t = find_bottom(sd)
+    if short_exit_bps is not None:
+        # Per-trade ML PnL: we sold at entry, bought back at exit
+        # short profit = entry_bps - exit_bps (price dropped = profit)
+        short_gross_bps = entry_bps - short_exit_bps
+        fee_save = LIMIT_FILL_RATE * (TAKER_FEE_BPS - MAKER_FEE_BPS)
+        short_fee = TAKER_FEE_BPS + mixed_fee_bps()
+        short_net = short_gross_bps - rt_slip + fee_save
+        short_dollar = short_net * short_notional / 10000
+    else:
+        # Fallback: constant average (old behavior)
+        short_gross_bps = GROSS_PNL_BPS
+        fee_save = LIMIT_FILL_RATE * (TAKER_FEE_BPS - MAKER_FEE_BPS)
+        short_fee = TAKER_FEE_BPS + mixed_fee_bps()
+        short_net = short_gross_bps - rt_slip + fee_save
+        short_dollar = short_net * short_notional / 10000
+
+    # ── Bottom / long entry point ──
+    # If short exit ML available: use ML exit time as "bottom" (no look-ahead)
+    # If not: fall back to find_bottom() (look-ahead, for backward compat)
+    if short_exit_t_ms is not None and short_exit_bps is not None:
+        bottom_bps = short_exit_bps    # ML-detected near-bottom price
+        bottom_t = int(short_exit_t_ms)  # ML exit time = long entry time
+    else:
+        bottom_bps, bottom_t = find_bottom(sd)
+
     drop_bps = -bottom_bps if bottom_bps is not None else 0
 
-    # Long leg decision
+    # Long leg decision (uses ML exit time, not look-ahead bottom)
     long_eligible = bottom_t is not None and should_go_long(bottom_t)
     long_taken = sd.passes_filters and long_eligible and not no_long
 
@@ -140,10 +205,9 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
     long_exit_t = None
 
     if long_taken and bottom_bps is not None:
-        # ── Reconstruct OB at long entry time (bottom_t) ──
+        # ── Reconstruct OB at long entry time (ML exit time) ──
         entry_ob = reconstruct_ob_at(sd, bottom_t)
         if entry_ob is None:
-            # Fallback to T-0 OB if reconstruction fails
             entry_ob = {
                 'bids': sd.bids, 'asks': sd.asks,
                 'mid_price': mid, 'spread_bps': sd.spread_bps,
@@ -177,17 +241,14 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
                     long_exit_method = 'fixed'
 
         # ── Slippage from actual OB at entry and exit ──
-        # Entry slippage: walk the entry-time OB (buying at asks)
         long_entry_s = compute_slippage_bps(
             entry_ob['asks'], long_notional, 'buy', mid_price=entry_mid)
         long_entry_slip = long_entry_s['slippage_bps']
 
-        # Exit slippage: reconstruct OB at exit time
         if long_exit_t is not None:
             exit_ob = reconstruct_ob_at(sd, long_exit_t)
         else:
             exit_ob = entry_ob
-
         if exit_ob is None:
             exit_ob = entry_ob
 
@@ -229,7 +290,7 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
         fr_abs_bps=sd.fr_abs_bps,
         short_notional=short_notional,
         long_notional=long_notional if long_taken else 0,
-        short_gross_bps=GROSS_PNL_BPS,
+        short_gross_bps=short_gross_bps,
         short_slip_bps=rt_slip,
         short_fee_bps=short_fee,
         short_net_bps=short_net,
@@ -257,7 +318,8 @@ def simulate_settlement(sd, long_exit_model=None, long_exit_features=None,
 # FULL BACKTEST — all settlements
 # ═══════════════════════════════════════════════════════════════════════
 
-def run_backtest(settlements, long_exit_model=None, long_exit_features=None,
+def run_backtest(settlements, short_exit_model=None, short_exit_features=None,
+                 long_exit_model=None, long_exit_features=None,
                  use_ml_exit=True, no_long=False, label="backtest"):
     """Run combined backtest on all settlements.
 
@@ -270,6 +332,8 @@ def run_backtest(settlements, long_exit_model=None, long_exit_features=None,
     for i, sd in enumerate(settlements):
         tr = simulate_settlement(
             sd,
+            short_exit_model=short_exit_model,
+            short_exit_features=short_exit_features,
             long_exit_model=long_exit_model,
             long_exit_features=long_exit_features,
             use_ml_exit=use_ml_exit,
@@ -358,7 +422,8 @@ def run_backtest(settlements, long_exit_model=None, long_exit_features=None,
     return results, summary
 
 
-def compare_strategies(settlements, long_exit_model=None, long_exit_features=None):
+def compare_strategies(settlements, short_exit_model=None, short_exit_features=None,
+                       long_exit_model=None, long_exit_features=None):
     """Run multiple backtest variants for comparison.
 
     Returns dict of {strategy_name: (results, summary)}.
@@ -372,14 +437,18 @@ def compare_strategies(settlements, long_exit_model=None, long_exit_features=Non
     # 1. Short-only (no long leg)
     print("\n  [1/3] Short-only...")
     results_short, summary_short = run_backtest(
-        settlements, use_ml_exit=False, no_long=True, label="short-only"
+        settlements,
+        short_exit_model=short_exit_model, short_exit_features=short_exit_features,
+        use_ml_exit=False, no_long=True, label="short-only"
     )
     strategies['short_only'] = (results_short, summary_short)
 
     # 2. Short + Long (fixed exit)
     print("\n  [2/3] Short + Long (fixed +20s exit)...")
     results_fixed, summary_fixed = run_backtest(
-        settlements, use_ml_exit=False, label="short+long (fixed)"
+        settlements,
+        short_exit_model=short_exit_model, short_exit_features=short_exit_features,
+        use_ml_exit=False, label="short+long (fixed)"
     )
     strategies['fixed_exit'] = (results_fixed, summary_fixed)
 
@@ -388,6 +457,7 @@ def compare_strategies(settlements, long_exit_model=None, long_exit_features=Non
         print("\n  [3/3] Short + Long (ML exit)...")
         results_ml, summary_ml = run_backtest(
             settlements,
+            short_exit_model=short_exit_model, short_exit_features=short_exit_features,
             long_exit_model=long_exit_model,
             long_exit_features=long_exit_features,
             use_ml_exit=True,
@@ -400,10 +470,10 @@ def compare_strategies(settlements, long_exit_model=None, long_exit_features=Non
     print("COMPARISON SUMMARY")
     print(f"{'='*70}")
     n_days = summary_short['n_days']
-    print(f"\n  {'Strategy':30s}  {'Short $/d':>10s}  {'Long $/d':>10s}  {'Total $/d':>10s}  {'Long WR':>8s}")
-    print(f"  {'-'*30}  {'-'*10}  {'-'*10}  {'-'*10}  {'-'*8}")
+    print(f"\n  {'Strategy':30s}  {'Short $/d':>10s}  {'Long $/d':>10s}  {'Total $/d':>10s}  {'Short WR':>9s}  {'Long WR':>8s}")
+    print(f"  {'-'*30}  {'-'*10}  {'-'*10}  {'-'*10}  {'-'*9}  {'-'*8}")
     for name, (_, s) in strategies.items():
         print(f"  {name:30s}  ${s['short_per_day']:9.1f}  ${s['long_per_day']:9.1f}  "
-              f"${s['combined_per_day']:9.1f}  {s['long_wr']:7.0f}%")
+              f"${s['combined_per_day']:9.1f}  {s['short_wr']:8.0f}%  {s['long_wr']:7.0f}%")
 
     return strategies
