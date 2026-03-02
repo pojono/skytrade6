@@ -11,3 +11,5 @@ ml_models/
 ml_models_with_fr/
 data_all/
 *.parquet
+flow_research/data/
+flow_research/output/
