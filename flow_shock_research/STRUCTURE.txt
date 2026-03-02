@@ -1,0 +1,48 @@
+Flow Shock Research - Folder Structure
+=====================================
+
+flow_shock_research/
+│
+├── 📚 Documentation
+│   ├── INDEX.md           - Document index and navigation guide
+│   ├── README.md          - Complete research documentation
+│   ├── FINDINGS.md        - Detailed analysis and results
+│   ├── QUICKSTART.md      - Quick reference guide
+│   └── STRUCTURE.txt      - This file
+│
+├── 🔧 Scripts
+│   ├── download_trade_data.py                 - Data downloader (9.6 MB/s)
+│   ├── research_flow_shock_quick.py           - Quick analysis (~4 min)
+│   ├── research_flow_shock_threshold_scan.py  - Threshold scanner (~4 min)
+│   └── research_flow_shock_detector.py        - Full processor (~2-3 hrs)
+│
+└── 📊 Results
+    └── results/
+        ├── threshold_scan_results.csv         - Threshold comparison
+        ├── flow_shock_sample_5s.csv           - Events (5s window)
+        ├── flow_shock_sample_10s.csv          - Events (10s window)
+        ├── flow_shock_sample_15s.csv          - Events (15s window)
+        ├── flow_shock_sample_30s.csv          - Events (30s window, optimal)
+        └── FINDINGS_flow_shock_quick.md       - Initial findings
+
+Key Results
+===========
+✅ Optimal Configuration: z > 30, 30s window
+✅ Frequency: 2.3 events/day (target: 1-5)
+✅ Total events: 210 over 92 days
+✅ Flow Z range: 30.0 - 60.1
+
+Status
+======
+Phase 1: Event Detection ✅ COMPLETE
+Phase 2: Price Behavior  🔄 NEXT
+Phase 3: Strategy Dev    ⏳ PENDING
+Phase 4: Production      ⏳ PENDING
+
+Quick Start
+===========
+cd /home/ubuntu/Projects/skytrade6/flow_shock_research
+python3 download_trade_data.py --symbol SOLUSDT
+python3 research_flow_shock_quick.py --sample-days 7
+python3 research_flow_shock_threshold_scan.py
+
