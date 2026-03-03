@@ -35,7 +35,7 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 OUTPUT_DIR = Path(__file__).resolve().parent / "output" / "xs5_e1"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-START = pd.Timestamp("2025-10-01", tz="UTC")
+START = pd.Timestamp("2025-07-01", tz="UTC")
 END = pd.Timestamp("2026-02-28 23:59:59", tz="UTC")
 
 # Need at least 15 days of data (some coins may not exist in Oct 2025)
