@@ -65,7 +65,7 @@ RETRY_BACKOFF = 2  # seconds
 
 # Bybit REST API v5
 BYBIT_API_BASE = "https://api.bybit.com"
-API_RATE_LIMIT_DELAY = 0.15  # seconds between paginated requests (stay under 10/s IP limit)
+API_RATE_LIMIT_DELAY = 0.025  # seconds between paginated requests (stay under 120/s IP limit)
 
 # Output directory relative to this script
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -135,10 +135,25 @@ async def _api_get(session: aiohttp.ClientSession, path: str, params: dict) -> d
             async with session.get(
                 url, params=params, timeout=aiohttp.ClientTimeout(total=30)
             ) as resp:
+                # Adaptive rate limiting from response headers
+                remaining = resp.headers.get("X-Bapi-Limit-Status")
+                if remaining is not None and int(remaining) <= 2:
+                    await asyncio.sleep(1.0)  # back off when near limit
+
+                if resp.status == 403:
+                    print(f"    403 rate limit hit, waiting 10s...")
+                    await asyncio.sleep(10)
+                    raise aiohttp.ClientError("403 rate limit")
+
                 body = await resp.json()
-                if body.get("retCode") != 0:
+                ret_code = body.get("retCode")
+                if ret_code == 10006:  # Too many visits
+                    print(f"    rate limited (10006), waiting 5s...")
+                    await asyncio.sleep(5)
+                    raise aiohttp.ClientError("rate limited")
+                if ret_code != 0:
                     raise aiohttp.ClientError(
-                        f"API error {body.get('retCode')}: {body.get('retMsg')}"
+                        f"API error {ret_code}: {body.get('retMsg')}"
                     )
                 return body["result"]
         except (aiohttp.ClientError, asyncio.TimeoutError, json.JSONDecodeError) as exc:
@@ -421,47 +436,73 @@ async def _fetch_one_day(session, symbol, day_str, cfg):
     return []
 
 
+async def _fetch_and_save(
+    session: aiohttp.ClientSession,
+    semaphore: asyncio.Semaphore,
+    symbol: str,
+    day_str: str,
+    cfg: dict,
+    base: Path,
+) -> tuple[str, int]:
+    """Fetch one (day, data_type) pair and save. Returns (status, 1)."""
+    suffix = cfg["suffix"]
+    header = cfg["header"]
+    fname = f"{day_str}_{suffix}.csv"
+    dest = base / fname
+
+    if dest.exists() and dest.stat().st_size > 0:
+        return "skip", 1
+
+    async with semaphore:
+        try:
+            rows = await _fetch_one_day(session, symbol, day_str, cfg)
+            if not rows:
+                return "nodata", 1
+            _write_csv(dest, rows, header)
+            print(f"  ✓ {fname}  ({len(rows)} rows)")
+            return "ok", 1
+        except Exception as exc:
+            print(f"  ✗ {fname}  ({exc})")
+            return "fail", 1
+
+
 async def download_rest_api_data(
     session: aiohttp.ClientSession,
     symbol: str,
     dates: list[str],
     output_dir: Path,
+    api_concurrency: int = 10,
 ) -> tuple[int, int, int]:
-    """Download all REST API data types, one day at a time.
+    """Download all REST API data types concurrently.
 
     Returns (success_count, skip_count, fail_count).
     """
     base = output_dir / symbol
     base.mkdir(parents=True, exist_ok=True)
-    success = skip = fail = 0
 
+    semaphore = asyncio.Semaphore(api_concurrency)
+    tasks = []
     for cfg in REST_API_SOURCES:
-        label = cfg["label"]
-        suffix = cfg["suffix"]
-        header = cfg["header"]
-
         for day_str in dates:
-            fname = f"{day_str}_{suffix}.csv"
-            dest = base / fname
-            if dest.exists() and dest.stat().st_size > 0:
-                skip += 1
-                continue
-            try:
-                rows = await _fetch_one_day(session, symbol, day_str, cfg)
-                if not rows:
-                    print(f"  - {fname}  (no data)")
-                    fail += 1
-                    continue
-                _write_csv(dest, rows, header)
-                print(f"  ✓ {fname}  ({len(rows)} rows)")
-                success += 1
-            except Exception as exc:
-                print(f"  ✗ {fname}  ({exc})")
-                fail += 1
+            tasks.append(_fetch_and_save(session, semaphore, symbol, day_str, cfg, base))
 
-        # summary line per data type
-        day_count = len(dates)
-        print(f"  [{label}] {day_count} days processed")
+    total = len(tasks)
+    success = skip = fail = 0
+    done = 0
+    t0 = time.monotonic()
+
+    for coro in asyncio.as_completed(tasks):
+        status, _ = await coro
+        done += 1
+        if status == "ok":
+            success += 1
+        elif status == "skip":
+            skip += 1
+        else:
+            fail += 1
+        if done % 50 == 0 or done == total:
+            elapsed = time.monotonic() - t0
+            print(f"  ... {done}/{total} done ({elapsed:.0f}s)")
 
     return success, skip, fail
 
@@ -568,75 +609,86 @@ def ob200_tasks(symbol: str, dates, output_dir: Path):
 # ---------------------------------------------------------------------------
 
 
-async def run(symbol: str, start_date: str, end_date: str, concurrency: int):
+async def run_one_symbol(
+    symbol: str, start_date: str, end_date: str, concurrency: int,
+    rest_only: bool = False,
+):
+    """Download data for a single symbol."""
     dates = list(date_range(start_date, end_date))
     output_dir = DATA_DIR
 
-    # --- Phase 1: Bulk archive downloads (trades + orderbook) ---
-    all_tasks = []
-    all_tasks.extend(trades_tasks(symbol, dates, output_dir))
-    all_tasks.extend(ob200_tasks(symbol, dates, output_dir))
+    sources = "klines, mark price, premium index, FR, OI, LS ratio"
+    if not rest_only:
+        sources = "trades, orderbook, " + sources
 
-    total = len(all_tasks)
-
-    print(f"Symbol:           {symbol}")
+    print(f"\nSymbol:           {symbol}")
     print(f"Date range:       {start_date} -> {end_date} ({len(dates)} days)")
-    print(f"Sources:          trades, orderbook, klines, mark price, premium index, FR, OI, LS ratio")
-    print(f"Concurrency:      {concurrency}")
+    print(f"Sources:          {sources}")
     print(f"Output directory: {output_dir / symbol}")
-    print(f"Bulk files:       {total}")
-    print("-" * 60)
 
-    print("\n[Phase 1/2] Bulk archive downloads (trades + orderbook)")
-    semaphore = asyncio.Semaphore(concurrency)
-    success_count = 0
-    skip_count = 0
-    fail_count = 0
-    not_found_count = 0
+    total_fail = 0
     t0 = time.monotonic()
 
-    connector = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
-    async with aiohttp.ClientSession(connector=connector) as session:
-        coros = [
-            download_file(session, url, dest, semaphore, decompress=dec)
-            for url, dest, dec in all_tasks
-        ]
+    # --- Phase 1: Bulk archive downloads (trades + orderbook) ---
+    if not rest_only:
+        all_tasks = []
+        all_tasks.extend(trades_tasks(symbol, dates, output_dir))
+        all_tasks.extend(ob200_tasks(symbol, dates, output_dir))
+        total = len(all_tasks)
+        print(f"Bulk files:       {total}")
+        print("-" * 60)
 
-        for i, coro in enumerate(asyncio.as_completed(coros), 1):
-            url, ok, msg = await coro
-            short = url.split("/")[-1]
-            elapsed = time.monotonic() - t0
-            rate = i / elapsed if elapsed > 0 else 0
-            eta = (total - i) / rate if rate > 0 else 0
-            ts = f"[{elapsed:.0f}s elapsed, ETA {eta:.0f}s]"
+        print("\n[Phase 1/2] Bulk archive downloads (trades + orderbook)")
+        semaphore = asyncio.Semaphore(concurrency)
+        success_count = 0
+        skip_count = 0
+        fail_count = 0
+        not_found_count = 0
 
-            if ok and msg == "exists":
-                skip_count += 1
-                if skip_count <= 5 or skip_count % 20 == 0:
-                    print(f"  [{i}/{total}] ~ {short}  (already exists)")
-            elif ok:
-                success_count += 1
-                print(f"  [{i}/{total}] ✓ {short}  {ts}")
-            elif "404" in msg:
-                not_found_count += 1
-                print(f"  [{i}/{total}] - {short}  (not available)")
-            else:
-                fail_count += 1
-                print(f"  [{i}/{total}] ✗ {short}  ({msg})")
+        connector = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
+        async with aiohttp.ClientSession(connector=connector) as session:
+            coros = [
+                download_file(session, url, dest, semaphore, decompress=dec)
+                for url, dest, dec in all_tasks
+            ]
 
-    phase1_elapsed = time.monotonic() - t0
-    print(
-        f"\nBulk downloads done in {phase1_elapsed:.1f}s.  "
-        f"downloaded={success_count}  skipped={skip_count}  "
-        f"not_found={not_found_count}  failed={fail_count}"
-    )
+            for i, coro in enumerate(asyncio.as_completed(coros), 1):
+                url, ok, msg = await coro
+                short = url.split("/")[-1]
+                elapsed = time.monotonic() - t0
+                rate = i / elapsed if elapsed > 0 else 0
+                eta = (total - i) / rate if rate > 0 else 0
+                ts = f"[{elapsed:.0f}s elapsed, ETA {eta:.0f}s]"
+
+                if ok and msg == "exists":
+                    skip_count += 1
+                    if skip_count <= 5 or skip_count % 20 == 0:
+                        print(f"  [{i}/{total}] ~ {short}  (already exists)")
+                elif ok:
+                    success_count += 1
+                    print(f"  [{i}/{total}] ✓ {short}  {ts}")
+                elif "404" in msg:
+                    not_found_count += 1
+                    print(f"  [{i}/{total}] - {short}  (not available)")
+                else:
+                    fail_count += 1
+                    print(f"  [{i}/{total}] ✗ {short}  ({msg})")
+
+        phase1_elapsed = time.monotonic() - t0
+        print(
+            f"\nBulk downloads done in {phase1_elapsed:.1f}s.  "
+            f"downloaded={success_count}  skipped={skip_count}  "
+            f"not_found={not_found_count}  failed={fail_count}"
+        )
+        total_fail += fail_count
 
     # --- Phase 2: REST API paginated downloads (per-day files) ---
-    print(f"\n[Phase 2/2] REST API downloads (klines, FR, OI, LS ratio)")
+    phase_label = "Phase 2/2" if not rest_only else "REST API"
+    print(f"\n[{phase_label}] REST API downloads (klines, FR, OI, LS ratio)")
     print("-" * 60)
     t1 = time.monotonic()
 
-    api_connector = aiohttp.TCPConnector(limit=5, force_close=False)
+    api_connector = aiohttp.TCPConnector(limit=50, force_close=False)
     async with aiohttp.ClientSession(connector=api_connector) as api_session:
         api_success, api_skip, api_fail = await download_rest_api_data(
             api_session, symbol, dates, output_dir,
@@ -647,16 +699,36 @@ async def run(symbol: str, start_date: str, end_date: str, concurrency: int):
         f"\nAPI downloads done in {phase2_elapsed:.1f}s.  "
         f"downloaded={api_success}  skipped={api_skip}  failed={api_fail}"
     )
+    total_fail += api_fail
 
     # --- Summary ---
     total_elapsed = time.monotonic() - t0
-    total_fail = fail_count + api_fail
-    print()
-    print("=" * 60)
-    print(f"All done in {total_elapsed:.1f}s.")
-    print(f"Data saved to: {output_dir / symbol}")
+    print(f"\n{symbol} done in {total_elapsed:.1f}s.  Data: {output_dir / symbol}")
+    return total_fail
 
+
+async def run(
+    symbols: list[str], start_date: str, end_date: str, concurrency: int,
+    rest_only: bool = False,
+):
+    print(f"Symbols:          {', '.join(symbols)}")
+    print(f"Date range:       {start_date} -> {end_date}")
+    print(f"REST-only:        {rest_only}")
+    print(f"Concurrency:      {concurrency}")
+    print("=" * 60)
+
+    total_fail = 0
+    for i, symbol in enumerate(symbols, 1):
+        print(f"\n{'='*60}")
+        print(f"[{i}/{len(symbols)}] {symbol}")
+        print(f"{'='*60}")
+        fails = await run_one_symbol(symbol, start_date, end_date, concurrency, rest_only)
+        total_fail += fails
+
+    print("\n" + "=" * 60)
+    print(f"All {len(symbols)} symbols done.")
     if total_fail > 0:
+        print(f"Total failures: {total_fail}")
         sys.exit(1)
 
 
@@ -665,7 +737,7 @@ def main():
         description="Download Bybit futures market data: trades, orderbook, klines, mark price, premium index, funding rate, long/short ratio.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("symbol", help="Trading pair symbol, e.g. BTCUSDT")
+    parser.add_argument("symbol", help="Trading pair symbol(s), comma-separated. e.g. BTCUSDT or SOLUSDT,DOGEUSDT")
     parser.add_argument("start_date", help="Start date inclusive (YYYY-MM-DD)")
     parser.add_argument("end_date", help="End date inclusive (YYYY-MM-DD)")
     parser.add_argument(
@@ -673,6 +745,11 @@ def main():
         type=int,
         default=DEFAULT_CONCURRENT,
         help=f"Max concurrent downloads (default: {DEFAULT_CONCURRENT})",
+    )
+    parser.add_argument(
+        "--rest-only",
+        action="store_true",
+        help="Skip bulk trades and orderbook downloads, only fetch REST API data (klines, FR, OI, LS ratio, premium index)",
     )
     args = parser.parse_args()
 
@@ -687,7 +764,8 @@ def main():
         print(f"Error: invalid date format: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    asyncio.run(run(args.symbol.upper(), args.start_date, args.end_date, args.concurrency))
+    symbols = [sym.strip().upper() for sym in args.symbol.split(",") if sym.strip()]
+    asyncio.run(run(symbols, args.start_date, args.end_date, args.concurrency, args.rest_only))
 
 
 if __name__ == "__main__":
