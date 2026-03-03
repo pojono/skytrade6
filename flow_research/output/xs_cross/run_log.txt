@@ -1,0 +1,513 @@
+======================================================================
+Cross-Sectional Market Structure Research
+======================================================================
+Data range:  2025-07-01 00:00:00+00:00 → 2026-03-02 23:59:59+00:00
+Train:       2025-07-01 00:00:00+00:00 → 2025-12-31 23:59:59+00:00
+Test OOS:    2026-01-01 00:00:00+00:00 → 2026-03-02 23:59:59+00:00
+Min days:    100
+
+Discovered 65 symbols with >= 100 days data
+  Symbols: ['0GUSDT', '1000BONKUSDT', '1000PEPEUSDT', '1000RATSUSDT', '1000TURBOUSDT', '2ZUSDT', 'ADAUSDT', 'AEROUSDT', 'AIXBTUSDT', 'ALCHUSDT']... (65 total)
+
+Building cross-sectional panel (65 symbols)...
+  [1/65] 0GUSDT               1.8s  (total 2s, ETA 114s)
+  [2/65] 1000BONKUSDT         3.2s  (total 5s, ETA 157s)
+  [3/65] 1000PEPEUSDT         3.4s  (total 8s, ETA 173s)
+  [4/65] 1000RATSUSDT         2.1s  (total 11s, ETA 160s)
+  [5/65] 1000TURBOUSDT        2.6s  (total 13s, ETA 157s)
+  [6/65] 2ZUSDT               1.8s  (total 15s, ETA 147s)
+  [7/65] ADAUSDT              3.0s  (total 18s, ETA 148s)
+  [8/65] AEROUSDT             2.7s  (total 21s, ETA 147s)
+  [9/65] AIXBTUSDT            3.0s  (total 24s, ETA 147s)
+  [10/65] ALCHUSDT             2.6s  (total 26s, ETA 144s)
+  [11/65] ANIMEUSDT            2.7s  (total 29s, ETA 142s)
+  [12/65] APEXUSDT             1.9s  (total 31s, ETA 136s)
+  [13/65] APTUSDT              2.9s  (total 34s, ETA 135s)
+  [14/65] ARBUSDT              2.1s  (total 36s, ETA 130s)
+  [15/65] ARCUSDT              3.5s  (total 39s, ETA 131s)
+  [16/65] ASTERUSDT            1.8s  (total 41s, ETA 126s)
+  [17/65] ATHUSDT              1.6s  (total 43s, ETA 121s)
+  [18/65] ATOMUSDT             1.6s  (total 44s, ETA 116s)
+  [19/65] AUCTIONUSDT          1.5s  (total 46s, ETA 111s)
+  [20/65] AVAXUSDT             1.6s  (total 47s, ETA 107s)
+  [21/65] AVNTUSDT             1.2s  (total 49s, ETA 102s)
+  [22/65] BANUSDT              1.7s  (total 50s, ETA 98s)
+  [23/65] BARDUSDT             1.1s  (total 51s, ETA 94s)
+  [24/65] BEATUSDT             0.8s  (total 52s, ETA 89s)
+  [25/65] BERAUSDT             1.6s  (total 54s, ETA 86s)
+  [26/65] BIOUSDT              1.7s  (total 56s, ETA 83s)
+  [27/65] BNBUSDT              1.5s  (total 57s, ETA 80s)
+  [28/65] BTCUSDT              1.8s  (total 59s, ETA 78s)
+  [29/65] BTRUSDT              1.3s  (total 60s, ETA 75s)
+  [30/65] CAKEUSDT             1.6s  (total 62s, ETA 72s)
+  [31/65] CCUSDT               1.0s  (total 63s, ETA 69s)
+  [32/65] COAIUSDT             1.1s  (total 64s, ETA 66s)
+  [33/65] CYBERUSDT            1.7s  (total 66s, ETA 64s)
+  [34/65] DOGEUSDT             1.9s  (total 68s, ETA 62s)
+  [35/65] DOTUSDT              1.8s  (total 69s, ETA 59s)
+  [36/65] EIGENUSDT            1.8s  (total 71s, ETA 57s)
+  [37/65] ENAUSDT              1.7s  (total 73s, ETA 55s)
+  [38/65] ENSOUSDT             1.2s  (total 74s, ETA 53s)
+  [39/65] ETHFIUSDT            1.7s  (total 76s, ETA 51s)
+  [40/65] ETHUSDT              1.7s  (total 77s, ETA 48s)
+  [41/65] FARTCOINUSDT         2.0s  (total 79s, ETA 47s)
+  [42/65] FFUSDT               1.7s  (total 81s, ETA 44s)
+  [43/65] FIOUSDT              2.2s  (total 83s, ETA 43s)
+  [44/65] GPSUSDT              2.1s  (total 85s, ETA 41s)
+  [45/65] GRASSUSDT            1.8s  (total 87s, ETA 39s)
+  [46/65] GUNUSDT              1.8s  (total 89s, ETA 37s)
+  [47/65] HANAUSDT             1.5s  (total 90s, ETA 35s)
+  [48/65] HUSDT                1.9s  (total 92s, ETA 33s)
+  [49/65] IMXUSDT              1.8s  (total 94s, ETA 31s)
+  [50/65] INITUSDT             1.6s  (total 96s, ETA 29s)
+  [51/65] IPUSDT               1.7s  (total 97s, ETA 27s)
+  [52/65] JELLYJELLYUSDT       2.0s  (total 99s, ETA 25s)
+  [53/65] JTOUSDT              1.5s  (total 101s, ETA 23s)
+  [54/65] LINKUSDT             1.7s  (total 103s, ETA 21s)
+  [55/65] NEARUSDT             1.6s  (total 104s, ETA 19s)
+  [56/65] NOTUSDT              1.8s  (total 106s, ETA 17s)
+  [57/65] ONDOUSDT             1.1s  (total 107s, ETA 15s)
+  [58/65] SOLUSDT              1.9s  (total 109s, ETA 13s)
+  [59/65] STRKUSDT             1.2s  (total 110s, ETA 11s)
+  [60/65] SUIUSDT              1.6s  (total 112s, ETA 9s)
+  [61/65] TRUMPUSDT            1.5s  (total 113s, ETA 7s)
+  [62/65] VIRTUALUSDT          1.7s  (total 115s, ETA 6s)
+  [63/65] WIFUSDT              2.2s  (total 117s, ETA 4s)
+  [64/65] WLDUSDT              1.9s  (total 119s, ETA 2s)
+  [65/65] XRPUSDT              1.8s  (total 121s, ETA 0s)
+Panel built in 121s
+
+Computing market features...
+  Basic features done (0.9s)
+/home/ubuntu/Projects/skytrade6/flow_research/xs_cross_sectional.py:447: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  mf["entropy_5m"][E_abs < 1e-15] = np.nan
+/home/ubuntu/Projects/skytrade6/flow_research/xs_cross_sectional.py:455: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  mf["entropy_1h"][E_abs_1h < 1e-15] = np.nan
+  Entropy done (1.2s)
+/home/ubuntu/Projects/skytrade6/flow_research/xs_cross_sectional.py:473: RuntimeWarning: Mean of empty slice
+  n_valid_top10 >= 5, np.nanmean(top10_sorted, axis=1), np.nan
+  OI features done (1.5s)
+/home/ubuntu/Projects/skytrade6/flow_research/xs_cross_sectional.py:485: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  mf["market_compressed"][mf["market_rv_6h_pctl"].isna()] = np.nan
+  Market compression done (1.5s)
+  All market features done (1.8s)
+Market features saved (70560 rows, 26 cols)
+
+======================================================================
+SPEC 4: Cross-Sectional Entropy / Concentration
+======================================================================
+
+  big_A_12h — train (n=50821, baseline=0.0575)
+  Quintile           N   BM Rate   Uplift   p-value
+  --------------------------------------------------
+  Q1_low         11072    0.0721     1.25x    0.9681
+  Q2             10272    0.0520     0.90x    1.0000
+  Q3              9880    0.0533     0.93x    0.8683
+  Q4              9659    0.0551     0.96x    0.0040
+  Q5_high         9938    0.0536     0.93x    0.0020
+
+  big_A_12h — test (n=17424, baseline=0.0961)
+  Quintile           N   BM Rate   Uplift   p-value
+  --------------------------------------------------
+  Q1_low          2831    0.1046     1.09x    0.9701
+  Q2              3130    0.1013     1.05x    0.6806
+  Q3              3556    0.1049     1.09x    0.6627
+  Q4              3844    0.0983     1.02x    0.1677
+  Q5_high         4063    0.0765     0.80x    0.0579
+
+  big_A_24h — train (n=50821, baseline=0.1577)
+  Quintile           N   BM Rate   Uplift   p-value
+  --------------------------------------------------
+  Q1_low         11072    0.1937     1.23x    0.0020
+  Q2             10272    0.1556     0.99x    0.9202
+  Q3              9880    0.1577     1.00x    0.6707
+  Q4              9659    0.1461     0.93x    0.8164
+  Q5_high         9938    0.1310     0.83x    0.9661
+
+  big_A_24h — test (n=17280, baseline=0.2558)
+  Quintile           N   BM Rate   Uplift   p-value
+  --------------------------------------------------
+  Q1_low          2799    0.2690     1.05x    1.0000
+  Q2              3105    0.3011     1.18x    0.0020
+  Q3              3537    0.2878     1.12x    0.0120
+  Q4              3816    0.2560     1.00x    0.2555
+  Q5_high         4023    0.1834     0.72x    1.0000
+
+======================================================================
+SPEC 2: Leadership / Lead-Lag Matrix
+======================================================================
+  Computing lead-lag matrix for 65 symbols (vectorized)...
+  Lag 5m: done (0.2s)
+  Lag 15m: done (0.2s)
+  Lag 30m: done (0.2s)
+  Lag 60m: done (0.2s)
+
+  Top 10 Leaders (train period):
+  Symbol                    5m     15m     30m     60m    Total
+  BTRUSDT               0.0045  0.0190 -0.0058  0.0028   0.0205
+  AEROUSDT              0.0575 -0.0228 -0.0292  0.0028   0.0084
+  SOLUSDT               0.0614 -0.0345 -0.0181 -0.0018   0.0070
+  CCUSDT               -0.0020  0.0018 -0.0027  0.0018  -0.0012
+  ENSOUSDT             -0.0026  0.0011  0.0001 -0.0001  -0.0016
+  BEATUSDT             -0.0015 -0.0018 -0.0000  0.0016  -0.0018
+  HANAUSDT             -0.0063  0.0002  0.0021  0.0006  -0.0034
+  COAIUSDT             -0.0100  0.0069  0.0031 -0.0044  -0.0043
+  BERAUSDT              0.0764 -0.0511 -0.0341 -0.0017  -0.0105
+  0GUSDT                0.0161 -0.0162 -0.0144  0.0018  -0.0127
+
+  Testing: top-5 leader large move → big move in others?
+  big_A_12h | Leader BTRUSDT: 1757 events, cond rate=0.0723, baseline=0.0798, uplift=0.91x
+  big_A_12h | Leader AEROUSDT: 1757 events, cond rate=0.0911, baseline=0.0798, uplift=1.14x
+  big_A_12h | Leader SOLUSDT: 1757 events, cond rate=0.0751, baseline=0.0798, uplift=0.94x
+  big_A_12h | Leader CCUSDT: 1757 events, cond rate=0.0950, baseline=0.0798, uplift=1.19x
+  big_A_12h | Leader ENSOUSDT: 1757 events, cond rate=0.0598, baseline=0.0798, uplift=0.75x
+  big_A_24h | Leader BTRUSDT: 1757 events, cond rate=0.1497, baseline=0.2037, uplift=0.73x
+  big_A_24h | Leader AEROUSDT: 1757 events, cond rate=0.2015, baseline=0.2037, uplift=0.99x
+  big_A_24h | Leader SOLUSDT: 1757 events, cond rate=0.1104, baseline=0.2037, uplift=0.54x
+  big_A_24h | Leader CCUSDT: 1757 events, cond rate=0.2322, baseline=0.2037, uplift=1.14x
+  big_A_24h | Leader ENSOUSDT: 1757 events, cond rate=0.1776, baseline=0.2037, uplift=0.87x
+
+  Lead-lag analysis done (1s)
+
+======================================================================
+SPEC 7: Market Compression Index
+======================================================================
+
+  big_A_12h — train (n=50797, baseline=0.0576)
+  Condition                            N   BM Rate   Uplift
+  ----------------------------------------------------------
+  Market compressed (P20)          11306    0.0759     1.32x
+  S07 alone                        11216    0.0789     1.37x
+  S07 ∩ compressed                  5825    0.0819     1.42x
+
+  big_A_12h — test (n=17424, baseline=0.0961)
+  Condition                            N   BM Rate   Uplift
+  ----------------------------------------------------------
+  Market compressed (P20)           2778    0.1184     1.23x
+  S07 alone                         3339    0.1048     1.09x
+  S07 ∩ compressed                  1433    0.1096     1.14x
+
+  big_A_24h — train (n=50797, baseline=0.1578)
+  Condition                            N   BM Rate   Uplift
+  ----------------------------------------------------------
+  Market compressed (P20)          11306    0.2000     1.27x
+  S07 alone                        11216    0.2134     1.35x
+  S07 ∩ compressed                  5825    0.2172     1.38x
+
+  big_A_24h — test (n=17280, baseline=0.2558)
+  Condition                            N   BM Rate   Uplift
+  ----------------------------------------------------------
+  Market compressed (P20)           2778    0.3467     1.35x
+  S07 alone                         3315    0.3213     1.26x
+  S07 ∩ compressed                  1433    0.3252     1.27x
+
+======================================================================
+SPEC 3: Market Clustering (Unsupervised Regimes)
+======================================================================
+  PCA explained variance: [0.30340429 0.18188252 0.16852277]
+
+  k=3 clustering:
+
+    big_A_12h — train (baseline=0.0569)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0   25160    0.0486     0.85x
+           1   27242    0.0646     1.14x
+           2      73    0.0137     0.24x
+
+    big_A_12h — test (baseline=0.0961)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0    7721    0.0948     0.99x
+           1    9703    0.0972     1.01x
+
+    big_A_24h — train (baseline=0.1534)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0   25160    0.1350     0.88x
+           1   27242    0.1708     1.11x
+           2      73    0.0137     0.09x
+
+    big_A_24h — test (baseline=0.2558)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0    7661    0.2149     0.84x
+           1    9619    0.2885     1.13x
+
+  k=4 clustering:
+
+    big_A_12h — train (baseline=0.0569)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0   27146    0.0645     1.13x
+           1   25255    0.0487     0.86x
+           3      61    0.0000     0.00x
+
+    big_A_12h — test (baseline=0.0961)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0    9673    0.0971     1.01x
+           1    7751    0.0950     0.99x
+
+    big_A_24h — train (baseline=0.1534)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0   27146    0.1708     1.11x
+           1   25255    0.1352     0.88x
+           3      61    0.0000     0.00x
+
+    big_A_24h — test (baseline=0.2558)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0    9589    0.2884     1.13x
+           1    7691    0.2153     0.84x
+
+  k=5 clustering:
+
+    big_A_12h — train (baseline=0.0569)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0   24977    0.0548     0.96x
+           1   15656    0.0479     0.84x
+           3      61    0.0000     0.00x
+           4   11768    0.0734     1.29x
+
+    big_A_12h — test (baseline=0.0961)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0    8705    0.0986     1.03x
+           1    4688    0.0926     0.96x
+           4    4031    0.0950     0.99x
+
+    big_A_24h — train (baseline=0.1534)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0   24977    0.1472     0.96x
+           1   15656    0.1331     0.87x
+           3      61    0.0000     0.00x
+           4   11768    0.1947     1.27x
+
+    big_A_24h — test (baseline=0.2558)
+     Cluster       N   BM Rate   Uplift
+    ----------------------------------------
+           0    8660    0.2808     1.10x
+           1    4641    0.1918     0.75x
+           4    3979    0.2762     1.08x
+
+======================================================================
+SPEC 1: Market State Engine (Systemic vs Idiosyncratic)
+======================================================================
+
+  big_A_12h — train (n=52992, baseline=0.0563)
+  State                           N   BM Rate   Uplift
+  -----------------------------------------------------
+  high_dispersion             11207    0.0641     1.14x
+    + S07 interaction: n=2215, rate=0.0853, uplift=1.52x
+  low_dispersion               9613    0.0563     1.00x
+    + S07 interaction: n=2453, rate=0.0770, uplift=1.37x
+  high_breadth_ext            24703    0.0606     1.08x
+    + S07 interaction: n=6094, rate=0.0804, uplift=1.43x
+  low_entropy                 11072    0.0721     1.28x
+    + S07 interaction: n=3125, rate=0.0928, uplift=1.65x
+  high_entropy                 9943    0.0537     0.95x
+    + S07 interaction: n=1325, rate=0.0679, uplift=1.21x
+  high_mean_oi_z                 42    0.2857     5.07x
+    + S07 interaction: n=10, rate=0.2000, uplift=3.55x
+  high_pct_fund_ext            7555    0.0418     0.74x
+    + S07 interaction: n=1291, rate=0.0542, uplift=0.96x
+  market_compressed           11306    0.0759     1.35x
+    + S07 interaction: n=5825, rate=0.0819, uplift=1.45x
+
+  big_A_12h — test (n=17424, baseline=0.0961)
+  State                           N   BM Rate   Uplift
+  -----------------------------------------------------
+  high_dispersion              3347    0.1129     1.17x
+    + S07 interaction: n=485, rate=0.1237, uplift=1.29x
+  low_dispersion               3848    0.0707     0.74x
+    + S07 interaction: n=971, rate=0.0711, uplift=0.74x
+  high_breadth_ext             9181    0.1021     1.06x
+    + S07 interaction: n=2059, rate=0.1127, uplift=1.17x
+  low_entropy                  2831    0.1046     1.09x
+    + S07 interaction: n=590, rate=0.1034, uplift=1.08x
+  high_entropy                 4064    0.0765     0.80x
+    + S07 interaction: n=523, rate=0.0899, uplift=0.93x
+  high_pct_fund_ext            2279    0.1036     1.08x
+    + S07 interaction: n=428, rate=0.0935, uplift=0.97x
+  market_compressed            2778    0.1184     1.23x
+    + S07 interaction: n=1433, rate=0.1096, uplift=1.14x
+
+  big_A_24h — train (n=52992, baseline=0.1523)
+  State                           N   BM Rate   Uplift
+  -----------------------------------------------------
+  high_dispersion             11207    0.1836     1.21x
+    + S07 interaction: n=2215, rate=0.2596, uplift=1.70x
+  low_dispersion               9613    0.1561     1.03x
+    + S07 interaction: n=2453, rate=0.2038, uplift=1.34x
+  high_breadth_ext            24703    0.1643     1.08x
+    + S07 interaction: n=6094, rate=0.2178, uplift=1.43x
+  low_entropy                 11072    0.1937     1.27x
+    + S07 interaction: n=3125, rate=0.2512, uplift=1.65x
+  high_entropy                 9943    0.1310     0.86x
+    + S07 interaction: n=1325, rate=0.1985, uplift=1.30x
+  high_mean_oi_z                 42    0.2381     1.56x
+    + S07 interaction: n=10, rate=0.0000, uplift=0.00x
+  high_pct_fund_ext            7555    0.1298     0.85x
+    + S07 interaction: n=1291, rate=0.2332, uplift=1.53x
+  market_compressed           11306    0.2000     1.31x
+    + S07 interaction: n=5825, rate=0.2172, uplift=1.43x
+
+  big_A_24h — test (n=17280, baseline=0.2558)
+  State                           N   BM Rate   Uplift
+  -----------------------------------------------------
+  high_dispersion              3327    0.2326     0.91x
+    + S07 interaction: n=474, rate=0.3312, uplift=1.29x
+  low_dispersion               3807    0.2682     1.05x
+    + S07 interaction: n=971, rate=0.3172, uplift=1.24x
+  high_breadth_ext             9120    0.2929     1.14x
+    + S07 interaction: n=2052, rate=0.3504, uplift=1.37x
+  low_entropy                  2799    0.2690     1.05x
+    + S07 interaction: n=580, rate=0.3276, uplift=1.28x
+  high_entropy                 4024    0.1834     0.72x
+    + S07 interaction: n=512, rate=0.2520, uplift=0.98x
+  high_pct_fund_ext            2279    0.2247     0.88x
+    + S07 interaction: n=428, rate=0.3154, uplift=1.23x
+  market_compressed            2778    0.3467     1.35x
+    + S07 interaction: n=1433, rate=0.3252, uplift=1.27x
+
+======================================================================
+SPEC 5: Clustered OI Build-up
+======================================================================
+
+  big_A_12h — train (n=52992, baseline=0.0563)
+  Condition                            N   BM Rate   Uplift
+  ----------------------------------------------------------
+  pct_oi_z>1.5 >= 20%                384    0.0885     1.57x
+    + S07: n=97, rate=0.1443, uplift=2.56x
+  pct_oi_z>1.5 >= 30%                 67    0.1791     3.18x
+    + S07: n=20, rate=0.2000, uplift=3.55x
+  cluster_top10 >= 2.0              7232    0.0781     1.39x
+    + S07: n=1814, rate=0.1009, uplift=1.79x
+
+  big_A_12h — test (n=17424, baseline=0.0961)
+  Condition                            N   BM Rate   Uplift
+  ----------------------------------------------------------
+  pct_oi_z>1.5 >= 20%                119    0.0840     0.87x
+    + S07: n=13, rate=0.0000, uplift=0.00x
+  pct_oi_z>1.5 >= 30%                 20    0.0000     0.00x
+  cluster_top10 >= 2.0              3165    0.1008     1.05x
+    + S07: n=727, rate=0.0922, uplift=0.96x
+
+  big_A_24h — train (n=52992, baseline=0.1523)
+  Condition                            N   BM Rate   Uplift
+  ----------------------------------------------------------
+  pct_oi_z>1.5 >= 20%                384    0.1042     0.68x
+    + S07: n=97, rate=0.0412, uplift=0.27x
+  pct_oi_z>1.5 >= 30%                 67    0.1791     1.18x
+    + S07: n=20, rate=0.0000, uplift=0.00x
+  cluster_top10 >= 2.0              7232    0.1585     1.04x
+    + S07: n=1814, rate=0.2073, uplift=1.36x
+
+  big_A_24h — test (n=17280, baseline=0.2558)
+  Condition                            N   BM Rate   Uplift
+  ----------------------------------------------------------
+  pct_oi_z>1.5 >= 20%                119    0.1176     0.46x
+    + S07: n=13, rate=0.0000, uplift=0.00x
+  pct_oi_z>1.5 >= 30%                 20    0.0000     0.00x
+  cluster_top10 >= 2.0              3165    0.2607     1.02x
+    + S07: n=727, rate=0.2944, uplift=1.15x
+
+======================================================================
+SPEC 6: Extreme Co-Movement Percentiles
+======================================================================
+
+  big_A_12h — train
+    Mean %extreme during big move hours: 0.0564
+    Mean %extreme during random hours:   0.0570
+    Ratio: 0.99x
+    Multi-coin big moves: 227, Single: 2757
+    Wave continuation rate: 0.965 (random baseline: 0.051)
+
+  big_A_12h — test
+    Mean %extreme during big move hours: 0.0641
+    Mean %extreme during random hours:   0.0639
+    Ratio: 1.00x
+    Multi-coin big moves: 177, Single: 1498
+    Wave continuation rate: 0.960 (random baseline: 0.121)
+
+  big_A_24h — train
+    Mean %extreme during big move hours: 0.0564
+    Mean %extreme during random hours:   0.0571
+    Ratio: 0.99x
+    Multi-coin big moves: 1566, Single: 6504
+    Wave continuation rate: 0.975 (random baseline: 0.355)
+
+  big_A_24h — test
+    Mean %extreme during big move hours: 0.0640
+    Mean %extreme during random hours:   0.0639
+    Ratio: 1.00x
+    Multi-coin big moves: 748, Single: 3673
+    Wave continuation rate: 0.968 (random baseline: 0.511)
+
+======================================================================
+SPEC 8: Correlation Network Structure
+======================================================================
+  Computing rolling 6h correlation network (65 symbols)...
+    [500/5874] (3s, ETA 27s)
+    [1000/5874] (5s, ETA 25s)
+    [1500/5874] (8s, ETA 22s)
+    [2000/5874] (10s, ETA 20s)
+    [2500/5874] (13s, ETA 18s)
+    [3000/5874] (17s, ETA 16s)
+    [3500/5874] (21s, ETA 15s)
+    [4000/5874] (25s, ETA 12s)
+    [4500/5874] (28s, ETA 8s)
+    [5000/5874] (30s, ETA 5s)
+    [5500/5874] (33s, ETA 2s)
+  Network metrics computed: 5874 snapshots (36s)
+
+  big_A_12h — all
+  Metric                        Pre-BM   Baseline       Diff
+  ----------------------------------------------------------
+  density                       0.7208     0.7557    -0.0349  (p=0.0000)
+  avg_clustering                0.8315     0.8563    -0.0247  (p=0.0000)
+  n_components                  1.0026     1.0163    -0.0138  (p=0.0340)
+  eigvec_dispersion         64687642817.1646 65445820456.3022 -758177639.1376  (p=0.0072)
+
+  big_A_12h — test
+  Metric                        Pre-BM   Baseline       Diff
+  ----------------------------------------------------------
+  density                       0.6686     0.6911    -0.0225  (p=0.0539)
+  avg_clustering                0.7946     0.8125    -0.0179  (p=0.0532)
+  n_components                  1.0073     1.0177    -0.0104  (p=0.3684)
+  eigvec_dispersion         63803663519.3482 64984949682.6145 -1181286163.2663  (p=0.0547)
+
+  big_A_24h — all
+  Metric                        Pre-BM   Baseline       Diff
+  ----------------------------------------------------------
+  density                       0.7230     0.7598    -0.0368  (p=0.0000)
+  avg_clustering                0.8344     0.8589    -0.0245  (p=0.0000)
+  n_components                  1.0163     1.0148    +0.0016  (p=0.8841)
+  eigvec_dispersion         64727713113.8510 65524214324.0911 -796501210.2401  (p=0.0000)
+
+  big_A_24h — test
+  Metric                        Pre-BM   Baseline       Diff
+  ----------------------------------------------------------
+  density                       0.6558     0.6987    -0.0429  (p=0.0000)
+  avg_clustering                0.7860     0.8179    -0.0320  (p=0.0000)
+  n_components                  1.0113     1.0168    -0.0055  (p=0.4655)
+  eigvec_dispersion         63249460403.7335 65334733662.3559 -2085273258.6224  (p=0.0000)
+
+======================================================================
+ALL 8 SPECS COMPLETE
+======================================================================
+Results saved to: /home/ubuntu/Projects/skytrade6/flow_research/output/xs_cross
+Summary: /home/ubuntu/Projects/skytrade6/flow_research/output/xs_cross/summary.txt

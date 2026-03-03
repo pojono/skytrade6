@@ -1,0 +1,158 @@
+Cross-Sectional Market Structure Research Summary
+Symbols: 65
+Date range: 2025-07-01 00:00:00+00:00 → 2026-03-02 23:59:59+00:00
+Train/Test split: 2025-12-31
+
+
+==================================================
+spec4_entropy
+==================================================
+  big_A_12h_train_Q1_low: {'n': np.int64(11072), 'rate': np.float64(0.07207369942196531), 'uplift': np.float64(1.2526872360888164), 'pval': 0.9680638722554891}
+  big_A_12h_train_Q2: {'n': np.int64(10272), 'rate': np.float64(0.051985981308411214), 'uplift': np.float64(0.9035497797793318), 'pval': 1.0}
+  big_A_12h_train_Q3: {'n': np.int64(9880), 'rate': np.float64(0.05334008097165992), 'uplift': np.float64(0.9270849025515489), 'pval': 0.8682634730538922}
+  big_A_12h_train_Q4: {'n': np.int64(9659), 'rate': np.float64(0.055078165441557095), 'uplift': np.float64(0.9572939281482125), 'pval': 0.003992015968063872}
+  big_A_12h_train_Q5_high: {'n': np.int64(9938), 'rate': np.float64(0.05363252163413162), 'uplift': np.float64(0.9321677092914511), 'pval': 0.001996007984031936}
+  big_A_12h_test_Q1_low: {'n': np.int64(2831), 'rate': np.float64(0.1045566937477923), 'uplift': np.float64(1.0876393026039004), 'pval': 0.9700598802395209}
+  big_A_12h_test_Q2: {'n': np.int64(3130), 'rate': np.float64(0.1012779552715655), 'uplift': np.float64(1.0535325926279147), 'pval': 0.6806387225548902}
+  big_A_12h_test_Q3: {'n': np.int64(3556), 'rate': np.float64(0.10489313835770529), 'uplift': np.float64(1.09113912999681), 'pval': 0.6626746506986028}
+  big_A_12h_test_Q4: {'n': np.int64(3844), 'rate': np.float64(0.09833506763787721), 'uplift': np.float64(1.0229195334461925), 'pval': 0.16766467065868262}
+  big_A_12h_test_Q5_high: {'n': np.int64(4063), 'rate': np.float64(0.07654442530150135), 'uplift': np.float64(0.7962448157930505), 'pval': 0.05788423153692615}
+  big_A_24h_train_Q1_low: {'n': np.int64(11072), 'rate': np.float64(0.19373193641618497), 'uplift': np.float64(1.2285563689302392), 'pval': 0.001996007984031936}
+  big_A_24h_train_Q2: {'n': np.int64(10272), 'rate': np.float64(0.15556853582554517), 'uplift': np.float64(0.9865421211866773), 'pval': 0.9201596806387226}
+  big_A_24h_train_Q3: {'n': np.int64(9880), 'rate': np.float64(0.1576923076923077), 'uplift': np.float64(1.0000100785164425), 'pval': 0.6706586826347305}
+  big_A_24h_train_Q4: {'n': np.int64(9659), 'rate': np.float64(0.14608137488352832), 'uplift': np.float64(0.926379030815547), 'pval': 0.8163672654690619}
+  big_A_24h_train_Q5_high: {'n': np.int64(9938), 'rate': np.float64(0.13101227611189373), 'uplift': np.float64(0.8308179291592902), 'pval': 0.9660678642714571}
+  big_A_24h_test_Q1_low: {'n': np.int64(2799), 'rate': np.float64(0.2690246516613076), 'uplift': np.float64(1.0515145850955432), 'pval': 1.0}
+  big_A_24h_test_Q2: {'n': np.int64(3105), 'rate': np.float64(0.30112721417069244), 'uplift': np.float64(1.176991237473324), 'pval': 0.001996007984031936}
+  big_A_24h_test_Q3: {'n': np.int64(3537), 'rate': np.float64(0.28781453208934127), 'uplift': np.float64(1.1249570491978778), 'pval': 0.011976047904191617}
+  big_A_24h_test_Q4: {'n': np.int64(3816), 'rate': np.float64(0.2560272536687631), 'uplift': np.float64(1.000712721872026), 'pval': 0.2554890219560878}
+  big_A_24h_test_Q5_high: {'n': np.int64(4023), 'rate': np.float64(0.18344519015659955), 'uplift': np.float64(0.7170171648735671), 'pval': 1.0}
+
+==================================================
+spec2_leadership
+==================================================
+  lead_scores: DataFrame ((65, 5))
+
+==================================================
+spec7_compression
+==================================================
+  big_A_12h_train: {'baseline': np.float64(0.05756245447565801), 'compress_uplift': np.float64(1.3183751324611725), 's07_uplift': np.float64(1.3707743396184071), 's07_compress_uplift': np.float64(1.422601116701796), 'n_compress': np.int64(11306), 'n_s07': np.int64(11216), 'n_s07_compress': np.int64(5825)}
+  big_A_12h_test: {'baseline': np.float64(0.0961317722681359), 'compress_uplift': np.float64(1.2319602849682472), 's07_uplift': np.float64(1.090397071247536), 's07_compress_uplift': np.float64(1.1396894105883701), 'n_compress': np.int64(2778), 'n_s07': np.int64(3339), 'n_s07_compress': np.int64(1433)}
+  big_A_24h_train: {'baseline': np.float64(0.15776522235565094), 'compress_uplift': np.float64(1.2675943867204618), 's07_uplift': np.float64(1.3529285812951442), 's07_compress_uplift': np.float64(1.3765225233523735), 'n_compress': np.int64(11306), 'n_s07': np.int64(11216), 'n_s07_compress': np.int64(5825)}
+  big_A_24h_test: {'baseline': np.float64(0.2558449074074074), 'compress_uplift': np.float64(1.3549312797794544), 's07_uplift': np.float64(1.255709842268646), 's07_compress_uplift': np.float64(1.2710509206125116), 'n_compress': np.int64(2778), 'n_s07': np.int64(3315), 'n_s07_compress': np.int64(1433)}
+
+==================================================
+spec3_clustering
+==================================================
+  k3_big_A_12h_train_c0: {'n': np.int64(25160), 'rate': np.float64(0.048608903020667726), 'uplift': np.float64(0.8548097138101672)}
+  k3_big_A_12h_train_c1: {'n': np.int64(27242), 'rate': np.float64(0.06460612289846561), 'uplift': np.float64(1.1361281163193642)}
+  k3_big_A_12h_train_c2: {'n': np.int64(73), 'rate': np.float64(0.0136986301369863), 'uplift': np.float64(0.24089665430239818)}
+  k3_big_A_12h_test_c0: {'n': np.int64(7721), 'rate': np.float64(0.09480637223157622), 'uplift': np.float64(0.9862126744853635)}
+  k3_big_A_12h_test_c1: {'n': np.int64(9703), 'rate': np.float64(0.09718643718437596), 'uplift': np.float64(1.0109710337316815)}
+  k3_big_A_24h_train_c0: {'n': np.int64(25160), 'rate': np.float64(0.13501589825119237), 'uplift': np.float64(0.8799005539904768)}
+  k3_big_A_24h_train_c1: {'n': np.int64(27242), 'rate': np.float64(0.17083914543719256), 'uplift': np.float64(1.1133611719841878)}
+  k3_big_A_24h_train_c2: {'n': np.int64(73), 'rate': np.float64(0.0136986301369863), 'uplift': np.float64(0.08927416995011875)}
+  k3_big_A_24h_test_c0: {'n': np.int64(7661), 'rate': np.float64(0.2148544576426054), 'uplift': np.float64(0.8397839918715724)}
+  k3_big_A_24h_test_c1: {'n': np.int64(9619), 'rate': np.float64(0.28849152718577814), 'uplift': np.float64(1.1276031643904652)}
+  k4_big_A_12h_train_c0: {'n': np.int64(27146), 'rate': np.float64(0.06453989538053488), 'uplift': np.float64(1.134963475232429)}
+  k4_big_A_12h_train_c1: {'n': np.int64(25255), 'rate': np.float64(0.048742823203326076), 'uplift': np.float64(0.8571647612582225)}
+  k4_big_A_12h_train_c3: {'n': np.int64(61), 'rate': np.float64(0.0), 'uplift': np.float64(0.0)}
+  k4_big_A_12h_test_c0: {'n': np.int64(9673), 'rate': np.float64(0.09707433061097902), 'uplift': np.float64(1.0098048576511631)}
+  k4_big_A_12h_test_c1: {'n': np.int64(7751), 'rate': np.float64(0.09495548961424333), 'uplift': np.float64(0.9877638513663138)}
+  k4_big_A_24h_train_c0: {'n': np.int64(27146), 'rate': np.float64(0.17078022544757976), 'uplift': np.float64(1.1129771895630587)}
+  k4_big_A_24h_train_c1: {'n': np.int64(25255), 'rate': np.float64(0.13522074836666007), 'uplift': np.float64(0.881235565144124)}
+  k4_big_A_24h_train_c3: {'n': np.int64(61), 'rate': np.float64(0.0), 'uplift': np.float64(0.0)}
+  k4_big_A_24h_test_c0: {'n': np.int64(9589), 'rate': np.float64(0.2883512357910105), 'uplift': np.float64(1.1270548189252798)}
+  k4_big_A_24h_test_c1: {'n': np.int64(7691), 'rate': np.float64(0.21531660382264986), 'uplift': np.float64(0.8415903447309183)}
+  k5_big_A_12h_train_c0: {'n': np.int64(24977), 'rate': np.float64(0.05481042559154422), 'uplift': np.float64(0.9638663146502289)}
+  k5_big_A_12h_train_c1: {'n': np.int64(15656), 'rate': np.float64(0.04790495656617271), 'uplift': np.float64(0.8424304945743677)}
+  k5_big_A_12h_train_c3: {'n': np.int64(61), 'rate': np.float64(0.0), 'uplift': np.float64(0.0)}
+  k5_big_A_12h_train_c4: {'n': np.int64(11768), 'rate': np.float64(0.07341944255608429), 'uplift': np.float64(1.2911143592930707)}
+  k5_big_A_12h_test_c0: {'n': np.int64(8705), 'rate': np.float64(0.09856404365307295), 'uplift': np.float64(1.0253014308126227)}
+  k5_big_A_12h_test_c1: {'n': np.int64(4688), 'rate': np.float64(0.09257679180887372), 'uplift': np.float64(0.9630197137180989)}
+  k5_big_A_12h_test_c4: {'n': np.int64(4031), 'rate': np.float64(0.09501364425700819), 'uplift': np.float64(0.9883687985278272)}
+  k5_big_A_24h_train_c0: {'n': np.int64(24977), 'rate': np.float64(0.14717540136925972), 'uplift': np.float64(0.959144210985085)}
+  k5_big_A_24h_train_c1: {'n': np.int64(15656), 'rate': np.float64(0.13311190597853859), 'uplift': np.float64(0.8674922089199966)}
+  k5_big_A_24h_train_c3: {'n': np.int64(61), 'rate': np.float64(0.0), 'uplift': np.float64(0.0)}
+  k5_big_A_24h_train_c4: {'n': np.int64(11768), 'rate': np.float64(0.19468048946295038), 'uplift': np.float64(1.2687355544670047)}
+  k5_big_A_24h_test_c0: {'n': np.int64(8660), 'rate': np.float64(0.2808314087759815), 'uplift': np.float64(1.0976626880002174)}
+  k5_big_A_24h_test_c1: {'n': np.int64(4641), 'rate': np.float64(0.19176901529842708), 'uplift': np.float64(0.7495518173166297)}
+  k5_big_A_24h_test_c4: {'n': np.int64(3979), 'rate': np.float64(0.2762000502638854), 'uplift': np.float64(1.0795604769418548)}
+
+==================================================
+spec1_market_state
+==================================================
+  big_A_12h_train_high_dispersion: {'n': np.int64(11207), 'rate': np.float64(0.06406710091906843), 'uplift': np.float64(1.1377492667236175)}
+  big_A_12h_train_low_dispersion: {'n': np.int64(9613), 'rate': np.float64(0.05627795693331946), 'uplift': np.float64(0.9994240931000218)}
+  big_A_12h_train_high_breadth_ext: {'n': np.int64(24703), 'rate': np.float64(0.06059992713435615), 'uplift': np.float64(1.0761767220857241)}
+  big_A_12h_train_low_entropy: {'n': np.int64(11072), 'rate': np.float64(0.07207369942196531), 'uplift': np.float64(1.2799361527375288)}
+  big_A_12h_train_high_entropy: {'n': np.int64(9943), 'rate': np.float64(0.05370612491199839), 'uplift': np.float64(0.9537516659975264)}
+  big_A_12h_train_high_mean_oi_z: {'n': np.int64(42), 'rate': np.float64(0.2857142857142857), 'uplift': np.float64(5.073918039065492)}
+  big_A_12h_train_high_pct_fund_ext: {'n': np.int64(7555), 'rate': np.float64(0.04182660489741893), 'uplift': np.float64(0.7427866778565764)}
+  big_A_12h_train_market_compressed: {'n': np.int64(11306), 'rate': np.float64(0.07588890854413585), 'uplift': np.float64(1.3476893570947879)}
+  big_A_12h_test_high_dispersion: {'n': np.int64(3347), 'rate': np.float64(0.11293695847027188), 'uplift': np.float64(1.1748140682901596)}
+  big_A_12h_test_low_dispersion: {'n': np.int64(3848), 'rate': np.float64(0.07068607068607069), 'uplift': np.float64(0.7353039376919974)}
+  big_A_12h_test_high_breadth_ext: {'n': np.int64(9181), 'rate': np.float64(0.10205859928112405), 'uplift': np.float64(1.0616531545518242)}
+  big_A_12h_test_low_entropy: {'n': np.int64(2831), 'rate': np.float64(0.1045566937477923), 'uplift': np.float64(1.0876393026039004)}
+  big_A_12h_test_high_entropy: {'n': np.int64(4064), 'rate': np.float64(0.0765255905511811), 'uplift': np.float64(0.7960488894112117)}
+  big_A_12h_test_high_pct_fund_ext: {'n': np.int64(2279), 'rate': np.float64(0.10355419043440105), 'uplift': np.float64(1.077210874106868)}
+  big_A_12h_test_market_compressed: {'n': np.int64(2778), 'rate': np.float64(0.11843052555795536), 'uplift': np.float64(1.2319602849682472)}
+  big_A_24h_train_high_dispersion: {'n': np.int64(11207), 'rate': np.float64(0.18363522798251092), 'uplift': np.float64(1.2058485751238188)}
+  big_A_24h_train_low_dispersion: {'n': np.int64(9613), 'rate': np.float64(0.15614272339540206), 'uplift': np.float64(1.0253178684224469)}
+  big_A_24h_train_high_breadth_ext: {'n': np.int64(24703), 'rate': np.float64(0.1643120268793264), 'uplift': np.float64(1.0789619489949522)}
+  big_A_24h_train_low_entropy: {'n': np.int64(11072), 'rate': np.float64(0.19373193641618497), 'uplift': np.float64(1.2721490426972086)}
+  big_A_24h_train_high_entropy: {'n': np.int64(9943), 'rate': np.float64(0.1310469677159811), 'uplift': np.float64(0.8605255158866506)}
+  big_A_24h_train_high_mean_oi_z: {'n': np.int64(42), 'rate': np.float64(0.23809523809523808), 'uplift': np.float64(1.5634625597450875)}
+  big_A_24h_train_high_pct_fund_ext: {'n': np.int64(7555), 'rate': np.float64(0.1298477829252151), 'uplift': np.float64(0.8526510176918213)}
+  big_A_24h_train_market_compressed: {'n': np.int64(11306), 'rate': np.float64(0.19998231027772864), 'uplift': np.float64(1.3131923898683266)}
+  big_A_24h_test_high_dispersion: {'n': np.int64(3327), 'rate': np.float64(0.23264201983769162), 'uplift': np.float64(0.9093087769272362)}
+  big_A_24h_test_low_dispersion: {'n': np.int64(3807), 'rate': np.float64(0.26819017599159445), 'uplift': np.float64(1.048252938505938)}
+  big_A_24h_test_high_breadth_ext: {'n': np.int64(9120), 'rate': np.float64(0.29287280701754387), 'uplift': np.float64(1.144727913427541)}
+  big_A_24h_test_low_entropy: {'n': np.int64(2799), 'rate': np.float64(0.2690246516613076), 'uplift': np.float64(1.0515145850955432)}
+  big_A_24h_test_high_entropy: {'n': np.int64(4024), 'rate': np.float64(0.1833996023856859), 'uplift': np.float64(0.7168389796934296)}
+  big_A_24h_test_high_pct_fund_ext: {'n': np.int64(2279), 'rate': np.float64(0.22465993856954805), 'uplift': np.float64(0.878109870726485)}
+  big_A_24h_test_market_compressed: {'n': np.int64(2778), 'rate': np.float64(0.3466522678185745), 'uplift': np.float64(1.3549312797794544)}
+
+==================================================
+spec5_clustered_oi
+==================================================
+  big_A_12h_train_pct_oi_z>1.5 >= 20%: {'n': np.int64(384), 'rate': np.float64(0.08854166666666667), 'uplift': np.float64(1.5723860589812333)}
+  big_A_12h_train_pct_oi_z>1.5 >= 30%: {'n': np.int64(67), 'rate': np.float64(0.1791044776119403), 'uplift': np.float64(3.180665039414189)}
+  big_A_12h_train_cluster_top10 >= 2.0: {'n': np.int64(7232), 'rate': np.float64(0.078125), 'uplift': np.float64(1.3873994638069704)}
+  big_A_12h_test_pct_oi_z>1.5 >= 20%: {'n': np.int64(119), 'rate': np.float64(0.08403361344537816), 'uplift': np.float64(0.8741502571177725)}
+  big_A_12h_test_pct_oi_z>1.5 >= 30%: {'n': np.int64(20), 'rate': np.float64(0.0), 'uplift': np.float64(0.0)}
+  big_A_12h_test_cluster_top10 >= 2.0: {'n': np.int64(3165), 'rate': np.float64(0.10078988941548184), 'uplift': np.float64(1.048455542194242)}
+  big_A_24h_train_pct_oi_z>1.5 >= 20%: {'n': np.int64(384), 'rate': np.float64(0.10416666666666667), 'uplift': np.float64(0.6840148698884758)}
+  big_A_24h_train_pct_oi_z>1.5 >= 30%: {'n': np.int64(67), 'rate': np.float64(0.1791044776119403), 'uplift': np.float64(1.1760972091216777)}
+  big_A_24h_train_cluster_top10 >= 2.0: {'n': np.int64(7232), 'rate': np.float64(0.15846238938053098), 'uplift': np.float64(1.0405500542816726)}
+  big_A_24h_test_pct_oi_z>1.5 >= 20%: {'n': np.int64(119), 'rate': np.float64(0.11764705882352941), 'uplift': np.float64(0.45983740702795484)}
+  big_A_24h_test_pct_oi_z>1.5 >= 30%: {'n': np.int64(20), 'rate': np.float64(0.0), 'uplift': np.float64(0.0)}
+  big_A_24h_test_cluster_top10 >= 2.0: {'n': np.int64(3165), 'rate': np.float64(0.26066350710900477), 'uplift': np.float64(1.0188340653344499)}
+
+==================================================
+spec6_comovement
+==================================================
+  big_A_12h_train: {'mean_extreme_bm': np.float64(0.05641783333258256), 'mean_extreme_random': np.float64(0.0570040471663058), 'ratio': np.float64(0.9897162769511261), 'n_multi': np.int64(227), 'n_single': np.int64(2757), 'continuation_rate': 0.9647577092511013}
+  big_A_12h_test: {'mean_extreme_bm': np.float64(0.0640520897815072), 'mean_extreme_random': np.float64(0.06393078845221392), 'ratio': np.float64(1.001897385160265), 'n_multi': np.int64(177), 'n_single': np.int64(1498), 'continuation_rate': 0.96045197740113}
+  big_A_24h_train: {'mean_extreme_bm': np.float64(0.05637539261494638), 'mean_extreme_random': np.float64(0.05707804164895662), 'ratio': np.float64(0.9876896786625635), 'n_multi': np.int64(1566), 'n_single': np.int64(6504), 'continuation_rate': 0.975095785440613}
+  big_A_24h_test: {'mean_extreme_bm': np.float64(0.06403125260915042), 'mean_extreme_random': np.float64(0.0639124593800872), 'ratio': np.float64(1.0018586865568222), 'n_multi': np.int64(748), 'n_single': np.int64(3673), 'continuation_rate': 0.9679144385026738}
+
+==================================================
+spec8_network
+==================================================
+  big_A_12h_all_density: {'mean_before_bm': np.float64(0.7207755427294549), 'mean_baseline': np.float64(0.7556674711283345), 'diff': np.float64(-0.03489192839887967), 'pval': np.float64(1.5477628341974104e-07)}
+  big_A_12h_all_avg_clustering: {'mean_before_bm': np.float64(0.831535361180049), 'mean_baseline': np.float64(0.8562852284190472), 'diff': np.float64(-0.02474986723899819), 'pval': np.float64(9.26102669058366e-08)}
+  big_A_12h_all_n_components: {'mean_before_bm': np.float64(1.0025510204081634), 'mean_baseline': np.float64(1.016303352262319), 'diff': np.float64(-0.013752331854155697), 'pval': np.float64(0.034001089517244405)}
+  big_A_12h_all_eigvec_dispersion: {'mean_before_bm': np.float64(64687642817.16465), 'mean_baseline': np.float64(65445820456.30221), 'diff': np.float64(-758177639.137558), 'pval': np.float64(0.007219262477566414)}
+  big_A_12h_test_density: {'mean_before_bm': np.float64(0.6686264013677589), 'mean_baseline': np.float64(0.6911191608889646), 'diff': np.float64(-0.022492759521205774), 'pval': np.float64(0.05385475187236596)}
+  big_A_12h_test_avg_clustering: {'mean_before_bm': np.float64(0.7945970037614204), 'mean_baseline': np.float64(0.8125036547506655), 'diff': np.float64(-0.017906650989245154), 'pval': np.float64(0.053226700385790054)}
+  big_A_12h_test_n_components: {'mean_before_bm': np.float64(1.0072992700729928), 'mean_baseline': np.float64(1.017651573292402), 'diff': np.float64(-0.010352303219409276), 'pval': np.float64(0.3683572996855061)}
+  big_A_12h_test_eigvec_dispersion: {'mean_before_bm': np.float64(63803663519.34818), 'mean_baseline': np.float64(64984949682.614456), 'diff': np.float64(-1181286163.2662735), 'pval': np.float64(0.054720376301977604)}
+  big_A_24h_all_density: {'mean_before_bm': np.float64(0.7230050358362369), 'mean_baseline': np.float64(0.7597833483707807), 'diff': np.float64(-0.03677831253454378), 'pval': np.float64(2.6919333414681134e-17)}
+  big_A_24h_all_avg_clustering: {'mean_before_bm': np.float64(0.8344094631046884), 'mean_baseline': np.float64(0.8588719564424804), 'diff': np.float64(-0.024462493337791935), 'pval': np.float64(1.1087551664666305e-15)}
+  big_A_24h_all_n_components: {'mean_before_bm': np.float64(1.0163461538461538), 'mean_baseline': np.float64(1.014794748906022), 'diff': np.float64(0.0015514049401317287), 'pval': np.float64(0.8841438983101562)}
+  big_A_24h_all_eigvec_dispersion: {'mean_before_bm': np.float64(64727713113.851), 'mean_baseline': np.float64(65524214324.09111), 'diff': np.float64(-796501210.2401123), 'pval': np.float64(2.541361067229427e-05)}
+  big_A_24h_test_density: {'mean_before_bm': np.float64(0.655817489416383), 'mean_baseline': np.float64(0.698702388951003), 'diff': np.float64(-0.04288489953462005), 'pval': np.float64(2.4196105383385106e-09)}
+  big_A_24h_test_avg_clustering: {'mean_before_bm': np.float64(0.7859630445300666), 'mean_baseline': np.float64(0.8179166895819577), 'diff': np.float64(-0.03195364505189113), 'pval': np.float64(2.9314229608055913e-08)}
+  big_A_24h_test_n_components: {'mean_before_bm': np.float64(1.0112676056338028), 'mean_baseline': np.float64(1.0167753960857409), 'diff': np.float64(-0.005507790451938055), 'pval': np.float64(0.46552423831375445)}
+  big_A_24h_test_eigvec_dispersion: {'mean_before_bm': np.float64(63249460403.733505), 'mean_baseline': np.float64(65334733662.35595), 'diff': np.float64(-2085273258.6224442), 'pval': np.float64(2.8672487910438686e-09)}
