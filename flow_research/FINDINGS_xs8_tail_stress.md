@@ -147,8 +147,66 @@ when you use it to scale down positions during high-stress regimes.
 
 ---
 
+## 8. Nonlinear Model Comparison (XS-8b)
+
+Tested whether nonlinear models can extract more signal. **Script:** `xs8_nonlinear.py`
+
+### Model Results (12×ATR ≥10%, OOS)
+
+| Model | AUC | Q5/Q1 | Q1 rate | Q5 rate |
+|-------|-----|-------|---------|---------|
+| LogReg (5 feat) | 0.5912 | 1.83× | 25.8% | 47.2% |
+| HGBT (5 feat) | 0.5863 | 1.70× | 27.7% | 47.0% |
+| LogReg + interactions (14 feat) | 0.5914 | 1.84× | 25.5% | 47.0% |
+| HGBT + interactions (14 feat) | 0.5808 | 1.60× | 28.8% | 46.1% |
+| **HGBT + lags + momentum (40 feat)** | **0.5939** | **1.87×** | **25.5%** | **47.6%** |
+| HGBT tuned (5 feat, deeper) | 0.5705 | 1.50× | 30.0% | 45.0% |
+
+### Monthly Walk-Forward Stability
+
+| Model | Mean AUC | Std | Min | Max |
+|-------|----------|-----|-----|-----|
+| LogReg 5feat | 0.584 | 0.012 | 0.569 | 0.606 |
+| HGBT 5feat | 0.573 | 0.024 | 0.532 | 0.601 |
+| HGBT tuned | 0.564 | 0.025 | 0.527 | 0.598 |
+| HGBT rich (40feat) | 0.588 | 0.031 | 0.533 | 0.634 |
+
+### Multi-Target Comparison (LogReg vs GBT)
+
+| Target | Base | LR AUC | LR Q5/Q1 | GBT AUC | GBT Q5/Q1 | ΔAUC |
+|--------|------|--------|----------|---------|-----------|------|
+| 8×ATR ≥20% | 58.6% | 0.609 | 1.60× | 0.590 | 1.47× | -0.020 |
+| 12×ATR ≥10% | 34.6% | 0.591 | 1.83× | 0.571 | 1.50× | -0.021 |
+| 12×ATR ≥5% | 58.9% | 0.606 | 1.52× | 0.601 | 1.48× | -0.005 |
+
+### GBT Feature Importance (permutation)
+
+| Feature | ΔAUC when shuffled |
+|---------|-------------------|
+| crowd_oi | +0.029 (most important) |
+| breadth_extreme | +0.022 |
+| pca_var1 | +0.016 |
+| entropy | +0.010 |
+| crowd_fund | -0.004 (noise) |
+
+### Key Conclusions
+
+1. **Nonlinear models provide NO improvement** — average ΔAUC = -0.015 vs LogReg
+2. **GBT overfits more** — higher variance in walk-forward (std 0.024-0.031 vs 0.012 for LogReg)
+3. **Interactions add nothing** — LogReg+interactions ≈ plain LogReg (0.5914 vs 0.5912)
+4. **Lag/momentum features help marginally** — HGBT_rich gets 0.5939 vs 0.5912, but less stable
+5. **The signal is fundamentally linear** — crowd_oi + pca_var1 explain nearly everything
+
+**Bottom line:** Stick with simple LogReg. The 5 features capture a real but weak linear relationship.
+The ceiling is ~AUC 0.59, Q5/Q1 ~1.8×. No amount of model complexity will fix this — the limitation
+is in the features, not the model.
+
+---
+
 ## Files
 
-- **Script:** `flow_research/xs8_tail_stress.py`
+- **Script:** `flow_research/xs8_tail_stress.py` (stress feature computation + linear eval)
+- **Script:** `flow_research/xs8_nonlinear.py` (nonlinear model comparison)
 - **Stress data:** `flow_research/output/xs8/xs8_stress.parquet` (70K rows)
 - **Summary:** `flow_research/output/xs8/xs8_summary.csv`
+- **Nonlinear summary:** `flow_research/output/xs8/xs8_nonlinear_summary.csv`
