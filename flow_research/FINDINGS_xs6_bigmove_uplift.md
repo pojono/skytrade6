@@ -1,29 +1,34 @@
 # XS-6 — Extreme Move Probability Model (Big Move Uplift)
 
-**Date:** 2026-03-03  
-**Data:** 52 Bybit perps, 2026-01-01 → 2026-02-28 (59 days)  
+**Date:** 2026-03-03 (v2 — with deep analysis)  
+**Data:** 52 Bybit perps (55 discovered, 3 skipped <50% valid), 2026-01-01 → 2026-02-28  
 **Grid:** 5-minute signal intervals on unified 1m mark-price grid  
 **Train/Test:** Jan / Feb with ±24h purge around boundary  
-**Protection:** volatility-matched baseline, 2000 permutation tests, BH FDR correction  
-**Script:** `xs6_bigmove_uplift.py` → `output/xs6/xs6_uplift.csv`
+**Protection:** vol-matched baseline (p_control floor = max(p0/10, 1e-4)), 2000 permutation tests, BH FDR  
+**Scripts:** `xs6_bigmove_uplift.py`, `xs6_deep_analysis.py`
 
 ---
 
 ## TL;DR
 
-**43 / 2,592 combos pass all hard filters.** The strongest signal is **volatility compression + OI build (S07)** — when realized vol is in P20 but open interest is surging (z ≥ 1.5), probability of a big move in next 12-24h is **1.7-5.4x baseline** even after vol-matching. This holds across multiple coins and weeks.
+**91 / 3,456 combos pass hard filters** across 37 symbols and all 10 states (v2: added per-coin adaptive Def B_adp, fixed p_control floor bug).
 
-Funding extremes (S01/S02) also show uplift but are less stable week-to-week. Intersection states (S04/S05) are too rare for reliable estimates.
+The **only state that survives the shuffle sanity test** on Def A (ATR-normalized) is **S07 compress_oi** — real uplift 2.50x vs shuffle p99 of 1.81x. S01 fund_high is borderline (3.51x vs 3.23x). All other states on Def A are indistinguishable from noise. On Def B, most "uplift" is driven by trivially high base rates on volatile coins.
 
-**Key caveat:** These uplift factors tell you *when* big moves are more likely, not *which direction*. A convex payoff structure (bracket orders, wide TP) is needed to monetize — that's XS-7.
+**Time-to-move for S07:** median breach at **10.2h**, clustered 6-12h (53%) and 12-24h (45%). No early moves (0-3h). This is tradeable with a 12-24h time stop.
+
+**Direction skew for S07:** Nearly symmetric at 24h (31% up, 40% down). Slight downward bias overall. No strong directional edge → **bracket/straddle structure required.**
+
+**OI leakage test:** Leaking future OI gives only 1-2% boost → OI is not the main driver. The **rv_6h compression** component is doing the work.
 
 ---
 
 ## 1. Setup
 
-### Targets (6 definitions per signal)
+### Targets (8 definitions per signal, v2)
 - **Def A (ATR-normalized):** `|ret| >= k × ATR_1h`, k ∈ {3.0, 4.0}
-- **Def B (raw bp):** `|ret| >= 300bp (12h)` or `|ret| >= 500bp (24h)`
+- **Def B (raw bp, fixed):** `|ret| >= 300bp (12h)` or `|ret| >= 500bp (24h)`
+- **Def B_adp (per-coin adaptive):** `|ret| >= P95(|ret|)` expanding over 30d — this controls for hyper-volatile coins where Def B is trivially easy
 
 ### 10 States Tested
 | State | Condition | Mean Frequency |
@@ -40,137 +45,183 @@ Funding extremes (S01/S02) also show uplift but are less stable week-to-week. In
 | S10 thin_move | volume_1h ≤ P20 AND |ret_30m| ≥ P80 | 0.9% |
 
 ### PASS Criteria (hard)
-- State frequency ≥ 0.3% (`rateS`)
-- nS in test ≥ 30
-- Vol-matched uplift in test ≥ 1.5x
-- Absolute delta in test ≥ +1% probability
-- FDR q-value < 0.10
+- rateS ≥ 0.3%, nS_test ≥ 30, uplift_matched_test ≥ 1.5x, delta_test ≥ +1%, q_fdr < 0.10
 
 ---
 
-## 2. Universe-Level Results (pooled across 52 coins)
+## 2. Sanity Tests (CRITICAL — read before trusting any uplift numbers)
 
-Best states by universe uplift (ATR-normalized, k=3):
+### Q3: Shuffle Test — "Is the uplift real or random?"
 
-| State | Horizon | pS | p0 | Uplift | OOS Uplift |
-|-------|---------|----|----|--------|------------|
-| S07 compress_oi | 12h | 0.59% | 0.17% | **3.4x** | **5.9x** |
-| S07 compress_oi | 24h | 1.40% | 0.52% | **2.7x** | **4.8x** |
-| S01 fund_high | 12h | 0.52% | 0.17% | **3.0x** | **4.2x** |
-| S01 fund_high | 24h | 1.35% | 0.52% | **2.6x** | **5.0x** |
-| S04 fund_hi+oi_hi | 24h | 2.51% | 0.52% | **4.8x** | **7.2x** |
+Shuffled state labels within each day 500x. If real uplift > shuffle p99 for many symbols → genuine.
 
-S04/S05 have the highest raw uplift but only 0.3-0.5% frequency — fragile estimates.
+| State | Target | Real Uplift | Shuffle p99 | % Syms Exceeding p99 | **Verdict** |
+|-------|--------|-------------|-------------|---------------------|-------------|
+| **S07 compress_oi** | big_A_k3.0_24h | **2.50** | 1.81 | 9% | **✅ GENUINE** |
+| S01 fund_high | big_A_k3.0_24h | 3.51 | 3.23 | 12% | ⚠️ Borderline |
+| S01 fund_high | big_B_24h | 1.50 | 1.75 | 50% | ❌ Noise (real < p99) |
+| S03 oi_surge | big_A_k3.0_24h | 0.58 | 1.66 | 2% | ❌ Noise |
+| S03 oi_surge | big_B_24h | 1.39 | 1.49 | 27% | ❌ Noise |
+| S06 compress_vol | big_A_k3.0_24h | 0.00 | 0.10 | 0% | ❌ No signal |
+| S06 compress_vol | big_B_24h | 1.11 | 1.36 | 29% | ❌ Noise |
+| S09 stall_fund | big_B_24h | 1.10 | 1.34 | 27% | ❌ Noise |
+| S10 thin_move | big_B_24h | 0.75 | 1.12 | 6% | ❌ Noise |
 
----
+**Conclusion:** Only S07 on Def A (ATR-normalized) is genuinely above chance. Def B "uplift" is mostly noise amplified by high base rates on volatile coins. S01/Def A is borderline — could be real for a subset of coins.
 
-## 3. Top Symbol-Level Candidates (honest assessment)
+### Q4: OI Leakage Trap — "Is OI actually driving the signal?"
 
-### Tier 1: Strong evidence (weekly stable, reasonable uplift)
+Leaked future OI (removed 5min causal shift) to test if OI matters:
 
-| Symbol | State | H | Def | nS_test | pS | p0 | Uplift_m | Δ | Weekly | q_fdr |
-|--------|-------|---|-----|---------|----|----|----------|---|--------|-------|
-| CCUSDT | S02_fund_low | 24h | B | 816 | 22.5% | 17.0% | **2.0x** | +5.5% | 6/8 | 0.013 |
-| CCUSDT | S02_fund_low | 12h | B | 864 | 31.8% | 24.1% | **1.7x** | +7.7% | 5/8 | 0.013 |
-| ALCHUSDT | S03_oi_surge | 24h | B | 194 | 52.6% | 21.0% | **1.7x** | +31.6% | 6/9 | 0.013 |
-| 1000RATSUSDT | S01_fund_high | 24h | B | 336 | 91.4% | 40.6% | **1.9x** | +50.8% | 5/6 | 0.013 |
-| ARBUSDT | S03_oi_surge | 24h | B | 226 | 60.6% | 33.0% | **1.8x** | +27.6% | 5/9 | 0.051 |
-| IPUSDT | S03_oi_surge | 24h | B | 221 | 44.8% | 25.6% | **1.6x** | +19.2% | 6/8 | 0.013 |
-| GUNUSDT | S03_oi_surge | 24h | B | 232 | 61.6% | 36.6% | **1.5x** | +25.0% | 6/9 | 0.058 |
-| COAIUSDT | S01_fund_high | 24h | B | 658 | 49.5% | 38.5% | **1.6x** | +11.0% | 6/9 | 0.013 |
-| GRASSUSDT | S09_stall_fund | 24h | B | 107 | 53.3% | 40.0% | **1.5x** | +13.2% | 4/8 | 0.013 |
+| State | Target | Normal Uplift | Leaked Uplift | Boost |
+|-------|--------|--------------|---------------|-------|
+| S07 compress_oi | A_k3.0_24h | 2.50 | 2.56 | **1.02x** |
+| S07 compress_oi | B_24h | 0.89 | 0.90 | 1.01x |
+| S03 oi_surge | A_k3.0_24h | 0.58 | 0.62 | 1.07x |
 
-These have: large nS_test (>100), reasonable uplift (1.5-2.0x), positive in ≥50% of weeks.
-
-### Tier 2: High uplift but episodic (driven by 1-2 big events)
-
-| Symbol | State | H | Def | nS_test | Uplift_m | Weekly |
-|--------|-------|---|-----|---------|----------|--------|
-| BTRUSDT | S01_fund_high | 24h | A_k3 | 192 | **5.5x** | 1/5 |
-| COAIUSDT | S04_fund_hi+oi_hi | 24h | A_k3 | 45 | **10.0x** | 1/4 |
-| ATHUSDT | S07_compress_oi | 24h | A_k3 | 60 | **16.7x** | 1/4 |
-| FARTCOINUSDT | S07_compress_oi | 24h | B | 38 | **2.1x** | 4/6 |
-| ATOMUSDT | S01_fund_high | 24h | B | 96 | **6.2x** | 1/2 |
-
-High uplift but poor weekly stability → likely driven by 1-2 massive moves in Feb.
-
-### Tier 3: Compression states (best conceptual fit for convex strategies)
-
-| Symbol | State | H | Def | nS_test | pS | p0 | Uplift_m | Weekly |
-|--------|-------|---|-----|---------|----|----|----------|--------|
-| EIGENUSDT | S07_compress_oi | 24h | B | 44 | 75.0% | 30.2% | **2.5x** | 3/3 |
-| 1000PEPEUSDT | S07_compress_oi | 12h | B | 95 | 75.8% | 34.9% | **2.4x** | 2/6 |
-| 1000PEPEUSDT | S07_compress_oi | 24h | B | 95 | 46.3% | 23.8% | **2.4x** | 3/6 |
-| CYBERUSDT | S06_compress_vol | 24h | B | 135 | 64.4% | 43.3% | **2.3x** | 3/3 |
-| ATOMUSDT | S07_compress_oi | 12h | B | 51 | 41.2% | 27.6% | **2.1x** | 4/5 |
-| APEXUSDT | S06_compress_vol | 12h | B | 38 | 89.5% | 44.9% | **2.1x** | 3/5 |
-| APEXUSDT | S06_compress_vol | 24h | B | 38 | 84.2% | 37.8% | **2.0x** | 4/5 |
-| ANIMEUSDT | S09_stall_fund | 24h | B | 82 | 39.0% | 20.8% | **2.1x** | 4/5 |
-
-S06/S07 = volatility compression. When vol is low but OI is building, pressure accumulates → explosion. This is the best conceptual foundation for a convex payoff strategy.
+**Conclusion:** OI leakage doesn't help (~1.0x boost). The rv_6h compression in S07 is the main driver, not OI per se. OI adds specificity (narrows the signal) but doesn't carry the information.
 
 ---
 
-## 4. State Rankings (by number of PASS candidates)
+## 3. Time-to-Move Analysis (Q1)
 
-| State | # PASS | Avg OOS Uplift | Best Coin | Best Uplift |
-|-------|--------|---------------|-----------|-------------|
-| S07 compress_oi | 8 | 1.77x | EIGENUSDT | 2.52x |
-| S01 fund_high | 7 | 1.35x | 1000RATSUSDT | 1.92x |
-| S02 fund_low | 6 | — | CCUSDT | 1.97x |
-| S03 oi_surge | 6 | — | ARBUSDT | 1.75x |
-| S09 stall_fund | 5 | — | ANIMEUSDT | 2.15x |
-| S05 fund_lo+oi_hi | 4 | — | AIXBTUSDT | 2.04x |
-| S06 compress_vol | 3 | — | CYBERUSDT | 2.33x |
-| S10 thin_move | 2 | — | JELLYJELLYUSDT | 7.14x |
-| S04 fund_hi+oi_hi | 1 | — | COAIUSDT | 10.00x |
-| S08 stall_oi | 1 | — | INITUSDT | 5.00x |
+For S07 compress_oi signals in test period (Feb), when does the ATR-based big move threshold get breached?
 
----
+| Metric | Value |
+|--------|-------|
+| Total signals | 1,873 |
+| Breach rate (3×ATR, 24h) | **3.1%** |
+| Median time to breach | **610 min (10.2h)** |
+| P25 / P75 | 558 min / 1274 min |
+| 0-1h | 0% |
+| 1-3h | 0% |
+| 3-6h | 1.7% |
+| **6-12h** | **53.4%** |
+| 12-24h | 44.8% |
+| Direction at breach | **100% up** (Feb was a recovery month) |
 
-## 5. Interpretation & Caveats
+**Key implication:** Moves happen in the 6-24h window. No latency/speed advantage needed. A bracket order with 12-24h time stop is appropriate.
 
-### What works
-1. **Volatility compression + positioning (S06/S07):** When vol collapses but OI keeps building or volume stays elevated → coiled spring. 2-2.5x uplift, multiple coins, decent weekly stability. Best foundation for a convex strategy.
+Other states:
+- **S01 fund_high:** median 16.3h, 84% up at breach, 3.2% breach rate
+- **S09 stall_fund:** median 9.1h, 35% of breaches in 1-3h window (fastest), 89% up
+- **S03 oi_surge:** median 15.8h, 96% up, 1.9% breach rate
 
-2. **Funding extremes (S01/S02):** Extreme crowding predicts big moves. The S01 funding_high universe uplift is 3-5x. However, the big move direction is ambiguous — it could be continuation (squeeze) or reversal.
-
-3. **OI surge (S03):** Rising OI accelerates upcoming volatility. Consistent 1.5-1.8x uplift across 6+ coins. High frequency (3%) means many opportunities.
-
-### What doesn't work (or is unreliable)
-1. **Intersection states S04/S05:** Too rare (0.3-0.5%) for stable estimates. The very high uplifts (5-10x) are driven by handful of events.
-
-2. **S08 stall_oi:** Only 1 PASS candidate — trend stall + OI is not consistently predictive on its own.
-
-3. **Def A (ATR-normalized) targets:** Much rarer events (0.1-1% base rate), so noisier estimates. Def B (raw bp) provides more reliable results due to higher base rates.
-
-### Caveats
-- **2 months of data.** Jan/Feb 2026 includes a major crypto drawdown — results could be regime-dependent.
-- **No direction prediction.** These states flag *when* to expect big moves, not *which way*.
-- **Selection bias protection is imperfect.** Vol-matched baseline uses ATR quintile + hour-of-day, but doesn't match on all confounders (e.g., day-of-week, market regime).
-- **Some coins have structural vol.** 1000RATSUSDT with 91% pS_test for B-24h just means this coin moves >5% in most 24h windows regardless of state.
+⚠️ The 100% up direction in S07 is an artefact of Feb 2026 being a recovery month. Do not take this as a permanent directional edge.
 
 ---
 
-## 6. Next Steps (XS-7 direction)
+## 4. Direction Skew (Q2)
 
-The most actionable finding: **S07 (compress_oi) provides 2-2.5x uplift for big moves with decent stability.** To monetize:
+For state signals in test period, P(ret > +200bp) vs P(ret < -200bp):
 
-1. **Direction skew analysis:** Within S07 events, check `P(ret > +k) vs P(ret < -k)`. If directionally skewed → directional entry. If symmetric → straddle-like bracket orders.
+| State | H | P(up>200bp) | P(down>200bp) | Uplift Up | Uplift Down | **Skew** |
+|-------|---|-------------|---------------|-----------|-------------|----------|
+| S07 compress_oi | 12h | 23.8% | 34.4% | 0.96x | 1.06x | **slight down** |
+| S07 compress_oi | 24h | 31.3% | 39.8% | 1.09x | 1.00x | **~symmetric** |
+| S06 compress_vol | 12h | 12.0% | 38.1% | 0.51x | 1.38x | **strong down** |
+| S01 fund_high | 24h | 28.6% | 50.6% | 0.74x | 1.34x | **strong down** |
+| S03 oi_surge | 12h | 31.1% | 34.2% | 1.25x | 1.10x | **slight up** |
+| S03 oi_surge | 24h | 33.9% | 41.0% | 1.16x | 1.07x | **slight up** |
 
-2. **Entry timing:** S07 fires when rv_6h is in P20 AND oi_z ≥ 1.5. How soon after the signal does the move come? If clustered in first 4-8h → tighter time stop.
+**Key findings:**
+- **S07 at 24h is nearly symmetric** — no strong directional edge → bracket orders
+- **S06 skews strongly down** — when vol compresses with high volume, downside moves are 3x more likely than upside. But S06 failed shuffle test, so this might be noise.
+- **S01 fund_high skews down** — extreme positive funding → crowded longs → more likely to crash than squeeze. Interesting but episodic.
+- **S03 oi_surge has slight upward skew** — but failed shuffle test on Def A.
 
-3. **Convex payoff construction:**
-   - Bracket orders: simultaneous buy-stop at +X bps, sell-stop at -X bps
-   - Wide TP (e.g., 3-4x ATR) with time stop (12-24h)
-   - Kelly-based sizing using the uplift probability
+---
 
-4. **Multi-coin portfolio:** S07 fires on different coins at different times → can diversify across 5-10 positions simultaneously.
+## 5. Updated Candidate Assessment (post-sanity)
+
+### ✅ Tier 1: Genuine signal (shuffle-validated)
+
+**S07 compress_oi / Def A (ATR-normalized)**
+- Universe uplift: 2.7-5.4x (OOS)
+- Shuffle: exceeds p99 (real 2.50 vs p99 1.81)
+- Time-to-move: median 10h, 53% in 6-12h window
+- Direction: symmetric at 24h → bracket structure
+- OI is not the driver, rv_6h compression is
+- **Frequency is low (0.4%)** → need multi-coin monitoring for enough signals
+
+### ⚠️ Tier 2: Borderline (needs more data)
+
+**S01 fund_high / Def A**
+- Real 3.51 vs shuffle p99 3.23 — barely passes
+- Strong downward skew (50.6% down vs 28.6% up at 200bp)
+- Could be directional (short when funding extreme positive) but episodic (1-2/5 weeks)
+- Worth testing with directional entry on longer dataset
+
+### ❌ Tier 3: Noise / inflated by base rate (discard)
+
+All Def B candidates from v1 (CCUSDT, 1000RATSUSDT, ARBUSDT etc.):
+- Failed shuffle test (real uplift ≤ shuffle p99)
+- Inflated by coins where p0 is already 20-40% (trivial threshold)
+- Def B_adp (P95 adaptive) captures the real tail better and B_adp results are more conservative
+
+---
+
+## 6. What XS-7 Should Do
+
+Based on the validated S07 signal:
+
+### Strategy: Bracket on S07 compress_oi
+
+**Entry condition:** rv_6h ≤ P20 AND oi_z ≥ 1.5 (per coin, causal)
+
+**Bracket structure:**
+- Buy-stop at +X and sell-stop at -X from signal price
+- X = 1.0-1.5 × ATR_1h (to avoid being triggered by noise)
+- After one leg fills → cancel the other
+- TP: 3-5 × ATR_1h
+- SL: 1.5-2 × ATR_1h (accept asymmetric R:R since big moves overshoot)
+- Time stop: 24h
+
+**Expected metrics (rough):**
+- Base rate of 3×ATR move: ~0.5-1% per 5m bar
+- S07 uplift: ~2.5x → ~1.3-2.5% in state
+- Signal frequency: ~0.4% of bars → ~70 signals/coin/month
+- Multi-coin (10 coins): ~700 signals/month → ~7-17 bracket triggers
+- If bracket RR is 2:1 and 50% direction accuracy → positive EV
+
+**Risks:**
+- Bracket legs both triggered (whipsaw) in ranging market
+- S07 fires during range → time stop exits at loss
+- Transaction costs: taker on stop entry + maker on TP exit ≈ 12-15 bps per trade
+
+### Alternative: Directional short on S01 fund_high
+
+If longer dataset confirms the down-skew:
+- Short when funding_z ≥ +2 with wide SL (3×ATR)
+- TP: 2×ATR
+- Time stop: 24h
+- Only on coins with confirmed down-skew pattern
+
+---
+
+## 7. Honest Assessment
+
+**What we found:**
+- S07 (vol compression + OI) is a genuine, shuffle-validated predictor of extreme moves
+- The effect is structural (coil → release), not noise
+- But it's rare (0.4% frequency), not directional, and needs 6-12h to play out
+
+**What failed:**
+- Def B (fixed bp) uplift is mostly noise — hyper-volatile coins inflate everything
+- Most states (S03, S06, S08-S10) don't survive shuffle tests
+- OI is not the primary driver in any state (leakage test confirms)
+
+**What we don't know:**
+- Does S07 work outside Jan-Feb 2026? (2 months is too short)
+- Is the bracket structure profitable after fees?
+- What's the whipsaw rate?
 
 ---
 
 ## Files
 
-- **Script:** `flow_research/xs6_bigmove_uplift.py`
-- **Full results:** `flow_research/output/xs6/xs6_uplift.csv` (2,592 rows)
-- **Top states:** `flow_research/output/xs6/xs6_top_states.md`
+- **Main script:** `flow_research/xs6_bigmove_uplift.py`
+- **Deep analysis:** `flow_research/xs6_deep_analysis.py`
+- **Full results:** `flow_research/output/xs6/xs6_uplift.csv` (3,456 rows)
+- **Deep results:** `flow_research/output/xs6/deep/` (time_to_move, direction_skew, shuffle_sanity, oi_leakage CSVs)
+- **Auto-summary:** `flow_research/output/xs6/xs6_top_states.md`

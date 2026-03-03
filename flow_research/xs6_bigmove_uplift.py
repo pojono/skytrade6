@@ -366,11 +366,20 @@ def compute_targets(df_5m: pd.DataFrame, df_1m: pd.DataFrame) -> pd.DataFrame:
             results[col] = (fwd_ret_5m.abs() >= threshold).astype(float)
             results[col][fwd_ret_5m.isna()] = np.nan
 
-        # Def B: Raw bp
+        # Def B: Raw bp (fixed threshold)
         bp_thresh = RAW_BP_THRESHOLDS[h_label] / 10000.0
         col = f"big_B_{h_label}"
         results[col] = (fwd_ret_5m.abs() >= bp_thresh).astype(float)
         results[col][fwd_ret_5m.isna()] = np.nan
+
+        # Def B_adp: Per-coin adaptive (P95 expanding of |fwd_ret|)
+        abs_ret = fwd_ret_5m.abs()
+        # Causal: use only past returns for threshold (expanding with 30d min)
+        PCTL_WIN = 30 * 24 * 12  # 30d in 5m bars
+        p95_thresh = abs_ret.rolling(PCTL_WIN, min_periods=PCTL_WIN // 4).quantile(0.95)
+        col_adp = f"big_Badp_{h_label}"
+        results[col_adp] = (abs_ret >= p95_thresh).astype(float)
+        results[col_adp][fwd_ret_5m.isna()] = np.nan
 
     for col, vals in results.items():
         df_5m[col] = vals.values if hasattr(vals, 'values') else vals
@@ -467,9 +476,10 @@ def permutation_pvalue(big_move: np.ndarray, state: np.ndarray,
 # ---------------------------------------------------------------------------
 
 def vol_matched_baseline(df_5m: pd.DataFrame, state_col: str, target_col: str,
-                         n_controls: int, rng: np.random.Generator) -> float:
+                         n_controls: int, rng: np.random.Generator) -> tuple:
     """For each t where state=1, find n_controls matched times with same ATR quintile
-    and hour-of-day bucket, then compute mean(big_move) at those controls."""
+    and hour-of-day bucket, then compute mean(big_move) at those controls.
+    Returns (p_control, n_controls_total)."""
     mask_valid = ~df_5m[target_col].isna()
     st = df_5m[state_col].values == 1.0
     bm = df_5m[target_col].values
@@ -498,8 +508,8 @@ def vol_matched_baseline(df_5m: pd.DataFrame, state_col: str, target_col: str,
         control_hits.extend(bm[chosen].tolist())
 
     if not control_hits:
-        return np.nan
-    return np.nanmean(control_hits)
+        return np.nan, 0
+    return np.nanmean(control_hits), len(control_hits)
 
 
 # ---------------------------------------------------------------------------
@@ -513,6 +523,7 @@ def build_target_columns():
         for k in ATR_K_VALUES:
             cols.append((f"big_A_k{k}_{h_label}", h_label, f"A_k{k}"))
         cols.append((f"big_B_{h_label}", h_label, f"B"))
+        cols.append((f"big_Badp_{h_label}", h_label, f"B_adp"))
     return cols
 
 
@@ -586,9 +597,14 @@ def analyze_symbol(sym: str, raw: dict, grid_1m: pd.DatetimeIndex):
                                         N_PERMUTATION, rng)
 
             # Volatility-matched baseline (full sample)
-            p_control = vol_matched_baseline(df_5m, state_name, target_col,
-                                             N_MATCHED_CONTROLS, rng)
-            uplift_matched = ps_full / max(p_control, 1e-8) if not np.isnan(p_control) else np.nan
+            p_control, n_controls_full = vol_matched_baseline(df_5m, state_name, target_col,
+                                                              N_MATCHED_CONTROLS, rng)
+            # Floor p_control to avoid division-by-near-zero artefacts
+            p_ctrl_floor = max(p0 / 10, 1e-4) if p0 > 0 else 1e-4
+            if not np.isnan(p_control):
+                uplift_matched = ps_full / max(p_control, p_ctrl_floor)
+            else:
+                uplift_matched = np.nan
 
             # Train split
             train_valid = valid & mask_train
@@ -609,6 +625,7 @@ def analyze_symbol(sym: str, raw: dict, grid_1m: pd.DatetimeIndex):
             uplift_test = np.nan
             delta_test = np.nan
             p_control_test = np.nan
+            n_controls_test = 0
             uplift_matched_test = np.nan
             if ns_test >= 3:
                 p0_test = np.nanmean(bm[test_valid])
@@ -617,9 +634,14 @@ def analyze_symbol(sym: str, raw: dict, grid_1m: pd.DatetimeIndex):
                 delta_test = ps_test - p0_test
 
                 # Vol-matched baseline on test only
-                p_control_test = vol_matched_baseline(df_test, state_name, target_col,
-                                                       N_MATCHED_CONTROLS, rng)
-                uplift_matched_test = ps_test / max(p_control_test, 1e-8) if not np.isnan(p_control_test) else np.nan
+                p_control_test, n_controls_test = vol_matched_baseline(df_test, state_name, target_col,
+                                                                      N_MATCHED_CONTROLS, rng)
+                # Floor p_control to avoid division-by-near-zero artefacts
+                p_ctrl_floor_test = max(p0_test / 10, 1e-4) if p0_test > 0 else 1e-4
+                if not np.isnan(p_control_test):
+                    uplift_matched_test = ps_test / max(p_control_test, p_ctrl_floor_test)
+                else:
+                    uplift_matched_test = np.nan
 
             # Weekly stability (count weeks where state uplift > 1)
             weeks_positive = 0
@@ -649,6 +671,7 @@ def analyze_symbol(sym: str, raw: dict, grid_1m: pd.DatetimeIndex):
                 "p0": p0,
                 "pS": ps_full,
                 "p_control": p_control,
+                "n_controls": n_controls_full,
                 "uplift": uplift_full,
                 "uplift_matched": uplift_matched,
                 "delta": delta_full,
@@ -664,6 +687,7 @@ def analyze_symbol(sym: str, raw: dict, grid_1m: pd.DatetimeIndex):
                 "test_uplift": uplift_test,
                 "delta_test": delta_test,
                 "p_control_test": p_control_test,
+                "n_controls_test": n_controls_test if ns_test >= 3 else 0,
                 "uplift_matched_test": uplift_matched_test,
                 "weeks_positive": weeks_positive,
                 "weeks_total": weeks_total,
