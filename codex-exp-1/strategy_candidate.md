@@ -256,6 +256,38 @@ With these risk rails enabled, the current historical paper result remains:
 
 This means the chosen stop thresholds act as safety constraints rather than active performance drivers in the tested sample.
 
+## Capital Efficiency And Leverage
+
+The conservative setup underuses capital because:
+
+- trades last only 1 minute
+- only 1 position is open
+- only 10% of capital is deployed per trade
+
+So the strategy has a positive edge but low clock-time utilization.
+
+Using the same frozen 3-symbol strategy with the same assumptions, only scaling position size:
+
+- `10%` allocation:
+  - total return: `5.36%`
+  - rough annualized return: `9.54%`
+- `25%` allocation:
+  - total return: `13.94%`
+  - rough annualized return: `25.59%`
+- `50%` allocation:
+  - total return: `29.80%`
+  - rough annualized return: `57.69%`
+- `100%` allocation:
+  - total return: `67.41%`
+  - rough annualized return: `145.93%`
+- `200%` notional:
+  - total return: `184.30%`
+  - rough annualized return: `520.15%`
+
+This shows leverage can help a lot in the model, but these larger-size results are optimistic because the simulator still does not fully scale slippage, funding, and margin risk with size.
+
+For practical next steps, `25%` to `50%` allocation are the most reasonable sizing bands to validate further.
+
 ## What This Means
 
 Current evidence supports:
