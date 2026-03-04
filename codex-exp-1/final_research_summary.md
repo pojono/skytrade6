@@ -263,6 +263,26 @@ Missing realism still includes:
 
 The very smooth realized equity curve should be treated as encouraging, not definitive.
 
+## Historical Stress Test
+
+The frozen replay-optimized `25%` sleeve was also stress-tested under worse execution assumptions.
+
+Result:
+
+- it survives moderate cost deterioration
+- it fails under truly harsh execution assumptions
+
+Examples:
+
+- higher fees only (`8 bps`): still positive at `$2,918.30`
+- higher fixed slippage (`2 bps` extra): still positive at `$5,252.21`
+- higher variable slippage: still positive at `$6,140.96`
+- higher size slippage (`2.0 bps`): still positive at `$5,843.90`
+- harsh combined stress: negative at `-$2,419.67`
+- very harsh combined stress: negative at `-$11,406.67`
+
+So the edge is real enough to survive moderate execution degradation, but not severe degradation.
+
 ## Best Next Step
 
 The most useful next step is no longer more in-sample tuning.
