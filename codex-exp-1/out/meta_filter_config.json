@@ -1,0 +1,9 @@
+{
+  "max_velocity": 12.0,
+  "min_carry": 2.0,
+  "min_ls": 0.15,
+  "min_oi": 5.0,
+  "min_score": 8.0,
+  "min_spread_abs": 12.0,
+  "sei_score_extra": 10.0
+}

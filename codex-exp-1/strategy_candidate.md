@@ -331,6 +331,32 @@ Current evidence does **not** support:
 - trading the full symbol universe
 - assuming the same rule works on every coin
 
+## Optional Pre-Trade Meta Filter
+
+Phase 9 adds an optional quality-first filter before the live-style paper engine:
+
+```json
+{
+  "max_velocity": 12.0,
+  "min_carry": 2.0,
+  "min_ls": 0.15,
+  "min_oi": 5.0,
+  "min_score": 8.0,
+  "min_spread_abs": 12.0,
+  "sei_score_extra": 10.0
+}
+```
+
+At the same conservative `10%` sizing and existing live controls, this changes the replay from:
+
+- baseline: `1,421` fills, `3.6742 bps` avg edge, `58.69%` win rate, `$5,358.62` PnL
+
+to:
+
+- filtered: `956` fills, `4.8466 bps` avg edge, `59.73%` win rate, `$4,741.42` PnL
+
+So the meta-filter improves trade quality and slightly improves win rate, but reduces turnover enough that total dollars fall at the current low-utilization deployment.
+
 ## Next Validation Before Production
 
 1. Add a more realistic fill model tied to venue liquidity, if order book data is used later
