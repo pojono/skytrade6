@@ -1,0 +1,4 @@
+variant,symbols,filled_trades,win_rate,avg_net_bps,total_pnl_dollars
+baseline_3sym_unfiltered,"CRVUSDT,GALAUSDT,SEIUSDT",259,0.606178,7.847556,2052.88
+filtered_3sym,"CRVUSDT,GALAUSDT,SEIUSDT",210,0.609524,9.111587,1931.40
+filtered_train_selected_sleeve,"CRVUSDT,GALAUSDT",176,0.642045,10.655791,1892.67

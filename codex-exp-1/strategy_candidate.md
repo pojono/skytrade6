@@ -357,6 +357,49 @@ to:
 
 So the meta-filter improves trade quality and slightly improves win rate, but reduces turnover enough that total dollars fall at the current low-utilization deployment.
 
+## Anti-Overfit Status
+
+Phase 10 tested three stricter pre-trade selection ideas on a fixed holdout (`2026-02` and `2026-03`) without selecting on the test period:
+
+- train-selected 2-symbol sleeve (`CRVUSDT + GALAUSDT`)
+- simple probability ranker
+- compact replay-PnL threshold search
+
+Result:
+
+- none of the stricter variants beat the plain 3-symbol baseline on held-out total dollars at `10%` sizing
+- stricter variants did improve held-out win rate and per-trade edge
+
+Best held-out baseline:
+
+- `259` fills
+- `60.62%` win rate
+- `7.8476 bps`
+- `$2,052.88`
+
+Best held-out quality tradeoff (compact train-only replay filter):
+
+```json
+{
+  "max_velocity": 12.0,
+  "min_carry": 2.0,
+  "min_ls": 0.15,
+  "min_oi": 5.0,
+  "min_score": 6.0,
+  "min_spread_abs": 14.0,
+  "sei_score_extra": 10.0
+}
+```
+
+Held-out result for that variant:
+
+- `213` fills
+- `62.44%` win rate
+- `9.2923 bps`
+- `$1,998.51`
+
+So the plain baseline remains the best dollar generator at current conservative sizing, while the replay-optimized filter is the cleaner high-confidence variant.
+
 ## Next Validation Before Production
 
 1. Add a more realistic fill model tied to venue liquidity, if order book data is used later
