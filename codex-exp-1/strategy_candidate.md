@@ -423,6 +423,23 @@ That changes the practical recommendation:
 - If staying near `10%` allocation, the plain baseline remains the best dollar generator.
 - If scaling toward `25%` allocation, the replay-optimized filter is the better candidate.
 
+## Downside Snapshot For The 25% Filtered Variant
+
+Phase 12 analyzed the frozen replay-optimized `25%` variant directly from its fill stream.
+
+From [downside_report_v3_replayopt_sized25.md](/home/ubuntu/Projects/skytrade6/codex-exp-1/out/downside_report_v3_replayopt_sized25.md):
+
+- max realized drawdown: `$270.08`
+- max realized drawdown percent: `0.25%`
+- weeks observed: `31`
+- positive weeks: `26`
+- negative weeks: `5`
+- months observed: `8`
+- positive months: `7`
+- negative months: `1`
+
+This is a strong realized-equity stability profile in the current sample, but it should be read as model-based realized PnL stability, not as a full live-trading worst-case path estimate.
+
 ## Next Validation Before Production
 
 1. Add a more realistic fill model tied to venue liquidity, if order book data is used later
