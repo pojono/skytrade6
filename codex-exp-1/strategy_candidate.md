@@ -188,6 +188,36 @@ Result:
 
 This is the strongest current implementation candidate.
 
+## Implementation Snapshot
+
+Timestamped trade export:
+
+- `codex-exp-1/out/candidate_trades_v3.csv`
+
+Simple paper simulation with:
+
+- starting capital: `$100,000`
+- allocation: `10%` per trade
+- daily cap: `3` per symbol
+- moderate dynamic slippage
+
+Results with `3` open slots:
+
+- filled trades: `1,422`
+- final capital: `$105,302.27`
+- total PnL: `$5,302.27`
+- average net edge: `3.6340 bps`
+- win rate: `58.72%`
+
+Results with `1` open slot:
+
+- filled trades: `1,421`
+- final capital: `$105,356.75`
+- total PnL: `$5,356.75`
+- average net edge: `3.6729 bps`
+
+This suggests a conservative single-position implementation is viable and may be preferable.
+
 ## What This Means
 
 Current evidence supports:
@@ -205,7 +235,7 @@ Current evidence does **not** support:
 
 ## Next Validation Before Production
 
-1. Add capital allocation and simultaneous exposure caps
-2. Export per-trade records for implementation-grade diagnostics
-3. Build a simple paper-trading simulation around the frozen 3-symbol basket
+1. Add a no-peek ranking / selection rule for live intraminute signal conflicts
+2. Add a more realistic fill model tied to venue liquidity, if order book data is used later
+3. Build a rolling paper-trading log from the frozen 3-symbol basket
 4. Freeze the basket and re-test without reselecting symbols
