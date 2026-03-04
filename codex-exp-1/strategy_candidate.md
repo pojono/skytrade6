@@ -1,0 +1,211 @@
+# Candidate Strategy: Clustered Cross-Exchange Reversion
+
+## Status
+
+This is the first strategy candidate that remains net positive after explicit costs under repeated tests.
+
+It is **not** a universal all-symbol strategy.
+It is a **clustered basket strategy** restricted to a narrow set of symbols.
+
+## Trading Universe
+
+Original validated basket:
+
+1. `CRVUSDT`
+2. `GALAUSDT`
+3. `SEIUSDT`
+4. `FILUSDT`
+5. `XPLUSDT`
+
+Refined flat-slippage basket:
+
+1. `CRVUSDT`
+2. `GALAUSDT`
+3. `SEIUSDT`
+4. `FILUSDT`
+
+This refined basket is stored in `codex-exp-1/out/candidate_basket_v2.txt`.
+
+Current best execution-aware basket:
+
+1. `CRVUSDT`
+2. `GALAUSDT`
+3. `SEIUSDT`
+
+This basket is stored in `codex-exp-1/out/candidate_basket_v3.txt`.
+
+## Entry Logic
+
+At 1-minute frequency:
+
+1. Compute cross-exchange close spread:
+   - `spread_bps = 10000 * (binance_close / bybit_close - 1)`
+2. Only consider entries when:
+   - `abs(spread_bps) >= 10`
+3. Define the expensive venue by the sign of `spread_bps`
+4. Enter a one-bar reversion trade:
+   - Binance rich: short Binance / long Bybit
+   - Binance cheap: long Binance / short Bybit
+
+## Confirmation Filters
+
+Use the state from the entry bar:
+
+1. Cross-venue long/short divergence:
+   - `signed_ls_diff >= 0.15`
+2. Cross-venue open-interest change divergence:
+   - `signed_oi_diff_bps >= 5`
+3. Cross-venue carry divergence:
+   - `signed_carry_diff_bps >= 2`
+
+Definitions:
+
+- `signed_ls_diff` compares Binance long/short ratio vs Bybit long/short ratio, signed toward the expensive venue
+- `signed_oi_diff_bps` compares Binance OI change vs Bybit OI change, signed toward the expensive venue
+- `signed_carry_diff_bps` compares:
+  - Binance `mark/index` basis
+  - Bybit premium index close
+  signed toward the expensive venue
+
+Interpretation:
+
+Fade the spread only when the expensive venue also looks more crowded and richer on carry.
+
+## Holding Period
+
+- Hold for 1 bar
+- Exit on the next synchronized 1-minute close
+
+## Tested Performance
+
+Validation window (intermediate validation):
+
+- recent history used: `90` overlap days
+- out-of-sample: last `30` days
+
+Weighted basket result across the 5 symbols:
+
+### Base Cost: 6 bps round trip
+
+- train avg net: `5.0758 bps` on `14,574` signals
+- test avg net: `7.5168 bps` on `13,060` signals
+
+### Harsher Cost: 8 bps round trip
+
+- train avg net: `3.0758 bps`
+- test avg net: `5.5168 bps`
+
+### Harsher Cost: 10 bps round trip
+
+- train avg net: `1.0758 bps`
+- test avg net: `3.5168 bps`
+
+### Stricter Trigger: 12 bps spread, 8 bps cost
+
+- train avg net: `4.1600 bps` on `11,843` signals
+- test avg net: `7.1200 bps` on `10,726` signals
+
+## Stronger Walk-Forward Validation
+
+Fixed basket used:
+
+- `CRVUSDT`, `GALAUSDT`, `SEIUSDT`, `FILUSDT`
+
+Walk-forward setup:
+
+- recent history used: `210` days
+- test months: last `2`
+- daily cap: `3` trades per symbol
+
+Flat slippage result:
+
+- train avg net: `5.5574 bps` on `1,448` trades
+- test avg net: `7.9771 bps` on `349` trades
+- positive months: `8/8`
+
+With an extra `2 bps` flat slippage:
+
+- train avg net: `3.5574 bps`
+- test avg net: `5.9771 bps`
+- positive months: `8/8`
+
+## Dynamic Slippage Stress
+
+Moderate dynamic slippage:
+
+- fixed extra: `1 bps`
+- spread coefficient: `0.10`
+- velocity coefficient: `0.05`
+
+Result:
+
+- train avg net: `0.5768 bps`
+- test avg net: `5.1459 bps`
+- positive months: `7/8`
+
+Harsh dynamic slippage:
+
+- fixed extra: `2 bps`
+- spread coefficient: `0.20`
+- velocity coefficient: `0.10`
+
+Result:
+
+- train avg net: `-4.4038 bps`
+- test avg net: `2.3148 bps`
+- positive months: `6/8`
+
+This means the strategy survives moderate execution stress but does not survive harsh dynamic slippage assumptions.
+
+## Best Current Version
+
+After removing `FILUSDT`, the 3-symbol basket produced the cleanest walk-forward result.
+
+Setup:
+
+- symbols: `CRVUSDT`, `GALAUSDT`, `SEIUSDT`
+- recent history: `210` days
+- test months: last `2`
+- daily cap: `3`
+
+Flat result:
+
+- train avg net: `4.8067 bps` on `1,163` trades
+- test avg net: `9.7423 bps` on `259` trades
+- positive months: `8/8`
+
+Moderate dynamic slippage:
+
+- fixed extra: `1 bps`
+- spread coefficient: `0.10`
+- velocity coefficient: `0.05`
+
+Result:
+
+- train avg net: `2.6781 bps`
+- test avg net: `6.5136 bps`
+- positive months: `8/8`
+
+This is the strongest current implementation candidate.
+
+## What This Means
+
+Current evidence supports:
+
+- the edge is real enough to survive explicit cost stress
+- the edge is concentrated in a specific symbol cluster
+- the confirmation filters matter
+- the best current version uses trade caps
+- the best current version is robust under flat and moderate slippage, not under harsh slippage
+
+Current evidence does **not** support:
+
+- trading the full symbol universe
+- assuming the same rule works on every coin
+
+## Next Validation Before Production
+
+1. Add capital allocation and simultaneous exposure caps
+2. Export per-trade records for implementation-grade diagnostics
+3. Build a simple paper-trading simulation around the frozen 3-symbol basket
+4. Freeze the basket and re-test without reselecting symbols
