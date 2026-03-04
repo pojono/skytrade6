@@ -283,6 +283,23 @@ Examples:
 
 So the edge is real enough to survive moderate execution degradation, but not severe degradation.
 
+## Strict Fill Reality Check
+
+A later strict fill replay on the actual accepted trades of the best microstructure-gated sleeve produced a much harsher result:
+
+- all `193` tested fills were mechanically fillable in the replay
+- but average strict execution slippage was about `14.48 bps`
+- strict-fill average net fell to `-1.6466 bps`
+- strict-fill total PnL fell to `-$805.32`
+
+This is the strongest execution realism test in the repo so far, and it fails.
+
+So the best current interpretation is:
+
+- the signal itself is still interesting
+- the current execution assumptions are too optimistic
+- the strategy is not cleared for production-style deployment yet
+
 ## Best Next Step
 
 The most useful next step is no longer more in-sample tuning.
