@@ -1,30 +1,33 @@
 #!/usr/bin/env python3
-"""
-List and download USDT perpetual symbols available on Bybit and Binance.
+"""List and download USDT perpetual symbols available on Bybit, Binance, and OKX.
 
 Shows:
-  1. Symbols present on BOTH exchanges (sorted by Bybit 24h turnover)
-  2. Symbols exclusive to Bybit
-  3. Symbols exclusive to Binance
+  1. Symbols present on ALL exchanges (sorted by Bybit 24h turnover)
+  2. Symbols exclusive to each exchange
 
 Sources:
   - Bybit:   https://api.bybit.com/v5/market/tickers?category=linear
   - Binance: https://fapi.binance.com/fapi/v1/ticker/24hr
+  - OKX:     https://www.okx.com/api/v5/market/tickers?instType=SWAP
 
 Usage:
   python3 list_symbols.py                                    # show all
   python3 list_symbols.py -n 100                             # top 100 common symbols
   python3 list_symbols.py --common-only -n 100               # comma-separated for piping
 
-  # Download top 100 common symbols from both exchanges:
-  python3 list_symbols.py --download both -n 100 --start 2025-07-01 --end 2026-03-04
+  # Download top 100 common symbols from all exchanges (futures/swap):
+  python3 list_symbols.py --download all -n 100 --start 2025-07-01 --end 2026-03-04
+
+  # Download spot data from all exchanges:
+  python3 list_symbols.py --download all -n 100 --start 2025-07-01 --end 2026-03-04 --market spot
 
   # Download from one exchange only:
   python3 list_symbols.py --download bybit -n 50 --start 2025-07-01 --end 2026-03-04
   python3 list_symbols.py --download binance -n 50 --start 2025-07-01 --end 2026-03-04 -c 10
+  python3 list_symbols.py --download okx -n 50 --start 2025-07-01 --end 2026-03-04
 
   # Download with specific data types:
-  python3 list_symbols.py --download both -n 100 --start 2025-07-01 --end 2026-03-04 -t klines,fundingRate
+  python3 list_symbols.py --download all -n 100 --start 2025-07-01 --end 2026-03-04 -t klines,fundingRate
 """
 
 import argparse
@@ -69,6 +72,21 @@ def get_binance_symbols() -> dict[str, float]:
     return symbols
 
 
+def get_okx_symbols() -> dict[str, float]:
+    """Return {symbol: volCcy24h (24h turnover in quote)} for OKX USDT SWAP perps."""
+    data = fetch_json("https://www.okx.com/api/v5/market/tickers?instType=SWAP")
+    symbols = {}
+    for t in data.get("data", []):
+        inst_id = t["instId"]
+        # Only USDT swaps, e.g. BTC-USDT-SWAP -> BTCUSDT
+        if not inst_id.endswith("-USDT-SWAP"):
+            continue
+        base = inst_id.replace("-USDT-SWAP", "")
+        sym = base + "USDT"
+        symbols[sym] = float(t.get("volCcy24h", "0"))
+    return symbols
+
+
 def fmt_turnover(val: float) -> str:
     """Format turnover as human-readable string."""
     if val >= 1e9:
@@ -80,30 +98,32 @@ def fmt_turnover(val: float) -> str:
     return f"${val:.0f}"
 
 
-def print_report(common_sorted, bybit, binance, bybit_only, binance_only, top):
+def print_report(common_sorted, bybit, binance, okx, bybit_only, binance_only, okx_only, top):
     """Print the full symbol comparison report."""
-    print(f"\n{'='*80}")
+    print(f"\n{'='*92}")
     print(f"  COMMON SYMBOLS: {len(common_sorted)}"
           + (f" (top {top})" if top else "")
-          + f"  |  Bybit-only: {len(bybit_only)}  |  Binance-only: {len(binance_only)}")
-    print(f"{'='*80}")
+          + f"  |  Bybit-only: {len(bybit_only)}  |  Binance-only: {len(binance_only)}"
+          + f"  |  OKX-only: {len(okx_only)}")
+    print(f"{'='*92}")
 
     # --- Common ---
-    print(f"\n{'─'*80}")
+    print(f"\n{'─'*92}")
     print(f"  COMMON ({len(common_sorted)} symbols) — sorted by Bybit 24h turnover")
-    print(f"{'─'*80}")
-    print(f"  {'#':>4}  {'Symbol':<20} {'Bybit 24h':>12} {'Binance 24h':>12}")
-    print(f"  {'─'*4}  {'─'*20} {'─'*12} {'─'*12}")
+    print(f"{'─'*92}")
+    print(f"  {'#':>4}  {'Symbol':<20} {'Bybit 24h':>12} {'Binance 24h':>12} {'OKX 24h':>12}")
+    print(f"  {'─'*4}  {'─'*20} {'─'*12} {'─'*12} {'─'*12}")
     for i, sym in enumerate(common_sorted, 1):
-        bb = fmt_turnover(bybit[sym])
-        bn = fmt_turnover(binance[sym])
-        print(f"  {i:>4}  {sym:<20} {bb:>12} {bn:>12}")
+        bb = fmt_turnover(bybit.get(sym, 0))
+        bn = fmt_turnover(binance.get(sym, 0))
+        ox = fmt_turnover(okx.get(sym, 0))
+        print(f"  {i:>4}  {sym:<20} {bb:>12} {bn:>12} {ox:>12}")
 
     # --- Bybit-only ---
     bybit_only_sorted = sorted(bybit_only, key=lambda s: -bybit[s])
-    print(f"\n{'─'*80}")
+    print(f"\n{'─'*92}")
     print(f"  BYBIT-ONLY ({len(bybit_only_sorted)} symbols)")
-    print(f"{'─'*80}")
+    print(f"{'─'*92}")
     if bybit_only_sorted:
         print(f"  {'#':>4}  {'Symbol':<20} {'Bybit 24h':>12}")
         print(f"  {'─'*4}  {'─'*20} {'─'*12}")
@@ -115,9 +135,9 @@ def print_report(common_sorted, bybit, binance, bybit_only, binance_only, top):
 
     # --- Binance-only ---
     binance_only_sorted = sorted(binance_only, key=lambda s: -binance[s])
-    print(f"\n{'─'*80}")
+    print(f"\n{'─'*92}")
     print(f"  BINANCE-ONLY ({len(binance_only_sorted)} symbols)")
-    print(f"{'─'*80}")
+    print(f"{'─'*92}")
     if binance_only_sorted:
         print(f"  {'#':>4}  {'Symbol':<20} {'Binance 24h':>12}")
         print(f"  {'─'*4}  {'─'*20} {'─'*12}")
@@ -127,18 +147,36 @@ def print_report(common_sorted, bybit, binance, bybit_only, binance_only, top):
     else:
         print("  (none)")
 
+    # --- OKX-only ---
+    okx_only_sorted = sorted(okx_only, key=lambda s: -okx[s])
+    print(f"\n{'─'*92}")
+    print(f"  OKX-ONLY ({len(okx_only_sorted)} symbols)")
+    print(f"{'─'*92}")
+    if okx_only_sorted:
+        print(f"  {'#':>4}  {'Symbol':<20} {'OKX 24h':>12}")
+        print(f"  {'─'*4}  {'─'*20} {'─'*12}")
+        for i, sym in enumerate(okx_only_sorted, 1):
+            ox = fmt_turnover(okx[sym])
+            print(f"  {i:>4}  {sym:<20} {ox:>12}")
+    else:
+        print("  (none)")
+
     print()
 
 
 def run_downloader(exchange: str, symbols: list[str], start: str, end: str,
-                   concurrency: int, types: str | None):
+                   concurrency: int, types: str | None, market: str | None = None):
     """Run a download script as a subprocess."""
     if exchange == "bybit":
         script = SCRIPT_DIR / "download_bybit_data.py"
-    else:
+    elif exchange == "binance":
         script = SCRIPT_DIR / "download_binance_data.py"
+    else:
+        script = SCRIPT_DIR / "download_okx_data.py"
 
     cmd = [sys.executable, str(script), ",".join(symbols), start, end, "-c", str(concurrency)]
+    if market:
+        cmd.extend(["-m", market])
     if types:
         cmd.extend(["-t", types])
 
@@ -154,13 +192,14 @@ def main():
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     parser = argparse.ArgumentParser(
-        description="List and download USDT perpetual symbols on Bybit and Binance.",
+        description="List and download USDT perpetual symbols on Bybit, Binance, and OKX.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="Examples:\n"
                "  python3 list_symbols.py -n 100\n"
                "  python3 list_symbols.py --common-only -n 100\n"
-               "  python3 list_symbols.py --download both -n 100 --start 2025-07-01\n"
-               "  python3 list_symbols.py --download bybit -n 50 --start 2025-07-01 -t klines,fundingRate\n",
+               "  python3 list_symbols.py --download all -n 100 --start 2025-07-01\n"
+               "  python3 list_symbols.py --download bybit -n 50 --start 2025-07-01 -t klines,fundingRate\n"
+               "  python3 list_symbols.py --download okx -n 50 --start 2025-07-01\n",
     )
     parser.add_argument(
         "--top", "-n",
@@ -175,7 +214,7 @@ def main():
     )
     parser.add_argument(
         "--download",
-        choices=["bybit", "binance", "both"],
+        choices=["bybit", "binance", "okx", "all"],
         default=None,
         help="Download data for common symbols using the specified exchange downloader(s)",
     )
@@ -198,6 +237,15 @@ def main():
         help="Max concurrent downloads passed to downloader scripts (default: 5)",
     )
     parser.add_argument(
+        "--market", "-m",
+        type=str,
+        default=None,
+        choices=["linear", "futures", "swap", "spot"],
+        help="Market type passed to downloader scripts. "
+             "Bybit: linear/spot, Binance: futures/spot, OKX: swap/spot. "
+             "Use 'spot' for all. Omit for each script's default (futures/swap).",
+    )
+    parser.add_argument(
         "--types", "-t",
         type=str,
         default=None,
@@ -212,14 +260,20 @@ def main():
 
     sys.stderr.write("Fetching Binance tickers...\n")
     binance = get_binance_symbols()
-    sys.stderr.write(f"  {len(binance)} USDT-M perps\n\n")
+    sys.stderr.write(f"  {len(binance)} USDT-M perps\n")
+
+    sys.stderr.write("Fetching OKX tickers...\n")
+    okx = get_okx_symbols()
+    sys.stderr.write(f"  {len(okx)} USDT SWAP perps\n\n")
 
     # Sets
     bybit_set = set(bybit.keys())
     binance_set = set(binance.keys())
-    common = bybit_set & binance_set
-    bybit_only = bybit_set - binance_set
-    binance_only = binance_set - bybit_set
+    okx_set = set(okx.keys())
+    common = bybit_set & binance_set & okx_set
+    bybit_only = bybit_set - binance_set - okx_set
+    binance_only = binance_set - bybit_set - okx_set
+    okx_only = okx_set - bybit_set - binance_set
 
     # Common symbols sorted by Bybit turnover descending
     common_sorted = sorted(common, key=lambda s: -bybit[s])
@@ -229,7 +283,8 @@ def main():
     sys.stderr.write(f"Common: {len(common_sorted)}"
                      + (f" (top {args.top})" if args.top else "")
                      + f"  |  Bybit-only: {len(bybit_only)}"
-                     + f"  |  Binance-only: {len(binance_only)}\n")
+                     + f"  |  Binance-only: {len(binance_only)}"
+                     + f"  |  OKX-only: {len(okx_only)}\n")
 
     # --common-only: comma-separated for piping
     if args.common_only:
@@ -255,15 +310,33 @@ def main():
 
         processes = []
 
-        if args.download in ("bybit", "both"):
+        # Map generic market names to exchange-specific ones
+        def exchange_market(exchange: str, market: str | None) -> str | None:
+            if market is None:
+                return None
+            if market == "spot":
+                return "spot"
+            # Non-spot: use each exchange's default futures name
+            mkt_map = {"bybit": "linear", "binance": "futures", "okx": "swap"}
+            return mkt_map.get(exchange, market)
+
+        if args.download in ("bybit", "all"):
             p = run_downloader("bybit", common_sorted, args.start, args.end,
-                               args.concurrency, args.types)
+                               args.concurrency, args.types,
+                               exchange_market("bybit", args.market))
             processes.append(("bybit", p))
 
-        if args.download in ("binance", "both"):
+        if args.download in ("binance", "all"):
             p = run_downloader("binance", common_sorted, args.start, args.end,
-                               args.concurrency, args.types)
+                               args.concurrency, args.types,
+                               exchange_market("binance", args.market))
             processes.append(("binance", p))
+
+        if args.download in ("okx", "all"):
+            p = run_downloader("okx", common_sorted, args.start, args.end,
+                               args.concurrency, args.types,
+                               exchange_market("okx", args.market))
+            processes.append(("okx", p))
 
         # Wait for all downloaders
         failed = False
@@ -278,7 +351,7 @@ def main():
         return
 
     # Default: full report
-    print_report(common_sorted, bybit, binance, bybit_only, binance_only, args.top)
+    print_report(common_sorted, bybit, binance, okx, bybit_only, binance_only, okx_only, args.top)
 
 
 if __name__ == "__main__":

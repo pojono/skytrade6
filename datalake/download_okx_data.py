@@ -1,58 +1,52 @@
 #!/usr/bin/env python3
 """
-Download Bybit market data (linear perpetual futures or spot).
+Download OKX market data (perpetual swap or spot).
 
-Sources — linear (bulk archives):
-  - Trades:    https://public.bybit.com/trading/{SYMBOL}/{SYMBOL}{YYYY-MM-DD}.csv.gz
-  - Orderbook: https://quote-saver.bycsi.com/orderbook/linear/{SYMBOL}/{YYYY-MM-DD}_{SYMBOL}_ob200.data.zip
+Sources — swap (REST API v5, paginated):
+  - Kline (1m):              GET /api/v5/market/history-candles
+  - Mark Price Kline (1m):   GET /api/v5/market/history-mark-price-candles
+  - Funding Rate History:    GET /api/v5/public/funding-rate-history
+  - Open Interest History:   GET /api/v5/rubik/stat/contracts/open-interest-history
+  - Long/Short Ratio:        GET /api/v5/rubik/stat/contracts/long-short-account-ratio-contract
+  - Taker Volume:            GET /api/v5/rubik/stat/taker-volume-contract
+  - Premium History:         GET /api/v5/public/premium-history
+
+Sources — swap (bulk archives):
+  - Trades: https://static.okx.com/cdn/okex/traderecords/trades/daily/{YYYYMMDD}/{INST}-trades-{YYYY-MM-DD}.zip
+
+Sources — spot (REST API v5):
+  - Kline (1m):              GET /api/v5/market/history-candles (instId=BTC-USDT)
 
 Sources — spot (bulk archives):
-  - Trades:    https://public.bybit.com/spot/{SYMBOL}/{SYMBOL}_{YYYY-MM-DD}.csv.gz
-
-Sources (REST API v5, paginated — category=linear or category=spot):
-  - Kline (1m):          GET /v5/market/kline
-  - Mark Price Kline:    GET /v5/market/mark-price-kline        (linear only)
-  - Premium Index Kline: GET /v5/market/premium-index-price-kline (linear only)
-  - Funding Rate History: GET /v5/market/funding/history         (linear only)
-  - Open Interest:        GET /v5/market/open-interest           (linear only)
-  - Long/Short Ratio:    GET /v5/market/account-ratio            (linear only)
+  - Trades: https://static.okx.com/cdn/okex/traderecords/trades/daily/{YYYYMMDD}/{INST}-trades-{YYYY-MM-DD}.zip
 
 Usage:
-  # Linear (default):
-  python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-28
-  python download_bybit_data.py SOLUSDT,DOGEUSDT 2026-01-15 2026-01-20 -c 10
-  python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-07 --types klines,fundingRate,openInterest
+  # Swap (default):
+  python download_okx_data.py BTCUSDT 2026-02-01 2026-02-28
+  python download_okx_data.py BTCUSDT 2026-02-01 2026-02-07 --types klines,fundingRate
 
   # Spot:
-  python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-28 --market spot
-  python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-07 --market spot --types all
-
-Available data types (linear):
-  trades, orderbook, klines, markPriceKlines, premiumIndexKlines,
-  fundingRate, openInterest, longShortRatio
-
-Available data types (spot):
-  spotTrades, spotKlines
+  python download_okx_data.py BTCUSDT 2026-02-01 2026-02-28 --market spot
+  python download_okx_data.py BTCUSDT 2026-02-01 2026-02-07 --market spot --types all
 
 Output structure (same folder, spot files have _spot postfix):
-  bybit/{SYMBOL}/
-    {YYYY-MM-DD}_trades.csv               (linear trades)
-    {YYYY-MM-DD}_orderbook.jsonl           (linear ob200)
-    {YYYY-MM-DD}_kline_1m.csv              (linear OHLCV 1m)
-    {YYYY-MM-DD}_mark_price_kline_1m.csv   (linear mark price 1m)
-    {YYYY-MM-DD}_premium_index_kline_1m.csv (linear premium index 1m)
-    {YYYY-MM-DD}_funding_rate.csv          (linear funding rates)
-    {YYYY-MM-DD}_open_interest_5min.csv    (linear open interest)
-    {YYYY-MM-DD}_long_short_ratio_5min.csv (linear long/short ratio)
-    {YYYY-MM-DD}_kline_1m_spot.csv         (spot OHLCV 1m)
-    {YYYY-MM-DD}_trades_spot.csv           (spot trades)
+  okx/{SYMBOL}/
+    {YYYY-MM-DD}_trades.csv               (swap trades)
+    {YYYY-MM-DD}_kline_1m.csv             (swap OHLCV 1m)
+    {YYYY-MM-DD}_mark_price_kline_1m.csv  (swap mark price 1m)
+    {YYYY-MM-DD}_funding_rate.csv         (swap funding rates)
+    {YYYY-MM-DD}_open_interest_5min.csv   (swap open interest 5min)
+    {YYYY-MM-DD}_long_short_ratio_5min.csv (swap long/short ratio 5min)
+    {YYYY-MM-DD}_taker_volume_5min.csv    (swap taker volume 5min)
+    {YYYY-MM-DD}_premium_history.csv      (swap premium index)
+    {YYYY-MM-DD}_kline_1m_spot.csv        (spot OHLCV 1m)
+    {YYYY-MM-DD}_trades_spot.csv          (spot trades)
 """
 
 import argparse
 import asyncio
 import atexit
 import csv
-import gzip
 import io
 import json
 import signal
@@ -70,46 +64,40 @@ sys.stdout.reconfigure(line_buffering=True)
 # Constants
 # ---------------------------------------------------------------------------
 
-BYBIT_TRADES_URL = "https://public.bybit.com/trading/{symbol}/{symbol}{date}.csv.gz"
-BYBIT_OB200_URL = (
-    "https://quote-saver.bycsi.com/orderbook/linear/{symbol}/"
-    "{date}_{symbol}_ob200.data.zip"
+OKX_API_BASE = "https://www.okx.com"
+OKX_TRADES_URL = (
+    "https://static.okx.com/cdn/okex/traderecords/trades/daily/"
+    "{date_compact}/{instrument}-trades-{date}.zip"
 )
-BYBIT_SPOT_TRADES_URL = "https://public.bybit.com/spot/{symbol}/{symbol}_{date}.csv.gz"
 
 DEFAULT_CONCURRENT = 5
 RETRY_ATTEMPTS = 3
 RETRY_BACKOFF = 2  # seconds
-
-# Bybit REST API v5
-BYBIT_API_BASE = "https://api.bybit.com"
-API_RATE_LIMIT_DELAY = 0.025  # seconds between paginated requests (stay under 120/s IP limit)
+API_RATE_LIMIT_DELAY = 0.25  # seconds between paginated requests within a single task
 
 # Output directory relative to this script
 SCRIPT_DIR = Path(__file__).resolve().parent
-DATA_DIR = SCRIPT_DIR / "bybit"
+DATA_DIR = SCRIPT_DIR / "okx"
 
 # ---------------------------------------------------------------------------
 # Data type definitions (unified interface)
 # ---------------------------------------------------------------------------
 
-# Maps CLI type names to internal config.
-# "source" is either "bulk" (archive download) or "rest" (API paginated).
-# --- Linear (futures) data types ---
+# --- Swap (perpetual futures) data types ---
 DATA_TYPES = {
-    "trades":             {"source": "bulk",  "label": "trades"},
-    "orderbook":          {"source": "bulk",  "label": "orderbook (ob200)"},
-    "klines":             {"source": "rest",  "label": "klines (1m)"},
-    "markPriceKlines":    {"source": "rest",  "label": "mark price klines (1m)"},
-    "premiumIndexKlines": {"source": "rest",  "label": "premium index klines (1m)"},
-    "fundingRate":        {"source": "rest",  "label": "funding rate"},
-    "openInterest":       {"source": "rest",  "label": "open interest (5min)"},
-    "longShortRatio":     {"source": "rest",  "label": "long/short ratio (5min)"},
+    "trades":           {"source": "bulk",  "label": "trades"},
+    "klines":           {"source": "rest",  "label": "klines (1m)"},
+    "markPriceKlines":  {"source": "rest",  "label": "mark price klines (1m)"},
+    "fundingRate":      {"source": "rest",  "label": "funding rate"},
+    "openInterest":     {"source": "rest",  "label": "open interest (5min)"},
+    "longShortRatio":   {"source": "rest",  "label": "long/short ratio (5min)"},
+    "takerVolume":      {"source": "rest",  "label": "taker volume (5min)"},
+    "premiumHistory":   {"source": "rest",  "label": "premium history"},
 }
 
 DEFAULT_TYPES = [
-    "klines", "markPriceKlines", "premiumIndexKlines",
-    "fundingRate", "openInterest", "longShortRatio",
+    "klines", "markPriceKlines", "fundingRate", "openInterest",
+    "longShortRatio", "takerVolume", "premiumHistory",
 ]
 
 # --- Spot data types ---
@@ -119,6 +107,27 @@ SPOT_DATA_TYPES = {
 }
 
 SPOT_DEFAULT_TYPES = ["spotKlines"]
+
+# Global rate limiter — enforces min interval between ANY two API requests
+# OKX rubik/stat endpoints: 5 req/2s; market endpoints: 20-40 req/2s
+# We target ~4 req/s globally which is safe for all endpoint types.
+_throttle_lock: asyncio.Lock | None = None
+_throttle_last: float = 0.0
+GLOBAL_MIN_INTERVAL = 0.28  # seconds between any two API calls (~3.5 req/s)
+
+
+async def _throttle():
+    """Global rate limiter. Ensures min interval between consecutive API calls."""
+    global _throttle_lock, _throttle_last
+    if _throttle_lock is None:
+        _throttle_lock = asyncio.Lock()
+    async with _throttle_lock:
+        now = time.monotonic()
+        wait = GLOBAL_MIN_INTERVAL - (now - _throttle_last)
+        if wait > 0:
+            await asyncio.sleep(wait)
+        _throttle_last = time.monotonic()
+
 
 # Track .tmp files for cleanup on interrupt
 _active_tmp_files: set[Path] = set()
@@ -139,6 +148,20 @@ for _sig in (signal.SIGINT, signal.SIGTERM):
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+
+def symbol_to_okx_inst(symbol: str, market: str = "swap") -> str:
+    """Convert e.g. BTCUSDT -> BTC-USDT-SWAP (swap) or BTC-USDT (spot)."""
+    for quote in ("USDT", "USDC", "USD"):
+        if symbol.endswith(quote):
+            base_ccy = symbol[: -len(quote)]
+            if market == "spot":
+                return f"{base_ccy}-{quote}"
+            return f"{base_ccy}-{quote}-SWAP"
+    # Fallback: assume last 4 chars are quote
+    if market == "spot":
+        return f"{symbol[:-4]}-{symbol[-4:]}"
+    return f"{symbol[:-4]}-{symbol[-4:]}-SWAP"
 
 
 def date_range(start: str, end: str):
@@ -171,39 +194,47 @@ def _write_csv(dest: Path, rows: list[list], header: list[str]):
     _active_tmp_files.discard(tmp)
 
 
+def _extract_zip_csv(raw: bytes) -> bytes:
+    """Extract the first .csv file from a zip archive. Returns raw CSV bytes."""
+    with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+        csv_files = [n for n in zf.namelist() if n.endswith(".csv")]
+        if csv_files:
+            return zf.read(csv_files[0])
+        # Fallback: extract first file
+        return zf.read(zf.namelist()[0])
+
+
 # ---------------------------------------------------------------------------
 # First-available-date detection (binary search via kline API probe)
 # ---------------------------------------------------------------------------
 
 
-async def _probe_date_exists(session: aiohttp.ClientSession, symbol: str, date_str: str, category: str = "linear") -> bool:
-    """Return True if kline data exists for this symbol on this date."""
+async def _probe_date_exists(session: aiohttp.ClientSession, inst_id: str, date_str: str) -> bool:
+    """Return True if kline data exists for this instrument on this date."""
     start_ms = _date_to_ms(date_str)
     end_ms = start_ms + 60_000  # just 1 minute
     try:
-        result = await _api_get(session, "/v5/market/kline", {
-            "category": category,
-            "symbol": symbol,
-            "interval": "1",
-            "start": str(start_ms),
-            "end": str(end_ms),
+        result = await _api_get(session, "/api/v5/market/history-candles", {
+            "instId": inst_id,
+            "bar": "1m",
+            "after": str(end_ms),
+            "before": str(start_ms - 1),
             "limit": "1",
         })
-        return len(result.get("list", [])) > 0
+        return len(result) > 0
     except Exception:
         return False
 
 
 async def find_first_available_date(
     session: aiohttp.ClientSession,
-    symbol: str,
+    inst_id: str,
     start_date: str,
     end_date: str,
-    category: str = "linear",
 ) -> str | None:
-    """Binary search for the first date that has data on Bybit.
+    """Binary search for the first date that has data on OKX.
 
-    Probes the kline API. Returns the first available date string (YYYY-MM-DD),
+    Probes the history-candles API. Returns the first available date string,
     or None if no data exists in the range. ~10 requests for a 256-day range.
     """
     fmt = "%Y-%m-%d"
@@ -211,14 +242,14 @@ async def find_first_available_date(
     hi = datetime.strptime(end_date, fmt)
 
     # Quick check: if start_date exists, no need to search
-    if await _probe_date_exists(session, symbol, start_date, category):
+    if await _probe_date_exists(session, inst_id, start_date):
         return start_date
 
     # Find a known-good upper bound (walk backward up to 3 days)
     upper = None
     d = hi
     for _ in range(4):
-        if await _probe_date_exists(session, symbol, d.strftime(fmt), category):
+        if await _probe_date_exists(session, inst_id, d.strftime(fmt)):
             upper = d
             break
         d -= timedelta(days=1)
@@ -232,7 +263,7 @@ async def find_first_available_date(
     while (upper - lo).days > 1:
         mid = lo + (upper - lo) / 2
         mid_str = mid.strftime(fmt)
-        if await _probe_date_exists(session, symbol, mid_str, category):
+        if await _probe_date_exists(session, inst_id, mid_str):
             upper = mid
         else:
             lo = mid
@@ -241,93 +272,88 @@ async def find_first_available_date(
 
 
 # ---------------------------------------------------------------------------
-# REST API v5 — paginated fetchers
+# REST API v5 — generic GET with retries
 # ---------------------------------------------------------------------------
 
 
-async def _api_get(session: aiohttp.ClientSession, path: str, params: dict) -> dict:
-    """GET a Bybit v5 API endpoint with retries. Returns parsed JSON result."""
-    url = BYBIT_API_BASE + path
+async def _api_get(session: aiohttp.ClientSession, path: str, params: dict) -> list:
+    """GET an OKX v5 API endpoint with retries. Returns parsed JSON data list."""
+    url = OKX_API_BASE + path
     for attempt in range(1, RETRY_ATTEMPTS + 1):
+        await _throttle()
         try:
             async with session.get(
                 url, params=params, timeout=aiohttp.ClientTimeout(total=30)
             ) as resp:
-                # Adaptive rate limiting from response headers
-                remaining = resp.headers.get("X-Bapi-Limit-Status")
-                if remaining is not None and int(remaining) <= 2:
-                    await asyncio.sleep(1.0)  # back off when near limit
-
-                if resp.status == 403:
-                    print(f"    403 rate limit hit, waiting 10s...")
-                    await asyncio.sleep(10)
-                    raise aiohttp.ClientError("403 rate limit")
+                if resp.status == 429:
+                    print(f"    429 rate limit hit, waiting 5s...")
+                    await asyncio.sleep(5)
+                    raise aiohttp.ClientError("429 rate limit")
 
                 body = await resp.json()
-                ret_code = body.get("retCode")
-                if ret_code == 10006:  # Too many visits
-                    print(f"    rate limited (10006), waiting 5s...")
-                    await asyncio.sleep(5)
-                    raise aiohttp.ClientError("rate limited")
-                if ret_code != 0:
+                code = body.get("code")
+                if code != "0":
                     raise aiohttp.ClientError(
-                        f"API error {ret_code}: {body.get('retMsg')}"
+                        f"API error {code}: {body.get('msg')}"
                     )
-                return body["result"]
+                return body.get("data", [])
         except (aiohttp.ClientError, asyncio.TimeoutError, json.JSONDecodeError) as exc:
             if attempt == RETRY_ATTEMPTS:
                 raise
             print(f"    retry {attempt}/{RETRY_ATTEMPTS}: {exc}")
             await asyncio.sleep(RETRY_BACKOFF * attempt)
-    return {}  # unreachable
+    return []  # unreachable
+
+
+# ---------------------------------------------------------------------------
+# REST API v5 — paginated fetchers
+# ---------------------------------------------------------------------------
 
 
 async def fetch_kline(
     session: aiohttp.ClientSession,
-    symbol: str,
+    inst_id: str,
     start_ms: int,
     end_ms: int,
-    path: str = "/v5/market/kline",
-    interval: str = "1",
-    limit: int = 1000,
-    category: str = "linear",
+    path: str = "/api/v5/market/history-candles",
+    bar: str = "1m",
+    limit: int = 100,
 ) -> list[list]:
-    """Paginate kline-style endpoints (kline, mark-price-kline, premium-index-price-kline).
+    """Paginate kline-style endpoints (candles, mark-price-candles).
 
-    Returns list of candle arrays sorted ascending by startTime.
-    Kline response: [[startTime, open, high, low, close, volume, turnover], ...]
-    Mark/Premium response: [[startTime, open, high, low, close], ...]
-    API returns newest first; we walk backward from end_ms.
+    OKX candles: [ts, o, h, l, c, vol, volCcy, volCcyQuote, confirm]
+    Mark price:  [ts, o, h, l, c, confirm]
+    API returns newest first; we walk backward from end_ms using 'after' param.
+
+    OKX pagination: 'after' = return data older than this ts,
+                    'before' = return data newer than this ts.
     """
     all_rows = []
-    cursor_end = end_ms
+    cursor_after = str(end_ms + 1)  # start from end, walk backward
     page = 0
     while True:
         params = {
-            "category": category,
-            "symbol": symbol,
-            "interval": interval,
-            "start": str(start_ms),
-            "end": str(cursor_end),
+            "instId": inst_id,
+            "bar": bar,
+            "after": cursor_after,
+            "before": str(start_ms - 1),
             "limit": str(limit),
         }
-        result = await _api_get(session, path, params)
-        rows = result.get("list", [])
-        if not rows:
+        data = await _api_get(session, path, params)
+        if not data:
             break
-        all_rows.extend(rows)
+        all_rows.extend(data)
         page += 1
-        # rows are sorted descending; oldest is last
-        oldest_ts = int(rows[-1][0])
-        if oldest_ts <= start_ms or len(rows) < limit:
+        # data is sorted descending; oldest is last
+        oldest_ts = data[-1][0]
+        if int(oldest_ts) <= start_ms or len(data) < limit:
             break
-        # next page: end just before oldest
-        cursor_end = oldest_ts - 1
+        cursor_after = oldest_ts
         if page % 10 == 0:
             print(f"      ... {len(all_rows)} candles fetched so far")
         await asyncio.sleep(API_RATE_LIMIT_DELAY)
 
-    # deduplicate by startTime and sort ascending
+    # deduplicate by ts and sort ascending
     seen = set()
     unique = []
     for r in all_rows:
@@ -341,34 +367,39 @@ async def fetch_kline(
 
 async def fetch_funding_rate(
     session: aiohttp.ClientSession,
-    symbol: str,
+    inst_id: str,
     start_ms: int,
     end_ms: int,
 ) -> list[list]:
-    """Paginate /v5/market/funding/history. Returns [[timestamp, fundingRate], ...] ascending."""
+    """Paginate /api/v5/public/funding-rate-history.
+
+    Returns [[fundingTime, fundingRate, realizedRate], ...] ascending.
+    API returns newest first; paginate via 'after' param.
+    """
     all_rows = []
-    cursor_end = end_ms
+    cursor_after = str(end_ms + 1)
     page = 0
     while True:
         params = {
-            "category": "linear",
-            "symbol": symbol,
-            "startTime": str(start_ms),
-            "endTime": str(cursor_end),
-            "limit": "200",
+            "instId": inst_id,
+            "after": cursor_after,
+            "before": str(start_ms - 1),
+            "limit": "100",
         }
-        result = await _api_get(session, "/v5/market/funding/history", params)
-        items = result.get("list", [])
-        if not items:
+        data = await _api_get(session, "/api/v5/public/funding-rate-history", params)
+        if not data:
             break
-        for item in items:
-            all_rows.append([item["fundingRateTimestamp"], item["fundingRate"]])
+        for item in data:
+            all_rows.append([
+                item["fundingTime"],
+                item["fundingRate"],
+                item.get("realizedRate", ""),
+            ])
         page += 1
-        # items are newest-first; walk backward
-        oldest_ts = int(items[-1]["fundingRateTimestamp"])
-        if oldest_ts <= start_ms or len(items) < 200:
+        oldest_ts = data[-1]["fundingTime"]
+        if int(oldest_ts) <= start_ms or len(data) < 100:
             break
-        cursor_end = oldest_ts - 1
+        cursor_after = oldest_ts
         if page % 10 == 0:
             print(f"      ... {len(all_rows)} FR records fetched so far")
         await asyncio.sleep(API_RATE_LIMIT_DELAY)
@@ -384,89 +415,40 @@ async def fetch_funding_rate(
     return unique
 
 
-async def fetch_long_short_ratio(
-    session: aiohttp.ClientSession,
-    symbol: str,
-    start_ms: int,
-    end_ms: int,
-    period: str = "5min",
-) -> list[list]:
-    """Paginate /v5/market/account-ratio via time-window walking.
-
-    Returns [[timestamp, buyRatio, sellRatio], ...] ascending.
-    API returns newest-first; we walk backward from end_ms.
-    """
-    all_rows = []
-    cursor_end = end_ms
-    page = 0
-    while True:
-        params = {
-            "category": "linear",
-            "symbol": symbol,
-            "period": period,
-            "limit": "500",
-            "startTime": str(start_ms),
-            "endTime": str(cursor_end),
-        }
-        result = await _api_get(session, "/v5/market/account-ratio", params)
-        items = result.get("list", [])
-        if not items:
-            break
-        for item in items:
-            all_rows.append([item["timestamp"], item["buyRatio"], item["sellRatio"]])
-        page += 1
-        oldest_ts = int(items[-1]["timestamp"])
-        if oldest_ts <= start_ms or len(items) < 500:
-            break
-        cursor_end = oldest_ts - 1
-        if page % 10 == 0:
-            print(f"      ... {len(all_rows)} LS ratio records fetched so far")
-        await asyncio.sleep(API_RATE_LIMIT_DELAY)
-
-    # deduplicate + sort ascending
-    seen = set()
-    unique = []
-    for r in all_rows:
-        if r[0] not in seen:
-            seen.add(r[0])
-            unique.append(r)
-    unique.sort(key=lambda r: int(r[0]))
-    return unique
-
-
 async def fetch_open_interest(
     session: aiohttp.ClientSession,
-    symbol: str,
+    inst_id: str,
     start_ms: int,
     end_ms: int,
-    interval_time: str = "5min",
+    period: str = "5m",
 ) -> list[list]:
-    """Paginate /v5/market/open-interest via time-window walking.
+    """Paginate /api/v5/rubik/stat/contracts/open-interest-history.
 
-    Returns [[timestamp, openInterest], ...] ascending.
-    API returns newest-first; we walk backward from end_ms.
+    Returns [[ts, oi, oiCcy, oiUsd], ...] ascending.
+    Max 100 per page, newest first. Paginate via 'end' timestamp.
     """
     all_rows = []
     cursor_end = end_ms
     page = 0
     while True:
         params = {
-            "category": "linear",
-            "symbol": symbol,
-            "intervalTime": interval_time,
-            "limit": "200",
-            "startTime": str(start_ms),
-            "endTime": str(cursor_end),
+            "instId": inst_id,
+            "period": period,
+            "end": str(cursor_end),
+            "begin": str(start_ms),
+            "limit": "100",
         }
-        result = await _api_get(session, "/v5/market/open-interest", params)
-        items = result.get("list", [])
-        if not items:
+        data = await _api_get(
+            session,
+            "/api/v5/rubik/stat/contracts/open-interest-history",
+            params,
+        )
+        if not data:
             break
-        for item in items:
-            all_rows.append([item["timestamp"], item["openInterest"]])
+        all_rows.extend(data)
         page += 1
-        oldest_ts = int(items[-1]["timestamp"])
-        if oldest_ts <= start_ms or len(items) < 200:
+        oldest_ts = int(data[-1][0])
+        if oldest_ts <= start_ms or len(data) < 100:
             break
         cursor_end = oldest_ts - 1
         if page % 10 == 0:
@@ -484,55 +466,201 @@ async def fetch_open_interest(
     return unique
 
 
+async def fetch_long_short_ratio(
+    session: aiohttp.ClientSession,
+    inst_id: str,
+    start_ms: int,
+    end_ms: int,
+    period: str = "5m",
+) -> list[list]:
+    """Paginate /api/v5/rubik/stat/contracts/long-short-account-ratio-contract.
+
+    Returns [[ts, longShortAcctRatio], ...] ascending.
+    """
+    all_rows = []
+    cursor_end = end_ms
+    page = 0
+    while True:
+        params = {
+            "instId": inst_id,
+            "period": period,
+            "end": str(cursor_end),
+            "begin": str(start_ms),
+            "limit": "100",
+        }
+        data = await _api_get(
+            session,
+            "/api/v5/rubik/stat/contracts/long-short-account-ratio-contract",
+            params,
+        )
+        if not data:
+            break
+        all_rows.extend(data)
+        page += 1
+        oldest_ts = int(data[-1][0])
+        if oldest_ts <= start_ms or len(data) < 100:
+            break
+        cursor_end = oldest_ts - 1
+        if page % 10 == 0:
+            print(f"      ... {len(all_rows)} LS ratio records fetched so far")
+        await asyncio.sleep(API_RATE_LIMIT_DELAY)
+
+    # deduplicate + sort ascending
+    seen = set()
+    unique = []
+    for r in all_rows:
+        if r[0] not in seen:
+            seen.add(r[0])
+            unique.append(r)
+    unique.sort(key=lambda r: int(r[0]))
+    return unique
+
+
+async def fetch_taker_volume(
+    session: aiohttp.ClientSession,
+    inst_id: str,
+    start_ms: int,
+    end_ms: int,
+    period: str = "5m",
+) -> list[list]:
+    """Paginate /api/v5/rubik/stat/taker-volume-contract.
+
+    Returns [[ts, sellVol, buyVol], ...] ascending.
+    """
+    all_rows = []
+    cursor_end = end_ms
+    page = 0
+    while True:
+        params = {
+            "instId": inst_id,
+            "period": period,
+            "end": str(cursor_end),
+            "begin": str(start_ms),
+            "limit": "100",
+        }
+        data = await _api_get(
+            session,
+            "/api/v5/rubik/stat/taker-volume-contract",
+            params,
+        )
+        if not data:
+            break
+        all_rows.extend(data)
+        page += 1
+        oldest_ts = int(data[-1][0])
+        if oldest_ts <= start_ms or len(data) < 100:
+            break
+        cursor_end = oldest_ts - 1
+        if page % 10 == 0:
+            print(f"      ... {len(all_rows)} taker vol records fetched so far")
+        await asyncio.sleep(API_RATE_LIMIT_DELAY)
+
+    # deduplicate + sort ascending
+    seen = set()
+    unique = []
+    for r in all_rows:
+        if r[0] not in seen:
+            seen.add(r[0])
+            unique.append(r)
+    unique.sort(key=lambda r: int(r[0]))
+    return unique
+
+
+async def fetch_premium_history(
+    session: aiohttp.ClientSession,
+    inst_id: str,
+    start_ms: int,
+    end_ms: int,
+) -> list[list]:
+    """Paginate /api/v5/public/premium-history.
+
+    Returns [[ts, premium], ...] ascending.
+    """
+    all_rows = []
+    cursor_after = str(end_ms + 1)
+    page = 0
+    while True:
+        params = {
+            "instId": inst_id,
+            "after": cursor_after,
+            "before": str(start_ms - 1),
+            "limit": "100",
+        }
+        data = await _api_get(session, "/api/v5/public/premium-history", params)
+        if not data:
+            break
+        for item in data:
+            all_rows.append([item["ts"], item["premium"]])
+        page += 1
+        oldest_ts = data[-1]["ts"]
+        if int(oldest_ts) <= start_ms or len(data) < 100:
+            break
+        cursor_after = oldest_ts
+        if page % 10 == 0:
+            print(f"      ... {len(all_rows)} premium records fetched so far")
+        await asyncio.sleep(API_RATE_LIMIT_DELAY)
+
+    # deduplicate + sort ascending
+    seen = set()
+    unique = []
+    for r in all_rows:
+        if r[0] not in seen:
+            seen.add(r[0])
+            unique.append(r)
+    unique.sort(key=lambda r: int(r[0]))
+    return unique
+
+
 # ---------------------------------------------------------------------------
 # REST API download orchestrator — per-day files
 # ---------------------------------------------------------------------------
 
-# Each REST API data type: (suffix, fetcher, header, label)
-# Keyed by CLI type name for easy filtering.
 REST_API_SOURCES = {
     "klines": {
         "suffix": "kline_1m",
         "fetcher": "kline",
-        "path": "/v5/market/kline",
-        "category": "linear",
-        "header": ["startTime", "open", "high", "low", "close", "volume", "turnover"],
+        "path": "/api/v5/market/history-candles",
+        "header": ["startTime", "open", "high", "low", "close", "volume", "volCcy", "volCcyQuote", "confirm"],
         "label": "kline (1m)",
-        "limit": 1000,
+        "limit": 100,
     },
     "markPriceKlines": {
         "suffix": "mark_price_kline_1m",
         "fetcher": "kline",
-        "path": "/v5/market/mark-price-kline",
-        "header": ["startTime", "open", "high", "low", "close"],
+        "path": "/api/v5/market/history-mark-price-candles",
+        "header": ["startTime", "open", "high", "low", "close", "confirm"],
         "label": "mark price kline (1m)",
-        "limit": 200,
-    },
-    "premiumIndexKlines": {
-        "suffix": "premium_index_kline_1m",
-        "fetcher": "kline",
-        "path": "/v5/market/premium-index-price-kline",
-        "header": ["startTime", "open", "high", "low", "close"],
-        "label": "premium index kline (1m)",
-        "limit": 200,
+        "limit": 100,
     },
     "fundingRate": {
         "suffix": "funding_rate",
         "fetcher": "funding_rate",
-        "header": ["timestamp", "fundingRate"],
+        "header": ["fundingTime", "fundingRate", "realizedRate"],
         "label": "funding rate",
     },
     "openInterest": {
         "suffix": "open_interest_5min",
         "fetcher": "open_interest",
-        "header": ["timestamp", "openInterest"],
+        "header": ["timestamp", "oi", "oiCcy", "oiUsd"],
         "label": "open interest (5min)",
     },
     "longShortRatio": {
         "suffix": "long_short_ratio_5min",
         "fetcher": "long_short_ratio",
-        "header": ["timestamp", "buyRatio", "sellRatio"],
+        "header": ["timestamp", "longShortAcctRatio"],
         "label": "long/short ratio (5min)",
+    },
+    "takerVolume": {
+        "suffix": "taker_volume_5min",
+        "fetcher": "taker_volume",
+        "header": ["timestamp", "sellVol", "buyVol"],
+        "label": "taker volume (5min)",
+    },
+    "premiumHistory": {
+        "suffix": "premium_history",
+        "fetcher": "premium_history",
+        "header": ["timestamp", "premium"],
+        "label": "premium history",
     },
 }
 
@@ -540,33 +668,35 @@ SPOT_REST_API_SOURCES = {
     "spotKlines": {
         "suffix": "kline_1m_spot",
         "fetcher": "kline",
-        "path": "/v5/market/kline",
-        "category": "spot",
-        "header": ["startTime", "open", "high", "low", "close", "volume", "turnover"],
+        "path": "/api/v5/market/history-candles",
+        "header": ["startTime", "open", "high", "low", "close", "volume", "volCcy", "volCcyQuote", "confirm"],
         "label": "spot kline (1m)",
-        "limit": 1000,
+        "limit": 100,
     },
 }
 
 
-async def _fetch_one_day(session, symbol, day_str, cfg):
+async def _fetch_one_day(session, inst_id, day_str, cfg):
     """Fetch data for a single day using the appropriate fetcher."""
     start_ms = _date_to_ms(day_str)
     end_ms = _date_to_ms(day_str, end_of_day=True)
     fetcher = cfg["fetcher"]
-    category = cfg.get("category", "linear")
 
     if fetcher == "kline":
         return await fetch_kline(
-            session, symbol, start_ms, end_ms,
-            path=cfg["path"], limit=cfg["limit"], category=category,
+            session, inst_id, start_ms, end_ms,
+            path=cfg["path"], limit=cfg["limit"],
         )
     elif fetcher == "funding_rate":
-        return await fetch_funding_rate(session, symbol, start_ms, end_ms)
+        return await fetch_funding_rate(session, inst_id, start_ms, end_ms)
     elif fetcher == "open_interest":
-        return await fetch_open_interest(session, symbol, start_ms, end_ms)
+        return await fetch_open_interest(session, inst_id, start_ms, end_ms)
     elif fetcher == "long_short_ratio":
-        return await fetch_long_short_ratio(session, symbol, start_ms, end_ms)
+        return await fetch_long_short_ratio(session, inst_id, start_ms, end_ms)
+    elif fetcher == "taker_volume":
+        return await fetch_taker_volume(session, inst_id, start_ms, end_ms)
+    elif fetcher == "premium_history":
+        return await fetch_premium_history(session, inst_id, start_ms, end_ms)
     return []
 
 
@@ -574,6 +704,7 @@ async def _fetch_and_save(
     session: aiohttp.ClientSession,
     semaphore: asyncio.Semaphore,
     symbol: str,
+    inst_id: str,
     day_str: str,
     cfg: dict,
     base: Path,
@@ -589,7 +720,7 @@ async def _fetch_and_save(
 
     async with semaphore:
         try:
-            rows = await _fetch_one_day(session, symbol, day_str, cfg)
+            rows = await _fetch_one_day(session, inst_id, day_str, cfg)
             if not rows:
                 return "nodata", 1
             _write_csv(dest, rows, header)
@@ -603,6 +734,7 @@ async def _fetch_and_save(
 async def download_rest_api_data(
     session: aiohttp.ClientSession,
     symbol: str,
+    inst_id: str,
     dates: list[str],
     output_dir: Path,
     api_concurrency: int = 10,
@@ -610,10 +742,6 @@ async def download_rest_api_data(
     rest_sources: dict | None = None,
 ) -> tuple[int, int, int]:
     """Download selected REST API data types concurrently.
-
-    rest_types: list of CLI type names to include (e.g. ["klines", "fundingRate"]).
-                If None, download all REST types.
-    rest_sources: dict of REST source configs to use. Defaults to REST_API_SOURCES.
 
     Returns (success_count, skip_count, fail_count).
     """
@@ -628,7 +756,9 @@ async def download_rest_api_data(
         if rest_types is not None and type_name not in rest_types:
             continue
         for day_str in dates:
-            tasks.append(_fetch_and_save(session, semaphore, symbol, day_str, cfg, base))
+            tasks.append(
+                _fetch_and_save(session, semaphore, symbol, inst_id, day_str, cfg, base)
+            )
 
     total = len(tasks)
     success = skip = fail = 0
@@ -656,28 +786,13 @@ async def download_rest_api_data(
 # ---------------------------------------------------------------------------
 
 
-def _decompress_gzip(raw: bytes) -> bytes:
-    """Decompress gzip data to plain bytes."""
-    return gzip.decompress(raw)
-
-
-def _extract_zip_first(raw: bytes) -> bytes:
-    """Extract the first file from a zip archive."""
-    with zipfile.ZipFile(io.BytesIO(raw)) as zf:
-        return zf.read(zf.namelist()[0])
-
-
 async def download_file(
     session: aiohttp.ClientSession,
     url: str,
     dest: Path,
     semaphore: asyncio.Semaphore,
-    decompress: str = None,
 ):
-    """Download a file with retries + atomic write. Returns (url, success, message).
-
-    decompress: None (raw), 'gzip' (.csv.gz -> .csv), 'zip' (.zip -> extract first file)
-    """
+    """Download a .zip file, extract CSV, write atomically. Returns (url, success, message)."""
     if dest.exists() and dest.stat().st_size > 0:
         return (url, True, "exists")
 
@@ -687,10 +802,15 @@ async def download_file(
     for attempt in range(1, RETRY_ATTEMPTS + 1):
         try:
             async with semaphore:
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=300)) as resp:
+                async with session.get(
+                    url, timeout=aiohttp.ClientTimeout(total=600)
+                ) as resp:
                     if resp.status == 404:
                         _active_tmp_files.discard(tmp)
                         return (url, False, "not found (404)")
+                    if resp.status == 403:
+                        _active_tmp_files.discard(tmp)
+                        return (url, False, "forbidden (403)")
                     if resp.status != 200:
                         raise aiohttp.ClientError(f"HTTP {resp.status}")
                     expected = resp.content_length
@@ -701,20 +821,20 @@ async def download_file(
                     f"size mismatch: got {len(data)}, expected {expected}"
                 )
 
-            if decompress == "gzip":
-                data = _decompress_gzip(data)
-            elif decompress == "zip":
-                data = _extract_zip_first(data)
+            # Extract CSV from zip
+            csv_data = _extract_zip_csv(data)
 
             dest.parent.mkdir(parents=True, exist_ok=True)
-            tmp.write_bytes(data)
+            tmp.write_bytes(csv_data)
             tmp.rename(dest)
             _active_tmp_files.discard(tmp)
-            return (url, True, "ok")
+
+            size_mb = len(data) / (1024 * 1024)
+            return (url, True, f"ok ({size_mb:.1f} MB zip)")
 
         except asyncio.TimeoutError:
             msg = f"timeout (attempt {attempt}/{RETRY_ATTEMPTS})"
-        except (aiohttp.ClientError, OSError) as exc:
+        except (aiohttp.ClientError, OSError, zipfile.BadZipFile) as exc:
             msg = f"{exc} (attempt {attempt}/{RETRY_ATTEMPTS})"
 
         tmp.unlink(missing_ok=True)
@@ -731,30 +851,25 @@ async def download_file(
 
 
 def trades_tasks(symbol: str, dates, output_dir: Path):
-    """Build (url, dest, decompress) tuples for Bybit futures trades."""
+    """Build (url, dest) tuples for OKX perpetual swap trades."""
+    inst_id = symbol_to_okx_inst(symbol, market="swap")
     base = output_dir / symbol
     for d in dates:
+        date_compact = d.replace("-", "")
         fname = f"{d}_trades.csv"
-        url = BYBIT_TRADES_URL.format(symbol=symbol, date=d)
-        yield url, base / fname, "gzip"
-
-
-def ob200_tasks(symbol: str, dates, output_dir: Path):
-    """Build (url, dest, decompress) tuples for Bybit futures orderbook ob200."""
-    base = output_dir / symbol
-    for d in dates:
-        fname = f"{d}_orderbook.jsonl"
-        url = BYBIT_OB200_URL.format(symbol=symbol, date=d)
-        yield url, base / fname, "zip"
+        url = OKX_TRADES_URL.format(instrument=inst_id, date=d, date_compact=date_compact)
+        yield url, base / fname
 
 
 def spot_trades_tasks(symbol: str, dates, output_dir: Path):
-    """Build (url, dest, decompress) tuples for Bybit spot trades."""
+    """Build (url, dest) tuples for OKX spot trades."""
+    inst_id = symbol_to_okx_inst(symbol, market="spot")
     base = output_dir / symbol
     for d in dates:
+        date_compact = d.replace("-", "")
         fname = f"{d}_trades_spot.csv"
-        url = BYBIT_SPOT_TRADES_URL.format(symbol=symbol, date=d)
-        yield url, base / fname, "gzip"
+        url = OKX_TRADES_URL.format(instrument=inst_id, date=d, date_compact=date_compact)
+        yield url, base / fname
 
 
 # ---------------------------------------------------------------------------
@@ -768,22 +883,22 @@ async def run_one_symbol(
     end_date: str,
     concurrency: int,
     data_types: list[str],
-    market: str = "linear",
+    market: str = "swap",
 ):
     """Download data for a single symbol."""
     output_dir = DATA_DIR
     is_spot = market == "spot"
+    inst_id = symbol_to_okx_inst(symbol, market=market)
 
     # Pick the right type registry
     type_registry = SPOT_DATA_TYPES if is_spot else DATA_TYPES
     rest_source_registry = SPOT_REST_API_SOURCES if is_spot else REST_API_SOURCES
-    probe_category = "spot" if is_spot else "linear"
 
     # --- Detect first available date (binary search via kline API probe) ---
     api_connector = aiohttp.TCPConnector(limit=5, force_close=False)
     async with aiohttp.ClientSession(connector=api_connector) as probe_session:
         first_date = await find_first_available_date(
-            probe_session, symbol, start_date, end_date, category=probe_category,
+            probe_session, inst_id, start_date, end_date,
         )
 
     if first_date is None:
@@ -797,9 +912,9 @@ async def run_one_symbol(
     rest_types = [t for t in data_types if type_registry[t]["source"] == "rest"]
 
     type_labels = [type_registry[t]["label"] for t in data_types]
-    market_label = "spot" if is_spot else "linear"
     print(f"\nSymbol:           {symbol}")
-    print(f"Market:           {market_label}")
+    print(f"Market:           {market}")
+    print(f"OKX instrument:   {inst_id}")
     if effective_start != start_date:
         print(f"First available:  {effective_start}  (requested {start_date})")
     print(f"Date range:       {effective_start} -> {end_date} ({len(dates)} days)")
@@ -814,8 +929,6 @@ async def run_one_symbol(
         all_tasks = []
         if "trades" in bulk_types:
             all_tasks.extend(trades_tasks(symbol, dates, output_dir))
-        if "orderbook" in bulk_types:
-            all_tasks.extend(ob200_tasks(symbol, dates, output_dir))
         if "spotTrades" in bulk_types:
             all_tasks.extend(spot_trades_tasks(symbol, dates, output_dir))
         total = len(all_tasks)
@@ -833,8 +946,8 @@ async def run_one_symbol(
         connector = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
         async with aiohttp.ClientSession(connector=connector) as session:
             coros = [
-                download_file(session, url, dest, semaphore, decompress=dec)
-                for url, dest, dec in all_tasks
+                download_file(session, url, dest, semaphore)
+                for url, dest in all_tasks
             ]
 
             for i, coro in enumerate(asyncio.as_completed(coros), 1):
@@ -851,10 +964,11 @@ async def run_one_symbol(
                         print(f"  [{i}/{total}] ~ {short}  (already exists)")
                 elif ok:
                     success_count += 1
-                    print(f"  [{i}/{total}] ✓ {short}  {ts}")
-                elif "404" in msg:
+                    print(f"  [{i}/{total}] ✓ {short}  {ts}  {msg}")
+                elif "404" in msg or "403" in msg:
                     not_found_count += 1
-                    print(f"  [{i}/{total}] - {short}  (not available)")
+                    if not_found_count <= 10 or not_found_count % 50 == 0:
+                        print(f"  [{i}/{total}] - {short}  ({msg})")
                 else:
                     fail_count += 1
                     print(f"  [{i}/{total}] ✗ {short}  ({msg})")
@@ -878,7 +992,7 @@ async def run_one_symbol(
         api_connector = aiohttp.TCPConnector(limit=50, force_close=False)
         async with aiohttp.ClientSession(connector=api_connector) as api_session:
             api_success, api_skip, api_fail = await download_rest_api_data(
-                api_session, symbol, dates, output_dir,
+                api_session, symbol, inst_id, dates, output_dir,
                 rest_types=rest_types,
                 rest_sources=rest_source_registry,
             )
@@ -902,7 +1016,7 @@ async def run(
     end_date: str,
     concurrency: int,
     data_types: list[str],
-    market: str = "linear",
+    market: str = "swap",
 ):
     print(f"Symbols:          {', '.join(symbols)}")
     print(f"Market:           {market}")
@@ -927,14 +1041,13 @@ async def run(
 
 
 def main():
-    all_types_str = ", ".join(list(DATA_TYPES.keys()) + list(SPOT_DATA_TYPES.keys()))
     parser = argparse.ArgumentParser(
-        description="Download Bybit market data (linear perpetual futures or spot).",
+        description="Download OKX market data (perpetual swap or spot).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=f"Linear data types: {', '.join(DATA_TYPES.keys())}\n"
-               f"Spot data types:   {', '.join(SPOT_DATA_TYPES.keys())}\n"
-               f"Linear defaults:   {', '.join(DEFAULT_TYPES)}\n"
-               f"Spot defaults:     {', '.join(SPOT_DEFAULT_TYPES)}",
+        epilog=f"Swap data types:  {', '.join(DATA_TYPES.keys())}\n"
+               f"Spot data types:  {', '.join(SPOT_DATA_TYPES.keys())}\n"
+               f"Swap defaults:    {', '.join(DEFAULT_TYPES)}\n"
+               f"Spot defaults:    {', '.join(SPOT_DEFAULT_TYPES)}",
     )
     parser.add_argument(
         "symbol",
@@ -951,17 +1064,17 @@ def main():
     parser.add_argument(
         "--market", "-m",
         type=str,
-        default="linear",
-        choices=["linear", "spot"],
-        help="Market type: 'linear' (perpetual futures, default) or 'spot'.",
+        default="swap",
+        choices=["swap", "spot"],
+        help="Market type: 'swap' (perpetual futures, default) or 'spot'.",
     )
     parser.add_argument(
         "--types", "-t",
         type=str,
         default=None,
-        help=f"Comma-separated data types to download. "
-             f"Use 'all' for everything including bulk trades. "
-             f"Defaults depend on --market.",
+        help="Comma-separated data types to download. "
+             "Use 'all' for everything including bulk trades. "
+             "Defaults depend on --market.",
     )
     args = parser.parse_args()
 

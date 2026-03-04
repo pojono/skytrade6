@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
-Download Binance USDT-M futures market data from data.binance.vision bulk archives.
+Download Binance market data from data.binance.vision bulk archives (futures or spot).
 
-Source: https://data.binance.vision/?prefix=data/futures/um/daily/
+Sources:
+  Futures: https://data.binance.vision/?prefix=data/futures/um/daily/
+  Spot:    https://data.binance.vision/?prefix=data/spot/daily/
 
-Available data types (all daily .zip archives):
-  - trades:              Individual trades (id, price, qty, quoteQty, time, isBuyerMaker)
-  - aggTrades:           Aggregated trades (agg_id, price, qty, first_id, last_id, time, isBuyerMaker)
+Available data types — futures (all daily .zip archives):
+  - trades:              Individual trades
+  - aggTrades:           Aggregated trades
   - klines/1m:           OHLCV 1-minute candles
   - markPriceKlines/1m:  Mark price 1-minute candles
   - premiumIndexKlines/1m: Premium index 1-minute candles
@@ -15,30 +17,28 @@ Available data types (all daily .zip archives):
   - bookTicker:          Best bid/ask ticker snapshots
   - metrics:             Composite metrics (OI, funding rate, LS ratio, etc.)
 
+Available data types — spot:
+  - spotKlines:          OHLCV 1-minute candles
+  - spotTrades:          Individual trades
+  - spotAggTrades:       Aggregated trades
+
 Usage:
+  # Futures (default):
   python download_binance_data.py BTCUSDT 2026-02-01 2026-02-28
-  python download_binance_data.py SOLUSDT,DOGEUSDT 2026-01-15 2026-01-20 -c 10
   python download_binance_data.py BTCUSDT 2026-02-01 2026-02-07 --types klines,metrics
-  python download_binance_data.py BTCUSDT 2026-02-01 2026-02-07 --types all
 
-Available data types:
-  trades, aggTrades, klines, markPriceKlines, premiumIndexKlines,
-  indexPriceKlines, bookDepth, bookTicker, metrics
+  # Spot:
+  python download_binance_data.py BTCUSDT 2026-02-01 2026-02-28 --market spot
+  python download_binance_data.py BTCUSDT 2026-02-01 2026-02-07 --market spot --types all
 
-Default types (excludes trades, aggTrades, bookDepth, bookTicker):
-  klines, markPriceKlines, premiumIndexKlines, indexPriceKlines, metrics
-
-Output structure:
+Output structure (same folder, spot files have _spot postfix):
   binance/{SYMBOL}/
-    {YYYY-MM-DD}_trades.csv
-    {YYYY-MM-DD}_aggTrades.csv
-    {YYYY-MM-DD}_kline_1m.csv
-    {YYYY-MM-DD}_mark_price_kline_1m.csv
-    {YYYY-MM-DD}_premium_index_kline_1m.csv
-    {YYYY-MM-DD}_index_price_kline_1m.csv
-    {YYYY-MM-DD}_bookDepth.csv
-    {YYYY-MM-DD}_bookTicker.csv
-    {YYYY-MM-DD}_metrics.csv
+    {YYYY-MM-DD}_kline_1m.csv              (futures)
+    {YYYY-MM-DD}_metrics.csv               (futures)
+    ...                                    (other futures types)
+    {YYYY-MM-DD}_kline_1m_spot.csv         (spot)
+    {YYYY-MM-DD}_trades_spot.csv           (spot)
+    {YYYY-MM-DD}_aggTrades_spot.csv        (spot)
 """
 
 import argparse
@@ -61,7 +61,8 @@ sys.stdout.reconfigure(line_buffering=True)
 # Constants
 # ---------------------------------------------------------------------------
 
-BINANCE_DATA_BASE = "https://data.binance.vision/data/futures/um/daily"
+BINANCE_FUTURES_BASE = "https://data.binance.vision/data/futures/um/daily"
+BINANCE_SPOT_BASE = "https://data.binance.vision/data/spot/daily"
 
 DEFAULT_CONCURRENT = 5
 RETRY_ATTEMPTS = 3
@@ -95,6 +96,7 @@ for _sig in (signal.SIGINT, signal.SIGTERM):
 #   url_template: path under BINANCE_DATA_BASE, with {symbol} and {date} placeholders
 #   output_suffix: suffix for the output filename
 #   label: human-readable label for progress output
+# --- Futures data types ---
 DATA_TYPES = {
     "trades": {
         "url_template": "trades/{symbol}/{symbol}-trades-{date}.zip",
@@ -143,11 +145,31 @@ DATA_TYPES = {
     },
 }
 
-# Default data types to download (skip bulk trades, aggTrades, bookDepth, bookTicker)
 DEFAULT_TYPES = [
     "klines", "markPriceKlines", "premiumIndexKlines",
     "indexPriceKlines", "metrics",
 ]
+
+# --- Spot data types ---
+SPOT_DATA_TYPES = {
+    "spotKlines": {
+        "url_template": "klines/{symbol}/1m/{symbol}-1m-{date}.zip",
+        "output_suffix": "kline_1m_spot",
+        "label": "spot klines (1m)",
+    },
+    "spotTrades": {
+        "url_template": "trades/{symbol}/{symbol}-trades-{date}.zip",
+        "output_suffix": "trades_spot",
+        "label": "spot trades",
+    },
+    "spotAggTrades": {
+        "url_template": "aggTrades/{symbol}/{symbol}-aggTrades-{date}.zip",
+        "output_suffix": "aggTrades_spot",
+        "label": "spot aggTrades",
+    },
+}
+
+SPOT_DEFAULT_TYPES = ["spotKlines"]
 
 
 # ---------------------------------------------------------------------------
@@ -194,6 +216,7 @@ async def find_first_available_date(
     symbol: str,
     start_date: str,
     end_date: str,
+    base_url: str = None,
 ) -> str | None:
     """Binary search for the first date that has data on Binance.
 
@@ -201,12 +224,14 @@ async def find_first_available_date(
     date string (YYYY-MM-DD), or None if no data exists in the range.
     ~10 requests for a 256-day range.
     """
+    if base_url is None:
+        base_url = BINANCE_FUTURES_BASE
     fmt = "%Y-%m-%d"
     lo = datetime.strptime(start_date, fmt)
     hi = datetime.strptime(end_date, fmt)
 
     def _url(d: str) -> str:
-        return f"{BINANCE_DATA_BASE}/klines/{symbol}/1m/{symbol}-1m-{d}.zip"
+        return f"{base_url}/klines/{symbol}/1m/{symbol}-1m-{d}.zip"
 
     # Quick check: if start_date exists, no need to search
     if await _head_exists(session, _url(start_date)):
@@ -335,14 +360,19 @@ async def download_file(
 # ---------------------------------------------------------------------------
 
 
-def build_tasks(symbol: str, dates, output_dir: Path, data_types: list[str]):
+def build_tasks(symbol: str, dates, output_dir: Path, data_types: list[str],
+                base_url: str = None, type_registry: dict = None):
     """Build (url, checksum_url, dest, label) tuples for all requested data."""
+    if base_url is None:
+        base_url = BINANCE_FUTURES_BASE
+    if type_registry is None:
+        type_registry = DATA_TYPES
     base = output_dir / symbol
     for dtype in data_types:
-        cfg = DATA_TYPES[dtype]
+        cfg = type_registry[dtype]
         for d in dates:
             url_path = cfg["url_template"].format(symbol=symbol, date=d)
-            url = f"{BINANCE_DATA_BASE}/{url_path}"
+            url = f"{base_url}/{url_path}"
             checksum_url = url + ".CHECKSUM"
             fname = f"{d}_{cfg['output_suffix']}.csv"
             yield url, checksum_url, base / fname, cfg["label"]
@@ -359,15 +389,19 @@ async def run_one_symbol(
     end_date: str,
     concurrency: int,
     data_types: list[str],
+    market: str = "futures",
 ):
     """Download data for a single symbol."""
     output_dir = DATA_DIR
+    is_spot = market == "spot"
+    base_url = BINANCE_SPOT_BASE if is_spot else BINANCE_FUTURES_BASE
+    type_registry = SPOT_DATA_TYPES if is_spot else DATA_TYPES
 
     # --- Detect first available date (binary search via HEAD) ---
     connector = aiohttp.TCPConnector(limit=5, force_close=False)
     async with aiohttp.ClientSession(connector=connector) as probe_session:
         first_date = await find_first_available_date(
-            probe_session, symbol, start_date, end_date,
+            probe_session, symbol, start_date, end_date, base_url=base_url,
         )
 
     if first_date is None:
@@ -377,15 +411,17 @@ async def run_one_symbol(
     effective_start = first_date if first_date > start_date else start_date
     dates = list(date_range(effective_start, end_date))
 
-    type_labels = [DATA_TYPES[t]["label"] for t in data_types]
+    type_labels = [type_registry[t]["label"] for t in data_types]
     print(f"\nSymbol:           {symbol}")
+    print(f"Market:           {market}")
     if effective_start != start_date:
         print(f"First available:  {effective_start}  (requested {start_date})")
     print(f"Date range:       {effective_start} -> {end_date} ({len(dates)} days)")
     print(f"Data types:       {', '.join(type_labels)}")
     print(f"Output directory: {output_dir / symbol}")
 
-    all_tasks = list(build_tasks(symbol, dates, output_dir, data_types))
+    all_tasks = list(build_tasks(symbol, dates, output_dir, data_types,
+                                 base_url=base_url, type_registry=type_registry))
     total = len(all_tasks)
     print(f"Total files:      {total}")
     print("-" * 60)
@@ -444,8 +480,10 @@ async def run(
     end_date: str,
     concurrency: int,
     data_types: list[str],
+    market: str = "futures",
 ):
     print(f"Symbols:          {', '.join(symbols)}")
+    print(f"Market:           {market}")
     print(f"Date range:       {start_date} -> {end_date}")
     print(f"Data types:       {', '.join(data_types)}")
     print(f"Concurrency:      {concurrency}")
@@ -456,7 +494,7 @@ async def run(
         print(f"\n{'='*60}")
         print(f"[{i}/{len(symbols)}] {symbol}")
         print(f"{'='*60}")
-        fails = await run_one_symbol(symbol, start_date, end_date, concurrency, data_types)
+        fails = await run_one_symbol(symbol, start_date, end_date, concurrency, data_types, market)
         total_fail += fails
 
     print("\n" + "=" * 60)
@@ -468,10 +506,12 @@ async def run(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Download Binance USDT-M futures data from data.binance.vision bulk archives.",
+        description="Download Binance market data from data.binance.vision bulk archives (futures or spot).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=f"Available data types: {', '.join(DATA_TYPES.keys())}\n"
-               f"Default types: {', '.join(DEFAULT_TYPES)}",
+        epilog=f"Futures data types: {', '.join(DATA_TYPES.keys())}\n"
+               f"Spot data types:   {', '.join(SPOT_DATA_TYPES.keys())}\n"
+               f"Futures defaults:  {', '.join(DEFAULT_TYPES)}\n"
+               f"Spot defaults:     {', '.join(SPOT_DEFAULT_TYPES)}",
     )
     parser.add_argument(
         "symbol",
@@ -486,11 +526,18 @@ def main():
         help=f"Max concurrent downloads (default: {DEFAULT_CONCURRENT})",
     )
     parser.add_argument(
+        "--market", "-m",
+        type=str,
+        default="futures",
+        choices=["futures", "spot"],
+        help="Market type: 'futures' (USDT-M perpetual, default) or 'spot'.",
+    )
+    parser.add_argument(
         "--types", "-t",
         type=str,
         default=None,
-        help=f"Comma-separated data types to download (default: {','.join(DEFAULT_TYPES)}). "
-             f"Use 'all' for everything including bookDepth and bookTicker.",
+        help="Comma-separated data types to download. "
+             "Use 'all' for everything. Defaults depend on --market.",
     )
     parser.add_argument(
         "--no-checksum",
@@ -510,24 +557,29 @@ def main():
         print(f"Error: invalid date format: {exc}", file=sys.stderr)
         sys.exit(1)
 
+    # Select type registry based on market
+    is_spot = args.market == "spot"
+    type_registry = SPOT_DATA_TYPES if is_spot else DATA_TYPES
+    default_types = SPOT_DEFAULT_TYPES if is_spot else DEFAULT_TYPES
+
     # Parse data types
     if args.types is None:
-        data_types = DEFAULT_TYPES
+        data_types = default_types
     elif args.types.strip().lower() == "all":
-        data_types = list(DATA_TYPES.keys())
+        data_types = list(type_registry.keys())
     else:
         data_types = [t.strip() for t in args.types.split(",") if t.strip()]
         for t in data_types:
-            if t not in DATA_TYPES:
+            if t not in type_registry:
                 print(
-                    f"Error: unknown data type '{t}'. "
-                    f"Available: {', '.join(DATA_TYPES.keys())}",
+                    f"Error: unknown data type '{t}' for market '{args.market}'. "
+                    f"Available: {', '.join(type_registry.keys())}",
                     file=sys.stderr,
                 )
                 sys.exit(1)
 
     symbols = [sym.strip().upper() for sym in args.symbol.split(",") if sym.strip()]
-    asyncio.run(run(symbols, args.start_date, args.end_date, args.concurrency, data_types))
+    asyncio.run(run(symbols, args.start_date, args.end_date, args.concurrency, data_types, args.market))
 
 
 if __name__ == "__main__":
