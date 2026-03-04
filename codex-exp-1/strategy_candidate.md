@@ -440,6 +440,26 @@ From [downside_report_v3_replayopt_sized25.md](/home/ubuntu/Projects/skytrade6/c
 
 This is a strong realized-equity stability profile in the current sample, but it should be read as model-based realized PnL stability, not as a full live-trading worst-case path estimate.
 
+## Why The 25% Filtered Variant Is The Best Current Candidate
+
+Phase 13 compared downside on a matched basis between the baseline `25%` sleeve and the replay-optimized filtered `25%` sleeve.
+
+Baseline `25%`:
+
+- total PnL: `$5,183.40`
+- max realized drawdown: `$1,399.34` (`1.40%`)
+- positive weeks: `18 / 31`
+- negative months: `3 / 8`
+
+Filtered `25%`:
+
+- total PnL: `$7,638.99`
+- max realized drawdown: `$270.08` (`0.25%`)
+- positive weeks: `26 / 31`
+- negative months: `1 / 8`
+
+So under the same size-aware assumptions, the filtered `25%` sleeve is better on both return and realized downside. That makes it the current best research candidate in `codex-exp-1`.
+
 ## Next Validation Before Production
 
 1. Add a more realistic fill model tied to venue liquidity, if order book data is used later
