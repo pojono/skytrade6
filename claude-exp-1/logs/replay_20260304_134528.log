@@ -1,0 +1,21 @@
+2026-03-04 13:45:28,292 INFO    runner       Log file: /home/ubuntu/Projects/skytrade6/claude-exp-1/logs/replay_20260304_134528.log
+2026-03-04 13:45:28,292 INFO    runner       Replay mode: 2 symbols
+2026-03-04 13:45:28,301 INFO    execution    Executor started in paper mode on bybit
+2026-03-04 13:45:28,301 INFO    strategy_live Added SOLUSDT (tier B)
+2026-03-04 13:45:28,301 INFO    strategy_live Added BTCUSDT (tier B)
+2026-03-04 13:45:33,361 INFO    execution    PAPER FILL: buy SOLUSDT $10000 @ 222.2778 (maker) fee=$2.00
+2026-03-04 13:45:33,361 INFO    execution    PAPER FILL: sell SOLUSDT $10000 @ 224.7275 (maker) fee=$2.00
+2026-03-04 13:45:33,580 INFO    execution    PAPER FILL: buy SOLUSDT $10000 @ 175.5624 (maker) fee=$2.00
+2026-03-04 13:45:33,580 INFO    execution    PAPER FILL: sell SOLUSDT $10000 @ 184.5885 (maker) fee=$2.00
+2026-03-04 13:45:34,586 INFO    execution    PAPER FILL: buy SOLUSDT $10000 @ 134.1716 (maker) fee=$2.00
+2026-03-04 13:45:34,588 INFO    execution    PAPER FILL: sell SOLUSDT $10000 @ 133.8484 (maker) fee=$2.00
+2026-03-04 13:45:39,884 INFO    execution    PAPER FILL: buy BTCUSDT $10000 @ 116405.4583 (maker) fee=$2.00
+2026-03-04 13:45:39,885 INFO    execution    PAPER FILL: sell BTCUSDT $10000 @ 115919.8408 (maker) fee=$2.00
+2026-03-04 13:45:40,166 INFO    execution    PAPER FILL: buy BTCUSDT $10000 @ 122100.9387 (maker) fee=$2.00
+2026-03-04 13:45:40,167 INFO    execution    PAPER FILL: sell BTCUSDT $10000 @ 120485.4973 (maker) fee=$2.00
+2026-03-04 13:45:40,721 INFO    execution    PAPER FILL: buy BTCUSDT $10000 @ 103276.0214 (maker) fee=$2.00
+2026-03-04 13:45:40,721 INFO    execution    PAPER FILL: sell BTCUSDT $10000 @ 113213.8703 (maker) fee=$2.00
+2026-03-04 13:45:41,510 INFO    execution    PAPER FILL: buy BTCUSDT $10000 @ 90576.4414 (maker) fee=$2.00
+2026-03-04 13:45:41,510 INFO    execution    PAPER FILL: sell BTCUSDT $10000 @ 90559.2550 (maker) fee=$2.00
+2026-03-04 13:45:41,999 ERROR   asyncio      Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x72b9fb379b70>

@@ -127,6 +127,13 @@ class StrategyConfig:
         "ret_diff_sum12_z288": 1.0,
     })
 
+    # Risk management
+    max_concurrent_positions: int = 5
+    max_positions_per_symbol: int = 1
+    daily_loss_stop_usd: float = 500.0
+    max_drawdown_usd: float = 2000.0
+    max_total_exposure_usd: float = 50000.0
+
     # Symbol lists
     whitelist: list = field(default_factory=list)
     blacklist: list = field(default_factory=list)
@@ -162,6 +169,14 @@ class StrategyConfig:
         config.base_notional_usd = sizing.get("base_notional_usd", 10000)
         config.max_notional_usd = sizing.get("max_notional_usd", 30000)
         config.tier_multipliers = sizing.get("tier_multipliers", {"A": 1.5, "B": 1.0, "C": 0.5})
+
+        # Load risk management
+        risk = data.get("risk_management", {})
+        config.max_concurrent_positions = risk.get("max_concurrent_positions", 5)
+        config.max_positions_per_symbol = risk.get("max_positions_per_symbol", 1)
+        config.daily_loss_stop_usd = risk.get("daily_loss_stop_usd", 500)
+        config.max_drawdown_usd = risk.get("max_drawdown_usd", 2000)
+        config.max_total_exposure_usd = risk.get("max_total_exposure_usd", 50000)
 
         return config
 
@@ -250,13 +265,19 @@ class SymbolState:
         self.pdiv_sv12 = RollingStats(12)
         self.pdiv_sv72 = RollingStats(72)
 
-        # OI buffer (need t and t-6)
+        # OI divergence: pct_change(6) diff, then z-scored over 288
         self._bb_oi_buf = deque(maxlen=8)
         self._bn_oi_buf = deque(maxlen=8)
+        self.oi_div_rs288 = RollingStats(288)
 
-        # Ret diff accum (need last 12 bb/bn closes)
+        # Ret diff accumulation: rolling(12).sum of ret_diff, then z-scored over 288
         self._bb_close_buf = deque(maxlen=13)
         self._bn_close_buf = deque(maxlen=13)
+        self.ret_diff_sum12_rs288 = RollingStats(288)
+
+        # Ret diff per-bar buffer (last 12 bars of bb_ret - bn_ret in bps)
+        self._ret_diff_buf = deque(maxlen=12)
+        self._ret_diff_sum = 0.0
 
         # Previous mid for return calc
         self._prev_mid = 0.0
@@ -305,13 +326,31 @@ class SymbolState:
             vr = 0.0
         self.vr_rs72.push(vr)
 
-        # OI
+        # OI divergence: (bb_oi pct_change(6) - bn_oi pct_change(6)) * 10000
         self._bb_oi_buf.append(bb.open_interest)
         self._bn_oi_buf.append(bn.open_interest)
+        oi_div = 0.0
+        if len(self._bb_oi_buf) >= 7:
+            bb_oi_old = self._bb_oi_buf[-7]
+            bn_oi_old = self._bn_oi_buf[-7]
+            if bb_oi_old > 0 and bn_oi_old > 0:
+                oi_div = ((self._bb_oi_buf[-1] / bb_oi_old - 1.0) -
+                          (self._bn_oi_buf[-1] / bn_oi_old - 1.0)) * 10000
+        self.oi_div_rs288.push(oi_div)
 
-        # Close buffers for ret diff
+        # Ret diff: (bb_ret - bn_ret) each bar, running sum of last 12
         self._bb_close_buf.append(bb.close)
         self._bn_close_buf.append(bn.close)
+        new_rd = 0.0
+        if len(self._bb_close_buf) >= 2:
+            bb_ret = self._bb_close_buf[-1] / self._bb_close_buf[-2] - 1.0 if self._bb_close_buf[-2] > 0 else 0.0
+            bn_ret = self._bn_close_buf[-1] / self._bn_close_buf[-2] - 1.0 if self._bn_close_buf[-2] > 0 else 0.0
+            new_rd = (bb_ret - bn_ret) * 10000
+        if len(self._ret_diff_buf) >= 12:
+            self._ret_diff_sum -= self._ret_diff_buf[0]
+        self._ret_diff_buf.append(new_rd)
+        self._ret_diff_sum += new_rd
+        self.ret_diff_sum12_rs288.push(self._ret_diff_sum)
 
         self.n += 1
 
@@ -337,27 +376,14 @@ class SymbolState:
         ps_z72 = self.ps_rs72.zscore(current_ps)
         ps_z288 = self.ps_rs288.zscore(current_ps)
 
-        # OI divergence (normalized)
-        oi_div_z = 0.0
-        if len(self._bb_oi_buf) >= 7:
-            bb_oi_old = self._bb_oi_buf[-7]
-            bn_oi_old = self._bn_oi_buf[-7]
-            if bb_oi_old > 0 and bn_oi_old > 0:
-                oi_div = ((self._bb_oi_buf[-1] / bb_oi_old - 1.0) -
-                          (self._bn_oi_buf[-1] / bn_oi_old - 1.0)) * 10000
-                oi_div_z = oi_div / 100.0
+        # OI divergence z-scored over 288 bars (matches backtest)
+        oi_div_z = self.oi_div_rs288.zscore(self.oi_div_rs288.last)
 
         # Volume ratio z-score
         vol_ratio_z = self.vr_rs72.zscore(self.vr_rs72.last)
 
-        # Ret diff accumulation (normalized)
-        ret_diff_z = 0.0
-        if len(self._bb_close_buf) >= 12:
-            bb_list = list(self._bb_close_buf)
-            bn_list = list(self._bn_close_buf)
-            bb_sum = sum((bb_list[j+1] / bb_list[j] - 1.0) for j in range(len(bb_list)-1) if bb_list[j] > 0)
-            bn_sum = sum((bn_list[j+1] / bn_list[j] - 1.0) for j in range(len(bn_list)-1) if bn_list[j] > 0)
-            ret_diff_z = (bb_sum - bn_sum) * 10000 / 50.0
+        # Ret diff sum12 z-scored over 288 bars (matches backtest)
+        ret_diff_z = self.ret_diff_sum12_rs288.zscore(self.ret_diff_sum12_rs288.last)
 
         # Composite weighted signal
         composite = (
@@ -414,6 +440,15 @@ class Strategy:
         self.cooldowns: dict[str, int] = {}  # symbol -> bars remaining
         self.bar_count = 0
         self._pending_signals: list[Signal] = []
+
+        # Risk management state
+        self.daily_pnl_usd = 0.0
+        self.total_pnl_usd = 0.0
+        self.peak_pnl_usd = 0.0
+        self.current_date: str = ""
+        self.daily_halted = False
+        self.drawdown_halted = False
+        self.closed_trades: list[dict] = []  # for audit trail
 
     def add_symbol(self, symbol: str, tier: str = "B"):
         """Register a symbol for tracking."""
@@ -492,43 +527,157 @@ class Strategy:
 
         # --- CHECK ENTRY ---
         elif symbol not in self.cooldowns:
-            # LONG only: composite < -threshold
-            if composite < -self.config.sig_threshold:
-                # Regime filter: vol expanding
+            if not self._risk_allows_entry(symbol):
+                pass
+            elif composite < -self.config.sig_threshold:
                 if rvol >= self.config.vol_threshold:
-                    # Spread vol filter
                     if self.config.spread_vol_threshold <= 0 or sv_ratio >= self.config.spread_vol_threshold:
-                        # Compute position size
                         tier = state.tier
                         tier_mult = self.config.tier_multipliers.get(tier, 1.0)
                         notional = self.config.base_notional_usd * tier_mult
                         notional = min(notional, self.config.max_notional_usd)
 
-                        mid = (bb_bar.close + bn_bar.close) / 2.0
-                        self._pending_signals.append(Signal(
-                            symbol=symbol,
-                            action=Action.OPEN_LONG,
-                            side="buy",
-                            composite_score=composite,
-                            rvol_ratio=rvol,
-                            spread_vol_ratio=sv_ratio,
-                            notional_usd=notional,
-                            reason=f"sig={composite:.2f} rvol={rvol:.2f} sv={sv_ratio:.2f}",
-                            timestamp=timestamp,
-                            use_limit_order=self.config.use_limit_orders,
-                        ))
+                        # Check exposure cap
+                        current_exposure = sum(p.notional_usd for p in self.positions.values())
+                        if current_exposure + notional > self.config.max_total_exposure_usd:
+                            notional = max(0, self.config.max_total_exposure_usd - current_exposure)
+                        if notional < 100:  # minimum viable trade
+                            pass
+                        else:
+                            mid = (bb_bar.close + bn_bar.close) / 2.0
+                            self._pending_signals.append(Signal(
+                                symbol=symbol,
+                                action=Action.OPEN_LONG,
+                                side="buy",
+                                composite_score=composite,
+                                rvol_ratio=rvol,
+                                spread_vol_ratio=sv_ratio,
+                                notional_usd=notional,
+                                reason=f"sig={composite:.2f} rvol={rvol:.2f} sv={sv_ratio:.2f}",
+                                timestamp=timestamp,
+                                use_limit_order=self.config.use_limit_orders,
+                            ))
 
-                        # Track position
-                        self.positions[symbol] = Position(
-                            symbol=symbol,
-                            entry_bar_idx=self.bar_count,
-                            entry_price=mid,
-                            entry_signal=composite,
-                            entry_time=timestamp,
-                            notional_usd=notional,
-                        )
+                            self.positions[symbol] = Position(
+                                symbol=symbol,
+                                entry_bar_idx=self.bar_count,
+                                entry_price=mid,
+                                entry_signal=composite,
+                                entry_time=timestamp,
+                                notional_usd=notional,
+                            )
 
         self.bar_count += 1
+
+    # ----- Risk Management -----
+
+    def _risk_allows_entry(self, symbol: str) -> bool:
+        """Check all risk gates before allowing a new entry."""
+        if self.daily_halted:
+            return False
+        if self.drawdown_halted:
+            return False
+        if len(self.positions) >= self.config.max_concurrent_positions:
+            return False
+        if symbol in self.positions:
+            return False
+        return True
+
+    def record_fill(self, symbol: str, action: Action, fill_price: float,
+                    notional_usd: float, timestamp: str):
+        """
+        Record an actual fill from the exchange. Updates PnL tracking.
+        Call this after order confirmation.
+        """
+        # Reset daily PnL on new date
+        date_str = timestamp[:10] if len(timestamp) >= 10 else timestamp
+        if date_str != self.current_date:
+            self.current_date = date_str
+            self.daily_pnl_usd = 0.0
+            self.daily_halted = False
+            logger.info(f"New trading day: {date_str}")
+
+        if action == Action.CLOSE_LONG and symbol in self.closed_trades:
+            pass  # PnL computed below
+
+    def record_close(self, symbol: str, entry_price: float, exit_price: float,
+                     notional_usd: float, timestamp: str):
+        """
+        Record a closed trade. Updates daily PnL, total PnL, drawdown.
+        """
+        pnl_bps = (exit_price / entry_price - 1.0) * 10000 if entry_price > 0 else 0.0
+        # Subtract estimated fees (maker RT = 8bps)
+        fee_bps = 8.0 if self.config.use_limit_orders else 20.0
+        net_bps = pnl_bps - fee_bps
+        pnl_usd = net_bps / 10000.0 * notional_usd
+
+        self.daily_pnl_usd += pnl_usd
+        self.total_pnl_usd += pnl_usd
+        self.peak_pnl_usd = max(self.peak_pnl_usd, self.total_pnl_usd)
+
+        trade_record = {
+            "symbol": symbol,
+            "entry_price": entry_price,
+            "exit_price": exit_price,
+            "notional_usd": notional_usd,
+            "pnl_bps": net_bps,
+            "pnl_usd": pnl_usd,
+            "daily_pnl": self.daily_pnl_usd,
+            "total_pnl": self.total_pnl_usd,
+            "timestamp": timestamp,
+        }
+        self.closed_trades.append(trade_record)
+        logger.info(f"CLOSED {symbol}: {net_bps:+.1f}bps ${pnl_usd:+.1f} "
+                     f"[day=${self.daily_pnl_usd:+.1f} total=${self.total_pnl_usd:+.1f}]")
+
+        # Check daily loss stop
+        if self.daily_pnl_usd <= -self.config.daily_loss_stop_usd:
+            self.daily_halted = True
+            logger.warning(f"DAILY LOSS STOP: ${self.daily_pnl_usd:.0f} <= "
+                          f"-${self.config.daily_loss_stop_usd:.0f}")
+
+        # Check max drawdown
+        drawdown = self.peak_pnl_usd - self.total_pnl_usd
+        if drawdown >= self.config.max_drawdown_usd:
+            self.drawdown_halted = True
+            logger.warning(f"MAX DRAWDOWN BREAKER: ${drawdown:.0f} >= "
+                          f"${self.config.max_drawdown_usd:.0f}")
+
+        return trade_record
+
+    # ----- State Serialization -----
+
+    def get_state(self) -> dict:
+        """Serialize full strategy state for persistence / restart recovery."""
+        symbol_states = {}
+        for sym, ss in self.symbols.items():
+            symbol_states[sym] = {
+                "tier": ss.tier,
+                "n": ss.n,
+                "ready": ss.ready,
+            }
+        return {
+            "bar_count": self.bar_count,
+            "positions": {sym: {
+                "entry_bar_idx": p.entry_bar_idx,
+                "entry_price": p.entry_price,
+                "entry_signal": p.entry_signal,
+                "entry_time": p.entry_time,
+                "notional_usd": p.notional_usd,
+                "bars_held": p.bars_held,
+            } for sym, p in self.positions.items()},
+            "cooldowns": dict(self.cooldowns),
+            "daily_pnl_usd": self.daily_pnl_usd,
+            "total_pnl_usd": self.total_pnl_usd,
+            "peak_pnl_usd": self.peak_pnl_usd,
+            "current_date": self.current_date,
+            "daily_halted": self.daily_halted,
+            "drawdown_halted": self.drawdown_halted,
+            "closed_trades_count": len(self.closed_trades),
+            "symbol_states": symbol_states,
+        }
+
+    # ----- Public API -----
 
     def get_signals(self) -> list[Signal]:
         """Return and clear pending signals."""
@@ -542,6 +691,7 @@ class Strategy:
 
     def get_status(self) -> dict:
         """Return strategy status summary."""
+        drawdown = self.peak_pnl_usd - self.total_pnl_usd
         return {
             "bar_count": self.bar_count,
             "symbols_tracked": len(self.symbols),
@@ -549,6 +699,12 @@ class Strategy:
             "open_positions": len(self.positions),
             "cooldowns_active": len(self.cooldowns),
             "position_symbols": list(self.positions.keys()),
+            "daily_pnl_usd": round(self.daily_pnl_usd, 2),
+            "total_pnl_usd": round(self.total_pnl_usd, 2),
+            "drawdown_usd": round(drawdown, 2),
+            "daily_halted": self.daily_halted,
+            "drawdown_halted": self.drawdown_halted,
+            "total_closed_trades": len(self.closed_trades),
         }
 
 

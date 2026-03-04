@@ -1,0 +1,81 @@
+2026-03-04 13:46:44,048 INFO    runner       Log file: /home/ubuntu/Projects/skytrade6/claude-exp-1/logs/replay_20260304_134644.log
+2026-03-04 13:46:44,048 INFO    runner       Replay mode: 5 symbols
+2026-03-04 13:46:44,055 INFO    execution    Executor started in paper mode on bybit
+2026-03-04 13:46:44,055 INFO    strategy_live Added SOLUSDT (tier B)
+2026-03-04 13:46:44,055 INFO    strategy_live Added BTCUSDT (tier B)
+2026-03-04 13:46:44,055 INFO    strategy_live Added AAVEUSDT (tier B)
+2026-03-04 13:46:44,056 INFO    strategy_live Added ALCHUSDT (tier B)
+2026-03-04 13:46:44,056 INFO    strategy_live Added APTUSDT (tier B)
+2026-03-04 13:46:49,247 INFO    execution    PAPER FILL: buy SOLUSDT $10000 @ 222.2778 (maker) fee=$2.00
+2026-03-04 13:46:49,247 INFO    execution    PAPER FILL: sell SOLUSDT $10000 @ 224.7275 (maker) fee=$2.00
+2026-03-04 13:46:49,247 INFO    strategy_live CLOSED SOLUSDT: +102.2bps $+102.2 [day=$+102.2 total=$+102.2]
+2026-03-04 13:46:49,405 INFO    execution    PAPER FILL: buy SOLUSDT $10000 @ 175.5624 (maker) fee=$2.00
+2026-03-04 13:46:49,405 INFO    execution    PAPER FILL: sell SOLUSDT $10000 @ 184.5885 (maker) fee=$2.00
+2026-03-04 13:46:49,405 INFO    strategy_live CLOSED SOLUSDT: +506.1bps $+506.1 [day=$+608.3 total=$+608.3]
+2026-03-04 13:46:50,406 INFO    execution    PAPER FILL: buy SOLUSDT $10000 @ 134.1716 (maker) fee=$2.00
+2026-03-04 13:46:50,407 INFO    execution    PAPER FILL: sell SOLUSDT $10000 @ 133.8484 (maker) fee=$2.00
+2026-03-04 13:46:50,407 INFO    strategy_live CLOSED SOLUSDT: -32.1bps $-32.1 [day=$+576.2 total=$+576.2]
+2026-03-04 13:46:54,614 INFO    execution    PAPER FILL: buy BTCUSDT $10000 @ 116405.4583 (maker) fee=$2.00
+2026-03-04 13:46:54,615 INFO    execution    PAPER FILL: sell BTCUSDT $10000 @ 115885.0684 (taker) fee=$5.00
+2026-03-04 13:46:54,615 INFO    strategy_live CLOSED BTCUSDT: -52.7bps $-52.7 [day=$+523.5 total=$+523.5]
+2026-03-04 13:46:54,964 INFO    execution    PAPER FILL: buy BTCUSDT $10000 @ 122100.9387 (maker) fee=$2.00
+2026-03-04 13:46:54,965 INFO    execution    PAPER FILL: sell BTCUSDT $10000 @ 120485.4973 (maker) fee=$2.00
+2026-03-04 13:46:54,965 INFO    strategy_live CLOSED BTCUSDT: -140.3bps $-140.3 [day=$+383.2 total=$+383.2]
+2026-03-04 13:46:55,486 INFO    execution    PAPER FILL: buy BTCUSDT $10000 @ 103307.0073 (taker) fee=$5.00
+2026-03-04 13:46:55,486 INFO    execution    PAPER FILL: sell BTCUSDT $10000 @ 113213.8703 (maker) fee=$2.00
+2026-03-04 13:46:55,486 INFO    strategy_live CLOSED BTCUSDT: +951.0bps $+951.0 [day=$+1334.2 total=$+1334.2]
+2026-03-04 13:46:56,277 INFO    execution    PAPER FILL: buy BTCUSDT $10000 @ 90603.6171 (taker) fee=$5.00
+2026-03-04 13:46:56,277 INFO    execution    PAPER FILL: sell BTCUSDT $10000 @ 90532.0900 (taker) fee=$5.00
+2026-03-04 13:46:56,277 INFO    strategy_live CLOSED BTCUSDT: -15.9bps $-15.9 [day=$+1318.3 total=$+1318.3]
+2026-03-04 13:47:01,004 INFO    execution    PAPER FILL: buy AAVEUSDT $10000 @ 116.3733 (taker) fee=$5.00
+2026-03-04 13:47:01,004 INFO    execution    PAPER FILL: sell AAVEUSDT $10000 @ 210.0110 (maker) fee=$2.00
+2026-03-04 13:47:01,005 INFO    strategy_live CLOSED AAVEUSDT: +8038.3bps $+8038.3 [day=$+9356.6 total=$+9356.6]
+2026-03-04 13:47:01,005 INFO    execution    PAPER FILL: buy AAVEUSDT $10000 @ 207.9092 (maker) fee=$2.00
+2026-03-04 13:47:01,005 INFO    execution    PAPER FILL: sell AAVEUSDT $10000 @ 219.9220 (maker) fee=$2.00
+2026-03-04 13:47:01,005 INFO    strategy_live CLOSED AAVEUSDT: +569.8bps $+569.8 [day=$+9926.4 total=$+9926.4]
+2026-03-04 13:47:01,163 INFO    execution    PAPER FILL: buy AAVEUSDT $10000 @ 229.5720 (maker) fee=$2.00
+2026-03-04 13:47:01,164 INFO    execution    PAPER FILL: sell AAVEUSDT $10000 @ 229.0979 (maker) fee=$2.00
+2026-03-04 13:47:01,164 INFO    strategy_live CLOSED AAVEUSDT: -28.7bps $-28.7 [day=$+9897.8 total=$+9897.8]
+2026-03-04 13:47:05,620 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.1403 (maker) fee=$2.00
+2026-03-04 13:47:05,620 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.1331 (maker) fee=$2.00
+2026-03-04 13:47:05,620 INFO    strategy_live CLOSED ALCHUSDT: -522.9bps $-522.9 [day=$+9374.9 total=$+9374.9]
+2026-03-04 13:47:05,995 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.1222 (maker) fee=$2.00
+2026-03-04 13:47:05,995 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.1303 (maker) fee=$2.00
+2026-03-04 13:47:05,995 INFO    strategy_live CLOSED ALCHUSDT: +652.0bps $+652.0 [day=$+10026.9 total=$+10026.9]
+2026-03-04 13:47:06,425 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.0765 (taker) fee=$5.00
+2026-03-04 13:47:06,426 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.0814 (maker) fee=$2.00
+2026-03-04 13:47:06,426 INFO    strategy_live CLOSED ALCHUSDT: +625.4bps $+625.4 [day=$+10652.3 total=$+10652.3]
+2026-03-04 13:47:06,438 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.0595 (maker) fee=$2.00
+2026-03-04 13:47:06,439 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.0665 (maker) fee=$2.00
+2026-03-04 13:47:06,439 INFO    strategy_live CLOSED ALCHUSDT: +1162.7bps $+1162.7 [day=$+11815.0 total=$+11815.0]
+2026-03-04 13:47:06,439 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.0666 (maker) fee=$2.00
+2026-03-04 13:47:06,439 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.0713 (maker) fee=$2.00
+2026-03-04 13:47:06,439 INFO    strategy_live CLOSED ALCHUSDT: +685.2bps $+685.2 [day=$+12500.1 total=$+12500.1]
+2026-03-04 13:47:06,675 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.0769 (taker) fee=$5.00
+2026-03-04 13:47:06,676 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.0806 (maker) fee=$2.00
+2026-03-04 13:47:06,676 INFO    strategy_live CLOSED ALCHUSDT: +477.0bps $+477.0 [day=$+12977.2 total=$+12977.2]
+2026-03-04 13:47:06,871 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.1279 (maker) fee=$2.00
+2026-03-04 13:47:06,872 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.1630 (taker) fee=$5.00
+2026-03-04 13:47:06,872 INFO    strategy_live CLOSED ALCHUSDT: +2739.3bps $+2739.3 [day=$+15716.5 total=$+15716.5]
+2026-03-04 13:47:06,894 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.1926 (maker) fee=$2.00
+2026-03-04 13:47:06,894 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.1972 (maker) fee=$2.00
+2026-03-04 13:47:06,894 INFO    strategy_live CLOSED ALCHUSDT: +230.2bps $+230.2 [day=$+15946.7 total=$+15946.7]
+2026-03-04 13:47:06,960 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.1908 (maker) fee=$2.00
+2026-03-04 13:47:06,960 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.1944 (taker) fee=$5.00
+2026-03-04 13:47:06,960 INFO    strategy_live CLOSED ALCHUSDT: +178.9bps $+178.9 [day=$+16125.5 total=$+16125.5]
+2026-03-04 13:47:06,994 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.1905 (maker) fee=$2.00
+2026-03-04 13:47:06,995 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.2000 (taker) fee=$5.00
+2026-03-04 13:47:06,995 INFO    strategy_live CLOSED ALCHUSDT: +493.5bps $+493.5 [day=$+16619.1 total=$+16619.1]
+2026-03-04 13:47:07,361 INFO    execution    PAPER FILL: buy ALCHUSDT $10000 @ 0.0948 (taker) fee=$5.00
+2026-03-04 13:47:07,361 INFO    execution    PAPER FILL: sell ALCHUSDT $10000 @ 0.0981 (taker) fee=$5.00
+2026-03-04 13:47:07,362 INFO    strategy_live CLOSED ALCHUSDT: +340.3bps $+340.3 [day=$+16959.4 total=$+16959.4]
+2026-03-04 13:47:11,821 INFO    execution    PAPER FILL: buy APTUSDT $10000 @ 4.2639 (maker) fee=$2.00
+2026-03-04 13:47:11,821 INFO    execution    PAPER FILL: sell APTUSDT $10000 @ 4.2985 (maker) fee=$2.00
+2026-03-04 13:47:11,821 INFO    strategy_live CLOSED APTUSDT: +73.0bps $+73.0 [day=$+17032.5 total=$+17032.5]
+2026-03-04 13:47:11,950 INFO    execution    PAPER FILL: buy APTUSDT $10000 @ 2.9097 (maker) fee=$2.00
+2026-03-04 13:47:11,951 INFO    execution    PAPER FILL: sell APTUSDT $10000 @ 3.7676 (taker) fee=$5.00
+2026-03-04 13:47:11,951 INFO    strategy_live CLOSED APTUSDT: +2940.6bps $+2940.6 [day=$+19973.1 total=$+19973.1]
+2026-03-04 13:47:11,951 INFO    execution    PAPER FILL: buy APTUSDT $10000 @ 3.5123 (maker) fee=$2.00
+2026-03-04 13:47:11,951 INFO    execution    PAPER FILL: sell APTUSDT $10000 @ 3.6851 (maker) fee=$2.00
+2026-03-04 13:47:11,951 INFO    strategy_live CLOSED APTUSDT: +483.9bps $+483.9 [day=$+20457.0 total=$+20457.0]
+2026-03-04 13:47:13,127 INFO    execution    Executor stopped. Stats: {'orders_placed': 48, 'fills': 48, 'maker_fills': 35, 'taker_fills': 13, 'errors': 0, 'total_fee_usd': 135.0}
