@@ -85,6 +85,31 @@ Frozen filter:
 }
 ```
 
+### Optional Microstructure Gate
+
+The best current optional execution-quality gate from the high-resolution study is:
+
+```json
+{
+  "min_bybit_trade_count_5s": 2.0,
+  "min_binance_trade_count_5s": 0.0,
+  "max_bybit_book_spread_bps": 4.5,
+  "max_bybit_trade_imbalance_5s": 1.0
+}
+```
+
+Operational meaning:
+
+- require at least modest recent Bybit trade activity
+- require a reasonably tight local Bybit book
+- do not reject on Binance 5-second trade count in the current best version
+- do not require a strongly negative Bybit trade imbalance yet; only reject extreme positive pressure
+
+This should be treated as an optional gate layered after the 1-minute signal and before order submission.
+
+If you want the current strongest implementation path, use this gate.
+If you want the simpler frozen base sleeve, omit it.
+
 ### What The Confirmation Terms Mean
 
 `score`
@@ -138,10 +163,16 @@ At each signal timestamp:
 
 1. Build the candidate list across `CRVUSDT`, `GALAUSDT`, `SEIUSDT`.
 2. Keep only candidates passing the frozen filter.
-3. If multiple candidates pass in the same minute:
+3. If using the optional microstructure gate:
+   - compute the 5-second microstructure features at the decision timestamp
+   - reject candidates that fail the gate
+4. If multiple candidates pass in the same minute:
    - rank by spread magnitude
    - take the highest-spread candidate only
-4. Open the paired trade.
+5. Open the paired trade.
+
+In practice, the microstructure gate is applied after the 1-minute setup is known but before any order is sent.
+It is a final execution-quality veto, not a primary signal generator.
 
 Because the strategy is single-slot:
 
@@ -265,6 +296,11 @@ Responsibilities:
   - long/short divergence
   - open-interest divergence
   - carry divergence
+- if using the optional microstructure gate, also maintain rolling 5-second state:
+  - Bybit recent trade count
+  - Binance recent trade count
+  - Bybit top-of-book spread
+  - Bybit short-horizon trade imbalance
 
 Requirements:
 
@@ -277,6 +313,7 @@ Requirements:
 Responsibilities:
 
 - apply the frozen filter
+- if enabled, apply the optional microstructure gate
 - build candidate trades at each minute
 - rank simultaneous candidates by spread
 - emit at most one approved trade signal per timestamp
@@ -341,19 +378,24 @@ A safe automation loop should work like this:
 
 1. Wait for the current minute to complete.
 2. Build synchronized per-symbol feature rows.
-3. Generate all valid candidates.
+3. Generate all valid 1-minute candidates.
 4. Drop candidates blocked by:
    - open position already active
    - per-symbol daily cap
    - daily stop
    - monthly stop
-5. Rank remaining candidates by spread.
-6. Submit both legs for the top candidate.
-7. Verify hedge fill state.
-8. Hold exactly one minute.
-9. Exit both legs.
-10. Update realized PnL and risk state.
-11. Append a permanent log row.
+5. If the optional microstructure gate is enabled:
+   - compute recent 5-second trade counts
+   - compute Bybit local book spread
+   - compute Bybit short-horizon trade imbalance
+   - reject candidates that fail the microstructure gate
+6. Rank remaining candidates by spread.
+7. Submit both legs for the top candidate.
+8. Verify hedge fill state.
+9. Hold exactly one minute.
+10. Exit both legs.
+11. Update realized PnL and risk state.
+12. Append a permanent log row.
 
 ## Critical Failure Cases
 
@@ -400,6 +442,11 @@ For every signal decision, log:
 - ls
 - oi
 - carry
+- if using the optional microstructure gate:
+  - bybit_trade_count_5s
+  - binance_trade_count_5s
+  - bybit_book_spread_bps
+  - bybit_trade_imbalance_5s
 - accepted / rejected
 - rejection reason
 
@@ -452,6 +499,8 @@ If you change any of these, the research result is no longer the same strategy:
 - allocation size
 - slippage assumptions
 - stop rules
+- whether the optional microstructure gate is enabled
+- the microstructure gate thresholds
 
 Any such change requires a new validation pass.
 
