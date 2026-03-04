@@ -224,6 +224,28 @@ Monthly paper log:
 
 This suggests a conservative single-position implementation is viable and may be preferable.
 
+## Preferred Live-Style Selector
+
+The paper simulator now supports explicit same-timestamp selector modes.
+
+In the conservative single-slot setup:
+
+- `score` selector:
+  - final capital: `$105,356.75`
+  - average net edge: `3.6729 bps`
+- `spread` selector:
+  - final capital: `$105,358.62`
+  - average net edge: `3.6742 bps`
+
+The difference is small, but `spread` is currently the preferred selector.
+
+Recommended execution controls:
+
+- max open positions: `1`
+- max open per symbol: `1`
+- max symbol allocation: `10%`
+- daily cap: `3` per symbol
+
 ## What This Means
 
 Current evidence supports:
@@ -241,7 +263,7 @@ Current evidence does **not** support:
 
 ## Next Validation Before Production
 
-1. Add a live-style intraminute selector for exact same-timestamp signal conflicts
-2. Add a more realistic fill model tied to venue liquidity, if order book data is used later
-3. Extend rolling paper-trading logs into a continuous forward log
+1. Add a more realistic fill model tied to venue liquidity, if order book data is used later
+2. Extend rolling paper-trading logs into a continuous forward log
+3. Add a simple risk-stop layer at the portfolio level
 4. Freeze the basket and re-test without reselecting symbols

@@ -41,6 +41,14 @@ class Fill:
     pnl_dollars: float
 
 
+def trade_priority(trade: Trade, selector_mode: str) -> tuple:
+    if selector_mode == "spread":
+        return (-trade.entry_spread_abs_bps, -trade.score, trade.symbol)
+    if selector_mode == "velocity":
+        return (-trade.entry_spread_velocity_bps, -trade.score, trade.symbol)
+    return (-trade.score, -trade.entry_spread_abs_bps, trade.symbol)
+
+
 def load_trades(path: Path) -> list[Trade]:
     rows: list[Trade] = []
     with path.open(newline="") as handle:
@@ -84,7 +92,10 @@ def main() -> None:
     parser.add_argument("--starting-capital", type=float, default=100000.0)
     parser.add_argument("--per-trade-allocation", type=float, default=0.10)
     parser.add_argument("--max-open-positions", type=int, default=3)
+    parser.add_argument("--max-open-per-symbol", type=int, default=1)
+    parser.add_argument("--max-symbol-allocation", type=float, default=0.10)
     parser.add_argument("--daily-cap-per-symbol", type=int, default=3)
+    parser.add_argument("--selector-mode", choices=["score", "spread", "velocity"], default="score")
     parser.add_argument("--min-signal-bps", type=float, default=10.0)
     parser.add_argument("--fee-bps-roundtrip", type=float, default=6.0)
     parser.add_argument("--extra-slippage-bps", type=float, default=1.0)
@@ -122,6 +133,7 @@ def main() -> None:
         if available_slots == 0:
             continue
 
+        batch.sort(key=lambda trade: trade_priority(trade, args.selector_mode))
         accepted = 0
         for trade in batch:
             if accepted >= available_slots:
@@ -129,8 +141,15 @@ def main() -> None:
             key = (trade.symbol, trade.day)
             if daily_counts.get(key, 0) >= args.daily_cap_per_symbol:
                 continue
+            open_same_symbol = [fill for fill in open_positions if fill.symbol == trade.symbol]
+            if len(open_same_symbol) >= args.max_open_per_symbol:
+                continue
 
+            current_symbol_alloc = sum(fill.alloc_dollars for fill in open_same_symbol)
+            max_symbol_dollars = balance * args.max_symbol_allocation
             alloc = balance * args.per_trade_allocation
+            if current_symbol_alloc + alloc > max_symbol_dollars + 1e-9:
+                continue
             slip = trade_slippage(
                 trade,
                 args.min_signal_bps,
@@ -244,7 +263,10 @@ def main() -> None:
         f"- Starting capital: {args.starting_capital:.2f}",
         f"- Per-trade allocation: {args.per_trade_allocation:.2%}",
         f"- Max open positions: {args.max_open_positions}",
+        f"- Max open per symbol: {args.max_open_per_symbol}",
+        f"- Max symbol allocation: {args.max_symbol_allocation:.2%}",
         f"- Daily cap per symbol: {args.daily_cap_per_symbol}",
+        f"- Selector mode: {args.selector_mode}",
         f"- Base fee: {args.fee_bps_roundtrip:.2f} bps",
         f"- Extra slippage: {args.extra_slippage_bps:.2f} bps",
         f"- Spread slippage coeff: {args.spread_slip_coeff:.4f}",
