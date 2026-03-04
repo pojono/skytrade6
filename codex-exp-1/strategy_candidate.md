@@ -476,6 +476,22 @@ Validation on the current static dataset:
 
 So the repo now has a forward-only validation path for the frozen `25%` filtered sleeve.
 
+## Optional Microstructure Gate
+
+The newer high-resolution work suggests a practical optional entry-quality gate on top of the frozen filtered sleeve.
+
+Best current simple form:
+
+- `bybit_trade_count_5s >= 4`
+- `bybit_book_spread_bps <= 4.5`
+
+On the 30-day high-resolution study (`2026-02-01` through `2026-03-02`) with the last 7 days held out:
+
+- baseline holdout: `561` trades, `6.2514 bps`, `52.58%` win rate
+- with this microstructure gate: `158` trades, `8.7627 bps`, `58.86%` win rate
+
+This should be treated as an optional execution-quality filter, not yet as a fully revalidated replacement for the base strategy spec.
+
 ## Next Validation Before Production
 
 1. Add a more realistic fill model tied to venue liquidity, if order book data is used later

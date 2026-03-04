@@ -197,7 +197,7 @@ def main() -> None:
         f"- Train: {hypothesis_train[0]} trades, {hypothesis_train[1]:.4f} bps, {hypothesis_train[2]:.2%} win rate",
         f"- Test: {hypothesis_test[0]} trades, {hypothesis_test[1]:.4f} bps, {hypothesis_test[2]:.2%} win rate",
         "",
-        f"- Kept trades in full 7-day window: {len(all_keep)} / {len(rows)}",
+        f"- Kept trades in full analysis window: {len(all_keep)} / {len(rows)}",
         "",
     ]
     args.output_md.write_text("\n".join(lines))

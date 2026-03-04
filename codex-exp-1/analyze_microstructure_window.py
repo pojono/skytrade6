@@ -458,7 +458,7 @@ def main() -> None:
             "",
             "## Notes",
             "",
-            "- This is a first-pass microstructure overlay on the downloaded 7-day window only.",
+            "- This is a first-pass microstructure overlay on the selected downloaded window only.",
             "- Bybit enrichments use true L2 order book updates from the ob200 feed.",
             "- Binance enrichments use trade flow plus aggregated `bookDepth` percentage buckets, not true top-of-book quotes.",
             "- Results here are descriptive. They help identify where the 1-minute edge may depend on intraminute conditions.",
