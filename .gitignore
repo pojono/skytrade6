@@ -13,3 +13,5 @@ data_all/
 *.parquet
 flow_research/data/
 flow_research/output/
+datalake/bybit/
+datalake/binance/
