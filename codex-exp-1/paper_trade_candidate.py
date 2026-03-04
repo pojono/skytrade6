@@ -86,6 +86,28 @@ def trade_slippage(
     )
 
 
+def should_block_new_trade(
+    trade: Trade,
+    day_pnl: dict[str, float],
+    month_pnl: dict[str, float],
+    day_start_equity: dict[str, float],
+    month_start_equity: dict[str, float],
+    daily_loss_stop_pct: float,
+    monthly_loss_stop_pct: float,
+) -> bool:
+    if daily_loss_stop_pct > 0:
+        start_equity = day_start_equity.get(trade.day)
+        if start_equity is not None:
+            if day_pnl.get(trade.day, 0.0) <= -(start_equity * daily_loss_stop_pct):
+                return True
+    if monthly_loss_stop_pct > 0:
+        start_equity = month_start_equity.get(trade.month)
+        if start_equity is not None:
+            if month_pnl.get(trade.month, 0.0) <= -(start_equity * monthly_loss_stop_pct):
+                return True
+    return False
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
@@ -96,6 +118,8 @@ def main() -> None:
     parser.add_argument("--max-symbol-allocation", type=float, default=0.10)
     parser.add_argument("--daily-cap-per-symbol", type=int, default=3)
     parser.add_argument("--selector-mode", choices=["score", "spread", "velocity"], default="score")
+    parser.add_argument("--daily-loss-stop-pct", type=float, default=0.0)
+    parser.add_argument("--monthly-loss-stop-pct", type=float, default=0.0)
     parser.add_argument("--min-signal-bps", type=float, default=10.0)
     parser.add_argument("--fee-bps-roundtrip", type=float, default=6.0)
     parser.add_argument("--extra-slippage-bps", type=float, default=1.0)
@@ -110,6 +134,10 @@ def main() -> None:
     balance = args.starting_capital
     open_positions: list[Fill] = []
     daily_counts: dict[tuple[str, str], int] = {}
+    day_pnl: dict[str, float] = {}
+    month_pnl: dict[str, float] = {}
+    day_start_equity: dict[str, float] = {}
+    month_start_equity: dict[str, float] = {}
     fills: list[Fill] = []
 
     idx = 0
@@ -120,6 +148,8 @@ def main() -> None:
         for fill in open_positions:
             if fill.exit_ts_ms <= entry_ts:
                 balance += fill.pnl_dollars
+                day_pnl[fill.day] = day_pnl.get(fill.day, 0.0) + fill.pnl_dollars
+                month_pnl[fill.month] = month_pnl.get(fill.month, 0.0) + fill.pnl_dollars
             else:
                 still_open.append(fill)
         open_positions = still_open
@@ -138,6 +168,20 @@ def main() -> None:
         for trade in batch:
             if accepted >= available_slots:
                 break
+            if trade.day not in day_start_equity:
+                day_start_equity[trade.day] = balance
+            if trade.month not in month_start_equity:
+                month_start_equity[trade.month] = balance
+            if should_block_new_trade(
+                trade,
+                day_pnl,
+                month_pnl,
+                day_start_equity,
+                month_start_equity,
+                args.daily_loss_stop_pct,
+                args.monthly_loss_stop_pct,
+            ):
+                continue
             key = (trade.symbol, trade.day)
             if daily_counts.get(key, 0) >= args.daily_cap_per_symbol:
                 continue
@@ -178,6 +222,8 @@ def main() -> None:
 
     for fill in open_positions:
         balance += fill.pnl_dollars
+        day_pnl[fill.day] = day_pnl.get(fill.day, 0.0) + fill.pnl_dollars
+        month_pnl[fill.month] = month_pnl.get(fill.month, 0.0) + fill.pnl_dollars
 
     with args.output_fills.open("w", newline="") as handle:
         writer = csv.writer(handle)
@@ -267,6 +313,8 @@ def main() -> None:
         f"- Max symbol allocation: {args.max_symbol_allocation:.2%}",
         f"- Daily cap per symbol: {args.daily_cap_per_symbol}",
         f"- Selector mode: {args.selector_mode}",
+        f"- Daily loss stop: {args.daily_loss_stop_pct:.2%}",
+        f"- Monthly loss stop: {args.monthly_loss_stop_pct:.2%}",
         f"- Base fee: {args.fee_bps_roundtrip:.2f} bps",
         f"- Extra slippage: {args.extra_slippage_bps:.2f} bps",
         f"- Spread slippage coeff: {args.spread_slip_coeff:.4f}",

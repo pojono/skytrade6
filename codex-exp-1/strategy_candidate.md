@@ -245,6 +245,16 @@ Recommended execution controls:
 - max open per symbol: `1`
 - max symbol allocation: `10%`
 - daily cap: `3` per symbol
+- daily loss stop: `1%`
+- monthly loss stop: `3%`
+
+With these risk rails enabled, the current historical paper result remains:
+
+- final capital: `$105,358.62`
+- total PnL: `$5,358.62`
+- average net edge: `3.6742 bps`
+
+This means the chosen stop thresholds act as safety constraints rather than active performance drivers in the tested sample.
 
 ## What This Means
 
@@ -264,6 +274,6 @@ Current evidence does **not** support:
 ## Next Validation Before Production
 
 1. Add a more realistic fill model tied to venue liquidity, if order book data is used later
-2. Extend rolling paper-trading logs into a continuous forward log
+2. Extend rolling paper-trading logs into a continuous forward process fed by new data
 3. Add a simple risk-stop layer at the portfolio level
 4. Freeze the basket and re-test without reselecting symbols
