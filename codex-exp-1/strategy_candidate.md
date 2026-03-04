@@ -288,6 +288,34 @@ This shows leverage can help a lot in the model, but these larger-size results a
 
 For practical next steps, `25%` to `50%` allocation are the most reasonable sizing bands to validate further.
 
+## Size-Aware Leverage Re-Test
+
+Once slippage is made size-dependent, the leverage picture changes materially.
+
+Using:
+
+- size slippage coefficient: `1.5 bps`
+- base allocation reference: `10%`
+
+Results:
+
+- `25%` allocation:
+  - final capital: `$105,183.40`
+  - total PnL: `$5,183.40`
+  - average net edge: `1.4242 bps`
+- `50%` allocation:
+  - final capital: `$85,976.89`
+  - total PnL: `-$14,023.11`
+  - average net edge: `-2.3537 bps`
+
+So the realistic sizing conclusion is:
+
+- `10%` remains the safe baseline
+- `25%` is still viable but materially tighter
+- `50%` is too large under the current size-aware slippage model
+
+This is the current practical sizing range for the strategy.
+
 ## What This Means
 
 Current evidence supports:

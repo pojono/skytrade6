@@ -77,12 +77,19 @@ def trade_slippage(
     fixed_extra_slippage_bps: float,
     spread_slip_coeff: float,
     velocity_slip_coeff: float,
+    size_slip_coeff: float,
+    alloc_fraction: float,
+    base_alloc_ref: float,
 ) -> float:
     stretch = max(0.0, trade.entry_spread_abs_bps - min_signal_bps)
+    size_multiple_above_base = 0.0
+    if base_alloc_ref > 0:
+        size_multiple_above_base = max(0.0, alloc_fraction / base_alloc_ref - 1.0)
     return (
         fixed_extra_slippage_bps
         + spread_slip_coeff * stretch
         + velocity_slip_coeff * trade.entry_spread_velocity_bps
+        + size_slip_coeff * size_multiple_above_base
     )
 
 
@@ -125,6 +132,8 @@ def main() -> None:
     parser.add_argument("--extra-slippage-bps", type=float, default=1.0)
     parser.add_argument("--spread-slip-coeff", type=float, default=0.10)
     parser.add_argument("--velocity-slip-coeff", type=float, default=0.05)
+    parser.add_argument("--size-slip-coeff", type=float, default=0.0)
+    parser.add_argument("--base-allocation-ref", type=float, default=0.10)
     parser.add_argument("--output-fills", type=Path, default=OUT_DIR / "paper_fills_v3.csv")
     parser.add_argument("--output-monthly", type=Path, default=OUT_DIR / "paper_monthly_v3.csv")
     parser.add_argument("--output-report", type=Path, default=OUT_DIR / "paper_report_v3.md")
@@ -200,6 +209,9 @@ def main() -> None:
                 args.extra_slippage_bps,
                 args.spread_slip_coeff,
                 args.velocity_slip_coeff,
+                args.size_slip_coeff,
+                args.per_trade_allocation,
+                args.base_allocation_ref,
             )
             net_bps = trade.gross_pnl_bps - args.fee_bps_roundtrip - slip
             pnl_dollars = alloc * (net_bps / 10000.0)
@@ -319,6 +331,8 @@ def main() -> None:
         f"- Extra slippage: {args.extra_slippage_bps:.2f} bps",
         f"- Spread slippage coeff: {args.spread_slip_coeff:.4f}",
         f"- Velocity slippage coeff: {args.velocity_slip_coeff:.4f}",
+        f"- Size slippage coeff: {args.size_slip_coeff:.4f}",
+        f"- Base allocation ref: {args.base_allocation_ref:.2%}",
         "",
         "## Results",
         "",
