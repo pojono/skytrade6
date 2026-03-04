@@ -1,0 +1,100 @@
+Production Backtest: loading 116 symbols...
+  [20/116] 20 loaded (18s)
+  [40/116] 40 loaded (32s)
+  [60/116] 60 loaded (47s)
+  [80/116] 80 loaded (63s)
+  [100/116] 100 loaded (77s)
+  [116/116] 116 loaded (91s)
+
+Loaded 116 symbols in 91s
+
+Running walk-forward on 12 configs in parallel...
+  conservative_taker            :   352 trades, WR=55.1%, avg=+678.3bps (30s)
+  conservative_sized            :   352 trades, WR=55.1%, avg=+678.3bps (45s)
+  moderate_taker                :   607 trades, WR=50.7%, avg=+368.0bps (58s)
+  moderate_sized                :   607 trades, WR=50.7%, avg=+368.0bps (71s)
+  aggressive_taker              :   267 trades, WR=67.0%, avg=+1211.0bps (82s)
+  aggressive_sized              :   267 trades, WR=67.0%, avg=+1211.0bps (94s)
+  conservative_maker            :   353 trades, WR=58.9%, avg=+689.6bps (107s)
+  moderate_maker                :   618 trades, WR=54.5%, avg=+372.8bps (121s)
+  aggressive_maker              :   267 trades, WR=68.5%, avg=+1223.0bps (132s)
+  moderate_hybrid               :   612 trades, WR=52.0%, avg=+370.9bps (146s)
+  aggressive_hybrid             :   267 trades, WR=67.8%, avg=+1217.0bps (158s)
+  wide_taker                    :   537 trades, WR=55.3%, avg=+375.9bps (170s)
+
+All configs done in 171s
+
+==========================================================================================================================================================================
+  MONTHLY WALK-FORWARD — sorted by Ex-October Profit Factor
+==========================================================================================================================================================================
+Config                                  N  Sym  AvgNet     WR     PF      Sized  Mo+ noOct_N noOct_WR noOct_Avg noOct_PF
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+aggressive_maker                      267  109 +1223.0  68.5%   3.64    +279123    7     115    68.7%    +130.7     3.45
+aggressive_hybrid                     267  109 +1217.0  67.8%   3.61    +416698    7     115    67.0%    +124.7     3.26
+aggressive_sized                      267  109 +1211.0  67.0%   3.59    +422709    7     115    65.2%    +118.7     3.07
+aggressive_taker                      267  109 +1211.0  67.0%   3.59    +278775    7     115    65.2%    +118.7     3.07
+moderate_maker                        618  113  +372.8  54.5%   2.15    +226719    7     392    54.8%     +76.0     1.98
+moderate_hybrid                       612  113  +370.9  52.0%   2.13    +319939    7     386    51.3%     +71.9     1.90
+moderate_taker                        607  113  +368.0  50.7%   2.10    +235168    7     381    49.9%     +66.9     1.80
+moderate_sized                        607  113  +368.0  50.7%   2.10    +321391    7     381    49.9%     +66.9     1.80
+wide_taker                            537  111  +375.9  55.3%   2.07    +338131    6     327    54.4%     +47.0     1.53
+conservative_maker                    353  111  +689.6  58.9%   2.51    +218891    6     180    59.4%     +39.0     1.46
+conservative_taker                    352  111  +678.3  55.1%   2.47    +214157    6     179    53.1%     +24.7     1.27
+conservative_sized                    352  111  +678.3  55.1%   2.47    +294200    6     179    53.1%     +24.7     1.27
+
+========================================================================================================================
+  BEST CONFIG: aggressive_maker
+========================================================================================================================
+
+  Monthly walk-forward:
+    2025-09    ✓   38 trades WR=84.2% avg=+132bps total=+5016bps cum=+5016 [wl=115 bl=1 A=34]
+    2025-10    ✓  152 trades WR=68.4% avg=+2049bps total=+311503bps cum=+316519 [wl=115 bl=1 A=34] ← OCT
+    2025-11    ✓   32 trades WR=71.9% avg=+199bps total=+6355bps cum=+322875 [wl=98 bl=18 A=34]
+    2025-12    ✓   15 trades WR=53.3% avg=+108bps total=+1624bps cum=+324499 [wl=94 bl=22 A=34]
+    2026-01    ✓   22 trades WR=45.5% avg=+46bps total=+1015bps cum=+325514 [wl=93 bl=23 A=34]
+    2026-02    ✓    7 trades WR=71.4% avg=+18bps total=+123bps cum=+325638 [wl=91 bl=25 A=34]
+    2026-03    ✓    1 trades WR=100.0% avg=+893bps total=+893bps cum=+326531 [wl=91 bl=25 A=34]
+
+  Cumulative: +326531 bps | No drawdown
+
+  Ex-Oct symbols: 55/75 profitable
+  Top 10:
+    ALCHUSDT               6 trades WR=100.0% total=+4466bps
+    LYNUSDT                4 trades WR=100.0% total=+1981bps
+    JELLYJELLYUSDT         3 trades WR=66.7% total=+1736bps
+    RIVERUSDT              1 trades WR=100.0% total=+1524bps
+    PIPPINUSDT             1 trades WR=100.0% total=+740bps
+    LINKUSDT               3 trades WR=100.0% total=+616bps
+    COAIUSDT               2 trades WR=50.0% total=+603bps
+    TONUSDT                1 trades WR=100.0% total=+436bps
+    SUIUSDT                2 trades WR=100.0% total=+348bps
+    AVNTUSDT               1 trades WR=100.0% total=+340bps
+  Bottom 5:
+    BANUSDT                3 trades WR=33.3% total=-369bps
+    WLDUSDT                2 trades WR=0.0% total=-407bps
+    HUSDT                  5 trades WR=60.0% total=-469bps
+    BTRUSDT                2 trades WR=0.0% total=-605bps
+    UNIUSDT                1 trades WR=0.0% total=-769bps
+
+  Tier performance (ex-Oct):
+    Tier A:   40 trades WR=67.5% avg=+158.8bps sized=+9528
+    Tier B:   52 trades WR=63.5% avg=+75.5bps sized=+3928
+    Tier C:   23 trades WR=82.6% avg=+206.5bps sized=+2374
+
+  Signal strength (ex-Oct):
+    sig 2-3:   57 trades WR=61.4% avg=+147.9bps
+    sig 3-4:   37 trades WR=81.1% avg=+124.7bps
+    sig 4-5:   16 trades WR=68.8% avg=+119.7bps
+    sig 5-7:    4 trades WR=75.0% avg=+90.6bps
+
+  Exit reasons (ex-Oct):
+    cross          :  100 trades WR=67.0% avg=+90.4bps
+    maxhold        :   14 trades WR=78.6% avg=+232.1bps
+    reversal       :    1 trades WR=100.0% avg=+2740.6bps
+
+  Saved 267 trades to production_best_trades.csv
+
+  Production config → production_config.json
+  Whitelist: 49 symbols | Blacklist: 39 symbols
+
+Total time: 262s

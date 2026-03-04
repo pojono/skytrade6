@@ -1,0 +1,89 @@
+Verification test: 5 symbols
+  [1/5] Loading 0GUSDT...
+    47719 bars loaded in 2.1s. Pre-extracting arrays...
+    Feeding 47719 bars...
+    20000/47719 bars (31642 bar/s, ETA 1s) signals=4
+    40000/47719 bars (32966 bar/s, ETA 0s) signals=4
+    Done: 47719 bars in 1.4s (33514 bar/s), signals so far: 4
+  [2/5] Loading 1000BONKUSDT...
+    70560 bars loaded in 3.0s. Pre-extracting arrays...
+    Feeding 70560 bars...
+    20000/70560 bars (42641 bar/s, ETA 1s) signals=4
+    40000/70560 bars (39635 bar/s, ETA 1s) signals=8
+    60000/70560 bars (37492 bar/s, ETA 0s) signals=8
+    Done: 70560 bars in 1.9s (37569 bar/s), signals so far: 8
+  [3/5] Loading AAVEUSDT...
+    70560 bars loaded in 2.8s. Pre-extracting arrays...
+    Feeding 70560 bars...
+    20000/70560 bars (40420 bar/s, ETA 1s) signals=8
+    40000/70560 bars (40284 bar/s, ETA 1s) signals=14
+    60000/70560 bars (40818 bar/s, ETA 0s) signals=14
+    Done: 70560 bars in 1.7s (40453 bar/s), signals so far: 14
+  [4/5] Loading ALCHUSDT...
+    69120 bars loaded in 3.7s. Pre-extracting arrays...
+    Feeding 69120 bars...
+    20000/69120 bars (37005 bar/s, ETA 1s) signals=16
+    40000/69120 bars (38790 bar/s, ETA 1s) signals=24
+    60000/69120 bars (39463 bar/s, ETA 0s) signals=34
+    Done: 69120 bars in 1.7s (39529 bar/s), signals so far: 36
+  [5/5] Loading APTUSDT...
+    70560 bars loaded in 3.7s. Pre-extracting arrays...
+    Feeding 70560 bars...
+    20000/70560 bars (30222 bar/s, ETA 2s) signals=36
+    40000/70560 bars (31039 bar/s, ETA 1s) signals=42
+    60000/70560 bars (29824 bar/s, ETA 0s) signals=42
+    Done: 70560 bars in 2.5s (28521 bar/s), signals so far: 42
+
+================================================================================
+Verification: 42 signals across 5 symbols in 25.4s
+  2025-10-10 21:20:00 0GUSDT          OPEN_LONG    $10000 sig=-4.01 rvol=2.09 sv=2.37
+  2025-10-10 21:35:00 0GUSDT          CLOSE_LONG   $10000 signal_cross_zero
+  2025-10-10 21:50:00 0GUSDT          OPEN_LONG    $10000 sig=-7.06 rvol=2.41 sv=2.44
+  2025-10-10 22:30:00 0GUSDT          CLOSE_LONG   $10000 signal_cross_zero
+  2025-10-10 21:15:00 1000BONKUSDT    OPEN_LONG    $10000 sig=-9.69 rvol=2.30 sv=2.36
+  2025-10-10 21:45:00 1000BONKUSDT    CLOSE_LONG   $10000 reversal_stop
+  2025-10-10 22:00:00 1000BONKUSDT    OPEN_LONG    $10000 sig=-8.79 rvol=2.44 sv=1.87
+  2025-10-10 22:50:00 1000BONKUSDT    CLOSE_LONG   $10000 signal_cross_zero
+  2025-10-10 21:15:00 AAVEUSDT        OPEN_LONG    $10000 sig=-4.52 rvol=2.31 sv=2.35
+  2025-10-10 21:45:00 AAVEUSDT        CLOSE_LONG   $10000 reversal_stop
+  2025-10-10 22:00:00 AAVEUSDT        OPEN_LONG    $10000 sig=-2.75 rvol=2.44 sv=1.37
+  2025-10-10 22:35:00 AAVEUSDT        CLOSE_LONG   $10000 signal_cross_zero
+  2025-11-02 16:30:00 AAVEUSDT        OPEN_LONG    $10000 sig=-4.38 rvol=2.20 sv=1.91
+  2025-11-02 17:45:00 AAVEUSDT        CLOSE_LONG   $10000 signal_cross_zero
+  2025-07-03 01:50:00 ALCHUSDT        OPEN_LONG    $10000 sig=-3.98 rvol=2.31 sv=1.36
+  2025-07-03 02:25:00 ALCHUSDT        CLOSE_LONG   $10000 signal_cross_zero
+  2025-10-09 04:25:00 ALCHUSDT        OPEN_LONG    $10000 sig=-3.61 rvol=2.07 sv=1.63
+  2025-10-09 05:30:00 ALCHUSDT        CLOSE_LONG   $10000 signal_cross_zero
+  2025-10-10 21:15:00 ALCHUSDT        OPEN_LONG    $10000 sig=-2.67 rvol=2.14 sv=1.92
+  2025-10-10 21:45:00 ALCHUSDT        CLOSE_LONG   $10000 reversal_stop
+  2025-10-10 22:00:00 ALCHUSDT        OPEN_LONG    $10000 sig=-5.50 rvol=2.40 sv=1.84
+  2025-10-10 22:45:00 ALCHUSDT        CLOSE_LONG   $10000 signal_cross_zero
+  2025-11-04 15:50:00 ALCHUSDT        OPEN_LONG    $10000 sig=-2.70 rvol=2.37 sv=1.93
+  2025-11-04 17:50:00 ALCHUSDT        CLOSE_LONG   $10000 max_hold
+  2025-11-29 19:25:00 ALCHUSDT        OPEN_LONG    $10000 sig=-3.54 rvol=2.26 sv=1.73
+  2025-11-29 20:25:00 ALCHUSDT        CLOSE_LONG   $10000 reversal_stop
+  2025-12-02 15:30:00 ALCHUSDT        OPEN_LONG    $10000 sig=-2.95 rvol=2.19 sv=1.45
+  2025-12-02 15:45:00 ALCHUSDT        CLOSE_LONG   $10000 signal_cross_zero
+  2025-12-10 16:40:00 ALCHUSDT        OPEN_LONG    $10000 sig=-2.80 rvol=2.31 sv=1.67
+  2025-12-10 17:45:00 ALCHUSDT        CLOSE_LONG   $10000 signal_cross_zero
+  2025-12-17 20:15:00 ALCHUSDT        OPEN_LONG    $10000 sig=-3.43 rvol=2.18 sv=1.31
+  2025-12-17 21:50:00 ALCHUSDT        CLOSE_LONG   $10000 signal_cross_zero
+  2025-12-24 01:25:00 ALCHUSDT        OPEN_LONG    $10000 sig=-2.63 rvol=2.12 sv=1.49
+  2025-12-24 03:25:00 ALCHUSDT        CLOSE_LONG   $10000 max_hold
+  2026-02-03 21:50:00 ALCHUSDT        OPEN_LONG    $10000 sig=-3.85 rvol=2.16 sv=1.66
+  2026-02-03 22:40:00 ALCHUSDT        CLOSE_LONG   $10000 signal_cross_zero
+  2025-09-22 06:05:00 APTUSDT         OPEN_LONG    $10000 sig=-3.43 rvol=2.09 sv=1.59
+  2025-09-22 06:35:00 APTUSDT         CLOSE_LONG   $10000 signal_cross_zero
+  2025-10-10 21:20:00 APTUSDT         OPEN_LONG    $10000 sig=-10.43 rvol=2.41 sv=2.26
+  2025-10-10 21:50:00 APTUSDT         CLOSE_LONG   $10000 reversal_stop
+  2025-10-10 22:05:00 APTUSDT         OPEN_LONG    $10000 sig=-4.16 rvol=2.44 sv=1.59
+  2025-10-10 23:10:00 APTUSDT         CLOSE_LONG   $10000 signal_cross_zero
+
+Final status: {
+  "bar_count": 327024,
+  "symbols_tracked": 5,
+  "symbols_ready": 5,
+  "open_positions": 0,
+  "cooldowns_active": 0,
+  "position_symbols": []
+}

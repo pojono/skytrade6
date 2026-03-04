@@ -1,0 +1,184 @@
+{
+  "strategy_name": "cross_exchange_volcond_meanrev_v1",
+  "config_name": "aggressive_maker",
+  "parameters": {
+    "sig_threshold": 2.5,
+    "vol_threshold": 2.0,
+    "spread_vol_threshold": 1.3,
+    "max_hold": 24,
+    "min_hold": 3,
+    "cooldown": 3,
+    "maker_pct": 1.0,
+    "taker_fee_rt": 20,
+    "maker_fee_rt": 8,
+    "sizing_mode": "fixed",
+    "base_size": 1.0
+  },
+  "direction": "LONG_ONLY",
+  "exchange_pair": [
+    "bybit",
+    "binance"
+  ],
+  "signal": {
+    "type": "composite_zscore",
+    "components": [
+      {
+        "feature": "price_div_z72",
+        "weight": 3.0
+      },
+      {
+        "feature": "price_div_z288",
+        "weight": 2.0
+      },
+      {
+        "feature": "premium_z72",
+        "weight": 2.0
+      },
+      {
+        "feature": "premium_z288",
+        "weight": 1.5
+      },
+      {
+        "feature": "price_div_ma12_z288",
+        "weight": 1.5
+      },
+      {
+        "feature": "oi_div_z288",
+        "weight": 1.0
+      },
+      {
+        "feature": "vol_ratio_z72",
+        "weight": 0.5
+      },
+      {
+        "feature": "ret_diff_sum12_z288",
+        "weight": 1.0
+      }
+    ],
+    "threshold": 2.5,
+    "entry_condition": "composite < -threshold AND rvol_ratio > vol_threshold"
+  },
+  "regime_filter": {
+    "rvol_ratio_min": 2.0,
+    "rvol_ratio_calc": "std(mid_ret, 12bars) / std(mid_ret, 72bars)"
+  },
+  "execution": {
+    "entry": "limit_order_with_taker_fallback",
+    "exit": "signal_cross_zero_or_maxhold",
+    "max_hold_minutes": 120,
+    "bar_size_minutes": 5,
+    "cooldown_minutes": 15
+  },
+  "position_sizing": {
+    "mode": "fixed",
+    "base_notional_usd": 10000,
+    "max_notional_usd": 30000,
+    "tier_multipliers": {
+      "A": 1.5,
+      "B": 1.0,
+      "C": 0.5
+    }
+  },
+  "symbol_whitelist": [
+    "0GUSDT",
+    "1000BONKUSDT",
+    "AAVEUSDT",
+    "ALCHUSDT",
+    "APTUSDT",
+    "ASTERUSDT",
+    "AUCTIONUSDT",
+    "AVNTUSDT",
+    "AXSUSDT",
+    "BANUSDT",
+    "BIOUSDT",
+    "BTCUSDT",
+    "CAKEUSDT",
+    "CHZUSDT",
+    "COAIUSDT",
+    "CRVUSDT",
+    "CYBERUSDT",
+    "DOTUSDT",
+    "EIGENUSDT",
+    "ENSOUSDT",
+    "ETCUSDT",
+    "ETHUSDT",
+    "FARTCOINUSDT",
+    "FFUSDT",
+    "GALAUSDT",
+    "HUSDT",
+    "HYPEUSDT",
+    "INITUSDT",
+    "IPUSDT",
+    "JELLYJELLYUSDT",
+    "LINKUSDT",
+    "LTCUSDT",
+    "LYNUSDT",
+    "MORPHOUSDT",
+    "PAXGUSDT",
+    "PENGUUSDT",
+    "PHAUSDT",
+    "PIPPINUSDT",
+    "SEIUSDT",
+    "SOLUSDT",
+    "SUIUSDT",
+    "TAOUSDT",
+    "TRUMPUSDT",
+    "TRXUSDT",
+    "UNIUSDT",
+    "WIFUSDT",
+    "WLDUSDT",
+    "WLFIUSDT",
+    "ZECUSDT"
+  ],
+  "symbol_blacklist": [
+    "1000RATSUSDT",
+    "ADAUSDT",
+    "AEROUSDT",
+    "AIXBTUSDT",
+    "ANIMEUSDT",
+    "ARBUSDT",
+    "ARCUSDT",
+    "ATHUSDT",
+    "AVAXUSDT",
+    "BARDUSDT",
+    "BCHUSDT",
+    "BNBUSDT",
+    "BTRUSDT",
+    "DOGEUSDT",
+    "ETHFIUSDT",
+    "FORMUSDT",
+    "GRASSUSDT",
+    "HANAUSDT",
+    "HBARUSDT",
+    "ICPUSDT",
+    "INJUSDT",
+    "LDOUSDT",
+    "MYXUSDT",
+    "NEARUSDT",
+    "NOTUSDT",
+    "ONDOUSDT",
+    "OPUSDT",
+    "POLUSDT",
+    "RENDERUSDT",
+    "SIRENUSDT",
+    "SPXUSDT",
+    "STRKUSDT",
+    "TIAUSDT",
+    "TONUSDT",
+    "VIRTUALUSDT",
+    "VVVUSDT",
+    "XLMUSDT",
+    "XMRUSDT",
+    "XRPUSDT"
+  ],
+  "backtest_summary": {
+    "total_trades": 267,
+    "win_rate": 0.6853932584269663,
+    "profit_factor": 3.6386660047483423,
+    "avg_net_bps": 1222.9630235591208,
+    "ex_oct_trades": 115,
+    "ex_oct_pf": 3.4500668376058883,
+    "ex_oct_wr": 0.6869565217391305,
+    "ex_oct_avg_bps": 130.6796027080336
+  }
+}

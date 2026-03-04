@@ -460,6 +460,22 @@ Filtered `25%`:
 
 So under the same size-aware assumptions, the filtered `25%` sleeve is better on both return and realized downside. That makes it the current best research candidate in `codex-exp-1`.
 
+## Forward-Only Validation Path
+
+Phase 14 adds a dedicated forward-only runner for the frozen best candidate:
+
+- script: [rolling_paper_replayopt_25.py](/home/ubuntu/Projects/skytrade6/codex-exp-1/rolling_paper_replayopt_25.py)
+- log: [rolling_paper_log_replayopt_25.csv](/home/ubuntu/Projects/skytrade6/codex-exp-1/out/rolling_paper_log_replayopt_25.csv)
+
+It appends only unseen trading days, carries forward ending equity, and preserves month-to-date realized PnL for the monthly stop logic.
+
+Validation on the current static dataset:
+
+- first run appended `194` days and ended at `$107,638.99`
+- immediate second run appended `0` days and kept the same ending equity
+
+So the repo now has a forward-only validation path for the frozen `25%` filtered sleeve.
+
 ## Next Validation Before Production
 
 1. Add a more realistic fill model tied to venue liquidity, if order book data is used later
