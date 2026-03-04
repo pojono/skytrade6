@@ -1,0 +1,112 @@
+Walk-forward analysis on 116 symbols...
+  [20/116] (18s)
+  [40/116] (32s)
+  [60/116] (44s)
+  [80/116] (58s)
+  [100/116] (72s)
+  [116/116] (83s)
+
+Processed 116 symbols in 83s
+
+Total IS trades: 4918, OOS trades: 4703
+
+========================================================================================================================
+  WALK-FORWARD VALIDATION: IN-SAMPLE vs OUT-OF-SAMPLE
+========================================================================================================================
+ Threshold  Half  Trades  Syms   AvgGross  Taker Net  Maker Net   WR(tk)   WR(mk)   PF(tk)   PF(mk)
+------------------------------------------------------------------------------------------------------------------------
+       2.5    IS    2898   116     +81.38     +61.38     +73.38    43.1%    47.7%     1.40     1.49
+       2.5   OOS    2765   115     +10.81      -9.19      +2.81    42.7%    48.5%     0.92     1.03
+       3.0    IS    1038   115    +189.28    +169.28    +181.28    42.1%    45.4%     1.55     1.60
+       3.0   OOS    1048   109      -3.35     -23.35     -11.35    48.3%    52.7%     0.86     0.93
+       3.5    IS     587   114    +434.22    +414.22    +426.22    44.5%    46.2%     1.96     2.01
+       3.5   OOS     543    96      +8.65     -11.35      +0.65    53.0%    56.4%     0.95     1.00
+       4.0    IS     395   112    +688.08    +668.08    +680.08    44.8%    45.8%     2.24     2.28
+       4.0   OOS     347    80     +57.81     +37.81     +49.81    56.2%    58.8%     1.17     1.23
+
+========================================================================================================================
+  MONTHLY CONSISTENCY — adaptive thr=3.5 (ALL data, taker fees)
+========================================================================================================================
+  2025-07    ✗   53 trades  WR=30.2%  avg_gross=-55  avg_net=-75bps  total=-3994bps  sig=4.22  hold=10.5bars
+  2025-08    ✗   60 trades  WR=33.3%  avg_gross=-124  avg_net=-144bps  total=-8641bps  sig=4.37  hold=10.0bars
+  2025-09    ✓   80 trades  WR=48.8%  avg_gross=+54  avg_net=+34bps  total=+2732bps  sig=4.16  hold=12.0bars
+  2025-10    ✓  314 trades  WR=44.6%  avg_gross=+798  avg_net=+778bps  total=+244375bps  sig=5.28  hold=10.2bars
+  2025-11    ✓  144 trades  WR=59.7%  avg_gross=+76  avg_net=+56bps  total=+8085bps  sig=4.43  hold=14.4bars
+  2025-12    ✓  117 trades  WR=54.7%  avg_gross=+68  avg_net=+48bps  total=+5599bps  sig=4.30  hold=17.1bars
+  2026-01    ✗  161 trades  WR=50.9%  avg_gross=+15  avg_net=-5bps  total=-871bps  sig=4.30  hold=16.1bars
+  2026-02    ✗  190 trades  WR=50.5%  avg_gross=-44  avg_net=-64bps  total=-12067bps  sig=4.38  hold=16.9bars
+  2026-03    ✓   11 trades  WR=54.5%  avg_gross=+180  avg_net=+160bps  total=+1764bps  sig=3.88  hold=12.9bars
+
+  Positive months: 5/9
+
+========================================================================================================================
+  PER-SYMBOL BREAKDOWN — adaptive thr=3.5 (taker)
+========================================================================================================================
+  Profitable symbols: 67/116
+
+  TOP 15 SYMBOLS:
+    PIPPINUSDT            27 trades WR=59.3% avg_gross=+990 avg_net=+970 total=+26180bps sig=4.41
+    IPUSDT                36 trades WR=58.3% avg_gross=+708 avg_net=+688 total=+24755bps sig=4.42
+    TRUMPUSDT              9 trades WR=44.4% avg_gross=+2432 avg_net=+2412 total=+21712bps sig=4.08
+    WLDUSDT                4 trades WR=75.0% avg_gross=+5013 avg_net=+4993 total=+19971bps sig=5.10
+    LDOUSDT                7 trades WR=71.4% avg_gross=+2580 avg_net=+2560 total=+17917bps sig=4.57
+    FARTCOINUSDT           8 trades WR=37.5% avg_gross=+1940 avg_net=+1920 total=+15363bps sig=4.05
+    EIGENUSDT              4 trades WR=50.0% avg_gross=+3289 avg_net=+3269 total=+13077bps sig=4.90
+    WIFUSDT                3 trades WR=66.7% avg_gross=+4023 avg_net=+4003 total=+12008bps sig=5.19
+    CRVUSDT                1 trades WR=100.0% avg_gross=+11026 avg_net=+11006 total=+11006bps sig=11.00
+    1000BONKUSDT           7 trades WR=57.1% avg_gross=+1547 avg_net=+1527 total=+10687bps sig=4.39
+    COAIUSDT              25 trades WR=56.0% avg_gross=+445 avg_net=+425 total=+10633bps sig=4.22
+    1000PEPEUSDT           4 trades WR=50.0% avg_gross=+2665 avg_net=+2645 total=+10581bps sig=5.90
+    INJUSDT               11 trades WR=27.3% avg_gross=+896 avg_net=+876 total=+9635bps sig=4.23
+    BERAUSDT              22 trades WR=54.5% avg_gross=+457 avg_net=+437 total=+9603bps sig=4.71
+    SEIUSDT                1 trades WR=100.0% avg_gross=+9194 avg_net=+9174 total=+9174bps sig=6.58
+
+  BOTTOM 10 SYMBOLS:
+    IMXUSDT                2 trades WR=50.0% avg_gross=-2860 avg_net=-2880 total=-5761bps sig=4.84
+    GPSUSDT               35 trades WR=40.0% avg_gross=-145 avg_net=-165 total=-5778bps sig=4.62
+    0GUSDT                39 trades WR=41.0% avg_gross=-138 avg_net=-158 total=-6163bps sig=4.81
+    ONDOUSDT               4 trades WR=25.0% avg_gross=-1631 avg_net=-1651 total=-6604bps sig=6.18
+    JTOUSDT                2 trades WR=0.0% avg_gross=-3284 avg_net=-3304 total=-6608bps sig=4.67
+    CYBERUSDT             17 trades WR=35.3% avg_gross=-425 avg_net=-445 total=-7562bps sig=5.08
+    AEROUSDT               5 trades WR=20.0% avg_gross=-1550 avg_net=-1570 total=-7849bps sig=4.69
+    FORMUSDT               9 trades WR=33.3% avg_gross=-953 avg_net=-973 total=-8755bps sig=4.91
+    1000RATSUSDT           8 trades WR=0.0% avg_gross=-1313 avg_net=-1333 total=-10661bps sig=4.65
+    MYXUSDT               22 trades WR=54.5% avg_gross=-776 avg_net=-796 total=-17509bps sig=4.20
+
+========================================================================================================================
+  SIGNAL STRENGTH ANALYSIS
+========================================================================================================================
+  Signal 3.5-4.0   :  518 trades  WR(tk)=48.5%  avg_gross=+21  net_tk=+1  net_mk=+13
+  Signal 4.0-4.5   :  233 trades  WR(tk)=45.9%  avg_gross=+176  net_tk=+156  net_mk=+168
+  Signal 4.5-5.0   :  119 trades  WR(tk)=47.9%  avg_gross=+266  net_tk=+246  net_mk=+258
+  Signal 5.0-6.0   :  126 trades  WR(tk)=46.0%  avg_gross=-20  net_tk=-40  net_mk=-28
+  Signal 6.0-10.0  :  121 trades  WR(tk)=52.9%  avg_gross=+782  net_tk=+762  net_mk=+774
+  Signal 10.0+     :   13 trades  WR(tk)=92.3%  avg_gross=+6457  net_tk=+6437  net_mk=+6449
+
+========================================================================================================================
+  DIRECTION ANALYSIS
+========================================================================================================================
+  LONG :  374 trades  WR=54.3%  avg_net=+755bps  total=+282191bps
+  SHORT:  756 trades  WR=45.8%  avg_net=-60bps  total=-45209bps
+
+========================================================================================================================
+  DRAWDOWN ANALYSIS
+========================================================================================================================
+  Final cumulative PnL: +236983 bps
+  Max drawdown: -100556 bps
+  Max DD occurred at trade #730
+  Calmar-like ratio: 2.36
+
+  Maker fees:
+  Final cumulative PnL: +250543 bps
+  Max drawdown: -99762 bps
+
+========================================================================================================================
+  HOLD TIME ANALYSIS
+========================================================================================================================
+  Hold 1-3   :  263 trades  WR=37.3%  avg_gross=-71  avg_net=-91
+  Hold 4-6   :   96 trades  WR=41.7%  avg_gross=+60  avg_net=+40
+  Hold 7-12  :  181 trades  WR=50.3%  avg_gross=+234  avg_net=+214
+  Hold 13-24 :  590 trades  WR=54.2%  avg_gross=+390  avg_net=+370
+
+WFO trades saved to wfo_trades.csv

@@ -1,0 +1,13 @@
+Strategy v2: LONG-ONLY cross-exchange mean-reversion
+Testing on 116 symbols
+
+Total configs: 123
+  [1/123] sig_base_thr2.5_h12_ts0                       → 2298 trades WR=44.6% avg_net(tk)=+77bps (83s)
+  [2/123] sig_base_thr2.5_h12_ts100                     → 2373 trades WR=42.1% avg_net(tk)=+105bps (86s)
+  [3/123] sig_base_thr2.5_h12_ts200                     → 2359 trades WR=43.9% avg_net(tk)=+112bps (80s)
+  [4/123] sig_base_thr2.5_h24_ts0                       → 2285 trades WR=45.8% avg_net(tk)=+91bps (77s)
+  [5/123] sig_base_thr2.5_h24_ts100                     → 2370 trades WR=42.6% avg_net(tk)=+106bps (76s)
+  [6/123] sig_base_thr2.5_h24_ts200                     → 2352 trades WR=44.8% avg_net(tk)=+115bps (67s)
+  [7/123] sig_base_thr3.0_h12_ts0                       →  758 trades WR=50.0% avg_net(tk)=+250bps (67s)
+  [8/123] sig_base_thr3.0_h12_ts100                     →  812 trades WR=47.7% avg_net(tk)=+298bps (68s)
+  [9/123] sig_base_thr3.0_h12_ts200                     →  805 trades WR=48.7% avg_net(tk)=+316bps (67s)
