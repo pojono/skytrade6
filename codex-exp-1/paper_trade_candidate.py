@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -90,6 +91,7 @@ def main() -> None:
     parser.add_argument("--spread-slip-coeff", type=float, default=0.10)
     parser.add_argument("--velocity-slip-coeff", type=float, default=0.05)
     parser.add_argument("--output-fills", type=Path, default=OUT_DIR / "paper_fills_v3.csv")
+    parser.add_argument("--output-monthly", type=Path, default=OUT_DIR / "paper_monthly_v3.csv")
     parser.add_argument("--output-report", type=Path, default=OUT_DIR / "paper_report_v3.md")
     args = parser.parse_args()
 
@@ -200,6 +202,39 @@ def main() -> None:
         by_symbol[fill.symbol] = (count + 1, pnl + fill.pnl_dollars)
     symbol_rows = sorted(by_symbol.items(), key=lambda item: (-item[1][1], item[0]))
 
+    by_month: dict[str, list[Fill]] = defaultdict(list)
+    running_pnl = 0.0
+    monthly_rows = []
+    for fill in fills:
+        by_month[fill.month].append(fill)
+    for month in sorted(by_month):
+        month_fills = by_month[month]
+        month_pnl = sum(fill.pnl_dollars for fill in month_fills)
+        month_avg = sum(fill.net_pnl_bps for fill in month_fills) / len(month_fills)
+        running_pnl += month_pnl
+        monthly_rows.append(
+            (
+                month,
+                len(month_fills),
+                month_avg,
+                month_pnl,
+                args.starting_capital + running_pnl,
+            )
+        )
+
+    with args.output_monthly.open("w", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(
+            [
+                "month",
+                "filled_trades",
+                "avg_net_bps",
+                "pnl_dollars",
+                "equity_end_dollars",
+            ]
+        )
+        writer.writerows(monthly_rows)
+
     lines = [
         "# Paper Trading Report",
         "",
@@ -230,6 +265,17 @@ def main() -> None:
     ]
     for symbol, (count, pnl) in symbol_rows:
         lines.append(f"| {symbol} | {count} | {pnl:.2f} |")
+    lines.extend(
+        [
+            "",
+            "## Monthly",
+            "",
+            "| Month | Filled Trades | Avg Net bps | PnL Dollars | Equity End |",
+            "|---|---:|---:|---:|---:|",
+        ]
+    )
+    for row in monthly_rows:
+        lines.append(f"| {row[0]} | {row[1]} | {row[2]:.4f} | {row[3]:.2f} | {row[4]:.2f} |")
     lines.append("")
     args.output_report.write_text("\n".join(lines))
 
@@ -238,6 +284,7 @@ def main() -> None:
     print(f"Total PnL: {total_pnl:.2f}")
     print(f"Average net edge: {avg_net_bps:.4f}bps")
     print(f"Wrote {args.output_fills}")
+    print(f"Wrote {args.output_monthly}")
     print(f"Wrote {args.output_report}")
 
 

@@ -132,8 +132,12 @@ def apply_daily_cap(rows: list[WFRecord], max_trades_per_symbol_day: int) -> lis
     capped: list[WFRecord] = []
     for key in sorted(buckets):
         day_rows = buckets[key]
-        day_rows.sort(key=lambda row: (-row.score, -row.net_pnl_bps))
-        capped.extend(day_rows[:max_trades_per_symbol_day])
+        kept = 0
+        for row in day_rows:
+            if kept >= max_trades_per_symbol_day:
+                break
+            capped.append(row)
+            kept += 1
     return capped
 
 

@@ -170,8 +170,8 @@ Setup:
 
 Flat result:
 
-- train avg net: `4.8067 bps` on `1,163` trades
-- test avg net: `9.7423 bps` on `259` trades
+- train avg net: `4.7873 bps` on `1,163` trades
+- test avg net: `10.7735 bps` on `259` trades
 - positive months: `8/8`
 
 Moderate dynamic slippage:
@@ -182,9 +182,11 @@ Moderate dynamic slippage:
 
 Result:
 
-- train avg net: `2.6781 bps`
-- test avg net: `6.5136 bps`
+- train avg net: `2.7280 bps`
+- test avg net: `7.7022 bps`
 - positive months: `8/8`
+
+These results use the corrected no-peek daily-cap logic.
 
 This is the strongest current implementation candidate.
 
@@ -216,6 +218,10 @@ Results with `1` open slot:
 - total PnL: `$5,356.75`
 - average net edge: `3.6729 bps`
 
+Monthly paper log:
+
+- `codex-exp-1/out/paper_monthly_v3_slot1.csv`
+
 This suggests a conservative single-position implementation is viable and may be preferable.
 
 ## What This Means
@@ -235,7 +241,7 @@ Current evidence does **not** support:
 
 ## Next Validation Before Production
 
-1. Add a no-peek ranking / selection rule for live intraminute signal conflicts
+1. Add a live-style intraminute selector for exact same-timestamp signal conflicts
 2. Add a more realistic fill model tied to venue liquidity, if order book data is used later
-3. Build a rolling paper-trading log from the frozen 3-symbol basket
+3. Extend rolling paper-trading logs into a continuous forward log
 4. Freeze the basket and re-test without reselecting symbols
