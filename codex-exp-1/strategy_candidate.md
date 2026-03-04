@@ -492,6 +492,24 @@ On the 30-day high-resolution study (`2026-02-01` through `2026-03-02`) with the
 
 This should be treated as an optional execution-quality filter, not yet as a fully revalidated replacement for the base strategy spec.
 
+On the overlapping 30-day account-level replay, the best current optional microstructure add-on is:
+
+```json
+{
+  "min_bybit_trade_count_5s": 2.0,
+  "min_binance_trade_count_5s": 0.0,
+  "max_bybit_book_spread_bps": 4.5,
+  "max_bybit_trade_imbalance_5s": 1.0
+}
+```
+
+Over that 30-day high-resolution replay:
+
+- base window: `213` fills, `$3,818.55`, `7.0423 bps`, `58.22%` win rate
+- with this gate: `193` fills, `$3,917.35`, `7.9684 bps`, `61.66%` win rate
+
+So the microstructure gate is now the best current optional add-on to the frozen `25%` filtered sleeve.
+
 ## Next Validation Before Production
 
 1. Add a more realistic fill model tied to venue liquidity, if order book data is used later
