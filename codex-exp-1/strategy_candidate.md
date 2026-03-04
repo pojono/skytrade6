@@ -400,6 +400,29 @@ Held-out result for that variant:
 
 So the plain baseline remains the best dollar generator at current conservative sizing, while the replay-optimized filter is the cleaner high-confidence variant.
 
+## Size-Aware Deployment Split
+
+Phase 11 compared the plain baseline and the replay-optimized filter under the same size-aware slippage model (`size_slip_coeff = 1.5`, `base_allocation_ref = 10%`).
+
+At `10%` allocation:
+
+- baseline: `1,421` fills, `58.69%` win rate, `3.6742 bps`, `$5,358.62`
+- replay-optimized filter: `897` fills, `61.54%` win rate, `5.5349 bps`, `$5,089.18`
+
+At `10%`, the baseline still wins on absolute dollars.
+
+At `25%` allocation:
+
+- baseline: `1,421` fills, `50.32%` win rate, `1.4242 bps`, `$5,183.40`
+- replay-optimized filter: `897` fills, `53.29%` win rate, `3.2849 bps`, `$7,638.99`
+
+At `25%`, the replay-optimized filter clearly wins because the higher-quality signals degrade more slowly under size-aware slippage.
+
+That changes the practical recommendation:
+
+- If staying near `10%` allocation, the plain baseline remains the best dollar generator.
+- If scaling toward `25%` allocation, the replay-optimized filter is the better candidate.
+
 ## Next Validation Before Production
 
 1. Add a more realistic fill model tied to venue liquidity, if order book data is used later
