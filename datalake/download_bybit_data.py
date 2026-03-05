@@ -1054,9 +1054,9 @@ async def run_one_symbol(
         nonlocal _done, _dl_bytes, _success, _skip, _fail
         if not rest_active:
             return
-        api_connector = aiohttp.TCPConnector(limit=50, force_close=False)
+        api_connector = aiohttp.TCPConnector(limit=100, force_close=False)
         async with aiohttp.ClientSession(connector=api_connector) as api_session:
-            sem = asyncio.Semaphore(10)
+            sem = asyncio.Semaphore(30)
             all_coros = []
             for metrics_type in rest_active:
                 src = REST_API_SOURCES if metrics_type == "MetricsLinear" else SPOT_REST_API_SOURCES
