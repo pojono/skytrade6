@@ -698,6 +698,12 @@ async def download_file(
                     if resp.status == 404:
                         _active_tmp_files.discard(tmp)
                         return (url, False, "not found (404)")
+                    if resp.status == 403:
+                        # CloudFront rate-limit — back off aggressively
+                        wait = 30 * attempt
+                        print(f"    ⚠ 403 rate-limited, waiting {wait}s ... ({url.split('/')[-1]})")
+                        await asyncio.sleep(wait)
+                        raise aiohttp.ClientError(f"HTTP 403")
                     if resp.status != 200:
                         raise aiohttp.ClientError(f"HTTP {resp.status}")
                     expected = resp.content_length
@@ -856,9 +862,15 @@ async def run_one_symbol(
 
         connector = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
         async with aiohttp.ClientSession(connector=connector) as session:
+
+            async def _throttled(url, dest, dec, idx):
+                # Stagger requests to avoid CloudFront burst detection
+                await asyncio.sleep(idx * 0.05)
+                return await download_file(session, url, dest, semaphore, decompress=dec)
+
             coros = [
-                download_file(session, url, dest, semaphore, decompress=dec)
-                for url, dest, dec in all_tasks
+                _throttled(url, dest, dec, idx)
+                for idx, (url, dest, dec) in enumerate(all_tasks)
             ]
 
             for i, coro in enumerate(asyncio.as_completed(coros), 1):
