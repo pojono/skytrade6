@@ -52,6 +52,21 @@ import aiohttp
 
 sys.stdout.reconfigure(line_buffering=True)
 
+
+def _progress(done: int, total: int, t0: float, prefix: str = ""):
+    """Print an in-place progress bar."""
+    elapsed = time.monotonic() - t0
+    rate = done / elapsed if elapsed > 0 else 0
+    eta = (total - done) / rate if rate > 0 else 0
+    pct = done * 100 // total if total else 100
+    bar_len = 30
+    filled = bar_len * done // total if total else bar_len
+    bar = "█" * filled + "░" * (bar_len - filled)
+    line = f"\r  {prefix}{bar} {pct:3d}% ({done}/{total})  {elapsed:.0f}s elapsed, ETA {eta:.0f}s  "
+    sys.stdout.write(line)
+    if done == total:
+        sys.stdout.write("\n")
+
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -690,10 +705,9 @@ async def _fetch_and_save(
             if not rows:
                 return "nodata", 1
             _write_csv(dest, rows, header)
-            print(f"  ✓ {fname}  ({len(rows)} rows)")
             return "ok", 1
         except Exception as exc:
-            print(f"  ✗ {fname}  ({exc})")
+            print(f"\n  ✗ {fname}  ({exc})")
             return "fail", 1
 
 
@@ -741,9 +755,7 @@ async def download_rest_api_data(
             skip += 1
         else:
             fail += 1
-        if done % 50 == 0 or done == total:
-            elapsed = time.monotonic() - t0
-            print(f"  ... {done}/{total} done ({elapsed:.0f}s)")
+        _progress(done, total, t0)
 
     return success, skip, fail
 
@@ -994,24 +1006,18 @@ async def run_one_symbol(
             for i, coro in enumerate(asyncio.as_completed(coros), 1):
                 url, ok, msg = await coro
                 short = url.split("/")[-1]
-                elapsed = time.monotonic() - t0
-                rate = i / elapsed if elapsed > 0 else 0
-                eta = (total - i) / rate if rate > 0 else 0
-                ts = f"[{elapsed:.0f}s elapsed, ETA {eta:.0f}s]"
 
                 if ok and msg == "exists":
                     skip_count += 1
-                    if skip_count <= 5 or skip_count % 20 == 0:
-                        print(f"  [{i}/{total}] ~ {short}  (already exists)")
                 elif ok:
                     success_count += 1
-                    print(f"  [{i}/{total}] ✓ {short}  {ts}")
                 elif "404" in msg:
                     not_found_count += 1
-                    print(f"  [{i}/{total}] - {short}  (not available)")
                 else:
                     fail_count += 1
-                    print(f"  [{i}/{total}] ✗ {short}  ({msg})")
+                    print(f"\n  ✗ {short}  ({msg})")
+
+                _progress(i, total, t0)
 
         phase1_elapsed = time.monotonic() - t0
         print(
