@@ -1,51 +1,35 @@
 #!/usr/bin/env python3
 """
-Download Binance market data from data.binance.vision bulk archives (futures or spot).
+Download Binance market data from data.binance.vision bulk archives.
 
-Sources:
-  Futures: https://data.binance.vision/?prefix=data/futures/um/daily/
-  Spot:    https://data.binance.vision/?prefix=data/spot/daily/
+Six canonical data types (same names as Bybit downloader):
 
-Available data types — futures (all daily .zip archives):
-  - trades:              Individual trades
-  - aggTrades:           Aggregated trades
-  - klines/1m:           OHLCV 1-minute candles
-  - markPriceKlines/1m:  Mark price 1-minute candles
-  - premiumIndexKlines/1m: Premium index 1-minute candles
-  - indexPriceKlines/1m: Index price 1-minute candles
-  - bookDepth:           Order book depth snapshots
-  - bookTicker:          Best bid/ask ticker snapshots
-  - metrics:             Composite metrics (OI, funding rate, LS ratio, etc.)
+  TradesLinear      futures/um/daily/trades        -> {date}_trades.csv.gz
+  TradesSpot        spot/daily/trades              -> {date}_trades_spot.csv.gz
+  OrderbookLinear   futures/um/daily/bookDepth     -> {date}_bookDepth.csv.gz
+  OrderbookSpot     (not available on Binance)
+  MetricsLinear     futures klines + markPrice + indexPrice + premiumIndex + metrics
+                      -> {date}_kline_1m.csv, {date}_mark_price_kline_1m.csv,
+                         {date}_index_price_kline_1m.csv, {date}_premium_index_kline_1m.csv,
+                         {date}_metrics.csv
+  MetricsSpot       spot/daily/klines/1m           -> {date}_kline_1m_spot.csv
 
-Available data types — spot:
-  - spotKlines:          OHLCV 1-minute candles
-  - spotTrades:          Individual trades
-  - spotAggTrades:       Aggregated trades
+Trades & orderbooks: zip → extract → gzip level 1 (.csv.gz)
+Metrics/klines:      zip → extract → save (.csv)
 
 Usage:
-  # Futures (default):
-  python download_binance_data.py BTCUSDT 2026-02-01 2026-02-28
-  python download_binance_data.py BTCUSDT 2026-02-01 2026-02-07 --types klines,metrics
+  python download_binance_data.py BTCUSDT 2026-02-01 2026-03-01
+  python download_binance_data.py BTCUSDT,ETHUSDT 2026-02-01 2026-03-01 -t all
+  python download_binance_data.py BTCUSDT 2026-02-01 2026-03-01 -t TradesLinear,MetricsLinear
 
-  # Spot:
-  python download_binance_data.py BTCUSDT 2026-02-01 2026-02-28 --market spot
-  python download_binance_data.py BTCUSDT 2026-02-01 2026-02-07 --market spot --types all
-
-Output structure (same folder, spot files have _spot postfix):
-  binance/{SYMBOL}/
-    {YYYY-MM-DD}_kline_1m.csv              (futures)
-    {YYYY-MM-DD}_metrics.csv               (futures)
-    ...                                    (other futures types)
-    {YYYY-MM-DD}_kline_1m_spot.csv         (spot)
-    {YYYY-MM-DD}_trades_spot.csv           (spot)
-    {YYYY-MM-DD}_aggTrades_spot.csv        (spot)
+Output: binance/{SYMBOL}/{date}_{suffix}.csv[.gz]
 """
 
 import argparse
 import asyncio
 import atexit
+import concurrent.futures
 import gzip
-import hashlib
 import io
 import signal
 import sys
@@ -69,11 +53,9 @@ DEFAULT_CONCURRENT = 5
 RETRY_ATTEMPTS = 3
 RETRY_BACKOFF = 2  # seconds
 
-# Output directory relative to this script
 SCRIPT_DIR = Path(__file__).resolve().parent
 DATA_DIR = SCRIPT_DIR / "binance"
 
-# Track .tmp files for cleanup on interrupt
 _active_tmp_files: set[Path] = set()
 
 
@@ -90,93 +72,70 @@ for _sig in (signal.SIGINT, signal.SIGTERM):
     signal.signal(_sig, lambda s, f: sys.exit(1))
 
 # ---------------------------------------------------------------------------
-# Data type definitions
+# 6 canonical types — sub-download definitions
 # ---------------------------------------------------------------------------
 
-# Each data type maps to:
-#   url_template: path under BINANCE_DATA_BASE, with {symbol} and {date} placeholders
-#   output_suffix: suffix for the output filename
-#   label: human-readable label for progress output
-# --- Futures data types ---
-DATA_TYPES = {
-    "trades": {
-        "url_template": "trades/{symbol}/{symbol}-trades-{date}.zip",
-        "output_suffix": "trades",
-        "label": "trades",
-        "compress": True,
-    },
-    "aggTrades": {
-        "url_template": "aggTrades/{symbol}/{symbol}-aggTrades-{date}.zip",
-        "output_suffix": "aggTrades",
-        "label": "aggTrades",
-        "compress": True,
-    },
-    "klines": {
-        "url_template": "klines/{symbol}/1m/{symbol}-1m-{date}.zip",
-        "output_suffix": "kline_1m",
-        "label": "klines (1m)",
-    },
-    "markPriceKlines": {
-        "url_template": "markPriceKlines/{symbol}/1m/{symbol}-1m-{date}.zip",
-        "output_suffix": "mark_price_kline_1m",
-        "label": "mark price klines (1m)",
-    },
-    "premiumIndexKlines": {
-        "url_template": "premiumIndexKlines/{symbol}/1m/{symbol}-1m-{date}.zip",
-        "output_suffix": "premium_index_kline_1m",
-        "label": "premium index klines (1m)",
-    },
-    "indexPriceKlines": {
-        "url_template": "indexPriceKlines/{symbol}/1m/{symbol}-1m-{date}.zip",
-        "output_suffix": "index_price_kline_1m",
-        "label": "index price klines (1m)",
-    },
-    "bookDepth": {
-        "url_template": "bookDepth/{symbol}/{symbol}-bookDepth-{date}.zip",
-        "output_suffix": "bookDepth",
-        "label": "book depth",
-        "compress": True,
-    },
-    "bookTicker": {
-        "url_template": "bookTicker/{symbol}/{symbol}-bookTicker-{date}.zip",
-        "output_suffix": "bookTicker",
-        "label": "book ticker",
-        "compress": True,
-    },
-    "metrics": {
-        "url_template": "metrics/{symbol}/{symbol}-metrics-{date}.zip",
-        "output_suffix": "metrics",
-        "label": "metrics (OI, FR, LS ratio)",
-    },
-}
+# Each sub-download: (url_template, output_suffix, compress_to_gz)
+# url_template uses {symbol} and {date} placeholders, relative to base_url.
 
-DEFAULT_TYPES = [
-    "klines", "markPriceKlines", "premiumIndexKlines",
-    "indexPriceKlines", "metrics",
+ALL_TYPES = [
+    "TradesLinear", "TradesSpot",
+    "OrderbookLinear", "OrderbookSpot",
+    "MetricsLinear", "MetricsSpot",
 ]
 
-# --- Spot data types ---
-SPOT_DATA_TYPES = {
-    "spotKlines": {
-        "url_template": "klines/{symbol}/1m/{symbol}-1m-{date}.zip",
-        "output_suffix": "kline_1m_spot",
-        "label": "spot klines (1m)",
-    },
-    "spotTrades": {
-        "url_template": "trades/{symbol}/{symbol}-trades-{date}.zip",
-        "output_suffix": "trades_spot",
-        "label": "spot trades",
-        "compress": True,
-    },
-    "spotAggTrades": {
-        "url_template": "aggTrades/{symbol}/{symbol}-aggTrades-{date}.zip",
-        "output_suffix": "aggTrades_spot",
-        "label": "spot aggTrades",
-        "compress": True,
-    },
+DEFAULT_TYPES = ["MetricsLinear", "MetricsSpot"]
+
+# TradesLinear: 1 sub-download per day (large, compress to .csv.gz)
+TRADES_LINEAR = [
+    ("trades/{symbol}/{symbol}-trades-{date}.zip", "trades", True),
+]
+
+# TradesSpot: 1 sub-download per day (large, compress to .csv.gz)
+TRADES_SPOT = [
+    ("trades/{symbol}/{symbol}-trades-{date}.zip", "trades_spot", True),
+]
+
+# OrderbookLinear: 1 sub-download per day (compress to .csv.gz)
+ORDERBOOK_LINEAR = [
+    ("bookDepth/{symbol}/{symbol}-bookDepth-{date}.zip", "bookDepth", True),
+]
+
+# OrderbookSpot: not available on Binance
+ORDERBOOK_SPOT = []
+
+# MetricsLinear: 5 sub-downloads per day (small, extract to .csv)
+METRICS_LINEAR = [
+    ("klines/{symbol}/1m/{symbol}-1m-{date}.zip", "kline_1m", False),
+    ("markPriceKlines/{symbol}/1m/{symbol}-1m-{date}.zip", "mark_price_kline_1m", False),
+    ("indexPriceKlines/{symbol}/1m/{symbol}-1m-{date}.zip", "index_price_kline_1m", False),
+    ("premiumIndexKlines/{symbol}/1m/{symbol}-1m-{date}.zip", "premium_index_kline_1m", False),
+    ("metrics/{symbol}/{symbol}-metrics-{date}.zip", "metrics", False),
+]
+
+# MetricsSpot: 1 sub-download per day (small, extract to .csv)
+METRICS_SPOT = [
+    ("klines/{symbol}/1m/{symbol}-1m-{date}.zip", "kline_1m_spot", False),
+]
+
+TYPE_SUBS = {
+    "TradesLinear":    (BINANCE_FUTURES_BASE, TRADES_LINEAR),
+    "TradesSpot":      (BINANCE_SPOT_BASE,    TRADES_SPOT),
+    "OrderbookLinear": (BINANCE_FUTURES_BASE, ORDERBOOK_LINEAR),
+    "OrderbookSpot":   (BINANCE_SPOT_BASE,    ORDERBOOK_SPOT),
+    "MetricsLinear":   (BINANCE_FUTURES_BASE, METRICS_LINEAR),
+    "MetricsSpot":     (BINANCE_SPOT_BASE,    METRICS_SPOT),
 }
 
-SPOT_DEFAULT_TYPES = ["spotKlines"]
+# Probe URLs for first-date detection per type
+PROBE_URLS = {
+    "TradesLinear":    (BINANCE_FUTURES_BASE, "trades/{symbol}/{symbol}-trades-{date}.zip"),
+    "TradesSpot":      (BINANCE_SPOT_BASE,    "trades/{symbol}/{symbol}-trades-{date}.zip"),
+    "OrderbookLinear": (BINANCE_FUTURES_BASE, "bookDepth/{symbol}/{symbol}-bookDepth-{date}.zip"),
+    "OrderbookSpot":   (BINANCE_SPOT_BASE,    "bookDepth/{symbol}/{symbol}-bookDepth-{date}.zip"),
+    "MetricsLinear":   (BINANCE_FUTURES_BASE, "klines/{symbol}/1m/{symbol}-1m-{date}.zip"),
+    "MetricsSpot":     (BINANCE_SPOT_BASE,    "klines/{symbol}/1m/{symbol}-1m-{date}.zip"),
+}
 
 
 # ---------------------------------------------------------------------------
@@ -194,23 +153,62 @@ def date_range(start: str, end: str):
 
 
 def _extract_zip_csv(raw: bytes) -> bytes:
-    """Extract the first .csv file from a zip archive. Returns raw CSV bytes."""
+    """Extract the first .csv file from a zip archive."""
     with zipfile.ZipFile(io.BytesIO(raw)) as zf:
-        # Find the first CSV file (skip CHECKSUM or other files)
         csv_files = [n for n in zf.namelist() if n.endswith(".csv")]
         if csv_files:
             return zf.read(csv_files[0])
-        # Fallback: extract first file
         return zf.read(zf.namelist()[0])
 
 
+def _process_and_write(data: bytes, compress: bool, dest: Path) -> int:
+    """Extract CSV from zip, optionally gzip-compress, write atomically. For ProcessPoolExecutor."""
+    csv_data = _extract_zip_csv(data)
+    if compress:
+        csv_data = gzip.compress(csv_data, compresslevel=1)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_suffix(dest.suffix + ".tmp")
+    tmp.write_bytes(csv_data)
+    tmp.rename(dest)
+    return len(csv_data)
+
+
+def _fmt_size(n: int) -> str:
+    if n < 1024:
+        return f"{n}B"
+    if n < 1024**2:
+        return f"{n/1024:.1f}KB"
+    if n < 1024**3:
+        return f"{n/1024**2:.1f}MB"
+    return f"{n/1024**3:.2f}GB"
+
+
+def _progress(done: int, total: int, t0: float, dl_bytes: int):
+    """Print in-place progress bar."""
+    if total == 0:
+        return
+    pct = done / total
+    bar_len = 30
+    filled = int(bar_len * pct)
+    bar = "█" * filled + "░" * (bar_len - filled)
+    elapsed = time.monotonic() - t0
+    eta = (elapsed / done * (total - done)) if done > 0 else 0
+    speed = dl_bytes / elapsed if elapsed > 0 else 0
+    size_str = _fmt_size(dl_bytes)
+    speed_str = f"{_fmt_size(int(speed))}/s"
+    print(
+        f"\r  {bar} {pct:4.0%} ({done}/{total})  "
+        f"{elapsed:.0f}s ETA {eta:.0f}s  {size_str} @ {speed_str}    ",
+        end="", flush=True,
+    )
+
+
 # ---------------------------------------------------------------------------
-# First-available-date detection (binary search via HEAD requests)
+# First-available-date detection (binary search via HEAD)
 # ---------------------------------------------------------------------------
 
 
 async def _head_exists(session: aiohttp.ClientSession, url: str) -> bool:
-    """Return True if the URL exists (HTTP 200 on HEAD)."""
     try:
         async with session.head(url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
             return resp.status == 200
@@ -218,34 +216,27 @@ async def _head_exists(session: aiohttp.ClientSession, url: str) -> bool:
         return False
 
 
-async def find_first_available_date(
+async def _binary_search_first_date(
     session: aiohttp.ClientSession,
     symbol: str,
     start_date: str,
     end_date: str,
-    base_url: str = None,
+    base_url: str,
+    url_template: str,
 ) -> str | None:
-    """Binary search for the first date that has data on Binance.
-
-    Probes klines/1m zip files via HEAD requests. Returns the first available
-    date string (YYYY-MM-DD), or None if no data exists in the range.
-    ~10 requests for a 256-day range.
-    """
-    if base_url is None:
-        base_url = BINANCE_FUTURES_BASE
+    """Binary search for the first date that has data."""
     fmt = "%Y-%m-%d"
     lo = datetime.strptime(start_date, fmt)
     hi = datetime.strptime(end_date, fmt)
 
     def _url(d: str) -> str:
-        return f"{base_url}/klines/{symbol}/1m/{symbol}-1m-{d}.zip"
+        path = url_template.format(symbol=symbol, date=d)
+        return f"{base_url}/{path}"
 
-    # Quick check: if start_date exists, no need to search
     if await _head_exists(session, _url(start_date)):
         return start_date
 
-    # Find a known-good upper bound (today's zip may not be published yet).
-    # Walk backward up to 3 days from end_date.
+    # Walk backward from end to find a known-good upper bound
     upper = None
     d = hi
     for _ in range(4):
@@ -259,7 +250,6 @@ async def find_first_available_date(
     if upper is None:
         return None
 
-    # Binary search: find first date where data exists
     while (upper - lo).days > 1:
         mid = lo + (upper - lo) / 2
         mid_str = mid.strftime(fmt)
@@ -271,6 +261,30 @@ async def find_first_available_date(
     return upper.strftime(fmt)
 
 
+async def find_first_dates(
+    session: aiohttp.ClientSession,
+    symbol: str,
+    start_date: str,
+    end_date: str,
+    data_types: list[str],
+) -> dict[str, str | None]:
+    """Find first available date for each type concurrently."""
+    results: dict[str, str | None] = {}
+
+    async def _probe(dtype):
+        base_url, url_tmpl = PROBE_URLS[dtype]
+        first = await _binary_search_first_date(
+            session, symbol, start_date, end_date, base_url, url_tmpl,
+        )
+        return dtype, first
+
+    for coro in asyncio.as_completed([_probe(dt) for dt in data_types]):
+        dtype, first = await coro
+        results[dtype] = first
+
+    return results
+
+
 # ---------------------------------------------------------------------------
 # Download engine
 # ---------------------------------------------------------------------------
@@ -279,18 +293,12 @@ async def find_first_available_date(
 async def download_file(
     session: aiohttp.ClientSession,
     url: str,
-    checksum_url: str,
     dest: Path,
     semaphore: asyncio.Semaphore,
-    compress: bool = False,
 ):
-    """Download a .zip file, extract the CSV, write atomically. Returns (url, success, message).
-
-    If compress=True, the extracted CSV is re-compressed to gzip (.csv.gz).
-    Also downloads .CHECKSUM file and verifies SHA256 if available.
-    """
+    """Download a .zip, return (url, dest, compress_flag, raw_bytes | None, message)."""
     if dest.exists() and dest.stat().st_size > 0:
-        return (url, True, "exists")
+        return (url, True, "exists", 0)
 
     tmp = dest.with_suffix(dest.suffix + ".tmp")
     _active_tmp_files.add(tmp)
@@ -298,66 +306,31 @@ async def download_file(
     for attempt in range(1, RETRY_ATTEMPTS + 1):
         try:
             async with semaphore:
-                # Download the zip
                 async with session.get(
                     url, timeout=aiohttp.ClientTimeout(total=600)
                 ) as resp:
                     if resp.status == 404:
                         _active_tmp_files.discard(tmp)
-                        return (url, False, "not found (404)")
+                        return (url, False, "not found (404)", 0)
                     if resp.status == 403:
                         _active_tmp_files.discard(tmp)
-                        return (url, False, "forbidden (403)")
+                        return (url, False, "forbidden (403)", 0)
                     if resp.status != 200:
                         raise aiohttp.ClientError(f"HTTP {resp.status}")
                     expected = resp.content_length
                     data = await resp.read()
-
-                # Optionally download checksum
-                checksum_expected = None
-                try:
-                    async with session.get(
-                        checksum_url,
-                        timeout=aiohttp.ClientTimeout(total=30),
-                    ) as cs_resp:
-                        if cs_resp.status == 200:
-                            cs_text = (await cs_resp.read()).decode().strip()
-                            # Format: "<sha256_hex>  <filename>"
-                            checksum_expected = cs_text.split()[0] if cs_text else None
-                except Exception:
-                    pass  # checksum is optional
 
             if expected is not None and len(data) != expected:
                 raise aiohttp.ClientError(
                     f"size mismatch: got {len(data)}, expected {expected}"
                 )
 
-            # Verify checksum
-            if checksum_expected:
-                actual_hash = hashlib.sha256(data).hexdigest()
-                if actual_hash != checksum_expected:
-                    raise aiohttp.ClientError(
-                        f"checksum mismatch: {actual_hash[:16]}... vs {checksum_expected[:16]}..."
-                    )
-
-            # Extract CSV from zip
-            csv_data = _extract_zip_csv(data)
-
-            # Optionally re-compress as gzip
-            if compress:
-                csv_data = gzip.compress(csv_data, compresslevel=6)
-
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            tmp.write_bytes(csv_data)
-            tmp.rename(dest)
             _active_tmp_files.discard(tmp)
-
-            size_mb = len(data) / (1024 * 1024)
-            return (url, True, f"ok ({size_mb:.1f} MB zip)")
+            return (url, True, "ok", data)
 
         except asyncio.TimeoutError:
             msg = f"timeout (attempt {attempt}/{RETRY_ATTEMPTS})"
-        except (aiohttp.ClientError, OSError, zipfile.BadZipFile) as exc:
+        except (aiohttp.ClientError, OSError) as exc:
             msg = f"{exc} (attempt {attempt}/{RETRY_ATTEMPTS})"
 
         tmp.unlink(missing_ok=True)
@@ -365,41 +338,32 @@ async def download_file(
             await asyncio.sleep(RETRY_BACKOFF * attempt)
 
     _active_tmp_files.discard(tmp)
-    return (url, False, msg)
+    return (url, False, msg, 0)
 
 
 # ---------------------------------------------------------------------------
-# Task builder
+# Task builders
 # ---------------------------------------------------------------------------
 
 
-def build_tasks(symbol: str, dates, output_dir: Path, data_types: list[str],
-                base_url: str = None, type_registry: dict = None):
-    """Build (url, checksum_url, dest, label, compress) tuples for all requested data."""
-    if base_url is None:
-        base_url = BINANCE_FUTURES_BASE
-    if type_registry is None:
-        type_registry = DATA_TYPES
+def build_tasks(symbol: str, dates: list[str], output_dir: Path, dtype: str):
+    """Yield (url, dest, compress) tuples for one data type across all dates."""
+    base_url, subs = TYPE_SUBS[dtype]
     base = output_dir / symbol
-    for dtype in data_types:
-        cfg = type_registry[dtype]
-        compress = cfg.get("compress", False)
+    for url_tmpl, suffix, compress in subs:
         for d in dates:
-            url_path = cfg["url_template"].format(symbol=symbol, date=d)
-            url = f"{base_url}/{url_path}"
-            checksum_url = url + ".CHECKSUM"
+            url = f"{base_url}/{url_tmpl.format(symbol=symbol, date=d)}"
             if compress:
-                fname = f"{d}_{cfg['output_suffix']}.csv.gz"
-                dest = base / fname
+                dest = base / f"{d}_{suffix}.csv.gz"
                 # Treat old uncompressed .csv as existing
-                old = base / f"{d}_{cfg['output_suffix']}.csv"
+                old = base / f"{d}_{suffix}.csv"
                 if old.exists() and old.stat().st_size > 0:
-                    yield url, checksum_url, old, cfg["label"], False
+                    yield url, old, False
                 else:
-                    yield url, checksum_url, dest, cfg["label"], True
+                    yield url, dest, True
             else:
-                fname = f"{d}_{cfg['output_suffix']}.csv"
-                yield url, checksum_url, base / fname, cfg["label"], False
+                dest = base / f"{d}_{suffix}.csv"
+                yield url, dest, False
 
 
 # ---------------------------------------------------------------------------
@@ -413,89 +377,192 @@ async def run_one_symbol(
     end_date: str,
     concurrency: int,
     data_types: list[str],
-    market: str = "futures",
 ):
     """Download data for a single symbol."""
     output_dir = DATA_DIR
-    is_spot = market == "spot"
-    base_url = BINANCE_SPOT_BASE if is_spot else BINANCE_FUTURES_BASE
-    type_registry = SPOT_DATA_TYPES if is_spot else DATA_TYPES
 
-    # --- Detect first available date (binary search via HEAD) ---
-    connector = aiohttp.TCPConnector(limit=5, force_close=False)
+    # --- Detect first available date per type ---
+    connector = aiohttp.TCPConnector(limit=10, force_close=False)
     async with aiohttp.ClientSession(connector=connector) as probe_session:
-        first_date = await find_first_available_date(
-            probe_session, symbol, start_date, end_date, base_url=base_url,
+        first_dates = await find_first_dates(
+            probe_session, symbol, start_date, end_date, data_types,
         )
 
-    if first_date is None:
+    active_types = {dt: fd for dt, fd in first_dates.items() if fd is not None}
+    if not active_types:
         print(f"\n{symbol}: no data found in {start_date} -> {end_date}, skipping.")
         return 0
 
-    effective_start = first_date if first_date > start_date else start_date
-    dates = list(date_range(effective_start, end_date))
+    type_dates: dict[str, list[str]] = {}
+    for dt, fd in active_types.items():
+        eff = fd if fd > start_date else start_date
+        type_dates[dt] = list(date_range(eff, end_date))
 
-    type_labels = [type_registry[t]["label"] for t in data_types]
     print(f"\nSymbol:           {symbol}")
-    print(f"Market:           {market}")
-    if effective_start != start_date:
-        print(f"First available:  {effective_start}  (requested {start_date})")
-    print(f"Date range:       {effective_start} -> {end_date} ({len(dates)} days)")
-    print(f"Data types:       {', '.join(type_labels)}")
+    for dt in data_types:
+        fd = first_dates.get(dt)
+        if fd is None:
+            print(f"  {dt:20s}  no data")
+        elif fd > start_date:
+            print(f"  {dt:20s}  {fd} -> {end_date} ({len(type_dates[dt])} days)  (requested {start_date})")
+        else:
+            print(f"  {dt:20s}  {start_date} -> {end_date} ({len(type_dates[dt])} days)")
     print(f"Output directory: {output_dir / symbol}")
 
-    all_tasks = list(build_tasks(symbol, dates, output_dir, data_types,
-                                 base_url=base_url, type_registry=type_registry))
-    total = len(all_tasks)
-    print(f"Total files:      {total}")
+    # Build all tasks, split by compress (CPU-heavy) vs raw (just extract+save)
+    all_tasks = []  # (url, dest, compress)
+    for dt in active_types:
+        all_tasks.extend(build_tasks(symbol, type_dates[dt], output_dir, dt))
+
+    grand_total = len(all_tasks)
+    print(f"Tasks:            {grand_total}")
     print("-" * 60)
 
     t0 = time.monotonic()
-    semaphore = asyncio.Semaphore(concurrency)
 
-    success_count = 0
-    skip_count = 0
-    fail_count = 0
-    not_found_count = 0
+    # Shared progress counters
+    _done = 0
+    _dl_bytes = 0
+    _success = 0
+    _skip = 0
+    _fail = 0
+    _not_found = 0
 
-    connector = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
-    async with aiohttp.ClientSession(connector=connector) as session:
-        coros = [
-            download_file(session, url, cs_url, dest, semaphore, compress=comp)
-            for url, cs_url, dest, label, comp in all_tasks
-        ]
+    # Separate: raw-save (compress=False, small) vs CPU-heavy (compress=True, large)
+    raw_tasks = []      # extract CSV only
+    cpu_tasks = []      # extract CSV + gzip compress
+    for url, dest, compress in all_tasks:
+        if dest.exists() and dest.stat().st_size > 0:
+            _done += 1
+            _skip += 1
+            _progress(_done, grand_total, t0, _dl_bytes)
+        elif compress:
+            cpu_tasks.append((url, dest))
+        else:
+            raw_tasks.append((url, dest))
 
-        for i, coro in enumerate(asyncio.as_completed(coros), 1):
-            url, ok, msg = await coro
-            short = url.split("/")[-1]
-            elapsed = time.monotonic() - t0
-            rate = i / elapsed if elapsed > 0 else 0
-            eta = (total - i) / rate if rate > 0 else 0
-            ts = f"[{elapsed:.0f}s elapsed, ETA {eta:.0f}s]"
+    # --- Raw tasks: fire all at once, extract CSV in-line (small files) ---
+    async def _run_raw():
+        nonlocal _done, _dl_bytes, _success, _skip, _fail, _not_found
+        if not raw_tasks:
+            return
+        sem = asyncio.Semaphore(concurrency)
+        conn = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
 
-            if ok and msg == "exists":
-                skip_count += 1
-                if skip_count <= 5 or skip_count % 20 == 0:
-                    print(f"  [{i}/{total}] ~ {short}  (already exists)")
-            elif ok:
-                success_count += 1
-                print(f"  [{i}/{total}] ✓ {short}  {ts}  {msg}")
-            elif "404" in msg or "403" in msg:
-                not_found_count += 1
-                if not_found_count <= 10 or not_found_count % 50 == 0:
-                    print(f"  [{i}/{total}] - {short}  ({msg})")
-            else:
-                fail_count += 1
-                print(f"  [{i}/{total}] ✗ {short}  ({msg})")
+        async def _dl_and_extract(session, url, dest):
+            u, ok, msg, data = await download_file(session, url, dest, sem)
+            return u, ok, msg, data, dest
 
-    total_elapsed = time.monotonic() - t0
+        async with aiohttp.ClientSession(connector=conn) as session:
+            coros = [_dl_and_extract(session, url, dest) for url, dest in raw_tasks]
+            for coro in asyncio.as_completed(coros):
+                url, ok, msg, data, dest = await coro
+                if ok and msg == "exists":
+                    _done += 1
+                    _skip += 1
+                elif ok:
+                    try:
+                        csv_data = _extract_zip_csv(data)
+                        dest.parent.mkdir(parents=True, exist_ok=True)
+                        tmp = dest.with_suffix(dest.suffix + ".tmp")
+                        tmp.write_bytes(csv_data)
+                        tmp.rename(dest)
+                        _dl_bytes += len(csv_data)
+                        _done += 1
+                        _success += 1
+                    except Exception as exc:
+                        _done += 1
+                        _fail += 1
+                        print(f"\n  ✗ {url.split('/')[-1]}  ({exc})")
+                elif "404" in msg or "403" in msg:
+                    _done += 1
+                    _not_found += 1
+                else:
+                    _done += 1
+                    _fail += 1
+                    print(f"\n  ✗ {url.split('/')[-1]}  ({msg})")
+                _progress(_done, grand_total, t0, _dl_bytes)
+
+    # --- CPU-heavy tasks: batch download → multiprocess extract+gzip → repeat ---
+    async def _run_cpu():
+        nonlocal _done, _dl_bytes, _success, _skip, _fail, _not_found
+        if not cpu_tasks:
+            return
+        batch_size = min(concurrency, 8)
+        conn = aiohttp.TCPConnector(limit=batch_size * 2, force_close=False)
+        pool = concurrent.futures.ProcessPoolExecutor(max_workers=batch_size)
+        loop = asyncio.get_event_loop()
+        sem = asyncio.Semaphore(batch_size)
+
+        async def _dl_raw(session, url, dest):
+            for attempt in range(1, RETRY_ATTEMPTS + 1):
+                try:
+                    async with sem:
+                        async with session.get(url, timeout=aiohttp.ClientTimeout(total=600)) as resp:
+                            if resp.status == 404:
+                                return url, dest, None, "not found (404)"
+                            if resp.status == 403:
+                                return url, dest, None, "forbidden (403)"
+                            if resp.status != 200:
+                                raise aiohttp.ClientError(f"HTTP {resp.status}")
+                            data = await resp.read()
+                            return url, dest, data, "ok"
+                except (aiohttp.ClientError, asyncio.TimeoutError) as exc:
+                    if attempt == RETRY_ATTEMPTS:
+                        return url, dest, None, str(exc)
+                    await asyncio.sleep(RETRY_BACKOFF * attempt)
+            return url, dest, None, "max retries"
+
+        async with aiohttp.ClientSession(connector=conn) as session:
+            for batch_start in range(0, len(cpu_tasks), batch_size):
+                batch = cpu_tasks[batch_start:batch_start + batch_size]
+
+                raw_results = await asyncio.gather(
+                    *[_dl_raw(session, url, dest) for url, dest in batch]
+                )
+
+                process_futs = []
+                for url, dest, data, msg in raw_results:
+                    if data is None:
+                        _done += 1
+                        if "404" in msg or "403" in msg:
+                            _not_found += 1
+                        else:
+                            _fail += 1
+                            print(f"\n  ✗ {url.split('/')[-1]}  ({msg})")
+                        _progress(_done, grand_total, t0, _dl_bytes)
+                    else:
+                        process_futs.append(
+                            (url, loop.run_in_executor(
+                                pool, _process_and_write, data, True, dest,
+                            ))
+                        )
+
+                for url, fut in process_futs:
+                    try:
+                        written = await fut
+                        _dl_bytes += written
+                        _done += 1
+                        _success += 1
+                    except Exception as exc:
+                        _done += 1
+                        _fail += 1
+                        print(f"\n  ✗ {url.split('/')[-1]}  ({exc})")
+                    _progress(_done, grand_total, t0, _dl_bytes)
+
+        pool.shutdown(wait=False)
+
+    # Run both groups concurrently (same server, but different file sizes)
+    await asyncio.gather(_run_raw(), _run_cpu())
+
+    elapsed = time.monotonic() - t0
     print(
-        f"\n{symbol} done in {total_elapsed:.1f}s.  "
-        f"downloaded={success_count}  skipped={skip_count}  "
-        f"not_found={not_found_count}  failed={fail_count}"
+        f"\n{symbol} done in {elapsed:.1f}s.  "
+        f"downloaded={_success}  skipped={_skip}  "
+        f"not_found={_not_found}  failed={_fail}  "
+        f"({_fmt_size(_dl_bytes)})"
     )
-    print(f"Data: {output_dir / symbol}")
-    return fail_count
+    return _fail
 
 
 async def run(
@@ -504,10 +571,8 @@ async def run(
     end_date: str,
     concurrency: int,
     data_types: list[str],
-    market: str = "futures",
 ):
     print(f"Symbols:          {', '.join(symbols)}")
-    print(f"Market:           {market}")
     print(f"Date range:       {start_date} -> {end_date}")
     print(f"Data types:       {', '.join(data_types)}")
     print(f"Concurrency:      {concurrency}")
@@ -518,7 +583,7 @@ async def run(
         print(f"\n{'='*60}")
         print(f"[{i}/{len(symbols)}] {symbol}")
         print(f"{'='*60}")
-        fails = await run_one_symbol(symbol, start_date, end_date, concurrency, data_types, market)
+        fails = await run_one_symbol(symbol, start_date, end_date, concurrency, data_types)
         total_fail += fails
 
     print("\n" + "=" * 60)
@@ -530,12 +595,11 @@ async def run(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Download Binance market data from data.binance.vision bulk archives (futures or spot).",
+        description="Download Binance market data from data.binance.vision.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=f"Futures data types: {', '.join(DATA_TYPES.keys())}\n"
-               f"Spot data types:   {', '.join(SPOT_DATA_TYPES.keys())}\n"
-               f"Futures defaults:  {', '.join(DEFAULT_TYPES)}\n"
-               f"Spot defaults:     {', '.join(SPOT_DEFAULT_TYPES)}",
+        epilog=f"Available types: {', '.join(ALL_TYPES)}\n"
+               f"Default types:   {', '.join(DEFAULT_TYPES)}\n"
+               f"Use -t all to download everything.",
     )
     parser.add_argument(
         "symbol",
@@ -550,27 +614,13 @@ def main():
         help=f"Max concurrent downloads (default: {DEFAULT_CONCURRENT})",
     )
     parser.add_argument(
-        "--market", "-m",
-        type=str,
-        default="futures",
-        choices=["futures", "spot"],
-        help="Market type: 'futures' (USDT-M perpetual, default) or 'spot'.",
-    )
-    parser.add_argument(
         "--types", "-t",
         type=str,
         default=None,
-        help="Comma-separated data types to download. "
-             "Use 'all' for everything. Defaults depend on --market.",
-    )
-    parser.add_argument(
-        "--no-checksum",
-        action="store_true",
-        help="Skip checksum verification (faster, less safe)",
+        help="Comma-separated data types to download. Use 'all' for everything.",
     )
     args = parser.parse_args()
 
-    # Validate dates
     try:
         s = datetime.strptime(args.start_date, "%Y-%m-%d")
         e = datetime.strptime(args.end_date, "%Y-%m-%d")
@@ -581,29 +631,22 @@ def main():
         print(f"Error: invalid date format: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    # Select type registry based on market
-    is_spot = args.market == "spot"
-    type_registry = SPOT_DATA_TYPES if is_spot else DATA_TYPES
-    default_types = SPOT_DEFAULT_TYPES if is_spot else DEFAULT_TYPES
-
-    # Parse data types
     if args.types is None:
-        data_types = default_types
+        data_types = DEFAULT_TYPES
     elif args.types.strip().lower() == "all":
-        data_types = list(type_registry.keys())
+        data_types = list(ALL_TYPES)
     else:
         data_types = [t.strip() for t in args.types.split(",") if t.strip()]
         for t in data_types:
-            if t not in type_registry:
+            if t not in ALL_TYPES:
                 print(
-                    f"Error: unknown data type '{t}' for market '{args.market}'. "
-                    f"Available: {', '.join(type_registry.keys())}",
+                    f"Error: unknown type '{t}'. Available: {', '.join(ALL_TYPES)}",
                     file=sys.stderr,
                 )
                 sys.exit(1)
 
     symbols = [sym.strip().upper() for sym in args.symbol.split(",") if sym.strip()]
-    asyncio.run(run(symbols, args.start_date, args.end_date, args.concurrency, data_types, args.market))
+    asyncio.run(run(symbols, args.start_date, args.end_date, args.concurrency, data_types))
 
 
 if __name__ == "__main__":
