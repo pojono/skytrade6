@@ -2,6 +2,27 @@
 
 Historical market data from **Bybit**, **Binance**, and **OKX** — both **perpetual futures** and **spot** — downloaded daily at 1-minute resolution.
 
+## TL;DR — Download Bybit Data
+
+```bash
+# Get top 50 common symbols:
+SYMBOLS=$(python3 list_symbols.py --limit 50 --offset 50)
+
+# Download metrics (klines, funding, OI, etc.) — default:
+python3 download_bybit_data.py $SYMBOLS 2024-01-01 2026-03-04
+
+# Download trades:
+python3 download_bybit_data.py $SYMBOLS 2024-01-01 2026-03-04 -t TradesLinear
+
+# Download everything:
+python3 download_bybit_data.py $SYMBOLS 2024-01-01 2026-03-04 -t all
+
+# Available types: TradesLinear, TradesSpot, OrderbookLinear, OrderbookSpot, MetricsLinear, MetricsSpot
+
+# One-liner:
+python3 download_bybit_data.py $(python3 list_symbols.py -l 50) 2024-01-01 2026-03-04 -t MetricsLinear
+```
+
 ## Directory Structure
 
 ```
