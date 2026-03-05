@@ -154,7 +154,11 @@ def _write_csv(dest: Path, rows: list[list], header: list[str]):
 
 
 async def _probe_date_exists(session: aiohttp.ClientSession, symbol: str, date_str: str, category: str = "linear") -> bool:
-    """Return True if kline data exists for this symbol on this date."""
+    """Return True if kline data exists for this symbol on this date.
+
+    Raises ValueError if the symbol is not supported for this category
+    (API error 10001) so callers can bail out immediately.
+    """
     start_ms = _date_to_ms(date_str)
     end_ms = start_ms + 60_000  # just 1 minute
     try:
@@ -167,6 +171,8 @@ async def _probe_date_exists(session: aiohttp.ClientSession, symbol: str, date_s
             "limit": "1",
         })
         return len(result.get("list", [])) > 0
+    except ValueError:
+        raise  # symbol not supported — let caller handle
     except Exception:
         return False
 
@@ -247,36 +253,42 @@ async def _probe_bulk_exists(
 async def _binary_search_first_date(
     probe_fn, start_date: str, end_date: str,
 ) -> str | None:
-    """Generic binary search using an async probe_fn(date_str) -> bool."""
+    """Generic binary search using an async probe_fn(date_str) -> bool.
+
+    Returns None immediately if probe_fn raises ValueError (symbol not supported).
+    """
     fmt = "%Y-%m-%d"
     lo = datetime.strptime(start_date, fmt)
     hi = datetime.strptime(end_date, fmt)
 
-    if await probe_fn(start_date):
-        return start_date
+    try:
+        if await probe_fn(start_date):
+            return start_date
 
-    upper = None
-    d = hi
-    for _ in range(4):
-        if await probe_fn(d.strftime(fmt)):
-            upper = d
-            break
-        d -= timedelta(days=1)
-        if d < lo:
-            break
+        upper = None
+        d = hi
+        for _ in range(4):
+            if await probe_fn(d.strftime(fmt)):
+                upper = d
+                break
+            d -= timedelta(days=1)
+            if d < lo:
+                break
 
-    if upper is None:
+        if upper is None:
+            return None
+
+        while (upper - lo).days > 1:
+            mid = lo + (upper - lo) / 2
+            mid_str = mid.strftime(fmt)
+            if await probe_fn(mid_str):
+                upper = mid
+            else:
+                lo = mid
+
+        return upper.strftime(fmt)
+    except ValueError:
         return None
-
-    while (upper - lo).days > 1:
-        mid = lo + (upper - lo) / 2
-        mid_str = mid.strftime(fmt)
-        if await probe_fn(mid_str):
-            upper = mid
-        else:
-            lo = mid
-
-    return upper.strftime(fmt)
 
 
 async def find_first_dates(
@@ -350,6 +362,10 @@ async def _api_get(session: aiohttp.ClientSession, path: str, params: dict) -> d
                     print(f"    rate limited (10006), waiting 5s...")
                     await asyncio.sleep(5)
                     raise aiohttp.ClientError("rate limited")
+                if ret_code in (10001, 10002):  # Not supported / invalid params
+                    raise ValueError(
+                        f"API error {ret_code}: {body.get('retMsg')}"
+                    )
                 if ret_code != 0:
                     raise aiohttp.ClientError(
                         f"API error {ret_code}: {body.get('retMsg')}"
