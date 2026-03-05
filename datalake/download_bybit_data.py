@@ -37,6 +37,7 @@ Output structure (spot files have _spot postfix):
 import argparse
 import asyncio
 import atexit
+import concurrent.futures
 import csv
 import gzip
 import io
@@ -797,7 +798,22 @@ def _extract_zip_first(raw: bytes) -> bytes:
 def _zip_to_gzip(raw: bytes) -> bytes:
     """Extract first file from zip, re-compress as gzip."""
     plain = _extract_zip_first(raw)
-    return gzip.compress(plain, compresslevel=6)
+    return gzip.compress(plain, compresslevel=1)
+
+
+def _process_and_write_bulk(data: bytes, decompress: str, dest: Path) -> int:
+    """Decompress + write a bulk file. Runs in a subprocess for true parallelism."""
+    if decompress == "gzip":
+        data = _decompress_gzip(data)
+    elif decompress == "zip":
+        data = _extract_zip_first(data)
+    elif decompress == "zip_to_gz":
+        data = _zip_to_gzip(data)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_suffix(dest.suffix + ".tmp")
+    tmp.write_bytes(data)
+    tmp.rename(dest)
+    return len(data)
 
 
 async def download_file(
@@ -1028,31 +1044,90 @@ async def run_one_symbol(
     _not_found = 0
 
     async def _run_bulk_group(label, task_list, conc):
-        """Download a bulk task group with its own session + semaphore."""
+        """Download bulk files in batches: download N → process N on CPUs → repeat."""
         nonlocal _done, _dl_bytes, _success, _skip, _fail, _not_found
         if not task_list:
             return
-        sem = asyncio.Semaphore(conc)
-        connector = aiohttp.TCPConnector(limit=conc * 2, force_close=False)
-        async with aiohttp.ClientSession(connector=connector) as session:
-            coros = [
-                download_file(session, url, dest, sem, decompress=dec)
-                for url, dest, dec in task_list
-            ]
-            for coro in asyncio.as_completed(coros):
-                url, ok, msg, nbytes = await coro
-                _dl_bytes += nbytes
+
+        # Fast-skip existing files
+        to_download = []
+        for url, dest, dec in task_list:
+            if dest.exists() and dest.stat().st_size > 0:
                 _done += 1
-                if ok and msg == "exists":
-                    _skip += 1
-                elif ok:
-                    _success += 1
-                elif "404" in msg:
-                    _not_found += 1
-                else:
-                    _fail += 1
-                    print(f"\n  ✗ {url.split('/')[-1]}  ({msg})")
+                _skip += 1
                 _progress(_done, grand_total, t0, _dl_bytes)
+            else:
+                to_download.append((url, dest, dec))
+
+        if not to_download:
+            return
+
+        batch_size = min(conc, 8)
+        connector = aiohttp.TCPConnector(limit=batch_size * 2, force_close=False)
+        pool = concurrent.futures.ProcessPoolExecutor(max_workers=batch_size)
+        loop = asyncio.get_event_loop()
+
+        async with aiohttp.ClientSession(connector=connector) as session:
+            for batch_start in range(0, len(to_download), batch_size):
+                batch = to_download[batch_start:batch_start + batch_size]
+
+                # Phase 1: Download raw bytes at full speed
+                async def _download_raw(url, dest, dec):
+                    for attempt in range(1, RETRY_ATTEMPTS + 1):
+                        try:
+                            async with session.get(url, timeout=aiohttp.ClientTimeout(total=300)) as resp:
+                                if resp.status == 404:
+                                    return url, dest, dec, None, "not found (404)"
+                                if resp.status == 403:
+                                    wait = 30 * attempt
+                                    print(f"\n    ⚠ 403 rate-limited, waiting {wait}s")
+                                    await asyncio.sleep(wait)
+                                    raise aiohttp.ClientError("HTTP 403")
+                                if resp.status != 200:
+                                    raise aiohttp.ClientError(f"HTTP {resp.status}")
+                                data = await resp.read()
+                                return url, dest, dec, data, "ok"
+                        except (aiohttp.ClientError, asyncio.TimeoutError) as exc:
+                            if attempt == RETRY_ATTEMPTS:
+                                return url, dest, dec, None, str(exc)
+                            await asyncio.sleep(RETRY_BACKOFF * attempt)
+                    return url, dest, dec, None, "max retries"
+
+                raw_results = await asyncio.gather(
+                    *[_download_raw(u, d, dc) for u, d, dc in batch]
+                )
+
+                # Phase 2: Process + write in parallel across CPU cores
+                process_futs = []
+                for url, dest, dec, data, msg in raw_results:
+                    if data is None:
+                        _done += 1
+                        if "404" in msg:
+                            _not_found += 1
+                        else:
+                            _fail += 1
+                            print(f"\n  ✗ {url.split('/')[-1]}  ({msg})")
+                        _progress(_done, grand_total, t0, _dl_bytes)
+                    else:
+                        process_futs.append(
+                            (url, loop.run_in_executor(
+                                pool, _process_and_write_bulk, data, dec, dest,
+                            ))
+                        )
+
+                for url, fut in process_futs:
+                    try:
+                        written = await fut
+                        _dl_bytes += written
+                        _done += 1
+                        _success += 1
+                    except Exception as exc:
+                        _done += 1
+                        _fail += 1
+                        print(f"\n  ✗ {url.split('/')[-1]}  ({exc})")
+                    _progress(_done, grand_total, t0, _dl_bytes)
+
+        pool.shutdown(wait=False)
 
     async def _run_rest_group():
         """Download all REST metrics with their own session."""
