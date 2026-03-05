@@ -53,8 +53,19 @@ import aiohttp
 sys.stdout.reconfigure(line_buffering=True)
 
 
-def _progress(done: int, total: int, t0: float, prefix: str = ""):
-    """Print an in-place progress bar."""
+def _fmt_size(nbytes: int | float) -> str:
+    """Format byte count as human-readable string."""
+    if nbytes >= 1e9:
+        return f"{nbytes / 1e9:.1f}GB"
+    if nbytes >= 1e6:
+        return f"{nbytes / 1e6:.1f}MB"
+    if nbytes >= 1e3:
+        return f"{nbytes / 1e3:.0f}KB"
+    return f"{nbytes:.0f}B"
+
+
+def _progress(done: int, total: int, t0: float, dl_bytes: int = 0):
+    """Print an in-place progress bar with optional download size and speed."""
     elapsed = time.monotonic() - t0
     rate = done / elapsed if elapsed > 0 else 0
     eta = (total - done) / rate if rate > 0 else 0
@@ -62,7 +73,11 @@ def _progress(done: int, total: int, t0: float, prefix: str = ""):
     bar_len = 30
     filled = bar_len * done // total if total else bar_len
     bar = "█" * filled + "░" * (bar_len - filled)
-    line = f"\r  {prefix}{bar} {pct:3d}% ({done}/{total})  {elapsed:.0f}s elapsed, ETA {eta:.0f}s  "
+    size_str = ""
+    if dl_bytes > 0:
+        speed = dl_bytes / elapsed if elapsed > 0 else 0
+        size_str = f"  {_fmt_size(dl_bytes)} @ {_fmt_size(speed)}/s"
+    line = f"\r  {bar} {pct:3d}% ({done}/{total})  {elapsed:.0f}s ETA {eta:.0f}s{size_str}  "
     sys.stdout.write(line)
     if done == total:
         sys.stdout.write("\n")
@@ -697,18 +712,19 @@ async def _fetch_and_save(
     dest = base / fname
 
     if dest.exists() and dest.stat().st_size > 0:
-        return "skip", 1
+        return "skip", 0
 
     async with semaphore:
         try:
             rows = await _fetch_one_day(session, symbol, day_str, cfg)
             if not rows:
-                return "nodata", 1
+                return "nodata", 0
             _write_csv(dest, rows, header)
-            return "ok", 1
+            written = dest.stat().st_size if dest.exists() else 0
+            return "ok", written
         except Exception as exc:
-            print(f"\n  ✗ {fname}  ({exc})")
-            return "fail", 1
+            print(f"\n  \u2717 {fname}  ({exc})")
+            return "fail", 0
 
 
 async def download_rest_api_data(
@@ -744,18 +760,20 @@ async def download_rest_api_data(
     total = len(tasks)
     success = skip = fail = 0
     done = 0
+    dl_bytes = 0
     t0 = time.monotonic()
 
     for coro in asyncio.as_completed(tasks):
-        status, _ = await coro
+        status, nbytes = await coro
         done += 1
+        dl_bytes += nbytes
         if status == "ok":
             success += 1
         elif status == "skip":
             skip += 1
         else:
             fail += 1
-        _progress(done, total, t0)
+        _progress(done, total, t0, dl_bytes)
 
     return success, skip, fail
 
@@ -789,13 +807,13 @@ async def download_file(
     semaphore: asyncio.Semaphore,
     decompress: str = None,
 ):
-    """Download a file with retries + atomic write. Returns (url, success, message).
+    """Download a file with retries + atomic write. Returns (url, success, message, bytes).
 
     decompress: None (raw), 'gzip' (.csv.gz -> .csv), 'zip' (.zip -> extract first file),
                 'zip_to_gz' (.zip -> extract -> gzip compress)
     """
     if dest.exists() and dest.stat().st_size > 0:
-        return (url, True, "exists")
+        return (url, True, "exists", 0)
 
     tmp = dest.with_suffix(dest.suffix + ".tmp")
     _active_tmp_files.add(tmp)
@@ -806,7 +824,7 @@ async def download_file(
                 async with session.get(url, timeout=aiohttp.ClientTimeout(total=300)) as resp:
                     if resp.status == 404:
                         _active_tmp_files.discard(tmp)
-                        return (url, False, "not found (404)")
+                        return (url, False, "not found (404)", 0)
                     if resp.status == 403:
                         # CloudFront rate-limit — back off aggressively
                         wait = 30 * attempt
@@ -830,11 +848,12 @@ async def download_file(
             elif decompress == "zip_to_gz":
                 data = _zip_to_gzip(data)
 
+            written = len(data)
             dest.parent.mkdir(parents=True, exist_ok=True)
             tmp.write_bytes(data)
             tmp.rename(dest)
             _active_tmp_files.discard(tmp)
-            return (url, True, "ok")
+            return (url, True, "ok", written)
 
         except asyncio.TimeoutError:
             msg = f"timeout (attempt {attempt}/{RETRY_ATTEMPTS})"
@@ -846,7 +865,7 @@ async def download_file(
             await asyncio.sleep(RETRY_BACKOFF * attempt)
 
     _active_tmp_files.discard(tmp)
-    return (url, False, msg)
+    return (url, False, msg, 0)
 
 
 # ---------------------------------------------------------------------------
@@ -989,6 +1008,7 @@ async def run_one_symbol(
         skip_count = 0
         fail_count = 0
         not_found_count = 0
+        dl_bytes = 0
 
         connector = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
         async with aiohttp.ClientSession(connector=connector) as session:
@@ -1004,8 +1024,9 @@ async def run_one_symbol(
             ]
 
             for i, coro in enumerate(asyncio.as_completed(coros), 1):
-                url, ok, msg = await coro
+                url, ok, msg, nbytes = await coro
                 short = url.split("/")[-1]
+                dl_bytes += nbytes
 
                 if ok and msg == "exists":
                     skip_count += 1
@@ -1017,7 +1038,7 @@ async def run_one_symbol(
                     fail_count += 1
                     print(f"\n  ✗ {short}  ({msg})")
 
-                _progress(i, total, t0)
+                _progress(i, total, t0, dl_bytes)
 
         phase1_elapsed = time.monotonic() - t0
         print(
