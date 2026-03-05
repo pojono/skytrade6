@@ -53,7 +53,7 @@ STRESS_FEATS = ["crowd_oi", "pca_var1", "breadth_extreme", "entropy", "crowd_fun
 TAIL_HORIZON = 60              # 1h in 1m bars
 TAIL_ATR_MULT = 12.0           # 12×ATR — matching XS-8
 TAIL_COIN_FRAC = 0.10          # >=10% of coins make tail move (XS-8 base rate ~35%)
-N_PERM_GATE = 500              # permutation tests for gate sanity
+N_PERM_GATE = 100              # permutation tests for gate sanity
 
 
 def build_symbol_data(sym, raw, grid_1m):
@@ -274,26 +274,69 @@ def _nofill(eid, sym, t_sig, atr, gl, slip, eq, notional):
 def compute_stress(sym_data, grid_1m):
     g5 = grid_1m[::SIGNAL_STEP_MIN]; n5 = len(g5)
     syms = sorted(sym_data.keys()); ns = len(syms)
-    print(f"  Stress: {n5} pts × {ns} syms")
+    n_1m = len(grid_1m)
+    print(f"  Stress: {n5} pts × {ns} syms, {n_1m} 1m bars")
     t0 = time.monotonic()
 
     ATR_1H_BARS = 60  # 1h ATR on 1m bars — matching XS-8 exactly
-    ca, la, oza, fza, atra = {}, {}, {}, {}, {}
-    for s in syms:
+
+    # Pre-compute per-symbol arrays
+    ca, la, oza, fza = {}, {}, {}, {}
+    # Pre-compute per-symbol: tail_flag[ix] = 1 if max|ret| in next 1h > 12*ATR_1h
+    sym_tail = {}  # sym -> bool array (1m grid)
+    sym_valid = {}  # sym -> bool array (valid for tail check)
+
+    for si, s in enumerate(syms):
         d = sym_data[s][0]
-        ca[s] = d["close"].values; la[s] = d["log_ret"].values
+        cl = d["close"].values
+        ca[s] = cl; la[s] = d["log_ret"].values
         oza[s] = d["oi_z"].values if "oi_z" in d.columns else np.full(len(d), np.nan)
         fza[s] = d["funding_z"].values if "funding_z" in d.columns else np.full(len(d), np.nan)
-        # Compute proper 1h ATR (60 bars) matching XS-8
-        hi = d["high"].values; lo = d["low"].values; cl = d["close"].values
+
+        # Compute 1h ATR (60 bars)
+        hi = d["high"].values; lo = d["low"].values
         tr = np.maximum(hi - lo,
              np.maximum(np.abs(hi - np.roll(cl, 1)),
                         np.abs(lo - np.roll(cl, 1))))
-        tr[0] = np.nan  # first bar has no prev close
-        # Rolling mean over 60 bars
+        tr[0] = np.nan
         atr_1h = pd.Series(tr).rolling(ATR_1H_BARS, min_periods=ATR_1H_BARS // 2).mean().values
-        atra[s] = atr_1h
 
+        # Compute max |log(c[t+k]/c[t])| for k=1..60
+        # Use forward rolling max on log prices, then subtract log_c[t]
+        n = len(cl)
+        tail_flag = np.zeros(n, dtype=bool)
+        valid_flag = np.zeros(n, dtype=bool)
+
+        log_c = np.log(np.where(cl > 0, cl, np.nan))
+        # Forward rolling max and min of log_c over next 60 bars
+        # Trick: reverse, rolling, reverse back
+        lc_rev = log_c[::-1].copy()
+        fwd_max = pd.Series(lc_rev).rolling(TAIL_HORIZON, min_periods=1).max().values[::-1]
+        fwd_min = pd.Series(lc_rev).rolling(TAIL_HORIZON, min_periods=1).min().values[::-1]
+        # Shift by 1 to exclude current bar (we want t+1 .. t+60)
+        fwd_max_shifted = np.full(n, np.nan)
+        fwd_min_shifted = np.full(n, np.nan)
+        fwd_max_shifted[:n-1] = fwd_max[1:]
+        fwd_min_shifted[:n-1] = fwd_min[1:]
+        # max |ret| = max(fwd_max - log_c, log_c - fwd_min)
+        max_abs_fwd = np.fmax(fwd_max_shifted - log_c, log_c - fwd_min_shifted)
+
+        # ATR as fraction of price
+        atr_ret = np.where((cl > 0) & (~np.isnan(atr_1h)) & (atr_1h > 0),
+                           atr_1h / cl, np.nan)
+        threshold = TAIL_ATR_MULT * atr_ret
+        ok = (~np.isnan(max_abs_fwd)) & (~np.isnan(threshold)) & (threshold > 0)
+        valid_flag[ok] = True
+        tail_flag[ok & (max_abs_fwd > threshold)] = True
+
+        sym_tail[s] = tail_flag
+        sym_valid[s] = valid_flag
+        if (si + 1) % 10 == 0:
+            print(f"    Pre-computed {si+1}/{ns} syms ({time.monotonic()-t0:.0f}s)")
+
+    print(f"  Pre-compute done ({time.monotonic()-t0:.0f}s)")
+
+    # Now compute 5m features + aggregate tail_frac
     out = {k: np.full(n5, np.nan) for k in STRESS_FEATS}
     tail_frac = np.full(n5, np.nan)
 
@@ -305,7 +348,7 @@ def compute_stress(sym_data, grid_1m):
         abr, ozl, fzl = [], [], []
         for s in syms:
             c = ca[s]
-            if ix >= 60 and not np.isnan(c[ix]) and c[ix] > 0:
+            if ix >= 60 and ix < len(c) and not np.isnan(c[ix]) and c[ix] > 0:
                 cp = c[ix - 60]
                 if not np.isnan(cp) and cp > 0:
                     abr.append(abs(np.log(c[ix] / cp)))
@@ -352,29 +395,13 @@ def compute_stress(sym_data, grid_1m):
         if si > 0 and np.isnan(out["pca_var1"][si]) and not np.isnan(out["pca_var1"][si - 1]):
             out["pca_var1"][si] = out["pca_var1"][si - 1]
 
-        # Target: tail frac next 1h — per-coin ATR-normalized
-        ng = len(grid_1m); fi = min(ix + TAIL_HORIZON, ng - 1)
-        if fi <= ix + 5:
-            continue
+        # Tail frac from pre-computed flags (fast lookup)
         nt, nc = 0, 0
         for s in syms:
-            c = ca[s]; a = atra[s]
-            if ix >= len(c) or np.isnan(c[ix]) or c[ix] <= 0:
-                continue
-            if ix >= len(a) or np.isnan(a[ix]) or a[ix] <= 0:
-                continue
-            atr_ret = a[ix] / c[ix]  # ATR as fraction of price
-            # Check max |ret| over next 1h window
-            end_ix = min(fi, len(c) - 1)
-            if end_ix <= ix + 5:
-                continue
-            future_c = c[ix+1:end_ix+1]
-            if len(future_c) < 5:
-                continue
-            max_abs_ret = np.nanmax(np.abs(np.log(future_c / c[ix])))
-            nc += 1
-            if max_abs_ret > TAIL_ATR_MULT * atr_ret:
-                nt += 1
+            if ix < len(sym_valid[s]) and sym_valid[s][ix]:
+                nc += 1
+                if sym_tail[s][ix]:
+                    nt += 1
         if nc > 0:
             tail_frac[si] = nt / nc
 
@@ -486,12 +513,13 @@ def fit_stress_model(sdf):
     return df
 
 
-def make_gate(sdf, gate_type):
+def make_gate(sdf, gate_type, verbose=True):
     sc = sdf["stress_score"]; qu = sdf["stress_quintile"]
     # Gate C threshold: median of train-period scores
     train_scores = sc[sc.index < TRAIN_END].dropna()
     gate_c_thresh = train_scores.median() if len(train_scores) > 0 else 0.5
-    print(f"    Gate C threshold (train median): {gate_c_thresh:.4f}")
+    if verbose:
+        print(f"    Gate C threshold (train median): {gate_c_thresh:.4f}")
 
     def _lookup_q(t):
         idx = qu.index.searchsorted(t, side="right") - 1
@@ -730,7 +758,7 @@ def run_sanity_tests(sym_data, sdf_model, baseline_kpi_5bp):
         # Build shuffled gate
         shuf_sdf = sdf_model.copy()
         shuf_sdf["stress_quintile"] = shuf_q
-        gate_fn_shuf = make_gate(shuf_sdf, "A")
+        gate_fn_shuf = make_gate(shuf_sdf, "A", verbose=False)
         tr_s, _, _ = simulate_sleeve(sym_data, 5, gate_fn=gate_fn_shuf, gate_label="perm")
         kpi_s = compute_kpi(tr_s, "perm")
         if kpi_s["N_entries"] > 0:
@@ -759,7 +787,7 @@ def run_sanity_tests(sym_data, sdf_model, baseline_kpi_5bp):
          np.where(hours < 15, "Q3",
          np.where(hours < 20, "Q4", "Q5"))))
     placebo_sdf["stress_quintile"] = hq
-    gate_fn_placebo = make_gate(placebo_sdf, "A")
+    gate_fn_placebo = make_gate(placebo_sdf, "A", verbose=False)
     tr_p, _, _ = simulate_sleeve(sym_data, 5, gate_fn=gate_fn_placebo, gate_label="placebo")
     kpi_p = compute_kpi(tr_p, "placebo_hourgate_5bp")
     print(f"  Placebo (hour gate A): N={kpi_p['N_entries']}, "

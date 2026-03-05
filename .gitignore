@@ -15,3 +15,26 @@ flow_research/data/
 flow_research/output/
 datalake/bybit/
 datalake/binance/
+datalake/okx/
+datalake/*.log
+datalake/symbols_list.txt
+
+# Experiment artifacts
+**/__pycache__/
+*.pyc
+*.pkl
+**/out/cache/
+**/out/cache_intraday/
+
+# Experiment CSVs (keep .py and .md only)
+codex-exp-*/**/*.csv
+gemini-*/**/*.csv
+grok-*/**/*.csv
+grok-*/**/*.txt
+grok-*/**/*.png
+grok-*/**/*.json
+gemini-*/**/*.png
+kimi-*/**/*.csv
+
+# Data artifacts
+data_binance/
