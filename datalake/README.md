@@ -11,6 +11,7 @@ datalake/
 ├── download_binance_data.py    # Binance downloader (data.binance.vision archives)
 ├── download_okx_data.py        # OKX downloader (REST API + bulk archives)
 ├── list_symbols.py             # Symbol listing + batch download orchestrator
+├── compress_orderbooks.py     # Compress existing uncompressed bulk files to .gz
 ├── bybit/
 │   └── {SYMBOL}/
 │       ├── {YYYY-MM-DD}_kline_1m.csv              # futures
@@ -19,10 +20,10 @@ datalake/
 │       ├── {YYYY-MM-DD}_funding_rate.csv
 │       ├── {YYYY-MM-DD}_open_interest_5min.csv
 │       ├── {YYYY-MM-DD}_long_short_ratio_5min.csv
-│       ├── {YYYY-MM-DD}_trades.csv                (bulk, optional)
-│       ├── {YYYY-MM-DD}_orderbook.jsonl           (bulk, optional)
+│       ├── {YYYY-MM-DD}_trades.csv.gz             (bulk, optional)
+│       ├── {YYYY-MM-DD}_orderbook.jsonl.gz        (bulk, optional)
 │       ├── {YYYY-MM-DD}_kline_1m_spot.csv         # spot
-│       └── {YYYY-MM-DD}_trades_spot.csv           (bulk, optional)
+│       └── {YYYY-MM-DD}_trades_spot.csv.gz        (bulk, optional)
 ├── binance/
 │   └── {SYMBOL}/
 │       ├── {YYYY-MM-DD}_kline_1m.csv              # futures
@@ -30,13 +31,13 @@ datalake/
 │       ├── {YYYY-MM-DD}_premium_index_kline_1m.csv
 │       ├── {YYYY-MM-DD}_index_price_kline_1m.csv
 │       ├── {YYYY-MM-DD}_metrics.csv
-│       ├── {YYYY-MM-DD}_trades.csv                (bulk, optional)
-│       ├── {YYYY-MM-DD}_aggTrades.csv             (bulk, optional)
-│       ├── {YYYY-MM-DD}_bookDepth.csv             (bulk, optional)
-│       ├── {YYYY-MM-DD}_bookTicker.csv            (bulk, optional)
+│       ├── {YYYY-MM-DD}_trades.csv.gz             (bulk, optional)
+│       ├── {YYYY-MM-DD}_aggTrades.csv.gz          (bulk, optional)
+│       ├── {YYYY-MM-DD}_bookDepth.csv.gz          (bulk, optional)
+│       ├── {YYYY-MM-DD}_bookTicker.csv.gz         (bulk, optional)
 │       ├── {YYYY-MM-DD}_kline_1m_spot.csv         # spot
-│       ├── {YYYY-MM-DD}_trades_spot.csv           (bulk, optional)
-│       └── {YYYY-MM-DD}_aggTrades_spot.csv        (bulk, optional)
+│       ├── {YYYY-MM-DD}_trades_spot.csv.gz        (bulk, optional)
+│       └── {YYYY-MM-DD}_aggTrades_spot.csv.gz     (bulk, optional)
 └── okx/
     └── {SYMBOL}/
         ├── {YYYY-MM-DD}_kline_1m.csv              # swap (futures)
@@ -46,9 +47,9 @@ datalake/
         ├── {YYYY-MM-DD}_long_short_ratio_5min.csv
         ├── {YYYY-MM-DD}_taker_volume_5min.csv
         ├── {YYYY-MM-DD}_premium_history.csv
-        ├── {YYYY-MM-DD}_trades.csv                (bulk, optional)
+        ├── {YYYY-MM-DD}_trades.csv.gz             (bulk, optional)
         ├── {YYYY-MM-DD}_kline_1m_spot.csv         # spot
-        └── {YYYY-MM-DD}_trades_spot.csv           (bulk, optional)
+        └── {YYYY-MM-DD}_trades_spot.csv.gz        (bulk, optional)
 ```
 
 ## Scripts
@@ -132,10 +133,10 @@ python3 download_binance_data.py BTCUSDT 2025-07-01 2025-07-31 --market spot -t 
 | `premiumIndexKlines` | `_premium_index_kline_1m.csv` | Premium index 1-min candles |
 | `indexPriceKlines` | `_index_price_kline_1m.csv` | Index price 1-min candles |
 | `metrics` | `_metrics.csv` | Composite: OI, funding rate, LS ratio, taker volume |
-| `trades` | `_trades.csv` | Individual trades |
-| `aggTrades` | `_aggTrades.csv` | Aggregated trades |
-| `bookDepth` | `_bookDepth.csv` | Order book depth snapshots |
-| `bookTicker` | `_bookTicker.csv` | Best bid/ask ticker snapshots |
+| `trades` | `_trades.csv.gz` | Individual trades (gzipped) |
+| `aggTrades` | `_aggTrades.csv.gz` | Aggregated trades (gzipped) |
+| `bookDepth` | `_bookDepth.csv.gz` | Order book depth snapshots (gzipped) |
+| `bookTicker` | `_bookTicker.csv.gz` | Best bid/ask ticker snapshots (gzipped) |
 
 ### OKX — `download_okx_data.py`
 
@@ -179,7 +180,7 @@ python3 download_okx_data.py BTCUSDT 2025-07-01 2025-07-31 --market spot -t all
 | `longShortRatio` | `_long_short_ratio_5min.csv` | Long/short account ratio |
 | `takerVolume` | `_taker_volume_5min.csv` | Taker buy/sell volume |
 | `premiumHistory` | `_premium_history.csv` | Premium index history |
-| `trades` | `_trades.csv` | Individual trades |
+| `trades` | `_trades.csv.gz` | Individual trades (gzipped) |
 
 ## Data Type Mapping (Bybit ↔ Binance ↔ OKX)
 
@@ -195,16 +196,16 @@ python3 download_okx_data.py BTCUSDT 2025-07-01 2025-07-31 --market spot -t all
 | Open interest | `_open_interest_5min.csv` | `_metrics.csv` (embedded) | `_open_interest_5min.csv` |
 | Long/short ratio | `_long_short_ratio_5min.csv` | `_metrics.csv` (embedded) | `_long_short_ratio_5min.csv` |
 | Taker volume | — | — | `_taker_volume_5min.csv` |
-| Trades | `_trades.csv` | `_trades.csv` | `_trades.csv` |
-| Orderbook | `_orderbook.jsonl` | `_bookDepth.csv` | — |
+| Trades | `_trades.csv.gz` | `_trades.csv.gz` | `_trades.csv.gz` |
+| Orderbook | `_orderbook.jsonl.gz` | `_bookDepth.csv.gz` | — |
 
 ### Spot
 
 | Data | Bybit file | Binance file | OKX file |
 |------|-----------|--------------|----------|
 | OHLCV klines (1m) | `_kline_1m_spot.csv` | `_kline_1m_spot.csv` | `_kline_1m_spot.csv` |
-| Trades | `_trades_spot.csv` | `_trades_spot.csv` | `_trades_spot.csv` |
-| Aggregated trades | — | `_aggTrades_spot.csv` | — |
+| Trades | `_trades_spot.csv.gz` | `_trades_spot.csv.gz` | `_trades_spot.csv.gz` |
+| Aggregated trades | — | `_aggTrades_spot.csv.gz` | — |
 
 ## Behavior
 
@@ -214,6 +215,7 @@ python3 download_okx_data.py BTCUSDT 2025-07-01 2025-07-31 --market spot -t all
 - **404 handling:** Missing data (newer coins, recent dates not yet published) is logged and skipped gracefully.
 - **Checksum verification:** Binance downloads verify SHA256 checksums when available (disable with `--no-checksum`).
 - **First-available-date detection:** All scripts binary-search for the first date with data, skipping gaps automatically.
+- **Gzip compression:** Bulk data (trades, orderbook, bookDepth, bookTicker) is stored as `.csv.gz` / `.jsonl.gz` to save disk space. Old uncompressed files are recognized and skipped. Use `compress_orderbooks.py --run` to compress existing uncompressed files.
 
 ## Requirements
 

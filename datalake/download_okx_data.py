@@ -47,6 +47,7 @@ import argparse
 import asyncio
 import atexit
 import csv
+import gzip
 import io
 import json
 import signal
@@ -791,8 +792,12 @@ async def download_file(
     url: str,
     dest: Path,
     semaphore: asyncio.Semaphore,
+    compress: bool = False,
 ):
-    """Download a .zip file, extract CSV, write atomically. Returns (url, success, message)."""
+    """Download a .zip file, extract CSV, write atomically. Returns (url, success, message).
+
+    If compress=True, the extracted CSV is re-compressed to gzip (.csv.gz).
+    """
     if dest.exists() and dest.stat().st_size > 0:
         return (url, True, "exists")
 
@@ -824,6 +829,10 @@ async def download_file(
             # Extract CSV from zip
             csv_data = _extract_zip_csv(data)
 
+            # Optionally re-compress as gzip
+            if compress:
+                csv_data = gzip.compress(csv_data, compresslevel=6)
+
             dest.parent.mkdir(parents=True, exist_ok=True)
             tmp.write_bytes(csv_data)
             tmp.rename(dest)
@@ -851,25 +860,35 @@ async def download_file(
 
 
 def trades_tasks(symbol: str, dates, output_dir: Path):
-    """Build (url, dest) tuples for OKX perpetual swap trades."""
+    """Build (url, dest, compress) tuples for OKX perpetual swap trades."""
     inst_id = symbol_to_okx_inst(symbol, market="swap")
     base = output_dir / symbol
     for d in dates:
         date_compact = d.replace("-", "")
-        fname = f"{d}_trades.csv"
+        fname = f"{d}_trades.csv.gz"
         url = OKX_TRADES_URL.format(instrument=inst_id, date=d, date_compact=date_compact)
-        yield url, base / fname
+        # Treat old uncompressed .csv as existing
+        old = base / f"{d}_trades.csv"
+        if old.exists() and old.stat().st_size > 0:
+            yield url, old, False
+        else:
+            yield url, base / fname, True
 
 
 def spot_trades_tasks(symbol: str, dates, output_dir: Path):
-    """Build (url, dest) tuples for OKX spot trades."""
+    """Build (url, dest, compress) tuples for OKX spot trades."""
     inst_id = symbol_to_okx_inst(symbol, market="spot")
     base = output_dir / symbol
     for d in dates:
         date_compact = d.replace("-", "")
-        fname = f"{d}_trades_spot.csv"
+        fname = f"{d}_trades_spot.csv.gz"
         url = OKX_TRADES_URL.format(instrument=inst_id, date=d, date_compact=date_compact)
-        yield url, base / fname
+        # Treat old uncompressed .csv as existing
+        old = base / f"{d}_trades_spot.csv"
+        if old.exists() and old.stat().st_size > 0:
+            yield url, old, False
+        else:
+            yield url, base / fname, True
 
 
 # ---------------------------------------------------------------------------
@@ -946,8 +965,8 @@ async def run_one_symbol(
         connector = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
         async with aiohttp.ClientSession(connector=connector) as session:
             coros = [
-                download_file(session, url, dest, semaphore)
-                for url, dest in all_tasks
+                download_file(session, url, dest, semaphore, compress=comp)
+                for url, dest, comp in all_tasks
             ]
 
             for i, coro in enumerate(asyncio.as_completed(coros), 1):

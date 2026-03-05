@@ -667,6 +667,12 @@ def _extract_zip_first(raw: bytes) -> bytes:
         return zf.read(zf.namelist()[0])
 
 
+def _zip_to_gzip(raw: bytes) -> bytes:
+    """Extract first file from zip, re-compress as gzip."""
+    plain = _extract_zip_first(raw)
+    return gzip.compress(plain, compresslevel=6)
+
+
 async def download_file(
     session: aiohttp.ClientSession,
     url: str,
@@ -676,7 +682,8 @@ async def download_file(
 ):
     """Download a file with retries + atomic write. Returns (url, success, message).
 
-    decompress: None (raw), 'gzip' (.csv.gz -> .csv), 'zip' (.zip -> extract first file)
+    decompress: None (raw), 'gzip' (.csv.gz -> .csv), 'zip' (.zip -> extract first file),
+                'zip_to_gz' (.zip -> extract -> gzip compress)
     """
     if dest.exists() and dest.stat().st_size > 0:
         return (url, True, "exists")
@@ -705,6 +712,8 @@ async def download_file(
                 data = _decompress_gzip(data)
             elif decompress == "zip":
                 data = _extract_zip_first(data)
+            elif decompress == "zip_to_gz":
+                data = _zip_to_gzip(data)
 
             dest.parent.mkdir(parents=True, exist_ok=True)
             tmp.write_bytes(data)
@@ -734,27 +743,42 @@ def trades_tasks(symbol: str, dates, output_dir: Path):
     """Build (url, dest, decompress) tuples for Bybit futures trades."""
     base = output_dir / symbol
     for d in dates:
-        fname = f"{d}_trades.csv"
+        fname = f"{d}_trades.csv.gz"
         url = BYBIT_TRADES_URL.format(symbol=symbol, date=d)
-        yield url, base / fname, "gzip"
+        # Treat old uncompressed .csv as existing
+        old = base / f"{d}_trades.csv"
+        if old.exists() and old.stat().st_size > 0:
+            yield url, old, None  # will be skipped as "exists"
+        else:
+            yield url, base / fname, None  # keep raw .csv.gz
 
 
 def ob200_tasks(symbol: str, dates, output_dir: Path):
     """Build (url, dest, decompress) tuples for Bybit futures orderbook ob200."""
     base = output_dir / symbol
     for d in dates:
-        fname = f"{d}_orderbook.jsonl"
+        fname = f"{d}_orderbook.jsonl.gz"
         url = BYBIT_OB200_URL.format(symbol=symbol, date=d)
-        yield url, base / fname, "zip"
+        # Also treat old uncompressed .jsonl as existing
+        old = base / f"{d}_orderbook.jsonl"
+        if old.exists() and old.stat().st_size > 0:
+            yield url, old, None  # will be skipped as "exists"
+        else:
+            yield url, base / fname, "zip_to_gz"
 
 
 def spot_trades_tasks(symbol: str, dates, output_dir: Path):
     """Build (url, dest, decompress) tuples for Bybit spot trades."""
     base = output_dir / symbol
     for d in dates:
-        fname = f"{d}_trades_spot.csv"
+        fname = f"{d}_trades_spot.csv.gz"
         url = BYBIT_SPOT_TRADES_URL.format(symbol=symbol, date=d)
-        yield url, base / fname, "gzip"
+        # Treat old uncompressed .csv as existing
+        old = base / f"{d}_trades_spot.csv"
+        if old.exists() and old.stat().st_size > 0:
+            yield url, old, None
+        else:
+            yield url, base / fname, None  # keep raw .csv.gz
 
 
 # ---------------------------------------------------------------------------

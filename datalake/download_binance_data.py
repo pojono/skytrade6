@@ -44,6 +44,7 @@ Output structure (same folder, spot files have _spot postfix):
 import argparse
 import asyncio
 import atexit
+import gzip
 import hashlib
 import io
 import signal
@@ -102,11 +103,13 @@ DATA_TYPES = {
         "url_template": "trades/{symbol}/{symbol}-trades-{date}.zip",
         "output_suffix": "trades",
         "label": "trades",
+        "compress": True,
     },
     "aggTrades": {
         "url_template": "aggTrades/{symbol}/{symbol}-aggTrades-{date}.zip",
         "output_suffix": "aggTrades",
         "label": "aggTrades",
+        "compress": True,
     },
     "klines": {
         "url_template": "klines/{symbol}/1m/{symbol}-1m-{date}.zip",
@@ -132,11 +135,13 @@ DATA_TYPES = {
         "url_template": "bookDepth/{symbol}/{symbol}-bookDepth-{date}.zip",
         "output_suffix": "bookDepth",
         "label": "book depth",
+        "compress": True,
     },
     "bookTicker": {
         "url_template": "bookTicker/{symbol}/{symbol}-bookTicker-{date}.zip",
         "output_suffix": "bookTicker",
         "label": "book ticker",
+        "compress": True,
     },
     "metrics": {
         "url_template": "metrics/{symbol}/{symbol}-metrics-{date}.zip",
@@ -161,11 +166,13 @@ SPOT_DATA_TYPES = {
         "url_template": "trades/{symbol}/{symbol}-trades-{date}.zip",
         "output_suffix": "trades_spot",
         "label": "spot trades",
+        "compress": True,
     },
     "spotAggTrades": {
         "url_template": "aggTrades/{symbol}/{symbol}-aggTrades-{date}.zip",
         "output_suffix": "aggTrades_spot",
         "label": "spot aggTrades",
+        "compress": True,
     },
 }
 
@@ -275,9 +282,11 @@ async def download_file(
     checksum_url: str,
     dest: Path,
     semaphore: asyncio.Semaphore,
+    compress: bool = False,
 ):
     """Download a .zip file, extract the CSV, write atomically. Returns (url, success, message).
 
+    If compress=True, the extracted CSV is re-compressed to gzip (.csv.gz).
     Also downloads .CHECKSUM file and verifies SHA256 if available.
     """
     if dest.exists() and dest.stat().st_size > 0:
@@ -334,6 +343,10 @@ async def download_file(
             # Extract CSV from zip
             csv_data = _extract_zip_csv(data)
 
+            # Optionally re-compress as gzip
+            if compress:
+                csv_data = gzip.compress(csv_data, compresslevel=6)
+
             dest.parent.mkdir(parents=True, exist_ok=True)
             tmp.write_bytes(csv_data)
             tmp.rename(dest)
@@ -362,7 +375,7 @@ async def download_file(
 
 def build_tasks(symbol: str, dates, output_dir: Path, data_types: list[str],
                 base_url: str = None, type_registry: dict = None):
-    """Build (url, checksum_url, dest, label) tuples for all requested data."""
+    """Build (url, checksum_url, dest, label, compress) tuples for all requested data."""
     if base_url is None:
         base_url = BINANCE_FUTURES_BASE
     if type_registry is None:
@@ -370,12 +383,23 @@ def build_tasks(symbol: str, dates, output_dir: Path, data_types: list[str],
     base = output_dir / symbol
     for dtype in data_types:
         cfg = type_registry[dtype]
+        compress = cfg.get("compress", False)
         for d in dates:
             url_path = cfg["url_template"].format(symbol=symbol, date=d)
             url = f"{base_url}/{url_path}"
             checksum_url = url + ".CHECKSUM"
-            fname = f"{d}_{cfg['output_suffix']}.csv"
-            yield url, checksum_url, base / fname, cfg["label"]
+            if compress:
+                fname = f"{d}_{cfg['output_suffix']}.csv.gz"
+                dest = base / fname
+                # Treat old uncompressed .csv as existing
+                old = base / f"{d}_{cfg['output_suffix']}.csv"
+                if old.exists() and old.stat().st_size > 0:
+                    yield url, checksum_url, old, cfg["label"], False
+                else:
+                    yield url, checksum_url, dest, cfg["label"], True
+            else:
+                fname = f"{d}_{cfg['output_suffix']}.csv"
+                yield url, checksum_url, base / fname, cfg["label"], False
 
 
 # ---------------------------------------------------------------------------
@@ -437,8 +461,8 @@ async def run_one_symbol(
     connector = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
     async with aiohttp.ClientSession(connector=connector) as session:
         coros = [
-            download_file(session, url, cs_url, dest, semaphore)
-            for url, cs_url, dest, label in all_tasks
+            download_file(session, url, cs_url, dest, semaphore, compress=comp)
+            for url, cs_url, dest, label, comp in all_tasks
         ]
 
         for i, coro in enumerate(asyncio.as_completed(coros), 1):
