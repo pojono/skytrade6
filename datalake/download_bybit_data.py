@@ -1,51 +1,37 @@
 #!/usr/bin/env python3
 """
-Download Bybit market data (linear perpetual futures or spot).
+Download Bybit market data.
 
-Sources — linear (bulk archives):
-  - Trades:    https://public.bybit.com/trading/{SYMBOL}/{SYMBOL}{YYYY-MM-DD}.csv.gz
-  - Orderbook: https://quote-saver.bycsi.com/orderbook/linear/{SYMBOL}/{YYYY-MM-DD}_{SYMBOL}_ob200.data.zip
+Six data types that can be downloaded separately or all together:
 
-Sources — spot (bulk archives):
-  - Trades:    https://public.bybit.com/spot/{SYMBOL}/{SYMBOL}_{YYYY-MM-DD}.csv.gz
-
-Sources (REST API v5, paginated — category=linear or category=spot):
-  - Kline (1m):          GET /v5/market/kline
-  - Mark Price Kline:    GET /v5/market/mark-price-kline        (linear only)
-  - Premium Index Kline: GET /v5/market/premium-index-price-kline (linear only)
-  - Funding Rate History: GET /v5/market/funding/history         (linear only)
-  - Open Interest:        GET /v5/market/open-interest           (linear only)
-  - Long/Short Ratio:    GET /v5/market/account-ratio            (linear only)
+  TradesLinear     — bulk  https://public.bybit.com/trading/{SYMBOL}/
+  TradesSpot       — bulk  https://public.bybit.com/spot/{SYMBOL}/
+  OrderbookLinear  — bulk  https://quote-saver.bycsi.com/orderbook/linear/{SYMBOL}/
+  OrderbookSpot    — bulk  https://quote-saver.bycsi.com/orderbook/spot/{SYMBOL}/
+  MetricsLinear    — REST  kline, markPrice, premiumIndex, fundingRate, OI, LS ratio
+  MetricsSpot      — REST  kline
 
 Usage:
-  # Linear (default):
   python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-28
-  python download_bybit_data.py SOLUSDT,DOGEUSDT 2026-01-15 2026-01-20 -c 10
-  python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-07 --types klines,fundingRate,openInterest
+  python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-28 -t TradesLinear
+  python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-28 -t TradesLinear,OrderbookLinear
+  python download_bybit_data.py SOLUSDT,DOGEUSDT 2026-01-15 2026-01-20 -t all -c 10
 
-  # Spot:
-  python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-28 --market spot
-  python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-07 --market spot --types all
+Default (no -t): MetricsLinear
 
-Available data types (linear):
-  trades, orderbook, klines, markPriceKlines, premiumIndexKlines,
-  fundingRate, openInterest, longShortRatio
-
-Available data types (spot):
-  spotTrades, spotKlines
-
-Output structure (same folder, spot files have _spot postfix):
+Output structure (spot files have _spot postfix):
   bybit/{SYMBOL}/
-    {YYYY-MM-DD}_trades.csv               (linear trades)
-    {YYYY-MM-DD}_orderbook.jsonl           (linear ob200)
-    {YYYY-MM-DD}_kline_1m.csv              (linear OHLCV 1m)
-    {YYYY-MM-DD}_mark_price_kline_1m.csv   (linear mark price 1m)
-    {YYYY-MM-DD}_premium_index_kline_1m.csv (linear premium index 1m)
-    {YYYY-MM-DD}_funding_rate.csv          (linear funding rates)
-    {YYYY-MM-DD}_open_interest_5min.csv    (linear open interest)
-    {YYYY-MM-DD}_long_short_ratio_5min.csv (linear long/short ratio)
-    {YYYY-MM-DD}_kline_1m_spot.csv         (spot OHLCV 1m)
-    {YYYY-MM-DD}_trades_spot.csv           (spot trades)
+    {YYYY-MM-DD}_trades.csv.gz              (TradesLinear)
+    {YYYY-MM-DD}_trades_spot.csv.gz         (TradesSpot)
+    {YYYY-MM-DD}_orderbook.jsonl.gz         (OrderbookLinear)
+    {YYYY-MM-DD}_orderbook_spot.jsonl.gz    (OrderbookSpot)
+    {YYYY-MM-DD}_kline_1m.csv               (MetricsLinear)
+    {YYYY-MM-DD}_mark_price_kline_1m.csv    (MetricsLinear)
+    {YYYY-MM-DD}_premium_index_kline_1m.csv (MetricsLinear)
+    {YYYY-MM-DD}_funding_rate.csv           (MetricsLinear)
+    {YYYY-MM-DD}_open_interest_5min.csv     (MetricsLinear)
+    {YYYY-MM-DD}_long_short_ratio_5min.csv  (MetricsLinear)
+    {YYYY-MM-DD}_kline_1m_spot.csv          (MetricsSpot)
 """
 
 import argparse
@@ -75,6 +61,10 @@ BYBIT_OB200_URL = (
     "https://quote-saver.bycsi.com/orderbook/linear/{symbol}/"
     "{date}_{symbol}_ob200.data.zip"
 )
+BYBIT_SPOT_OB200_URL = (
+    "https://quote-saver.bycsi.com/orderbook/spot/{symbol}/"
+    "{date}_{symbol}_ob200.data.zip"
+)
 BYBIT_SPOT_TRADES_URL = "https://public.bybit.com/spot/{symbol}/{symbol}_{date}.csv.gz"
 
 DEFAULT_CONCURRENT = 5
@@ -90,35 +80,22 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 DATA_DIR = SCRIPT_DIR / "bybit"
 
 # ---------------------------------------------------------------------------
-# Data type definitions (unified interface)
+# Data type definitions — 6 flat types
 # ---------------------------------------------------------------------------
 
-# Maps CLI type names to internal config.
-# "source" is either "bulk" (archive download) or "rest" (API paginated).
-# --- Linear (futures) data types ---
-DATA_TYPES = {
-    "trades":             {"source": "bulk",  "label": "trades"},
-    "orderbook":          {"source": "bulk",  "label": "orderbook (ob200)"},
-    "klines":             {"source": "rest",  "label": "klines (1m)"},
-    "markPriceKlines":    {"source": "rest",  "label": "mark price klines (1m)"},
-    "premiumIndexKlines": {"source": "rest",  "label": "premium index klines (1m)"},
-    "fundingRate":        {"source": "rest",  "label": "funding rate"},
-    "openInterest":       {"source": "rest",  "label": "open interest (5min)"},
-    "longShortRatio":     {"source": "rest",  "label": "long/short ratio (5min)"},
-}
-
-DEFAULT_TYPES = [
-    "klines", "markPriceKlines", "premiumIndexKlines",
-    "fundingRate", "openInterest", "longShortRatio",
+ALL_TYPES = [
+    "TradesLinear",
+    "TradesSpot",
+    "OrderbookLinear",
+    "OrderbookSpot",
+    "MetricsLinear",
+    "MetricsSpot",
 ]
 
-# --- Spot data types ---
-SPOT_DATA_TYPES = {
-    "spotKlines":  {"source": "rest",  "label": "spot klines (1m)"},
-    "spotTrades":  {"source": "bulk",  "label": "spot trades"},
-}
+DEFAULT_TYPES = ["MetricsLinear"]
 
-SPOT_DEFAULT_TYPES = ["spotKlines"]
+# Lookup: normalised lowercase -> canonical name
+_TYPE_LOOKUP = {t.lower(): t for t in ALL_TYPES}
 
 # Track .tmp files for cleanup on interrupt
 _active_tmp_files: set[Path] = set()
@@ -238,6 +215,110 @@ async def find_first_available_date(
             lo = mid
 
     return upper.strftime(fmt)
+
+
+# --- Bulk URL probe (HEAD request) for per-type first-date detection ---
+
+def _bulk_probe_url(data_type: str, symbol: str, date_str: str) -> str:
+    """Return the bulk archive URL to probe for a given type/symbol/date."""
+    if data_type == "TradesLinear":
+        return BYBIT_TRADES_URL.format(symbol=symbol, date=date_str)
+    elif data_type == "TradesSpot":
+        return BYBIT_SPOT_TRADES_URL.format(symbol=symbol, date=date_str)
+    elif data_type == "OrderbookLinear":
+        return BYBIT_OB200_URL.format(symbol=symbol, date=date_str)
+    elif data_type == "OrderbookSpot":
+        return BYBIT_SPOT_OB200_URL.format(symbol=symbol, date=date_str)
+    raise ValueError(f"No bulk URL for type {data_type}")
+
+
+async def _probe_bulk_exists(
+    session: aiohttp.ClientSession, data_type: str, symbol: str, date_str: str,
+) -> bool:
+    """HEAD-request probe: does a bulk file exist for this type/symbol/date?"""
+    url = _bulk_probe_url(data_type, symbol, date_str)
+    try:
+        async with session.head(url, timeout=aiohttp.ClientTimeout(total=15)) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
+
+
+async def _binary_search_first_date(
+    probe_fn, start_date: str, end_date: str,
+) -> str | None:
+    """Generic binary search using an async probe_fn(date_str) -> bool."""
+    fmt = "%Y-%m-%d"
+    lo = datetime.strptime(start_date, fmt)
+    hi = datetime.strptime(end_date, fmt)
+
+    if await probe_fn(start_date):
+        return start_date
+
+    upper = None
+    d = hi
+    for _ in range(4):
+        if await probe_fn(d.strftime(fmt)):
+            upper = d
+            break
+        d -= timedelta(days=1)
+        if d < lo:
+            break
+
+    if upper is None:
+        return None
+
+    while (upper - lo).days > 1:
+        mid = lo + (upper - lo) / 2
+        mid_str = mid.strftime(fmt)
+        if await probe_fn(mid_str):
+            upper = mid
+        else:
+            lo = mid
+
+    return upper.strftime(fmt)
+
+
+async def find_first_dates(
+    session: aiohttp.ClientSession,
+    symbol: str,
+    start_date: str,
+    end_date: str,
+    data_types: list[str],
+) -> dict[str, str | None]:
+    """Find the first available date for each requested type independently.
+
+    Returns {type_name: first_date_str or None}.
+    Metrics types probe via kline API; bulk types probe via HEAD requests.
+    """
+    results = {}
+
+    async def _probe_for_type(dtype: str) -> tuple[str, str | None]:
+        if dtype == "MetricsLinear":
+            first = await _binary_search_first_date(
+                lambda d: _probe_date_exists(session, symbol, d, "linear"),
+                start_date, end_date,
+            )
+        elif dtype == "MetricsSpot":
+            first = await _binary_search_first_date(
+                lambda d: _probe_date_exists(session, symbol, d, "spot"),
+                start_date, end_date,
+            )
+        else:
+            # Bulk type: HEAD-request probe
+            first = await _binary_search_first_date(
+                lambda d: _probe_bulk_exists(session, dtype, symbol, d),
+                start_date, end_date,
+            )
+        return dtype, first
+
+    # Run all probes concurrently
+    probes = [_probe_for_type(dt) for dt in data_types]
+    for coro in asyncio.as_completed(probes):
+        dtype, first = await coro
+        results[dtype] = first
+
+    return results
 
 
 # ---------------------------------------------------------------------------
@@ -773,6 +854,19 @@ def ob200_tasks(symbol: str, dates, output_dir: Path):
             yield url, base / fname, "zip_to_gz"
 
 
+def spot_ob200_tasks(symbol: str, dates, output_dir: Path):
+    """Build (url, dest, decompress) tuples for Bybit spot orderbook ob200."""
+    base = output_dir / symbol
+    for d in dates:
+        fname = f"{d}_orderbook_spot.jsonl.gz"
+        url = BYBIT_SPOT_OB200_URL.format(symbol=symbol, date=d)
+        old = base / f"{d}_orderbook_spot.jsonl"
+        if old.exists() and old.stat().st_size > 0:
+            yield url, old, None
+        else:
+            yield url, base / fname, "zip_to_gz"
+
+
 def spot_trades_tasks(symbol: str, dates, output_dir: Path):
     """Build (url, dest, decompress) tuples for Bybit spot trades."""
     base = output_dir / symbol
@@ -798,62 +892,70 @@ async def run_one_symbol(
     end_date: str,
     concurrency: int,
     data_types: list[str],
-    market: str = "linear",
 ):
-    """Download data for a single symbol."""
+    """Download data for a single symbol.
+
+    data_types: list of canonical type names from ALL_TYPES.
+    Each type gets its own first-available-date via independent binary search.
+    """
     output_dir = DATA_DIR
-    is_spot = market == "spot"
 
-    # Pick the right type registry
-    type_registry = SPOT_DATA_TYPES if is_spot else DATA_TYPES
-    rest_source_registry = SPOT_REST_API_SOURCES if is_spot else REST_API_SOURCES
-    probe_category = "spot" if is_spot else "linear"
-
-    # --- Detect first available date (binary search via kline API probe) ---
-    api_connector = aiohttp.TCPConnector(limit=5, force_close=False)
+    # --- Detect first available date per type (concurrent probes) ---
+    api_connector = aiohttp.TCPConnector(limit=10, force_close=False)
     async with aiohttp.ClientSession(connector=api_connector) as probe_session:
-        first_date = await find_first_available_date(
-            probe_session, symbol, start_date, end_date, category=probe_category,
+        first_dates = await find_first_dates(
+            probe_session, symbol, start_date, end_date, data_types,
         )
 
-    if first_date is None:
+    # Filter out types with no data at all
+    active_types = {dt: fd for dt, fd in first_dates.items() if fd is not None}
+    if not active_types:
         print(f"\n{symbol}: no data found in {start_date} -> {end_date}, skipping.")
         return 0
 
-    effective_start = first_date if first_date > start_date else start_date
-    dates = list(date_range(effective_start, end_date))
+    # Build per-type date lists
+    type_dates: dict[str, list[str]] = {}
+    for dt, fd in active_types.items():
+        eff = fd if fd > start_date else start_date
+        type_dates[dt] = list(date_range(eff, end_date))
 
-    bulk_types = [t for t in data_types if type_registry[t]["source"] == "bulk"]
-    rest_types = [t for t in data_types if type_registry[t]["source"] == "rest"]
+    # Classify
+    bulk_active = [t for t in active_types if t.startswith("Trades") or t.startswith("Orderbook")]
+    rest_active = [t for t in active_types if t.startswith("Metrics")]
 
-    type_labels = [type_registry[t]["label"] for t in data_types]
-    market_label = "spot" if is_spot else "linear"
     print(f"\nSymbol:           {symbol}")
-    print(f"Market:           {market_label}")
-    if effective_start != start_date:
-        print(f"First available:  {effective_start}  (requested {start_date})")
-    print(f"Date range:       {effective_start} -> {end_date} ({len(dates)} days)")
-    print(f"Data types:       {', '.join(type_labels)}")
+    for dt in data_types:
+        fd = first_dates.get(dt)
+        if fd is None:
+            print(f"  {dt:20s}  no data")
+        elif fd > start_date:
+            print(f"  {dt:20s}  {fd} -> {end_date} ({len(type_dates[dt])} days)  (requested {start_date})")
+        else:
+            print(f"  {dt:20s}  {start_date} -> {end_date} ({len(type_dates[dt])} days)")
     print(f"Output directory: {output_dir / symbol}")
 
     total_fail = 0
     t0 = time.monotonic()
 
     # --- Phase 1: Bulk archive downloads ---
-    if bulk_types:
+    if bulk_active:
         all_tasks = []
-        if "trades" in bulk_types:
-            all_tasks.extend(trades_tasks(symbol, dates, output_dir))
-        if "orderbook" in bulk_types:
-            all_tasks.extend(ob200_tasks(symbol, dates, output_dir))
-        if "spotTrades" in bulk_types:
-            all_tasks.extend(spot_trades_tasks(symbol, dates, output_dir))
+        task_builders = {
+            "TradesLinear":    trades_tasks,
+            "TradesSpot":      spot_trades_tasks,
+            "OrderbookLinear": ob200_tasks,
+            "OrderbookSpot":   spot_ob200_tasks,
+        }
+        for bt in bulk_active:
+            builder = task_builders[bt]
+            all_tasks.extend(builder(symbol, type_dates[bt], output_dir))
+
         total = len(all_tasks)
         print(f"Bulk files:       {total}")
         print("-" * 60)
 
-        phase_label = "Phase 1/2" if rest_types else "Bulk archives"
-        print(f"\n[{phase_label}] Bulk archive downloads ({', '.join(bulk_types)})")
+        phase_label = "Phase 1/2" if rest_active else "Bulk archives"
+        print(f"\n[{phase_label}] Bulk archive downloads ({', '.join(bulk_active)})")
         semaphore = asyncio.Semaphore(concurrency)
         success_count = 0
         skip_count = 0
@@ -904,27 +1006,36 @@ async def run_one_symbol(
         total_fail += fail_count
 
     # --- Phase 2: REST API paginated downloads (per-day files) ---
-    if rest_types:
-        rest_labels = [type_registry[t]["label"] for t in rest_types]
-        phase_label = "Phase 2/2" if bulk_types else "REST API"
-        print(f"\n[{phase_label}] REST API downloads ({', '.join(rest_labels)})")
-        print("-" * 60)
-        t1 = time.monotonic()
+    if rest_active:
+        phase_label = "Phase 2/2" if bulk_active else "REST API"
 
-        api_connector = aiohttp.TCPConnector(limit=50, force_close=False)
-        async with aiohttp.ClientSession(connector=api_connector) as api_session:
-            api_success, api_skip, api_fail = await download_rest_api_data(
-                api_session, symbol, dates, output_dir,
-                rest_types=rest_types,
-                rest_sources=rest_source_registry,
+        for metrics_type in rest_active:
+            if metrics_type == "MetricsLinear":
+                rest_sources = REST_API_SOURCES
+            else:
+                rest_sources = SPOT_REST_API_SOURCES
+            dates_for_metrics = type_dates[metrics_type]
+
+            rest_labels = [cfg["label"] for cfg in rest_sources.values()]
+            print(f"\n[{phase_label}] {metrics_type} ({', '.join(rest_labels)})")
+            print(f"  Date range: {dates_for_metrics[0]} -> {dates_for_metrics[-1]} ({len(dates_for_metrics)} days)")
+            print("-" * 60)
+            t1 = time.monotonic()
+
+            api_connector = aiohttp.TCPConnector(limit=50, force_close=False)
+            async with aiohttp.ClientSession(connector=api_connector) as api_session:
+                api_success, api_skip, api_fail = await download_rest_api_data(
+                    api_session, symbol, dates_for_metrics, output_dir,
+                    rest_types=list(rest_sources.keys()),
+                    rest_sources=rest_sources,
+                )
+
+            phase2_elapsed = time.monotonic() - t1
+            print(
+                f"\n{metrics_type} done in {phase2_elapsed:.1f}s.  "
+                f"downloaded={api_success}  skipped={api_skip}  failed={api_fail}"
             )
-
-        phase2_elapsed = time.monotonic() - t1
-        print(
-            f"\nAPI downloads done in {phase2_elapsed:.1f}s.  "
-            f"downloaded={api_success}  skipped={api_skip}  failed={api_fail}"
-        )
-        total_fail += api_fail
+            total_fail += api_fail
 
     # --- Summary ---
     total_elapsed = time.monotonic() - t0
@@ -938,10 +1049,8 @@ async def run(
     end_date: str,
     concurrency: int,
     data_types: list[str],
-    market: str = "linear",
 ):
     print(f"Symbols:          {', '.join(symbols)}")
-    print(f"Market:           {market}")
     print(f"Date range:       {start_date} -> {end_date}")
     print(f"Data types:       {', '.join(data_types)}")
     print(f"Concurrency:      {concurrency}")
@@ -952,7 +1061,7 @@ async def run(
         print(f"\n{'='*60}")
         print(f"[{i}/{len(symbols)}] {symbol}")
         print(f"{'='*60}")
-        fails = await run_one_symbol(symbol, start_date, end_date, concurrency, data_types, market)
+        fails = await run_one_symbol(symbol, start_date, end_date, concurrency, data_types)
         total_fail += fails
 
     print("\n" + "=" * 60)
@@ -962,15 +1071,36 @@ async def run(
         sys.exit(1)
 
 
+def _parse_types(raw: str | None) -> list[str]:
+    """Parse -t argument into canonical type names. Case-insensitive."""
+    if raw is None:
+        return list(DEFAULT_TYPES)
+    if raw.strip().lower() == "all":
+        return list(ALL_TYPES)
+    result = []
+    for token in raw.split(","):
+        token = token.strip()
+        if not token:
+            continue
+        canonical = _TYPE_LOOKUP.get(token.lower())
+        if canonical is None:
+            print(
+                f"Error: unknown type '{token}'. "
+                f"Available: {', '.join(ALL_TYPES)}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        result.append(canonical)
+    return result
+
+
 def main():
-    all_types_str = ", ".join(list(DATA_TYPES.keys()) + list(SPOT_DATA_TYPES.keys()))
     parser = argparse.ArgumentParser(
-        description="Download Bybit market data (linear perpetual futures or spot).",
+        description="Download Bybit market data.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=f"Linear data types: {', '.join(DATA_TYPES.keys())}\n"
-               f"Spot data types:   {', '.join(SPOT_DATA_TYPES.keys())}\n"
-               f"Linear defaults:   {', '.join(DEFAULT_TYPES)}\n"
-               f"Spot defaults:     {', '.join(SPOT_DEFAULT_TYPES)}",
+        epilog=f"Available types:  {', '.join(ALL_TYPES)}\n"
+               f"Default:          {', '.join(DEFAULT_TYPES)}\n"
+               f"Use -t all to download everything.",
     )
     parser.add_argument(
         "symbol",
@@ -985,19 +1115,11 @@ def main():
         help=f"Max concurrent downloads (default: {DEFAULT_CONCURRENT})",
     )
     parser.add_argument(
-        "--market", "-m",
-        type=str,
-        default="linear",
-        choices=["linear", "spot"],
-        help="Market type: 'linear' (perpetual futures, default) or 'spot'.",
-    )
-    parser.add_argument(
         "--types", "-t",
         type=str,
         default=None,
-        help=f"Comma-separated data types to download. "
-             f"Use 'all' for everything including bulk trades. "
-             f"Defaults depend on --market.",
+        help=f"Comma-separated data types to download (case-insensitive). "
+             f"Use 'all' for everything. Default: {', '.join(DEFAULT_TYPES)}.",
     )
     args = parser.parse_args()
 
@@ -1012,29 +1134,9 @@ def main():
         print(f"Error: invalid date format: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    # Select type registry based on market
-    is_spot = args.market == "spot"
-    type_registry = SPOT_DATA_TYPES if is_spot else DATA_TYPES
-    default_types = SPOT_DEFAULT_TYPES if is_spot else DEFAULT_TYPES
-
-    # Parse data types
-    if args.types is None:
-        data_types = default_types
-    elif args.types.strip().lower() == "all":
-        data_types = list(type_registry.keys())
-    else:
-        data_types = [t.strip() for t in args.types.split(",") if t.strip()]
-        for t in data_types:
-            if t not in type_registry:
-                print(
-                    f"Error: unknown data type '{t}' for market '{args.market}'. "
-                    f"Available: {', '.join(type_registry.keys())}",
-                    file=sys.stderr,
-                )
-                sys.exit(1)
-
+    data_types = _parse_types(args.types)
     symbols = [sym.strip().upper() for sym in args.symbol.split(",") if sym.strip()]
-    asyncio.run(run(symbols, args.start_date, args.end_date, args.concurrency, data_types, args.market))
+    asyncio.run(run(symbols, args.start_date, args.end_date, args.concurrency, data_types))
 
 
 if __name__ == "__main__":
