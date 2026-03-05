@@ -4,13 +4,14 @@
 Sorted by Bybit 24h turnover descending. Use as argument placeholder in download commands.
 
 Usage:
-  python3 list_symbols.py                          # all common symbols
-  python3 list_symbols.py -n 50                    # top 50 by turnover
+  python3 list_symbols.py                              # all common symbols
+  python3 list_symbols.py --limit 50                    # top 50 by turnover
+  python3 list_symbols.py --limit 15 --offset 5         # symbols ranked 6th-20th
 
   # Pipe into downloaders:
-  python3 download_bybit_data.py $(python3 list_symbols.py -n 50) 2024-01-01 2026-03-04 -t MetricsLinear
-  python3 download_binance_data.py $(python3 list_symbols.py -n 50) 2024-01-01 2026-03-04
-  python3 download_okx_data.py $(python3 list_symbols.py -n 50) 2024-01-01 2026-03-04
+  python3 download_bybit_data.py $(python3 list_symbols.py --limit 50) 2024-01-01 2026-03-04 -t MetricsLinear
+  python3 download_binance_data.py $(python3 list_symbols.py --limit 50) 2024-01-01 2026-03-04
+  python3 download_okx_data.py $(python3 list_symbols.py --limit 50) 2024-01-01 2026-03-04
 """
 
 import argparse
@@ -56,13 +57,19 @@ def main():
         description="Print comma-separated USDT perp symbols common to Bybit, Binance, and OKX.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="Output is a single line: BTCUSDT,ETHUSDT,SOLUSDT,...\n"
-               "Sorted by Bybit 24h turnover. Use -n to limit.",
+               "Sorted by Bybit 24h turnover. Use --limit and --offset to paginate.",
     )
     parser.add_argument(
-        "-n", "--top",
+        "--limit", "-l",
         type=int,
         default=None,
-        help="Only output top N symbols (by Bybit 24h turnover)",
+        help="Max number of symbols to return (default: all)",
+    )
+    parser.add_argument(
+        "--offset", "-o",
+        type=int,
+        default=0,
+        help="Skip first N symbols (default: 0)",
     )
     args = parser.parse_args()
 
@@ -74,10 +81,12 @@ def main():
     common = set(bybit.keys()) & binance & okx
     common_sorted = sorted(common, key=lambda s: -bybit[s])
 
-    if args.top:
-        common_sorted = common_sorted[: args.top]
+    total = len(common_sorted)
+    common_sorted = common_sorted[args.offset:]
+    if args.limit is not None:
+        common_sorted = common_sorted[: args.limit]
 
-    sys.stderr.write(f"{len(common_sorted)} symbols\n")
+    sys.stderr.write(f"{len(common_sorted)} of {total} symbols (offset={args.offset})\n")
     print(",".join(common_sorted))
 
 
