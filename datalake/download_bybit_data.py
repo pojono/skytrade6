@@ -984,106 +984,116 @@ async def run_one_symbol(
     total_fail = 0
     t0 = time.monotonic()
 
-    # --- Phase 1: Bulk archive downloads ---
-    if bulk_active:
-        all_tasks = []
-        task_builders = {
-            "TradesLinear":    trades_tasks,
-            "TradesSpot":      spot_trades_tasks,
-            "OrderbookLinear": ob200_tasks,
-            "OrderbookSpot":   spot_ob200_tasks,
-        }
-        for bt in bulk_active:
-            builder = task_builders[bt]
-            all_tasks.extend(builder(symbol, type_dates[bt], output_dir))
+    # --- Build work groups by server (independent concurrency) ---
+    # Trades (public.bybit.com), Orderbooks (quote-saver.bycsi.com), REST (api.bybit.com)
+    task_builders = {
+        "TradesLinear":    trades_tasks,
+        "TradesSpot":      spot_trades_tasks,
+        "OrderbookLinear": ob200_tasks,
+        "OrderbookSpot":   spot_ob200_tasks,
+    }
+    # Group bulk types by server
+    trades_types = [t for t in bulk_active if t.startswith("Trades")]
+    ob_types = [t for t in bulk_active if t.startswith("Orderbook")]
 
-        total = len(all_tasks)
-        print(f"Bulk files:       {total}")
-        print("-" * 60)
+    trades_tasks_list = []
+    for bt in trades_types:
+        trades_tasks_list.extend(task_builders[bt](symbol, type_dates[bt], output_dir))
+    ob_tasks_list = []
+    for bt in ob_types:
+        ob_tasks_list.extend(task_builders[bt](symbol, type_dates[bt], output_dir))
 
-        phase_label = "Phase 1/2" if rest_active else "Bulk archives"
-        print(f"\n[{phase_label}] Bulk archive downloads ({', '.join(bulk_active)})")
-        semaphore = asyncio.Semaphore(concurrency)
-        success_count = 0
-        skip_count = 0
-        fail_count = 0
-        not_found_count = 0
-        dl_bytes = 0
-
-        connector = aiohttp.TCPConnector(limit=concurrency * 2, force_close=False)
-        async with aiohttp.ClientSession(connector=connector) as session:
-
-            async def _throttled(url, dest, dec, idx):
-                # Stagger requests to avoid CloudFront burst detection
-                await asyncio.sleep(idx * 0.05)
-                return await download_file(session, url, dest, semaphore, decompress=dec)
-
-            coros = [
-                _throttled(url, dest, dec, idx)
-                for idx, (url, dest, dec) in enumerate(all_tasks)
-            ]
-
-            for i, coro in enumerate(asyncio.as_completed(coros), 1):
-                url, ok, msg, nbytes = await coro
-                short = url.split("/")[-1]
-                dl_bytes += nbytes
-
-                if ok and msg == "exists":
-                    skip_count += 1
-                elif ok:
-                    success_count += 1
-                elif "404" in msg:
-                    not_found_count += 1
-                else:
-                    fail_count += 1
-                    print(f"\n  ✗ {short}  ({msg})")
-
-                _progress(i, total, t0, dl_bytes)
-
-        phase1_elapsed = time.monotonic() - t0
-        print(
-            f"\nBulk downloads done in {phase1_elapsed:.1f}s.  "
-            f"downloaded={success_count}  skipped={skip_count}  "
-            f"not_found={not_found_count}  failed={fail_count}"
-        )
-        total_fail += fail_count
-
-    # --- Phase 2: REST API paginated downloads (per-day files) ---
+    total_bulk = len(trades_tasks_list) + len(ob_tasks_list)
+    total_rest = 0
     if rest_active:
-        phase_label = "Phase 2/2" if bulk_active else "REST API"
+        for mt in rest_active:
+            src = REST_API_SOURCES if mt == "MetricsLinear" else SPOT_REST_API_SOURCES
+            total_rest += len(src) * len(type_dates[mt])
+    grand_total = total_bulk + total_rest
 
-        for metrics_type in rest_active:
-            if metrics_type == "MetricsLinear":
-                rest_sources = REST_API_SOURCES
-            else:
-                rest_sources = SPOT_REST_API_SOURCES
-            dates_for_metrics = type_dates[metrics_type]
+    print(f"Tasks:            {grand_total} ({total_bulk} bulk + {total_rest} REST)")
+    print("-" * 60)
 
-            rest_labels = [cfg["label"] for cfg in rest_sources.values()]
-            print(f"\n[{phase_label}] {metrics_type} ({', '.join(rest_labels)})")
-            print(f"  Date range: {dates_for_metrics[0]} -> {dates_for_metrics[-1]} ({len(dates_for_metrics)} days)")
-            print("-" * 60)
-            t1 = time.monotonic()
+    # Shared progress counters across all concurrent workers
+    _done = 0
+    _dl_bytes = 0
+    _success = 0
+    _skip = 0
+    _fail = 0
+    _not_found = 0
 
-            api_connector = aiohttp.TCPConnector(limit=50, force_close=False)
-            async with aiohttp.ClientSession(connector=api_connector) as api_session:
-                api_success, api_skip, api_fail = await download_rest_api_data(
-                    api_session, symbol, dates_for_metrics, output_dir,
-                    rest_types=list(rest_sources.keys()),
-                    rest_sources=rest_sources,
-                )
+    async def _run_bulk_group(label, task_list, conc):
+        """Download a bulk task group with its own session + semaphore."""
+        nonlocal _done, _dl_bytes, _success, _skip, _fail, _not_found
+        if not task_list:
+            return
+        sem = asyncio.Semaphore(conc)
+        connector = aiohttp.TCPConnector(limit=conc * 2, force_close=False)
+        async with aiohttp.ClientSession(connector=connector) as session:
+            coros = [
+                download_file(session, url, dest, sem, decompress=dec)
+                for url, dest, dec in task_list
+            ]
+            for coro in asyncio.as_completed(coros):
+                url, ok, msg, nbytes = await coro
+                _dl_bytes += nbytes
+                _done += 1
+                if ok and msg == "exists":
+                    _skip += 1
+                elif ok:
+                    _success += 1
+                elif "404" in msg:
+                    _not_found += 1
+                else:
+                    _fail += 1
+                    print(f"\n  ✗ {url.split('/')[-1]}  ({msg})")
+                _progress(_done, grand_total, t0, _dl_bytes)
 
-            phase2_elapsed = time.monotonic() - t1
-            print(
-                f"\n{metrics_type} done in {phase2_elapsed:.1f}s.  "
-                f"downloaded={api_success}  skipped={api_skip}  failed={api_fail}"
-            )
-            total_fail += api_fail
+    async def _run_rest_group():
+        """Download all REST metrics with their own session."""
+        nonlocal _done, _dl_bytes, _success, _skip, _fail
+        if not rest_active:
+            return
+        api_connector = aiohttp.TCPConnector(limit=50, force_close=False)
+        async with aiohttp.ClientSession(connector=api_connector) as api_session:
+            sem = asyncio.Semaphore(10)
+            all_coros = []
+            for metrics_type in rest_active:
+                src = REST_API_SOURCES if metrics_type == "MetricsLinear" else SPOT_REST_API_SOURCES
+                base = output_dir / symbol
+                base.mkdir(parents=True, exist_ok=True)
+                for type_name, cfg in src.items():
+                    for day_str in type_dates[metrics_type]:
+                        all_coros.append(
+                            _fetch_and_save(api_session, sem, symbol, day_str, cfg, base)
+                        )
+            for coro in asyncio.as_completed(all_coros):
+                status, nbytes = await coro
+                _dl_bytes += nbytes
+                _done += 1
+                if status == "ok":
+                    _success += 1
+                elif status == "skip":
+                    _skip += 1
+                else:
+                    _fail += 1
+                _progress(_done, grand_total, t0, _dl_bytes)
 
-    # --- Summary ---
-    total_elapsed = time.monotonic() - t0
-    print(f"\n{symbol} done in {total_elapsed:.1f}s.  Data: {output_dir / symbol}")
-    return total_fail
+    # --- Run all groups concurrently (different servers) ---
+    await asyncio.gather(
+        _run_bulk_group("Trades", trades_tasks_list, concurrency),
+        _run_bulk_group("Orderbooks", ob_tasks_list, concurrency),
+        _run_rest_group(),
+    )
+
+    elapsed = time.monotonic() - t0
+    print(
+        f"\n{symbol} done in {elapsed:.1f}s.  "
+        f"downloaded={_success}  skipped={_skip}  "
+        f"not_found={_not_found}  failed={_fail}  "
+        f"({_fmt_size(_dl_bytes)})"
+    )
+    return _fail
 
 
 async def run(
