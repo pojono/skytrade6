@@ -355,12 +355,7 @@ def build_tasks(symbol: str, dates: list[str], output_dir: Path, dtype: str):
             url = f"{base_url}/{url_tmpl.format(symbol=symbol, date=d)}"
             if compress:
                 dest = base / f"{d}_{suffix}.csv.gz"
-                # Treat old uncompressed .csv as existing
-                old = base / f"{d}_{suffix}.csv"
-                if old.exists() and old.stat().st_size > 0:
-                    yield url, old, False
-                else:
-                    yield url, dest, True
+                yield url, dest, True
             else:
                 dest = base / f"{d}_{suffix}.csv"
                 yield url, dest, False

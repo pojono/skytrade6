@@ -900,12 +900,7 @@ def trades_tasks(symbol: str, dates, output_dir: Path):
     for d in dates:
         fname = f"{d}_trades.csv.gz"
         url = BYBIT_TRADES_URL.format(symbol=symbol, date=d)
-        # Treat old uncompressed .csv as existing
-        old = base / f"{d}_trades.csv"
-        if old.exists() and old.stat().st_size > 0:
-            yield url, old, None  # will be skipped as "exists"
-        else:
-            yield url, base / fname, None  # keep raw .csv.gz
+        yield url, base / fname, None  # keep raw .csv.gz
 
 
 def ob200_tasks(symbol: str, dates, output_dir: Path):
@@ -914,12 +909,7 @@ def ob200_tasks(symbol: str, dates, output_dir: Path):
     for d in dates:
         fname = f"{d}_orderbook.jsonl.gz"
         url = BYBIT_OB200_URL.format(symbol=symbol, date=d)
-        # Also treat old uncompressed .jsonl as existing
-        old = base / f"{d}_orderbook.jsonl"
-        if old.exists() and old.stat().st_size > 0:
-            yield url, old, None  # will be skipped as "exists"
-        else:
-            yield url, base / fname, "zip_to_gz"
+        yield url, base / fname, "zip_to_gz"
 
 
 def spot_ob200_tasks(symbol: str, dates, output_dir: Path):
@@ -928,11 +918,7 @@ def spot_ob200_tasks(symbol: str, dates, output_dir: Path):
     for d in dates:
         fname = f"{d}_orderbook_spot.jsonl.gz"
         url = BYBIT_SPOT_OB200_URL.format(symbol=symbol, date=d)
-        old = base / f"{d}_orderbook_spot.jsonl"
-        if old.exists() and old.stat().st_size > 0:
-            yield url, old, None
-        else:
-            yield url, base / fname, "zip_to_gz"
+        yield url, base / fname, "zip_to_gz"
 
 
 def spot_trades_tasks(symbol: str, dates, output_dir: Path):
@@ -941,12 +927,7 @@ def spot_trades_tasks(symbol: str, dates, output_dir: Path):
     for d in dates:
         fname = f"{d}_trades_spot.csv.gz"
         url = BYBIT_SPOT_TRADES_URL.format(symbol=symbol, date=d)
-        # Treat old uncompressed .csv as existing
-        old = base / f"{d}_trades_spot.csv"
-        if old.exists() and old.stat().st_size > 0:
-            yield url, old, None
-        else:
-            yield url, base / fname, None  # keep raw .csv.gz
+        yield url, base / fname, None  # keep raw .csv.gz
 
 
 # ---------------------------------------------------------------------------
