@@ -6,9 +6,9 @@ Historical market data from **Bybit**, **Binance**, and **OKX** — both **perpe
 
 ```bash
 # Get top 50 common symbols:
-SYMBOLS=$(python3 list_symbols.py --limit 50 --offset 50)
+SYMBOLS=$(python3 list_symbols.py --limit 50)
 
-# Download metrics (klines, funding, OI, etc.) — default:
+# Download metrics linear + spot (klines, funding, OI, etc.) — default:
 python3 download_bybit_data.py $SYMBOLS 2024-01-01 2026-03-04
 
 # Download trades:
@@ -113,7 +113,7 @@ python3 download_bybit_data.py SYMBOL[,SYMBOL,...] START_DATE END_DATE [-t TYPES
 | `MetricsLinear` | REST API v5 | `.csv` | Kline, mark price, premium index, funding, OI, LS ratio |
 | `MetricsSpot` | REST API v5 | `_*_spot.csv` | Spot kline |
 
-**Default** (no `-t`): `MetricsLinear`
+**Default** (no `-t`): `MetricsLinear`, `MetricsSpot`
 
 Each type's first-available-date is detected independently via binary search. A single command requesting both `MetricsLinear` (available from 2024) and `OrderbookLinear` (available from 2025) will download each from its own start date.
 

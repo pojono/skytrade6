@@ -17,7 +17,7 @@ Usage:
   python download_bybit_data.py BTCUSDT 2026-02-01 2026-02-28 -t TradesLinear,OrderbookLinear
   python download_bybit_data.py SOLUSDT,DOGEUSDT 2026-01-15 2026-01-20 -t all -c 10
 
-Default (no -t): MetricsLinear
+Default (no -t): MetricsLinear, MetricsSpot
 
 Output structure (spot files have _spot postfix):
   bybit/{SYMBOL}/
@@ -92,7 +92,7 @@ ALL_TYPES = [
     "MetricsSpot",
 ]
 
-DEFAULT_TYPES = ["MetricsLinear"]
+DEFAULT_TYPES = ["MetricsLinear", "MetricsSpot"]
 
 # Lookup: normalised lowercase -> canonical name
 _TYPE_LOOKUP = {t.lower(): t for t in ALL_TYPES}
