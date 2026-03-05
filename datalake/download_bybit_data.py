@@ -841,17 +841,22 @@ async def download_file(
                     f"size mismatch: got {len(data)}, expected {expected}"
                 )
 
-            if decompress == "gzip":
-                data = _decompress_gzip(data)
-            elif decompress == "zip":
-                data = _extract_zip_first(data)
-            elif decompress == "zip_to_gz":
-                data = _zip_to_gzip(data)
+            # Offload CPU-heavy decompression + disk I/O to thread pool
+            def _process_and_write(data, decompress, dest, tmp):
+                if decompress == "gzip":
+                    data = _decompress_gzip(data)
+                elif decompress == "zip":
+                    data = _extract_zip_first(data)
+                elif decompress == "zip_to_gz":
+                    data = _zip_to_gzip(data)
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                tmp.write_bytes(data)
+                tmp.rename(dest)
+                return len(data)
 
-            written = len(data)
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            tmp.write_bytes(data)
-            tmp.rename(dest)
+            written = await asyncio.to_thread(
+                _process_and_write, data, decompress, dest, tmp,
+            )
             _active_tmp_files.discard(tmp)
             return (url, True, "ok", written)
 
