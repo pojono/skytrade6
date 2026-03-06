@@ -104,11 +104,66 @@ RETRY_BACKOFF = 2  # seconds
 
 # Bybit REST API v5
 BYBIT_API_BASE = "https://api.bybit.com"
-API_RATE_LIMIT_DELAY = 0.025  # seconds between paginated requests (stay under 120/s IP limit)
+# Bybit IP limit: 600 requests per 5-second window.
+# We target 400 req/5s (~80/s) to leave headroom for abnormal network retries.
+API_RATE_BUCKET_CAPACITY = 400   # max tokens in bucket
+API_RATE_REFILL_RATE    = 80.0   # tokens per second (400 / 5s)
+API_RATE_LIMIT_DELAY    = 0.025  # legacy fallback (unused by new limiter)
 
 # Output directory relative to this script
 SCRIPT_DIR = Path(__file__).resolve().parent
 DATA_DIR = SCRIPT_DIR / "bybit"
+
+# ---------------------------------------------------------------------------
+# Global token-bucket rate limiter for api.bybit.com
+# ---------------------------------------------------------------------------
+
+
+class TokenBucketRateLimiter:
+    """Async token-bucket rate limiter.
+
+    Enforces a global request rate across all concurrent coroutines.
+    Each call to `acquire()` consumes one token; if the bucket is empty
+    the caller sleeps until a token is available.
+    """
+
+    def __init__(self, capacity: int = API_RATE_BUCKET_CAPACITY, refill_rate: float = API_RATE_REFILL_RATE):
+        self._capacity = capacity
+        self._refill_rate = refill_rate  # tokens per second
+        self._tokens = float(capacity)
+        self._last_refill = time.monotonic()
+        self._lock = None  # lazily initialised (needs running loop)
+
+    def _get_lock(self) -> asyncio.Lock:
+        if self._lock is None:
+            self._lock = asyncio.Lock()
+        return self._lock
+
+    async def acquire(self):
+        """Wait until a token is available, then consume one."""
+        while True:
+            async with self._get_lock():
+                now = time.monotonic()
+                elapsed = now - self._last_refill
+                self._tokens = min(self._capacity, self._tokens + elapsed * self._refill_rate)
+                self._last_refill = now
+                if self._tokens >= 1.0:
+                    self._tokens -= 1.0
+                    return
+                # How long until one token is available?
+                wait = (1.0 - self._tokens) / self._refill_rate
+            await asyncio.sleep(wait)
+
+    async def backoff(self, seconds: float):
+        """Drain the bucket and sleep — used after a rate-limit response."""
+        async with self._get_lock():
+            self._tokens = 0.0
+        await asyncio.sleep(seconds)
+
+
+# Singleton limiter — created once, shared by every REST call in the process.
+_api_rate_limiter = TokenBucketRateLimiter()
+
 
 # ---------------------------------------------------------------------------
 # Data type definitions — 6 flat types
@@ -370,29 +425,45 @@ async def find_first_dates(
 
 
 async def _api_get(session: aiohttp.ClientSession, path: str, params: dict) -> dict:
-    """GET a Bybit v5 API endpoint with retries. Returns parsed JSON result."""
+    """GET a Bybit v5 API endpoint with retries. Returns parsed JSON result.
+
+    Uses the global token-bucket rate limiter to stay under the 600 req/5s
+    IP limit. On 429/403/10006 responses, drains the bucket and backs off
+    aggressively before retrying.
+    """
     url = BYBIT_API_BASE + path
-    for attempt in range(1, RETRY_ATTEMPTS + 1):
+    max_attempts = RETRY_ATTEMPTS + 3  # extra attempts for rate-limit retries
+    for attempt in range(1, max_attempts + 1):
+        # Acquire a token BEFORE sending the request
+        await _api_rate_limiter.acquire()
         try:
             async with session.get(
                 url, params=params, timeout=aiohttp.ClientTimeout(total=30)
             ) as resp:
-                # Adaptive rate limiting from response headers
+                # Adaptive: if per-endpoint remaining header is low, pause
                 remaining = resp.headers.get("X-Bapi-Limit-Status")
                 if remaining is not None and int(remaining) <= 2:
-                    await asyncio.sleep(1.0)  # back off when near limit
+                    await _api_rate_limiter.backoff(2.0)
+
+                if resp.status == 429:
+                    wait = min(30 * attempt, 120)
+                    print(f"    ⚠ 429 rate limit hit, draining bucket + waiting {wait}s ...")
+                    await _api_rate_limiter.backoff(wait)
+                    continue
 
                 if resp.status == 403:
-                    print(f"    403 rate limit hit, waiting 10s...")
-                    await asyncio.sleep(10)
-                    raise aiohttp.ClientError("403 rate limit")
+                    wait = min(60 * attempt, 600)
+                    print(f"    ⚠ 403 IP banned, draining bucket + waiting {wait}s ...")
+                    await _api_rate_limiter.backoff(wait)
+                    continue
 
                 body = await resp.json()
                 ret_code = body.get("retCode")
                 if ret_code == 10006:  # Too many visits
-                    print(f"    rate limited (10006), waiting 5s...")
-                    await asyncio.sleep(5)
-                    raise aiohttp.ClientError("rate limited")
+                    wait = min(15 * attempt, 60)
+                    print(f"    ⚠ rate limited (10006), draining bucket + waiting {wait}s ...")
+                    await _api_rate_limiter.backoff(wait)
+                    continue
                 if ret_code in (10001, 10002):  # Not supported / invalid params
                     raise ValueError(
                         f"API error {ret_code}: {body.get('retMsg')}"
@@ -403,11 +474,11 @@ async def _api_get(session: aiohttp.ClientSession, path: str, params: dict) -> d
                     )
                 return body["result"]
         except (aiohttp.ClientError, asyncio.TimeoutError, json.JSONDecodeError) as exc:
-            if attempt == RETRY_ATTEMPTS:
+            if attempt == max_attempts:
                 raise
-            print(f"    retry {attempt}/{RETRY_ATTEMPTS}: {exc}")
+            print(f"    retry {attempt}/{max_attempts}: {exc}")
             await asyncio.sleep(RETRY_BACKOFF * attempt)
-    return {}  # unreachable
+    raise RuntimeError(f"Exhausted {max_attempts} attempts for {path}")
 
 
 async def fetch_kline(
@@ -1139,9 +1210,9 @@ async def run_one_symbol(
         nonlocal _done, _dl_bytes, _success, _skip, _fail
         if not rest_active:
             return
-        api_connector = aiohttp.TCPConnector(limit=100, force_close=False)
+        api_connector = aiohttp.TCPConnector(limit=20, force_close=False)
         async with aiohttp.ClientSession(connector=api_connector) as api_session:
-            sem = asyncio.Semaphore(30)
+            sem = asyncio.Semaphore(10)
             all_coros = []
             for metrics_type in rest_active:
                 src = REST_API_SOURCES if metrics_type == "MetricsLinear" else SPOT_REST_API_SOURCES
