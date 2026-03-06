@@ -1,8 +1,11 @@
 # Pre-Production Audit: Idea 4 — BTC Pump → Long Alts
 
-**Date:** 2026-03-06
+**Date:** 2026-03-06 (v2 — without October 2025 outlier)
 **Strategy:** When BTC pumps >150 bps in 3 minutes, market-buy altcoins, hold 4h.
 **Data:** Bybit + Binance, 25 alts, 2024-01 → 2026-03 (26 months).
+
+> **⚠️ All numbers in this audit EXCLUDE Oct 2025** (2 days, +6026 bps — a single
+> unrepeatable event that inflated every metric by 2-3x). This is the honest view.
 
 ---
 
@@ -11,10 +14,10 @@
 | Check              | Status    | Risk       | Notes                                                        |
 | ------------------ | --------- | ---------- | ------------------------------------------------------------ |
 | Lookahead Bias     | YES       | LOW        | T+1 entry delay applied; signal uses only past 3 bars        |
-| OOS Test           | YES       | LOW        | Discovery on 2025-06→2026-03, OOS on 2024-01→2025-05 (+213 bps) |
-| Overfitting        | PARTIAL   | MEDIUM     | Robust to threshold ±33%, but PnL heavily dependent on 1 outlier day |
-| Execution Modeling | PARTIAL   | **HIGH**   | Only taker fees modeled (20 bps); spread + slippage not modeled (~10-30 bps extra) |
-| PnL Stability      | NO        | **HIGH**   | 65% of total PnL from 1 day (2025-10-10: +5944 bps)         |
+| OOS Test           | PARTIAL   | **HIGH**   | OOS 2024 is +213 bps, but 2025 (no Oct) is **-3 bps**, 2026 is **-7 bps** |
+| Overfitting        | PARTIAL   | **HIGH**   | Robust to threshold, but without best 3 days avg = **+26 bps** ≈ noise |
+| Execution Modeling | PARTIAL   | **HIGH**   | Only 20 bps taker fees; spread + slippage not modeled (+10-30 bps) |
+| PnL Stability      | NO        | **CRITICAL** | Only 2024 is profitable. 2025 (no Oct) and 2026 are flat/negative |
 
 ---
 
@@ -27,62 +30,74 @@
 - **Declustering:** 30-bar minimum gap between signals prevents overlapping trades. ✓
 - **Forward return:** calculated from T+1 bar, not from signal bar. ✓
 
-**Minor issue:** T+1 entry uses next bar **close**, not **open**. In 1-minute bars the difference is ~0-5 bps — negligible for a +269 bps signal.
+**Minor issue:** T+1 entry uses next bar **close**, not **open**. In 1-minute bars the difference is ~0-5 bps — negligible.
 
 ---
 
 ## 2. Honest Out-of-Sample Test
 
-**Status: YES | Risk: LOW**
+**Status: PARTIAL | Risk: HIGH**
 
 | Period | Role | Days | Avg net | Prof% |
 |--------|------|------|---------|-------|
-| 2025-06 → 2026-03 | Discovery | 19 | +427 bps | 63% |
-| 2024-01 → 2025-05 | **True OOS** | 15 | **+213 bps** | 67% |
+| 2024-01 → 2024-12 | **True OOS** | 15 | **+213 bps** | 67% |
+| 2025-01 → 2025-12 (no Oct) | Walk-forward | 12 | **-3 bps** | 50% |
+| 2026-01 → 2026-03 | Most recent | 5 | **-7 bps** | 60% |
 
-- OOS period was **never used** for parameter selection, feature engineering, or optimization.
-- Signal works in **both** periods with consistent direction and magnitude.
-- 2026-01→03 shows weakening (-7 bps on 5 days) — possible regime shift, but small sample.
+**The edge existed in 2024 but appears DEAD in 2025-2026 once the October outlier is removed.**
+
+- 2024 OOS was never used for parameter selection → legitimate. ✓
+- But 2025 without October = breakeven → edge decayed or was never real outside 2024.
+- 2026 confirms: 5 days, negative average.
 
 ---
 
 ## 3. Overfitting / Parameter Stability
 
-**Status: PARTIAL | Risk: MEDIUM**
+**Status: PARTIAL | Risk: HIGH**
 
 ### Parameters (only 3):
 1. **BTC threshold** (150 bps) — the only tuned parameter
 2. **Hold period** (240 min) — not optimized, standard 4h horizon
 3. **Decluster gap** (30 bars) — standard anti-clustering
 
-### Threshold sensitivity (±33%):
+### Threshold sensitivity (no October):
 
-| Threshold | Days | Avg net | Prof% | Without best day |
-|-----------|------|---------|-------|-----------------|
-| 100 bps (-33%) | 107 | +85 | 55% | +30 |
-| 120 bps (-20%) | 75 | +136 | 63% | +58 |
-| **150 bps (base)** | **34** | **+275** | **62%** | **+104** |
-| 180 bps (+20%) | 25 | +337 | 64% | +103 |
-| 200 bps (+33%) | 18 | +584 | 78% | +269 |
+| Threshold | Days | Avg net | Prof% | No best day | No best 3 |
+|-----------|------|---------|-------|-------------|-----------|
+| 100 bps (-33%) | 103 | **+27** | 53% | +20 | +6 |
+| 120 bps (-20%) | 72 | **+57** | 61% | +46 | +26 |
+| **150 bps (base)** | **32** | **+105** | **59%** | **+78** | **+31** |
+| 180 bps (+20%) | 24 | **+103** | 62% | +67 | +1 |
+| 200 bps (+33%) | 17 | **+270** | 76% | +228 | +150 |
 
-**✓ Robust:** Signal is positive at ALL thresholds 100-250 bps. Narrower threshold → fewer but better trades. The edge is real, not an artifact of threshold tuning.
+**Direction is consistent** (all positive at all thresholds) but **magnitudes are thin.**
+At 100-150 bps threshold, removing 3 best days puts avg at +6 to +31 bps — **within noise and below realistic costs.**
 
-### Hold period sensitivity:
+### Hold period sensitivity (no October):
 
-| Hold | Avg net | Prof% | Without best day |
-|------|---------|-------|-----------------|
-| 30m | +188 | 59% | +35 |
-| 60m | +174 | 65% | +38 |
-| 120m | +214 | 62% | +33 |
-| **240m** | **+275** | **62%** | **+104** |
-| 360m | +330 | 68% | +143 |
-| 480m | +379 | 76% | +188 |
+| Hold | Avg net | Prof% | No best day |
+|------|---------|-------|-------------|
+| 30m | **+37** | 59% | +17 |
+| 60m | **+39** | 62% | +15 |
+| 120m | **+35** | 59% | +16 |
+| **240m** | **+105** | **59%** | **+78** |
+| 360m | **+148** | 66% | +122 |
+| 480m | **+193** | 75% | +169 |
 
-**✓ Robust:** Positive at all hold periods 30m–8h. Longer holds → more profit but more risk. Not sensitive to ±50% changes.
+Longer holds help, but short holds (30m-2h) are essentially at **+15-17 bps without best day — below any realistic execution cost.**
 
-### Concern: Without best day
+### Tick-level entry (no October):
 
-Removing the single best day (2025-10-10: +5944 bps) drops average from +275 to +104 bps. Still positive, but the headline number is inflated by one outlier.
+| Window | Avg ret | Net (after 20 bps fees) | WR |
+|--------|---------|------------------------|-----|
+| +10s | +22 bps | **+2** | 85% |
+| +30s | +69 bps | **+49** | 98% |
+| +1m | +103 bps | **+83** | 98% |
+| +5m | +112 bps | **+92** | 84% |
+| +4h | +127 bps | **+107** | 67% |
+
+**Tick data confirms smaller but still positive edge at +30s to +1m even without October.**
 
 ---
 
@@ -99,30 +114,32 @@ Removing the single best day (2025-10-10: +5944 bps) drops average from +275 to 
 |------|----------|--------|
 | **Bid-ask spread** | 3-10 bps per leg on alts | 6-20 bps RT |
 | **Slippage** | 5-20 bps during volatile pump events | 5-20 bps |
-| **Speed of execution** | Must enter within 30s-1m for 97% WR | Latency-dependent |
+| **Speed of execution** | Must enter within 30s-1m for 98% WR | Latency-dependent |
 | **Simultaneous execution** | Buying 4-10 alts at once | Market impact |
 
-### Realistic cost estimate:
+### Realistic cost estimate (no October):
 
-| Scenario | Total cost | Net return |
-|----------|-----------|------------|
-| Modeled (current) | 20 bps | +275 bps |
-| Conservative | 40 bps | +255 bps |
-| Pessimistic | 50 bps | +245 bps |
+| Scenario | Total cost | Kline net (32 days) | Tick net (+1m) |
+|----------|-----------|--------------------|--------------------|
+| Modeled (current) | 20 bps | **+105 bps** | **+83 bps** |
+| Conservative (+10 spread) | 30 bps | **+95 bps** | **+73 bps** |
+| Realistic (+20 spread+slip) | 40 bps | **+85 bps** | **+63 bps** |
+| Pessimistic (+30) | 50 bps | **+75 bps** | **+53 bps** |
 
-**Even at 50 bps total cost, the signal remains profitable (+245 bps avg).** But without the best day, it becomes +245 - 171 = +74 bps — much thinner.
+At realistic costs, edge is **+63 to +85 bps** — still positive, but thin.
+**Without best 3 days and realistic costs:** +31 - 20 = **+11 bps** ≈ zero.
 
 ### Maker vs Taker:
 
-Maker orders (0.04% = 8 bps RT) are **unrealistic** for this strategy — you need to market-buy within seconds of BTC pump detection. Limit orders during volatility spikes have very low fill rates.
+Maker orders (0.04% = 8 bps RT) are **unrealistic** — you need market orders within seconds. Limit orders during volatility spikes have very low fill rates.
 
 ---
 
 ## 5. PnL Stability
 
-**Status: NO | Risk: HIGH**
+**Status: NO | Risk: CRITICAL**
 
-### Monthly breakdown:
+### Monthly breakdown (no October):
 
 | Month | Days | Avg net | Comment |
 |-------|------|---------|---------|
@@ -141,54 +158,64 @@ Maker orders (0.04% = 8 bps RT) are **unrealistic** for this strategy — you ne
 | 2025-03 | 2 | +5 | ~ |
 | 2025-04 | 4 | -9 | ✗ |
 | 2025-07 | 1 | +196 | ✓ |
-| **2025-10** | **2** | **+3013** | **⚠️ OUTLIER** |
 | 2025-12 | 1 | -648 | ✗ |
 | 2026-01 | 2 | +84 | ✓ |
 | 2026-02 | 3 | -68 | ✗ |
 
+### By year (no October):
+
+| Year | Days | Avg net | Prof% | Verdict |
+|------|------|---------|-------|---------|
+| **2024** | **15** | **+213** | **67%** | ✓ Real edge |
+| **2025** | **12** | **-3** | **50%** | ❌ Breakeven |
+| **2026** | **5** | **-7** | **60%** | ❌ Negative |
+
 ### Concentration risk:
 
-- **65% of total PnL** comes from **1 day** (2025-10-10)
-- **Without best day:** avg drops from +275 to +104 bps
-- **Without best 3 days:** avg drops to +55 bps
-- **7 of 19 months are negative** (37%)
-- **No signals at all** in Sep 2024, Oct 2024, Jun 2025, Aug-Sep 2025, Nov 2025
+- **Total PnL (no Oct):** +3116 bps across 32 days
+- **Best single day:** +846 bps (27% of total)
+- **Without best day:** avg drops to +73 bps
+- **Without best 3 days:** avg drops to **+26 bps** — noise
+- **8 of 18 months are negative** (44%)
+- **No signals at all** in 7 months (Sep-Oct 2024, Jun 2025, Aug-Sep 2025, Nov 2025, Mar 2026)
 
 ### Verdict:
-PnL is **extremely concentrated**. The strategy is profitable on average, but the "average" is dominated by one extraordinary event. In a typical month you get 1-2 signals with highly variable outcomes.
+The strategy was profitable in 2024, but **the edge appears to have decayed in 2025-2026.** Without the October 2025 outlier, the most recent 14 months are essentially breakeven. PnL is driven by a handful of good days in 2024 and one in Feb 2025.
 
 ---
 
 ## Overall Assessment
 
-### Probability that edge is real: **60-70%**
+### Probability that edge is real: **30-40%**
 
 **Evidence FOR:**
-- Signal is positive in both discovery (2025-06→2026-03) and true OOS (2024-01→2025-05)
-- Robust to parameter changes (all thresholds 100-250 bps are positive)
-- Has structural explanation (alts lag BTC pumps due to lower liquidity/attention)
-- Tick data confirms alt reaction curve is gradual, not instant
+- 2024 OOS is legitimately positive (+213 bps, 15 days, 67% profitable)
+- Robust direction across all parameter variations (always positive)
+- Structural explanation (alts lag BTC pumps) confirmed by tick data
+- Tick-level entry at +30s still shows +49 bps net without October
 
 **Evidence AGAINST:**
-- Only 34 signal days in 26 months — very thin sample
-- 65% of PnL from 1 outlier day (could be luck)
-- Without top 3 days, avg drops to +55 bps — barely above realistic costs
-- 2026 data (most recent) shows weakening
-- No spread/slippage modeling
+- **2025 (no Oct) = -3 bps, 2026 = -7 bps** — edge is dead in recent data
+- Without top 3 days, avg = +26 bps — below realistic execution costs
+- Only 32 signal days in 26 months — statistically meaningless
+- Huge variance (std = 347 bps vs mean = 97 bps → Sharpe ~0.28)
+- No spread/slippage modeling eats most of the thin remaining edge
+- 44% of months are negative
 
 ### Key Risks:
 
-1. **PnL concentration** — strategy may appear profitable only because of 1-2 extreme events (HIGH)
-2. **Execution during volatility** — spreads widen during BTC pumps, slippage increases (HIGH)
-3. **Sample size** — 34 events is not statistically robust for tailed distributions (MEDIUM)
-4. **Edge decay** — 2026 shows weakening, market may be adapting (MEDIUM)
-5. **Latency** — requires <30s detection + execution (LOW if infrastructure exists)
+1. **Edge decay** — 2024 worked, 2025-2026 does not. Market has likely adapted (CRITICAL)
+2. **PnL concentration** — a few good 2024 days drive the entire result (CRITICAL)
+3. **Execution during volatility** — spreads widen during BTC pumps, slippage eats edge (HIGH)
+4. **Sample size** — 32 events, Sharpe 0.28 → not statistically significant (HIGH)
+5. **Survivorship** — this was the only surviving signal out of 9 tested. Selection bias? (MEDIUM)
 
-### Production readiness: **NOT READY**
+### Production readiness: **NOT READY — EDGE LIKELY DEAD**
 
-**Recommendation:** Do NOT deploy at full size. If deploying:
-- Start with **paper trading** for 2-3 months to validate execution assumptions
-- Use **minimal position size** (1-2% of capital per event)
-- Track actual execution costs (spread + slippage) vs modeled
-- Monitor for edge decay in real-time
-- Accept that most months will have 0-2 signals with high variance
+**Recommendation:** Do NOT deploy. The October 2025 outlier was masking an edge that decayed after 2024. The honest numbers show:
+
+- **2024:** +213 bps avg → worked
+- **2025 (no Oct):** -3 bps avg → dead
+- **2026:** -7 bps avg → still dead
+
+Without that one extraordinary October day, this strategy has been flat-to-negative for the last 14 months. Deploying it now would be chasing a dead edge.
