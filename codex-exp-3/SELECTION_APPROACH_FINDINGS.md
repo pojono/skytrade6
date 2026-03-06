@@ -12,7 +12,7 @@ Target metric:
 
 | Approach | Rows | Timestamps | Avg bps | Win Rate | Symbols |
 |---|---:|---:|---:|---:|---:|
-| strict_threshold | 9 | 8 | 83.82 | 62.5% | 7 |
-| baseline_soft | 42 | 27 | 37.39 | 59.3% | 25 |
-| blended_rank | 42 | 27 | 35.47 | 55.6% | 25 |
-| empirical_winrate | 31 | 27 | 25.77 | 59.3% | 20 |
+| strict_threshold | 12 | 11 | 54.93 | 54.5% | 10 |
+| empirical_winrate | 38 | 31 | 24.58 | 58.1% | 26 |
+| baseline_soft | 47 | 31 | 24.37 | 61.3% | 28 |
+| blended_rank | 47 | 31 | 22.70 | 58.1% | 28 |

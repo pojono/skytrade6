@@ -26,16 +26,21 @@ datalake/symbols_list.txt
 **/out/cache/
 **/out/cache_intraday/
 
-# Experiment CSVs (keep .py and .md only)
-codex-exp-*/**/*.csv
+# Experiment artifacts (keep .py and .md only)
+codex-*/**/*.csv
+codex-*/**/*.json
+codex-*/**/*.png
+claude-*/**/*.csv
+claude-*/**/*.png
 gemini-*/**/*.csv
+gemini-*/**/*.png
 grok-*/**/*.csv
 grok-*/**/*.txt
 grok-*/**/*.png
 grok-*/**/*.json
-gemini-*/**/*.png
 kimi-*/**/*.csv
 research_cross_section/**/*.csv
+research_cross_section/**/*.png
 *.npy
 
 # Data artifacts

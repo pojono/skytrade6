@@ -10,14 +10,14 @@ Modes:
 
 High-conviction thresholds:
 
-- `execution_adjusted_score >= 3.018`
-- `ls_z >= 2.676`
+- `execution_adjusted_score >= 2.909`
+- `ls_z >= 2.534`
 - `breadth_mom >= 0.65`
 
 ## Test Results
 
 | Mode | Rows | Timestamps | Avg bps | Win Rate | Symbols | 2026-01 | 2026-02 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| high_conviction | 9 | 8 | 83.82 | 62.5% | 7 | 124.58 | 15.88 |
-| hybrid_regime | 15 | 13 | 71.49 | 61.5% | 12 | 68.66 | 77.88 |
-| default_soft | 42 | 27 | 37.39 | 59.3% | 25 | 32.93 | 53.03 |
+| high_conviction | 12 | 11 | 54.93 | 54.5% | 10 | 84.22 | 15.88 |
+| hybrid_regime | 22 | 19 | 41.95 | 57.9% | 17 | 53.32 | 77.88 |
+| default_soft | 47 | 31 | 24.37 | 61.3% | 28 | 24.81 | 53.03 |

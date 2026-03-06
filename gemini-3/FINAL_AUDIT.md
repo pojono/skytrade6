@@ -87,3 +87,49 @@ A common flaw in algorithmic research is curving the parameters (e.g., Z-Score >
 *Note: There were no events for Z > 2.5 or Z > 3.0 on BTC during this period.*
 
 **Conclusion:** The strategy is **not overfit** to the `2.0` parameter. In fact, relaxing the parameter to `1.5` actually increases the Sharpe ratio to `1.19` by capturing more trades while maintaining the core structural edge. However, dropping the threshold to `1.0` destroys the edge, proving our core thesis: *The market only cascades predictably when leverage hits true extremes (Z > 1.5).*
+
+### Portfolio Simulation ($1000 Starting Capital)
+We simulated trading the Golden Cluster (BTC, SOL, LINK, AVAX, NEAR, WLD) exclusively, starting with $1,000 in January 2025.
+* **Risk Management:** 2% portfolio risk per 1x ATR move. Max 3x leverage.
+* **Compounding:** The position size scales organically as the account equity grows.
+
+**Monthly Breakdown:**
+| Month | Trades | Win Rate | Net PnL (USD) |
+|-------|--------|----------|---------------|
+| Feb 2025 | 2 | 0.0% | -$24.50 |
+| Mar 2025 | 2 | 100.0% | +$5.76 |
+| Apr 2025 | 1 | 100.0% | +$12.30 |
+| Jun 2025 | 1 | 0.0% | -$7.92 |
+| Jul 2025 | 3 | 33.3% | -$13.23 |
+| Aug 2025 | 4 | 100.0% | +$56.00 |
+| Sep 2025 | 4 | 100.0% | +$110.12 |
+| Oct 2025 | 4 | 100.0% | +$34.18 |
+| Nov 2025 | 4 | 50.0% | +$11.68 |
+| Jan 2026 | 6 | 50.0% | -$1.70 |
+| Feb 2026 | 1 | 100.0% | +$14.28 |
+| Mar 2026 | 1 | 0.0% | -$17.89 |
+
+**Overall Performance (14 Months):**
+* **Starting Capital:** $1000.00
+* **Ending Capital:** $1179.11
+* **Total Return:** +17.91%
+* **Total Trades:** 33
+* **Overall Win Rate:** 66.7%
+
+*Note: This is a low-frequency, high-conviction swing strategy. It produces solid, safe returns on high-liquidity assets, but will not double an account overnight due to the rarity of the setups.*
+
+### The High-Frequency vs. Low-Frequency Paradigm (Sample Size vs. Fees)
+To address the low sample size (33 trades) of the macro swing strategy, we ran a series of High-Frequency Trading (HFT) simulations across the same Golden Cluster using 1-minute tick data to generate statistically massive sample sizes (>10,000 trades).
+
+We tested three distinct micro-structure edges:
+1. **Premium Index Reversion:** Fading 4h Z-Score extremes (>4.0) with a 60m hold. (12,443 trades)
+2. **Basis Reversion:** Fading local Mark vs Index dislocations. (8,994 trades)
+3. **Liquidation Fades:** Buying immediate 5m OI flushes. (11,927 trades)
+
+**The Universal Result:** 
+Every single high-frequency strategy had a negative Sharpe ratio and lost money after accounting for the standard 10 bps round-trip taker fee (0.05% entry + 0.05% exit). 
+
+* **Why?** At the 1-minute microstructure level, the organic price edge is usually only 5 to 15 basis points. If you pay 10 basis points in fees to cross the spread, your entire mathematical advantage is instantly destroyed. High-frequency strategies with large sample sizes are **only profitable if you use Maker limit orders** (earning rebates) or have an institutional VIP fee tier (0 bps taker).
+* **The Low-Frequency Advantage:** The "Powder Keg" strategy only fires 33 times, but it targets massive 1,000 basis point (10%) structural moves. At that scale, a 10 bps fee is a rounding error. 
+
+**Conclusion:** With standard retail taker fees, you cannot trade high-frequency noise. You must rely on low-frequency, macro-structural dislocations (like the Powder Keg), even if the sample size is smaller.

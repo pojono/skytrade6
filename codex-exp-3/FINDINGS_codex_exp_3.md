@@ -31,58 +31,58 @@ This note treats prior repo PnL as untrusted and re-checks the strongest plausib
 
 ## Coverage
 
-- Rebuilt Binance sample rows: 146,268
-- Selected symbol-level entries: 178
-- Selected portfolio timestamps: 114
-- Unique traded symbols: 63
-- Bybit-repriced symbol entries retained: 178
-- Train timestamps: 87
-- Test timestamps: 27
+- Rebuilt Binance sample rows: 267,990
+- Selected symbol-level entries: 306
+- Selected portfolio timestamps: 192
+- Unique traded symbols: 75
+- Bybit-repriced symbol entries retained: 286
+- Train timestamps: 161
+- Test timestamps: 31
 
 ## Cross-Venue Results
 
-- Train avg/trade after 8 bps on average(Binance, Bybit): 27.52 bps
-- Test avg/trade after 8 bps on average(Binance, Bybit): 40.02 bps
-- Test avg/trade after 12 bps on average(Binance, Bybit): 36.02 bps
-- Test avg/trade after 16 bps on average(Binance, Bybit): 32.02 bps
-- Test win rate after 8 bps: 59.3%
+- Train avg/trade after 8 bps on average(Binance, Bybit): 17.45 bps
+- Test avg/trade after 8 bps on average(Binance, Bybit): 26.77 bps
+- Test avg/trade after 12 bps on average(Binance, Bybit): 22.77 bps
+- Test avg/trade after 16 bps on average(Binance, Bybit): 18.77 bps
+- Test win rate after 8 bps: 61.3%
 
 ## Execution-Aware Soft Penalty
 
 - Ranking penalty = (avg positive 60s VWAP drag + fill shortfall penalty) / 4.0
 - Fill shortfall penalty = 8.0 bps scaled by (1 - Bybit fill rate)
-- Soft-penalized test timestamps: 27
-- Soft-penalized test avg/trade after 8 bps on average(Binance, Bybit net of Bybit funding): 39.91 bps
-- Soft-penalized test avg/trade after 12 bps on average(Binance, Bybit net of Bybit funding): 35.91 bps
-- Soft-penalized test avg/trade after 16 bps on average(Binance, Bybit net of Bybit funding): 31.91 bps
-- Soft-penalized test win rate after 8 bps: 59.3%
+- Soft-penalized test timestamps: 31
+- Soft-penalized test avg/trade after 8 bps on average(Binance, Bybit net of Bybit funding): 26.65 bps
+- Soft-penalized test avg/trade after 12 bps on average(Binance, Bybit net of Bybit funding): 22.65 bps
+- Soft-penalized test avg/trade after 16 bps on average(Binance, Bybit net of Bybit funding): 18.65 bps
+- Soft-penalized test win rate after 8 bps: 61.3%
 
 ## Hard-Filter Comparison
 
 - Hard-filter threshold: average positive 60s VWAP drag >= 8.0 bps, or Bybit maker-fill proxy < 100%
 - Hard-filtered symbols: AVAXUSDT, BARDUSDT, ENAUSDT, LINKUSDT, PAXGUSDT, XLMUSDT, XRPUSDT
-- Filtered test timestamps: 23
-- Filtered test avg/trade after 8 bps on average(Binance, Bybit net of Bybit funding): 37.81 bps
-- Filtered test avg/trade after 12 bps on average(Binance, Bybit net of Bybit funding): 33.81 bps
-- Filtered test avg/trade after 16 bps on average(Binance, Bybit net of Bybit funding): 29.81 bps
-- Filtered test win rate after 8 bps: 60.9%
+- Filtered test timestamps: 27
+- Filtered test avg/trade after 8 bps on average(Binance, Bybit net of Bybit funding): 22.90 bps
+- Filtered test avg/trade after 12 bps on average(Binance, Bybit net of Bybit funding): 18.90 bps
+- Filtered test avg/trade after 16 bps on average(Binance, Bybit net of Bybit funding): 14.90 bps
+- Filtered test win rate after 8 bps: 63.0%
 
 ## Partial Funding Adjustment (Bybit Leg Only)
 
-- Train avg/trade after 8 bps on average(Binance, Bybit net of Bybit funding): 27.97 bps
-- Test avg/trade after 8 bps on average(Binance, Bybit net of Bybit funding): 39.91 bps
-- Test avg/trade after 12 bps on average(Binance, Bybit net of Bybit funding): 35.91 bps
-- Test avg/trade after 16 bps on average(Binance, Bybit net of Bybit funding): 31.91 bps
-- Test win rate after 8 bps with Bybit funding applied: 59.3%
-- Mean Bybit funding impact per 4h trade in test: 0.223 bps
+- Train avg/trade after 8 bps on average(Binance, Bybit net of Bybit funding): 17.56 bps
+- Test avg/trade after 8 bps on average(Binance, Bybit net of Bybit funding): 26.65 bps
+- Test avg/trade after 12 bps on average(Binance, Bybit net of Bybit funding): 22.65 bps
+- Test avg/trade after 16 bps on average(Binance, Bybit net of Bybit funding): 18.65 bps
+- Test win rate after 8 bps with Bybit funding applied: 61.3%
+- Mean Bybit funding impact per 4h trade in test: 0.244 bps
 
 ## Venue Comparison
 
-- Train avg/trade after 8 bps on Binance-only pricing: 27.18 bps
-- Train avg/trade after 8 bps on Bybit-only pricing: 27.87 bps
-- Test avg/trade after 8 bps on Binance-only pricing: 39.53 bps
-- Test avg/trade after 8 bps on Bybit-only pricing: 40.51 bps
-- Test avg/trade after 8 bps on Bybit-only pricing net of Bybit funding: 40.29 bps
+- Train avg/trade after 8 bps on Binance-only pricing: 16.72 bps
+- Train avg/trade after 8 bps on Bybit-only pricing: 18.19 bps
+- Test avg/trade after 8 bps on Binance-only pricing: 26.31 bps
+- Test avg/trade after 8 bps on Bybit-only pricing: 27.24 bps
+- Test avg/trade after 8 bps on Bybit-only pricing net of Bybit funding: 26.99 bps
 
 ## Interpretation
 
@@ -96,27 +96,28 @@ This note treats prior repo PnL as untrusted and re-checks the strongest plausib
 
 | Extra Drag | Total Cost | Test Avg | Test Win Rate |
 |---|---:|---:|---:|
-| 0 bps | 8 bps | 40.02 bps | 59.3% |
-| 2 bps | 10 bps | 38.02 bps | 59.3% |
-| 4 bps | 12 bps | 36.02 bps | 55.6% |
-| 6 bps | 14 bps | 34.02 bps | 55.6% |
-| 8 bps | 16 bps | 32.02 bps | 55.6% |
-| 12 bps | 20 bps | 28.02 bps | 55.6% |
+| 0 bps | 8 bps | 26.77 bps | 61.3% |
+| 2 bps | 10 bps | 24.77 bps | 61.3% |
+| 4 bps | 12 bps | 22.77 bps | 58.1% |
+| 6 bps | 14 bps | 20.77 bps | 58.1% |
+| 8 bps | 16 bps | 18.77 bps | 58.1% |
+| 12 bps | 20 bps | 14.77 bps | 54.8% |
 
 ## Funding-Aware Drag Sweep
 
 | Extra Drag | Total Cost | Test Avg (Funding Adj) | Test Win Rate |
 |---|---:|---:|---:|
-| 0 bps | 8 bps | 39.91 bps | 59.3% |
-| 2 bps | 10 bps | 37.91 bps | 59.3% |
-| 4 bps | 12 bps | 35.91 bps | 55.6% |
-| 6 bps | 14 bps | 33.91 bps | 55.6% |
-| 8 bps | 16 bps | 31.91 bps | 55.6% |
-| 12 bps | 20 bps | 27.91 bps | 55.6% |
+| 0 bps | 8 bps | 26.65 bps | 61.3% |
+| 2 bps | 10 bps | 24.65 bps | 61.3% |
+| 4 bps | 12 bps | 22.65 bps | 58.1% |
+| 6 bps | 14 bps | 20.65 bps | 58.1% |
+| 8 bps | 16 bps | 18.65 bps | 58.1% |
+| 12 bps | 20 bps | 14.65 bps | 54.8% |
 
 ## Monthly Test Breakdown
 
 | Month | Trades | Avg 8bps | Avg 12bps | Avg 16bps | Win Rate |
 |---|---:|---:|---:|---:|---:|
-| 2026-01 | 21 | 35.47 | 31.47 | 27.47 | 61.9% |
+| 2026-01 | 23 | 27.15 | 23.15 | 19.15 | 65.2% |
 | 2026-02 | 6 | 55.95 | 51.95 | 47.95 | 50.0% |
+| 2026-03 | 2 | -65.11 | -69.11 | -73.11 | 50.0% |
