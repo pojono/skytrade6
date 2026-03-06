@@ -1,7 +1,7 @@
 # Strategy Specification: Cross-Sectional Funding + Momentum
 
 **Date:** 2026-03-06
-**Status:** Research complete (Phases 1–23) — ready for live implementation
+**Status:** Research complete (Phases 1–25) — ready for live implementation
 
 ---
 
@@ -9,11 +9,12 @@
 
 A cross-sectional long/short strategy on perpetual futures, exploiting **real-time predicted funding rate** and short-term price momentum across a universe of ~113 coins (Majors excluded). The strategy is market-neutral by construction, rebalances every 8 hours aligned with Bybit funding settlements, and applies inverse scaling to reduce drawdowns.
 
-**Final configuration (Jan 2025 – Mar 2026, Phase 22):**
-- Net Sharpe: **3.94** (with inverse scaling, 4/4 walk-forward positive)
-- Maximum drawdown: **-22.2%**
-- $1,000 → **$6,522** over 15 months
+**Final configuration (Jan 2025 – Mar 2026, Phases 22–25):**
+- Net Sharpe: **3.96** (N=10, 2× leverage, 4/4 walk-forward positive)
+- Maximum drawdown: **-40.1%** at 2× leverage (≈ -22% at 1×)
+- $10,000 → **$351,824** over 15 months at 2× leverage
 - Walk-forward: **4/4 positive OOS windows**
+- Universe: **N=10** long + 10 short, rebalance 8h, no coin filter (+ optional 14d min age)
 
 > **Phase 22 breakthrough:** Replacing lagged settled funding with `predicted_funding`
 > (running TWAP of 1m premium index since last 8h settlement + 0.0001 interest rate)
@@ -23,6 +24,13 @@ A cross-sectional long/short strategy on perpetual futures, exploiting **real-ti
 >
 > **Phase 23 finding:** Strategy untestable on 2024 data — 93/113 coins (meme/AI tokens)
 > did not exist in 2024. Edge is structural to the 2025+ perpetuals ecosystem.
+>
+> **Phase 24 finding:** N=10 is the Sharpe-optimal position count. Leverage scales PnL
+> but not Sharpe. Recommend 2× live (3× max). $10k → $352k in 15 months at 2×.
+>
+> **Phase 25 finding:** No coin filter improves risk-adjusted returns. Listing age filters
+> cut early losses but also cap monster months (Oct-25: +268% → +29%). Deploy unfiltered
+> with a soft 14d minimum listing age guard for live ramp-up.
 >
 > **What was rejected (Phases 11–21):** Dynamic leverage, asymmetric regime filter, BTC gate,
 > OI/vol/BTC-relative signals, funding_trend (too noisy), mean-reversion layer.
@@ -56,6 +64,8 @@ A cross-sectional long/short strategy on perpetual futures, exploiting **real-ti
 | **21 — Final stable** | **N=10 + inverse scaling: Sharpe 3.55, MaxDD -21%, 13/15 positive months, worst month -6.7%.** |
 | **22 — predicted_funding** | **Replace lagged settled rate with running premium TWAP + 0.0001. Sharpe 2.98→3.94, WF 3/4→4/4. Best config: 2×predicted_funding + mom_24h.** |
 | **23 — 2024 holdout** | **93/113 coins didn't exist in 2024. Only 20 coins available → cannot meaningfully backtest. Edge is structural to 2025+ alt ecosystem.** |
+| **24 — Leverage sweep** | **N=10 optimal (Sharpe 3.96). Sharpe invariant to leverage; N=10 2× yields $352k from $10k. Recommend max 3× live.** |
+| **25 — Coin filters** | **No filter wins on Sharpe (3.96). Min age 30d cuts Jan-25 losses (-18.6%→-2.2%) but halves final capital. Filters cut both tails. Deploy baseline + min 14d soft guard.** |
 
 ---
 
