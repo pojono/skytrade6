@@ -10,12 +10,12 @@
 A cross-sectional long/short strategy on perpetual futures, exploiting funding rate carry, short-term price momentum, and funding trend across a universe of ~113 coins (Majors excluded). The strategy is market-neutral by construction, rebalances every 8 hours aligned with Bybit funding settlements, and sits flat when regime conditions are unfavourable.
 
 **Final configuration (Jan 2025 – Mar 2026, correct time alignment, No-Majors):**
-- Net Sharpe: **3.47** (Phases 11–16 improved signal)
-- Sortino: **5.80**
-- Annualized return: **~1311%** (on notional; 1x unlevered)
-- Maximum drawdown: **-32.7%** (vs -46% of original baseline)
-- $1,000 → **$22,067** over 15 months
-- Win rate: **52.3%** of 8h bars
+- Net Sharpe: **3.55** (with inverse scaling — Phase 21)
+- Sortino: **6.00**
+- Maximum drawdown: **-21.1%** (vs -46% of original baseline)
+- $1,000 → **$10,404** over 15 months (lower $ due to scaling in monster months)
+- Win rate: **52.3%** of bars | Positive months: **13/15 (87%)**
+- Worst month: **-6.7%** | Best month: **+108%**
 
 > **Improvement over Phase 9 baseline (Sharpe 2.99):** Adding `funding_trend` as a 3rd signal
 > (weight 2:1:1 = funding:mom24h:funding_trend) improved MaxDD from -46% to -33% with negligible
@@ -46,6 +46,11 @@ A cross-sectional long/short strategy on perpetual futures, exploiting funding r
 | 14 — Monte Carlo | Permutation test: p < 0.001. Bootstrap 95% CI Sharpe entirely positive. Strategy is statistically robust. |
 | 15 — Capacity | Capacity limit ~$10M AUM (Sharpe -25%). Optimal: $1M–$5M. $100M+ breaks even. |
 | 16 — Final combined | **Best: 2×funding + mom_24h + funding_trend (2:1:1 weights). Sharpe 3.47, MaxDD -33%, $1k→$22k.** |
+| 17 — Adaptive N | Fixed N=5 best Sharpe (3.68) but MaxDD -59%. Adaptive N hurts. No gain from switching width. |
+| 18 — Sharpe sizing | Inverse scaling: reduce to 0.5× when rolling Sharpe > 5 or < 0. MaxDD -32% → -20%, Sharpe improves. |
+| 19 — MR layer | Mean-reversion (−mom_8h) alone: Sharpe -1.5, $1k→$91. Catastrophic. Rejected. |
+| 20 — Funding gate | High-funding bars earn MORE (46 bps). Gate is harmful. Low-funding gate marginal. |
+| **21 — Final stable** | **N=10 + inverse scaling: Sharpe 3.55, MaxDD -21%, 13/15 positive months, worst month -6.7%.** |
 
 ---
 
