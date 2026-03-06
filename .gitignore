@@ -35,6 +35,8 @@ grok-*/**/*.png
 grok-*/**/*.json
 gemini-*/**/*.png
 kimi-*/**/*.csv
+research_cross_section/**/*.csv
+*.npy
 
 # Data artifacts
 data_binance/
