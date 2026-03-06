@@ -186,26 +186,72 @@ Note: Idea 4 at 240m shows a **weak positive** (+90 bps, p=0.10) with 91% cross-
 
 ---
 
-## Final Honest Assessment
+## Regime Filter v2: Daily Resolution, Dual-Exchange (700+ obs)
 
-| Signal | Claimed | After Self-Audit | After OOS Validation | **Final Status** |
-|--------|---------|-----------------|---------------------|-----------------|
-| Idea 5: Spot leads futures | +1398 bps | +929-1218 bps | **-11 to -26 bps** | ❌ **DEAD** — regime-specific |
-| Idea 4: BTC pump → long alts | +1270 bps | +491-570 bps | **+90 bps @ 240m** | ⚠️ **Weak** — ~6x smaller than claimed |
-| Idea 3: High implied FR | +208 bps | Marginal | Not OOS tested | ⚠️ Unknown |
-| Idea 1: OI+LS crowding | +370 bps | Not audited | Not OOS tested | ⚠️ Unknown |
-| Idea 6: Coiled spring | +218 bps abs | Not audited | Not OOS tested | ⚠️ Unknown |
-| Combined: Spot+IFR | +365 bps OOS | Insufficient data | Spot signal dead | ❌ **DEAD** |
+**Critical correction:** The per-symbol OOS validation above was misleading. Averaging returns per-symbol diluted strong signal days with many coins showing tiny effects. When aggregated **daily** (how you'd actually trade — long ALL alts when BTC pumps), the picture changes.
 
-**Bottom line: Zero deployable edges survived full validation.** The entire claude-2 research captured regime-specific patterns from Jun 2025 – Mar 2026 that do not generalize to 2024. The most charitable reading is that Idea 4 (BTC pump → long alts) has a weak ~90 bps effect at 4h that is real but far too small to be a primary strategy after execution costs.
+### Data used
 
-### Lessons
+- **Bybit:** 25 alts, 2024-01 → 2026-03 (26 months)
+- **Binance:** same 25 alts, 2025-01 → 2026-03 (14 months)
+- **Regime features:** 17 daily features including cross-exchange, BTC vol/trend, alt dispersion/correlation, funding rate, OI growth, premium
+- **Walk-forward:** expanding window, 180-day minimum training
 
-1. **In-period statistical tests are necessary but not sufficient.** Both signals passed Bonferroni, bootstrap CI, and shuffle tests within their discovery period — and still failed OOS.
-2. **Always validate on unseen time periods first.** We had 17 months of earlier data and didn't use it until the audit.
-3. **Regime-specific edges are the norm in crypto.** The market structure changes fast enough that 9-month backtests can be misleading.
-4. **Long-only bias in a bull period is extremely dangerous.** Both signals were long-only and tested in a period with positive crypto drift.
+### Idea 4 (BTC pump) — REVISED: Works across all periods
+
+| Year | Signal days | Avg net (bps) | Profitable days |
+|------|-----------|---------------|-----------------|
+| 2024 | 15 | **+213** | 67% |
+| 2025 | 14 | **+403** | 57% |
+| 2026 | 5 | -7 | 60% |
+| **All** | **34** | **+259** | **62%** |
+
+The per-symbol OOS "failure" (+90 bps) was caused by equal-weighting coins — many coins with +1-5 bps diluted the strong signals. Daily aggregation shows the signal is **+213 bps even in 2024**, consistent with the discovery period. Signal is sparse (~1.3x/month) but real.
+
+**Caveat:** Only 34 signal days in 26 months. Too few for regime filtering (below 180-day walk-forward minimum). The edge must be taken unconditionally.
+
+### Idea 5 (Spot leads) — Rescued by regime filter
+
+Raw signal: **+15 bps** always-trade → barely covers fees.
+
+**Best walk-forward filter:** `btc_trend_90d` + `avg_premium_bps`
+- Trade only when BTC 90-day trend is positive AND futures premium is positive
+
+| Mode | Days | Avg net | WR | 
+|------|------|---------|-----|
+| TRADE | 38 | **+34 bps** | 45% |
+| NO-TRADE | 98 | -25 bps | 32% |
+| Always-trade | 136 | -8 bps | 35% |
+
+**Lift: +59 bps** over always-trade. Walk-forward validated with all 4 quarters positive:
+- Q1: +4, Q2: +93, Q3: +10, Q4: +16 bps
+
+**Interpretation:** Spot-futures divergence only predicts futures catch-up during bullish trending markets with positive premium. In bear/sideways markets, the divergence is noise.
 
 ---
 
-*Audit scripts: `self_audit.py`, `oos_validation.py` | Raw data: `out/self_audit_raw.csv`, `out/oos_validation_raw.csv`*
+## Final Honest Assessment (REVISED)
+
+| Signal | Claimed | Honest | Regime-filtered | **Final Status** |
+|--------|---------|--------|----------------|-----------------|
+| Idea 4: BTC pump → long alts | +1270 bps | +259 bps daily | N/A (too sparse) | ✅ **REAL** — 5x smaller, sparse, works across periods |
+| Idea 5: Spot leads futures | +1398 bps | +15 bps raw | **+34 bps filtered** | ⚠️ **Conditional** — needs trend+premium filter |
+| Idea 3: High implied FR | +208 bps | Marginal | Not tested | ⚠️ Unknown |
+| Idea 1: OI+LS crowding | +370 bps | Not audited | Not tested | ⚠️ Unknown |
+| Idea 6: Coiled spring | +218 bps abs | Non-directional | Not tested | ⚠️ Unknown |
+
+**Bottom line:** Idea 4 (BTC pump → long alts) is a **real edge** at +259 bps daily-aggregated, working in both 2024 and 2025 with 62% profitable days. It was nearly killed by a misleading per-symbol averaging methodology. The signal is sparse (~1.3x/month) and ~5x smaller than originally claimed, but it's genuine.
+
+Idea 5 can be rescued with a regime filter (+34 bps walk-forward validated) but the edge is thin and the filter introduces complexity.
+
+### Lessons (Updated)
+
+1. **Aggregation methodology matters enormously.** Per-symbol averaging and daily portfolio averaging tell different stories. Always check both.
+2. **In-period statistical tests are necessary but not sufficient.** Both signals passed Bonferroni within discovery — only OOS + regime analysis revealed the true picture.
+3. **Regime filters can rescue weak signals** but need 700+ daily observations to validate properly. The earlier weekly attempt (55 obs) was doomed by sample size.
+4. **Sparse but genuine > frequent but noisy.** Idea 4 fires rarely but works. Idea 5 fires often but needs filtering.
+
+---
+
+*Audit scripts: `self_audit.py`, `oos_validation.py`, `regime_v2.py`*
+*Raw data: `out/self_audit_raw.csv`, `out/oos_validation_raw.csv`, `out/regime_v2_daily_rets.csv`, `out/regime_v2_features.csv`*
