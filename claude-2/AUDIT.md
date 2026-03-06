@@ -244,14 +244,87 @@ Raw signal: **+15 bps** always-trade → barely covers fees.
 
 Idea 5 can be rescued with a regime filter (+34 bps walk-forward validated) but the edge is thin and the filter introduces complexity.
 
-### Lessons (Updated)
+---
 
-1. **Aggregation methodology matters enormously.** Per-symbol averaging and daily portfolio averaging tell different stories. Always check both.
-2. **In-period statistical tests are necessary but not sufficient.** Both signals passed Bonferroni within discovery — only OOS + regime analysis revealed the true picture.
-3. **Regime filters can rescue weak signals** but need 700+ daily observations to validate properly. The earlier weekly attempt (55 obs) was doomed by sample size.
-4. **Sparse but genuine > frequent but noisy.** Idea 4 fires rarely but works. Idea 5 fires often but needs filtering.
+## Comprehensive Signal Sweep (all_signals_regime.py)
+
+Tested ALL signals across full 2024-01 → 2026-03, both exchanges, with T+1 entry + 30-bar declustering:
+
+| Signal | Days | Net bps | WR | Prof% | 2024 | 2025 | 2026 | Status |
+|--------|------|---------|-----|-------|------|------|------|--------|
+| **Idea 4: BTC pump** | 34 | **+269** | 64% | 62% | +213 | +427 | -7 | ✅ Only survivor |
+| Idea 5: Spot leads | 315 | +16 | 52% | 48% | +509 | +10 | -10 | ⚠️ Marginal |
+| Idea 3: Implied FR | 283 | -4 | 48% | 44% | -12 | 0 | +6 | ❌ Dead |
+| Idea 6: Coiled spring | 634 | -18 | 50% | 31% | -15 | -19 | -20 | ❌ Dead |
+| Idea 1: L/S crowding | 0 | — | — | — | — | — | — | ❌ No signals |
+| Cross-exchange diverge | 428 | -20 | 50% | 5% | — | -19 | -23 | ❌ Dead |
+
+**Only Idea 4 works unconditionally.** No regime filter improves it.
 
 ---
 
-*Audit scripts: `self_audit.py`, `oos_validation.py`, `regime_v2.py`*
-*Raw data: `out/self_audit_raw.csv`, `out/oos_validation_raw.csv`, `out/regime_v2_daily_rets.csv`, `out/regime_v2_features.csv`*
+## Tick-Level Entry Optimization (tick_entry_optimize.py)
+
+Analyzed alt reaction speed at tick level (ms-precision) across 23 BTC pump events × 10 alts.
+
+### Alt reaction curve after BTC pump
+
+| Window | Avg return | Net (after fees) | WR |
+|--------|-----------|-----------------|-----|
+| +1s | -6 bps | -26 | 57% |
+| +10s | **+28 bps** | **+8** ✅ | 82% |
+| +30s | **+104 bps** | **+84** ✅ | 97% |
+| +1m | **+169 bps** | **+149** ✅ | 98% |
+| +5m | +246 bps | +226 | 85% |
+| +30m | +403 bps | +383 | 76% |
+| +4h | +434 bps | +414 | 70% |
+
+**Entry is profitable from +10 seconds. Sweet spot: +30s to +1m (97-98% WR).**
+
+### Slowest reactors = best targets
+
+| Alt | % captured at +30s | Total at +4h |
+|-----|-------------------|-------------|
+| XRPUSDT | 7% | +371 bps |
+| SUIUSDT | 15% | +827 bps |
+| ARBUSDT | 16% | +660 bps |
+| LINKUSDT | 16% | +567 bps |
+| SOLUSDT | 74% | +144 bps (avoid — reacts fast) |
+
+### Orderbook analysis
+
+Attempted L2 orderbook imbalance signal — data is 99.8% delta updates with only 1 full snapshot/day. Full book reconstruction needed; deprioritized given diminishing returns.
+
+---
+
+## Final Production Recommendation
+
+**Idea 4: BTC pump → long alts** is the only validated, deployable edge:
+
+- **Signal:** BTC 3-minute return > 150 bps
+- **Action:** Market-buy slow-reactor alts (XRP, SUI, ARB, LINK) within 30s–1m
+- **Hold:** 30m–4h (peak returns at +30m, curve flattens after)
+- **Expected:** +269 bps daily avg, 62% profitable days, ~1.3 events/month
+- **Entry timing:** Profitable from +10s (82% WR), optimal at +30s (97% WR)
+- **Avoid:** SOL (reacts too fast, 74% captured at +30s), 2026 recent months show weakening
+
+### Caveats
+
+1. **Only 34 signal days in 26 months** — statistically thin despite consistent 2024+2025 performance
+2. **Long-only** — only works on BTC pumps, not dumps
+3. **Execution risk** — requires real-time BTC monitoring and sub-minute alt execution
+4. **Capacity** — unclear how much size the market can absorb before moving price
+
+### Lessons (Updated)
+
+1. **Aggregation methodology matters enormously.** Per-symbol averaging and daily portfolio averaging tell different stories.
+2. **In-period tests are necessary but not sufficient.** Both signals passed Bonferroni within discovery and still failed OOS.
+3. **Regime filters can rescue weak signals** but need 700+ daily observations.
+4. **Sparse but genuine > frequent but noisy.** Idea 4 fires rarely but works.
+5. **Tick data reveals actionable entry timing.** Entry at +30s captures 24% of the move with 97% WR — sub-minute execution matters.
+6. **Most signals don't survive full validation.** Of 8 ideas + 1 new cross-exchange signal, only 1 survived.
+
+---
+
+*Scripts: `self_audit.py`, `oos_validation.py`, `regime_v2.py`, `all_signals_regime.py`, `tick_entry_optimize.py`, `orderbook_signal.py`*
+*Data: `out/self_audit_raw.csv`, `out/oos_validation_raw.csv`, `out/regime_v2_daily_rets.csv`, `out/all_signals_daily.csv`, `out/tick_entry_optimize.csv`*
