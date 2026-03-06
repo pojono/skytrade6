@@ -1,23 +1,29 @@
 # Strategy Specification: Cross-Sectional Funding + Momentum
 
 **Date:** 2026-03-06
-**Status:** Research complete (Phases 1–8) — ready for live implementation
+**Status:** Research complete (Phases 1–9) — ready for live implementation
 
 ---
 
 ## Executive Summary
 
-A cross-sectional long/short strategy on perpetual futures, exploiting funding rate carry and short-term price momentum across a filtered universe of ~105 coins. The strategy is market-neutral by construction, rebalances every 8 hours aligned with Bybit funding settlements, and sits flat when regime conditions are unfavourable.
+A cross-sectional long/short strategy on perpetual futures, exploiting funding rate carry and short-term price momentum across a universe of ~113 coins (Majors excluded). The strategy is market-neutral by construction, rebalances every 8 hours aligned with Bybit funding settlements, and sits flat when regime conditions are unfavourable.
 
-**Final configuration (OOS walk-forward, Jan 2025 – Jan 2026):**
-- Net Sharpe: **4.31** (3 of 4 OOS windows positive)
-- Annualized return: **~417%** (on notional; scales with leverage)
-- Maximum drawdown: **-18.1%** (regime filter active)
-- Active: **~28% of 8h bars** (flat otherwise, no cost when inactive)
+**Final configuration (OOS walk-forward, zero look-ahead, Jan 2025 – Jan 2026):**
+- Net Sharpe: **2.99** (4 of 4 OOS windows positive)
+- Annualized return: **~260%** (on notional; scales with leverage)
+- Maximum drawdown: **-46%** (without regime filter) / **~-24%** (with regime filter, see Phase 5)
+- Active: 100% of bars without regime filter; ~28% with
+
+> **Note on Phase 8 numbers (Sharpe 4.31, MaxDD -18%):** These used a fixed exclusion list
+> (18 Majors + 8 worst meme coins) identified from full-history P&L — partial look-ahead.
+> Phase 9 showed that *rolling* data-driven coin exclusion does not improve OOS performance.
+> The Majors exclusion is structural and valid; the worst-meme exclusion is not forward-applicable.
+> Honest baseline: **Sharpe 2.99 / MaxDD -46%** (No-Majors only, rolling walk-forward).
 
 ---
 
-## Research Summary (Phases 1–8)
+## Research Summary (Phases 1–9)
 
 | Phase | Finding |
 |-------|---------|
@@ -25,32 +31,28 @@ A cross-sectional long/short strategy on perpetual futures, exploiting funding r
 | 2 — Portfolio backtest | funding + mom_24h equal-weight: Sharpe 3.27, 4/4 OOS positive |
 | 3 — Execution | 8h rebal, N=10, equal-weight, maker-only. Capacity >$100M. Fee-robust to any fill rate. |
 | 4 — Monthly breakdown | 11/15 months positive. Monster months in Sep/Oct 2025, Jan 2026. Bad months: May, Jul 2025. |
-| 5 — Regime filter | signal_strength + funding_disp: Sharpe 3.27 → 3.27, MaxDD -46% → -25% |
-| 6 — Cluster analysis | Majors (BTC/ETH/SOL) net **negative** (-3,692 bps). Meme/AI/Legacy drive all alpha. |
-| 7 — Universe filter | Removing 18 Majors + 8 worst meme coins: Sharpe 2.75 → 3.84, DD -46% → -35% |
-| 8 — Combined | Universe filter + regime filter: Sharpe 2.75 → **4.31**, DD -46% → **-18%** |
+| 5 — Regime filter | signal_strength + funding_disp (walk-forward): MaxDD -46% → -25%, Sharpe +1.0 on filtered bars |
+| 6 — Cluster analysis | Majors (BTC/ETH/SOL) net **negative** (-3,692 bps, Sharpe -1.86). Meme/AI/Legacy drive all alpha. |
+| 7 — Universe filter | Removing 18 Majors + 8 worst meme coins: Sharpe 2.75 → 3.84 **(partial look-ahead in coin list)** |
+| 8 — Combined | Universe + regime filter: Sharpe → 4.31, MaxDD → -18% **(partial look-ahead — see Phase 9)** |
+| 9 — Rolling universe | Proper walk-forward coin selection. Rolling exclusion **does not help** OOS. Only Majors exclusion survives: Sharpe 2.99, 4/4 windows. |
 
 ---
 
 ## Universe
 
-**105 coins** — all Bybit perpetuals with 400+ day history, minus:
+**113 coins** — all Bybit perpetuals with 400+ day history, minus 18 Majors.
 
-**Excluded: 18 Majors** (net negative alpha, Sharpe -1.86)
+**Excluded: 18 Majors** (structural exclusion — no look-ahead required)
 ```
 BTCUSDT ETHUSDT BNBUSDT SOLUSDT XRPUSDT ADAUSDT DOGEUSDT AVAXUSDT
 DOTUSDT LTCUSDT BCHUSDT TRXUSDT XLMUSDT ETCUSDT HBARUSDT ATOMUSDT
 ALGOUSDT EGLDUSDT
 ```
 
-**Excluded: 8 worst meme coins** (responsible for July 2025 -30% cluster crash)
-```
-PENGUUSDT BANUSDT RESOLVUSDT WIFUSDT MEMEUSDT SPXUSDT APEXUSDT SIGNUSDT
-```
+**Why Majors are excluded (structural argument):** BTC/ETH/SOL have deep liquidity and are heavily traded across all timeframes. At the 8h cross-sectional scale, their moves are dominated by market-wide flows rather than the funding + momentum microstructure the strategy exploits. Phase 6 confirmed this empirically: Majors occupy 59% of long slots but deliver net -3,692 bps total contribution (Sharpe -1.86). Phase 9 confirmed the exclusion holds walk-forward (Sharpe 2.75 → 2.99, 4/4 OOS windows).
 
-**Why Majors are excluded:** BTC/ETH/SOL are selected as longs 59% of the time (high funding + momentum rank) but mean-revert at 8h scale. Every bar one of them occupies a long slot costs the strategy. They have deep liquidity but zero edge in this cross-sectional framework.
-
-**Universe recalibration:** Every 6 months, rank all available coins by trailing 6-month per-coin Sharpe contribution. Promote/demote coins from the universe accordingly.
+**Why NOT to dynamically exclude other coins:** Phase 9 tested rolling exclusion of negative-contribution coins. It *hurts* OOS performance — a coin that underperformed in training months often recovers in OOS. Past per-coin P&L does not predict future per-coin P&L at 3-month horizon. The 8 worst meme coins identified in Phase 6 (PENGU, BAN, etc.) were identified with full hindsight and cannot be used for live filtering.
 
 ---
 
@@ -160,23 +162,32 @@ trade = (signal_strength_t > θ₁) AND (funding_disp_t > θ₂)
 
 ## Expected Performance (Steady State)
 
-*Walk-forward OOS, Combined configuration, Jan 2025 – Jan 2026:*
+*All figures from walk-forward OOS (zero look-ahead). Two configurations:*
 
+### Conservative (honest): No-Majors only, no regime filter
 | Metric | Value |
 |--------|-------|
-| OOS Sharpe | **4.31** |
-| OOS Sortino | **7.03** |
-| OOS Ann. Return (notional) | **~417%** |
-| OOS Max Drawdown | **-18.1%** |
-| Active bars | ~28% of 8h periods |
-| Win rate (active bars) | ~55% |
-| Typical active streak | 2–6 consecutive 8h bars |
+| OOS Sharpe | **2.99** |
+| OOS Sortino | **4.83** |
+| OOS Ann. Return | **~260%** |
+| OOS Max Drawdown | **-46%** |
+| Active bars | 100% |
+| Positive OOS windows | 4/4 |
+| Positive months | 9/13 (69%) |
 
-**Monthly record (OOS):**
-- Positive months: **10/13** (77%)
-- Best month: Oct 2025 +103%
-- Worst month: Apr 2025 +2% (barely active)
-- Bad baseline months (May -15%, Jul -17%) → Combined: +2%, 0% (flat/inactive)
+### With regime filter (signal_strength + funding_disp, walk-forward thresholds)
+*Note: regime filter thresholds are fit per training window — valid walk-forward.*
+| Metric | Value |
+|--------|-------|
+| OOS Sharpe | **~3.3–4.3** (depends on regime window quality) |
+| OOS Max Drawdown | **~-20 to -25%** |
+| Active bars | ~28% |
+| Effect on bad months | May/Jul 2025 losses largely avoided (flat) |
+
+**Monthly record (OOS, No-Majors baseline):**
+- Positive months: **9/13** (69%)
+- Best month: Oct 2025 +146%
+- Worst month: Jul 2025 -21%
 
 ---
 
@@ -238,6 +249,8 @@ Worst individual coins: PENGUUSDT, BANUSDT, RESOLVUSDT (all excluded from live u
 **5. Funding rate compression risk.** If the market enters a sustained bear regime with negative funding, the carry signal flips. Monitor average universe funding rate; if negative for >2 weeks, pause strategy and review.
 
 **6. Four OOS windows.** Walk-forward validation covers Jan 2025 – Jan 2026 (4 quarterly windows). More history would increase confidence. Paper trade for 1 quarter before deploying capital.
+
+**7. Look-ahead in Phase 7–8 results.** Sharpe 3.84–4.31 from those phases used coin exclusion lists derived from full-history P&L (PENGU, BAN, etc.). Phase 9 proved this does not survive walk-forward. The strategy spec now uses only the structural Majors exclusion. The Phase 5 regime filter is valid (thresholds fit per training window on signal features, not coin identity).
 
 ---
 
