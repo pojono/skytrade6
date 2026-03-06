@@ -253,28 +253,43 @@ def main():
     print(f"2025+ bars     : {len(fund_8h['2025-01-01':])}")
     print()
 
-    # Composite (Phase 21 frozen)
+    # Composite (Phase 21 frozen config: 2×funding + mom_24h + funding_trend, 2:1:1)
+    # NaN-safe: if funding_trend is flat cross-sectionally (as in 2024 when funding
+    # was uniformly capped), we fill its z-score with 0 (neutral) so the other two
+    # signals still drive the composite. This is correct — a missing signal should
+    # contribute nothing, not poison the whole composite.
     z_fund = cs_zscore(fund_8h)
-    z_ft   = cs_zscore(ft_8h)
-    z_mom  = cs_zscore(mom_8h)
+    z_ft   = cs_zscore(ft_8h).fillna(0)   # 0 = neutral when cross-section is flat
+    z_mom  = cs_zscore(mom_8h).fillna(0)
+    # Mask bars where the primary signal (funding) is also unavailable
     composite = (2 * z_fund + z_mom + z_ft) / 4
+    composite[z_fund.isna()] = np.nan
+
+    # How many coins are valid at each period?
+    valid_2024 = (fund_8h["2024-01-01":"2024-12-31"].notna().sum(axis=1) > 0).sum()
+    n_coins_2024 = fund_8h["2024-01-01":"2024-12-31"].notna().any().sum()
+    n_coins_2025 = fund_8h["2025-01-01":].notna().any().sum()
+    print(f"Coins with ANY 2024 data : {n_coins_2024}")
+    print(f"Coins with ANY 2025 data : {n_coins_2025}")
+    print(f"NOTE: Most alpha coins (meme/AI/infra) launched in 2025 — 2024 universe is much smaller.")
+    print()
 
     # -----------------------------------------------------------------------
     # Run three time periods
     # -----------------------------------------------------------------------
-    periods = [
-        ("2024-01-01", "2024-12-31", "2024 holdout (OOS)"),
-        ("2025-01-01", "2026-03-06", "2025–2026 (in-sample ref)"),
-        ("2024-01-01", "2026-03-06", "2024+2025 combined"),
-    ]
-
+    # 2024: use n=8 (need 16 valid rows; we have ~20 coins available)
+    # 2025+: use n=10 as before
     results = {}
-    for s, e, label in periods:
+    for s, e, label, n in [
+        ("2024-01-01", "2024-12-31", "2024 holdout (OOS)", 8),
+        ("2025-01-01", "2026-03-06", "2025–2026 (in-sample ref)", 10),
+        ("2024-01-01", "2026-03-06", "2024+2025 combined", 10),
+    ]:
         comp_p = composite[s:e]
         fwd_p  = fwd_8h[s:e]
-        r0     = sim(comp_p, fwd_p, n=10)
+        r0     = sim(comp_p, fwd_p, n=n)
         scale  = build_inverse_scale(r0)
-        r      = sim(comp_p, fwd_p, n=10, scale_series=scale)
+        r      = sim(comp_p, fwd_p, n=n, scale_series=scale)
         results[label] = (r, port_stats(r, label))
 
     # -----------------------------------------------------------------------

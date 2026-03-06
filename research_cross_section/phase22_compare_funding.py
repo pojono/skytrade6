@@ -181,11 +181,14 @@ def wf_test(composite_fn, fwd_8h, label):
 
 def main():
     print("Loading V1 panels (funding, mom_24h, fwd_8h) ...")
-    v1 = load_panels(SIGNALS_V1, ["funding", "funding_trend", "mom_24h", "close", "fwd_8h"])
+    v1 = load_panels(SIGNALS_V1, ["funding", "mom_24h", "close", "fwd_8h"])
 
     print("Loading V2 panels (predicted_funding, cum24h, cum72h, predicted_ft) ...")
     v2 = load_panels(SIGNALS_V2, ["predicted_funding", "funding_cum24h",
                                    "funding_cum72h", "predicted_ft"])
+
+    # Compute funding_trend inline (24h diff of hourly funding panel)
+    v1["funding_trend"] = v1["funding"].diff(24)
 
     # Align to 8h
     def r8(p): return to_8h(p)
