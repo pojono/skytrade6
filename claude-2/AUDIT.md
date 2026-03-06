@@ -148,25 +148,64 @@ All numbers are **net of 20 bps round-trip taker fees**, with **T+1 entry** and 
 
 ---
 
-## Final Honest Assessment
+## Out-of-Sample Validation: Bybit 2024-01 → 2025-05 (UNSEEN)
 
-| Signal | Claimed | Honest | Status |
-|--------|---------|--------|--------|
-| Idea 4: BTC pump → long alts | +1270 bps excess | **+491-570 bps** | ✅ Real, overstated 2x |
-| Idea 5: Spot leads futures | +1398 bps | **+929-1218 bps** | ✅ Real, barely degraded |
-| Idea 3: High implied FR | +208 bps | **+457-626 bps** | ⚠️ Marginal significance |
-| Idea 1: OI+LS crowding | +370 bps | Not re-audited | ⚠️ Unknown after corrections |
-| Idea 6: Coiled spring | +218 bps abs | Not re-audited | ⚠️ Non-directional |
-| Combined: Spot+IFR | +365 bps OOS | **Insufficient data** | ❌ Unproven |
+**Critical test:** Both signals were discovered on 2025-06 → 2026-03. We ran them on the completely unseen earlier Bybit data (17 months, 23-24 coins) with the same audit corrections (T+1 entry, 30m declustering, shuffle test).
 
-**Bottom line:** Two signals survive rigorous self-audit:
+### Results
 
-1. **Spot leads futures (Idea 5)** is the strongest, with +929 to +1218 bps honest edge, p≈0.000, and 63-74% monthly consistency. It's barely affected by entry delay because the catch-up is slow and persistent.
+| Signal | Horizon | Discovery net | **OOS net** | OOS WR | OOS p-value | Verdict |
+|--------|---------|--------------|------------|--------|-------------|---------|
+| Idea 5: Spot leads | 30m | +886 bps | **-26 bps** | 43% | 0.49 | ❌ FAILED |
+| Idea 5: Spot leads | 60m | +950 bps | **-22 bps** | 48% | 0.42 | ❌ FAILED |
+| Idea 5: Spot leads | 240m | +1152 bps | **-11 bps** | 52% | 0.39 | ❌ FAILED |
+| Idea 4: BTC pump | 30m | +563 bps | **-43 bps** | 50% | 0.64 | ❌ FAILED |
+| Idea 4: BTC pump | 60m | +482 bps | **+8 bps** | 47% | 0.32 | ❌ FAILED |
+| Idea 4: BTC pump | 240m | +553 bps | **+90 bps** | 56% | 0.10 | ⚠️ Marginal |
 
-2. **BTC pump → long alts (Idea 4)** is real but roughly half of what was claimed, at +491 to +570 bps honest. Entry delay and declustering are the main haircuts. Still passes Bonferroni.
+### Per-Symbol OOS (240m)
 
-3. Everything else is either marginal (Idea 3), untested after corrections (Ideas 1, 6), or unproven (combined signals).
+- **Idea 4:** 21/23 coins positive in OOS (91%) — but returns are tiny (~+90 bps avg vs +553 in discovery). The cross-symbol consistency suggests a real but much weaker effect.
+- **Idea 5:** Only 5/13 coins positive (38%) — the signal completely breaks down. Many coins that were strong in discovery (AVAX +2546, AAVE +2260) flip to negative in OOS.
+
+### Monthly Consistency OOS
+
+- Idea 4: 58% of months profitable, worst month: -133 bps
+- Idea 5: 55% of months profitable, worst month: -95 bps
+
+### Interpretation
+
+**Neither signal generalizes to the 2024 period.** The edges were regime-specific to Jun 2025 – Mar 2026.
+
+Possible explanations:
+1. **Market regime change:** 2024 had different volatility/correlation structure than 2025-26
+2. **Structural change:** Spot-futures microstructure may have evolved (new market makers, different fee tiers, different participant mix)
+3. **Overfitting to regime:** Despite passing in-period statistical tests, the signal was capturing a temporary market characteristic, not a persistent structural edge
+
+Note: Idea 4 at 240m shows a **weak positive** (+90 bps, p=0.10) with 91% cross-symbol consistency — this hints that the BTC-to-alt propagation effect may be partially real but much smaller and noisier than the discovery period suggested.
 
 ---
 
-*Audit script: `self_audit.py` | Raw data: `out/self_audit_raw.csv`*
+## Final Honest Assessment
+
+| Signal | Claimed | After Self-Audit | After OOS Validation | **Final Status** |
+|--------|---------|-----------------|---------------------|-----------------|
+| Idea 5: Spot leads futures | +1398 bps | +929-1218 bps | **-11 to -26 bps** | ❌ **DEAD** — regime-specific |
+| Idea 4: BTC pump → long alts | +1270 bps | +491-570 bps | **+90 bps @ 240m** | ⚠️ **Weak** — ~6x smaller than claimed |
+| Idea 3: High implied FR | +208 bps | Marginal | Not OOS tested | ⚠️ Unknown |
+| Idea 1: OI+LS crowding | +370 bps | Not audited | Not OOS tested | ⚠️ Unknown |
+| Idea 6: Coiled spring | +218 bps abs | Not audited | Not OOS tested | ⚠️ Unknown |
+| Combined: Spot+IFR | +365 bps OOS | Insufficient data | Spot signal dead | ❌ **DEAD** |
+
+**Bottom line: Zero deployable edges survived full validation.** The entire claude-2 research captured regime-specific patterns from Jun 2025 – Mar 2026 that do not generalize to 2024. The most charitable reading is that Idea 4 (BTC pump → long alts) has a weak ~90 bps effect at 4h that is real but far too small to be a primary strategy after execution costs.
+
+### Lessons
+
+1. **In-period statistical tests are necessary but not sufficient.** Both signals passed Bonferroni, bootstrap CI, and shuffle tests within their discovery period — and still failed OOS.
+2. **Always validate on unseen time periods first.** We had 17 months of earlier data and didn't use it until the audit.
+3. **Regime-specific edges are the norm in crypto.** The market structure changes fast enough that 9-month backtests can be misleading.
+4. **Long-only bias in a bull period is extremely dangerous.** Both signals were long-only and tested in a period with positive crypto drift.
+
+---
+
+*Audit scripts: `self_audit.py`, `oos_validation.py` | Raw data: `out/self_audit_raw.csv`, `out/oos_validation_raw.csv`*
