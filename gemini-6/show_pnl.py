@@ -1,0 +1,129 @@
+import pandas as pd
+import numpy as np
+import os
+from datetime import timedelta
+
+FEAT_DIR = "/home/ubuntu/Projects/skytrade6/gemini-6/features"
+all_files = [f for f in os.listdir(FEAT_DIR) if f.endswith('_1m.parquet')]
+ALL_SYMBOLS = [f.replace('_1m.parquet', '') for f in all_files]
+
+all_events = []
+daily_metrics_list = []
+
+for sym in ALL_SYMBOLS:
+    file_path = os.path.join(FEAT_DIR, f"{sym}_1m.parquet")
+    if not os.path.exists(file_path): continue
+    df = pd.read_parquet(file_path)
+    if len(df) < 30 * 24 * 60: continue
+    
+    df['proxy_vol'] = df['spot_whale_cvd'].abs() + df['spot_retail_cvd'].abs()
+    daily = df.resample('D').agg({
+        'price': ['last', 'std'],
+        'proxy_vol': 'sum'
+    })
+    daily.columns = ['close', 'price_std', 'proxy_volume']
+    daily['volatility'] = daily['price_std'] / daily['close']
+    daily['symbol'] = sym
+    daily = daily.dropna()
+    daily_metrics_list.append(daily)
+    
+    rolling_window = 4 * 60
+    df['roll_fut_whale'] = df['fut_whale_cvd'].rolling(rolling_window).sum()
+    df['roll_fut_retail'] = df['fut_retail_cvd'].rolling(rolling_window).sum()
+    
+    z_window = 3 * 24 * 60
+    df['fut_whale_mean'] = df['roll_fut_whale'].rolling(z_window, min_periods=rolling_window).mean()
+    df['fut_whale_std'] = df['roll_fut_whale'].rolling(z_window, min_periods=rolling_window).std()
+    df['fut_whale_z'] = (df['roll_fut_whale'] - df['fut_whale_mean']) / df['fut_whale_std']
+    
+    df['fut_retail_mean'] = df['roll_fut_retail'].rolling(z_window, min_periods=rolling_window).mean()
+    df['fut_retail_std'] = df['roll_fut_retail'].rolling(z_window, min_periods=rolling_window).std()
+    df['fut_retail_z'] = (df['roll_fut_retail'] - df['fut_retail_mean']) / df['fut_retail_std']
+    
+    df['spot_whale_1h_avg'] = df['spot_whale_cvd'].abs().rolling(60).mean()
+    
+    bullish_div = (
+        (df['fut_retail_z'] < -1.5) & 
+        (df['fut_whale_z'] > 1.5) &
+        (df['spot_whale_cvd'] > df['spot_whale_1h_avg'] * 3.0) &
+        (df['spot_whale_cvd'] > 0)
+    )
+    
+    def filter_signals(signals, wait_time=120):
+        filtered = pd.Series(False, index=signals.index)
+        last_sig_time = None
+        for i, (idx, val) in enumerate(signals.items()):
+            if val:
+                if last_sig_time is None or (idx - last_sig_time).total_seconds() / 60 > wait_time:
+                    filtered[idx] = True
+                    last_sig_time = idx
+        return filtered
+
+    df['bull_sig'] = filter_signals(bullish_div, 120)
+    events = df[df['bull_sig']].copy()
+    
+    if len(events) == 0: continue
+        
+    dyn_rets = []
+    for idx in events.index:
+        exec_idx = idx + timedelta(minutes=1)
+        if exec_idx not in df.index: continue
+        entry_price = df.loc[exec_idx, 'price']
+        
+        future_df = df.loc[exec_idx:].iloc[1:720]
+        exit_candidates = future_df[future_df['fut_retail_z'] > 0]
+        
+        if len(exit_candidates) > 0:
+            exit_price = df.loc[exit_candidates.index[0], 'price']
+        else:
+            exit_price = future_df['price'].iloc[-1] if len(future_df) > 0 else entry_price
+        
+        net_ret = (exit_price / entry_price) - 1 - 0.0024
+        dyn_rets.append(net_ret)
+        
+    if len(dyn_rets) < len(events):
+        events = events.iloc[:len(dyn_rets)]
+        
+    events['net_ret'] = dyn_rets
+    events['symbol'] = sym
+    events['timestamp'] = events.index + timedelta(minutes=1)
+    all_events.append(events[['symbol', 'timestamp', 'net_ret']])
+    
+df_metrics = pd.concat(daily_metrics_list)
+df_events = pd.concat(all_events).sort_values('timestamp')
+
+df_metrics['score'] = df_metrics['proxy_volume'] * df_metrics['volatility']
+
+start_date = df_events['timestamp'].min().replace(hour=0, minute=0, second=0)
+end_date = df_events['timestamp'].max()
+trading_start_date = start_date + timedelta(days=30)
+current_date = trading_start_date
+
+accepted_trades = []
+
+while current_date < end_date:
+    next_update = current_date + timedelta(days=1)
+    lookback_start = current_date - timedelta(days=1)
+    mask = (df_metrics.index >= lookback_start) & (df_metrics.index < current_date)
+    hist_metrics = df_metrics[mask]
+    
+    if len(hist_metrics) > 0:
+        coin_scores = hist_metrics.groupby('symbol')['score'].mean().sort_values(ascending=False)
+        allowed_coins = [c for c in coin_scores.index if c not in ['BTCUSDT', 'ETHUSDT']]
+        top_universe = allowed_coins[:12]
+        
+        week_mask = (df_events['timestamp'] >= current_date) & (df_events['timestamp'] < next_update)
+        week_trades = df_events[week_mask]
+        
+        for _, trade in week_trades.iterrows():
+            if trade['symbol'] in top_universe:
+                accepted_trades.append(trade)
+                
+    current_date = next_update
+    
+df_accepted = pd.DataFrame(accepted_trades)
+if len(df_accepted) > 0:
+    print(f"Total Trades: {len(df_accepted)}")
+    print(f"Win Rate: {(df_accepted['net_ret'] > 0).mean() * 100:.1f}%")
+    print(f"Avg Net Edge: {df_accepted['net_ret'].mean() * 100:.2f}%")
+    print(f"Total Net PnL ($10k size): ${df_accepted['net_ret'].sum() * 10000:,.0f}")
