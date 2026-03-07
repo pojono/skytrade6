@@ -157,3 +157,24 @@ We ran the exact same slippage simulation reconstructing the L2 `ob200` tick-by-
 The signal originates from Binance Spot flow, but the optimal execution venue is **Bybit Futures**. 
 
 By routing the market orders to Bybit, the total execution drag drops from ~113 bps to just ~24 bps for a $10,000 clip. The absolute maximum capacity remains capped at **~$75,000 per trade**, as Bybit's orderbook also runs out of depth beyond that point, degrading the edge to zero. 
+
+## 8. Reality Check: What Are We Missing?
+While the backtest shows a highly profitable +$25k edge, live microstructure trading is notoriously unforgiving. Here are the three primary hidden risks that could degrade this strategy in production:
+
+### 1. The Cross-Exchange Latency Penalty
+The strategy requires reading tick data on Binance Spot and instantly firing a Market Buy on Bybit Futures. 
+*   **The Risk:** The fastest HFTs (High-Frequency Traders) are co-located in Tokyo (Binance) and Singapore (Bybit). If your infrastructure is hosted in AWS us-east-1, you will suffer a ~200ms latency penalty.
+*   **The Reality:** In a violent short squeeze, 200ms is an eternity. By the time your order reaches Bybit, the HFTs who saw the Binance Spot print 150ms before you will have already eaten the top of the Bybit orderbook. Your slippage will double or triple, completely erasing the alpha.
+*   **Solution:** You must run this engine on a Tokyo/Singapore cross-connected server.
+
+### 2. "Ghost Liquidity" in the Orderbook
+Our slippage simulation relied on Bybit's historical `ob200` snapshots. 
+*   **The Risk:** In extreme volatility, market makers pull their liquidity (spooking). The $50k of asks you see in the snapshot might be cancelled in the 10ms it takes your market order to arrive.
+*   **The Reality:** The slippage we calculated (13 bps for $10k) is the *best-case scenario*. If liquidity is pulled, your market order will pierce much deeper into the book.
+*   **Solution:** Hard-cap the market order size at $10k-$20k. Never assume the book depth is solid.
+
+### 3. Selection Bias (Survivorship of Cult Coins)
+We selected the "Top 12" universe based on their 9-month performance.
+*   **The Risk:** We know BERA and ZK squeezed well *in hindsight* because they were the narrative darlings of this specific 9-month window. 
+*   **The Reality:** If you ran this strategy blindly into the next 9 months, BERA might be dead, and the new cult coins won't be in your whitelist. If you accidentally include a dying mid-cap in your Top 12, the strategy will incur the "Liquidity Trap" losses we discovered earlier.
+*   **Solution:** The whitelist cannot be static. It must be dynamically updated every week based on narrative momentum and 30-day average daily volume (ADV).
