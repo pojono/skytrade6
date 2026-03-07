@@ -78,3 +78,32 @@ If this strategy is deployed to live production, it should be strictly restricte
 | **XRPUSDT** | 5 | $530 | $100 | **$430** | 4.3% |
 
 **Total Net PnL:** **+$25,554** (255% ROI on a single $10k bankroll over 9 months).
+
+## 6. Execution Optimization Experiments
+After proving the baseline engine (Fixed $10k size, Market Order execution, Fixed 4h Exit), we ran three experiments to determine if we could optimize the mechanics of the trade without falling into the "Filter Trap."
+
+### Experiment 1: Dynamic CVD Exits (Trailing Stop)
+**Hypothesis:** A fixed 4-hour exit leaves money on the table if the squeeze is still ongoing, and gives back money if the squeeze ends in 30 minutes. We implemented a dynamic exit that holds the trade until the **Futures Retail CVD flips positive** (indicating Retail has finally FOMO-bought the top).
+**Result:** **SUCCESS.** 
+*   The Average Edge increased from **+1.21%** to **+1.67%**. 
+*   The win rate remained stable (~60%), but the average hold time extended to 6.7 hours, allowing the system to capture the entirety of massive multi-hour short squeezes instead of artificially cutting them off at hour 4.
+
+### Experiment 2: Volatility-Adjusted Position Sizing
+**Hypothesis:** Sizing inversely to volatility (e.g., larger positions on XRP, smaller on BERA) will smooth the equity curve and improve Risk-Adjusted Return.
+**Result:** **FAILURE.**
+*   Volatility-adjusted sizing actually decreased overall Net PnL and halved the Return on Capital (from 1.01% to 0.34%). 
+*   *Why?* The strategy relies heavily on the violent "Fat Tails" produced by high-beta cult coins like ZK and BERA. By systematically sizing down on the most volatile assets, we neutered the primary profit drivers of the portfolio. **Stick to flat-dollar position sizing.**
+
+### Experiment 3: Maker vs. Taker Execution
+**Hypothesis:** Paying 20 bps in round-trip taker fees drags Net PnL. We can post Limit Bids at the exact millisecond of the Spot Trigger to get Maker fills (0 bps fee).
+**Result:** **FAILURE (Taker is better).**
+*   Baseline Taker (100% Fill Rate, 20 bps): $25,551 Net PnL.
+*   Realistic Maker (80% Fill Rate, 0 bps): $24,188 Net PnL.
+*   *Why?* Short squeezes are explosive. If you use limit orders, you will miss the fastest, most violent 20% of trades because the price runs away from your bid instantly. Missing those 20% of trades costs more in lost PnL ($6,444) than you save in trading fees ($5,080). **Always use Market Orders to guarantee the fill.**
+
+## Final System Architecture Summary
+1.  **Universe:** Top 12-15 Liquid/Cult Tokens only.
+2.  **Sizing:** Flat dollar amount per trade (do not penalize volatility).
+3.  **Entry Trigger:** Futures Retail CVD < -1.5 & Futures Whale CVD > 1.5, combined with a sudden >3x 1-minute Spot Whale Volume Spike.
+4.  **Execution:** Aggressive Market Buy (Taker).
+5.  **Exit:** Dynamic. Hold until Futures Retail CVD flips > 0 (Retail FOMO).
