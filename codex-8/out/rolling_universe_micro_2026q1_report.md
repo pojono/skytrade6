@@ -1,0 +1,51 @@
+# Rolling Universe Selector
+
+- Input: `/home/ubuntu/Projects/skytrade6/codex-8/out/universe_screen_micro_2026q1_events.csv`
+- Train window: `30` days
+- Max active symbols: `8`
+- Entry rank: `8`
+- Keep rank: `12`
+- Min train events: `40`
+- Min mean edge: `2.00` bps
+- Min positive-day share: `0.60`
+
+## Summary
+
+- `baseline_all_symbols`: folds=33, mean_events=417.6, mean_pair_net_15m=+3.92 bps, mean_pair_net_30m=+4.09 bps, mean_pair_win_15m=52.7%, positive_folds=33/33
+- `rolling_active_universe`: folds=33, mean_events=97.2, mean_pair_net_15m=+17.83 bps, mean_pair_net_30m=+17.78 bps, mean_pair_win_15m=73.5%, positive_folds=33/33
+
+## Daily Active Sets
+
+- `2026-01-31`: active=6 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,BREVUSDT,GALAUSDT], active15=+15.21 bps vs baseline15=+2.83 bps
+- `2026-02-01`: active=6 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,BREVUSDT,GALAUSDT], active15=+12.81 bps vs baseline15=+2.17 bps
+- `2026-02-02`: active=6 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,BREVUSDT,GALAUSDT], active15=+12.12 bps vs baseline15=+1.71 bps
+- `2026-02-03`: active=5 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT], active15=+10.77 bps vs baseline15=+1.75 bps
+- `2026-02-04`: active=5 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT], active15=+18.65 bps vs baseline15=+2.80 bps
+- `2026-02-05`: active=5 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT], active15=+21.82 bps vs baseline15=+4.87 bps
+- `2026-02-06`: active=5 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT], active15=+19.06 bps vs baseline15=+3.13 bps
+- `2026-02-07`: active=5 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT], active15=+18.56 bps vs baseline15=+3.11 bps
+- `2026-02-08`: active=7 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,AIXBTUSDT,GIGGLEUSDT], active15=+15.29 bps vs baseline15=+3.32 bps
+- `2026-02-09`: active=8 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,AIXBTUSDT,GIGGLEUSDT,AEROUSDT], active15=+17.15 bps vs baseline15=+4.47 bps
+- `2026-02-10`: active=8 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,AIXBTUSDT,GIGGLEUSDT,AEROUSDT], active15=+16.10 bps vs baseline15=+3.89 bps
+- `2026-02-11`: active=8 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,AIXBTUSDT,GIGGLEUSDT,AEROUSDT], active15=+19.06 bps vs baseline15=+3.41 bps
+- `2026-02-12`: active=8 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,AIXBTUSDT,GIGGLEUSDT,AEROUSDT], active15=+17.53 bps vs baseline15=+4.14 bps
+- `2026-02-13`: active=8 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,AIXBTUSDT,GIGGLEUSDT,AEROUSDT], active15=+12.72 bps vs baseline15=+2.05 bps
+- `2026-02-14`: active=8 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,AIXBTUSDT,GIGGLEUSDT,AEROUSDT], active15=+12.78 bps vs baseline15=+1.01 bps
+- `2026-02-15`: active=7 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT], active15=+16.62 bps vs baseline15=+1.68 bps
+- `2026-02-16`: active=7 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT], active15=+16.64 bps vs baseline15=+2.10 bps
+- `2026-02-17`: active=7 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT], active15=+21.20 bps vs baseline15=+3.07 bps
+- `2026-02-18`: active=7 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT], active15=+19.64 bps vs baseline15=+5.37 bps
+- `2026-02-19`: active=7 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT], active15=+16.68 bps vs baseline15=+4.89 bps
+- `2026-02-20`: active=7 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT], active15=+21.43 bps vs baseline15=+6.29 bps
+- `2026-02-21`: active=7 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT], active15=+21.62 bps vs baseline15=+5.84 bps
+- `2026-02-22`: active=8 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,MOODENGUSDT], active15=+30.31 bps vs baseline15=+6.15 bps
+- `2026-02-23`: active=8 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,BREVUSDT], active15=+19.00 bps vs baseline15=+4.88 bps
+- `2026-02-24`: active=8 [DYDXUSDT,CRVUSDT,INITUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,BREVUSDT], active15=+17.36 bps vs baseline15=+5.05 bps
+- `2026-02-25`: active=7 [DYDXUSDT,CRVUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,BREVUSDT], active15=+12.89 bps vs baseline15=+3.59 bps
+- `2026-02-26`: active=7 [DYDXUSDT,CRVUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,BREVUSDT], active15=+14.86 bps vs baseline15=+4.21 bps
+- `2026-02-27`: active=7 [DYDXUSDT,CRVUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,BREVUSDT], active15=+17.00 bps vs baseline15=+4.13 bps
+- `2026-02-28`: active=7 [DYDXUSDT,CRVUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,BREVUSDT], active15=+22.69 bps vs baseline15=+6.03 bps
+- `2026-03-01`: active=7 [DYDXUSDT,CRVUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,BREVUSDT], active15=+22.08 bps vs baseline15=+5.46 bps
+- `2026-03-02`: active=7 [DYDXUSDT,CRVUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,JTOUSDT], active15=+21.85 bps vs baseline15=+5.05 bps
+- `2026-03-03`: active=8 [DYDXUSDT,CRVUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,JTOUSDT,CHZUSDT], active15=+24.48 bps vs baseline15=+7.01 bps
+- `2026-03-04`: active=8 [DYDXUSDT,CRVUSDT,ATHUSDT,GALAUSDT,GIGGLEUSDT,AEROUSDT,JTOUSDT,CHZUSDT], active15=+12.43 bps vs baseline15=+3.84 bps

@@ -1,0 +1,13 @@
+__pycache__/
+out/cache/
+
+# Large intermediate datasets
+out/dislocation_panel*.csv.gz
+out/event_microstructure_active_set.csv
+out/event_microstructure_active_union_2025sep_2026mar.csv
+out/event_microstructure_dataset.csv
+out/event_microstructure_dataset_wf.csv
+out/universe_screen*_events.csv
+
+# Generated metadata for ignored raw datasets
+out/*.summary.json

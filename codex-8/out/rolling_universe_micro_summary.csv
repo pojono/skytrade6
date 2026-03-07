@@ -1,0 +1,3 @@
+variant,folds,mean_events,mean_pair_net_15m_bps,mean_pair_net_30m_bps,mean_pair_win_15m,positive_folds
+baseline_all_symbols,4,538.25,2.792090817950429,3.6085589071157447,0.47843035182288085,4
+rolling_active_universe,4,73.5,25.136982736440352,27.218588710380494,0.7794041113713246,4
