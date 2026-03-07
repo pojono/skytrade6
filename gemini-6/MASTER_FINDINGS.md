@@ -133,3 +133,27 @@ Assuming a 20 bps round-trip taker fee, and assuming we scale out of the exit pa
 The theoretical +1.67% gross edge is completely consumed by slippage if the position size exceeds ~$75,000 per trade on these specific volatile assets. 
 
 **Maximum Optimal Capacity:** To maintain a healthy Sharpe ratio and clear fees, this specific strategy must be capped at a maximum of **$25,000 to $50,000 per trade**. Attempting to deploy $100k+ clips into these specific microstructure triggers will result in negative expected value due to Market Impact.
+
+### Bybit vs. Binance Execution (The Venue Arbitrage)
+We ran the exact same slippage simulation reconstructing the L2 `ob200` tick-by-tick orderbook data on **Bybit Futures** at the millisecond of the triggers. 
+
+**The result is a massive venue arbitrage opportunity:** Bybit provides significantly deeper liquidity at the top of the book and charges roughly half the taker fees (VIP 0: 5.5 bps vs Binance 10 bps) for these specific volatile assets.
+
+**Bybit Execution Cost (11 bps round-trip fees + L2 Slippage):**
+*   **For a $10,000 Market Buy:**
+    *   Avg Slippage: **13.1 bps** *(vs Binance 93.4 bps)*
+    *   Total Drag: 24.1 bps (0.24%)
+    *   **Net Alpha Remaining:** +142.9 bps (+1.43% per trade)
+*   **For a $50,000 Market Buy:**
+    *   Avg Slippage: **69.8 bps** *(vs Binance 115.8 bps)*
+    *   Total Drag: 80.8 bps (0.81%)
+    *   **Net Alpha Remaining:** +86.2 bps (+0.86% per trade)
+*   **For a $100,000 Market Buy:**
+    *   Avg Slippage: **163.2 bps** *(vs Binance 148.7 bps)*
+    *   Total Drag: 174.2 bps (1.74%)
+    *   **Net Alpha Remaining:** -7.2 bps (-0.07% per trade)
+
+### Final Capacity Conclusion
+The signal originates from Binance Spot flow, but the optimal execution venue is **Bybit Futures**. 
+
+By routing the market orders to Bybit, the total execution drag drops from ~113 bps to just ~24 bps for a $10,000 clip. The absolute maximum capacity remains capped at **~$75,000 per trade**, as Bybit's orderbook also runs out of depth beyond that point, degrading the edge to zero. 
