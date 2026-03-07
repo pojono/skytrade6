@@ -178,3 +178,32 @@ We selected the "Top 12" universe based on their 9-month performance.
 *   **The Risk:** We know BERA and ZK squeezed well *in hindsight* because they were the narrative darlings of this specific 9-month window. 
 *   **The Reality:** If you ran this strategy blindly into the next 9 months, BERA might be dead, and the new cult coins won't be in your whitelist. If you accidentally include a dying mid-cap in your Top 12, the strategy will incur the "Liquidity Trap" losses we discovered earlier.
 *   **Solution:** The whitelist cannot be static. It must be dynamically updated every week based on narrative momentum and 30-day average daily volume (ADV).
+
+## 9. The Out-Of-Sample Rolling Universe Test
+To definitively test if the +$25k PnL was a result of Hindsight Selection Bias, we built a rolling out-of-sample backtest. 
+
+Instead of picking the "Top 12" coins based on the full 9-month result, the engine was programmed to update its whitelist every 7 days. On Monday, it looks back at the previous 30 days and ranks all 66 coins by a selection metric, executing only on the Top 12.
+
+**Metrics Tested:**
+1. **Spot Volume Proxy:** Selecting the most heavily traded coins.
+2. **Volatility:** Selecting the most volatile coins.
+3. **Volume * Volatility (High Beta):** Selecting the most explosive, heavily traded coins.
+
+### Rolling Universe Performance ($10k per trade, 24 bps drag)
+| Selection Metric | Trades | Win Rate | Net Edge | Total Net PnL |
+| :--- | :--- | :--- | :--- | :--- |
+| Highest Spot Volume | 85 | 56.5% | +0.07% | +$636 |
+| Highest Volatility | 176 | 44.9% | -0.29% | -$5,040 |
+| **Volume * Volatility** | 87 | 58.6% | **+0.25%** | **+$2,166** |
+
+### The Conclusion: Selection Bias is Real
+The Static "Hindsight" Top 12 generated +$25,500. 
+The Dynamic Out-of-Sample Top 12 generated +$2,166.
+
+The drop-off is massive. While the strategy **survives out-of-sample and remains profitable** (a +0.25% edge per trade after all fees and slippage is fundamentally viable), the initial +$25k projection was heavily inflated by lookahead bias.
+
+*Why does this happen?*
+Narratives shift faster than 30-day volume windows. By the time a coin like `BERAUSDT` spikes in volatility and volume to enter the 30-day rolling Top 12 list, its absolute peak short-squeeze phase is likely already ending. The strategy then starts trading it during its structural distribution phase, degrading the edge.
+
+### Final Verdict on Live Viability
+The Dual-Market Lead-Lag alpha is mechanically real and mathematically survives out-of-sample execution constraints, latency, fees, and slippage. However, **you cannot automate the asset selection purely on lagging volume metrics**. To achieve the "Hindsight" PnL, the trader must manually intervene and curate the whitelist weekly based on forward-looking narrative momentum (e.g., "AI coins are hot this week, add AIXBT and TAO"), rather than relying solely on backward-looking 30-day volatility.
