@@ -273,3 +273,24 @@ It is highly likely that the backtest is underestimating the true live-trading p
 4.  **Strict Algorithmic Selection:** We removed all human intuition. The engine was forced to trade purely on the previous 24 hours of data, even if a human trader would have recognized a false breakout or a dying narrative.
 
 Because the core +0.65% net edge survives all of these punishing constraints simultaneously, the strategy possesses extreme structural robustness.
+
+## 13. The User's Custom Fee Verification
+To ensure viability on the actual intended production account, we recalculated the final, strict-causality out-of-sample backtest using the specific fee tier: **0.1% taker fee per leg (20 bps round-trip).**
+
+**The 13 bps Slippage Origin:**
+The 13 bps slippage penalty is not an arbitrary assumption. In Experiment 4, we reconstructed the raw Bybit `ob200` tick-by-tick orderbook snapshotted at the exact millisecond of every single trigger in the past 9 months. We simulated walking up the ask side of the book to fill a $10,000 market buy. Because short squeezes occur when orderbooks are uniquely "hollowed out", executing $10,000 via a market order costs an average of 13.1 bps on Bybit. 
+
+**Total Production Drag:** 20 bps fees + 13 bps slippage = **33 bps per trade**.
+
+### Performance at 33 bps Total Drag
+*(Using the 1-Day Daily Hyper-Reactive Universe with Strict 1-Minute Execution Causality)*
+
+*   **Total Trades:** 151
+*   **Win Rate:** 54.3%
+*   **Avg Net Edge per Trade:** **+0.56%** 
+*   **Total Net PnL ($10k size):** **+$8,530**
+
+### Final Verdict for the 0.1% Taker Account
+Even at 0.1% taker fees per leg (meaning you execute via a "dumb" immediate market order on both entry and exit), the gross edge of the strategy is so massive that a robust +0.56% net profit per trade survives. 
+
+The strategy is fully viable on your current fee tier without requiring advanced maker-rebate routing on the exit leg.
