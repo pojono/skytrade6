@@ -107,3 +107,29 @@ After proving the baseline engine (Fixed $10k size, Market Order execution, Fixe
 3.  **Entry Trigger:** Futures Retail CVD < -1.5 & Futures Whale CVD > 1.5, combined with a sudden >3x 1-minute Spot Whale Volume Spike.
 4.  **Execution:** Aggressive Market Buy (Taker).
 5.  **Exit:** Dynamic. Hold until Futures Retail CVD flips > 0 (Retail FOMO).
+
+## 7. Capacity Constraints: Slippage & Market Impact
+To determine the maximum allocatable capital for this strategy, we parsed the raw Binance `bookDepth` files at the exact millisecond of the execution triggers to simulate Market Impact on the Top 5 most active pairs (HUMA, AGLD, AAVE, ZK, BERA).
+
+Short squeezes occur during periods of extreme volatility, meaning orderbooks are typically very thin right before the move. 
+
+### Average Execution Cost (Taker Fees + Slippage)
+Assuming a 20 bps round-trip taker fee, and assuming we scale out of the exit passively via limit orders (0 slippage on exit), the entire drag comes from the Entry Market Buy:
+
+*   **For a $10,000 Market Buy:**
+    *   Avg Slippage: 93.4 bps
+    *   Total Drag: 113.4 bps (1.13%)
+    *   **Net Alpha Remaining:** +53.6 bps (+0.54% per trade)
+*   **For a $50,000 Market Buy:**
+    *   Avg Slippage: 115.8 bps
+    *   Total Drag: 135.8 bps (1.36%)
+    *   **Net Alpha Remaining:** +31.2 bps (+0.31% per trade)
+*   **For a $100,000 Market Buy:**
+    *   Avg Slippage: 148.7 bps
+    *   Total Drag: 168.7 bps (1.69%)
+    *   **Net Alpha Remaining:** -1.7 bps (-0.02% per trade)
+
+### Capacity Conclusion
+The theoretical +1.67% gross edge is completely consumed by slippage if the position size exceeds ~$75,000 per trade on these specific volatile assets. 
+
+**Maximum Optimal Capacity:** To maintain a healthy Sharpe ratio and clear fees, this specific strategy must be capped at a maximum of **$25,000 to $50,000 per trade**. Attempting to deploy $100k+ clips into these specific microstructure triggers will result in negative expected value due to Market Impact.
